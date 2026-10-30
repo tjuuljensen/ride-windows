@@ -1,0 +1,60 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:10:00Z",
+  "Scope": "Read-only inspection of the registered Windows 11 ISO for Telnet optional-feature source metadata",
+  "Image": {
+    "Path": "Z:\\LabSources\\ISOs\\26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "SizeBytes": 8225329152,
+    "Mounted": false,
+    "Extracted": false
+  },
+  "Inspection": {
+    "Source": "Z:\\LabSources\\ISOs\\26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "Method": "Read-only file metadata and direct fixed-offset reads of ISO volume descriptors plus its ISO9660 primary directory; no servicing APIs or mount operation.",
+    "PrimaryVolumeDescriptor": "ISO9660 descriptor present at logical sector 16.",
+    "PrimaryRootEntries": [
+      "README.TXT"
+    ],
+    "UdfVolumeRecognitionSequence": [
+      "BEA01",
+      "NSR02",
+      "TEA01"
+    ],
+    "UdfDirectoryTreeEnumerated": false,
+    "LocalCacheTelnetOrIsoCabMatches": 0,
+    "CabExtracted": false,
+    "DismGetPackageCalled": false
+  },
+  "Finding": "This ISO stores its useful directory tree in UDF; the ISO9660 primary root does not expose sources/sxs, so no Telnet package identity or matching CAB was established. Do not treat this as proof the media lacks the component.",
+  "ExternalGuidance": {
+    "Windows11FodMedia": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+    "GetWindowsOptionalFeature": "https://learn.microsoft.com/en-us/powershell/module/dism/get-windowsoptionalfeature?view=windowsserver2019-ps",
+    "Limit": "Official feature-media guidance does not identify the exact TelnetClient package identity in this image; keep the code guard until package metadata is observed from matching media."
+  },
+  "StateChanges": {
+    "Host": false,
+    "Windows": false,
+    "Vm": false,
+    "Checkpoint": false,
+    "Defender": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [],
+    "Deferred": [
+      "Telnet LocalSource validation requires identifying the actual matching optional-feature source package; the registered ISO payload remains unenumerated without an approved UDF read path."
+    ],
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T07:42:27Z",
+  "scope": "Cookie Cruncher official codeload transfer retry for an already resolved immutable source revision",
+  "repository": "https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher",
+  "immutableRevision": "b384f8610475b7a04a3b4f48e98c8a82d3b771a6",
+  "requestUri": "https://codeload.github.com/mdegrazia/Google-Analytic-Cookie-Cruncher/zip/b384f8610475b7a04a3b4f48e98c8a82d3b771a6",
+  "result": "Failed before transfer: curl could not resolve codeload.github.com.",
+  "payloadBytes": false,
+  "partialFileCreated": false,
+  "sha256": null,
+  "packageCandidateAdded": false,
+  "utilityExecuted": false,
+  "windowsOrDefenderStateChanged": false,
+  "legacyOutcomeClosed": false,
+  "nextAction": "Retry the exact official archive when codeload host DNS is available; then inspect nested versioned ZIP, notices, exact members and runtime without executing the utility.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

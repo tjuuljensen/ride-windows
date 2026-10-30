@@ -1,0 +1,61 @@
+{
+  "EvidenceType": "B04.ProxyCurrentSourceRegressionAndVmAccess",
+  "ObservedAtUtc": "2026-10-26T16:27:48Z",
+  "Pester": {
+    "Version": "5.7.1",
+    "Suites": [
+      "tests/UserProxyInventory.Tests.ps1",
+      "tests/UserProxyPreparation.Tests.ps1",
+      "tests/UserProxyLifecycle.Tests.ps1",
+      "tests/Catalog.Tests.ps1"
+    ],
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Passed": 190,
+      "Failed": 0,
+      "NotRun": 1
+    },
+    "WindowsPowerShell": {
+      "Version": "5.1.26100.9711",
+      "Passed": 190,
+      "Failed": 0,
+      "NotRun": 1
+    },
+    "ExcludedTag": "WindowsIntegration",
+    "PesterPluginsDisabled": ["TestRegistry", "TestResult"],
+    "ScratchRoot": ".local/pester-b04-current-20261026"
+  },
+  "Coverage": "Current local/mock coverage includes WinINet buffer boundaries, identity and ShouldProcess checks, policy refusals, preparation ownership/recovery, lifecycle snapshot-before-write, readback, compensation and durable RunId restore, plus catalog/engine planning and saved-run routing.",
+  "NativeAcceptance": {
+    "Vm": "RIDE-Win11-Test",
+    "ReadOnlyGetVmResult": "Access to a CIM resource was not available to the client.",
+    "ObservedAtUtc": "2026-10-26T16:27:45Z",
+    "RegisteredTaskRecheck": {
+      "ObservedAtUtc": "2026-10-26T16:29:02Z",
+      "Command": "Get-ScheduledTask -TaskPath \\RIDE\\ -TaskName RIDEWin11Test; Get-ScheduledTaskInfo",
+      "Result": "Access to a CIM resource was not available to the client.",
+      "TaskLaunched": false
+    },
+    "NoGuestRequest": true,
+    "NoNativeWinInetSetter": true,
+    "NoWindowsStateChanged": true,
+    "Deferred": [
+      "Windows 11 apply, repeat, status and exact saved-run restore",
+      "Effective proxy policy and visible GUI behavior",
+      "Controlled PAC-consumer behavior"
+    ]
+  },
+  "MigrationDisposition": {
+    "LegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

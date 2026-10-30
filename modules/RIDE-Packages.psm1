@@ -36,8 +36,10 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.20.0
+  Version: 0.22.0
   Changelog:
+    0.22.0: Honor explicit EXE installer process-only completion without waiting for launched applications.
+    0.21.0: Resolve NuGet package containers as ZIP-format portable artifacts.
     0.20.0: Detect declared per-user MSI products without ARP entries through Windows Installer registration.
     0.19.0: Fail closed on the declared shared .NET Framework 3.5 prerequisite.
     0.18.0: Preserve declared user data across package install/removal and retain installer-created collisions.
@@ -72,7 +74,7 @@
 #>
 
 
-$script:ModuleVersion = '0.14.0'
+$script:ModuleVersion = '0.22.0'
 $script:GitHubReleaseCache = @{}
 $script:GitHubReleaseNotBefore = $null
 $script:GitHubReleaseRate = $null
@@ -437,6 +439,31 @@ function Resolve-RidePackageArtifact {
   param([Parameter(Mandatory = $true)][hashtable] $Operation, [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous', [string] $GitHubCredentialReference)
 
   if ($Operation.AcquisitionBlockedReason) { throw "Acquisition blocked for $($Operation.PackageId): $($Operation.AcquisitionBlockedReason)" }
+  if ($Operation.DownloadProvider -eq 'JoeWareAdModForm') {
+    $productUri = 'https://www.joeware.net/freetools/tools/admod/index.htm'
+    if ($Operation.PackageId -cne 'joeware-admod' -or $Operation.AcquisitionProduct -cne 'admod' -or
+        $Operation.ProductUri -cne $productUri -or $Operation.DownloadUri -cne $productUri -or
+        $Operation.AssetName -cne 'AdMod.zip' -or $Operation.InstallerType -cne 'Portable' -or
+        $Operation.PortableFormat -cne 'Zip' -or $Operation.Architecture -cne 'x86' -or
+        $Operation.PackageVersion -notmatch '^[0-9A-Za-z][0-9A-Za-z.+_-]*$' -or
+        $Operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$' -or
+        @($Operation.PortableMembers).Count -ne 1 -or $Operation.PortableMembers[0] -cne 'AdMod.exe' -or
+        @($Operation.RequiredFiles).Count -ne 1 -or $Operation.RequiredFiles[0] -cne 'AdMod.exe') {
+      throw 'JoeWare product-form packages require the pinned AdMod publisher page, ZIP member, version, architecture, and SHA-256 metadata.'
+    }
+    return [pscustomobject]@{
+      PackageId = [string]$Operation.PackageId
+      OriginUri = $productUri
+      Version = [string]$Operation.PackageVersion
+      Architecture = 'x86'
+      FileName = 'AdMod.zip'
+      Uri = $productUri
+      SourceUri = $productUri
+      ProviderDigest = 'sha256:' + ([string]$Operation.ExpectedSha256).ToLowerInvariant()
+      ChecksumUris = @('https://www.joeware.net/freetools/versions.txt')
+      SignatureUris = @()
+    }
+  }
   if ($Operation.DownloadProvider -in @('VSCodeUpdateApi', 'MozillaVersionsJson', 'PublisherLinkPage', 'SignalDesktopFeed', 'WinSCPPortablePage')) { return Resolve-RidePublisherArtifact -Operation $Operation }
   if ($Operation.DownloadProvider -eq 'GitHubReleaseAssetApi') {
     $repository=[string]$Operation.Repository
@@ -482,12 +509,23 @@ function Resolve-RidePackageArtifact {
     $expectedChecksumUri="$expectedDownloadUri.sha256sum.txt"
     if ($Operation.AssetName -cne $fileName -or $Operation.DownloadUri -cne $expectedDownloadUri -or $Operation.ExpectedSha256Uri -cne $expectedChecksumUri) { throw 'Microsoft OpenJDK source URLs must match the exact pinned versioned x64 MSI and its official checksum file.' }
     $checksumResponse=Invoke-WebRequest -Uri $expectedChecksumUri -UseBasicParsing -TimeoutSec 120 -ErrorAction Stop
-    $content=[string]$checksumResponse.Content
-    if ($content.Length -gt 4096) { throw 'Microsoft OpenJDK checksum response exceeds 4 KiB.' }
+    $responseContent=$checksumResponse.Content
+    if ($responseContent -is [byte[]]) {
+      if ($responseContent.Length -gt 4096) { throw 'Microsoft OpenJDK checksum response exceeds 4 KiB.' }
+      $content=[Text.Encoding]::UTF8.GetString($responseContent)
+    } else {
+      $content=[string]$responseContent
+      if ($content.Length -gt 4096) { throw 'Microsoft OpenJDK checksum response exceeds 4 KiB.' }
+    }
+    $content=$content.TrimStart([char]0xFEFF).Trim()
     $lines=@($content -split "`r?`n" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
     if ($lines.Count -ne 1) { throw 'Expected exactly one Microsoft OpenJDK checksum record.' }
     $checksumMatch=[regex]::Match($lines[0],'^\s*(?:SHA-?256\s*\((?<name>[^)]+)\)\s*=\s*)?(?<hash>[0-9a-fA-F]{64})(?:\s+\*?(?<file>[^\s]+))?\s*$')
-    if (-not $checksumMatch.Success) { throw 'Microsoft OpenJDK checksum file does not contain one supported SHA-256 record.' }
+    if (-not $checksumMatch.Success) {
+      $sample=$lines[0].Substring(0,[Math]::Min(160,$lines[0].Length)) -replace '[\x00-\x1F\x7F]',' '
+      $contentType=if($checksumResponse.Headers){[string]$checksumResponse.Headers['Content-Type']}else{''}
+      throw "Microsoft OpenJDK checksum response does not contain one supported SHA-256 record (content type='$contentType'; sample='$sample')."
+    }
     $checksumName=if($checksumMatch.Groups['name'].Success){$checksumMatch.Groups['name'].Value}else{$checksumMatch.Groups['file'].Value}
     if($checksumName -and [IO.Path]::GetFileName($checksumName) -cne $fileName){throw 'Microsoft OpenJDK checksum record names a different file.'}
     $digest=$checksumMatch.Groups['hash'].Value.ToLowerInvariant()
@@ -509,7 +547,9 @@ function Resolve-RidePackageArtifact {
     if (-not [uri]::IsWellFormedUriString([string]$Operation.DownloadUri, [UriKind]::Absolute)) { throw 'A direct installer requires an absolute HTTPS URL.' }
     $source = [uri]$Operation.DownloadUri
     if ($source.Scheme -ne 'https' -or -not $source.IsDefaultPort -or $source.UserInfo -or $source.Fragment) { throw 'A direct installer requires HTTPS on the default port without credentials or fragments.' }
-    $assetExtension = if ($Operation.PortableFormat -eq 'File') { [IO.Path]::GetExtension([string]$Operation.AssetName) } elseif ($Operation.PortableFormat -eq 'SevenZip') { '.7z' } elseif ($Operation.ArchiveType -eq 'Zip' -or $Operation.PortableFormat -eq 'Zip') { '.zip' } else { '.' + ([string]$Operation.InstallerType).ToLowerInvariant() }
+    $assetNameExtension = [IO.Path]::GetExtension([string]$Operation.AssetName)
+    $assetExtension = if ($Operation.PortableFormat -eq 'File') { $assetNameExtension } elseif ($Operation.PortableFormat -eq 'SevenZip') { '.7z' } elseif ($Operation.ArchiveType -eq 'Zip' -or $Operation.PortableFormat -eq 'Zip') { if ($assetNameExtension -eq '.nupkg' -and $Operation.InstallerType -eq 'Portable' -and $Operation.PortableFormat -eq 'Zip') { '.nupkg' } else { '.zip' } } else { '.' + ([string]$Operation.InstallerType).ToLowerInvariant() }
+    $assetPattern = if ($assetExtension -eq '.nupkg') { '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.nupkg$' } else { '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(exe|msi|zip|7z)$' }
     if ($Operation.ArchiveType -and $Operation.ArchiveType -notin @('None', 'Zip')) { throw 'Unsupported ArchiveType.' }
     if ($Operation.ArchiveType -eq 'Zip' -and $Operation.InstallerType -ne 'Portable') {
       $entry = [string]$Operation.InstallerEntry
@@ -519,7 +559,7 @@ function Resolve-RidePackageArtifact {
     } elseif ($Operation.ContainsKey('InstallerEntry') -or $Operation.ContainsKey('ExpectedInstallerSha256')) { throw 'InstallerEntry and ExpectedInstallerSha256 require ArchiveType Zip.' }
     if ($Operation.PackageVersion -notmatch '^[0-9A-Za-z][0-9A-Za-z.+_-]*$' -or
         $Operation.InstallerType -notin @('Exe', 'Msi', 'Portable') -or
-        $Operation.AssetName -notmatch '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(exe|msi|zip|7z)$' -or
+        $Operation.AssetName -notmatch $assetPattern -or
         [IO.Path]::GetExtension([string]$Operation.AssetName) -ne $assetExtension) { throw 'A direct installer requires a safe version and an EXE/MSI/ZIP/7z filename matching its metadata.' }
     if ($Operation.ContainsKey('ExpectedSha256') -and $Operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$') { throw 'ExpectedSha256 must contain 64 hexadecimal characters.' }
     return [pscustomobject]@{
@@ -914,7 +954,28 @@ function Save-RidePackageArtifact {
       $downloadParameters.UserAgent = 'Mozilla/5.0 RIDE-PackageDownload/0.5'
     }
     try {
-      Invoke-WebRequest @downloadParameters
+      if ($Operation.DownloadProvider -eq 'JoeWareAdModForm') {
+        $stageDirectory = Join-Path ([IO.Path]::GetTempPath()) ('RIDE-JoeWare-' + [guid]::NewGuid().ToString('N'))
+        $downloadScript = Join-Path (Split-Path -Parent $PSScriptRoot) 'tools/Download-JoeWareCollection.ps1'
+        try {
+          if (-not (Test-Path -LiteralPath $downloadScript -PathType Leaf)) { throw 'The reviewed JoeWare acquisition script is unavailable.' }
+          $downloadResults = @(& $downloadScript -Product $Operation.AcquisitionProduct -DestinationDirectory $stageDirectory -Confirm:$false -ErrorAction Stop)
+          $sourceObservation = @($downloadResults | Where-Object { $_.Product -ceq 'admod' -and $_.PageVersion -ceq $artifact.Version -and $_.FileName -ceq $artifact.FileName })
+          if ($sourceObservation.Count -ne 1) { throw 'JoeWare did not return exactly one current AdMod observation matching the pinned package version and file name.' }
+          if ([string]$sourceObservation[0].Sha256 -ine [string]$Operation.ExpectedSha256) { throw 'JoeWare AdMod archive SHA-256 differs from the pinned catalog digest.' }
+          $sourceArchive = Join-Path $stageDirectory $artifact.FileName
+          if (-not (Test-Path -LiteralPath $sourceArchive -PathType Leaf)) { throw 'JoeWare did not retain the observed AdMod archive.' }
+          Copy-Item -LiteralPath $sourceArchive -Destination $temporaryDownload -ErrorAction Stop
+        }
+        finally {
+          if (Test-Path -LiteralPath $stageDirectory) {
+            $resolvedStage = (Resolve-Path -LiteralPath $stageDirectory -ErrorAction Stop).Path
+            if ($resolvedStage -ne [IO.Path]::GetFullPath($stageDirectory) -or (Split-Path -Leaf $resolvedStage) -notmatch '^RIDE-JoeWare-[0-9a-f]{32}$') { throw 'Unexpected JoeWare acquisition staging directory.' }
+            Remove-Item -LiteralPath $resolvedStage -Recurse -Force
+          }
+        }
+      }
+      else { Invoke-WebRequest @downloadParameters }
       if (-not (Test-Path -LiteralPath $temporaryDownload -PathType Leaf) -or (Get-Item -LiteralPath $temporaryDownload).Length -eq 0) { throw 'Publisher returned an empty artifact.' }
       Move-Item -LiteralPath $temporaryDownload -Destination $installer -ErrorAction Stop
     } finally {
@@ -1011,6 +1072,7 @@ function Save-RidePackageArtifact {
 function Get-RidePackagePrerequisiteStatus {
   param([Parameter(Mandatory = $true)][hashtable] $Operation)
   $failures = New-Object System.Collections.Generic.List[string]
+  $prerequisiteDirectory = $null
   if ($Operation.PrerequisiteDotNetFramework35 -eq $true -and -not (Test-RideDotNetFramework35Installed)) {
     $failures.Add('requires the shared .NET Framework 3.5 feature, which supplies the CLR 2.0 runtime')
   }
@@ -1040,11 +1102,39 @@ function Get-RidePackagePrerequisiteStatus {
     $executable = Join-Path $env:ProgramFiles $relative
     if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) { $failures.Add("requires $($Operation.PrerequisitePackageId) at '$executable'") }
   }
+  if ($Operation.PrerequisitePowerShellModuleName) {
+    $moduleName = [string]$Operation.PrerequisitePowerShellModuleName
+    $moduleDirectoryName = [string]$Operation.PrerequisiteModuleDirectory
+    if ($moduleName -notmatch '^[A-Za-z0-9][A-Za-z0-9.-]{0,127}$' -or
+        $moduleDirectoryName -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$') { throw 'Invalid PowerShell module prerequisite identity.' }
+    $toolsDirectory = (Get-RidePackageConfiguration -Scope Machine).ToolsDirectory
+    $prerequisiteDirectory = Join-Path $toolsDirectory $moduleDirectoryName
+    $manifestPath = Join-Path $prerequisiteDirectory ($moduleName + '.psd1')
+    $modulePackage = @{ PackageId = $moduleDirectoryName; SelectedVariant = 'portable'; ResolvedToolsDirectory = $toolsDirectory; InstallDirectory = $prerequisiteDirectory }
+    $modulePackageState = Get-RidePortableState -Operation $modulePackage
+    if (-not $modulePackageState.Present -or -not $modulePackageState.Healthy) {
+      $failures.Add("requires the healthy RIDE-managed PowerShell module package '$moduleDirectoryName'")
+    } elseif (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
+      $failures.Add("requires PowerShell module '$moduleName' version $($Operation.PrerequisitePowerShellModuleMinimumVersion) in '$prerequisiteDirectory'")
+    } else {
+      try { $moduleManifest = Import-PowerShellDataFile -LiteralPath $manifestPath -ErrorAction Stop }
+      catch { $failures.Add("cannot read PowerShell module manifest '$manifestPath': $($_.Exception.Message)"); $moduleManifest = $null }
+      if ($moduleManifest) {
+        [version]$requiredModuleVersion = [version]::MinValue
+        [version]$actualModuleVersion = [version]::MinValue
+        if (-not [version]::TryParse([string]$Operation.PrerequisitePowerShellModuleMinimumVersion, [ref]$requiredModuleVersion) -or
+            -not [version]::TryParse([string]$moduleManifest.ModuleVersion, [ref]$actualModuleVersion) -or
+            $actualModuleVersion -lt $requiredModuleVersion) {
+          $failures.Add("requires PowerShell module '$moduleName' version $($Operation.PrerequisitePowerShellModuleMinimumVersion) or later; manifest reports '$($moduleManifest.ModuleVersion)'")
+        }
+      }
+    }
+  }
   [pscustomobject]@{
     Satisfied = ($failures.Count -eq 0)
     Reason = if ($failures.Count) { "$($Operation.Id) " + ($failures -join '; ') } else { $null }
     Executable = $executable
-    Directory = if ($executable) { Split-Path -Parent $executable } else { $null }
+    Directory = if ($executable) { Split-Path -Parent $executable } elseif ($prerequisiteDirectory) { $prerequisiteDirectory } else { $null }
   }
 }
 
@@ -1079,14 +1169,26 @@ function Assert-RidePackageExecutionContext {
 }
 
 function Invoke-RidePackageInstallerProcess {
-  param([hashtable] $Operation, [string] $FilePath, [string] $ArgumentList)
+  param([hashtable] $Operation, [string] $FilePath, [string] $ArgumentList,
+    [ValidateSet('ProcessTree','Process')][string]$WaitMode='ProcessTree')
   Assert-RidePackageExecutionContext -Operation $Operation
   $prerequisiteDirectory = Get-RidePackagePrerequisiteDirectory -Operation $Operation
   $originalPath = $env:PATH
   try {
     # Newly installed Git is not yet in this process's inherited PATH.
     if ($prerequisiteDirectory) { $env:PATH = $prerequisiteDirectory + ';' + $originalPath }
-    Start-Process -FilePath $FilePath -ArgumentList $ArgumentList -WindowStyle Hidden -Wait -PassThru
+    if($WaitMode -eq 'Process'){
+      $process=Start-Process -FilePath $FilePath -ArgumentList $ArgumentList -WindowStyle Hidden -PassThru
+      # Retain the handle for Windows PowerShell 5.1 exit-code reporting. The
+      # reviewed installer may launch the application after completing setup.
+      $null=$process.Handle
+      $process.WaitForExit()
+      $process.Refresh()
+      if($null -eq $process.ExitCode){throw 'Installer process exit code is unavailable.'}
+      $process
+    }else{
+      Start-Process -FilePath $FilePath -ArgumentList $ArgumentList -WindowStyle Hidden -Wait -PassThru
+    }
   }
   finally { $env:PATH = $originalPath }
 }
@@ -1099,7 +1201,10 @@ function Install-RidePackage {
   .DESCRIPTION
     Downloads via Save-RidePackageArtifact, runs a direct or ZIP-contained EXE/MSI installer or stages Sysmon64 from the
     Microsoft archive, then verifies presence. Retains artifacts on failure and cleans installer
-    staging. ZIP supports one self-contained installer. Use the engine for privilege, preview,
+    staging. Declared EXE InstallerWaitMode Process waits for the installer itself;
+    the default ProcessTree also waits for descendants. Exit-code and presence
+    checks remain required. Uninstall completion is unchanged.
+    ZIP supports one self-contained installer. Use the engine for privilege, preview,
     and snapshot capture.
 
   .PARAMETER Operation
@@ -1223,10 +1328,11 @@ function Install-RidePackage {
       if (-not $Operation.InstallerArguments.Contains('{InstallerConfigurationPath}')) { throw 'Installer configuration requires an explicit path token in InstallerArguments.' }
       $installerArguments = $installerArguments.Replace('{InstallerConfigurationPath}', $configurationPath)
     }
+    $waitMode=if($Operation.ContainsKey('InstallerWaitMode')){[string]$Operation.InstallerWaitMode}else{'ProcessTree'}
     $process = if ($Operation.PreserveRoamingDirectoryOnInstall) {
-      Invoke-RidePreservingPackageOperation -Operation $Operation -FilePath $installerExe -ArgumentList $installerArguments
+      Invoke-RidePreservingPackageOperation -Operation $Operation -FilePath $installerExe -ArgumentList $installerArguments -WaitMode $waitMode
     } else {
-      Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $installerExe -ArgumentList $installerArguments
+      Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $installerExe -ArgumentList $installerArguments -WaitMode $waitMode
     }
     $successExitCodes = if ($Operation.SuccessExitCodes) { @($Operation.SuccessExitCodes) } else { @(0) }
     if ($process.ExitCode -notin $successExitCodes) { throw "Installer for $($Operation.Name) exited with code $($process.ExitCode). Artifact retained at '$($download.Path)'." }
@@ -1252,8 +1358,9 @@ function Get-RideRoamingApplicationDataRoot {
 }
 
 function Invoke-RidePreservingPackageOperation {
-  param([hashtable] $Operation, [string] $FilePath, [string] $ArgumentList)
-  if (-not $Operation.PreserveRoamingDirectory) { return Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $FilePath -ArgumentList $ArgumentList }
+  param([hashtable] $Operation, [string] $FilePath, [string] $ArgumentList,
+    [ValidateSet('ProcessTree','Process')][string]$WaitMode='ProcessTree')
+  if (-not $Operation.PreserveRoamingDirectory) { return Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $FilePath -ArgumentList $ArgumentList -WaitMode $WaitMode }
   $name=[string]$Operation.PreserveRoamingDirectory
   $processNames = if ($Operation.PreservationProcessNames) { @($Operation.PreservationProcessNames) } elseif ($Operation.PreservationProcessName) { @($Operation.PreservationProcessName) } else { @() }
   if ($Operation.Scope -ne 'User' -or $Operation.InstallerType -ne 'Exe' -or $name -notmatch '^[a-zA-Z0-9][a-zA-Z0-9 ._-]{0,79}$' -or $name.EndsWith('.') -or $name.EndsWith(' ') -or $name -match '^(?i)(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\.|$)' -or $processNames.Count -lt 1 -or @($processNames | Where-Object { $_ -notmatch '^[a-zA-Z0-9_-]+$' }).Count -gt 0 -or ($Operation.PreservationProcessNames -and $Operation.PreservationProcessName)) { throw 'Invalid user-data preservation directory.' }
@@ -1280,7 +1387,7 @@ function Invoke-RidePreservingPackageOperation {
       Move-Item -LiteralPath $original -Destination $holding -ErrorAction Stop
       $moved=$true
     }
-    Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $FilePath -ArgumentList $ArgumentList
+    Invoke-RidePackageInstallerProcess -Operation $Operation -FilePath $FilePath -ArgumentList $ArgumentList -WaitMode $WaitMode
   }
   finally {
     if ($moved) {

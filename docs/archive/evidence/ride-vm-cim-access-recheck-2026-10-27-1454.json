@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "RideRegisteredVmCimAccessRecheck",
+  "RecordedAtUtc": "2026-10-27T14:54:07Z",
+  "Targets": [
+    "RIDE-Win11-Test",
+    "RIDE-Srv2025Test"
+  ],
+  "Check": {
+    "Command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "Result": "failed before VM or checkpoint inspection",
+    "Error": "Access to a CIM resource was not available to the client."
+  },
+  "TaskInspection": "not attempted because host VM query failed",
+  "Effects": {
+    "AcceptanceDispatched": false,
+    "CheckpointChanged": false,
+    "DefenderChanged": false,
+    "ElevationRequested": false,
+    "HostServiceChanged": false,
+    "VMChanged": false,
+    "WindowsChanged": false
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 and Server 2025 native acceptance for pending packages, settings and components"
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "The read-only access check failed before inspection or dispatch and resolved no legacy outcome; all estimate ranges remain unchanged."
+  },
+  "Acceptance": {
+    "Status": "blocked",
+    "Blocker": "Host CIM access prevents VM and checkpoint inspection and acceptance dispatch.",
+    "NextStep": "Retry read-only host VM access when the host permits it; continue independent source and implementation work in the meantime."
+  }
+}

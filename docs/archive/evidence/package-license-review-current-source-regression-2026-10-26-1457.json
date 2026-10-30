@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T14:57:05Z",
+  "batch": "Current-source package license-review planning regression",
+  "suite": "tests/LicenseReviews.Tests.ps1",
+  "results": [
+    {
+      "shell": "PowerShell 7.6.5",
+      "pesterVersion": "5.7.1",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 78.10,
+      "testRegistry": "Disabled",
+      "testResultOutput": "Disabled",
+      "temporaryDirectory": ".local/pester-license-reviews-current-20261026"
+    },
+    {
+      "shell": "Windows PowerShell 5.1.26100.9711",
+      "pesterVersion": "5.7.1",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 65.81,
+      "testRegistry": "Disabled",
+      "testResultOutput": "Disabled",
+      "processExecutionPolicy": "Bypass; process only, no persistent policy change",
+      "temporaryDirectory": ".local/pester-license-reviews-winps51-20261026"
+    }
+  ],
+  "coverage": {
+    "pendingPackagePlansWithNeedsReview": "Available; review status remains informational",
+    "phoenixProtectorPrerequisiteIsolation": "Passed; mocked .NET Framework 3.5 presence lets the test assert review planning independently of host feature availability",
+    "sysinternalsPlans": "All ten RIDE v2-approved package plans remain available without a license gate",
+    "localReviewStoreAdministration": "Read/write, preview, exact-version separation, export/import, schema rejection, completion, and concurrent-writer checks passed"
+  },
+  "supersededHarnessAttempt": {
+    "status": "FailedBeforeTestDiscovery",
+    "reason": "Windows PowerShell 5.1 rejected the installed Pester format-data files through AuthorizationManager; rerunning the same test process with -ExecutionPolicy Bypass allowed test discovery. No persistent execution policy was changed."
+  },
+  "safety": {
+    "installerOrUtilityExecuted": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false,
+    "vmOrCheckpointUsed": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "historicalUnitOnlyFailures": "The current-source focused license-review suite now passes in both shells; this does not replace the failed historical guest run or establish Windows behavior.",
+    "sysinternalsLegalStatus": "Settled under prior RIDE v2 license-specialist approval for RIDE's direct Microsoft download-and-install workflow; no licensing gate.",
+    "defenderExclusions": "Separate security exclusions remain in force.",
+    "windowsAcceptance": "Deferred by VM/controller access.",
+    "estimateChange": "None; no legacy package outcome closed."
+  }
+}

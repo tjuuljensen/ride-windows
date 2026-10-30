@@ -1,0 +1,44 @@
+{
+  "RecordedAtUtc": "2026-10-26T06:36:57Z",
+  "Scope": "ExifTool 13.59 official Windows artifact source and acquisition retry",
+  "OfficialPublisherSources": {
+    "FilesPage": "https://sourceforge.net/projects/exiftool/files/",
+    "WindowsArtifact": "https://sourceforge.net/projects/exiftool/files/exiftool-13.59_64.zip/download",
+    "WindowsInstallInstructions": "https://exiftool.sourceforge.net/install.html",
+    "VersionHistory": "https://exiftool.sourceforge.net/history.html",
+    "ObservedArtifact": "exiftool-13.59_64.zip",
+    "PublisherListedSize": "11.2 MB",
+    "ReleaseTrack": "The Windows page offers 13.59; version history calls 13.59 a development release and identifies 13.55 as the latest production release.",
+    "LayoutGuidance": "Keep exiftool(-k).exe beside exiftool_files; rename the launcher to exiftool.exe for command-line use."
+  },
+  "Acquisition": {
+    "AttemptedAtUtc": "2026-10-26T06:36:50Z",
+    "Method": "Windows PowerShell Invoke-WebRequest with publisher route and Wget user-agent",
+    "Result": "Failed before transfer",
+    "Error": "No such host is known. (sourceforge.net:443)",
+    "PartialFile": false,
+    "TargetExistedBeforeAttempt": false
+  },
+  "Disposition": {
+    "LocalSha256Verified": false,
+    "ArchiveMembersVerified": false,
+    "AuthenticodeVerified": false,
+    "RuntimeExecuted": false,
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "LicenseGate": false,
+    "NextStep": "Retry exact artifact acquisition from the publisher when SourceForge DNS is available; compute the local hash, inspect archive members and notices, then run inert lifecycle and disposable Windows acceptance.",
+    "LegacyOutcomesClosed": 0,
+    "EstimateChanged": false,
+    "EstimatedRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

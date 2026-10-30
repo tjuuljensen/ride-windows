@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T15:00:40Z",
+  "Batch": "BloodHound CE 9.8.0 tagged Dockerfile source recheck and exact collector acquisition retry",
+  "SourceReview": {
+    "Backend": {
+      "Repository": "SpecterOps/BloodHound",
+      "Tag": "v9.8.0",
+      "DockerfileUri": "https://raw.githubusercontent.com/SpecterOps/BloodHound/v9.8.0/dockerfiles/bloodhound.Dockerfile",
+      "Result": "Tagged Dockerfile confirms SHARPHOUND_VERSION=v2.17.0 and AZUREHOUND_VERSION=v3.1.1. It fetches SharpHound windows_x86 and AzureHound archives for multiple OS/architectures; the container bundle is not equivalent to the separate Windows package candidates."
+    },
+    "SharpHound": {
+      "Repository": "SpecterOps/SharpHound",
+      "Tag": "v2.17.0",
+      "SelectedAsset": "SharpHound_v2.17.0_windows_x86.zip",
+      "PublisherApiSha256": "09ef123ada22be00a6af4dbfa28f9aa357930205f88991374373d634609efb03",
+      "PayloadIndependentlyVerified": false
+    },
+    "AzureHound": {
+      "Repository": "SpecterOps/AzureHound",
+      "Tag": "v3.1.1",
+      "SelectedAsset": "AzureHound_v3.1.1_windows_amd64.zip",
+      "PublisherApiSha256": "6532c29e0bb2195656296bbb9b199ca51fa641b90d30633d3caf8882ff9fe4e4",
+      "PayloadIndependentlyVerified": false
+    },
+    "ReleaseStatus": "CE 9.8.0 is the stable release shown ahead of 9.9.0 release candidates. The collector versions are intentionally those pinned by CE 9.8.0, even where later standalone collector releases exist."
+  },
+  "Acquisition": {
+    "LocalDnsCheck": {
+      "Command": "Resolve-DnsName github.com -Type A",
+      "Result": "failed",
+      "Error": "github.com : Access is denied."
+    },
+    "PublisherSidecars": "Direct GitHub release sidecar fetches returned Cache miss in the web reader.",
+    "LocalDownloadAttempt": "No .local/bloodhound source directory or payload was created; acquisition could not proceed in the host environment.",
+    "Execution": "No collector or backend/container was run."
+  },
+  "MigrationAccounting": {
+    "Resolved": [
+      "Reconfirmed the exact collector versions in the tagged stable CE 9.8.0 Dockerfile and the selected Windows release asset identities against prior GitHub API metadata."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "Publisher API SHA-256 values are metadata only; archive bytes, checksum sidecars, member inventories, notices and local lifecycle remain unverified."
+    ],
+    "Deferred": [
+      "Exact publisher ZIP and sidecar acquisition",
+      "Member and notice review",
+      "Windows package lifecycle and recovery",
+      "Windows 11 acceptance"
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "The tagged-source recheck did not independently verify payload bytes or complete a package outcome; ranges remain unchanged."
+  }
+}

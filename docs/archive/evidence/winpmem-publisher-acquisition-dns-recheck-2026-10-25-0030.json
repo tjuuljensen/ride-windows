@@ -1,0 +1,33 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T00:30:39Z",
+  "Batch": "WinPmem declared-publisher acquisition retry",
+  "Artifact": {
+    "OperationId": "package.winpmem",
+    "Uri": "https://github.com/Velocidex/WinPmem/releases/download/v4.1.dev1/go-winpmem_amd64_1.0-rc2_signed.exe",
+    "ExpectedSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4"
+  },
+  "Attempt": {
+    "Method": "curl.exe --fail --location --max-time 45",
+    "Result": "Failed before transfer: curl exit code 6, Could not resolve host: github.com.",
+    "BytesReceived": 0,
+    "PartialFilePresent": false,
+    "DnsResolution": "Resolve-DnsName github.com returned no answer."
+  },
+  "SideEffects": {
+    "ExecutableLaunched": false,
+    "DriverLoaded": false,
+    "MemoryCaptured": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "Disposition": {
+    "Resolved": ["Current inability to resolve the declared publisher host was reconfirmed; no partial payload exists."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Exact local payload hash and Authenticode signer; driver compatibility/lifecycle/recovery and Windows target acceptance."],
+    "Partial": ["The deployment-only candidate remains implemented and synthetically tested, but no whole legacy outcome closes."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

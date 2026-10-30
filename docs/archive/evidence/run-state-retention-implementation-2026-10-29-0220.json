@@ -1,0 +1,48 @@
+{
+  "recordedAtUtc": "2026-10-29T02:21:47Z",
+  "batch": "Run-state retention implementation and focused regression",
+  "implementation": {
+    "command": "prune-state",
+    "defaultScope": "User",
+    "defaultOlderThanDays": 365,
+    "minimumOlderThanDays": 30,
+    "maximumOlderThanDays": 36500,
+    "machineScopeRequiresElevation": true,
+    "previewUsesShouldProcess": true,
+    "automaticCleanup": false,
+    "eligibleRecords": "Only old, valid run manifests whose operation progress uniquely matches operation IDs and is entirely Completed or AlreadyDesired.",
+    "retainedRecords": ["recent", "failed", "unfinished", "malformed", "unknown", "reparse-point-containing"],
+    "recoveryEffect": "Approved cleanup permanently removes saved run snapshots and file backups and prevents RIDE restore for that run."
+  },
+  "verification": {
+    "windowsPowerShell": "5.1",
+    "pester": "5.7.1",
+    "focusedTests": 5,
+    "passed": 5,
+    "failed": 0,
+    "scope": "Synthetic Pester TestDrive stores only; includes preview without deletion, approved deletion, preservation of recent/failed/unfinished/malformed records, and elevation gating.",
+    "parser": "Engine module, CLI and focused test file parsed without errors in PowerShell 7.6.5.",
+    "cliHelp": "prune-state and its scope/age parameters appear in CLI help.",
+    "vmOrLiveStateChanged": false,
+    "realStateStoreEnumeratedOrChanged": false,
+    "defenderOrPayloadTouched": false
+  },
+  "aclReview": {
+    "sourceFinding": "Machine state-root ACL is protected and grants SYSTEM and local Administrators full control; child files inherit. User state inherits Local AppData ACL.",
+    "effectiveWindowsAclVerified": false,
+    "deferred": "Inspect effective user and machine ACLs on disposable Windows targets."
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

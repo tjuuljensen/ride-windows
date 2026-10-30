@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T23:49:00Z",
+  "Product": "Windows Firewall Notifier (WFN)",
+  "UserSelectedChannel": "Nightlies / Unstable",
+  "Publisher": "https://github.com/wokhan/WFN",
+  "PublisherRelease": "https://github.com/wokhan/WFN/releases/tag/nightlies",
+  "PublisherAssetIndex": "https://github.com/wokhan/WFN/releases/expanded_assets/nightlies",
+  "ReleaseCommit": "ac02df2",
+  "SelectedAsset": {
+    "Name": "wfn-20250719-ac02df-x64-standalone.zip",
+    "Version": "20250719-ac02df",
+    "DownloadUri": "https://github.com/wokhan/WFN/releases/download/nightlies/wfn-20250719-ac02df-x64-standalone.zip",
+    "PublishedSha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "DisplayedSize": "113 MB",
+    "PublishedAtUtc": "2025-07-19T09:51:27Z"
+  },
+  "Verification": {
+    "ReleasePageStillPointsToSelectedCommit": true,
+    "HashReadFromPublisherAssetIndex": true,
+    "ShellResolveDnsResult": "Access denied",
+    "PayloadAcquired": false,
+    "LocalSha256Computed": false,
+    "ArchiveMembersInspected": false,
+    "NoMirrorUsed": true
+  },
+  "Disposition": {
+    "LegacyOutcomeClosed": false,
+    "Deferred": [
+      "Acquire exact publisher ZIP in workspace cache",
+      "Recompute local SHA-256 against published digest",
+      "Inspect and pin complete archive member set and notices",
+      "Implement/validate package install, firewall-policy preservation and exact recovery",
+      "Windows 11 lifecycle acceptance"
+    ],
+    "WindowsServerSupport": "Unsupported by publisher and not selected"
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "50-65",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T21:47:31Z",
+  "batch": "MiTeC mail/history retained-archive current-source cross-shell regression",
+  "suite": {
+    "path": "tests/MiTeCMailHistoryViewers.Tests.ps1",
+    "discovered": 16,
+    "powerShell7": {
+      "version": "7.6.5",
+      "pester": "5.7.1",
+      "result": "Passed",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9818",
+      "pester": "5.7.1",
+      "executionPolicy": "Process-only Bypass",
+      "result": "Passed",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "products": [
+    {
+      "id": "package.mitec-mail-viewer",
+      "version": "2.5.1.0",
+      "archive": ".local/remaining-collections-20261017/MailView.zip"
+    },
+    {
+      "id": "package.mitec-email-history-browser",
+      "version": "1.2.0",
+      "archive": ".local/remaining-collections-20261017/EHB.zip"
+    },
+    {
+      "id": "package.mitec-internet-history-browser",
+      "version": "2.5.0",
+      "archive": ".local/remaining-collections-20261017/IHB.zip"
+    },
+    {
+      "id": "package.mitec-instant-messaging-history-browser",
+      "version": "1.2.1",
+      "archive": ".local/remaining-collections-20261017/IMHB.zip"
+    }
+  ],
+  "coverage": [
+    "All four retained publisher ZIP hashes and each selected member hash matched the catalog-linked migration evidence.",
+    "All four package metadata and presence-plan cases passed.",
+    "Synthetic inert ZIPs covered repeated selected-file staging, exclusion of an unselected text member, operator-file preservation and snapshot restoration."
+  ],
+  "boundaries": {
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "publisherRequestsMade": false,
+    "utilityOrInstallerLaunched": false,
+    "personalMailOrHistoryDataOpened": false,
+    "defenderStateQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "vm": {
+    "target": "RIDE-Win11-Test",
+    "existingRunId": "8346c1d7660a4fb78e773ef3b57407b7",
+    "statusAtLastReadOnlyCheck": "The request remained in queue/running and absent from queue/finished. The last controller log entry showed a PowerShell Direct activity waiting; controller-errors.log was empty. No fresh task/VM process status was readable because task scheduler, Hyper-V and CIM queries denied access.",
+    "newRequestSubmitted": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The four retained MiTeC Mail/History archives and selected-member hashes passed current-source regression in both PowerShell editions with no skips."
+    ],
+    "partial": [
+      "Local archive and synthetic lifecycle regression is verified; no new product-behavior or legacy selector outcome was closed."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "The existing UnitOnly VM request remains without a terminal result in the controller; do not queue another request until task state is observable and queues are idle."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this regression closes no legacy package outcome."
+    }
+  },
+  "relatedEvidence": [
+    "mitec-mail-history-viewer-candidates-2026-10-23.json",
+    "mitec-mail-history-viewers-win11-lifecycle-acceptance-2026-10-25-0409.json"
+  ]
+}

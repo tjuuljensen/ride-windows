@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T10:12:25Z",
+  "scope": "Current-source Sysinternals package lifecycle and license-review planning regression",
+  "environment": {
+    "operatingSystem": "Windows",
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "temporaryDirectory": ".local/pester-sysinternals-current-20261027"
+  },
+  "tests": {
+    "files": [
+      "tests/SysinternalsProductPackages.Tests.ps1",
+      "tests/SysinternalsSuitePackage.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "total": 104,
+    "passed": 104,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 735.29,
+    "coverage": [
+      "all ten prior-RIDE-v2-approved Sysinternals product package plans and lifecycle assertions",
+      "suite staging and owned-file repeat, removal, saved-state recovery, collision and modified-file handling",
+      "current package planning with NeedsReview review markers remaining informational",
+      "all ten Sysinternals install plans remain available without a licensing gate"
+    ]
+  },
+  "attempts": [
+    {
+      "configuration": "Default Pester plugins",
+      "result": "Stopped before assertions because Pester TestRegistry could not create its HKCU fixture under sandbox policy."
+    },
+    {
+      "configuration": "TestRegistry disabled with sandbox default TEMP",
+      "result": "Interrupted after atomic filesystem moves were denied under sandbox TEMP; no aggregate count claimed."
+    }
+  ],
+  "scopeBoundaries": {
+    "executablesLaunched": false,
+    "publisherNetworkAccess": false,
+    "vmOrGuestRequest": false,
+    "windowsOrDefenderStateChanged": false,
+    "licenseDisposition": "The prior RIDE v2 license-specialist approval covers direct download-and-install. The user states there are no legal issues for RIDE; no additional licensing review or migration gate applies.",
+    "defenderBlockedTools": "Remain separately excluded based on Defender alerts; this regression does not change those exclusions."
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "remainingAcceptance": "This was local current-source evidence only; no utility ran and Windows-target behavior remains separate from license disposition.",
+    "estimateRanges": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-28T04:25:18Z",
+  "batch": "PSScriptTools runtime-probe ThreadJob dependency path correction",
+  "finding": "The package install directory is named microsoft-powershell-threadjob and contains Microsoft.PowerShell.ThreadJob.psd1 at its root. Adding that leaf directory to PSModulePath does not make the RequiredModules entry discoverable by PowerShell. A synthetic module-metadata check reproduced the failure without loading upstream source.",
+  "change": {
+    "file": "tests/integration/Invoke-RidePSScriptToolsRuntimeAcceptance.ps1",
+    "version": "0.1.5",
+    "behavior": "In present mode, import the RIDE-managed Microsoft.PowerShell.ThreadJob.psd1 by exact path in the isolated child process, verify module name/version 2.2.0 and that its loaded path equals the declared package manifest, then import the PSScriptTools manifest. Do not modify PSModulePath.",
+    "regression": "tests/PortableAcceptanceAutomation.Tests.ps1 now uses synthetic module manifests to verify exact-path dependency import, consumer RequiredModules resolution, exact loaded manifest path and cleanup of only modules created by the test, without running upstream source."
+  },
+  "validation": {
+    "powershell7": {
+      "runtimeProbeParser": "Passed",
+      "automationTestParser": "Passed",
+      "syntheticDependencyVersion": "2.2.0",
+      "syntheticConsumerVersion": "3.2.0",
+      "loadedManifestPathVerified": true,
+      "psModulePathChanged": false,
+      "upstreamCodeExecuted": false
+    },
+    "windowsPowerShell51": {
+      "runtimeProbeParser": "Passed",
+      "automationTestParser": "Passed",
+      "syntheticDependencyVersion": "2.2.0",
+      "syntheticConsumerVersion": "3.2.0",
+      "loadedManifestPathVerified": true,
+      "psModulePathChanged": false,
+      "upstreamCodeExecuted": false,
+      "note": "A -File validation attempt was blocked by AuthorizationManager. The same parser and synthetic-manifest checks then passed through a normal -Command invocation; no execution policy was changed."
+    },
+    "pester": {
+      "status": "Not run",
+      "reason": "PowerShell 7 exposes only Pester 3.4.0; the Pester 5.7.1 test run remains unavailable in this session."
+    },
+    "windowsVm": {
+      "status": "Deferred",
+      "reason": "Get-VM for RIDE-Win11-Test failed at host CIM before VM or checkpoint inspection."
+    }
+  },
+  "migrationOutcome": {
+    "resolved": ["The isolated runtime probe's ThreadJob discovery path."],
+    "partial": ["PSScriptTools dependency-present import, runtime behavior and package Windows 11 acceptance remain unverified."],
+    "deferred": ["Focused Pester regression and RIDE-Win11-Test dependency-present/missing runtime acceptance."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; a harness defect is corrected, but native runtime acceptance has not run and no package outcome closed."
+    }
+  },
+  "safety": {
+    "upstreamPSScriptToolsImported": false,
+    "upstreamCodeExecuted": false,
+    "windowsVmOrCheckpointChanged": false,
+    "hostOrGuestWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "executionPolicyChanged": false
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:23:19Z",
+  "batch": "Full package provider and portable acceptance regression with retained archive fixtures",
+  "source": "Current checkout and explicitly pinned local publisher fixtures",
+  "tests": {
+    "paths": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/PortableAcceptanceAutomation.Tests.ps1"
+    ],
+    "pesterVersion": "5.7.1",
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "discovered": 179,
+      "passed": 179,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    "powerShell": {
+      "version": "7.6.5",
+      "discovered": 179,
+      "passed": 179,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    "pesterRegistryAndResultPluginsEnabled": false,
+    "retainedFixtures": [
+      {
+        "packageId": "package.rawcopy",
+        "version": "1.0.0.22",
+        "path": ".local/acquisition/rawcopy-1.0.0.22/RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+        "length": 880497,
+        "sha256": "f5daf2c74a4b5a29dbd188e36f003535ab39aa80a5f86a564725a5a1642841df",
+        "matchesCatalogPin": true
+      },
+      {
+        "packageId": "package.etl2pcapng",
+        "version": "1.11.0",
+        "path": ".local/acquisition/etl2pcapng-v1.11.0/etl2pcapng.exe",
+        "length": 163872,
+        "sha256": "c2d03aac43ea0f5626fc8d909e6688393feaf71bd6facd39aaf8a637382d9043",
+        "matchesCatalogPin": true
+      },
+      {
+        "packageId": "package.joeware-admod",
+        "version": "1.29.00",
+        "path": ".local/joeware-admod-acquisition-be07559413184229b567f4bd3d2b6a38/AdMod.zip",
+        "length": 811771,
+        "sha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+        "matchesCatalogPin": true
+      }
+    ],
+    "scope": "The full package-provider and portable-selection suites included archive-backed file lifecycle tests for the three packages above. They did not launch installers or utilities, make publisher requests, or invoke sensitive utility behavior. The portable-selection assertions exclude Defender-blocked collections."
+  },
+  "repositoryValidation": {
+    "result": "Passed at 2026-10-28T08:12:20Z",
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 299,
+    "operationDocumentation": "Current"
+  },
+  "vmAcceptance": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Server2025-Test"
+    ],
+    "result": "Blocked before VM/checkpoint inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "acceptanceTaskDispatched": false
+  },
+  "handling": {
+    "defenderBlockedToolsSelectedOrRun": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false,
+    "rawCopyAndEtl2PcapngCaseDirectoriesRemaining": 0
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Full current-source package-provider and portable-selection regression passed in both installed PowerShell editions with all 179 tests exercised.",
+      "Archive-backed local file lifecycle and saved-state recovery for RawCopy 1.0.0.22, ETL2PCAPNG 1.11.0, and JoeWare AdMod 1.29.00 passed in both PowerShell editions."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Package installation, removal, saved-state recovery, and target acceptance on Windows VMs remain pending VM/CIM access.",
+      "Running RawCopy, ETL2PCAPNG, or AdMod for functional behavior remains outside this file-lifecycle run."
+    ],
+    "partial": [
+      "Local archive-backed file lifecycle is verified; no whole legacy package outcome closes without Windows acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; three previously fixture-skipped package lifecycle cases now pass, but VM acceptance remains and legacy outcome counts do not close."
+    }
+  },
+  "relatedEvidence": [
+    "package-provider-portable-full-cross-shell-regression-and-vm-block-2026-10-28-0801.json",
+    "package-review-marker-exact-pending-coverage-audit-2026-10-28-0812.json"
+  ]
+}

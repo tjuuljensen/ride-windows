@@ -1,0 +1,49 @@
+{
+  "recordedAtUtc": "2026-10-29T02:35:47Z",
+  "kind": "MiTeCDirListCurrentSourceSyntheticLifecycleAndCimBlock",
+  "repository": "RIDE-Windows",
+  "test": {
+    "path": "tests/MiTeCDirList.Tests.ps1",
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "result": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "scope": [
+      "current package metadata against retained static source evidence",
+      "inert synthetic ZIP selected-member staging and repeat behavior",
+      "managed-file removal and snapshot restoration",
+      "operator content preservation"
+    ]
+  },
+  "safety": {
+    "syntheticFixtureOnly": true,
+    "retainedPublisherArchiveOpened": false,
+    "DirListExecuted": false,
+    "liveDirectoryContentsInspected": false,
+    "networkRequested": false,
+    "windowsOrDefenderStateChanged": false,
+    "PasswordScanMaterialized": false
+  },
+  "vmAccess": {
+    "names": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "result": "Get-VM failed before state retrieval: access to a CIM resource was not available to the client.",
+    "checkpointState": "Unverified",
+    "guestAcceptance": "Not run"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

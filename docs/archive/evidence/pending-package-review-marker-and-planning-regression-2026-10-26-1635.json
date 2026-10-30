@@ -1,0 +1,57 @@
+{
+  "EvidenceType": "PendingPackageReviewMarkerAndPlanningRegression",
+  "ObservedAtUtc": "2026-10-26T16:35:11Z",
+  "CatalogAudit": {
+    "CatalogLoader": "RIDE.Engine Get-RideCatalog",
+    "OperationCount": 423,
+    "PendingPackageCount": 35,
+    "WorkspaceReviewRecordCount": 72,
+    "ReviewKey": ["Id", "ReviewedVersion"],
+    "ExpectedStatus": "NeedsReview",
+    "ExactVersionRecords": 35,
+    "Missing": 0,
+    "DuplicateOrWrongStatus": 0
+  },
+  "Regression": {
+    "PesterVersion": "5.7.1",
+    "Suites": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Passed": 148,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0
+    },
+    "WindowsPowerShell": {
+      "Version": "5.1.26100.9711",
+      "Passed": 148,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0
+    },
+    "PesterPluginsDisabled": ["TestRegistry", "TestResult"],
+    "ScratchRoots": [
+      ".local/pester-license-current-20261026",
+      ".local/pester-license-current-winps51-20261026"
+    ]
+  },
+  "Disposition": {
+    "ReviewMarkersArePlanningGates": false,
+    "PackagesOrUtilitiesExecuted": false,
+    "PublisherRequestsMade": false,
+    "LegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

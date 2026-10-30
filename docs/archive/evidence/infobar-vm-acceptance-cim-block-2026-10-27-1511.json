@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T15:11:00Z",
+  "batch": "MiTeC InfoBar 4.6.2 Windows 11 acceptance access preflight",
+  "package": {
+    "id": "package.mitec-infobar",
+    "version": "4.6.2",
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "sourceEvidence": "mitec-infobar-package-candidate-2026-10-27-1450.json"
+  },
+  "readOnlyVmInspection": [
+    {
+      "vm": "RIDE-Win11-Test",
+      "result": "Blocked before VM/checkpoint inspection",
+      "error": "Access to a CIM resource was not available to the client"
+    },
+    {
+      "vm": "RIDE-Srv2025Test",
+      "result": "Blocked before VM/checkpoint inspection",
+      "error": "Access to a CIM resource was not available to the client"
+    }
+  ],
+  "acceptanceRunner": {
+    "currentApplicationBatches": "1-8",
+    "dedicatedInfoBarSuiteAvailable": false,
+    "taskClientAndGuestRunnerRequireSuiteExtension": true,
+    "registeredAdminControllerRefreshRequiredBeforeDispatch": true,
+    "controllerRefreshOrTaskRequestAttempted": false
+  },
+  "effects": {
+    "checkpointInspected": false,
+    "acceptanceDispatched": false,
+    "installerRun": false,
+    "windowsOrDefenderStateChanged": false,
+    "freshUacPromptRequested": false
+  },
+  "deferredAcceptance": [
+    "Disposable Windows 11 install, registration, scope, dependencies and silent-uninstall behavior.",
+    "Startup integration and exact RIDE-owned cleanup/recovery.",
+    "Repeat and saved-run recovery with no real location, weather key, RSS account or personal feed."
+  ],
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "127-181",
+      "rounded": "125-180/about 155"
+    },
+    "licenseReview": "Informational owner/version marker; not a migration gate"
+  }
+}

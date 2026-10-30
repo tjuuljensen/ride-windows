@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T08:48:00Z",
+  "Batch": "JoeWare W2KLockDesktop and WriteProt publisher source review",
+  "Scope": {
+    "FrozenMemberCount": 41,
+    "ProductsReviewed": ["W2KLockDesktop", "WriteProt"],
+    "AdFindAcceptance": "Excluded from selected acceptance batches; no AdFind action in this review."
+  },
+  "Sources": [
+    {
+      "Uri": "https://joeware.net/freetools/tools/w2klockdesktop/index.htm",
+      "Findings": [
+        "Publisher describes W2KLockDesktop as a command-line tool that immediately locks the desktop.",
+        "The product page and versions list identify version 1.0.0 / 01.00.00 dated 2001-05-10; publisher states no local security requirement.",
+        "Published platform list is Windows 2000, Server 2003 and XP; this historical statement does not establish Windows 11 support."
+      ]
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/writeprot/index.htm",
+      "Findings": [
+        "Publisher describes WriteProt as a utility for changing fixed-volume write protection, version 1.0.0 dated 2004-08-08; local administrator rights are required to modify volume state.",
+        "Published platform page names Windows XP and Server 2003; this historical statement does not establish current Windows support."
+      ]
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/writeprot/usage.htm",
+      "Findings": [
+        "Read-only observation switches include /view, /mview, /diskinfo, /volinfo and /info; /ro and /rw change a selected volume's state.",
+        "On a basic disk with multiple volumes, changing one volume may affect all volumes; /unsafe explicitly overrides the publisher's warning.",
+        "Publisher warns that making the system partition read-only can make a PC unusable."
+      ]
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/versions.txt",
+      "Findings": [
+        "W2KLockDesktop row: 01.00.00 dated 2001-05-10; publisher MD5 6ac3acb478d4c39cafa25610708e12bd and SHA-1 72108f7602363064adc32c7e6f7b0d63bb958db8.",
+        "WriteProt row: 01.00.00 dated 2004-08-08; publisher MD5 1410134ff602b0ea3719fbc52a02cfcd and SHA-1 253504025a3335bae43e14c9edea23b57b96b0cf.",
+        "Publisher digests are observations only; no archive was acquired and no local archive hash was verified."
+      ]
+    }
+  ],
+  "Boundaries": {
+    "PayloadAcquired": false,
+    "PayloadExecuted": false,
+    "SessionLocked": false,
+    "VolumeEnumeratedOrChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "LicenseBlocker": false,
+    "Resolved": ["Publisher product purpose, offered version and documented behavior boundaries for two members of the frozen review scope."],
+    "Deferred": [
+      "Exact archives, local SHA-256 hashes, signatures/notices and member inventories.",
+      "Bounded package lifecycle/recovery and current-target acceptance.",
+      "W2KLockDesktop interaction must be tested only in a disposable logged-in VM session.",
+      "WriteProt mutation must use a disposable VM with a dedicated secondary virtual disk; never test the system volume or a developer workstation."
+    ],
+    "Excluded": [],
+    "LegacyOutcomesClosed": 0
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155",
+    "Adjustment": "Unchanged; source review established behavior boundaries but no exact package artifact or Windows acceptance."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:01:45Z",
+  "batch": "Package provider and portable selection full cross-shell regression",
+  "source": "Current checkout",
+  "tests": {
+    "paths": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/PortableAcceptanceAutomation.Tests.ps1"
+    ],
+    "pesterVersion": "5.7.1",
+    "discovered": 179,
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "passed": 176,
+      "failed": 0,
+      "skipped": 3,
+      "notRun": 0
+    },
+    "powerShell": {
+      "version": "7.6.5",
+      "passed": 176,
+      "failed": 0,
+      "skipped": 3,
+      "notRun": 0
+    },
+    "skippedCases": [
+      "RawCopy lifecycle: no explicit retained RawCopy archive fixture was supplied.",
+      "ETL2PCAPNG lifecycle: no explicit retained ETL2PCAPNG executable fixture was supplied.",
+      "AdMod actual-archive lifecycle: RIDE_JOEWARE_ADMOD_FIXTURE was not set."
+    ],
+    "configuration": "Pester TestRegistry and TestResult plugins were disabled. Windows PowerShell was launched with process-scoped ExecutionPolicy Bypass. For PowerShell 7, Pester 5.7.1 was imported from the installed WindowsPowerShell module path. No persistent execution-policy change was made."
+  },
+  "repositoryValidation": {
+    "result": "Passed",
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 299,
+    "operationDocumentation": "Current"
+  },
+  "vmAcceptance": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Server2025-Test"
+    ],
+    "result": "Blocked before VM/checkpoint inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "acceptanceTaskDispatched": false
+  },
+  "handling": {
+    "installerOrUtilityExecuted": false,
+    "defenderBlockedToolsSelectedOrRun": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Full current-source package-provider and portable-selection regression passed in both installed PowerShell editions."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Windows installation, removal, saved-state recovery, and target acceptance remain pending VM/CIM access.",
+      "The three retained-archive tests remain fixture-dependent and were skipped."
+    ],
+    "partial": [
+      "The source regression does not establish real package lifecycle or Windows behavior."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the regression proves current-source test coverage but closes no legacy package outcome."
+    }
+  },
+  "relatedEvidence": [
+    "package-provider-and-portable-selection-focused-cross-shell-regression-2026-10-28-0737.json",
+    "nirsoft-passwordscan-defender-alert-2026-10-28-0755.json"
+  ]
+}

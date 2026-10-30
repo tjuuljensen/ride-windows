@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T15:45:00Z",
+  "scope": "MiTeC Project Maker 1.9.0 ApplicationsBatch10 preparation and local regression",
+  "candidateSource": "mitec-project-maker-package-candidate-2026-10-27-1440.json",
+  "candidate": {
+    "id": "package.mitec-project-maker",
+    "version": "1.9.0",
+    "installerSha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+    "staticMembers": ["ProjectMaker.exe x86 1.9.0.0", "ProjectMaker64.exe x64 1.9.0.0", "ProjectMaker.chm"],
+    "migrationBatch": "ApplicationsBatch10",
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "licenseMarker": "NeedsReview/Unassigned is owner administration only; not a direct-download/install migration gate"
+  },
+  "runner": {
+    "checks": ["Windows 11 target guard", "exact package ID selection", "pinned installed version", "repeat install", "removal preview and uninstall", "repeat removal", "saved removal recovery", "saved install recovery"],
+    "applicationLaunched": false,
+    "compilerOrBuildFeaturesExecuted": false,
+    "controllerCapability": "ApplicationsBatch10ProjectMakerV1",
+    "controllerRefreshRequired": true
+  },
+  "validation": {
+    "pesterFiles": ["tests/Catalog.Tests.ps1", "tests/ApplicationPackages.Tests.ps1", "tests/TestAutomation.Tests.ps1"],
+    "pesterVersion": "5.7.1",
+    "passed": 356,
+    "failed": 0,
+    "skipped": 4,
+    "notRun": 1,
+    "excludedLiveIntegration": "WindowsIntegration tag; host HKCU access is restricted",
+    "operationDocumentationCheck": "Passed",
+    "PowerShellParser": "Passed for all modified scripts and tests",
+    "scriptVersionCommands": "Passed for application batch, guest runner, VM runner, task client and registration script"
+  },
+  "windowsAcceptance": {
+    "status": "Deferred",
+    "controllerRefresh": "Later elevated session required; not attempted",
+    "vmAccess": "Most recent read-only check failed at CIM before VM/checkpoint/task inspection",
+    "required": ["installer scope and registration", "dependencies and UI", "silent/repeat install and uninstall", "saved-state recovery", "separate synthetic Delphi build/action/signing checks if required"]
+  },
+  "effects": { "taskDispatched": false, "installerRun": false, "projectOpened": false, "defenderStateChanged": false, "freshUacPromptRequested": false },
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": { "settings": "37-57", "packages": "38-53", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exact": "127-181", "rounded": "125-180/about 155" }
+  }
+}

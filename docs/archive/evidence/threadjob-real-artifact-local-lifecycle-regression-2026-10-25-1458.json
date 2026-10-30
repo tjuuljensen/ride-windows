@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T14:58:18Z",
+  "scope": "Microsoft.PowerShell.ThreadJob 2.2.0 exact retained Gallery artifact file lifecycle",
+  "artifact": {
+    "path": ".local/threadjob-2.2.0-acquisition/Microsoft.PowerShell.ThreadJob.2.2.0.nupkg",
+    "version": "2.2.0",
+    "sha256": "1678c5a5a5cf8ae65e127ecc77dfb7241513a61a1a398a4f79f44f12767108bc",
+    "matchesCatalogPin": true
+  },
+  "result": {
+    "status": "Passed",
+    "ownedFileCount": 10,
+    "repeatInstall": "Passed",
+    "removal": "Passed",
+    "installedStateSnapshotRecovery": "Passed",
+    "priorAbsenceRecovery": "Passed"
+  },
+  "boundary": {
+    "upstreamModuleImported": false,
+    "productFunctionExecuted": false,
+    "networkUsed": false,
+    "windowsStateChanged": false,
+    "vmChanged": false,
+    "defenderChangedOrQueried": false,
+    "userModulePathChanged": false,
+    "freshElevationRequested": false
+  },
+  "interpretation": {
+    "resolved": ["Exact retained artifact hash verification", "Local owned-file lifecycle and exact recovery"],
+    "deferred": ["Disposable Windows target acceptance", "Isolated PowerShell 5.1 and PowerShell 7 runtime acceptance with the declared dependency"],
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

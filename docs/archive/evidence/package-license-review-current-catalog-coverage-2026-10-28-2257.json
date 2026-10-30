@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:57:54Z",
+  "batch": "Current catalog package license-review marker coverage",
+  "source": "Read-only catalog and workspace-local review-store audit",
+  "catalog": {
+    "packageOperations": 119,
+    "pendingAcceptancePackageVersions": 49,
+    "exactVersionMarkersMissing": 0
+  },
+  "workspaceReviewStore": {
+    "path": ".local/license-reviews.json",
+    "reviewRecords": 90,
+    "pendingPackageVersionsWithExactIdAndVersionMarker": 49,
+    "sysinternalsExactVersions": 10,
+    "sysinternalsStatus": "Reviewed"
+  },
+  "disposition": {
+    "licenseReviewStatusIsAdministrativeOnly": true,
+    "sysinternalsDirectDownloadAndInstallApprovalRemainsSettled": true,
+    "catalogOrReviewStoreChanged": false,
+    "networkOrPackageAcquisition": false,
+    "installerOrUtilityExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  }
+}

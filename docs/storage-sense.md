@@ -42,14 +42,29 @@ preferences from a different user or snapshot.
 
 The legacy reverse's recursive preference deletion is excluded from maintained
 disable behavior. The unverified `StoragePoliciesNotified` marker is untouched.
-No extra cleanup-value mappings, machine policy writes or default-profile
-selection are introduced by this guide. Read-only `show`/`status` inspection of
+No extra cleanup-value mappings, default-profile selection is introduced by this guide. A separate advanced machine-policy candidate is documented below and remains unsupported pending Windows 11 acceptance. Read-only `show`/`status` inspection of
 the catalog setting remains distinct from the native Settings screen.
 
 Turning Off or restoring configuration cannot recover files already deleted by
 Windows. A prior registry record is not a file backup. Making cloud content
 online-only also changes offline availability; restoring the setting does not
 automatically download that content.
+
+## Separate advanced machine policy candidate
+
+The catalog includes `windows.storage-sense-global-policy` as an advanced machine
+policy candidate separate from the current-user `windows.storage-sense`
+preference. Microsoft documents `AllowStorageSenseGlobal`: Enabled forces Storage
+Sense on and prevents users from disabling it; Disabled forces it off and prevents
+users from enabling it. Removing the local override returns control to Windows
+and user behavior, including possible low-storage activation. The policy does not
+set cadence or per-cleanup choices and RIDE does not run cleanup.
+
+Microsoft lists Pro, Enterprise, Education and IoT Enterprise editions for this
+policy. The RIDE candidate remains unsupported pending Windows 11 edition-specific
+acceptance of UI enforcement, effective policy precedence, exact restore and the
+cleanup boundary. Windows Home and Server are outside this candidate. See the
+[Microsoft Storage Policy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-storage#allowstoragesenseglobal).
 
 ## Remaining acceptance
 

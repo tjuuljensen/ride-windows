@@ -86,9 +86,18 @@ The manual PowerShell handoff uses the current Windows directory:
 Opening the panel does not create or select a plan. After owned creation has
 been accepted for the target, inspect the
 reported destination GUID; selecting or customizing it is a separate user
-action. There is no deployed desktop context menu or unmanaged quick selector.
-Creation itself needs machine administrator rights; intended-user menu scope
-remains a separate pending migration item.
+action. The catalog now includes the pending current-user operation
+windows.power-options-shortcut, which creates a desktop shortcut targeting
+%SystemRoot%\System32\control.exe /name Microsoft.PowerOptions. Its
+SupportedTargets remains empty until the current Windows 11 launcher and UI
+behavior pass disposable-target acceptance; it is not in a recommended profile.
+It provides native access only and never selects or creates a plan.
+
+The old merged-HKCR submenu is not recreated, and direct quick-selection remains
+deferred until it can invoke the maintained plan-selection workflow with saved
+state capture and current-GUID validation. The shortcut uses the current user's
+desktop, not an all-users location. Creation itself needs machine administrator
+rights; shortcut presence is a separate user-scoped setting.
 
 Microsoft documents explicit destination GUIDs for
 [/duplicatescheme, /export and /delete](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#duplicatescheme).

@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "openssh-server-capability-current-regression-2026-10-27-0655",
+  "RecordedAtUtc": "2026-10-27T06:55:28Z",
+  "Repository": "ride-windows",
+  "CheckoutPath": "C:/Users/tjuuljensen/git/ride-windows",
+  "Scope": "Current-source OpenSSH Server capability installation/removal, observation and activation regression; repository static validation.",
+  "Runtime": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false
+  },
+  "Pester": {
+    "Status": "Passed",
+    "Passed": 30,
+    "Failed": 0,
+    "Skipped": 0,
+    "Files": [
+      "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "Boundary": "All DISM, service, firewall and filesystem providers are mocked; no Windows component or service was changed."
+  },
+  "InitialAttempt": {
+    "Status": "HarnessSetupFailure",
+    "Failure": "Pester's optional TestRegistry plugin attempted to create HKCU\\Software\\Pester and access was denied before test discovery.",
+    "Disposition": "Reran with TestRegistry and TestResult disabled; no assertion failure occurred in the configured run."
+  },
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 429,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 294
+  },
+  "VMAccess": {
+    "CheckedThisRun": false,
+    "LatestEvidence": "ride-vm-access-recheck-2026-10-27-0643.json",
+    "LatestResult": "Read-only Get-VM/Get-VMSnapshot and registered task queries failed at CIM before VM, checkpoint or task inspection."
+  },
+  "WindowsStateChanged": false,
+  "DefenderStateChanged": false,
+  "LegacyOutcomeClosed": false,
+  "CatalogIntegration": "Open",
+  "Windows11Acceptance": "DeferredPendingVMAccess",
+  "WindowsServer2025Acceptance": "DeferredPendingVMAccess",
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Adjustment": "None; this regression adds no implementation outcome or legacy closure."
+  }
+}

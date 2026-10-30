@@ -36,6 +36,29 @@ Describe 'Store catalog and discovery boundaries' {
     ($apps|Where-Object AppxName -eq Microsoft.XboxGamingOverlay).PolicySelectionId|Should -BeNullOrEmpty
     foreach($g in $groups){@($g.Members|Where-Object {$_ -notin $apps.Id}).Count|Should -Be 0}
   }
+  It 'keeps the documented reviewed list aligned with catalog identities and the policy crosswalk' {
+    $apps=@($script:Catalog.Operations|Where-Object Kind -eq StoreApp)
+    $review=Import-PowerShellDataFile (Join-Path $script:Root 'catalog/store-app-review.psd1')
+    $guide=Get-Content (Join-Path $script:Root 'docs/store-app-groups.md') -Raw
+    $section=[regex]::Match($guide,'(?s)## Exact identities to implement(?<body>.*?)(?:\r?\n## |\z)').Groups['body'].Value
+    $documentedNames=@([regex]::Matches($section,'(?m)^\| [^|]+ \| [^|]+ \| ([^|]+) \|$')|ForEach-Object {$_.Groups[1].Value.Trim()}|Where-Object {$_ -ne 'Package name' -and $_ -notmatch '^[-| ]+$'})
+    $catalogNames=@($apps.AppxName|Sort-Object)
+    $documentedNames|Should -HaveCount 22
+    @(Compare-Object $catalogNames @($documentedNames|Sort-Object)).Count|Should -Be 0
+
+    $policyMapped=@($apps|Where-Object PolicySelectionId)
+    $policyMapped|Should -HaveCount 21
+    foreach($operation in $policyMapped){
+      $definition=@($review.Apps|Where-Object StaticPolicyId -ceq $operation.PolicySelectionId)
+      $definition|Should -HaveCount 1
+      $definition[0].Name|Should -BeExactly $operation.AppxName
+      $definition[0].PolicyFamilyName|Should -BeExactly $operation.PackageFamilyName
+    }
+
+    ($apps|Where-Object AppxName -eq 'Microsoft.XboxGamingOverlay').PolicySelectionId|Should -BeNullOrEmpty
+    $unselectedReviewNames=@('MSTeams','Microsoft.Copilot','Microsoft.MicrosoftOfficeHub','Microsoft.WindowsFeedbackHub')
+    @(Compare-Object @($review.Apps|Where-Object Name -notin $catalogNames|ForEach-Object Name|Sort-Object) @($unselectedReviewNames|Sort-Object)).Count|Should -Be 0
+  }
   It 'discovers Store apps without invoking any Appx handler' {
     Import-Module (Join-Path $script:Root 'modules/RIDE.Discovery.psm1') -Force
     $rows=@(Get-RideCatalogRows $script:Catalog)

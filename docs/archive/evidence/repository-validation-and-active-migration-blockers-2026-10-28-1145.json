@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:45:35Z",
+  "batch": "Current migration repository validation and prerequisite recheck",
+  "command": "tools/validate.ps1 -Root .",
+  "result": "Passed",
+  "coverage": {"operations":441,"groups":8,"profiles":5,"powerShellFiles":299,"generatedOperationDocumentation":"Current"},
+  "limitations": ["This static validation does not run Pester suites, invoke package handlers/installers, or establish Windows runtime behavior."],
+  "availability": {"pesterVersions":["3.4.0"],"pester5Available":false,"rideWin11TestGetVm":"Access to a CIM resource was not available to the client before VM/checkpoint inspection."},
+  "migrationOutcome": {"legacyOutcomesClosed":[],"estimates":{"settings":"37-57","packages":"37-52","components":"19-24","filesAndAssets":"25-35","maintenance":"8-12","exactTotal":"126-180","roundedTotal":"125-180/about 155"},"estimateAdjustment":"None; static validation closes no legacy outcome."}
+}

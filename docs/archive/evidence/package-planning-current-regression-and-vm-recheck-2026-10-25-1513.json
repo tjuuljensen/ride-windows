@@ -1,0 +1,51 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:13:45Z",
+  "Scope": "Current-source package license planning regression and read-only disposable VM access recheck",
+  "Tests": {
+    "PesterVersion": "5.7.1",
+    "Configuration": "TestRegistry.Enabled=false because sandboxed HKCU registry access prevents the optional Pester helper from creating its registry key",
+    "Discovered": 35,
+    "Passed": 35,
+    "Failed": 0,
+    "Skipped": 0,
+    "Suites": {
+      "tests/LicenseReviews.Tests.ps1": "Passed",
+      "tests/PackageDependencyPlanning.Tests.ps1": "Passed"
+    },
+    "DurationSeconds": 91.91,
+    "Details": "LicenseReviews and PackageDependencyPlanning passed. An initial run with TestRegistry enabled failed to initialize the optional TestRegistry helper because HKCU registry access is denied in this sandbox; it did not reach the package assertions."
+  },
+  "VmAccess": {
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Result": "Both read-only Get-VM requests failed before VM or checkpoint inspection: Access to a CIM resource was not available to the client.",
+    "GuestRequestSent": false,
+    "VmOrWindowsStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "Safety": {
+    "SysinternalsLicenseDisposition": "Settled; the prior RIDE v2 license-specialist approval governs direct Microsoft download-and-install. No licensing migration gate.",
+    "DefenderBlockedToolsExcluded": true,
+    "ProductUtilitiesExecuted": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Disposable Windows VM acceptance for remaining package operations; VM access failed at CIM before inspection."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

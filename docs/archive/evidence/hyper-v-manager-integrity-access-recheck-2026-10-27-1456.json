@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "HyperVManagerReadOnlyAccessRecheck",
+  "RecordedAtUtc": "2026-10-27T14:56:28Z",
+  "Target": "Existing Hyper-V Manager window",
+  "Observations": [
+    {
+      "Method": "Windows app inventory",
+      "Result": "Hyper-V Manager window found; no app input was sent"
+    },
+    {
+      "Method": "Accessibility inspection",
+      "Result": "Limited because the target window has higher Windows integrity than the Computer Use helper"
+    },
+    {
+      "Method": "Screenshot capture",
+      "Result": "Black image; VM list and checkpoint state were not readable"
+    }
+  ],
+  "Effects": {
+    "VMStartedOrStopped": false,
+    "CheckpointChanged": false,
+    "AcceptanceDispatched": false,
+    "ElevationPromptRequested": false,
+    "WindowsChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "The UI inspection could not reveal VM state and made no change; no legacy outcome was resolved.",
+    "Deferred": [
+      "Native package, setting and component acceptance on registered disposable Windows VMs"
+    ]
+  },
+  "Acceptance": {
+    "Status": "blocked",
+    "Blocker": "Host CIM access is denied, and Hyper-V Manager UIA/screenshot access is blocked by a higher-integrity target window.",
+    "NextStep": "Retry read-only access after the host/UI integrity boundary is resolved; continue independent source and implementation work meanwhile."
+  }
+}

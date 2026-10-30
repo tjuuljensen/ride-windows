@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T18:34:07Z",
+  "batch": "Sysinternals Suite current-source package lifecycle regression",
+  "runtime": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "tempDirectory": ".local/pester-sysinternals-suite-ps7-20261028-1838"
+  },
+  "testFiles": [
+    "tests/SysinternalsSuitePackage.Tests.ps1"
+  ],
+  "result": {
+    "discovered": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "durationSeconds": 368.29
+  },
+  "harnessHistory": [
+    "An initial combined invocation for the Suite and independent product suites stopped before discovery because the Pester configuration used an invalid Plugins.TestRegistry property path.",
+    "A corrected combined invocation discovered 80 tests but produced no completed result before it was interrupted after several minutes; no aggregate outcome is claimed for that invocation.",
+    "The isolated Suite invocation completed all eight assertions successfully with TestRegistry and TestResult disabled."
+  ],
+  "coverageBoundary": {
+    "archiveMembersSyntheticAndInert": true,
+    "networkDiscoveryOrPayloadDownloadInvoked": false,
+    "sysinternalsUtilitiesOrInstallersExecuted": false,
+    "defenderBlockedToolsSelectedOrTouched": false,
+    "vmOrCheckpointAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false,
+    "nativeWindows11AcceptanceAdded": false,
+    "legacyOutcomeClosed": false
+  },
+  "migrationDisposition": {
+    "sysinternalsLicense": "The prior RIDE v2 license-specialist approval remains authoritative for RIDE's direct download-and-install workflow; licensing is not a migration gate.",
+    "defenderExclusions": "PasswordScan x86/x64 and other user-reported Defender-blocked tools remain separately excluded.",
+    "resolved": [],
+    "partial": [
+      "Current-source local package lifecycle regression passed 8/8; this adds no native acceptance or legacy-outcome closure."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Native acceptance remains governed by existing Windows 11 evidence and does not expand from this local regression."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the regression rechecks current-source behavior without closing another legacy package outcome."
+    }
+  }
+}

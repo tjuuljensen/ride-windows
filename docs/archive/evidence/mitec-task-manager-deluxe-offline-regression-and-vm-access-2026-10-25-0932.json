@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:32:00Z",
+  "scope": "MiTeC Task Manager DeLuxe portable package offline lifecycle regression and Windows VM access check",
+  "source": "Retained local TMX.zip candidate; no new acquisition",
+  "tests": {
+    "file": "tests/MiTeCTaskManagerDeluxe.Tests.ps1",
+    "result": "Passed",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "checks": [
+      "retained archive and matching x86/x64 executable pairs",
+      "requested architecture staging and exact owned-file restoration"
+    ]
+  },
+  "execution": "No TMX executable was launched. No live process, service, account, session, network, or reputation state was queried.",
+  "vmAccess": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "result": "Blocked",
+    "error": "Access to a CIM resource was not available to the client.",
+    "stage": "Denied before VM or checkpoint inspection",
+    "stateChanged": false
+  },
+  "deferred": [
+    "registered Windows 11 lifecycle acceptance and exact recovery in the disposable VM",
+    "persistence and network behavior",
+    "application behavior and target support"
+  ],
+  "licenseReview": "Exact-version NeedsReview remains informational for owner-specific administration and is not a package planning or migration gate.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

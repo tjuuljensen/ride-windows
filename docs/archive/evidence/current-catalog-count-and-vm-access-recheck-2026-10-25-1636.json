@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T16:36:05Z",
+  "Scope": "Current catalog count reconciliation and read-only disposable-VM access recheck",
+  "Catalog": {
+    "Source": "Get-RideCatalog from the current checkout",
+    "Operations": 415,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 278,
+    "SettingAndControlOperations": 282,
+    "PendingSettingAndControlAcceptance": 22,
+    "PackageOperations": 103,
+    "PendingPackageAcceptance": 33,
+    "StoreAppOperations": 22,
+    "PendingStoreAppAcceptance": 22,
+    "ProfileSettingOperations": 4,
+    "PendingProfileSettingAcceptance": 3,
+    "StandaloneArtifacts": 4
+  },
+  "Validation": {
+    "AtUtc": "2026-10-25T16:38:36Z",
+    "SettingPresentationCoverage": "282/282 setting and control operations",
+    "RepositoryValidation": "Passed: 415 operations, 8 groups, 5 profiles and 278 PowerShell files",
+    "OperationDocumentationCurrent": true
+  },
+  "PendingSettingAndControlIds": [
+    "windows.explorer-f1-help",
+    "windows.local-password-maximum-age",
+    "windows.audio-service",
+    "windows.shutdown-event-tracker-policy",
+    "windows.server-manager-startup-policy",
+    "windows.media-radio-preset-retrieval-policy",
+    "windows.media-drm-online-access-policy",
+    "windows.owned-balanced-power-plan",
+    "windows.owned-high-performance-power-plan",
+    "windows.owned-ultimate-performance-power-plan",
+    "windows.ceip-participation-policy",
+    "windows.update-notification-display-policy",
+    "windows.firewall-domain-profiles",
+    "windows.firewall-private-profiles",
+    "windows.firewall-public-profiles",
+    "windows.firewall-all-profiles",
+    "windows.user-bin-persistent-path",
+    "windows.python-manager-automatic-install",
+    "windows.click-to-do-policy",
+    "windows.proxy-auto-detect",
+    "windows.sha256-certutil-context-menu",
+    "windows.hash-value-context-menu"
+  ],
+  "VmAccess": {
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Result": "BlockedBeforeInspection",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "VmOrCheckpointInspected": false
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "EstimatesUnchanged": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "Safety": {
+    "PackageOrUtilityExecuted": false,
+    "WindowsOrVmStateChanged": false,
+    "DefenderStateChanged": false
+  }
+}

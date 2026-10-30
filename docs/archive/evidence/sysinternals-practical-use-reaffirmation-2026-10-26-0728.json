@@ -1,0 +1,10 @@
+{
+  "recorded_at_utc": "2026-10-26T07:28:10Z",
+  "decision": "Sysinternals is cleared for RIDE package migration under the prior RIDE v2 license-specialist approval for direct download and installation.",
+  "practical_scope": "RIDE obtains Sysinternals directly from Microsoft for deployment. RIDE does not transfer or publish copies.",
+  "user_statement": "There are no legal issues using Sysinternals in RIDE. Do not use strict or generalized redistribution reasoning to block package migration.",
+  "migration_effect": "No additional license review, redistribution analysis, or NeedsReview marker is required. Current ten package plans remain eligible.",
+  "separate_security_exclusion": "Defender-blocked utilities remain excluded; this security disposition is independent of licensing.",
+  "remaining_acceptance": "Technical source, lifecycle, functional, and Windows target acceptance remain separate.",
+  "estimate": "Unchanged: settings 37-57; packages 40-55; components 19-24; files/assets 25-35; maintenance 8-12; exact 129-183; rounded 130-185/about 155."
+}

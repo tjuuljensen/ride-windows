@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-29T00:20:36Z",
+  "batch": "MiTeC Paradox Data Editor candidate source regression after removing local-payload test dependency",
+  "changes": [
+    "The Pester candidate test now validates static payload metadata without requiring the ignored .local installer file, so it remains runnable from a clean checkout.",
+    "The test does not launch the installer, BDE helpers, or product."
+  ],
+  "validation": {
+    "repositoryValidator": "Passed: 450 operations, 8 groups, 5 profiles, 304 PowerShell files.",
+    "generatedOperationDocumentation": "Current.",
+    "testSourceParser": "Passed.",
+    "retainedInstallerHashAgainstCandidateEvidence": "Passed.",
+    "candidatePendingAcceptanceAndNoSupportedTargets": "Passed.",
+    "localNeedsReviewMarker": "Verified for package.mitec-paradox-data-editor 3.7.0 as NeedsReview / Unassigned.",
+    "pester": "Not run: only Pester 3.4.0 is available; the new suite is authored for Pester 5."
+  },
+  "nativeAcceptance": {
+    "latestVmPreflightEvidence": "docs/archive/evidence/ride-win11-s25-paradox-acceptance-cim-block-2026-10-29-0018.json",
+    "status": "Blocked before VM state retrieval at host CIM for both registered targets."
+  },
+  "sideEffects": {
+    "installerOrProductExecuted": false,
+    "bdeRegisteredOrRun": false,
+    "databaseOpenedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false,
+    "migrationEstimatesChanged": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "The package remains pending source and Windows lifecycle acceptance; no whole legacy outcome closed."
+  }
+}

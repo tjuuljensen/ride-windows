@@ -1,0 +1,198 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T14:09:03.6269455Z",
+  "RunId": "cac31c4095cc45a59db17144eaf1dbcb",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "cac31c4095cc45a59db17144eaf1dbcb",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCAnalysisTools",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-30T13:47:56.7574474Z",
+    "FinishedAtUtc": "2026-10-30T13:59:21.8226011Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "cac31c4095cc45a59db17144eaf1dbcb",
+      "Batch": "MiTeCAnalysisTools",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 2,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "Summary": {
+    "Batch": "MiTeCAnalysisTools",
+    "ExpectedCases": 2,
+    "Completed": 2,
+    "Passed": 2,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending"
+  },
+  "Scenarios": [
+    {
+      "Id": "package.mitec-exe-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "26ad91bd68e8464b8c78eb97021236d3",
+        "a9a8542c59d047e0955c5bb120903f7e",
+        "50fe193e4ca245bc88e5708ad6c5bad9"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "EXE.exe",
+          "Sha256": "d9deec06c474d8d3ec8a64a8cbc12e9c91fc94ed5871438f658c1fff44762746",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        },
+        {
+          "RelativePath": "EXE64.exe",
+          "Sha256": "25987ef9c3b6d0cb24e887de71120faf958c97d9bd63a323c355c332028649d9",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-exe-explorer' failed. Run ID: c1707660c92741aea0884b4ecb512566. Saved state: package.mitec-exe-explorer. Completed operations: <none>. Failed operation: package.mitec-exe-explorer. Unfinished operations: package.mitec-exe-explorer. Recovery: run '.\\ride.ps1 restore -RunId c1707660c92741aea0884b4ecb512566', then reapply the same profile. Error: Portable destination collision: EXE.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-exe-explorer' failed. Run ID: d1c6fd6465bf4e24a52816cf8f0f6ca9. Saved state: package.mitec-exe-explorer. Completed operations: <none>. Failed operation: package.mitec-exe-explorer. Unfinished operations: package.mitec-exe-explorer. Recovery: run '.\\ride.ps1 restore -RunId d1c6fd6465bf4e24a52816cf8f0f6ca9', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-hexedit",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "e6650c1aec6d4a8d82bfccb3ad8d644d",
+        "dbef60f3d2fa4bd99d31ceaf1b288775",
+        "c00d28d3ea6f4a65807f75c1cd654332"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "HEXEdit.exe",
+          "Sha256": "cb782a9d85690487bc4138968f03c9c1e320b55347a76bfa3dc01eb6956144e7",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "CD573F239A5426D11BC490B0AC627F63308174F2"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-hexedit' failed. Run ID: a65d58ba731c43c5ae000e967181e520. Saved state: package.mitec-hexedit. Completed operations: <none>. Failed operation: package.mitec-hexedit. Unfinished operations: package.mitec-hexedit. Recovery: run '.\\ride.ps1 restore -RunId a65d58ba731c43c5ae000e967181e520', then reapply the same profile. Error: Portable destination collision: HEXEdit.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-hexedit' failed. Run ID: 591c3f66a92042d1b7ccbd79ee5dcb24. Saved state: package.mitec-hexedit. Completed operations: <none>. Failed operation: package.mitec-hexedit. Unfinished operations: package.mitec-hexedit. Recovery: run '.\\ride.ps1 restore -RunId 591c3f66a92042d1b7ccbd79ee5dcb24', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "Payloads": [
+    {
+      "Id": "package.mitec-exe-explorer",
+      "FileName": "EXE.zip",
+      "Sha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78"
+    },
+    {
+      "Id": "package.mitec-hexedit",
+      "FileName": "HEXEdit.zip",
+      "Sha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788"
+    }
+  ],
+  "EvidenceFiles": [
+    {
+      "Path": "result.json",
+      "Sha256": "9aa3c9f23d5200802770c6396b872c6b8702643426c2c8a9e390865bda7dcbe4"
+    },
+    {
+      "Path": "focused/result.json",
+      "Sha256": "fbca33698bcb96367df10ea1ebbf3ce5c5be65adaddd52c927367ec68928e02b"
+    },
+    {
+      "Path": "focused/evidence/summary.json",
+      "Sha256": "58409bdb6354c35255a9149dcc3e4b9be06f4992e6013f410d1716a5595a5109"
+    },
+    {
+      "Path": "focused/evidence/scenarios.json",
+      "Sha256": "2c67eecc5df9e0774c1fd4b6f1236b7821d388d35aa3fa199f4039670beef766"
+    },
+    {
+      "Path": "focused/payloads.json",
+      "Sha256": "6ee9fc75a14024eaabc9a379ce826ea8bc07b94999b58761e235c41ff3491846"
+    }
+  ],
+  "PendingRequests": 0,
+  "RunningRequests": 0,
+  "RecoveryBlockPresent": false,
+  "FinalLiveState": "Operator confirmed VM Off / Operating normally and task Ready on P52; deployment milestone complete.",
+  "Scope": "Windows 11 portable deployment lifecycle accepted. Functional and activation acceptance remain pending; catalog support unchanged.",
+  "LegacyOutcomes": "Two deployment subproduct milestones passed within partial MiTeC collection; no whole legacy outcome newly closed, retired or excluded.",
+  "EstimatedRemaining": "Settings 37-57; packages 37-52; components 19-24; files/assets 25-35; maintenance 8-12; exact 126-180; rounded 125-180/about 155.",
+  "FinalRecoveryConfirmation": {
+    "RecordedAtUtc": "2026-10-30T14:11:08.6532831Z",
+    "Source": "Operator-provided elevated P52 Get-VM and Get-ScheduledTask output",
+    "VMState": "Off",
+    "VMStatus": "Operating normally",
+    "TaskState": "Ready"
+  }
+}

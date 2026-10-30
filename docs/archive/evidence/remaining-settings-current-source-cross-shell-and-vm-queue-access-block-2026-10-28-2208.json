@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:08:33Z",
+  "batch": "Remaining settings current-source regression and focused Windows 11 acceptance attempt",
+  "currentSourceRegression": {
+    "suite": "tests/RemainingSettings.Tests.ps1",
+    "result": "Passed",
+    "powerShell": [
+      {
+        "version": "5.1.26100.9818",
+        "pester": "5.7.1",
+        "total": 81,
+        "passed": 81,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "version": "7.6.5",
+        "pester": "5.7.1",
+        "total": 81,
+        "passed": 81,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "fixtureBoundary": "System handlers were mocked; TestDrive held saved state; TestRegistry and TestResult were disabled; WindowsIntegration tags were excluded. No Windows policy was applied."
+  },
+  "contextMenuGrowthGuard": {
+    "suite": "tests/HashValueContextMenu.Tests.ps1",
+    "change": "Replaced the stale exact 19-operation batch assertion with a 19-operation minimum while retaining explicit assertions for both context-menu IDs.",
+    "powerShell": [
+      {
+        "version": "5.1.26100.9818",
+        "pester": "5.7.1",
+        "total": 11,
+        "passed": 11,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "version": "7.6.5",
+        "pester": "5.7.1",
+        "total": 11,
+        "passed": 10,
+        "failed": 0,
+        "skipped": 1,
+        "skipReason": "Windows PowerShell 5.1-specific Get-FileHash behavior case."
+      }
+    ]
+  },
+  "previousVmRun": {
+    "runId": "8346c1d7660a4fb78e773ef3b57407b7",
+    "terminalStatus": "Failed",
+    "unitOnly": true,
+    "integrationSuite": "Full",
+    "guest": "Windows 11 Enterprise build 26300, PowerShell 5.1.26100.9444",
+    "pester": {
+      "total": 3544,
+      "passed": 3502,
+      "failed": 2,
+      "skipped": 40
+    },
+    "failures": [
+      "RemainingSettings.Tests.ps1 expected at least 38 migrated settings but the snapshot contained 40 and its exact-count assertion failed.",
+      "HashValueContextMenu.Tests.ps1 expected 19 batch operations but the snapshot contained 21 and its exact-count assertion failed; the current-source guard now allows growth."
+    ],
+    "integrationOrSettingChange": "None; this was a unit-only run. The 23-operation SettingsRemainingBatch1 runner added Click to Do after the captured source and was not included.",
+    "capturedSourceHashes": {
+      "RemainingSettingsTests": "8DC865375C535007FEBDE9587F4D3232418000880769ED5E8AA58CDFB0AB61C8",
+      "HashValueContextMenuTests": "2807E30AF287338C2B5E89142E53A00CD8FD04C54A587AC8F301F6C9A8CCB841"
+    }
+  },
+  "focusedVmAttempt": {
+    "suite": "SettingsRemainingBatch1",
+    "requestedRunId": "7cae7b394a654776ac684fc1c4c04c5c",
+    "result": "BlockedBeforeQueueSubmission",
+    "error": "Access denied while writing the temporary request file under C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\queue\\pending.",
+    "requestFileCreated": false,
+    "vmOrCheckpointAccessed": false,
+    "settingsApplied": false,
+    "effectiveAclObservation": "The pending directory ACL lists P52\\tjuuljensen with Modify and Synchronize; the process nevertheless received Access denied. Effective token/ACL cause remains unresolved.",
+    "hostGetVmQuery": "Access to a CIM resource was not available to the client."
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source RemainingSettings regression passes in both PowerShell editions.",
+      "The HashValue/Certutil batch count assertion now tolerates growth while still requiring both named candidates."
+    ],
+    "partial": [
+      "The prior full unit-only VM run completed but failed two stale exact-count assertions; the updated focused settings batch could not be queued."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Run SettingsRemainingBatch1 on RIDE-Win11-Test after the pre-registered pending-queue write access is restored.",
+      "Re-run the full guest unit suite from the current source after updating its count guards."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the run fixes test drift and changes no legacy setting outcome."
+    }
+  },
+  "defenderExclusions": [
+    "PasswordScan x86 and x64 remain excluded.",
+    "NirSoft staging/Pester lifecycle checks that could materialize PasswordScan remain paused pending source/run provenance reconciliation."
+  ],
+  "relatedEvidence": [
+    "click-to-do-remaining-settings-batch1-runner-preparation-2026-10-28-2140.json",
+    "remaining-settings-cross-shell-growth-floor-regression-and-vm-block-2026-10-28-2110.json",
+    "nirsoft-passwordscan-user-defender-repeat-2026-10-28-2149.json"
+  ]
+}

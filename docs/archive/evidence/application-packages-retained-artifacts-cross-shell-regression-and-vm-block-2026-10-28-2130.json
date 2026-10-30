@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T21:30:10Z",
+  "batch": "ApplicationPackages retained-artifact lifecycle cross-shell regression",
+  "suite": {
+    "path": "tests/ApplicationPackages.Tests.ps1",
+    "discovered": 132,
+    "powerShell7": {
+      "version": "7.6.5",
+      "pester": "5.7.1",
+      "result": "Passed",
+      "passed": 132,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9818",
+      "pester": "5.7.1",
+      "executionPolicy": "Process-only Bypass",
+      "result": "Passed",
+      "passed": 132,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "retainedArtifactCases": [
+    {
+      "package": "RawCopy 1.0.0.22",
+      "artifact": "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+      "result": "Passed",
+      "coverage": "Catalog hash pin, selected x64 executable and notice staging, repeat install, saved-state recovery and operator-content preservation."
+    },
+    {
+      "package": "ETL2PCAPNG 1.11.0",
+      "artifact": "etl2pcapng.exe",
+      "result": "Passed",
+      "coverage": "Catalog hash pin, executable and notice staging, repeat install, saved-state recovery and operator-content preservation. The executable was hashed and copied as inert test data; it was not launched."
+    },
+    {
+      "package": "JoeWare AdMod 1.29.00",
+      "artifact": "AdMod.zip",
+      "result": "Passed",
+      "coverage": "Catalog/archive pin, exact-member staging, repeat install, current/prior/absent snapshot restoration and operator-content preservation. The utility was not launched."
+    }
+  ],
+  "boundaries": {
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "windowsIntegrationTagsExcluded": true,
+    "publisherRequestsMade": false,
+    "installerOrUtilityLaunched": false,
+    "defenderStateQueriedOrChanged": false,
+    "windowsOrRegistryStateChanged": false,
+    "elevationRequested": false,
+    "newPerTestFixtureDirectoriesCleaned": true
+  },
+  "vm": {
+    "target": "RIDE-Win11-Test",
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateRetrieved": false,
+    "guestRequestSubmitted": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The RawCopy, ETL2PCAPNG and JoeWare AdMod current-source retained-artifact lifecycle regression cases now pass in both PowerShell editions with no skips."
+    ],
+    "partial": [
+      "Local artifact lifecycle evidence is complete for these cases; package activation and Windows behavior remain unverified."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Package presence/version, Windows 11 behavior, functional utility checks, uninstall and recovery acceptance on RIDE-Win11-Test pending host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; local lifecycle regression does not close a legacy package outcome."
+    }
+  },
+  "relatedEvidence": [
+    "application-packages-current-source-cross-shell-regression-and-fixture-repair-2026-10-28-2049.json",
+    "package-planning-and-acquisition-evidence-current-cross-shell-regression-2026-10-28-2051.json",
+    "ride-win11-test-cim-access-block-2026-10-28-1902.json"
+  ]
+}

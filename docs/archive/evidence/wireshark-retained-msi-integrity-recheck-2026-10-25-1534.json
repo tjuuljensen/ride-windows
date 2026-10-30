@@ -1,0 +1,54 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:34:57Z",
+  "Scope": "Retained Wireshark 4.6.9 x64 MSI exact-artifact integrity recheck",
+  "Artifact": {
+    "RelativePath": ".local/wireshark-review/cache/wireshark/4.6.9/Wireshark-4.6.9-x64.msi",
+    "SourceUri": "https://www.wireshark.org/download/win64/all-versions/Wireshark-4.6.9-x64.msi",
+    "Length": 80433152,
+    "ObservedSha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "CatalogExpectedSha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "HashMatches": true,
+    "AuthenticodeStatus": "Valid",
+    "Signer": "CN=Wireshark Foundation, O=Wireshark Foundation, L=Davis, S=California, C=US",
+    "SignerThumbprint": "2A47694B41567B4D0D58DCA5289393C0A84F0EA4",
+    "InspectedNotExecuted": true
+  },
+  "LocalTests": {
+    "Reference": "gpg4win-wireshark-local-regression-and-artifact-check-2026-10-25-1531.json",
+    "WiresharkPackageTests": "8/8 passed using mocked installer behavior."
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "CandidateTargets": [
+      "Windows 11",
+      "Windows Server 2025"
+    ],
+    "PendingAcceptance": true,
+    "Open": "Native MSI install/remove/recovery, existing-installation behavior, association preservation, shared runtime and operator acceptance; VM access unavailable."
+  },
+  "Safety": {
+    "InstallerExecuted": false,
+    "NpcapInstalled": false,
+    "CaptureFilesAccessed": false,
+    "WindowsOrDefenderStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Disposable Windows acceptance remains pending; read-only VM access fails at CIM before checkpoint inspection."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

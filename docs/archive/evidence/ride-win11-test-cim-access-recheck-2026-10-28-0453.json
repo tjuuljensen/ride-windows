@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:53:15Z",
+  "batch": "RIDE-Win11-Test read-only access recheck for AdMod acceptance",
+  "command": "Get-VM -Name 'RIDE-Win11-Test' | Select-Object Name,State,Status",
+  "result": "Failed before VM/checkpoint inspection: Access to a CIM resource was not available to the client.",
+  "vmInspected": false,
+  "checkpointInspected": false,
+  "acceptanceTaskDispatched": false,
+  "guestChanged": false,
+  "hostOrVmStateChanged": false,
+  "elevationRequested": false,
+  "defenderQueriedOrChanged": false,
+  "disposition": "AdMod Windows 11 package lifecycle and operational acceptance remain deferred. Continue source/static work that does not require the VM.",
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the access recheck did not establish a migration outcome."
+    }
+  }
+}

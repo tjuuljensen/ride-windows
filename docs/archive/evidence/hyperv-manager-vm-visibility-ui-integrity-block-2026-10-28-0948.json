@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:48:33Z",
+  "batch": "Hyper-V Manager read-only visibility and integrity check",
+  "method": "Windows desktop Computer Use screenshot and attempted read-only row selection",
+  "observations": {
+    "hyperVManagerWindowPresent": true,
+    "visibleVmRows": [
+      { "name": "RIDE-S25-Test", "state": "Off" },
+      { "name": "RIDE-Store-W11", "state": "Off" },
+      { "name": "RIDE-Win11-Test", "state": "Off" },
+      { "name": "Windows 11 Pro", "state": "Off" }
+    ],
+    "selectedVmDetails": "RIDE-S25-Test was selected in the visible details pane. A checkpoint named RIDE-clean-test-base was shown there; this does not establish a checkpoint for RIDE-Win11-Test.",
+    "targetCheckpoint": "Unknown; selecting the visible RIDE-Win11-Test row produced no visible selection or details change.",
+    "uiAutomationBoundary": "Accessibility reports the Hyper-V Manager window has higher Windows integrity than the Computer Use helper."
+  },
+  "handling": {
+    "vmStartedOrStopped": false,
+    "checkpointAppliedOrChanged": false,
+    "settingsOrIntegrationServicesChanged": false,
+    "acceptanceTaskDispatched": false,
+    "elevationPromptTriggeredOrApproved": false,
+    "vmFilesAccessed": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The existing Hyper-V Manager UI visibly lists RIDE-Win11-Test and reports it Off, resolving VM inventory existence only."
+    ],
+    "partial": [
+      "The checkpoint and guest configuration for RIDE-Win11-Test remain unverified because the elevated Manager window could not be controlled by the helper."
+    ],
+    "deferred": [
+      "Do not dispatch acceptance until the target VM and its existing checkpoint are inspectable through an authorized management path. Continue independent local/source batches."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; VM existence was corroborated, but no checkpoint or Windows acceptance evidence was obtained."
+    }
+  },
+  "relatedEvidence": [
+    "winpmem-current-production-asset-source-recheck-2026-10-28-0945.json"
+  ]
+}

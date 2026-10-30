@@ -1,0 +1,76 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T07:35:00Z",
+  "Scope": "Validate current ApplicationsBatch1 split-suite dispatch and package acceptance test contracts before Windows rerun",
+  "SourceRun": {
+    "PriorWindows11RunId": "e32591497a8347ab836d0426c9b28bb3",
+    "PriorWindows11Status": "Failed",
+    "Failure": "The 0.15.1 limited-user worker exceeded its 45-minute task limit during Thunderbird recovery. It wrote no user-scenario result and did not reach Gpg4win. The run predates the synthetic user-data preservation fixtures."
+  },
+  "ImplementationUnderTest": {
+    "ApplicationBatchRunnerVersion": "0.15.3",
+    "SplitSuites": ["ApplicationsBatch1Machine", "ApplicationsBatch1User"],
+    "ChangedTestContracts": [
+      "The task-runner ValidateSet includes both split suite names.",
+      "The package suite expects application batch runner version 0.15.3."
+    ],
+    "Files": [
+      "tests/integration/Invoke-RideApplicationBatch.ps1",
+      "tests/integration/Invoke-RideGuestTests.ps1",
+      "tests/integration/Invoke-RideVmTest.ps1",
+      "tests/integration/Invoke-RideVmTestTask.ps1",
+      "tests/TestAutomation.Tests.ps1",
+      "tests/ApplicationPackages.Tests.ps1"
+    ]
+  },
+  "LocalValidation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "PesterVersion": "5.7.1",
+    "TestRegistry": "Disabled because sandbox access to HKCU\\Software\\Pester is denied",
+    "TemporaryRoot": ".local/test-output/appbatch1-split-retest-*",
+    "InitialFocusedRun": {
+      "Files": [
+        "tests/PortableAcceptanceAutomation.Tests.ps1",
+        "tests/TestAutomation.Tests.ps1",
+        "tests/ApplicationPackages.Tests.ps1"
+      ],
+      "Passed": 275,
+      "Failed": 2,
+      "Skipped": 2,
+      "Discovered": 279,
+      "Failures": [
+        "TestAutomation expected a ValidateSet missing ApplicationsBatch1Machine and ApplicationsBatch1User.",
+        "ApplicationPackages expected runner version 0.15.2 instead of 0.15.3."
+      ]
+    },
+    "CorrectedFocusedRerun": {
+      "Files": [
+        "tests/TestAutomation.Tests.ps1",
+        "tests/ApplicationPackages.Tests.ps1"
+      ],
+      "Passed": 240,
+      "Failed": 0,
+      "Skipped": 2,
+      "Discovered": 242,
+      "DurationSeconds": 142.21
+    },
+    "PortableAcceptanceAutomation": "Passed in the initial registry-disabled focused run; no test failure was reported for this file.",
+    "GitDiffCheck": "Passed before the test expectation corrections; rerun after recording.",
+    "LineEndings": "Tracked edited text files use LF per repository attributes."
+  },
+  "MigrationDisposition": {
+    "Resolved": "Current local controller/package test contracts recognize the split ApplicationsBatch1 suites and current runner version.",
+    "Deferred": "Refresh the registered Windows 11 controller and run ApplicationsBatch1Machine then ApplicationsBatch1User; verify package lifecycle, exact recovery and synthetic user-data hashes after vendor uninstall.",
+    "LegacyOutcomesClosed": [],
+    "EstimateRangesChanged": false,
+    "CurrentOverviewRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -6,6 +6,260 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'windows.bitlocker-wizard-shortcut'
+      Name = 'BitLocker Drive Encryption desktop shortcut'
+      Kind = 'DesktopShortcut'
+      Category = 'Windows settings / BitLocker'
+      Description = 'Create a current-user desktop shortcut that opens the Windows BitLocker Drive Encryption wizard. It does not enable encryption, select a drive, create protectors or back up recovery information. The operation remains pending Windows 11 disposable-target acceptance.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/operations-guide'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'DesktopShortcut'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      States = @{ Present = 'Present'; Absent = 'Absent' }
+      BaselineState = 'Absent'
+      PathResolver = 'CurrentUserDesktop'
+      ShortcutName = 'BitLocker Drive Encryption.lnk'
+      TargetPath = '%SystemRoot%\System32\BitLockerWizardElev.exe'
+      Arguments = ''
+      DescriptionText = 'Open Windows BitLocker Drive Encryption'
+      WorkingDirectory = '%SystemRoot%\System32'
+      LegacySelectors = @('PutBitlockerShortCutOnDesktop')
+      SettingPresentation = @{
+        AppliesTo = 'Current-user desktop; launches the built-in Windows BitLocker Drive Encryption wizard'
+        Behavior = 'Configuration'
+        GuiPath = 'Desktop > BitLocker Drive Encryption shortcut > Windows BitLocker wizard'
+        GuiEffect = 'Adds convenient access to the Windows wizard only. The user must choose a drive and complete every encryption and recovery step in Windows.'
+        Requirements = @('Current-user desktop must be available and writable; Windows Script Host shortcut support and the Windows BitLocker wizard executable must be present.', 'No encryption, drive selection, protector creation, recovery-key backup or restart occurs.', 'Windows 11 disposable-target acceptance is pending; the operation is not yet supported for application.')
+        OtherSupportedChoices = @('Absent removes only the matching RIDE shortcut; a different file or a modified shortcut is preserved.', 'Saved-run restore recovers shortcut presence. Add Present to the default workstation profile after disposable Windows 11 acceptance.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/operations-guide')
+      }
+    }
+    @{
+      Id = 'windows.power-options-shortcut'
+      Name = 'Power Options desktop shortcut'
+      Kind = 'DesktopShortcut'
+      Category = 'Windows settings / Power'
+      Description = 'Create a current-user desktop shortcut that opens the native Control Panel Power Options item. It provides access only; it does not install a context-menu tree, select or activate a plan, create a plan, or change power settings. The documented canonical command is retained as a Windows 11 candidate until target UI and launch behavior are accepted.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/executing-control-panel-items'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'DesktopShortcut'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      States = @{ Present = 'Present'; Absent = 'Absent' }
+      BaselineState = 'Absent'
+      PathResolver = 'CurrentUserDesktop'
+      ShortcutName = 'Power Options.lnk'
+      TargetPath = '%SystemRoot%\System32\control.exe'
+      Arguments = '/name Microsoft.PowerOptions'
+      DescriptionText = 'Open Windows Power Options'
+      WorkingDirectory = '%SystemRoot%\System32'
+      LegacySelectors = @('SetPwrSchemeDesktopMenu', 'RemovePwrSchemeDesktopMenu')
+      SettingPresentation = @{
+        AppliesTo = 'Current-user desktop shortcut to native Control Panel Power Options'
+        Behavior = 'Configuration'
+        GuiPath = 'Desktop > Power Options > Control Panel > Power Options'
+        GuiEffect = 'Opens the native Power Options interface only. The user makes any plan selection there; RIDE does not create or activate a plan from this shortcut.'
+        Requirements = @('Current-user desktop, Windows Script Host shortcut support, and the System32 Control Panel launcher must be available.', 'Microsoft documents the Microsoft.PowerOptions canonical item, but this candidate has not been verified on current Windows 11 UI/builds. No target is supported until disposable Windows acceptance passes.')
+        OtherSupportedChoices = @('Absent removes only a shortcut that still matches RIDE metadata; a different or modified file is preserved.', 'Do not add this candidate to a default profile or treat shortcut presence as plan selection. Server behavior is not declared.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/executing-control-panel-items', 'https://learn.microsoft.com/en-us/windows/win32/shell/controlpanel-canonical-names')
+      }
+    }
+    @{
+      Id = 'windows.bitlocker-enrollment'
+      Name = 'Guided BitLocker OS-volume enrollment'
+      Kind = 'BitLockerWorkflow'
+      Category = 'Windows settings / BitLocker'
+      Description = 'Start TPM-only encryption for the current OS volume after an explicitly identified recovery-password backup has been verified from another device. Encryption scope and method are shown before submission; conversion and boot protection require separate observation.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/bitlocker/enable-bitlocker?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Enable')
+      Handler = 'BitLockerWorkflow'
+      Workflow = 'Enable'
+      EncryptionScopes = @('UsedSpaceOnly', 'FullVolume')
+      StartupAuthenticationChoices = @('TPMOnly', 'TPMAndPIN')
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'No default action; inspect current OS-volume BitLocker state.' } }
+      Rollback = 'Staged'
+      MountPoint = '%SystemDrive%'
+      LegacySelectors = @('EnableBitlocker')
+      SettingPresentation = @{
+        AppliesTo = 'Explicit current Windows OS volume; machine administrator'
+        Behavior = 'Configuration'
+        GuiEffect = 'Begins OS-volume encryption after verified off-device recovery access, using an explicitly selected TPM-only or TPM-plus-startup-PIN protector. Does not promise conversion completion or verified boot protection.'
+        GuiPath = 'Manage BitLocker > Turn on BitLocker'
+        Requirements = @('A present ready TPM, supported BitLocker feature/edition, enabled Windows RE, no configured local FVE policy values, a fully decrypted OS volume and a uniquely selected RecoveryPassword protector are required.', 'The exact protector ID must be confirmed after its backup and retrieval are verified from another device. RIDE records only the nonsecret ID.', 'The read-only status view exposes whitelisted FVE and PolicyManager startup-policy registry values but does not establish effective precedence or boot behavior; managed-policy acceptance remains pending.', 'The hardware test remains enabled; RIDE does not restart, alter firmware, eject media, skip checks or change managed policy.', 'Windows 11 is a candidate only; disposable Windows acceptance is pending and the workflow cannot run on supported targets yet.')
+        OtherSupportedChoices = @('Choose TPMOnly for automatic TPM startup or TPMAndPIN for a preboot PIN; the PIN is prompted as a SecureString and never accepted as a command-line argument.', 'Choose UsedSpaceOnly or FullVolume deliberately; previously used media can contain recoverable deleted plaintext.', 'Encryption starts as a staged Windows conversion. Ordinary unset and saved-run restore never decrypt or reconstruct protectors.', 'No default profile selection; recovery availability and observed boot protection require separate acceptance.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/bitlocker/enable-bitlocker?view=windowsserver2025-ps', 'https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp', 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/operations-guide', 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/network-unlock')
+      }
+    }
+    @{
+      Id = 'windows.bitlocker-decryption'
+      Name = 'Explicit BitLocker OS-volume decryption'
+      Kind = 'BitLockerWorkflow'
+      Category = 'Windows settings / BitLocker'
+      Description = 'Explicitly remove protectors and start decryption on the current OS volume. This advanced action is not suspend, unset or saved-run restore.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/bitlocker/disable-bitlocker?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Disable')
+      Handler = 'BitLockerWorkflow'
+      Workflow = 'Disable'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'No default action; inspect current OS-volume BitLocker state.' } }
+      Rollback = 'Staged'
+      MountPoint = '%SystemDrive%'
+      LegacySelectors = @('DisableBitlocker')
+      SettingPresentation = @{
+        AppliesTo = 'Explicit current Windows OS volume; machine administrator'
+        Behavior = 'Configuration'
+        GuiEffect = 'Removes the selected volume protection and starts decryption. It does not suspend protection or change another volume.'
+        GuiPath = 'Manage BitLocker > Turn off BitLocker'
+        Requirements = @('Requires ShouldProcess approval, a typed volume-specific confirmation phrase, and a supported disposable Windows target; target acceptance is pending.', 'Microsoft documents that Disable-BitLocker removes all selected-volume protectors and begins decryption. No automatic rollback or exact protector reconstruction is available.')
+        OtherSupportedChoices = @('Already decrypted volumes are reported without change.', 'Saved-run restore and unset do not invoke decryption.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/bitlocker/disable-bitlocker?view=windowsserver2025-ps')
+      }
+    }
+    @{
+      Id = 'windows.bitlocker-add-recovery-password'
+      Name = 'Create an additional BitLocker recovery password'
+      Kind = 'BitLockerWorkflow'
+      Category = 'Windows settings / BitLocker'
+      Description = 'Create one additional RecoveryPassword protector on the explicitly selected OS volume and show its secret only in a local dialog. Backup is a separate exact-ID workflow; RIDE never saves the secret to pipeline, logs or run state.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/bitlocker/add-bitlockerkeyprotector?view=windowsserver2025-ps'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'AddRecoveryPassword')
+      Handler = 'BitLockerWorkflow'
+      Workflow = 'AddRecoveryPassword'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'No default action; inspect current OS-volume BitLocker state.' } }
+      Rollback = 'Staged'
+      MountPoint = '%SystemDrive%'
+      LegacySelectors = @('AddBitlockerRecoveryPswd')
+      SettingPresentation = @{
+        AppliesTo = 'Explicit current Windows OS volume; machine administrator'
+        Behavior = 'Configuration'
+        GuiEffect = 'Adds an additional RecoveryPassword protector and presents the secret in a masked local dialog. The create action does not perform or verify backup; use the separate exact-ID backup workflow.'
+        GuiPath = 'RIDE recovery dialog; separate Manage BitLocker backup handoff'
+        Requirements = @('Type the volume-specific confirmation phrase after ShouldProcess before creating an additional recovery protector. Creation returns its nonsecret protector ID and BackupVerified = false; use the separate backup workflow with an explicit usable destination outside the protected device and verify retrieval from another device.', 'The secret is never written to console/pipeline, transcripts, logs, profiles or generic state. A failed presentation retains the new protector and reports partial completion.', 'Windows 11 is a candidate only; disposable secret-redaction and recovery acceptance is pending.')
+        OtherSupportedChoices = @('Each deliberate creation adds one new recovery protector; backup/retrieval does not silently create duplicates or rotate existing keys.', 'Recovery protector creation is not exactly reversible; ordinary restore never deletes it.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/powershell/module/bitlocker/add-bitlockerkeyprotector?view=windowsserver2025-ps', 'https://support.microsoft.com/en-us/windows/security/encryption/back-up-your-bitlocker-recovery-key')
+      }
+    }
+    @{
+      Id = 'windows.bitlocker-backup-recovery-password'
+      Name = 'Back up an existing BitLocker recovery password'
+      Kind = 'BitLockerWorkflow'
+      Category = 'Windows settings / BitLocker'
+      Description = 'Open the native BitLocker control panel for a user-directed backup of one exact RecoveryPassword protector. RIDE does not export the key or claim backup/retrieval verification.'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/security/encryption/back-up-your-bitlocker-recovery-key'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'BackupRecoveryPassword')
+      Handler = 'BitLockerWorkflow'
+      Workflow = 'BackupRecoveryPassword'
+      BackupDestinationChoices = @('FileOrUsb', 'PersonalMicrosoftAccount', 'Print')
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'No default action; show existing recovery protector IDs/types.' } }
+      Rollback = 'Staged'
+      MountPoint = '%SystemDrive%'
+      SettingPresentation = @{
+        AppliesTo = 'Explicit current Windows OS volume and exact RecoveryPassword protector ID; machine administrator'
+        Behavior = 'Configuration'
+        GuiEffect = 'Opens the native BitLocker control panel for user-directed backup. RIDE does not copy/export the secret or claim it was saved or retrieved.'
+        GuiPath = 'Start > Manage BitLocker > Operating system drive > Back up your recovery key'
+        Requirements = @('Choose an explicit destination category before opening the native UI: FileOrUsb, PersonalMicrosoftAccount, or Print. This is the intended category; proceed only if the native UI offers it and select the matching destination.', 'A RecoveryPassword protector must exist uniquely by the supplied ID.', 'After the native UI, verify that the saved recovery entry has the same ID and can be retrieved from another device before declaring recovery ready.', 'The native UI may not prove which protector was saved when multiple RecoveryPassword protectors exist; in that case leave the outcome pending.', 'Windows 11 disposable-target acceptance remains pending; no supported target is declared.')
+        OtherSupportedChoices = @('The handoff records the chosen destination category but returns BackupVerified = false. It never creates a protector, exports a key, reads a secret, uploads to an account or marks enrollment ready.', 'Entra ID and AD DS escrow require separate organization-managed backend workflows and are not options in this native Control Panel handoff.', 'Use the separate advanced create action only when an additional recovery password is deliberately required.', 'A backup is not an exact-restorable RIDE setting.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/security/encryption/back-up-your-bitlocker-recovery-key', 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/operations-guide')
+      }
+    }
+    @{
+      Id = 'windows.bitlocker-show-recovery-password'
+      Name = 'Show a selected BitLocker recovery password'
+      Kind = 'BitLockerWorkflow'
+      Category = 'Windows settings / BitLocker'
+      Description = 'Reveal one RecoveryPassword protector selected by exact ID in a local dialog. Routine show/status/list remain metadata-only and never expose the secret.'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/security/encryption/find-your-bitlocker-recovery-key'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'ShowRecoveryPassword')
+      Handler = 'BitLockerWorkflow'
+      Workflow = 'ShowRecoveryPassword'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'No default action; inspect current OS-volume BitLocker state.' } }
+      Rollback = 'NonRestorable'
+      MountPoint = '%SystemDrive%'
+      LegacySelectors = @('DisplayBitlockerRecoveryPwd')
+      SettingPresentation = @{
+        AppliesTo = 'Explicit current Windows OS volume and exact recovery protector ID; machine administrator'
+        Behavior = 'Configuration'
+        GuiEffect = 'Presents only the selected 48-digit recovery password in a local masked dialog; no secret is returned to the pipeline or saved.'
+        GuiPath = 'Explicit RIDE reveal dialog; ordinary show/status/list never reveal a key'
+        Requirements = @('The RecoveryPassword protector must be uniquely selected by exact ID, never array position.', 'Custom dialog and secret-boundary behavior require disposable Windows acceptance; the operation is pending and unavailable for current targets.')
+        OtherSupportedChoices = @('Use the account, organization, file or print destination that owns the matching key ID for recovery access.', 'Secret presentation is a read-only, audited access event and cannot be undone.')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/security/encryption/find-your-bitlocker-recovery-key', 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/recovery-overview')
+      }
+    }
+    @{
+      Id = 'windows.explorer-f1-help'
+      Name = 'File Explorer and desktop F1 Help behavior (experimental)'
+      Kind = 'RegistryValueSet'
+      Category = 'Windows settings / Explorer'
+      Description = 'Experimental advanced per-user TypeLib override intended to stop F1 from opening Windows Help in File Explorer and on the desktop. Windows documents F1 as a common app Help shortcut, but does not document this registry mapping. Effectiveness, refresh requirements and other consumers are unverified; test on Windows 11 and preserve F1 behavior in unrelated applications. WindowsDefault removes only these two overrides and does not guarantee Help opens if another policy or registration changes behavior. The default profile requests Blocked, but profile application remains unavailable until Windows 11 behavior and exact v3 rollback are accepted.'
+      DocumentationUri = 'https://support.microsoft.com/en-us/windows/hardware/input-devices/windows-keyboard-tips-and-tricks'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Unset', 'Restore')
+      Handler = 'RegistryValueSet'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      BaselineState = 'WindowsDefault'
+      MigrationBatch = '2026-10-25-f1-help'
+      LegacySelectors = @('DisableF1HelpKey', 'EnableF1HelpKey')
+      RegistryValues = @(
+        @{ Key = 'Win32'; RegistryPath = 'HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0\win32'; ValueName = ''; ValueType = 'String' },
+        @{ Key = 'Win64'; RegistryPath = 'HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0\win64'; ValueName = ''; ValueType = 'String' }
+      )
+      SettingPresentation = @{
+        AppliesTo = 'Current user; File Explorer and desktop F1 Help behavior through two TypeLib registration overrides'
+        Behavior = 'Unverified'
+        GuiEffect = 'Experimental attempt to suppress F1 Help in File Explorer and on the desktop; mapping and effects in other applications are unverified'
+        GuiPath = 'File Explorer or Windows desktop > press F1'
+        Requirements = @('Intended-user context; no elevation; capture and restore both exact per-user values', 'Windows 11 behavior and refresh requirements remain unverified; test Explorer and desktop separately', 'Check an unrelated application before and after; the default profile selects this pending candidate, but application remains unsupported until acceptance')
+        OtherSupportedChoices = @('Blocked writes empty-string Win32 and Win64 TypeLib overrides', 'WindowsDefault removes only these overrides and cannot guarantee that another policy or registration will restore Windows Help behavior', 'Microsoft documents F1 as a common application Help shortcut, not this registry mapping')
+        ReferenceUris = @('https://support.microsoft.com/en-us/windows/hardware/input-devices/windows-keyboard-tips-and-tricks')
+      }
+      States = @{
+        Blocked = @{ Win32 = ''; Win64 = '' }
+        WindowsDefault = @{ Win32 = $null; Win64 = $null }
+      }
+    }
+    @{
       Id = 'app.xbox-tcui'
       Name = 'Xbox TCUI Store registration (experimental)'
       Kind = 'StoreApp'
@@ -3641,6 +3895,8 @@
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Set', 'Restore')
       Handler = 'RegistryValue'
+      MigrationBatch = '2026-10-10-remaining-settings-1'
+      LegacySelectors = @('DisableFeedback', 'EnableFeedback')
       RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
       ValueName = 'AllowTelemetry'
       ValueType = 'DWord'
@@ -3699,6 +3955,8 @@
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Set', 'Restore')
       Handler = 'RegistryValue'
+      MigrationBatch = '2026-10-10-remaining-settings-1'
+      LegacySelectors = @('DisableFeedback', 'EnableFeedback')
       RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
       ValueName = 'DoNotShowFeedbackNotifications'
       ValueType = 'DWord'
@@ -3938,6 +4196,38 @@
       BaselineState = 'WindowsDefault'
       TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $null; DefaultValue = $null; EffectiveDefault = 'The literal default and effective behavior depend on the Windows build, image, user preferences and policy; verify on the target' } }
       Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.storage-sense-global-policy'
+      Name = 'Storage Sense machine enforcement policy (candidate)'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / System behavior'
+      Description = 'Advanced enforced machine policy for the Storage Sense master switch, separate from the current-user windows.storage-sense preference. Enabled writes AllowStorageSenseGlobal=1 and forces Storage Sense on; users cannot disable it. Disabled writes 0 and forces it off; users cannot enable it. WindowsDefault removes only this local policy override and returns control to Windows/user behavior, which may enable Storage Sense under low disk space. It does not configure cadence, temporary-file cleanup, Downloads, Recycle Bin or cloud content and does not run cleanup. Exact restore recovers the prior policy value/type/absence, not deleted files. Candidate only; target edition, effective policy source and Windows 11 acceptance remain pending.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-storage#allowstoragesenseglobal'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense'
+      ValueName = 'AllowStorageSenseGlobal'
+      ValueType = 'DWord'
+      States = @{ Enabled = 1; Disabled = 0; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'SettingsStorageSenseGlobalPolicy20261028'
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; Storage Sense master availability for all users'
+        Behavior = 'EnforcedPolicy'
+        GuiEffect = 'Enabled forces Storage Sense on and prevents users turning it off; Disabled forces it off and prevents users turning it on. WindowsDefault removes this local override; effective management and low-storage behavior remain target-specific.'
+        GuiPath = 'Computer Configuration > Administrative Templates > System > Storage Sense > Allow Storage Sense; Settings > System > Storage'
+        Requirements = @('Administrator; Microsoft lists Pro, Enterprise, Education and IoT Enterprise editions for this policy.', 'Windows 11 is a candidate target only; no support is declared until edition-specific GUI, precedence, restore and cleanup-boundary acceptance passes.', 'Windows Home and Windows Server are not included in this candidate.', 'No account, domain join, Intune enrollment or cloud subscription is needed for the local policy operation.')
+        OtherSupportedChoices = @('This machine policy is separate from the current-user windows.storage-sense preference.', 'No cadence, temporary-file, Downloads, Recycle Bin or cloud-content policy is changed; no cleanup is run.', 'WindowsDefault removes only AllowStorageSenseGlobal; it does not promise Storage Sense remains off under all Windows conditions.', 'Exact registry restore cannot recover content later deleted by Windows.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-storage#allowstoragesenseglobal', 'https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/manage-drive-space-with-storage-sense')
+      }
     }
     @{
       Id = 'windows.recycle-bin-policy'
@@ -6078,6 +6368,36 @@
       Rollback = 'Exact'
     }
     @{
+      Id = 'windows.winhttp-automatic-proxy-detection'
+      Name = 'Machine WinHTTP automatic proxy detection'
+      Kind = 'WinHttpProxy'
+      Category = 'Windows settings / Network'
+      Description = 'Enable or disable automatic proxy detection in the machine-scope WinHTTP advanced proxy configuration. This is separate from current-user WinINet automatic detection, manual proxy values, PAC URLs, VPN/RAS connections, application-specific settings and Windows service configuration. Windows behavior remains pending native acceptance.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/winhttp/netsh-exe-commands'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'WinHttpProxy'
+      WinHttpSetting = 'MachineAutoDetect'
+      States = @{ Enabled = $true; Disabled = $false }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = 'B04WinHttpAdvancedProxyCandidate'
+      LegacySelectors = @()
+      SettingPresentation = @{
+        AppliesTo = 'Machine-scope WinHTTP advanced proxy configuration'
+        Behavior = 'Configuration'
+        GuiPath = 'No single user-facing Windows UI control is established for this machine-scope WinHTTP field'
+        GuiEffect = 'Changes only the machine-scope AutoDetect field in the WinHTTP advanced configuration. It does not establish which services or applications consume the setting or whether proxy discovery succeeds.'
+        Requirements = @('The native netsh winhttp show/set advproxy commands must be available on the target; machine-scope writes require an already elevated process', 'Windows 11 command availability, policy interaction, consumers and effective behavior remain unverified; no target is supported')
+        OtherSupportedChoices = @('Saved-run recovery restores the four reported advanced fields together because the native settings-file setter replaces the complete payload', 'Recovery is conflict-checked to the reported configuration and does not claim exact underlying registry restoration')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/winhttp/netsh-exe-commands')
+      }
+    }
+    @{
       Id = 'windows.proxy-auto-detect'
       Name = 'Automatically detect proxy settings'
       Kind = 'UserProxy'
@@ -7685,6 +8005,45 @@
       }
     }
     @{
+      Id = 'package.joeware-admod'
+      Name = 'JoeWare AdMod (portable)'
+      Kind = 'Package'
+      Category = 'Software / System utilities'
+      Description = 'Install the pinned JoeWare AdMod command-line utility as an independently owned portable file. RIDE does not execute it. AdMod can create, modify, move, delete and undelete Active Directory objects, change passwords and security descriptors, and invoke directory operations; every directory action remains an explicit operator-run use of the tool.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'joeware-admod'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^JoeWare AdMod$'
+      DownloadProvider = 'JoeWareAdModForm'
+      AcquisitionProduct = 'admod'
+      DownloadUri = 'https://www.joeware.net/freetools/tools/admod/index.htm'
+      AssetName = 'AdMod.zip'
+      PackageVersion = '1.29.00'
+      ExpectedSha256 = '45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235'
+      Architecture = 'x86'
+      ProductUri = 'https://www.joeware.net/freetools/tools/admod/index.htm'
+      License = 'Proprietary freeware; JoeWare internal-use clarification applies to RIDE direct download-and-install. Exact-version owner review is administrative and does not gate migration.'
+      LicenseUri = 'https://www.joeware.net/freetools/tools/admod/index.htm'
+      TermsUri = 'https://www.joeware.net/freetools/warranty.htm'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-28-joeware-admod'
+      PortableFormat = 'Zip'
+      PortableMembers = @('AdMod.exe')
+      RequiredFiles = @('AdMod.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'Official 1.29.00 archive acquired from the JoeWare product form; the observed archive SHA-256 and exact single-file inventory are pinned. The embedded executable is x86. No utility was launched; Windows 11 package lifecycle and operational acceptance remain pending.'
+    }
+    @{
       Id = 'package.7zip'
       Name = '7-Zip'
       Kind = 'Package'
@@ -7718,7 +8077,7 @@
       Name = 'ImageMagick portable Q16'
       Kind = 'Package'
       Category = 'Software / Imaging'
-      Description = 'Stage the official ImageMagick 7.1.2-34 portable Win64 static Q16 archive from its pinned 7z source (SHA-256 52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1). The Microsoft Visual C++ v14 x64 Redistributable supplies VCOMP140.DLL at version 14.50.35710 or later. RIDE adds package.vcredist-v14-x64 to the install plan when the DLL is absent or outdated. The RIDE runtime package is pending Windows acceptance and has no supported targets yet, so an affected plan cannot be applied until that acceptance passes; install the runtime directly from Microsoft as a temporary workaround. Removing ImageMagick leaves the shared runtime installed; RIDE refuses explicit runtime removal while a catalog-tracked dependent remains installed. Windows 11 lifecycle, exact recovery and bounded synthetic PNG feature acceptance passed on build 26300; Windows 11 is supported. The exact archive and detached signature were acquired from the official release; detached signature verification remains optional. Owner-specific licensing assessments are stored separately and do not assert entitlement. Staging does not execute ImageMagick, alter PATH or registry, add Defender exclusions, or select integrations. Server acceptance and activation remain open.'
+      Description = 'Stage the official ImageMagick 7.1.2-34 portable Win64 static Q16 archive from its pinned 7z source (SHA-256 52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1). The Microsoft Visual C++ v14 x64 Redistributable supplies VCOMP140.DLL at version 14.50.35710 or later. RIDE adds package.vcredist-v14-x64 to the install plan when the DLL is absent or below the minimum version; the Windows 11-supported runtime package is skipped when a sufficient version is already installed. Removing ImageMagick leaves the shared runtime installed; RIDE refuses explicit runtime removal while a catalog-tracked dependent remains installed. Windows 11 lifecycle, exact recovery and bounded synthetic PNG feature acceptance passed on build 26300; Windows 11 is supported. The reviewed ImageMagick acceptance suite is Windows 11 x64 only; no Server target is declared. The exact archive and detached signature were acquired from the official release; detached signature verification remains optional. Owner-specific licensing assessments are stored separately and do not assert entitlement. Staging does not execute ImageMagick, alter PATH or registry, add Defender exclusions, or select integrations. Activation remains open.'
       SupportedTargets = @('Windows 11')
       PendingAcceptance = $false
       Scope = 'Machine'
@@ -8349,6 +8708,105 @@
       TargetDefaults = @{
         'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'WinHTTP WPAD detection is enabled when DisableWpad is absent; other applications may use separate proxy discovery settings' }
         'Windows Server 2025' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'WinHTTP WPAD detection is enabled when DisableWpad is absent; other applications may use separate proxy discovery settings' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.bitlocker-encryption-method-os'
+      Name = 'BitLocker operating-system drive encryption method policy'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Choose the method for future BitLocker operating-system drive encryption. The setting does not convert an already encrypted drive or start encryption.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: BitLocker operating-system drive method for future encryption'
+        Behavior = 'Configuration'
+        GuiPath = 'Computer Configuration > Administrative Templates > Windows Components > BitLocker Drive Encryption > Choose drive encryption method and cipher strength > Operating System Drives'
+        GuiEffect = 'The EncryptionMethodWithXtsOs policy value selects AES-CBC 128/256 or XTS-AES 128/256 when a BitLocker operating-system drive is next encrypted.'
+        Requirements = @('The policy is enforced when encryption starts. It does not convert an already encrypted drive; changing cipher strength may require decrypting and re-encrypting that drive.', 'RIDE writes this local Group Policy registry value only. It does not encrypt volumes or configure the separate CSP/MDM interface; Microsoft documents the CSP drive-type node as requiring all three drive-type choices together.')
+        OtherSupportedChoices = @('AES-CBC 128-bit = 3; AES-CBC 256-bit = 4; XTS-AES 128-bit = 6; XTS-AES 256-bit = 7.', 'WindowsDefault removes only this policy override. Saved-state restore returns the prior registry value/type/absence; it does not change a drive encryption method.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength', 'https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp#encryptionmethodbydrivetype')
+      }
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\FVE'
+      ValueName = 'EncryptionMethodWithXtsOs'
+      ValueType = 'DWord'
+      States = @{ AesCbc128 = 3; AesCbc256 = 4; XtsAes128 = 6; XtsAes256 = 7; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Without a drive-type policy override, new BitLocker encryption defaults to XTS-AES 128-bit.' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.bitlocker-encryption-method-fixed-data'
+      Name = 'BitLocker fixed data drive encryption method policy'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Choose the method for future BitLocker fixed data drive encryption. The setting does not convert an already encrypted drive or start encryption.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: BitLocker fixed data drive method for future encryption'
+        Behavior = 'Configuration'
+        GuiPath = 'Computer Configuration > Administrative Templates > Windows Components > BitLocker Drive Encryption > Choose drive encryption method and cipher strength > Fixed Data Drives'
+        GuiEffect = 'The EncryptionMethodWithXtsFdv policy value selects AES-CBC 128/256 or XTS-AES 128/256 when a BitLocker fixed data drive is next encrypted.'
+        Requirements = @('The policy is enforced when encryption starts. It does not convert an already encrypted drive; changing cipher strength may require decrypting and re-encrypting that drive.', 'RIDE writes this local Group Policy registry value only. It does not encrypt volumes or configure the separate CSP/MDM interface; Microsoft documents the CSP drive-type node as requiring all three drive-type choices together.')
+        OtherSupportedChoices = @('AES-CBC 128-bit = 3; AES-CBC 256-bit = 4; XTS-AES 128-bit = 6; XTS-AES 256-bit = 7.', 'WindowsDefault removes only this policy override. Saved-state restore returns the prior registry value/type/absence; it does not change a drive encryption method.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength', 'https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp#encryptionmethodbydrivetype')
+      }
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\FVE'
+      ValueName = 'EncryptionMethodWithXtsFdv'
+      ValueType = 'DWord'
+      States = @{ AesCbc128 = 3; AesCbc256 = 4; XtsAes128 = 6; XtsAes256 = 7; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Without a drive-type policy override, new BitLocker encryption defaults to XTS-AES 128-bit.' }
+      }
+      Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.bitlocker-encryption-method-removable-data'
+      Name = 'BitLocker removable data drive encryption method policy'
+      Kind = 'RegistryValue'
+      Category = 'Windows settings / Security'
+      Description = 'Choose the method for future BitLocker removable data drive encryption. The setting does not convert an already encrypted drive or start encryption.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: BitLocker removable data drive method for future encryption'
+        Behavior = 'Configuration'
+        GuiPath = 'Computer Configuration > Administrative Templates > Windows Components > BitLocker Drive Encryption > Choose drive encryption method and cipher strength > Removable Data Drives'
+        GuiEffect = 'The EncryptionMethodWithXtsRdv policy value selects AES-CBC 128/256 or XTS-AES 128/256 when a BitLocker removable data drive is next encrypted.'
+        Requirements = @('The policy is enforced when encryption starts. It does not convert an already encrypted drive; changing cipher strength may require decrypting and re-encrypting that drive.', 'RIDE writes this local Group Policy registry value only. It does not encrypt volumes or configure the separate CSP/MDM interface; Microsoft documents the CSP drive-type node as requiring all three drive-type choices together.')
+        OtherSupportedChoices = @('AES-CBC 128-bit = 3; AES-CBC 256-bit = 4; XTS-AES 128-bit = 6; XTS-AES 256-bit = 7.', 'WindowsDefault removes only this policy override. Saved-state restore returns the prior registry value/type/absence; it does not change a drive encryption method.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength', 'https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp#encryptionmethodbydrivetype')
+      }
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValue'
+      RegistryPath = 'HKLM:\SOFTWARE\Policies\Microsoft\FVE'
+      ValueName = 'EncryptionMethodWithXtsRdv'
+      ValueType = 'DWord'
+      States = @{ AesCbc128 = 3; AesCbc256 = 4; XtsAes128 = 6; XtsAes256 = 7; WindowsDefault = $null }
+      BaselineState = 'WindowsDefault'
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Without a drive-type policy override, new BitLocker encryption defaults to XTS-AES 128-bit.' }
       }
       Rollback = 'Exact'
     }
@@ -9567,6 +10025,35 @@
       Rollback = 'Exact'
     }
     @{
+      Id = 'windows.openssh-server-firewall'
+      Name = 'OpenSSH Server inbound firewall rule'
+      Kind = 'RemoteDesktopFirewall'
+      Category = 'Windows settings / Network'
+      Description = 'Enable or disable only the existing local OpenSSH-Server-In-TCP inbound rule in PersistentStore. This does not install the capability, start sshd, create a rule or change other firewall rules. Inbound SSH is exposed only when this rule and the service are both active.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration'
+      SettingPresentation = @{
+        AppliesTo = 'Machine, elevation required: exact local OpenSSH-Server-In-TCP inbound rule'
+        Behavior = 'Configuration'
+        GuiPath = 'Windows Defender Firewall with Advanced Security > Inbound Rules > OpenSSH-Server-In-TCP'
+        GuiEffect = 'Enable or disable the exact existing local inbound TCP port 22 rule in PersistentStore. Does not start sshd or install OpenSSH Server.'
+        Requirements = @('The OpenSSH Server capability must be installed and the exact local TCP/22 inbound allow rule must exist. RIDE does not create the rule.', 'Effective policy, firewall profile, service state, network reachability and native Windows behavior require separate acceptance.', 'Candidate only; no supported target until disposable Windows 11 and Windows Server 2025 acceptance passes.')
+        OtherSupportedChoices = @('The Disabled state blocks this exact inbound rule only. Enabling the rule does not start sshd; service activation is a separate operation.', 'Saved restore restores the captured rule flag and refuses if the rule identity disappears or changes.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration')
+      }
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RemoteDesktopFirewall'
+      FirewallRuleNames = @('OpenSSH-Server-In-TCP')
+      RequiredCapabilityName = 'OpenSSH.Server~~~~0.0.1.0'
+      States = @{ Disabled = 'False'; Enabled = 'True' }
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+    }
+    @{
       Id = 'windows.remote-desktop-connections'
       Name = 'Remote Desktop connection permission'
       Kind = 'RegistryValue'
@@ -9723,6 +10210,62 @@
       BaselineState = 'WindowsDefault'
       TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $null; DefaultValue = $null; EffectiveDefault = 'Platform, installed components and managed policy determine the effective default; no RIDE baseline is assumed' } }
       Rollback = 'Exact'
+    }
+    @{
+      Id = 'windows.photo-viewer-openwith'
+      Name = 'Windows Photo Viewer Open with registration (candidate)'
+      Kind = 'RegistryValueSet'
+      Category = 'Windows settings / File associations'
+      Description = 'Registers the existing Windows Photo Viewer DropTarget for the current user and lists the four image associations used by the legacy ProgID loop (BMP, GIF, JPG and PNG) in the Open with chooser. Does not select or overwrite a file default. Exact extension coverage, installed-component availability, chooser visibility, invocation and native recovery remain unaccepted; no DLL is downloaded and no machine-wide Classes or UserChoice key is changed.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/shell/app-registration'
+      SettingPresentation = @{
+        AppliesTo = 'Current Windows execution user; no administrator rights required'
+        Behavior = 'Preference'
+        GuiPath = 'File Explorer > Open with > Choose another app; choose a default separately in Settings > Apps > Default apps'
+        GuiEffect = 'Registered creates the current-user Applications\photoviewer.dll Open verb, its documented DropTarget CLSID, and SupportedTypes subkeys for .bmp, .gif, .jpg and .png. It does not change any file default or prove that the component is installed or shown by the current build.'
+        Requirements = @('Windows Photo Viewer and its registered DropTarget component must already exist. RIDE does not download or reconstruct the component.', 'Current Windows 11 Open with visibility, extension coverage, invocation, managed-device precedence and exact restore require disposable-VM acceptance. The four extension entries follow the legacy implementation ProgID loop; the legacy comment mentions TIFF but its actual loop does not include it.')
+        OtherSupportedChoices = @('WindowsDefault removes only these declared current-user registration values; saved-run restore recovers each prior value, type, absence and owned key structure.', 'Selecting Windows Photo Viewer as a default remains a separate user action through supported Windows UI. No ProgID hijack, UserChoice/hash write, IE reconstruction, DLL download or Photos removal occurs.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/shell/app-registration', 'https://learn.microsoft.com/en-us/windows/uwp/launch-resume/launch-default-apps-settings')
+      }
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      RequiresDesktopExperience = $true
+      Scope = 'User'
+      RequiresAdmin = $false
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'RegistryValueSet'
+      TargetDefaults = @{}
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-28-photo-viewer-openwith'
+      LegacySelectors = @('AddPhotoViewerOpenWith', 'RemovePhotoViewerOpenWith')
+      RegistryValues = @(
+        @{ Key = 'FriendlyAppName'; RegistryPath = 'HKCU:\Software\Classes\Applications\photoviewer.dll'; ValueName = 'FriendlyAppName'; ValueType = 'String' }
+        @{ Key = 'DropTargetClsid'; RegistryPath = 'HKCU:\Software\Classes\Applications\photoviewer.dll\shell\open\DropTarget'; ValueName = 'Clsid'; ValueType = 'String' }
+        @{ Key = 'SupportedBmp'; RegistryPath = 'HKCU:\Software\Classes\Applications\photoviewer.dll\SupportedTypes\.bmp'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'SupportedGif'; RegistryPath = 'HKCU:\Software\Classes\Applications\photoviewer.dll\SupportedTypes\.gif'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'SupportedJpg'; RegistryPath = 'HKCU:\Software\Classes\Applications\photoviewer.dll\SupportedTypes\.jpg'; ValueName = ''; ValueType = 'String' }
+        @{ Key = 'SupportedPng'; RegistryPath = 'HKCU:\Software\Classes\Applications\photoviewer.dll\SupportedTypes\.png'; ValueName = ''; ValueType = 'String' }
+      )
+      States = @{
+        Registered = @{
+          FriendlyAppName = 'Windows Photo Viewer'
+          DropTargetClsid = '{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}'
+          SupportedBmp = ''
+          SupportedGif = ''
+          SupportedJpg = ''
+          SupportedPng = ''
+        }
+        WindowsDefault = @{
+          FriendlyAppName = $null
+          DropTargetClsid = $null
+          SupportedBmp = $null
+          SupportedGif = $null
+          SupportedJpg = $null
+          SupportedPng = $null
+        }
+      }
+      BaselineState = 'WindowsDefault'
     }
     @{
       Id = 'package.vscode'
@@ -10107,10 +10650,10 @@
     }
     @{
       Id = 'package.tmog'
-      Name = 'Task Manager TMOG Free (Windows x64 candidate)'
+      Name = 'Task Manager TMOG (Windows x64 candidate)'
       Kind = 'Package'
       Category = 'Software / System Utilities'
-      Description = 'Install the publisher-linked Windows x64 free edition of Task Manager TMOG 1.0.1. The pinned installer includes TMOG.scr and upstream license/notice files. Windows 11 lifecycle, silent uninstall, exact recovery and screensaver behavior remain pending acceptance. The package does not activate PRO or select a screensaver.'
+      Description = 'Install the publisher-linked Windows x64 Task Manager TMOG 1.0.1 base application. Its free features remain available under the applicable free-edition terms, and users with a paid license may enter their own PRO key in TMOG after installation. RIDE never collects, activates, logs, or stores license keys. Windows 11 lifecycle, silent uninstall, exact recovery, and screensaver behavior remain pending acceptance; the package does not activate a license or select a screensaver.'
       SupportedTargets = @()
       CandidateTargets = @('Windows 11')
       PendingAcceptance = $true
@@ -10131,8 +10674,9 @@
       ExpectedSha256 = 'b4edf70fa040968958c662ffb09feeeb0eeca07759e6ed7742606bcc39f29fc6'
       Architecture = 'x64'
       ProductUri = 'https://tmog.org/rtm/'
-      License = 'Proprietary free-edition license embedded in the exact installer; grants personal evaluation and ordinary monitoring use, restricts public redistribution, and labels itself a release-candidate document requiring publisher approval before public distribution.'
+      License = 'Proprietary TMOG application with free features and optional individually licensed PRO features. The exact installer embeds the free-edition terms; users may enter their own paid PRO license key after installation. RIDE does not handle license credentials. Direct publisher download and installation only.'
       LicenseUri = 'https://tmog.org/rtm/'
+      TermsUri = 'https://store.tmog.org/licenses'
       InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
       UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
       SuccessExitCodes = @(0)
@@ -10176,11 +10720,53 @@
     }
 
     @{
+      Id = 'package.microsoft-powershell-threadjob'
+      Name = 'Microsoft.PowerShell.ThreadJob 2.2.0'
+      Kind = 'Package'
+      Category = 'Software / Runtimes'
+      Description = 'Stage the exact Microsoft.PowerShell.ThreadJob 2.2.0 module from the signed PowerShell Gallery package, retaining its MIT license and third-party notices. RIDE manages it as a shared portable prerequisite for PSScriptTools; it does not alter machine or user PSModulePath. Windows 11 file lifecycle and isolated runtime acceptance are pending.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'microsoft-powershell-threadjob'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Microsoft\.PowerShell\.ThreadJob$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0'
+      AssetName = 'Microsoft.PowerShell.ThreadJob.2.2.0.nupkg'
+      PackageVersion = '2.2.0'
+      ExpectedSha256 = '1678c5a5a5cf8ae65e127ecc77dfb7241513a61a1a398a4f79f44f12767108bc'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0'
+      License = 'MIT; retain the Microsoft copyright notice and complete upstream third-party notices'
+      LicenseUri = 'https://github.com/PowerShell/ThreadJob/blob/main/LICENSE'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = 'IndividualPortableReview'
+      PortableFormat = 'Zip'
+      PowerShellModuleName = 'Microsoft.PowerShell.ThreadJob'
+        DefaultVariant = 'portable'
+        Variants = @{ portable = @{} }
+      RequiredFiles = @(
+        'Microsoft.PowerShell.ThreadJob.nuspec', 'LICENSE', 'Microsoft.PowerShell.ThreadJob.dll',
+        'Microsoft.PowerShell.ThreadJob.psd1', 'ThirdPartyNotices.txt',
+        'en-us/Microsoft.PowerShell.ThreadJob.dll-Help.xml', '[Content_Types].xml',
+        '_rels/.rels', 'package/services/metadata/core-properties/20c67d9afcb74194bdbbabd53b213101.psmdcp',
+        '.signature.p7s'
+      )
+    }
+    @{
       Id = 'package.psscripttools'
       Name = 'PSScriptTools (Pinned source candidate)'
       Kind = 'Package'
       Category = 'Software / Utilities'
-      Description = 'Stage the complete pinned PSScriptTools 3.2.0 repository source and MIT notices under Tools without importing the module, registering it on PSModulePath, modifying profiles or installing dependencies. Upstream import loads functions, format/type data, global variables and optional editor integration. Microsoft.PowerShell.Threadjob and System.Drawing remain separate runtime requirements. Source snapshot versus editable Git/Gallery deployment choice and native/runtime acceptance remain pending.'
+      Description = 'Stage the complete pinned PSScriptTools 3.2.0 repository source and MIT notices under Tools without importing the module, registering it on PSModulePath, modifying profiles or installing dependencies. Its declared Microsoft.PowerShell.ThreadJob 2.2.0 prerequisite is managed separately and ordered before this package; the isolated runtime probe temporarily adds that package directory to its child process only. System.Drawing is provided by .NET. Source snapshot versus editable Git/Gallery deployment choice and native/runtime acceptance remain pending.'
       SupportedTargets = @()
       CandidateTargets = @('Windows 11')
       PendingAcceptance = $true
@@ -10209,6 +10795,10 @@
       RequiredFiles = @('PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptTools.psd1', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptTools.psm1', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/license.txt', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/README.md', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptToolsManual.pdf', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/PSScriptToolData.json', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/psansifilemap.json', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/types/pstypemember.types.ps1xml', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/types/PSScriptTools.type.ps1xml', 'PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361/formats/psscripttool.format.ps1xml')
       DefaultVariant = 'portable'
       Variants = @{ portable = @{} }
+      PrerequisitePackageId = 'package.microsoft-powershell-threadjob'
+      PrerequisitePowerShellModuleName = 'Microsoft.PowerShell.ThreadJob'
+      PrerequisitePowerShellModuleMinimumVersion = '2.2.0'
+      PrerequisiteModuleDirectory = 'microsoft-powershell-threadjob'
     }
     @{
       Id = 'package.hex2text'
@@ -10330,6 +10920,73 @@
       Variants = @{ portable = @{} }
     }
     @{
+      Id = 'package.google-analytic-cookie-cruncher'
+      Name = 'Google Analytic Cookie Cruncher 2.0.0.1 (Portable x86)'
+      Kind = 'Package'
+      Category = 'Software / Forensics'
+      Description = 'Stage the exact publisher-hosted version 2.0.0.1 ZIP as an owned portable package with its bundled License.txt and SQLite dependency. Static metadata identifies a .NET Framework 4.0 x86 GUI and System.Data.SQLite 1.0.89. RIDE does not launch the GUI, inspect browser profiles, or read or import cookie data. Windows compatibility, runtime prerequisites, GUI behavior and exact recovery remain pending disposable-target acceptance.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      RequiresDesktopExperience = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'google-analytic-cookie-cruncher'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^GA Cookie Cruncher$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://raw.githubusercontent.com/mdegrazia/Google-Analytic-Cookie-Cruncher/b384f8610475b7a04a3b4f48e98c8a82d3b771a6/Google-Analytic-Cookie-Cruncher_v_2_0_0_0_1.zip'
+      AssetName = 'Google-Analytic-Cookie-Cruncher_v_2_0_0_0_1.zip'
+      PackageVersion = '2.0.0.1'
+      ExpectedSha256 = '5a27c94887b25cb159f8f3477cb3cf73658dbcd1f77acba5643a88a1127b3922'
+      Architecture = 'x86'
+      ProductUri = 'https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher'
+      License = 'Freeware by Mari DeGrazia; bundled License.txt permits redistribution; retain the copyright and warranty disclaimer'
+      LicenseUri = 'https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher/blob/b384f8610475b7a04a3b4f48e98c8a82d3b771a6/Google-Analytic-Cookie-Cruncher_v_2_0_0_0_1.zip'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = 'IndividualPortableReview'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('GA Cookie Cruncher.exe', 'License.txt', 'System.Data.SQLite.dll')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.hashcheck-shell-extension'
+      Name = 'HashCheck Shell Extension 2.6.3 (x86/x64)'
+      Kind = 'Package'
+      Category = 'Software / Utilities'
+      Description = 'Install HashCheck 2.6.3 using the pinned official x86/x64 NSIS installer. Windows 11 install/remove/repeat, saved-state presence recovery and Explorer checksum verification/creation are accepted for the intended signed-in administrator. Run installation and removal from that user''s elevated interactive session; Session 0, SYSTEM, another intended user and Windows Server are not supported. The installer registers native shell extensions, an HKLM uninstall entry and a signed Windows 11 sparse package. Recovery reinstalls the declared version, not an arbitrary historical version. The publisher records DLL lock/reboot handling.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
+      RequiresDesktopExperience = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
+      PackageId = 'hashcheck-shell-extension'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^HashCheck Shell Extension$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe'
+      AssetName = 'HashCheckSetup-v2.6.3.0.exe'
+      PackageVersion = '2.6.3'
+      ExpectedSha256 = 'cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa'
+      Architecture = 'x64'
+      ProductUri = 'https://github.com/idrassi/HashCheck'
+      License = 'BSD-3-Clause; retain publisher copyright and license notice'
+      LicenseUri = 'https://github.com/idrassi/HashCheck/blob/v2.6.3/license.txt'
+      InstallerArguments = '/S'
+      UninstallerArguments = ''
+      Rollback = 'Compensating'
+      MigrationBatch = 'ApplicationsBatch11'
+    }
+    @{
       Id = 'package.rufus'
       Name = 'Rufus (Portable x64)'
       Kind = 'Package'
@@ -10367,11 +11024,11 @@
       Variants = @{ portable = @{} }
     }
     @{
-      Id = 'package.sysinternals-suite'
-      Name = 'Sysinternals Suite (reviewed portable snapshot)'
+      Id = 'package.raspberry-pi-imager'
+      Name = 'Raspberry Pi Imager'
       Kind = 'Package'
-      Category = 'Software / System utilities'
-      Description = 'Stage the exact 164-member official Suite snapshot acquired on 2026-10-17, retaining notices and mixed x86/x64 payloads without executing tools. The snapshot label is a RIDE acquisition identity, not a publisher suite version. A changed upstream ZIP fails its pinned digest. Individual product selection, per-tool target/runtime acceptance and collection updates remain pending. This does not install drivers, accept interactive EULAs, activate Sysmon, create shortcuts or change PATH.'
+      Category = 'Software / Utilities'
+      Description = 'Install the pinned official Raspberry Pi Imager 2.0.12 x64 package without launching the image writer. The publisher installer registers image and archive file associations and stages its rpiboot WinUSB driver for connected devices; its uninstaller removes that driver and deletes the current user''s cached OS image and saved image-customisation credentials. These are publisher-defined install/removal effects; verify them on the disposable Windows 11 target and restore its checkpoint before declaring support. Writing removable media remains a separate user action.'
       SupportedTargets = @()
       PendingAcceptance = $true
       CandidateTargets = @('Windows 11')
@@ -10380,6 +11037,36 @@
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
       TargetDefaults = @{}
+      PackageId = 'raspberry-pi-imager'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Raspberry Pi Imager$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://github.com/raspberrypi/rpi-imager/releases/download/v2.0.12/imager-v2.0.12.exe'
+      AssetName = 'imager-v2.0.12.exe'
+      PackageVersion = '2.0.12'
+      ExpectedSha256 = '98bff90afe23339d0768915f6f68d35ac254740ec1eac2082ebeaa9ba41bc8e3'
+      Architecture = 'x64'
+      ProductUri = 'https://www.raspberrypi.com/software/'
+      License = 'Apache License 2.0 for Raspberry Pi Imager source; bundled third-party components use separate licenses including LGPL, MIT, BSD and zlib; retain the publisher license.txt and notices'
+      LicenseUri = 'https://github.com/raspberrypi/rpi-imager/blob/v2.0.12/license.txt'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+      UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES'
+      Rollback = 'Compensating'
+      MigrationBatch = 'RequestedV3Additions'
+    }
+    @{
+      Id = 'package.sysinternals-suite'
+      Name = 'Sysinternals Suite (reviewed portable snapshot)'
+      Kind = 'Package'
+      Category = 'Software / System utilities'
+      Description = 'Stage the exact 164-member official Suite snapshot acquired on 2026-10-17, retaining notices and mixed x86/x64 payloads without executing tools. The snapshot label is a RIDE acquisition identity, not a publisher suite version. A changed upstream ZIP fails its pinned digest. Windows 11 package lifecycle and exact recovery passed on build 26300; staging is supported, while utility execution, per-tool target/runtime acceptance and activation remain pending. This does not install drivers, accept interactive EULAs, activate Sysmon, create shortcuts or change PATH.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows image' } }
       PackageId = 'sysinternals-suite'
       InstallerType = 'Portable'
       DisplayNamePattern = '^Sysinternals Suite$'
@@ -10886,15 +11573,14 @@
       Name = 'NTCore PE Detective (portable)'
       Kind = 'Package'
       Category = 'Software / Analysis utilities'
-      Description = 'Stage the pinned PE Detective and bundled Signature Explorer with their five signature databases. No program launch, scan, online signature refresh, file association or PATH change occurs. Existing modified databases are preserved; native and functional acceptance remain pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned PE Detective and bundled Signature Explorer with their five signature databases. Windows 11 package install/remove/recovery passed; neither utility was launched. No scan, online signature refresh, file association or PATH change occurs. Runtime behavior and activation remain untested.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows 11 image' } }
       PackageId = 'ntcore-pe-detective'
       InstallerType = 'Portable'
       DisplayNamePattern = '^NTCore PE Detective$'
@@ -10921,15 +11607,14 @@
       Name = 'NTCore CFF Explorer (portable)'
       Kind = 'Package'
       Category = 'Software / Analysis utilities'
-      Description = 'Stage the pinned standalone x86 CFF Explorer executable and five bundled signature databases. SDK installers, source examples, scripts and the optional UPX extension are excluded from this reviewed selection. This is not the complete installed Explorer Suite. No program launch, binary patching, signature update, extension registration or PATH change occurs; native acceptance remains pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned standalone x86 CFF Explorer executable and five bundled signature databases. SDK installers, source examples, scripts and the optional UPX extension are excluded from this reviewed selection. This is not the complete installed Explorer Suite. Windows 11 package install/remove/recovery passed; the utility was not launched. Binary editing, signature updates, extension registration and runtime behavior remain untested.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows 11 image' } }
       PackageId = 'ntcore-cff-explorer'
       InstallerType = 'Portable'
       DisplayNamePattern = '^NTCore CFF Explorer$'
@@ -10954,18 +11639,17 @@
     }
     @{
       Id = 'package.ntcore-4gb-patch'
-      Name = 'NTCore 4GB Patch (portable candidate)'
+      Name = 'NTCore 4GB Patch (portable)'
       Kind = 'Package'
       Category = 'Software / Analysis utilities'
-      Description = 'Stage the pinned x86 patch utility; installation does not open or modify target executables. Direct invocation is unsafe when its .Backup path is occupied. Use the RIDE guarded launcher, which creates an exact original-byte backup before execution, refuses a pre-existing backup, and verifies that only the PE large-address-aware flag changed. Windows 11 acceptance of the guarded workflow remains pending. Retained 2007 copyright metadata says all rights reserved; no product-specific licence grant was found. The exact-version local review is informational and does not block migration.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned x86 patch utility; package installation does not open or modify target executables. Windows 11 guarded-launcher acceptance passed against an owned synthetic x86 PE: exact backup, occupied-backup refusal, large-address-aware flag update, checksum verification and exact restoration. Production executables are not patched by package acceptance. The exact-version local license review is informational and does not block migration.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows 11 image' } }
       PackageId = 'ntcore-4gb-patch'
       InstallerType = 'Portable'
       DisplayNamePattern = '^4GB Patch$'
@@ -10975,7 +11659,7 @@
       PackageVersion = '1.0.0.1'
       ExpectedSha256 = '1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca'
       Architecture = 'x86'
-      AcceptanceNotes = 'Windows 11 build 26300 run 40e269c4d243442eb5cd78a122e58334: NTCore PE Detective and CFF Explorer portable lifecycle scenarios passed; direct 4GB Patch invocation was rejected after an occupied synthetic-file .Backup path was preserved while the target changed without a recoverable backup. A guarded RIDE launcher is prepared; rerun synthetic acceptance through that launcher before target support is declared. SupportedTargets remains empty. SHA-256 pins the retained archive, not a publisher-provided digest.'
+      AcceptanceNotes = 'Windows 11 build 26300 run 382d9f94682b4fa4a489690aee9a2d53: PE Detective and CFF Explorer package lifecycle/recovery passed without tool execution. The RIDE guarded launcher passed against an owned synthetic x86 PE, including collision refusal, exact original-byte backup, large-address-aware flag update, checksum verification and exact restoration. No production executable was patched; utility runtime and activation remain separate. SHA-256 pins the retained archive, not a publisher-provided digest.'
       ProductUri = 'https://ntcore.com/4gb-patch/'
       License = 'Copyright notice states all rights reserved; no product-specific licence grant found; terms and redistribution rights remain unresolved.'
       LicenseUri = 'https://ntcore.com/4gb-patch/'
@@ -10990,19 +11674,50 @@
       Variants = @{ portable = @{} }
     }
     @{
-      Id = 'package.ntcore-driver-list'
-      Name = 'NTCore Driver List (portable candidate)'
+      Id = 'package.ntcore-explorer-suite'
+      Name = 'NTCore Explorer Suite (pinned installer candidate)'
       Kind = 'Package'
       Category = 'Software / Analysis utilities'
-      Description = 'Stage the pinned x64 driver inventory utility; portable-x86 is available for 32-bit Windows. Staging does not query the system or generate a report. Treat any later loaded-driver report as potentially sensitive and use only the disposable acceptance target.'
+      Description = 'Candidate for the complete publisher-listed Explorer Suite Inno Setup package, distinct from the independently managed standalone CFF Explorer package. The retained 3,613,174-byte installer matches the current publisher SHA-256. The publisher currently identifies this exact-hash installer as Explorer Suite III (2012-11-18); the installer-internal IV label is recorded separately and does not override the publisher release identity. Static extraction lists 27 payload members, including x86/x64 CFF Explorer, Task Explorer, PE Detective and Driver List files, Signature Explorer, the UPX extension, SDK materials, scripts and shared signature databases. Installed component selection, shortcut scope, uninstaller identity, repeat behavior and Windows target support remain pending.'
       SupportedTargets = @()
-      PendingAcceptance = $true
       CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
       TargetDefaults = @{}
+      PackageId = 'ntcore-explorer-suite'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Explorer Suite'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/ExplorerSuite.exe'
+      AssetName = 'ExplorerSuite.exe'
+      PackageVersion = 'III-2012-11-18'
+      ExpectedSha256 = '94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/explorer-suite/'
+      License = 'The NTCore product page describes the suite as freeware; an exact-version NeedsReview record is administrative and does not block migration.'
+      LicenseUri = 'https://ntcore.com/explorer-suite/'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+      UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+      Rollback = 'Compensating'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      AcceptanceNotes = 'The publisher page links the retained installer and publishes the same SHA-256; static extraction identifies an x86 Inno Setup launcher and 27 payload members, including x86/x64 utilities. The current publisher page identifies the exact pinned installer as Explorer Suite III (2012-11-18), and its published SHA-256 matches the retained bytes. Static installer metadata also carries the label IV; preserve that as an internal label rather than treating it as a separate publisher release without supporting release evidence. Silent arguments are Inno Setup documented switches, but this candidate has not been installed and the actual uninstall registration, installed component set, shortcut destinations, repeat behavior and exact recovery are not verified. Do not claim Windows 11 support until these are checked on the existing disposable checkpoint. Do not launch included analysis utilities or open real targets as part of package lifecycle acceptance. The separate CFF Explorer package remains independently managed.'
+    }
+    @{
+      Id = 'package.ntcore-driver-list'
+      Name = 'NTCore Driver List (portable package)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned x64 driver inventory utility; portable-x86 is available for 32-bit Windows. Windows 11 package install, removal and recovery passed on build 26300; neither utility variant was launched. Staging does not query the system or generate a report. Treat any later loaded-driver report as potentially sensitive and use only a disposable target.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'ntcore-driver-list'
       InstallerType = 'Portable'
       DisplayNamePattern = '^DriverList$'
@@ -11024,29 +11739,303 @@
       PortableMembers = @('DriverList_x64.exe')
       DefaultVariant = 'portable'
       Variants = @{
-        portable = @{}
+        portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } }
         'portable-x86' = @{
+          TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
           Architecture = 'x86'
           RequiredFiles = @('DriverList_x86.exe')
           PortableMembers = @('DriverList_x86.exe')
         }
       }
-      AcceptanceNotes = 'The official page reports version 1.0.2; selected x64/x86 members carry file version 1.0.2.1. The archive SHA-256 is measured from the retained publisher archive, not a publisher digest. IA64 is Itanium and is intentionally not selected. Defer report generation unless an explicitly reviewed disposable-VM scenario can avoid retaining system inventory.'
+      AcceptanceNotes = 'Windows 11 package file lifecycle and exact recovery passed on build 26300 for x64 and x86. Neither utility variant ran; functional use and activation remain untested. The focused suite did not query Defender history; manually review any alert before use. The official page reports version 1.0.2; selected x64/x86 members carry file version 1.0.2.1. The archive SHA-256 is measured from the retained publisher archive, not a publisher digest. IA64 is Itanium and is intentionally not selected. Defer report generation unless an explicitly reviewed disposable-VM scenario can avoid retaining system inventory.'
     }
     @{
-      Id = 'package.ntcore-rebelnet'
-      Name = 'NTCore Rebel.NET (portable candidate)'
+      Id = 'package.ntcore-net-generic-unpacker'
+      Name = 'NTCore .NET Generic Unpacker (portable candidate)'
       Kind = 'Package'
       Category = 'Software / Analysis utilities'
-      Description = 'Stage the pinned x86 assembly analysis/rebuild utility and its format header. Installation does not open or rewrite assemblies. Any functional acceptance must use an owned synthetic .NET assembly and a separate output, never a third-party or production target.'
+      Description = 'Stage the pinned x86 or x64 .NET Generic Unpacker executable. Staging does not inspect or dump a process. Windows target and runtime behavior remain pending acceptance.'
       SupportedTargets = @()
-      PendingAcceptance = $true
       CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
       TargetDefaults = @{}
+      PackageId = 'ntcore-net-generic-unpacker'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^NETUnpack$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/NETUnpack.zip'
+      AssetName = 'NETUnpack.zip'
+      PackageVersion = '1.0.0.1'
+      ExpectedSha256 = 'e46bd2ecdd1cc72c011406fa07d239f1ad8d8cd5e6c5e9945d186078c3e24278'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/net-generic-unpacker/'
+      License = 'NTCore utility; owner-specific license review is recorded locally as an administrative reminder and does not block package migration.'
+      LicenseUri = 'https://ntcore.com/net-generic-unpacker/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('NETUnpack.exe')
+      PortableMembers = @('NETUnpack.exe')
+      DefaultVariant = 'portable-x86'
+      Variants = @{
+        'portable-x86' = @{}
+        'portable-x64' = @{
+          DownloadUri = 'https://ntcore.com/files/NETUnpack_x64.zip'
+          AssetName = 'NETUnpack_x64.zip'
+          ExpectedSha256 = 'af7f2ca052855d6c1613eb6901897ab9c1ffa4eda17b115e71651fbdcec13852'
+          Architecture = 'x64'
+        }
+      }
+      AcceptanceNotes = 'Retained x86/x64 archives match static review SHA-256 pins; both contain only NETUnpack.exe, version 1.0.0.1. Publisher directs x64 only for a non-x86 target process. No utility or target process was run. Windows 11 acceptance remains pending; any later functional test requires an owned synthetic target and isolated output.'
+    }
+    @{
+      Id = 'package.ntcore-dynlogger'
+      Name = 'NTCore DynLogger (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned x86 or x64 DynLogger executable and matching DLLs. Staging does not attach to a process or create a log. Windows target and runtime behavior remain pending acceptance.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-dynlogger'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^DynLogger$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/DynLogger_x86.zip'
+      AssetName = 'DynLogger_x86.zip'
+      PackageVersion = '1.1.0.1'
+      ExpectedSha256 = '416e92b91b05ecbcf622476da538785ecfa30910cd42ee1a508361f22a1ccaa5'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/dynlogger/'
+      License = 'NTCore utility; owner-specific license review is recorded locally as an administrative reminder and does not block package migration.'
+      LicenseUri = 'https://ntcore.com/dynlogger/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('DynLogger.exe', 'DynLoggerDll.dll', 'NtHookEngine.dll')
+      PortableMembers = @('DynLogger.exe', 'DynLoggerDll.dll', 'NtHookEngine.dll')
+      DefaultVariant = 'portable-x86'
+      Variants = @{
+        'portable-x86' = @{}
+        'portable-x64' = @{
+          DownloadUri = 'https://ntcore.com/files/DynLogger_x64.zip'
+          AssetName = 'DynLogger_x64.zip'
+          ExpectedSha256 = 'a5e17491696d36f5c9b17f0e73ed33cfb9bf0f14fb035bb40c868ab5b6c0be3c'
+          Architecture = 'x64'
+        }
+      }
+      AcceptanceNotes = 'Retained x86/x64 archives match static review SHA-256 pins and each contains the executable plus two matching-architecture DLLs. Publisher directs selecting architecture by target-process bitness and reports testing on XP/Vista only. No utility or target process was run. Windows 11 acceptance remains pending; any later functional test requires an owned synthetic process and isolated log output.'
+    }
+    @{
+      Id = 'package.ntcore-snsremover'
+      Name = 'NTCore SNSRemover (portable staging candidate)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage only the pinned x86 SNSRemover executable. The nested PE Detective archive is not installed. Staging does not open or modify an assembly; Windows target and runtime behavior remain pending acceptance.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-snsremover'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^SNSRemover$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/SNSRemover.zip'
+      AssetName = 'SNSRemover.zip'
+      PackageVersion = '2005-11-29'
+      ExpectedSha256 = 'c6405c5ec5ec8646a02a46bcfdf74e05457addabdc58fe78da84ea28d69ca7cd'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/download/'
+      License = 'NTCore utility; owner-specific license review is recorded locally as an administrative reminder and does not block package migration.'
+      LicenseUri = 'https://ntcore.com/download/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('SNSRemover.exe')
+      PortableMembers = @('SNSRemover.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The official listing dates SNSRemover 2005-11-29 and describes removal of strong-name signatures from .NET assemblies; this date is used as the package catalog key because the retained executable has no file/product version. The retained ZIP pin is exact. It also contains a different, older PE_Detective.zip; that nested archive is intentionally omitted. Only SNSRemover.exe is staged. No utility or assembly was run or modified. Any later functional check requires an owned synthetic assembly, separate output, original-byte preservation and signature verification.'
+    }
+    @{
+      Id = 'package.ntcore-nodel'
+      Name = 'NTCore NoDel (portable staging candidate)'
+      Kind = 'Package'
+      Category = 'Software / System utilities'
+      Description = 'Stage the pinned x86 NoDel GUI and kernel driver files only. RIDE does not create or start a driver service or intercept file operations. Windows target, driver compatibility and cleanup behavior remain pending acceptance.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-nodel'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^NoDel$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/NoDel.zip'
+      AssetName = 'NoDel.zip'
+      PackageVersion = '2005-05-04'
+      ExpectedSha256 = 'b71b763dd54c5b6d67238d6f118c4ec3bfc531f14663ba59fc72655444ffd386'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/download/'
+      License = 'NTCore utility; owner-specific license review is recorded locally as an administrative reminder and does not block package migration.'
+      LicenseUri = 'https://ntcore.com/download/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('NoDel/Release/NoDel.exe', 'NoDel/Release/nodel.sys')
+      PortableMembers = @('NoDel/Release/NoDel.exe', 'NoDel/Release/nodel.sys')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The publisher listing dates NoDel 2005-05-04 and describes selected-directory file deletion protection; the retained binary has no verified file/product version, so the catalog version key is the publisher listing date, not a binary version. The exact retained archive includes source/project files; RIDE stages only NoDel.exe and nodel.sys. The driver is an x86-era kernel hook that creates/starts a kernel service when the utility runs. Staging does not execute the GUI, load a driver, create a service, or intercept file operations. Windows 11 remains a candidate target only. Any later behavior test requires a separately approved disposable VM, attended elevation, a signed compatible driver, synthetic disposable files, and service/file recovery checks.'
+    }
+    @{
+      Id = 'package.ntcore-screenwriter'
+      Name = 'NTCore ScreenWriter (pinned MSI candidate)'
+      Kind = 'Package'
+      Category = 'Software / Writing utilities'
+      Description = 'Candidate for the retained publisher-listed ScreenWriter MSI. Package version uses the MSI ProductVersion; the publisher page and contained executable report 1.1.0.1. The installer requires the CLR 2.0 runtime supplied by the .NET Framework 3.5 feature. Native installation, shortcut scope, recovery and Windows target support remain pending.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-screenwriter'
+      InstallerType = 'Msi'
+      UninstallerType = 'Msi'
+      DisplayNamePattern = '^ScreenWriter$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/ScreenWriter.msi'
+      AssetName = 'ScreenWriter.msi'
+      PackageVersion = '1.0.0'
+      ExpectedSha256 = 'e1bae80b9f7934c14d498a827bb15f8fb963a6fe9de9d7d18223049fb62563ab'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/screenwriter/'
+      License = 'The retained readme calls the product free software but states no explicit redistribution grant; exact-version NeedsReview is administrative and does not block migration.'
+      LicenseUri = 'https://ntcore.com/screenwriter/'
+      InstallerArguments = '/qn /norestart ALLUSERS=1'
+      UninstallerArguments = '/qn /norestart'
+      SuccessExitCodes = @(0, 3010)
+      Rollback = 'Compensating'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      RequiresDesktopExperience = $true
+      PrerequisiteDotNetFramework35 = $true
+      AcceptanceNotes = 'The exact retained MSI is pinned by SHA-256. Its MSI ProductVersion is 1.0.0 while the publisher listing and contained ScreenWriter.exe report 1.1.0.1; the catalog key preserves the MSI ProductVersion and the mismatch remains explicit. Read-only MSI review identified six custom actions, a .NET Framework 2.0.50727 prerequisite that disallows later versions, machine/user folder-selection behavior, Programs Menu and Desktop shortcuts, sample scripts, and no registry rows. The package candidate does not establish runtime compatibility or correct machine-wide shortcut behavior. Test on the existing disposable Windows 11 checkpoint only after it is readable, preserve user projects/settings, and verify the exact MSI product code, repeat install, shortcuts, uninstall and recovery. Do not enable the .NET feature automatically.'
+    }
+    @{
+      Id = 'package.ntcore-virtualreg-manager'
+      Name = 'NTCore VirtualReg Manager (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Registry utilities'
+      Description = 'Stage the pinned x86 VirtualReg Manager executable only. RIDE does not create or edit virtual registry files, register them, or apply their contents to Windows. Product output and operator configuration remain separate from the installed utility.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-virtualreg-manager'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^VirtualReg Manager$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/VirtualRegManager.zip'
+      AssetName = 'VirtualRegManager.zip'
+      PackageVersion = '1.0.0.1'
+      ExpectedSha256 = '7e807d1106e91c898733a00da01dfa860e468fb14bbe3852fea9892a377d5fa6'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/virtualreg-manager/'
+      License = 'The publisher says freeware packages may include this application; owner-specific review remains local, administrative and non-blocking.'
+      LicenseUri = 'https://ntcore.com/virtualreg-manager/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('VirtualReg Manager.exe')
+      PortableMembers = @('VirtualReg Manager.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The exact retained publisher archive and selected executable are pinned by SHA-256; executable file/product version is 1.0.0.1. The current NTCore download index describes GUI/command-line creation and editing of virtual registry files and explicitly permits inclusion in freeware. Runtime CLR prerequisite and current Windows target compatibility remain unverified. Package acceptance stages only the executable and does not launch it, create virtual registry output or change Windows registry state. Any later functional check must use owned synthetic virtual-registry files and isolated guest keys, and preserve unowned XML/configuration.'
+    }
+    @{
+      Id = 'package.ntcore-wim-installer'
+      Name = 'NTCore WIM Installer (portable staging candidate)'
+      Kind = 'Package'
+      Category = 'Software / Deployment utilities'
+      Description = 'Stage the pinned x86 WIM Installer executable only. RIDE does not open, mount, apply or validate a WIM image, choose a disk destination, or modify boot or partition state. Windows support and product behavior remain unaccepted.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'ntcore-wim-installer'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^WIM Installer$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://ntcore.com/files/WIM_Installer.zip'
+      AssetName = 'WIM_Installer.zip'
+      PackageVersion = '1.0.0.1'
+      ExpectedSha256 = '071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264'
+      Architecture = 'x86'
+      ProductUri = 'https://ntcore.com/download/'
+      License = 'No product-specific terms were found on the publisher listing or in the retained archive. Keep an exact-version NeedsReview record in the local user/company review store; this administrative reminder does not block package migration.'
+      LicenseUri = 'https://ntcore.com/download/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('WIM Installer.exe')
+      PortableMembers = @('WIM Installer.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      AcceptanceNotes = 'The official NTCore download listing dates this tool 2007-04-21 and describes a GUI for setups based on WIM images. The retained official archive SHA-256 is pinned locally; WIM Installer.exe is x86, file/product version 1.0.0.1, and unsigned. Only the executable is staged. Do not launch it during package acceptance or access a real image, disk or destination. Any later product-behavior acceptance requires an inert synthetic WIM, a disposable secondary virtual disk, explicit destination review, checkpoint recovery and verification that no boot/partition changes escape the test.'
+    }
+    @{
+      Id = 'package.ntcore-rebelnet'
+      Name = 'NTCore Rebel.NET (portable package)'
+      Kind = 'Package'
+      Category = 'Software / Analysis utilities'
+      Description = 'Stage the pinned x86 assembly analysis/rebuild utility and its format header. Windows 11 package install, removal and recovery passed on build 26300; the utility was not launched. Staging does not open or rewrite assemblies. Any functional acceptance must use an owned synthetic .NET assembly and a separate output, never a third-party or production target.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'ntcore-rebelnet'
       InstallerType = 'Portable'
       DisplayNamePattern = '^Rebel\.NET$'
@@ -11067,23 +12056,22 @@
       RequiredFiles = @('RebelDotNET.exe', 'RebelDotNET.h')
       PortableMembers = @('RebelDotNET.exe', 'RebelDotNET.h')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
-      AcceptanceNotes = 'The executable file version and architecture were verified from the retained archive; the publisher page advertises 1.6.0.1. The archive SHA-256 is measured from the retained publisher archive, not a publisher digest. Functional behavior, exact recovery and Windows support remain pending. Any functional test must use an owned synthetic .NET assembly and a separate output; do not create or rebuild against third-party assemblies.'
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
+      AcceptanceNotes = 'Windows 11 package file lifecycle and exact recovery passed on build 26300; the utility was not launched and no assembly was opened or rewritten. Functional behavior and activation remain pending. The focused suite did not query Defender history; manually review any alert before use. The executable file version and architecture were verified from the retained archive; the publisher page advertises 1.6.0.1. The archive SHA-256 is measured from the retained publisher archive, not a publisher digest. Any functional test must use an owned synthetic .NET assembly and a separate output; do not create or rebuild against third-party assemblies.'
     }
     @{
       Id = 'package.mitec-mail-viewer'
       Name = 'MiTeC Mail Viewer'
       Kind = 'Package'
       Category = 'Software / Email tools'
-      Description = 'Stage the pinned Mail Viewer executable and its selected localization files. Package staging does not open mail stores, messages or attachments, or extract addresses. Any behavior test must use isolated synthetic mail data; Windows target and behavior acceptance remain pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned Mail Viewer executable and its selected localization files. Windows 11 package install, removal and recovery passed on build 26300; the viewer was not launched. Staging does not open mail stores, messages or attachments, or extract addresses. Any behavior test must use isolated synthetic mail data; product behavior remains untested.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'mitec-mail-viewer'
       InstallerType = 'Portable'
       DisplayNamePattern = '^MiTeC Mail Viewer$'
@@ -11105,23 +12093,22 @@
       RequiredFiles = @('MailView.exe')
       PortableMembers = @('MailView.exe','MailViewer.cs.lng','MailViewer.de.lng','MailViewer.en.lng','MailViewer.fr.lng','MailViewer.pl.lng','MailViewer.zh.lng','MailViewer.es.lng','Localization.txt','MailViewer.it.lng','MailViewer.pt_br.lng','MailViewer.hu.lng','MailViewer.sv.lng','MailViewer.nl.lng','MailViewer.sk.lng','MailViewer.ru.lng','MailViewer.tr.lng','MailViewer.zh-tw.lng','MailViewer.el.lng','MailViewer.lv.lng','MailViewer.pt_pt.lng','MailViewer.lt.lng','MailViewer.sr.lng')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
-      AcceptanceNotes = 'The retained publisher ZIP and all 23 member hashes were rechecked; no publisher checksum was found. Do not open personal mailboxes, messages or attachments. Any product behavior check must use synthetic mail stores and verify source immutability, output ownership and cleanup.'
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
+      AcceptanceNotes = 'Windows 11 package file lifecycle and exact recovery passed on build 26300; the viewer was not launched and no mail data was opened. The retained publisher ZIP and all 23 member hashes were rechecked; no publisher checksum was found. Do not open personal mailboxes, messages or attachments. Any product behavior check must use synthetic mail stores and verify source immutability, output ownership and cleanup. The focused suite did not query Defender history; manually review any alert before use.'
     }
     @{
       Id = 'package.mitec-email-history-browser'
       Name = 'MiTeC E-mail History Browser'
       Kind = 'Package'
       Category = 'Software / Email tools'
-      Description = 'Stage the pinned E-mail History Browser executable only. Staging does not inspect communication data. The publisher page omits message bodies and attachments but exposes communication metadata; use synthetic data only in later behavior tests.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned E-mail History Browser executable only. Windows 11 package install, removal and recovery passed on build 26300; the browser was not launched. Staging does not inspect communication data. The publisher page omits message bodies and attachments but exposes communication metadata; use synthetic data only in later behavior tests.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'mitec-email-history-browser'
       InstallerType = 'Portable'
       DisplayNamePattern = '^MiTeC E-mail History Browser$'
@@ -11143,23 +12130,22 @@
       RequiredFiles = @('EHB.exe')
       PortableMembers = @('EHB.exe')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
-      AcceptanceNotes = 'The retained publisher ZIP and executable hash were rechecked; no publisher checksum was found. The product page lists Windows targets only through Windows 10. Commercial-use and distribution wording remains an owner review item, not a package migration gate. Use isolated synthetic mail stores only; verify source immutability and cleanup.'
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
+      AcceptanceNotes = 'Windows 11 package file lifecycle and exact recovery passed on build 26300; the browser was not launched and no communication data was opened. The retained publisher ZIP and executable hash were rechecked; no publisher checksum was found. The product page lists Windows targets only through Windows 10. Commercial-use and distribution wording remains an owner review item, not a package migration gate. Use isolated synthetic mail stores only; verify source immutability and cleanup. The focused suite did not query Defender history; manually review any alert before use.'
     }
     @{
       Id = 'package.mitec-internet-history-browser'
       Name = 'MiTeC Internet History Browser'
       Kind = 'Package'
       Category = 'Software / Privacy tools'
-      Description = 'Stage the pinned Internet History Browser executable and its selected SQLite library. Staging does not open browser profiles or history. Any behavior test must use isolated synthetic browser stores and must verify that source files remain unchanged.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned Internet History Browser executable and its selected SQLite library. Windows 11 package install, removal and recovery passed on build 26300; the browser was not launched. Staging does not open browser profiles or history. Any behavior test must use isolated synthetic browser stores and must verify that source files remain unchanged.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'mitec-internet-history-browser'
       InstallerType = 'Portable'
       DisplayNamePattern = '^MiTeC Internet History Browser$'
@@ -11181,23 +12167,22 @@
       RequiredFiles = @('IHB.exe','IHB.dll')
       PortableMembers = @('IHB.exe','IHB.dll')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
-      AcceptanceNotes = 'The retained publisher ZIP and both member hashes were rechecked; no publisher checksum was found. The product page lists target systems through Windows 10 and Server 2019. The renamed SQLite library is version 3.35.5; exact binary provenance is unverified. Use disposable synthetic browser stores only and verify source immutability, output ownership and cleanup.'
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
+      AcceptanceNotes = 'Windows 11 package file lifecycle and exact recovery passed on build 26300; the browser was not launched and no browser data was opened. The retained publisher ZIP and both member hashes were rechecked; no publisher checksum was found. The product page lists target systems through Windows 10 and Server 2019. The renamed SQLite library is version 3.35.5; exact binary provenance is unverified. Use disposable synthetic browser stores only and verify source immutability, output ownership and cleanup. The focused suite did not query Defender history; manually review any alert before use.'
     }
     @{
       Id = 'package.mitec-instant-messaging-history-browser'
       Name = 'MiTeC Instant Messaging History Browser'
       Kind = 'Package'
       Category = 'Software / Privacy tools'
-      Description = 'Stage the pinned Instant Messaging History Browser executable and its selected SQLite library. Staging does not open chat, call or transfer histories. Any behavior test must use isolated synthetic message databases and must verify that source files remain unchanged.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned Instant Messaging History Browser executable and its selected SQLite library. Windows 11 package install, removal and recovery passed on build 26300; the browser was not launched. Staging does not open chat, call or transfer histories. Any behavior test must use isolated synthetic message databases and must verify that source files remain unchanged.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'mitec-instant-messaging-history-browser'
       InstallerType = 'Portable'
       DisplayNamePattern = '^MiTeC Instant Messaging History Browser$'
@@ -11219,8 +12204,8 @@
       RequiredFiles = @('IMHB.exe','IMHB.dll')
       PortableMembers = @('IMHB.exe','IMHB.dll')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
-      AcceptanceNotes = 'The retained publisher ZIP and both member hashes were rechecked; no publisher checksum was found. The product page lists Windows targets only through Windows 10. Its renamed SQLite library is version 3.8.10.2; exact binary provenance is unverified. Commercial-use and distribution wording remains an owner review item, not a migration gate. Use synthetic message databases only.'
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
+      AcceptanceNotes = 'Windows 11 package file lifecycle and exact recovery passed on build 26300; the browser was not launched and no messaging data was opened. The retained publisher ZIP and both member hashes were rechecked; no publisher checksum was found. The product page lists Windows targets only through Windows 10. Its renamed SQLite library is version 3.8.10.2; exact binary provenance is unverified. Commercial-use and distribution wording remains an owner review item, not a migration gate. Use synthetic message databases only. The focused suite did not query Defender history; manually review any alert before use.'
     }
     @{
       Id = 'package.mitec-exe-explorer'
@@ -11364,6 +12349,73 @@
       AcceptanceNotes = 'The retained publisher ZIP SHA-256 and all 18 member hashes were rechecked locally; the archive has no publisher digest. Delphi 11 and Delphi 12 binaries are disjoint alternatives with matching 280 and 290 runtime families. Use synthetic DFM files, a synthetic PE and disposable package fixtures for later functional acceptance. Never load/register a BPL or open personal/project files during package lifecycle checks. Windows target and runtime behavior remain pending.'
     }
     @{
+      Id = 'package.mitec-infobar'
+      Name = 'MiTeC InfoBar 4.6.2 (candidate)'
+      Kind = 'Package'
+      Category = 'Software / Desktop utilities'
+      Description = 'Install MiTeC InfoBar 4.6.2 from its pinned official publisher installer. Static extraction recorded the x86/x64 InfoBar 4.6.2.0 and DeskExp 1.4.0.0 files plus language/data assets. Installer scope, startup writes, exact cleanup, network requests and saved-state recovery remain unaccepted. Do not configure a weather location, API key, RSS feed or personal data during acceptance. The exact-version owner license marker is informational and does not block direct-download/install migration or planning.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-infobar'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^MiTeC InfoBar$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/InfoBar_Setup.exe'
+      AssetName = 'InfoBar_Setup.exe'
+      PackageVersion = '4.6.2'
+      ExpectedSha256 = '6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/mib/'
+      License = 'MiTeC proprietary software; the product page describes freeware for private, educational and non-commercial use and the support page lists other license tiers. Exact-version owner review is informational and does not block RIDE direct-download/install migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+      UninstallerArguments = ''
+      Rollback = 'Compensating'
+      MigrationBatch = 'ApplicationsBatch9'
+      AcceptanceNotes = 'The official 4.6.2 installer SHA-256 matches the retained artifact. Prior signed extraction records 29 exact members: InfoBar x86/x64 4.6.2.0, DeskExp x86/x64 1.4.0.0, and the publisher language/data files; all 29 member hashes were rechecked locally. Before supporting Windows 11, verify installer scope, registration, silent install/uninstall, startup integration, network behavior, repeat and saved-run recovery in a disposable VM. Use synthetic feeds and data only; no weather API key, real location, RSS account or personal data. Preserve and restore only exact RIDE-owned changes.'
+    }
+    @{
+      Id = 'package.mitec-project-maker'
+      Name = 'MiTeC Project Maker 1.9.0 (candidate)'
+      Kind = 'Package'
+      Category = 'Software / Development tools'
+      Description = 'Install the publisher-linked MiTeC Project Maker 1.9.0 release from its pinned official installer. The installer statically contains x86 and x64 1.9.0.0 application files and the product help file. Installer setup/removal behavior, intended install scope, dependencies and native recovery remain unaccepted. Project builds, compiler calls, before/after actions, version patching, signing and protection require isolated synthetic fixtures; do not use personal projects or production signing keys. Exact-version owner license administration is informational and does not block direct publisher-download/install migration.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-project-maker'
+      InstallerType = 'Exe'
+      InstallerWaitMode = 'Process'
+      DisplayNamePattern = '^MiTeC Project Maker$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/PMInstall.exe'
+      AssetName = 'PMInstall.exe'
+      PackageVersion = '1.9.0'
+      ExpectedSha256 = 'ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/pm/'
+      License = 'MiTeC proprietary software; publisher lists a 30-day trial and paid license tiers. Exact-version owner-specific review is recorded locally and is informational, not a package migration gate.'
+      LicenseUri = 'https://www.mitec.cz/wp/support/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-'
+      UninstallerArguments = ''
+      Rollback = 'Compensating'
+      MigrationBatch = 'ApplicationsBatch10'
+      AcceptanceNotes = 'Publisher release 1.9.0 is pinned by the official installer SHA-256. Prior signed-inventory extraction recorded exactly ProjectMaker.exe (x86, FileVersion 1.9.0.0), ProjectMaker64.exe (x64, FileVersion 1.9.0.0), and ProjectMaker.chm; no payload ran. The product page labels 2.0.0 as under development. Before supporting Windows 11, verify installer registration, scope, dependencies, UI, silent install and uninstall, repeat behavior and saved-run recovery in a disposable VM. Later build acceptance must use synthetic Delphi source/output, bounded actions and a disposable signing certificate/key only.'
+    }
+    @{
       Id = 'package.mitec-json-viewer'
       Name = 'MiTeC JSON Viewer (portable)'
       Kind = 'Package'
@@ -11451,18 +12503,17 @@
     }
     @{
       Id = 'package.mitec-uuid-generator'
-      Name = 'MiTeC UUID Generator (portable candidate)'
+      Name = 'MiTeC UUID Generator (portable package)'
       Kind = 'Package'
       Category = 'Software / Utilities'
-      Description = 'Stage the pinned MiTeC UUID Generator executable as a managed portable file. The tool generates and decodes UUID v4/v7, ULID and Snowflake values, and can display persistent UEFI, SMBIOS, machine and device identifiers. Staging does not launch it or query host identifiers. Native acceptance must use synthetic values only and must not capture, log or export live identifiers; activation and target support remain pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned MiTeC UUID Generator executable as a managed portable file. Windows 11 package install, removal and exact recovery passed on build 26300; the utility was not launched. The tool can generate and decode synthetic identifiers and display persistent device identifiers; functional behavior remains untested. Never capture, log or export live identifiers.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'mitec-uuid-generator'
       InstallerType = 'Portable'
       DisplayNamePattern = '^UUID Generator$'
@@ -11476,7 +12527,7 @@
       License = 'MiTeC calls it freeware for private, educational and non-commercial use; the general support EULA also defines non-commercial use and separate paid tiers. Local entitlement and redistribution remain unresolved.'
       LicenseUri = 'https://www.mitec.cz/wp/uuid/'
       TermsUri = 'https://www.mitec.cz/wp/support/'
-      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Only UUID.exe is selected. Do not inspect live host identifiers; exercise generation and decoding with synthetic values only.'
+      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Windows 11 package install, removal and exact recovery passed on build 26300; UUID.exe was not launched. Only UUID.exe is selected. Do not inspect live host identifiers; any later behavior test must use synthetic values only.'
       InstallerArguments = ''
       UninstallerArguments = ''
       Rollback = 'Exact'
@@ -11485,7 +12536,7 @@
       RequiredFiles = @('UUID.exe')
       PortableMembers = @('UUID.exe')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
     }
     @{
       Id = 'package.mitec-task-manager-deluxe'
@@ -11632,6 +12683,148 @@
       AcceptanceNotes = 'The retained ZIP SHA-256 is measured locally, not publisher-provided. Both selected executables report FileVersion 6.1.0.0 and ProductVersion 6.0.0.0. Staging selects only the requested architecture and must not launch the utility. Never scan the development host, detected local range, a directory/SAM, production endpoints or credentials, or use the VirusTotal link. Later network behavior testing requires an isolated owned network, synthetic endpoints/accounts, explicit port/traffic bounds and disposable CSV results. Publisher OS claims do not establish RIDE support.'
     }
     @{
+      Id = 'package.mitec-mail-checker'
+      Name = 'MiTeC Mail Checker 7.2.0 (pending acceptance)'
+      Kind = 'Package'
+      Category = 'Software / Internet tools'
+      Description = 'Install the pinned x86 Mail Checker 7.2.0 publisher package. It can check multiple mailboxes, retrieve Gmail over SSL, send or reply through SMTP, and delete messages. Its retained package includes unsigned OpenSSL-identified 1.0.1e libraries; actual dynamic use is unverified. Do not configure real accounts or credentials. Windows 11 compatibility remains exploratory and acceptance is pending.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-mail-checker'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Mail Checker$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/Downloads/MAILCHECKER_Instal.exe'
+      AssetName = 'MAILCHECKER_Instal.exe'
+      PackageVersion = '7.2.0'
+      ExpectedSha256 = 'da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/mailchecker.html'
+      License = 'The historical product page says free for private and commercial use; the current support EULA says unregistered versions are freeware for non-commercial usage. Record exact-version owner review; this administrative review does not block direct publisher download-and-install migration.'
+      LicenseUri = 'https://www.mitec.cz/mailchecker.html'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained publisher installer SHA-256 matches frozen static extraction evidence; current direct-download bytes have not been reacquired. Static extraction identifies Mail Checker 7.2.0.0 and unsigned OpenSSL-identified 1.0.1e DLLs. OpenSSL 1.0.1 is out of support; the application has no direct static import of these DLL names, so actual use and exposure remain unverified. The publisher page lists support only through Windows 7; Windows 11 is exploratory only. Before target promotion, verify install/uninstall/recovery, no real account or credentials, and only a local synthetic mail sink with controlled send/delete fixtures.'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+      UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+      Rollback = 'Compensating'
+      MigrationBatch = '2026-10-27-full-mitec-collection'
+    }
+    @{
+      Id = 'package.mitec-paradox-data-editor'
+      Name = 'MiTeC Paradox Data Editor'
+      Kind = 'Package'
+      Category = 'Software / Database tools'
+      Description = 'Install MiTeC Paradox Data Editor 3.7.0, an x86 viewer/editor for Paradox tables that uses Borland Database Engine (BDE). The publisher lists Windows 11 and Windows Server 2025; RIDE acceptance remains pending. BDE registration, coexistence and exact removal/recovery must be checked in disposable VMs using synthetic databases only. This package downloads the publisher installer; it does not mirror or redistribute the installer.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-paradox-data-editor'
+      InstallerType = 'Exe'
+      DisplayNamePattern = '^Paradox Data Editor$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/wp/files/PDESetup.exe'
+      AssetName = 'PDESetup.exe'
+      PackageVersion = '3.7.0'
+      ExpectedSha256 = 'cc2fce64612324bd8f0318ec848da78bd5e9aca2a46ed269db343d635c89f045'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/wp/mpde/'
+      License = 'The current product page lists a EUR 30 lifetime single-user license, while the historical product page describes free private, educational and non-commercial use with commercial purchase required. Record exact-version owner review; this administrative review does not block download-and-install migration.'
+      LicenseUri = 'https://www.mitec.cz/wp/mpde/'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained publisher installer SHA-256 is measured locally and matches the 2026-10-21 static extraction record; current direct-download bytes have not been reacquired. Static extraction identifies PDE.exe 3.7.0.0, TUTIL32.DLL 5.0.0.38, and temporary BDE helper components 5.1.1.1. The installer has not been run. Verify install location, BDE registration/coexistence, display-name detection, silent install/uninstall behavior and exact recovery on Windows 11 and Windows Server 2025 VMs. Never use real Paradox tables or databases.'
+      InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+      UninstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART'
+      Rollback = 'Compensating'
+      MigrationBatch = '2026-10-27-full-mitec-collection'
+    }
+    @{
+      Id = 'package.mitec-dirlist'
+      Name = 'MiTeC DirList (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / File utilities'
+      Description = 'Stage the pinned x86 DirList executable only. The utility browses selected directories and can export file listings, including file-content listings. Product checks must use a synthetic directory tree and a separate disposable output location; do not inspect real user or system files.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-dirlist'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^DirList$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/Downloads/DirList.zip'
+      AssetName = 'DirList.zip'
+      PackageVersion = '1.3.0'
+      ExpectedSha256 = '635e8d311eb99a2730aecff405272e1b0b92636763051e41d451961d3b9c0e26'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/dirlist.html'
+      License = 'The MiTeC product page describes free use for private and commercial users. Current terms, individual entitlement and redistribution remain subject to exact-version local review; license review does not block package preparation.'
+      LicenseUri = 'https://www.mitec.cz/dirlist.html'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained ZIP SHA-256 is measured locally, not publisher-provided. The archive contains one selected x86 executable (FileVersion 1.3.0.0; ProductVersion 1.0.0.0). The old publisher page lists Windows XP through Windows 10 only; RIDE Windows 11 support remains pending. Use synthetic directory/file fixtures and a separate export directory for product behavior; preserve input files and verify exact owned-file recovery.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-historical-mitec'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('DirList.exe')
+      PortableMembers = @('DirList.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.mitec-network-meter'
+      Name = 'MiTeC Network Meter (portable candidate)'
+      Kind = 'Package'
+      Category = 'Software / Network tools'
+      Description = 'Stage the pinned x86 Network Meter executable only. The utility enumerates local network interfaces and displays traffic statistics; installation does not change adapter configuration or generate network traffic. Any behavior check must use a disposable VM and an isolated virtual adapter.'
+      SupportedTargets = @()
+      PendingAcceptance = $true
+      CandidateTargets = @('Windows 11')
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'mitec-network-meter'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Network Meter$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.mitec.cz/Downloads/NetMet.zip'
+      AssetName = 'NetMet.zip'
+      PackageVersion = '2.5.0'
+      ExpectedSha256 = '04e55b066b9a6a598c15e619d99597894b0494bae63d7d8a36df391feae1f360'
+      Architecture = 'x86'
+      ProductUri = 'https://www.mitec.cz/netmet.html'
+      License = 'The MiTeC product page describes free use for private and commercial users. Current terms, individual entitlement and redistribution remain subject to exact-version local review; license review does not block package preparation.'
+      LicenseUri = 'https://www.mitec.cz/netmet.html'
+      TermsUri = 'https://www.mitec.cz/wp/support/'
+      AcceptanceNotes = 'The retained ZIP SHA-256 is measured locally, not publisher-provided. Only NetMet.exe is selected (FileVersion 2.5.0.0; ProductVersion 2.0.0.0). The old publisher page lists Windows XP through Windows 10 only; RIDE Windows 11 support remains pending. Product-behavior checks require an isolated disposable VM with virtual adapters, read-only observation, no external endpoints or generated traffic, and exact package recovery.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-17-reviewed-historical-mitec'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('NetMet.exe')
+      PortableMembers = @('NetMet.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
       Id = 'package.mitec-ssview'
       Name = 'MiTeC Structured Storage Viewer'
       Kind = 'Package'
@@ -11671,18 +12864,17 @@
     }
     @{
       Id = 'package.mitec-certificate-generator'
-      Name = 'MiTeC Certificate Generator (portable candidate)'
+      Name = 'MiTeC Certificate Generator (portable package)'
       Kind = 'Package'
       Category = 'Software / Security utilities'
-      Description = 'Stage the pinned Certificate Generator executable as a managed portable file. The product generates self-signed X.509 certificates in PEM/CER or PKCS#12 PFX formats; staging creates no keys or certificates, changes no trust store, and opens no files. Acceptance must use a disposable test key/certificate and verify exact output cleanup.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned Certificate Generator executable as a managed portable file. Windows 11 package install, removal and exact recovery passed on build 26300; the utility was not launched. Staging creates no keys or certificates and changes no trust store. Functional behavior remains untested; any later behavior test must use disposable test keys/certificates and verify exact output cleanup.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'mitec-certificate-generator'
       InstallerType = 'Portable'
       DisplayNamePattern = '^Certificate Generator$'
@@ -11696,7 +12888,7 @@
       License = 'MiTeC calls it freeware for private, educational and non-commercial use; the general support EULA defines unregistered freeware as non-commercial and provides separate paid license types. Local entitlement and redistribution remain unresolved.'
       LicenseUri = 'https://www.mitec.cz/wp/cg/'
       TermsUri = 'https://www.mitec.cz/wp/support/'
-      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Acceptance must generate only disposable test keys/certificates, must not import into a trust store, and must verify exact output cleanup.'
+      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Windows 11 package install, removal and exact recovery passed on build 26300; CG.exe was not launched. Any later behavior test must generate only disposable test keys/certificates, must not import into a trust store, and must verify exact output cleanup.'
       InstallerArguments = ''
       UninstallerArguments = ''
       Rollback = 'Exact'
@@ -11705,22 +12897,21 @@
       RequiredFiles = @('CG.exe')
       PortableMembers = @('CG.exe')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
     }
     @{
       Id = 'package.mitec-certificate-information'
-      Name = 'MiTeC Certificate Information (portable candidate)'
+      Name = 'MiTeC Certificate Information (portable package)'
       Kind = 'Package'
       Category = 'Software / Security utilities'
-      Description = 'Stage the pinned Certificate Information executable as a managed portable file. The product reads certificate files and signed executables, MSI, XML and PDF files, and can export a displayed certificate as PEM or DER; staging opens no files or certificate stores and exports nothing. Acceptance must use synthetic certificates, a disposable test-only PFX, and signed public fixtures; never open or export a production private key.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Stage the pinned Certificate Information executable as a managed portable file. Windows 11 package install, removal and exact recovery passed on build 26300; the utility was not launched. Staging opens no files or certificate stores and exports nothing. Functional behavior remains untested; any later behavior test must use synthetic certificates, a disposable test-only PFX and signed public fixtures, and must never open or export a production private key.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } }
       PackageId = 'mitec-certificate-information'
       InstallerType = 'Portable'
       DisplayNamePattern = '^Certificate Information$'
@@ -11734,7 +12925,7 @@
       License = 'MiTeC calls it freeware for private, educational and non-commercial use; the general support EULA defines unregistered freeware as non-commercial and provides separate paid license types. Local entitlement and redistribution remain unresolved.'
       LicenseUri = 'https://www.mitec.cz/wp/mci/'
       TermsUri = 'https://www.mitec.cz/wp/support/'
-      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Acceptance must use synthetic certificates and disposable signed fixtures only; never inspect or export a real private key.'
+      AcceptanceNotes = 'Archive SHA-256 is pinned from the retained 2026-10-17 source and is not publisher-provided. Windows 11 package install, removal and exact recovery passed on build 26300; CertInfo.exe was not launched. Any later behavior test must use synthetic certificates and disposable signed fixtures only; never inspect or export a real private key.'
       InstallerArguments = ''
       UninstallerArguments = ''
       Rollback = 'Exact'
@@ -11743,7 +12934,7 @@
       RequiredFiles = @('CertInfo.exe')
       PortableMembers = @('CertInfo.exe')
       DefaultVariant = 'portable'
-      Variants = @{ portable = @{} }
+      Variants = @{ portable = @{ TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the Windows 11 build 26300 RIDE checkpoint baseline' } } } }
     }
     @{
       Id = 'package.mitec-sqlite-query'
@@ -11981,7 +13172,7 @@
       Description = 'Stage the pinned x86/x64 report tools without launching them, collecting host information, or creating a report. Any report may contain device, storage, process, service, event-log, security or SMBIOS details; report field review, redaction, storage and cleanup require a disposable target.'
       SupportedTargets = @()
       PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
@@ -12000,7 +13191,7 @@
       License = 'MiTeC calls System Information eXtra freeware for private, educational and non-commercial use; the local intended-use and redistribution review remains open.'
       LicenseUri = 'https://www.mitec.cz/wp/msix/'
       TermsUri = 'https://www.mitec.cz/wp/support/'
-      AcceptanceNotes = 'The retained publisher archive SHA-256 is measured locally, not publisher-provided. Exact selected members are MSIX.exe and GetSys.exe (x86), plus MSIX64.exe and GetSys64.exe (x64), all file version 16.0.0.0. Do not create, save, load or retain reports from the development host or a real profile. Review report fields/redaction and exact cleanup using synthetic fixtures in a disposable Windows 11 VM.'
+      AcceptanceNotes = 'The retained publisher archive SHA-256 is measured locally, not publisher-provided. Exact selected members are MSIX.exe and GetSys.exe (x86), plus MSIX64.exe and GetSys64.exe (x64), all file version 16.0.0.0. The publisher lists Windows XP-11 and Windows Server 2003-2025; Windows 11 and Server 2025 are candidate targets only. Do not create, save, load or retain reports from the development host or a real profile. Review report fields/redaction and exact cleanup using synthetic fixtures in disposable Windows 11 and Server 2025 VMs.'
       InstallerArguments = ''
       UninstallerArguments = ''
       Rollback = 'Exact'
@@ -12019,7 +13210,7 @@
       Description = 'Stage the pinned x86 TAPI Monitor executable without enumerating or controlling phone lines, providers, active calls or call history. Any later behavior check requires a simulated non-production TAPI provider and synthetic calls.'
       SupportedTargets = @()
       PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
@@ -12038,7 +13229,7 @@
       License = 'MiTeC offers TAPI Monitor under private/educational/non-commercial terms and lists a EUR 30 lifetime single-user commercial license; local entitlement and redistribution review remain open.'
       LicenseUri = 'https://www.mitec.cz/wp/mtapimon/'
       TermsUri = 'https://www.mitec.cz/wp/support/'
-      AcceptanceNotes = 'The retained publisher archive SHA-256 is measured locally, not publisher-provided. TAPIMon.exe is the only selected member; its file version is 1.2.0.0 and ProductVersion is 1.0.0.0. Do not use real telephone lines, TSP providers, calls or call history. Use only a simulated provider and synthetic calls on a disposable Windows 11 VM.'
+      AcceptanceNotes = 'The retained publisher archive SHA-256 is measured locally, not publisher-provided. TAPIMon.exe is the only selected member; its file version is 1.2.0.0 and ProductVersion is 1.0.0.0. The publisher lists Windows XP-11 and Windows Server 2003-2025; Windows 11 and Server 2025 are candidate targets only. Do not use real telephone lines, TSP providers, calls or call history. Use only a simulated provider and synthetic calls on disposable Windows 11 and Server 2025 VMs.'
       InstallerArguments = ''
       UninstallerArguments = ''
       Rollback = 'Exact'
@@ -12741,15 +13932,16 @@
       Kind = 'Package'
       MigrationBatch = 'ApplicationsBatch7'
       Category = 'Software / Artcraft'
-      Description = 'Pinned current-user x64 MSI containing the complete launcher. The launcher downloads apps and updates separately when used; use the individual app packages for offline installers. Windows 11 lifecycle acceptance is pending.'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11')
+      Description = 'Pinned current-user x64 MSI containing the complete launcher. Windows 11 build 26300 passed install, repeat install, removal, repeat removal, saved install/removal recovery and profile-preservation checks without starting the launcher. The launcher downloads apps and updates separately when used; use the individual app packages for offline installers. Windows Server support and launcher activation remain unverified.'
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'User'
       RequiresAdmin = $false
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{
+        'Windows 11' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the default Windows 11 image' }
+      }
       PackageId = 'artcraft-launcher'
       InstallerType = 'Msi'
       Architecture = 'x64'
@@ -12843,19 +14035,19 @@
       Name = 'Microsoft Build of OpenJDK 25 (x64)'
       Kind = 'Package'
       Category = 'Software / Development'
-      Description = 'Install Microsoft Build of OpenJDK 25.0.4.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      Description = 'Install Microsoft Build of OpenJDK 25.0.4.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Install, repeat-install, runtime/compiler version, removal, repeat-removal and compensating recovery checks passed on Windows Server 2025; Windows 11 acceptance remains pending.'
       MigrationBatch = 'OpenJDKCompatibility'
-      SupportedTargets = @()
-      CandidateTargets = @('Windows 11', 'Windows Server 2025')
-      PendingAcceptance = $true
+      SupportedTargets = @('Windows Server 2025')
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows Server 2025' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the clean Windows Server 2025 Standard Evaluation test image' } }
       PackageId = 'microsoft-openjdk-25'
       InstallerType = 'Msi'
-      DisplayNamePattern = '^Microsoft Build of OpenJDK 25(?:\s|$)'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK(?:\s+with Hotspot)?\s+25(?:[.\s]|$)'
       DownloadProvider = 'MicrosoftOpenJdk'
       DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-25.0.4.1-windows-x64.msi'
       ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-25.0.4.1-windows-x64.msi.sha256sum.txt'
@@ -12866,7 +14058,7 @@
       ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
       License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
       LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
-      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-25" /qn /norestart'
+      InstallerArguments = 'ALLUSERS=1 ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-25" /qn /norestart'
       UninstallerArguments = '/qn /norestart'
       Rollback = 'Compensating'
     }
@@ -12875,19 +14067,19 @@
       Name = 'Microsoft Build of OpenJDK 21 (x64)'
       Kind = 'Package'
       Category = 'Software / Development'
-      Description = 'Install Microsoft Build of OpenJDK 21.0.12.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      Description = 'Install Microsoft Build of OpenJDK 21.0.12.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Install, repeat-install, runtime/compiler version, removal, repeat-removal and compensating recovery checks passed on Windows Server 2025; Windows 11 acceptance remains pending.'
       MigrationBatch = 'OpenJDKCompatibility'
-      SupportedTargets = @()
-      CandidateTargets = @('Windows 11', 'Windows Server 2025')
-      PendingAcceptance = $true
+      SupportedTargets = @('Windows Server 2025')
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows Server 2025' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the clean Windows Server 2025 Standard Evaluation test image' } }
       PackageId = 'microsoft-openjdk-21'
       InstallerType = 'Msi'
-      DisplayNamePattern = '^Microsoft Build of OpenJDK 21(?:\s|$)'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK(?:\s+with Hotspot)?\s+21(?:[.\s]|$)'
       DownloadProvider = 'MicrosoftOpenJdk'
       DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-21.0.12.1-windows-x64.msi'
       ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-21.0.12.1-windows-x64.msi.sha256sum.txt'
@@ -12898,7 +14090,7 @@
       ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
       License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
       LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
-      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-21" /qn /norestart'
+      InstallerArguments = 'ALLUSERS=1 ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-21" /qn /norestart'
       UninstallerArguments = '/qn /norestart'
       Rollback = 'Compensating'
     }
@@ -12907,19 +14099,19 @@
       Name = 'Microsoft Build of OpenJDK 17 (x64)'
       Kind = 'Package'
       Category = 'Software / Development'
-      Description = 'Install Microsoft Build of OpenJDK 17.0.20.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      Description = 'Install Microsoft Build of OpenJDK 17.0.20.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Install, repeat-install, runtime/compiler version, removal, repeat-removal and compensating recovery checks passed on Windows Server 2025; Windows 11 acceptance remains pending.'
       MigrationBatch = 'OpenJDKCompatibility'
-      SupportedTargets = @()
-      CandidateTargets = @('Windows 11', 'Windows Server 2025')
-      PendingAcceptance = $true
+      SupportedTargets = @('Windows Server 2025')
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows Server 2025' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the clean Windows Server 2025 Standard Evaluation test image' } }
       PackageId = 'microsoft-openjdk-17'
       InstallerType = 'Msi'
-      DisplayNamePattern = '^Microsoft Build of OpenJDK 17(?:\s|$)'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK(?:\s+with Hotspot)?\s+17(?:[.\s]|$)'
       DownloadProvider = 'MicrosoftOpenJdk'
       DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-17.0.20.1-windows-x64.msi'
       ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-17.0.20.1-windows-x64.msi.sha256sum.txt'
@@ -12930,7 +14122,7 @@
       ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
       License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
       LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
-      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-17" /qn /norestart'
+      InstallerArguments = 'ALLUSERS=1 ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-17" /qn /norestart'
       UninstallerArguments = '/qn /norestart'
       Rollback = 'Compensating'
     }
@@ -12939,19 +14131,19 @@
       Name = 'Microsoft Build of OpenJDK 11 (x64)'
       Kind = 'Package'
       Category = 'Software / Development'
-      Description = 'Install Microsoft Build of OpenJDK 11.0.32.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Native install, repeat, removal and recovery acceptance remain pending.'
+      Description = 'Install Microsoft Build of OpenJDK 11.0.32.1 LTS side-by-side in its dedicated RIDE directory. The MSI installs only FeatureMain; JAVA_HOME, PATH and .jar associations are preserved. Exact Microsoft checksum metadata is fetched and validated before acquisition. Install, repeat-install, runtime/compiler version, removal, repeat-removal and compensating recovery checks passed on Windows Server 2025; Windows 11 acceptance remains pending.'
       MigrationBatch = 'OpenJDKCompatibility'
-      SupportedTargets = @()
-      CandidateTargets = @('Windows 11', 'Windows Server 2025')
-      PendingAcceptance = $true
+      SupportedTargets = @('Windows Server 2025')
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $false
       Scope = 'Machine'
       RequiresAdmin = $true
       Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
       Handler = 'Package'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows Server 2025' = @{ DefaultValue = 'Absent'; EffectiveDefault = 'Not installed in the clean Windows Server 2025 Standard Evaluation test image' } }
       PackageId = 'microsoft-openjdk-11'
       InstallerType = 'Msi'
-      DisplayNamePattern = '^Microsoft Build of OpenJDK 11(?:\s|$)'
+      DisplayNamePattern = '^Microsoft Build of OpenJDK(?:\s+with Hotspot)?\s+11(?:[.\s]|$)'
       DownloadProvider = 'MicrosoftOpenJdk'
       DownloadUri = 'https://aka.ms/download-jdk/microsoft-jdk-11.0.32.1-windows-x64.msi'
       ExpectedSha256Uri = 'https://aka.ms/download-jdk/microsoft-jdk-11.0.32.1-windows-x64.msi.sha256sum.txt'
@@ -12962,7 +14154,7 @@
       ProductUri = 'https://learn.microsoft.com/en-us/java/openjdk/download'
       License = 'GNU General Public License version 2 with the Classpath Exception; preserve Microsoft package notices'
       LicenseUri = 'https://openjdk.org/legal/gplv2+ce.html'
-      InstallerArguments = 'ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-11" /qn /norestart'
+      InstallerArguments = 'ALLUSERS=1 ADDLOCAL=FeatureMain INSTALLDIR="C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-11" /qn /norestart'
       UninstallerArguments = '/qn /norestart'
       Rollback = 'Compensating'
     }
@@ -13004,11 +14196,86 @@
       Variants = @{ portable = @{} }
     }
     @{
+      Id = 'package.etl2pcapng'
+      Name = 'Microsoft ETL2PCAPNG network trace converter'
+      Kind = 'Package'
+      Category = 'Software / Networking and diagnostics'
+      Description = 'Stage the Microsoft-signed ETL2PCAPNG x64 converter and the pinned upstream MIT notice as owned files. RIDE does not execute the converter or read/write trace data during package installation; conversion is an explicit operator action.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = '2026-10-25-user-required-tools'
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'etl2pcapng'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^ETL2PCAPNG(?:\s|$)'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://github.com/microsoft/etl2pcapng/releases/download/v1.11.0/etl2pcapng.exe'
+      AssetName = 'etl2pcapng.exe'
+      PackageVersion = '1.11.0'
+      ExpectedSha256 = 'C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043'
+      Architecture = 'x64'
+      ProductUri = 'https://github.com/microsoft/etl2pcapng'
+      License = 'MIT License; retain the Microsoft copyright and permission notice alongside the executable.'
+      LicenseUri = 'https://github.com/microsoft/etl2pcapng/blob/65e2a98feb029a63318de2d821d6444fd7e148c3/LICENSE'
+      AcceptanceNotes = 'GitHub marks v1.11.0 as the latest release even though the repository main branch README has a 1.12.0 changelog entry; pin the released v1.11.0 asset. Microsoft Authenticode signature is valid. The pinned MIT notice is staged as an owned LICENSE.txt file using PortableLocalFiles. Verify install/repeat/remove/exact restore and convert only a synthetic ETL fixture to a temporary PCAPNG output before declaring Windows 11 support. RIDE installation never runs the converter or accesses a real network trace.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      PortableFormat = 'File'
+      PortableFileName = 'etl2pcapng.exe'
+      RequiredFiles = @('etl2pcapng.exe', 'LICENSE.txt')
+      PortableLocalFiles = @(@{ Source = 'catalog/notices/etl2pcapng-v1.11.0-license.txt'; Destination = 'LICENSE.txt'; Sha256 = 'C2CFCCB812FE482101A8F04597DFC5A9991A6B2748266C47AC91B6A5AAE15383' })
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
+      Id = 'package.rawcopy'
+      Name = 'RawCopy NTFS acquisition utility (x64 staging candidate)'
+      Kind = 'Package'
+      Category = 'Software / Forensics'
+      Description = 'Stage the pinned official RawCopy x64 utility and upstream notices as owned files for later operator-directed transfer. RIDE does not run RawCopy, extract files, acquire evidence or send data. Windows lifecycle, compatibility and behavior acceptance remain pending.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MigrationBatch = '2026-10-25-user-required-tools'
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'rawcopy'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^RawCopy(?:\s|$)'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://github.com/jschicht/RawCopy/archive/0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip'
+      AssetName = 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip'
+      PackageVersion = '1.0.0.22'
+      ExpectedSha256 = 'F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF'
+      Architecture = 'x64'
+      ProductUri = 'https://github.com/jschicht/RawCopy'
+      License = 'Creative Commons Public License as published in the pinned upstream snapshot; preserve LICENSE.md, attribution and notices.'
+      LicenseUri = 'https://github.com/jschicht/RawCopy/blob/0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/LICENSE.md'
+      AcceptanceNotes = 'Pinned publisher commit 0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c reports version 1.0.0.22. The downloaded source ZIP SHA-256 is pinned; its RawCopy64.exe member is 460288 bytes and matches the publisher Git blob, with SHA-256 619795AA357E1EB36FEBF45B398CCCCB289CB27B547814BFB422EFB3E8F98E3D. Authenticode reports unsigned. Keep the x64 executable and LICENSE.md/readme/changelog. The old numbered 1.0.0.19 release is specifically for Windows 2000/NTFS 3.0 and is not used. Windows 11 staging lifecycle, compatibility and controlled synthetic behavior acceptance remain pending; do not access real evidence or use optional unencrypted TCP output during acceptance.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/RawCopy64.exe', 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/LICENSE.md', 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/readme.txt', 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/changelog.txt')
+      PortableMembers = @('RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/RawCopy64.exe', 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/LICENSE.md', 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/readme.txt', 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/changelog.txt')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+    }
+    @{
       Id = 'package.exiftool'
       Name = 'ExifTool metadata utility (x64 portable candidate)'
       Kind = 'Package'
       Category = 'Software / Media and metadata tools'
-      Description = 'Stage the pinned ExifTool 13.59 x64 Windows archive as an unsupported portable candidate. Preserve the publisher folder and notices, and create the documented exiftool.exe command-line name as an owned copy of exiftool(-k).exe. Installing the utility does not read or modify user media. Version 13.59 is labeled a development release by the publisher; Windows behavior and exact archive inspection remain pending.'
+      Description = 'Stage the pinned ExifTool 13.59 x64 Windows archive as an unsupported portable candidate; it is the version currently offered on the publisher Windows page. Preserve the publisher folder and notices, and create the documented exiftool.exe command-line name as an owned copy of exiftool(-k).exe. Installing the utility does not read or modify user media. The version history labels 13.55 as production, but the Windows page offers no 13.55 ZIP. Local archive verification and Windows behavior remain pending.'
       SupportedTargets = @()
       CandidateTargets = @('Windows 11')
       PendingAcceptance = $true
@@ -13094,6 +14361,1404 @@
       DefaultVariant = 'installed'
       Variants = @{ installed = @{} }
       RequiresDesktopExperience = $true
+    }
+    @{
+      Id = 'package.windows-firewall-notifier'
+      Name = 'Windows Firewall Notifier (pinned Nightly portable package)'
+      Kind = 'Package'
+      Category = 'Software / Networking'
+      Description = 'Stage the user-selected official x64 Nightly archive as an owned portable package. The legacy install/remove actions only acquired and extracted files; RIDE staging does not launch WFN, configure Windows Firewall notifications or rules, or change firewall policy. WFN writes a log in its application folder, so the configured tools directory must be writable by the intended user. Nightly application behavior and Windows 11 lifecycle acceptance remain pending.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'windows-firewall-notifier'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^Windows Firewall Notifier$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://github.com/wokhan/WFN/releases/download/nightlies/wfn-20250719-ac02df-x64-standalone.zip'
+      AssetName = 'wfn-20250719-ac02df-x64-standalone.zip'
+      PackageVersion = '20250719-ac02df'
+      ExpectedSha256 = 'b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378'
+      Architecture = 'x64'
+      ProductUri = 'https://github.com/wokhan/WFN'
+      License = 'GPL-3.0-or-later for WFN; bundled GeoLite2 database under MaxMind GeoLite2 EULA and GeoNames attribution under CC BY 4.0; retain bundled license files.'
+      LicenseUri = 'https://github.com/wokhan/WFN/blob/master/LICENSE'
+      TermsUri = 'https://www.maxmind.com/en/geolite2/eula'
+      AcceptanceNotes = 'The selected archive is the publisher Nightlies / Unstable build dated 2025-07-19. The exact full archive hash and 531-file inventory are recorded in docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json. Whole-archive staging retains LICENSE.txt and Resources/IPDatabase/LICENSE.txt; the latter carries the GeoLite2 EULA and GeoNames CC BY 4.0 attribution. No payload has been executed. Verify Windows 11 file lifecycle on a disposable VM; verify WFN launch and firewall-notification behavior only in a separate explicitly scoped scenario. The publisher does not officially support Windows Server.'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-24-wfn-nightly'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('WFN.exe', 'LICENSE.txt', 'Resources/IPDatabase/LICENSE.txt')
+      PortableMembers = @(
+        'cs/Microsoft.VisualBasic.Forms.resources.dll',
+        'cs/PresentationCore.resources.dll',
+        'cs/PresentationFramework.resources.dll',
+        'cs/PresentationUI.resources.dll',
+        'cs/ReachFramework.resources.dll',
+        'cs/System.Windows.Controls.Ribbon.resources.dll',
+        'cs/System.Windows.Forms.Design.resources.dll',
+        'cs/System.Windows.Forms.Primitives.resources.dll',
+        'cs/System.Windows.Forms.resources.dll',
+        'cs/System.Windows.Input.Manipulations.resources.dll',
+        'cs/System.Xaml.resources.dll',
+        'cs/UIAutomationClient.resources.dll',
+        'cs/UIAutomationClientSideProviders.resources.dll',
+        'cs/UIAutomationProvider.resources.dll',
+        'cs/UIAutomationTypes.resources.dll',
+        'cs/WindowsBase.resources.dll',
+        'cs/WindowsFormsIntegration.resources.dll',
+        'de/Microsoft.VisualBasic.Forms.resources.dll',
+        'de/PresentationCore.resources.dll',
+        'de/PresentationFramework.resources.dll',
+        'de/PresentationUI.resources.dll',
+        'de/ReachFramework.resources.dll',
+        'de/System.Windows.Controls.Ribbon.resources.dll',
+        'de/System.Windows.Forms.Design.resources.dll',
+        'de/System.Windows.Forms.Primitives.resources.dll',
+        'de/System.Windows.Forms.resources.dll',
+        'de/System.Windows.Input.Manipulations.resources.dll',
+        'de/System.Xaml.resources.dll',
+        'de/UIAutomationClient.resources.dll',
+        'de/UIAutomationClientSideProviders.resources.dll',
+        'de/UIAutomationProvider.resources.dll',
+        'de/UIAutomationTypes.resources.dll',
+        'de/WindowsBase.resources.dll',
+        'de/WindowsFormsIntegration.resources.dll',
+        'es/Microsoft.VisualBasic.Forms.resources.dll',
+        'es/PresentationCore.resources.dll',
+        'es/PresentationFramework.resources.dll',
+        'es/PresentationUI.resources.dll',
+        'es/ReachFramework.resources.dll',
+        'es/System.Windows.Controls.Ribbon.resources.dll',
+        'es/System.Windows.Forms.Design.resources.dll',
+        'es/System.Windows.Forms.Primitives.resources.dll',
+        'es/System.Windows.Forms.resources.dll',
+        'es/System.Windows.Input.Manipulations.resources.dll',
+        'es/System.Xaml.resources.dll',
+        'es/UIAutomationClient.resources.dll',
+        'es/UIAutomationClientSideProviders.resources.dll',
+        'es/UIAutomationProvider.resources.dll',
+        'es/UIAutomationTypes.resources.dll',
+        'es/WindowsBase.resources.dll',
+        'es/WindowsFormsIntegration.resources.dll',
+        'fr/Microsoft.VisualBasic.Forms.resources.dll',
+        'fr/PresentationCore.resources.dll',
+        'fr/PresentationFramework.resources.dll',
+        'fr/PresentationUI.resources.dll',
+        'fr/ReachFramework.resources.dll',
+        'fr/System.Windows.Controls.Ribbon.resources.dll',
+        'fr/System.Windows.Forms.Design.resources.dll',
+        'fr/System.Windows.Forms.Primitives.resources.dll',
+        'fr/System.Windows.Forms.resources.dll',
+        'fr/System.Windows.Input.Manipulations.resources.dll',
+        'fr/System.Xaml.resources.dll',
+        'fr/UIAutomationClient.resources.dll',
+        'fr/UIAutomationClientSideProviders.resources.dll',
+        'fr/UIAutomationProvider.resources.dll',
+        'fr/UIAutomationTypes.resources.dll',
+        'fr/WFN.resources.dll',
+        'fr/WindowsBase.resources.dll',
+        'fr/WindowsFormsIntegration.resources.dll',
+        'fr/Wokhan.WindowsFirewallNotifier.Common.resources.dll',
+        'it/Microsoft.VisualBasic.Forms.resources.dll',
+        'it/PresentationCore.resources.dll',
+        'it/PresentationFramework.resources.dll',
+        'it/PresentationUI.resources.dll',
+        'it/ReachFramework.resources.dll',
+        'it/System.Windows.Controls.Ribbon.resources.dll',
+        'it/System.Windows.Forms.Design.resources.dll',
+        'it/System.Windows.Forms.Primitives.resources.dll',
+        'it/System.Windows.Forms.resources.dll',
+        'it/System.Windows.Input.Manipulations.resources.dll',
+        'it/System.Xaml.resources.dll',
+        'it/UIAutomationClient.resources.dll',
+        'it/UIAutomationClientSideProviders.resources.dll',
+        'it/UIAutomationProvider.resources.dll',
+        'it/UIAutomationTypes.resources.dll',
+        'it/WindowsBase.resources.dll',
+        'it/WindowsFormsIntegration.resources.dll',
+        'ja/Microsoft.VisualBasic.Forms.resources.dll',
+        'ja/PresentationCore.resources.dll',
+        'ja/PresentationFramework.resources.dll',
+        'ja/PresentationUI.resources.dll',
+        'ja/ReachFramework.resources.dll',
+        'ja/System.Windows.Controls.Ribbon.resources.dll',
+        'ja/System.Windows.Forms.Design.resources.dll',
+        'ja/System.Windows.Forms.Primitives.resources.dll',
+        'ja/System.Windows.Forms.resources.dll',
+        'ja/System.Windows.Input.Manipulations.resources.dll',
+        'ja/System.Xaml.resources.dll',
+        'ja/UIAutomationClient.resources.dll',
+        'ja/UIAutomationClientSideProviders.resources.dll',
+        'ja/UIAutomationProvider.resources.dll',
+        'ja/UIAutomationTypes.resources.dll',
+        'ja/WindowsBase.resources.dll',
+        'ja/WindowsFormsIntegration.resources.dll',
+        'ko/Microsoft.VisualBasic.Forms.resources.dll',
+        'ko/PresentationCore.resources.dll',
+        'ko/PresentationFramework.resources.dll',
+        'ko/PresentationUI.resources.dll',
+        'ko/ReachFramework.resources.dll',
+        'ko/System.Windows.Controls.Ribbon.resources.dll',
+        'ko/System.Windows.Forms.Design.resources.dll',
+        'ko/System.Windows.Forms.Primitives.resources.dll',
+        'ko/System.Windows.Forms.resources.dll',
+        'ko/System.Windows.Input.Manipulations.resources.dll',
+        'ko/System.Xaml.resources.dll',
+        'ko/UIAutomationClient.resources.dll',
+        'ko/UIAutomationClientSideProviders.resources.dll',
+        'ko/UIAutomationProvider.resources.dll',
+        'ko/UIAutomationTypes.resources.dll',
+        'ko/WindowsBase.resources.dll',
+        'ko/WindowsFormsIntegration.resources.dll',
+        'pl/Microsoft.VisualBasic.Forms.resources.dll',
+        'pl/PresentationCore.resources.dll',
+        'pl/PresentationFramework.resources.dll',
+        'pl/PresentationUI.resources.dll',
+        'pl/ReachFramework.resources.dll',
+        'pl/System.Windows.Controls.Ribbon.resources.dll',
+        'pl/System.Windows.Forms.Design.resources.dll',
+        'pl/System.Windows.Forms.Primitives.resources.dll',
+        'pl/System.Windows.Forms.resources.dll',
+        'pl/System.Windows.Input.Manipulations.resources.dll',
+        'pl/System.Xaml.resources.dll',
+        'pl/UIAutomationClient.resources.dll',
+        'pl/UIAutomationClientSideProviders.resources.dll',
+        'pl/UIAutomationProvider.resources.dll',
+        'pl/UIAutomationTypes.resources.dll',
+        'pl/WindowsBase.resources.dll',
+        'pl/WindowsFormsIntegration.resources.dll',
+        'pt-BR/Microsoft.VisualBasic.Forms.resources.dll',
+        'pt-BR/PresentationCore.resources.dll',
+        'pt-BR/PresentationFramework.resources.dll',
+        'pt-BR/PresentationUI.resources.dll',
+        'pt-BR/ReachFramework.resources.dll',
+        'pt-BR/System.Windows.Controls.Ribbon.resources.dll',
+        'pt-BR/System.Windows.Forms.Design.resources.dll',
+        'pt-BR/System.Windows.Forms.Primitives.resources.dll',
+        'pt-BR/System.Windows.Forms.resources.dll',
+        'pt-BR/System.Windows.Input.Manipulations.resources.dll',
+        'pt-BR/System.Xaml.resources.dll',
+        'pt-BR/UIAutomationClient.resources.dll',
+        'pt-BR/UIAutomationClientSideProviders.resources.dll',
+        'pt-BR/UIAutomationProvider.resources.dll',
+        'pt-BR/UIAutomationTypes.resources.dll',
+        'pt-BR/WindowsBase.resources.dll',
+        'pt-BR/WindowsFormsIntegration.resources.dll',
+        'Resources/IPDatabase/COPYRIGHT.txt',
+        'Resources/IPDatabase/GeoLite2-City.mmdb',
+        'Resources/IPDatabase/LICENSE.txt',
+        'ru/Microsoft.VisualBasic.Forms.resources.dll',
+        'ru/PresentationCore.resources.dll',
+        'ru/PresentationFramework.resources.dll',
+        'ru/PresentationUI.resources.dll',
+        'ru/ReachFramework.resources.dll',
+        'ru/System.Windows.Controls.Ribbon.resources.dll',
+        'ru/System.Windows.Forms.Design.resources.dll',
+        'ru/System.Windows.Forms.Primitives.resources.dll',
+        'ru/System.Windows.Forms.resources.dll',
+        'ru/System.Windows.Input.Manipulations.resources.dll',
+        'ru/System.Xaml.resources.dll',
+        'ru/UIAutomationClient.resources.dll',
+        'ru/UIAutomationClientSideProviders.resources.dll',
+        'ru/UIAutomationProvider.resources.dll',
+        'ru/UIAutomationTypes.resources.dll',
+        'ru/WindowsBase.resources.dll',
+        'ru/WindowsFormsIntegration.resources.dll',
+        'tr/Microsoft.VisualBasic.Forms.resources.dll',
+        'tr/PresentationCore.resources.dll',
+        'tr/PresentationFramework.resources.dll',
+        'tr/PresentationUI.resources.dll',
+        'tr/ReachFramework.resources.dll',
+        'tr/System.Windows.Controls.Ribbon.resources.dll',
+        'tr/System.Windows.Forms.Design.resources.dll',
+        'tr/System.Windows.Forms.Primitives.resources.dll',
+        'tr/System.Windows.Forms.resources.dll',
+        'tr/System.Windows.Input.Manipulations.resources.dll',
+        'tr/System.Xaml.resources.dll',
+        'tr/UIAutomationClient.resources.dll',
+        'tr/UIAutomationClientSideProviders.resources.dll',
+        'tr/UIAutomationProvider.resources.dll',
+        'tr/UIAutomationTypes.resources.dll',
+        'tr/WindowsBase.resources.dll',
+        'tr/WindowsFormsIntegration.resources.dll',
+        'zh-Hans/Microsoft.VisualBasic.Forms.resources.dll',
+        'zh-Hans/PresentationCore.resources.dll',
+        'zh-Hans/PresentationFramework.resources.dll',
+        'zh-Hans/PresentationUI.resources.dll',
+        'zh-Hans/ReachFramework.resources.dll',
+        'zh-Hans/System.Windows.Controls.Ribbon.resources.dll',
+        'zh-Hans/System.Windows.Forms.Design.resources.dll',
+        'zh-Hans/System.Windows.Forms.Primitives.resources.dll',
+        'zh-Hans/System.Windows.Forms.resources.dll',
+        'zh-Hans/System.Windows.Input.Manipulations.resources.dll',
+        'zh-Hans/System.Xaml.resources.dll',
+        'zh-Hans/UIAutomationClient.resources.dll',
+        'zh-Hans/UIAutomationClientSideProviders.resources.dll',
+        'zh-Hans/UIAutomationProvider.resources.dll',
+        'zh-Hans/UIAutomationTypes.resources.dll',
+        'zh-Hans/WindowsBase.resources.dll',
+        'zh-Hans/WindowsFormsIntegration.resources.dll',
+        'zh-Hant/Microsoft.VisualBasic.Forms.resources.dll',
+        'zh-Hant/PresentationCore.resources.dll',
+        'zh-Hant/PresentationFramework.resources.dll',
+        'zh-Hant/PresentationUI.resources.dll',
+        'zh-Hant/ReachFramework.resources.dll',
+        'zh-Hant/System.Windows.Controls.Ribbon.resources.dll',
+        'zh-Hant/System.Windows.Forms.Design.resources.dll',
+        'zh-Hant/System.Windows.Forms.Primitives.resources.dll',
+        'zh-Hant/System.Windows.Forms.resources.dll',
+        'zh-Hant/System.Windows.Input.Manipulations.resources.dll',
+        'zh-Hant/System.Xaml.resources.dll',
+        'zh-Hant/UIAutomationClient.resources.dll',
+        'zh-Hant/UIAutomationClientSideProviders.resources.dll',
+        'zh-Hant/UIAutomationProvider.resources.dll',
+        'zh-Hant/UIAutomationTypes.resources.dll',
+        'zh-Hant/WindowsBase.resources.dll',
+        'zh-Hant/WindowsFormsIntegration.resources.dll',
+        'Accessibility.dll',
+        'AlphaChiTech.Virtualization.dll',
+        'BruTile.dll',
+        'clretwrc.dll',
+        'clrgc.dll',
+        'clrjit.dll',
+        'CommunityToolkit.Mvvm.dll',
+        'coreclr.dll',
+        'CountryFlag.Wpf.dll',
+        'createdump.exe',
+        'D3DCompiler_47_cor3.dll',
+        'DirectWriteForwarder.dll',
+        'DisableWFN.cmd',
+        'ExCSS.dll',
+        'HarfBuzzSharp.dll',
+        'hostfxr.dll',
+        'hostpolicy.dll',
+        'Interop.NetFwTypeLib.dll',
+        'libHarfBuzzSharp.dll',
+        'libSkiaSharp.dll',
+        'LICENSE.txt',
+        'LiveChartsCore.dll',
+        'LiveChartsCore.SkiaSharpView.dll',
+        'LiveChartsCore.SkiaSharpView.WPF.dll',
+        'log4net.dll',
+        'Mapsui.dll',
+        'Mapsui.Nts.dll',
+        'Mapsui.Rendering.Skia.dll',
+        'Mapsui.Tiling.dll',
+        'Mapsui.UI.Wpf.dll',
+        'MaxMind.Db.dll',
+        'MaxMind.GeoIP2.dll',
+        'Microsoft.CSharp.dll',
+        'Microsoft.DiaSymReader.Native.amd64.dll',
+        'Microsoft.Extensions.Configuration.Abstractions.dll',
+        'Microsoft.Extensions.Configuration.Binder.dll',
+        'Microsoft.Extensions.Configuration.dll',
+        'Microsoft.Extensions.Configuration.FileExtensions.dll',
+        'Microsoft.Extensions.Configuration.Json.dll',
+        'Microsoft.Extensions.DependencyInjection.Abstractions.dll',
+        'Microsoft.Extensions.FileProviders.Abstractions.dll',
+        'Microsoft.Extensions.FileProviders.Physical.dll',
+        'Microsoft.Extensions.FileSystemGlobbing.dll',
+        'Microsoft.Extensions.Options.dll',
+        'Microsoft.Extensions.Primitives.dll',
+        'Microsoft.VisualBasic.Core.dll',
+        'Microsoft.VisualBasic.dll',
+        'Microsoft.VisualBasic.Forms.dll',
+        'Microsoft.Win32.Primitives.dll',
+        'Microsoft.Win32.Registry.AccessControl.dll',
+        'Microsoft.Win32.Registry.dll',
+        'Microsoft.Win32.SystemEvents.dll',
+        'mscordaccore_amd64_amd64_8.0.524.21615.dll',
+        'mscordaccore.dll',
+        'mscordbi.dll',
+        'mscorlib.dll',
+        'mscorrc.dll',
+        'msquic.dll',
+        'netstandard.dll',
+        'NetTopologySuite.dll',
+        'NetTopologySuite.Features.dll',
+        'NetTopologySuite.IO.GeoJSON4STJ.dll',
+        'Newtonsoft.Json.dll',
+        'Notifier.deps.json',
+        'Notifier.dll',
+        'Notifier.exe',
+        'Notifier.pdb',
+        'Notifier.runtimeconfig.json',
+        'PenImc_cor3.dll',
+        'PresentationCore.dll',
+        'PresentationFramework-SystemCore.dll',
+        'PresentationFramework-SystemData.dll',
+        'PresentationFramework-SystemDrawing.dll',
+        'PresentationFramework-SystemXml.dll',
+        'PresentationFramework-SystemXmlLinq.dll',
+        'PresentationFramework.Aero.dll',
+        'PresentationFramework.Aero2.dll',
+        'PresentationFramework.AeroLite.dll',
+        'PresentationFramework.Classic.dll',
+        'PresentationFramework.dll',
+        'PresentationFramework.Luna.dll',
+        'PresentationFramework.Royale.dll',
+        'PresentationNative_cor3.dll',
+        'PresentationUI.dll',
+        'ReachFramework.dll',
+        'ShimSkiaSharp.dll',
+        'SkiaSharp.dll',
+        'SkiaSharp.HarfBuzz.dll',
+        'SkiaSharp.Views.Desktop.Common.dll',
+        'SkiaSharp.Views.WPF.dll',
+        'Svg.Custom.dll',
+        'Svg.Model.dll',
+        'Svg.Skia.dll',
+        'System.AppContext.dll',
+        'System.Buffers.dll',
+        'System.CodeDom.dll',
+        'System.Collections.Concurrent.dll',
+        'System.Collections.dll',
+        'System.Collections.Immutable.dll',
+        'System.Collections.NonGeneric.dll',
+        'System.Collections.Specialized.dll',
+        'System.ComponentModel.Annotations.dll',
+        'System.ComponentModel.DataAnnotations.dll',
+        'System.ComponentModel.dll',
+        'System.ComponentModel.EventBasedAsync.dll',
+        'System.ComponentModel.Primitives.dll',
+        'System.ComponentModel.TypeConverter.dll',
+        'System.Configuration.ConfigurationManager.dll',
+        'System.Configuration.dll',
+        'System.Console.dll',
+        'System.Core.dll',
+        'System.Data.Common.dll',
+        'System.Data.DataSetExtensions.dll',
+        'System.Data.dll',
+        'System.Design.dll',
+        'System.Device.dll',
+        'System.Diagnostics.Contracts.dll',
+        'System.Diagnostics.Debug.dll',
+        'System.Diagnostics.DiagnosticSource.dll',
+        'System.Diagnostics.EventLog.dll',
+        'System.Diagnostics.EventLog.Messages.dll',
+        'System.Diagnostics.FileVersionInfo.dll',
+        'System.Diagnostics.PerformanceCounter.dll',
+        'System.Diagnostics.Process.dll',
+        'System.Diagnostics.StackTrace.dll',
+        'System.Diagnostics.TextWriterTraceListener.dll',
+        'System.Diagnostics.Tools.dll',
+        'System.Diagnostics.TraceSource.dll',
+        'System.Diagnostics.Tracing.dll',
+        'System.DirectoryServices.dll',
+        'System.dll',
+        'System.Drawing.Common.dll',
+        'System.Drawing.Design.dll',
+        'System.Drawing.dll',
+        'System.Drawing.Primitives.dll',
+        'System.Dynamic.Runtime.dll',
+        'System.Formats.Asn1.dll',
+        'System.Formats.Tar.dll',
+        'System.Globalization.Calendars.dll',
+        'System.Globalization.dll',
+        'System.Globalization.Extensions.dll',
+        'System.IO.Compression.Brotli.dll',
+        'System.IO.Compression.dll',
+        'System.IO.Compression.FileSystem.dll',
+        'System.IO.Compression.Native.dll',
+        'System.IO.Compression.ZipFile.dll',
+        'System.IO.dll',
+        'System.IO.FileSystem.AccessControl.dll',
+        'System.IO.FileSystem.dll',
+        'System.IO.FileSystem.DriveInfo.dll',
+        'System.IO.FileSystem.Primitives.dll',
+        'System.IO.FileSystem.Watcher.dll',
+        'System.IO.IsolatedStorage.dll',
+        'System.IO.MemoryMappedFiles.dll',
+        'System.IO.Packaging.dll',
+        'System.IO.Pipes.AccessControl.dll',
+        'System.IO.Pipes.dll',
+        'System.IO.UnmanagedMemoryStream.dll',
+        'System.Linq.dll',
+        'System.Linq.Dynamic.Core.dll',
+        'System.Linq.Expressions.dll',
+        'System.Linq.Parallel.dll',
+        'System.Linq.Queryable.dll',
+        'System.Management.dll',
+        'System.Memory.dll',
+        'System.Net.dll',
+        'System.Net.Http.dll',
+        'System.Net.Http.Json.dll',
+        'System.Net.HttpListener.dll',
+        'System.Net.Mail.dll',
+        'System.Net.NameResolution.dll',
+        'System.Net.NetworkInformation.dll',
+        'System.Net.Ping.dll',
+        'System.Net.Primitives.dll',
+        'System.Net.Quic.dll',
+        'System.Net.Requests.dll',
+        'System.Net.Security.dll',
+        'System.Net.ServicePoint.dll',
+        'System.Net.Sockets.dll',
+        'System.Net.WebClient.dll',
+        'System.Net.WebHeaderCollection.dll',
+        'System.Net.WebProxy.dll',
+        'System.Net.WebSockets.Client.dll',
+        'System.Net.WebSockets.dll',
+        'System.Numerics.dll',
+        'System.Numerics.Vectors.dll',
+        'System.ObjectModel.dll',
+        'System.Printing.dll',
+        'System.Private.CoreLib.dll',
+        'System.Private.DataContractSerialization.dll',
+        'System.Private.Uri.dll',
+        'System.Private.Xml.dll',
+        'System.Private.Xml.Linq.dll',
+        'System.Reflection.DispatchProxy.dll',
+        'System.Reflection.dll',
+        'System.Reflection.Emit.dll',
+        'System.Reflection.Emit.ILGeneration.dll',
+        'System.Reflection.Emit.Lightweight.dll',
+        'System.Reflection.Extensions.dll',
+        'System.Reflection.Metadata.dll',
+        'System.Reflection.Primitives.dll',
+        'System.Reflection.TypeExtensions.dll',
+        'System.Resources.Extensions.dll',
+        'System.Resources.Reader.dll',
+        'System.Resources.ResourceManager.dll',
+        'System.Resources.Writer.dll',
+        'System.Runtime.CompilerServices.Unsafe.dll',
+        'System.Runtime.CompilerServices.VisualC.dll',
+        'System.Runtime.dll',
+        'System.Runtime.Extensions.dll',
+        'System.Runtime.Handles.dll',
+        'System.Runtime.InteropServices.dll',
+        'System.Runtime.InteropServices.JavaScript.dll',
+        'System.Runtime.InteropServices.RuntimeInformation.dll',
+        'System.Runtime.Intrinsics.dll',
+        'System.Runtime.Loader.dll',
+        'System.Runtime.Numerics.dll',
+        'System.Runtime.Serialization.dll',
+        'System.Runtime.Serialization.Formatters.dll',
+        'System.Runtime.Serialization.Json.dll',
+        'System.Runtime.Serialization.Primitives.dll',
+        'System.Runtime.Serialization.Xml.dll',
+        'System.Security.AccessControl.dll',
+        'System.Security.Claims.dll',
+        'System.Security.Cryptography.Algorithms.dll',
+        'System.Security.Cryptography.Cng.dll',
+        'System.Security.Cryptography.Csp.dll',
+        'System.Security.Cryptography.dll',
+        'System.Security.Cryptography.Encoding.dll',
+        'System.Security.Cryptography.OpenSsl.dll',
+        'System.Security.Cryptography.Pkcs.dll',
+        'System.Security.Cryptography.Primitives.dll',
+        'System.Security.Cryptography.ProtectedData.dll',
+        'System.Security.Cryptography.X509Certificates.dll',
+        'System.Security.Cryptography.Xml.dll',
+        'System.Security.dll',
+        'System.Security.Permissions.dll',
+        'System.Security.Principal.dll',
+        'System.Security.Principal.Windows.dll',
+        'System.Security.SecureString.dll',
+        'System.ServiceModel.Web.dll',
+        'System.ServiceProcess.dll',
+        'System.ServiceProcess.ServiceController.dll',
+        'System.Text.Encoding.CodePages.dll',
+        'System.Text.Encoding.dll',
+        'System.Text.Encoding.Extensions.dll',
+        'System.Text.Encodings.Web.dll',
+        'System.Text.Json.dll',
+        'System.Text.RegularExpressions.dll',
+        'System.Threading.AccessControl.dll',
+        'System.Threading.Channels.dll',
+        'System.Threading.dll',
+        'System.Threading.Overlapped.dll',
+        'System.Threading.Tasks.Dataflow.dll',
+        'System.Threading.Tasks.dll',
+        'System.Threading.Tasks.Extensions.dll',
+        'System.Threading.Tasks.Parallel.dll',
+        'System.Threading.Thread.dll',
+        'System.Threading.ThreadPool.dll',
+        'System.Threading.Timer.dll',
+        'System.Transactions.dll',
+        'System.Transactions.Local.dll',
+        'System.ValueTuple.dll',
+        'System.Web.dll',
+        'System.Web.HttpUtility.dll',
+        'System.Windows.Controls.Ribbon.dll',
+        'System.Windows.dll',
+        'System.Windows.Extensions.dll',
+        'System.Windows.Forms.Design.dll',
+        'System.Windows.Forms.Design.Editors.dll',
+        'System.Windows.Forms.dll',
+        'System.Windows.Forms.Primitives.dll',
+        'System.Windows.Input.Manipulations.dll',
+        'System.Windows.Presentation.dll',
+        'System.Xaml.dll',
+        'System.Xml.dll',
+        'System.Xml.Linq.dll',
+        'System.Xml.ReaderWriter.dll',
+        'System.Xml.Serialization.dll',
+        'System.Xml.XDocument.dll',
+        'System.Xml.XmlDocument.dll',
+        'System.Xml.XmlSerializer.dll',
+        'System.Xml.XPath.dll',
+        'System.Xml.XPath.XDocument.dll',
+        'Topten.RichTextKit.dll',
+        'UIAutomationClient.dll',
+        'UIAutomationClientSideProviders.dll',
+        'UIAutomationProvider.dll',
+        'UIAutomationTypes.dll',
+        'vcruntime140_cor3.dll',
+        'WFN.config.log4net',
+        'WFN.deps.json',
+        'WFN.dll',
+        'WFN.exe',
+        'WFN.pdb',
+        'WFN.runtimeconfig.json',
+        'WindowsBase.dll',
+        'WindowsFormsIntegration.dll',
+        'Wokhan.Core.dll',
+        'Wokhan.UI.dll',
+        'Wokhan.WindowsFirewallNotifier.Common.deps.json',
+        'Wokhan.WindowsFirewallNotifier.Common.dll',
+        'Wokhan.WindowsFirewallNotifier.Common.dll.config',
+        'Wokhan.WindowsFirewallNotifier.Common.pdb',
+        'wpfgfx_cor3.dll'
+      )
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      RequiresDesktopExperience = $true
+    }
+    @{
+      Id = 'package.nirsoft-launcher'
+      Name = 'NirLauncher portable collection 1.30.26 (Defender-blocked entries omitted)'
+      Kind = 'Package'
+      Category = 'Software / Utilities'
+      Description = 'Stage the pinned NirLauncher 1.30.26 publisher snapshot as owned files, omitting all four Defender-reported executable names in every architecture and IEHistoryView, LANIPScanner, LSASecretsDump, OperaPassView, RouterPassView, NetPass, WebBrowserBookmarksView, BrowserAutoFillView and PasswordScan after Defender prevented their staging. RIDE does not launch utilities or change Defender settings. One included utility, NK2Edit, has separate publisher terms for business use; exact-version license review is informational. No target is supported pending Windows acceptance.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      RequiresDesktopExperience = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'nirsoft-launcher'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^NirLauncher\ portable\ collection\ 1\.30\.26\ \(Defender-blocked\ entries\ omitted\)$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://download.nirsoft.net/nirsoft_package_enc_1.30.26.zip'
+      AssetName = 'nirsoft_package_enc_1.30.26.zip'
+      PackageVersion = '1.30.26'
+      ExpectedSha256 = '6cfd973d0f2d34ec2fe5c7cfdcc0bdbcb56a8fad329fb4683f6446602769f1b2'
+      PortableArchivePassword = 'nirsoft9876$'
+      Architecture = 'neutral'
+      ProductUri = 'https://launcher.nirsoft.net/'
+      License = 'Freeware collection; NK2Edit requires a separate commercial license for company/business use; see publisher license conditions.'
+      LicenseUri = 'https://launcher.nirsoft.net/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-27-nirsoft-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('NirLauncher.exe', 'NirLauncher.cfg', 'NirSoft/nirsoft.nlp')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      PortableMembers = @(
+        'autorun.inf'
+        'NirLauncher.cfg'
+        'NirLauncher.exe'
+        'NirSoft/advancedrun.chm'
+        'NirSoft/advancedrun.exe'
+        'NirSoft/allthreadsview.chm'
+        'NirSoft/allthreadsview.exe'
+        'NirSoft/alternatestreamview.chm'
+        'NirSoft/alternatestreamview.exe'
+        'NirSoft/altstreamdump.chm'
+        'NirSoft/altstreamdump.exe'
+        'NirSoft/appaudioconfig.chm'
+        'NirSoft/appaudioconfig.exe'
+        'NirSoft/appcompatibilityview.chm'
+        'NirSoft/appcompatibilityview.exe'
+        'NirSoft/appcrashview.chm'
+        'NirSoft/appcrashview.exe'
+        'NirSoft/appnetworkcounter.chm'
+        'NirSoft/appnetworkcounter.exe'
+        'NirSoft/appreadwritecounter.chm'
+        'NirSoft/appreadwritecounter.exe'
+        'NirSoft/appresourcesusageview.chm'
+        'NirSoft/appresourcesusageview.exe'
+        'NirSoft/awatch.chm'
+        'NirSoft/awatch.exe'
+        'NirSoft/axhelper.chm'
+        'NirSoft/axhelper.exe'
+        'NirSoft/batteryhistoryview.chm'
+        'NirSoft/batteryhistoryview.exe'
+        'NirSoft/batteryinfoview.chm'
+        'NirSoft/batteryinfoview.exe'
+        'NirSoft/bluescreenview.chm'
+        'NirSoft/bluescreenview.exe'
+        'NirSoft/bluetoothcl.chm'
+        'NirSoft/bluetoothcl.exe'
+        'NirSoft/bluetoothleview.chm'
+        'NirSoft/bluetoothleview.exe'
+        'NirSoft/bluetoothlogview.chm'
+        'NirSoft/bluetoothlogview.exe'
+        'NirSoft/bluetoothview.chm'
+        'NirSoft/bluetoothview.exe'
+        'NirSoft/bootperformanceview.chm'
+        'NirSoft/bootperformanceview.exe'
+        'NirSoft/browseraddonsview.chm'
+        'NirSoft/browseraddonsview.exe'
+        'NirSoft/browserautofillview.chm'
+        'NirSoft/browserdownloadsview.chm'
+        'NirSoft/browserdownloadsview.exe'
+        'NirSoft/browsinghistoryview.chm'
+        'NirSoft/browsinghistoryview.exe'
+        'NirSoft/bulkfilechanger.chm'
+        'NirSoft/bulkfilechanger.exe'
+        'NirSoft/bulletspassview.chm'
+        'NirSoft/chromecacheview.chm'
+        'NirSoft/chromecacheview.exe'
+        'NirSoft/chromecookiesview.chm'
+        'NirSoft/chromehistoryview.chm'
+        'NirSoft/chromehistoryview.exe'
+        'NirSoft/chromepass.chm'
+        'NirSoft/chromepass.exe'
+        'NirSoft/clipboardic.chm'
+        'NirSoft/clipboardic.exe'
+        'NirSoft/controlmymonitor.chm'
+        'NirSoft/controlmymonitor.exe'
+        'NirSoft/countrytraceroute.chm'
+        'NirSoft/countrytraceroute.exe'
+        'NirSoft/cports.chm'
+        'NirSoft/cports.exe'
+        'NirSoft/cprocess.chm'
+        'NirSoft/cprocess.exe'
+        'NirSoft/credentialsfileview.chm'
+        'NirSoft/credentialsfileview.exe'
+        'NirSoft/credhistview.chm'
+        'NirSoft/credhistview.exe'
+        'NirSoft/csvfileview.chm'
+        'NirSoft/csvfileview.exe'
+        'NirSoft/ctie.exe'
+        'NirSoft/customexplorertoolbar.chm'
+        'NirSoft/customexplorertoolbar.exe'
+        'NirSoft/dataprotectiondecryptor.chm'
+        'NirSoft/dataprotectiondecryptor.exe'
+        'NirSoft/deviceioview.chm'
+        'NirSoft/deviceioview.exe'
+        'NirSoft/devmanview.chm'
+        'NirSoft/devmanview.exe'
+        'NirSoft/dhcplogview.chm'
+        'NirSoft/dhcplogview.exe'
+        'NirSoft/dialupass.chm'
+        'NirSoft/dialupass.exe'
+        'NirSoft/diskcountersview.chm'
+        'NirSoft/diskcountersview.exe'
+        'NirSoft/disksmartview.chm'
+        'NirSoft/disksmartview.exe'
+        'NirSoft/dllexp.chm'
+        'NirSoft/dllexp.exe'
+        'NirSoft/dnsdataview.chm'
+        'NirSoft/dnsdataview.exe'
+        'NirSoft/dnslookupview.chm'
+        'NirSoft/dnslookupview.exe'
+        'NirSoft/dnsquerysniffer.chm'
+        'NirSoft/dnsquerysniffer.exe'
+        'NirSoft/domainhostingview.chm'
+        'NirSoft/domainhostingview.exe'
+        'NirSoft/dotnetresourcesextract.chm'
+        'NirSoft/dotnetresourcesextract.exe'
+        'NirSoft/downtester.chm'
+        'NirSoft/downtester.exe'
+        'NirSoft/driveletterview.chm'
+        'NirSoft/driveletterview.exe'
+        'NirSoft/driverview.chm'
+        'NirSoft/driverview.exe'
+        'NirSoft/dumpedid.chm'
+        'NirSoft/dumpedid.exe'
+        'NirSoft/edgecookiesview.chm'
+        'NirSoft/edgecookiesview.exe'
+        'NirSoft/encryptedregview.chm'
+        'NirSoft/encryptedregview.exe'
+        'NirSoft/esedatabaseview.chm'
+        'NirSoft/esedatabaseview.exe'
+        'NirSoft/eventlogchannelsview.chm'
+        'NirSoft/eventlogchannelsview.exe'
+        'NirSoft/eventlogsourcesview.chm'
+        'NirSoft/eventlogsourcesview.exe'
+        'NirSoft/executedprogramslist.chm'
+        'NirSoft/executedprogramslist.exe'
+        'NirSoft/exifdataview.chm'
+        'NirSoft/exifdataview.exe'
+        'NirSoft/extpassword.chm'
+        'NirSoft/extpassword.exe'
+        'NirSoft/fastresolver.chm'
+        'NirSoft/fastresolver.exe'
+        'NirSoft/faview.chm'
+        'NirSoft/faview.exe'
+        'NirSoft/fbcacheview.chm'
+        'NirSoft/fbcacheview.exe'
+        'NirSoft/fileaccesserrorview.chm'
+        'NirSoft/fileaccesserrorview.exe'
+        'NirSoft/fileactivitywatch.chm'
+        'NirSoft/fileactivitywatch.exe'
+        'NirSoft/filetypesman.chm'
+        'NirSoft/filetypesman.exe'
+        'NirSoft/firefoxdownloadsview.chm'
+        'NirSoft/firefoxdownloadsview.exe'
+        'NirSoft/firmwaretablesview.chm'
+        'NirSoft/firmwaretablesview.exe'
+        'NirSoft/flashcookiesview.chm'
+        'NirSoft/flashcookiesview.exe'
+        'NirSoft/folderchangesview.chm'
+        'NirSoft/folderchangesview.exe'
+        'NirSoft/foldertimeupdate.chm'
+        'NirSoft/foldertimeupdate.exe'
+        'NirSoft/freespacelogview.chm'
+        'NirSoft/freespacelogview.exe'
+        'NirSoft/fulleventlogview.chm'
+        'NirSoft/fulleventlogview.exe'
+        'NirSoft/fullupdateshistoryview.chm'
+        'NirSoft/fullupdateshistoryview.exe'
+        'NirSoft/gdiview.chm'
+        'NirSoft/gdiview.exe'
+        'NirSoft/getnir.chm'
+        'NirSoft/getnir.exe'
+        'NirSoft/guipropview.chm'
+        'NirSoft/guipropview.exe'
+        'NirSoft/handlecountersview.chm'
+        'NirSoft/handlecountersview.exe'
+        'NirSoft/hashmyfiles.chm'
+        'NirSoft/hashmyfiles.exe'
+        'NirSoft/heapmemview.chm'
+        'NirSoft/heapmemview.exe'
+        'NirSoft/hostednetworkstarter.chm'
+        'NirSoft/hostednetworkstarter.exe'
+        'NirSoft/hotkeyslist.chm'
+        'NirSoft/hotkeyslist.exe'
+        'NirSoft/htmlastext.chm'
+        'NirSoft/htmlastext.exe'
+        'NirSoft/htmldocedit.chm'
+        'NirSoft/htmldocedit.exe'
+        'NirSoft/iconsext.chm'
+        'NirSoft/iconsext.exe'
+        'NirSoft/iecacheview.chm'
+        'NirSoft/iecacheview.exe'
+        'NirSoft/iecv.chm'
+        'NirSoft/iecv.exe'
+        'NirSoft/iehv.chm'
+        'NirSoft/iepv.chm'
+        'NirSoft/iepv.exe'
+        'NirSoft/imagecacheviewer.chm'
+        'NirSoft/imagecacheviewer.exe'
+        'NirSoft/insideclipboard.chm'
+        'NirSoft/insideclipboard.exe'
+        'NirSoft/installedappview.chm'
+        'NirSoft/installedappview.exe'
+        'NirSoft/installedcodec.chm'
+        'NirSoft/installedcodec.exe'
+        'NirSoft/installeddriverslist.chm'
+        'NirSoft/installeddriverslist.exe'
+        'NirSoft/installedpackagesview.chm'
+        'NirSoft/installedpackagesview.exe'
+        'NirSoft/ipinfooffline.chm'
+        'NirSoft/ipinfooffline.exe'
+        'NirSoft/ipneighborsview.chm'
+        'NirSoft/ipneighborsview.exe'
+        'NirSoft/ipnetinfo.chm'
+        'NirSoft/ipnetinfo.exe'
+        'NirSoft/ippathtableview.chm'
+        'NirSoft/ippathtableview.exe'
+        'NirSoft/jumplistsview.chm'
+        'NirSoft/jumplistsview.exe'
+        'NirSoft/keyboardstateview.chm'
+        'NirSoft/keyboardstateview.exe'
+        'NirSoft/lanipscanner.chm'
+        'NirSoft/lastactivityview.chm'
+        'NirSoft/lastactivityview.exe'
+        'NirSoft/livecontactsview.chm'
+        'NirSoft/livecontactsview.exe'
+        'NirSoft/livetcpudpwatch.chm'
+        'NirSoft/livetcpudpwatch.exe'
+        'NirSoft/loadeddllsview.chm'
+        'NirSoft/loadeddllsview.exe'
+        'NirSoft/lostmypassword.chm'
+        'NirSoft/lostmypassword.exe'
+        'NirSoft/lsasecretsdump.chm'
+        'NirSoft/lsasecretsview.chm'
+        'NirSoft/lsasecretsview.exe'
+        'NirSoft/macaddressview.chm'
+        'NirSoft/macaddressview.exe'
+        'NirSoft/madpassext.chm'
+        'NirSoft/madpassext.exe'
+        'NirSoft/mailpv.chm'
+        'NirSoft/mailpv.exe'
+        'NirSoft/managewirelessnetworks.chm'
+        'NirSoft/managewirelessnetworks.exe'
+        'NirSoft/mdnsview.chm'
+        'NirSoft/mdnsview.exe'
+        'NirSoft/mmcsnapinsview.chm'
+        'NirSoft/mmcsnapinsview.exe'
+        'NirSoft/mobilefilesearch.chm'
+        'NirSoft/mobilefilesearch.exe'
+        'NirSoft/monitorinfoview.chm'
+        'NirSoft/monitorinfoview.exe'
+        'NirSoft/mozillahistoryview.chm'
+        'NirSoft/mozillahistoryview.exe'
+        'NirSoft/mspass.chm'
+        'NirSoft/mspass.exe'
+        'NirSoft/muicacheview.chm'
+        'NirSoft/muicacheview.exe'
+        'NirSoft/multimonitortool.chm'
+        'NirSoft/multimonitortool.exe'
+        'NirSoft/mweather.chm'
+        'NirSoft/mweather.exe'
+        'NirSoft/myeventviewer.chm'
+        'NirSoft/myeventviewer.exe'
+        'NirSoft/mylastsearch.chm'
+        'NirSoft/mylastsearch.exe'
+        'NirSoft/mzcacheview.chm'
+        'NirSoft/mzcacheview.exe'
+        'NirSoft/mzcv.chm'
+        'NirSoft/mzcv.exe'
+        'NirSoft/netbscanner.chm'
+        'NirSoft/netbscanner.exe'
+        'NirSoft/netconnectchoose.chm'
+        'NirSoft/netconnectchoose.exe'
+        'NirSoft/netpass.chm'
+        'NirSoft/netresview.chm'
+        'NirSoft/netresview.exe'
+        'NirSoft/netrouteview.chm'
+        'NirSoft/netrouteview.exe'
+        'NirSoft/networkconnectlog.chm'
+        'NirSoft/networkconnectlog.exe'
+        'NirSoft/networkcounterswatch.chm'
+        'NirSoft/networkcounterswatch.exe'
+        'NirSoft/networkinterfacesview.chm'
+        'NirSoft/networkinterfacesview.exe'
+        'NirSoft/networklatencyview.chm'
+        'NirSoft/networklatencyview.exe'
+        'NirSoft/networkopenedfiles.chm'
+        'NirSoft/networkopenedfiles.exe'
+        'NirSoft/networktrafficview.chm'
+        'NirSoft/networktrafficview.exe'
+        'NirSoft/networkusageview.chm'
+        'NirSoft/networkusageview.exe'
+        'NirSoft/nircmd.chm'
+        'NirSoft/nircmd.exe'
+        'NirSoft/nircmdc.exe'
+        'NirSoft/nirsoft.nlp'
+        'NirSoft/nk2edit.chm'
+        'NirSoft/nk2edit.exe'
+        'NirSoft/ntfslinksview.chm'
+        'NirSoft/ntfslinksview.exe'
+        'NirSoft/officeins.chm'
+        'NirSoft/officeins.exe'
+        'NirSoft/offlineregistryfinder.chm'
+        'NirSoft/offlineregistryfinder.exe'
+        'NirSoft/offlineregistryview.chm'
+        'NirSoft/offlineregistryview.exe'
+        'NirSoft/openedfilesview.chm'
+        'NirSoft/openedfilesview.exe'
+        'NirSoft/opensavefilesview.chm'
+        'NirSoft/opensavefilesview.exe'
+        'NirSoft/openwithview.chm'
+        'NirSoft/openwithview.exe'
+        'NirSoft/operacacheview.chm'
+        'NirSoft/operacacheview.exe'
+        'NirSoft/operapassview.chm'
+        'NirSoft/outlookaccountsview.chm'
+        'NirSoft/outlookaccountsview.exe'
+        'NirSoft/outlookaddressbookview.chm'
+        'NirSoft/outlookaddressbookview.exe'
+        'NirSoft/outlookattachview.chm'
+        'NirSoft/outlookattachview.exe'
+        'NirSoft/outlookstatview.chm'
+        'NirSoft/outlookstatview.exe'
+        'NirSoft/passwordfox.chm'
+        'NirSoft/passwordfox.exe'
+        'NirSoft/passwordscan.chm'
+        'NirSoft/pcanypass.exe'
+        'NirSoft/pinginfoview.chm'
+        'NirSoft/pinginfoview.exe'
+        'NirSoft/previousfilesrecovery.chm'
+        'NirSoft/previousfilesrecovery.exe'
+        'NirSoft/processactivityview.chm'
+        'NirSoft/processactivityview.exe'
+        'NirSoft/processtcpsummary.chm'
+        'NirSoft/processtcpsummary.exe'
+        'NirSoft/processthreadsview.chm'
+        'NirSoft/processthreadsview.exe'
+        'NirSoft/productkeyscanner.chm'
+        'NirSoft/productkeyscanner.exe'
+        'NirSoft/produkey.chm'
+        'NirSoft/propertysystemview.chm'
+        'NirSoft/propertysystemview.exe'
+        'NirSoft/pstpassword.chm'
+        'NirSoft/pstpassword.exe'
+        'NirSoft/quicksetdns.chm'
+        'NirSoft/quicksetdns.exe'
+        'NirSoft/rdpv.chm'
+        'NirSoft/rdpv.exe'
+        'NirSoft/recentfilesview.chm'
+        'NirSoft/recentfilesview.exe'
+        'NirSoft/regdllview.chm'
+        'NirSoft/regdllview.exe'
+        'NirSoft/regfileexport.chm'
+        'NirSoft/regfileexport.exe'
+        'NirSoft/regfromapp.chm'
+        'NirSoft/regfromapp.exe'
+        'NirSoft/registrychangesview.chm'
+        'NirSoft/registrychangesview.exe'
+        'NirSoft/regscanner.chm'
+        'NirSoft/regscanner.exe'
+        'NirSoft/resourcesextract.chm'
+        'NirSoft/resourcesextract.exe'
+        'NirSoft/routerpassview.chm'
+        'NirSoft/rtmpdumphelper.chm'
+        'NirSoft/rtmpdumphelper.dll'
+        'NirSoft/rtmpdumphelper.exe'
+        'NirSoft/runasdate.chm'
+        'NirSoft/runasdate.exe'
+        'NirSoft/runfromprocess.chm'
+        'NirSoft/runfromprocess.exe'
+        'NirSoft/runtimeclassesview.chm'
+        'NirSoft/runtimeclassesview.exe'
+        'NirSoft/safaricacheview.chm'
+        'NirSoft/safaricacheview.exe'
+        'NirSoft/safarihistoryview.chm'
+        'NirSoft/safarihistoryview.exe'
+        'NirSoft/searchfilterview.chm'
+        'NirSoft/searchfilterview.exe'
+        'NirSoft/searchmyfiles.chm'
+        'NirSoft/searchmyfiles.exe'
+        'NirSoft/securityquestionsview.chm'
+        'NirSoft/securityquestionsview.exe'
+        'NirSoft/securitysoftview.chm'
+        'NirSoft/securitysoftview.exe'
+        'NirSoft/seqdownload.chm'
+        'NirSoft/seqdownload.exe'
+        'NirSoft/serviwin.chm'
+        'NirSoft/serviwin.exe'
+        'NirSoft/shadowcopyview.chm'
+        'NirSoft/shadowcopyview.exe'
+        'NirSoft/shellbagsview.chm'
+        'NirSoft/shellbagsview.exe'
+        'NirSoft/shellmenunew.chm'
+        'NirSoft/shellmenunew.exe'
+        'NirSoft/shexview.chm'
+        'NirSoft/shexview.exe'
+        'NirSoft/shman.chm'
+        'NirSoft/shman.exe'
+        'NirSoft/shmnview.chm'
+        'NirSoft/shmnview.exe'
+        'NirSoft/shutdownperformanceview.chm'
+        'NirSoft/shutdownperformanceview.exe'
+        'NirSoft/simplecodegenerator.chm'
+        'NirSoft/simplecodegenerator.exe'
+        'NirSoft/simpleprogramdebugger.chm'
+        'NirSoft/simpleprogramdebugger.exe'
+        'NirSoft/simplewmiview.chm'
+        'NirSoft/simplewmiview.exe'
+        'NirSoft/siteshoter.chm'
+        'NirSoft/siteshoter.exe'
+        'NirSoft/skypecontactsview.chm'
+        'NirSoft/skypecontactsview.exe'
+        'NirSoft/skypelogview.chm'
+        'NirSoft/skypelogview.exe'
+        'NirSoft/smsniff.chm'
+        'NirSoft/smsniff.exe'
+        'NirSoft/sniffpass.chm'
+        'NirSoft/sniffpass.exe'
+        'NirSoft/socketsniff.chm'
+        'NirSoft/socketsniff.exe'
+        'NirSoft/soundvolumeview.chm'
+        'NirSoft/soundvolumeview.exe'
+        'NirSoft/specialfoldersview.chm'
+        'NirSoft/specialfoldersview.exe'
+        'NirSoft/svcl.chm'
+        'NirSoft/svcl.exe'
+        'NirSoft/sysexp.chm'
+        'NirSoft/sysexp.exe'
+        'NirSoft/tabletextcompare.chm'
+        'NirSoft/tabletextcompare.exe'
+        'NirSoft/taskschedulerview.chm'
+        'NirSoft/taskschedulerview.exe'
+        'NirSoft/tcpconnectproblemview.chm'
+        'NirSoft/tcpconnectproblemview.exe'
+        'NirSoft/tcplogview.chm'
+        'NirSoft/tcplogview.exe'
+        'NirSoft/timezonesview.chm'
+        'NirSoft/timezonesview.exe'
+        'NirSoft/turnedontimesview.chm'
+        'NirSoft/turnedontimesview.exe'
+        'NirSoft/uninstallview.chm'
+        'NirSoft/uninstallview.exe'
+        'NirSoft/urlprotocolview.chm'
+        'NirSoft/urlprotocolview.exe'
+        'NirSoft/urlstringgrabber.chm'
+        'NirSoft/urlstringgrabber.exe'
+        'NirSoft/usbdeview.chm'
+        'NirSoft/usbdeview.exe'
+        'NirSoft/usbdrivelog.chm'
+        'NirSoft/usbdrivelog.exe'
+        'NirSoft/usblogview.chm'
+        'NirSoft/usblogview.exe'
+        'NirSoft/userassistview.chm'
+        'NirSoft/userassistview.exe'
+        'NirSoft/userprofilesview.chm'
+        'NirSoft/userprofilesview.exe'
+        'NirSoft/vaultpasswordview.chm'
+        'NirSoft/vaultpasswordview.exe'
+        'NirSoft/videocacheview.chm'
+        'NirSoft/videocacheview.exe'
+        'NirSoft/vncpassview.chm'
+        'NirSoft/vncpassview.exe'
+        'NirSoft/volumouse.chm'
+        'NirSoft/volumouse.exe'
+        'NirSoft/wakemeonlan.chm'
+        'NirSoft/wakemeonlan.exe'
+        'NirSoft/webbrowserbookmarksview.chm'
+        'NirSoft/webbrowserpassview.chm'
+        'NirSoft/webbrowserpassview.exe'
+        'NirSoft/webcacheimageinfo.chm'
+        'NirSoft/webcacheimageinfo.exe'
+        'NirSoft/webcamimagesave.chm'
+        'NirSoft/webcamimagesave.exe'
+        'NirSoft/webcookiessniffer.chm'
+        'NirSoft/webcookiessniffer.exe'
+        'NirSoft/websitesniffer.chm'
+        'NirSoft/websitesniffer.exe'
+        'NirSoft/webvideocap.chm'
+        'NirSoft/webvideocap.exe'
+        'NirSoft/whatinstartup.chm'
+        'NirSoft/whatinstartup.exe'
+        'NirSoft/whatishang.chm'
+        'NirSoft/whatishang.exe'
+        'NirSoft/whoiscl.chm'
+        'NirSoft/whoiscl.exe'
+        'NirSoft/whoisconnectedsniffer.chm'
+        'NirSoft/whoisconnectedsniffer.exe'
+        'NirSoft/whoistd.chm'
+        'NirSoft/whoistd.exe'
+        'NirSoft/whosip.chm'
+        'NirSoft/whosip.exe'
+        'NirSoft/wifichannelmonitor.chm'
+        'NirSoft/wifichannelmonitor.exe'
+        'NirSoft/wifidiagnosticsview.chm'
+        'NirSoft/wifidiagnosticsview.exe'
+        'NirSoft/wifihistoryview.chm'
+        'NirSoft/wifihistoryview.exe'
+        'NirSoft/wifiinfoview.chm'
+        'NirSoft/wifiinfoview.exe'
+        'NirSoft/wincrashreport.chm'
+        'NirSoft/wincrashreport.exe'
+        'NirSoft/windeflogview.chm'
+        'NirSoft/windeflogview.exe'
+        'NirSoft/windefthreatsview.chm'
+        'NirSoft/windefthreatsview.exe'
+        'NirSoft/winfontsview.chm'
+        'NirSoft/winfontsview.exe'
+        'NirSoft/winlister.chm'
+        'NirSoft/winlister.exe'
+        'NirSoft/winlogonview.chm'
+        'NirSoft/winlogonview.exe'
+        'NirSoft/winmailpassrec.chm'
+        'NirSoft/winmailpassrec.exe'
+        'NirSoft/winprefetchview.chm'
+        'NirSoft/winprefetchview.exe'
+        'NirSoft/winsockservicesview.chm'
+        'NirSoft/winsockservicesview.exe'
+        'NirSoft/winupdatesview.chm'
+        'NirSoft/winupdatesview.exe'
+        'NirSoft/wirelessconnectioninfo.chm'
+        'NirSoft/wirelessconnectioninfo.exe'
+        'NirSoft/wirelesskeyview.chm'
+        'NirSoft/wirelessnetconsole.chm'
+        'NirSoft/wirelessnetconsole.exe'
+        'NirSoft/wirelessnetview.chm'
+        'NirSoft/wirelessnetview.exe'
+        'NirSoft/wnetwatcher.chm'
+        'NirSoft/wnetwatcher.exe'
+        'NirSoft/wul.chm'
+        'NirSoft/wul.exe'
+        'NirSoft/x64/advancedrun.exe'
+        'NirSoft/x64/allthreadsview.exe'
+        'NirSoft/x64/alternatestreamview.exe'
+        'NirSoft/x64/appaudioconfig.exe'
+        'NirSoft/x64/appcompatibilityview.exe'
+        'NirSoft/x64/appnetworkcounter.exe'
+        'NirSoft/x64/appreadwritecounter.exe'
+        'NirSoft/x64/batteryinfoview.exe'
+        'NirSoft/x64/bluescreenview.exe'
+        'NirSoft/x64/bluetoothleview.exe'
+        'NirSoft/x64/browseraddonsview.exe'
+        'NirSoft/x64/browserdownloadsview.exe'
+        'NirSoft/x64/browsinghistoryview.exe'
+        'NirSoft/x64/bulkfilechanger.exe'
+        'NirSoft/x64/cports.exe'
+        'NirSoft/x64/credentialsfileview.exe'
+        'NirSoft/x64/csvfileview.exe'
+        'NirSoft/x64/dataprotectiondecryptor.exe'
+        'NirSoft/x64/deviceioview.exe'
+        'NirSoft/x64/devmanview.exe'
+        'NirSoft/x64/dhcplogview.exe'
+        'NirSoft/x64/dllexp.exe'
+        'NirSoft/x64/dnslookupview.exe'
+        'NirSoft/x64/dnsquerysniffer.exe'
+        'NirSoft/x64/driveletterview.exe'
+        'NirSoft/x64/driverview.exe'
+        'NirSoft/x64/encryptedregview.exe'
+        'NirSoft/x64/eventlogchannelsview.exe'
+        'NirSoft/x64/eventlogsourcesview.exe'
+        'NirSoft/x64/fileaccesserrorview.exe'
+        'NirSoft/x64/fileactivitywatch.exe'
+        'NirSoft/x64/filetypesman.exe'
+        'NirSoft/x64/firmwaretablesview.exe'
+        'NirSoft/x64/foldertimeupdate.exe'
+        'NirSoft/x64/fulleventlogview.exe'
+        'NirSoft/x64/gdiview.exe'
+        'NirSoft/x64/guipropview.exe'
+        'NirSoft/x64/handlecountersview.exe'
+        'NirSoft/x64/hashmyfiles.exe'
+        'NirSoft/x64/heapmemview.exe'
+        'NirSoft/x64/installedappview.exe'
+        'NirSoft/x64/installedcodec.exe'
+        'NirSoft/x64/installeddriverslist.exe'
+        'NirSoft/x64/installedpackagesview.exe'
+        'NirSoft/x64/livetcpudpwatch.exe'
+        'NirSoft/x64/loadeddllsview.exe'
+        'NirSoft/x64/lostmypassword.exe'
+        'NirSoft/x64/lsasecretsview.exe'
+        'NirSoft/x64/mmcsnapinsview.exe'
+        'NirSoft/x64/mobilefilesearch.exe'
+        'NirSoft/x64/mozillahistoryview.exe'
+        'NirSoft/x64/multimonitortool.exe'
+        'NirSoft/x64/myeventviewer.exe'
+        'NirSoft/x64/mzcv.exe'
+        'NirSoft/x64/networkinterfacesview.exe'
+        'NirSoft/x64/networklatencyview.exe'
+        'NirSoft/x64/networkopenedfiles.exe'
+        'NirSoft/x64/networktrafficview.exe'
+        'NirSoft/x64/networkusageview.exe'
+        'NirSoft/x64/nircmd.exe'
+        'NirSoft/x64/nircmdc.exe'
+        'NirSoft/x64/nk2edit.exe'
+        'NirSoft/x64/ntfslinksview.exe'
+        'NirSoft/x64/officeins.exe'
+        'NirSoft/x64/offlineregistryfinder.exe'
+        'NirSoft/x64/offlineregistryview.exe'
+        'NirSoft/x64/openedfilesview.exe'
+        'NirSoft/x64/opensavefilesview.exe'
+        'NirSoft/x64/outlookaccountsview.exe'
+        'NirSoft/x64/outlookaddressbookview.exe'
+        'NirSoft/x64/outlookattachview.exe'
+        'NirSoft/x64/outlookstatview.exe'
+        'NirSoft/x64/passwordfox.exe'
+        'NirSoft/x64/pinginfoview.exe'
+        'NirSoft/x64/previousfilesrecovery.exe'
+        'NirSoft/x64/processactivityview.exe'
+        'NirSoft/x64/processtcpsummary.exe'
+        'NirSoft/x64/processthreadsview.exe'
+        'NirSoft/x64/productkeyscanner.exe'
+        'NirSoft/x64/propertysystemview.exe'
+        'NirSoft/x64/regdllview.exe'
+        'NirSoft/x64/regfromapp.exe'
+        'NirSoft/x64/registrychangesview.exe'
+        'NirSoft/x64/regscanner.exe'
+        'NirSoft/x64/resourcesextract.exe'
+        'NirSoft/x64/rtmpdumphelper.dll'
+        'NirSoft/x64/rtmpdumphelper.exe'
+        'NirSoft/x64/runasdate.exe'
+        'NirSoft/x64/runfromprocess.exe'
+        'NirSoft/x64/searchmyfiles.exe'
+        'NirSoft/x64/serviwin.exe'
+        'NirSoft/x64/shadowcopyview.exe'
+        'NirSoft/x64/shexview.exe'
+        'NirSoft/x64/shman.exe'
+        'NirSoft/x64/shmnview.exe'
+        'NirSoft/x64/simpleprogramdebugger.exe'
+        'NirSoft/x64/simplewmiview.exe'
+        'NirSoft/x64/smsniff.exe'
+        'NirSoft/x64/sniffpass.exe'
+        'NirSoft/x64/soundvolumeview.exe'
+        'NirSoft/x64/specialfoldersview.exe'
+        'NirSoft/x64/svcl.exe'
+        'NirSoft/x64/sysexp.exe'
+        'NirSoft/x64/taskschedulerview.exe'
+        'NirSoft/x64/tcplogview.exe'
+        'NirSoft/x64/uninstallview.exe'
+        'NirSoft/x64/usbdeview.exe'
+        'NirSoft/x64/vaultpasswordview.exe'
+        'NirSoft/x64/videocacheview.exe'
+        'NirSoft/x64/vlmshlp.dll'
+        'NirSoft/x64/vlmshlp32.dll'
+        'NirSoft/x64/volumouse.exe'
+        'NirSoft/x64/volumouse32.exe'
+        'NirSoft/x64/wakemeonlan.exe'
+        'NirSoft/x64/webcookiessniffer.exe'
+        'NirSoft/x64/websitesniffer.exe'
+        'NirSoft/x64/whatinstartup.exe'
+        'NirSoft/x64/whatishang.exe'
+        'NirSoft/x64/whoisconnectedsniffer.exe'
+        'NirSoft/x64/wifichannelmonitor.exe'
+        'NirSoft/x64/wifiinfoview.exe'
+        'NirSoft/x64/wincrashreport.exe'
+        'NirSoft/x64/windefthreatsview.exe'
+        'NirSoft/x64/winlister.exe'
+        'NirSoft/x64/winmailpassrec.exe'
+        'NirSoft/x64/winprefetchview.exe'
+        'NirSoft/x64/winupdatesview.exe'
+        'NirSoft/x64/wnetwatcher.exe'
+      )
+      AcceptanceNotes = 'Exact official archive SHA-256 and 668-member central-directory inventory are recorded in docs/archive/evidence/nirlauncher-source-inventory-2026-10-17.json. PortableMembers selects 647 entries, omits the four user-reported Defender-alert executable basenames in every architecture, and omits NirSoft/iehv.exe, NirSoft/lanipscanner.exe, both NirSoft LSASecretsDump.exe and NetPass.exe architecture paths, NirSoft/operapassview.exe, NirSoft/routerpassview.exe, NirSoft/webbrowserbookmarksview.exe, both NirSoft BrowserAutoFillView.exe paths and both NirSoft PasswordScan.exe architecture paths after Defender prevented their staging. The NirLauncher configuration can still list omitted utilities; clicking one may report a missing executable. Archive integrity is pinned, but individual NirLauncher member hashes were not verified. Stage only; do not run NirLauncher or any utility. Windows 11 lifecycle, launcher behavior, acceptance and further Defender review remain pending.'
+    }
+    @{
+      Id = 'package.nirsoft-x64-tools'
+      Name = 'NirSoft x64 tools collection (2026-10-17 reviewed snapshot)'
+      Kind = 'Package'
+      Category = 'Software / Utilities'
+      Description = 'Stage the pinned official NirSoft x64 tools archive as owned files, omitting the two Defender-reported executable names. RIDE does not launch utilities or change Defender settings. Exact-version license review is informational. No target is supported pending Windows acceptance.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      RequiresDesktopExperience = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Download', 'Install', 'Uninstall', 'Restore')
+      Handler = 'Package'
+      TargetDefaults = @{}
+      PackageId = 'nirsoft-x64-tools'
+      InstallerType = 'Portable'
+      DisplayNamePattern = '^NirSoft\ x64\ tools\ collection\ \(2026-10-17\ reviewed\ snapshot\)$'
+      DownloadProvider = 'DirectHttps'
+      DownloadUri = 'https://www.nirsoft.net/packages/x64tools.zip'
+      AssetName = 'x64tools.zip'
+      PackageVersion = 'snapshot-2026-10-17'
+      ExpectedSha256 = '305556bfa9796fd5320ffe4f87ccc66a1fca6dad5fed7d5653bc21ac5df2806b'
+      PortableArchivePassword = 'nirsoft123!'
+      Architecture = 'neutral'
+      ProductUri = 'https://www.nirsoft.net/x64_download_package.html'
+      License = 'Freeware collection; some included utilities have product-specific license conditions; see the official NirLauncher license conditions.'
+      LicenseUri = 'https://launcher.nirsoft.net/'
+      InstallerArguments = ''
+      UninstallerArguments = ''
+      Rollback = 'Exact'
+      MigrationBatch = '2026-10-27-nirsoft-collections'
+      PortableFormat = 'Zip'
+      RequiredFiles = @('cports.exe')
+      DefaultVariant = 'portable'
+      Variants = @{ portable = @{} }
+      PortableMembers = @(
+        'cports.chm'
+        'cports.exe'
+        'dllexp.chm'
+        'dllexp.exe'
+        'driverview.chm'
+        'DriverView.exe'
+        'FileTypesMan.chm'
+        'FileTypesMan.exe'
+        'GDIView.chm'
+        'GDIView.exe'
+        'heapmemview.chm'
+        'HeapMemView.exe'
+        'netpass.chm'
+        'netpass.exe'
+        'NetworkTrafficView.chm'
+        'NetworkTrafficView.exe'
+        'OpenedFilesView.chm'
+        'OpenedFilesView.exe'
+        'ProcessActivityView.chm'
+        'ProcessActivityView.exe'
+        'ProcessThreadsView.chm'
+        'ProcessThreadsView.exe'
+        'ProduKey.chm'
+        'RegDllView.chm'
+        'RegDllView.exe'
+        'RegFromApp.chm'
+        'RegFromApp.exe'
+        'regscanner.chm'
+        'RegScanner.exe'
+        'RunAsDate.chm'
+        'RunAsDate.exe'
+        'shexview.chm'
+        'shexview.exe'
+        'shmnview.chm'
+        'shmnview.exe'
+        'SpecialFoldersView.chm'
+        'SpecialFoldersView.exe'
+        'sysexp.chm'
+        'sysexp.exe'
+        'vlmshlp.dll'
+        'volumouse.chm'
+        'volumouse.exe'
+        'WebCookiesSniffer.chm'
+        'WebCookiesSniffer.exe'
+        'WebSiteSniffer.chm'
+        'WebSiteSniffer.exe'
+        'WirelessKeyView.chm'
+      )
+      AcceptanceNotes = 'The exact measured archive SHA-256, 49-member inventory and 47 verified member hashes are recorded in docs/archive/evidence/nirsoft-x64-source-review-2026-10-17.json; the publisher supplied no archive digest. PortableMembers selects the 47 members with verified hashes and omits ProduKey.exe and WirelessKeyView.exe. The two omitted alert files were not read or re-extracted. Stage only; do not launch utilities or change Defender settings. Windows 11 lifecycle and functional behavior remain pending.'
+    }
+    @{
+      Id = 'windows.openssh-server-service'
+      Name = 'OpenSSH Server service'
+      Kind = 'WindowsService'
+      Category = 'Windows components / Services'
+      Description = 'Separately control sshd startup and runtime after the OpenSSH Server capability is installed. This operation never changes firewall exposure; starting sshd can make an already-enabled inbound rule reachable. The default is not changed by RIDE unless this explicit state is selected.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'WindowsService'
+      Rollback = 'Exact'
+      TargetDefaults = @{}
+      RequiredCapabilityName = 'OpenSSH.Server~~~~0.0.1.0'
+      ServiceName = 'sshd'
+      PreserveDelayedAutoStart = $true
+      States = @{
+        ManualStopped = @{ StartupType = 'Manual'; Status = 'Stopped' }
+        ManualRunning = @{ StartupType = 'Manual'; Status = 'Running' }
+        AutomaticStopped = @{ StartupType = 'Automatic'; Status = 'Stopped'; DelayedAutoStart = $false }
+        AutomaticRunning = @{ StartupType = 'Automatic'; Status = 'Running'; DelayedAutoStart = $false }
+        AutomaticDelayedStopped = @{ StartupType = 'Automatic'; Status = 'Stopped'; DelayedAutoStart = $true }
+        AutomaticDelayedRunning = @{ StartupType = 'Automatic'; Status = 'Running'; DelayedAutoStart = $true }
+        DisabledStopped = @{ StartupType = 'Disabled'; Status = 'Stopped' }
+      }
+      BaselineState = 'ManualStopped'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh-server-configuration'
+      AcceptanceNotes = 'This is an independent service activation candidate, separate from capability installation and firewall exposure; no separate firewall operation is registered in this source candidate. Keep supported targets empty until native Windows 11 and Windows Server 2025 checks verify service state, delayed-start preservation, exact restore, missing-capability refusal and repeat behavior.'
+    }
+    @{
+      Id = 'component.openssh-server-capability'
+      Name = 'OpenSSH Server capability'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / Capabilities'
+      Description = 'Install or remove the Windows OpenSSH Server capability as a separate optional component. Installation does not start sshd or enable inbound firewall access; existing service, firewall, configuration and host-key state are preserved. Removal is limited to a RIDE-owned install with no pre-existing server surfaces and unchanged post-install state.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'OpenSshServerCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'OpenSSH.Server~~~~0.0.1.0'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse'
+      AcceptanceNotes = 'Catalog discovery, engine state/apply/remove/restore paths and guarded capability lifecycle are implemented and locally tested with mocked providers. Keep supported targets empty until disposable Windows 11 and Windows Server 2025 capability, service, firewall, saved-run removal, repeat and recovery acceptance passes. Native acceptance is blocked by current VM/controller access. Activation and firewall exposure remain independent choices.'
     }
   )
   Groups = @(

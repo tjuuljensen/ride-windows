@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T14:41:21Z",
+  "batch": "NTCore package staging and pending-candidate regression",
+  "suite": "tests/NtcorePackages.Tests.ps1",
+  "runtime": "Windows PowerShell 5.1.26100.9711",
+  "pesterVersion": "5.7.1",
+  "result": {
+    "discovered": 20,
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 27.15
+  },
+  "configuration": {
+    "testRegistry": "Disabled",
+    "testResult": "Disabled",
+    "tempRoot": "Unique workspace-local .local/pester-temp directory with process-scoped TEMP/TMP"
+  },
+  "coverage": [
+    "Retained NTCore package archive/member selection and isolated staging, repeat, uninstall, recovery, collision and modified-file protections.",
+    "VirtualReg Manager pending candidate binding to the retained publisher archive and exact owned-file recovery without utility execution.",
+    "ScreenWriter candidate metadata, prerequisite/target boundary, and exact retained MSI digest check without invoking Windows Installer.",
+    "WIM Installer pending archive candidate selection and exact owned-file recovery without launching the utility."
+  ],
+  "observations": {
+    "upstreamUtilityLaunched": false,
+    "windowsInstallerStarted": false,
+    "registryChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "freshElevationRequested": false
+  },
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "remainingAcceptance": "Pending NTCore candidates remain unsupported until disposable Windows install/repeat/uninstall and checkpoint recovery are accepted. These local package staging tests do not establish native installation or utility behavior.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the regression adds candidate evidence and closes no legacy outcome."
+    }
+  }
+}

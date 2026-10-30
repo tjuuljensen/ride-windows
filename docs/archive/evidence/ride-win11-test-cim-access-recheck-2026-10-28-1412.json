@@ -1,0 +1,23 @@
+{
+  "recordedAtUtc": "2026-10-28T14:12:41Z",
+  "vm": "RIDE-Win11-Test",
+  "action": "Read-only Get-VM preflight before checkpoint inspection or guest dispatch.",
+  "result": "Failed before VM/checkpoint inspection: Access to a CIM resource was not available to the client.",
+  "guestRunnerDispatched": false,
+  "checkpointInspected": false,
+  "scheduledTaskQueried": false,
+  "elevationRequested": false,
+  "vmOrCheckpointChanged": false,
+  "windowsOrDefenderStateChanged": false,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no runtime acceptance or legacy outcome occurred."
+  },
+  "blocker": "Host CIM access prevents inspection of RIDE-Win11-Test and its checkpoint, so native acceptance remains deferred."
+}

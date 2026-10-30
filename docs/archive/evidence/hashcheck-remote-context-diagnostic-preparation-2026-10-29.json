@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T13:27:44.4856047Z",
+  "Status": "Prepared; not executed",
+  "Host": "P52",
+  "Guest": "RIDE-Win11-Test",
+  "OperatorConfirmed": {
+    "QueuesEmpty": true,
+    "RecoveryBlock": false,
+    "VM": "Running",
+    "Controller": "Disabled"
+  },
+  "Helpers": [
+    {
+      "Path": ".local/acceptance-input/Invoke-HashCheckRemoteDiagnostic.ps1",
+      "SHA256": "9AE1B8AD01745CF63ACDAE776BB3AE27BF188856CA387B740C2355D9FEEE01CE"
+    },
+    {
+      "Path": ".local/acceptance-input/Invoke-HashCheckRemoteGuest.ps1",
+      "SHA256": "6A484F29B69A355BE46845990E39E2C15F8971DBBA0B9CAA852E2D054E3BEEB6"
+    }
+  ],
+  "LocalValidation": {
+    "InstallerExecuted": false,
+    "PayloadBytes": 2157368,
+    "Parser": "Both helpers passed",
+    "Authenticode": "Valid",
+    "PayloadSHA256": "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+    "PowerShell": "5.1.26100.9818"
+  },
+  "Procedure": "From elevated P52 Windows PowerShell, run .local/acceptance-input/Invoke-HashCheckRemoteDiagnostic.ps1 once. Retained installer transferred via PowerShell Direct; execution via AutomatedLab and fresh noninteractive Windows PowerShell. Export and hash-check logs before any reset.",
+  "Recovery": "Keep controller disabled and VM running for diagnosis; restore exact configured clean checkpoint only after retaining evidence.",
+  "Acceptance": "Diagnostic only; remote fix and Windows feature acceptance remain open.",
+  "Migration": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Resolved": 0,
+    "NewExclusions": 0,
+    "Retired": 0,
+    "FilesAndAssets": "25-35",
+    "Partial": "Attended lifecycle passed; remote route unresolved",
+    "ExactTotal": "126-180",
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "RoundedTotal": "125-180; about 155"
+  }
+}

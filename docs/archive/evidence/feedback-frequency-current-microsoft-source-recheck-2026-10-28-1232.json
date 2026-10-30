@@ -1,0 +1,75 @@
+{
+  "recordedAtUtc": "2026-10-28T12:32:28Z",
+  "batch": "R04 feedback-frequency current Microsoft source recheck",
+  "sources": [
+    {
+      "uri": "https://support.microsoft.com/en-us/windows/privacy/diagnostics-feedback-and-privacy-in-windows",
+      "publisher": "Microsoft Support",
+      "finding": "Windows 11 Settings path is Privacy & security > Diagnostics & feedback > Feedback frequency. It adjusts how often Windows asks for user feedback; page does not list dropdown choices."
+    },
+    {
+      "uri": "https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services",
+      "publisher": "Microsoft Learn",
+      "finding": "Section 18.16 states feedback frequency applies to user-generated feedback, gives Automatically/Never/Always/Once a day/Once a week mappings for PeriodInNanoSeconds and NumberOfSIUFInPeriod, and labels both REG_DWORD."
+    }
+  ],
+  "mapping": [
+    {
+      "choice": "Automatically",
+      "PeriodInNanoSeconds": "Absent",
+      "NumberOfSIUFInPeriod": "Absent"
+    },
+    {
+      "choice": "Never",
+      "PeriodInNanoSeconds": 0,
+      "NumberOfSIUFInPeriod": 0
+    },
+    {
+      "choice": "Always",
+      "PeriodInNanoSeconds": 100000000,
+      "NumberOfSIUFInPeriod": "Absent"
+    },
+    {
+      "choice": "Once a day",
+      "PeriodInNanoSeconds": 864000000000,
+      "NumberOfSIUFInPeriod": 1
+    },
+    {
+      "choice": "Once a week",
+      "PeriodInNanoSeconds": 6048000000000,
+      "NumberOfSIUFInPeriod": 1
+    }
+  ],
+  "discrepancy": "Microsoft labels both values REG_DWORD, but daily 864000000000 and weekly 6048000000000 exceed the unsigned DWORD maximum 4294967295. Neither source establishes a corrected value type or a current-build UI payload. Do not coerce, truncate, reinterpret, or write these values.",
+  "vmRecheck": {
+    "checkedAtUtc": "2026-10-28T12:32:28Z",
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Server2025-Test",
+      "RIDE-S25-Test"
+    ],
+    "getVmResult": "Access to a CIM resource was not available to the client.",
+    "scheduledTaskQuery": "Access to a CIM resource was not available to the client.",
+    "checkpointInspected": false,
+    "runnerDispatched": false
+  },
+  "disposition": "Keep R04 as one current-user paired preference candidate. Do not add catalog states or implementation until disposable target observation establishes current dropdown choices, exact value kinds, GUI transitions, mixed/custom restoration and effective policy behavior. Existing machine notification policy, diagnostic-data level and DmClient tasks remain separate.",
+  "observations": {
+    "registryRead": false,
+    "settingChanged": false,
+    "taskChanged": false,
+    "vmStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; source recheck confirms the documentation inconsistency and acceptance scope but closes no legacy outcome."
+  }
+}

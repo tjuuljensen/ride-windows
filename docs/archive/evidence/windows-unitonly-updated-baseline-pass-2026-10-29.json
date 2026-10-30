@@ -1,0 +1,111 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T06:07:22.6126374Z",
+  "RunId": "0c853f5330cb4cc4bec72645370d1aeb",
+  "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\0c853f5330cb4cc4bec72645370d1aeb",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "0c853f5330cb4cc4bec72645370d1aeb",
+    "Source": "Local",
+    "UnitOnly": true,
+    "IntegrationSuite": "Full",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-29T04:57:00.9343256Z",
+    "FinishedAtUtc": "2026-10-29T06:04:35.7193343Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "GuestSummary": {
+    "SchemaVersion": 1,
+    "RunId": "0c853f5330cb4cc4bec72645370d1aeb",
+    "Status": "Passed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 3567,
+      "Passed": 3527
+    },
+    "Error": null,
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Full repository regression"
+  },
+  "Skipped": 40,
+  "SourceEvidence": [
+    {
+      "Path": "result.json",
+      "SHA256": "F0E0282ADC52A63085096A4E152B9E7FA9740D9DA9A9BC5AA1E4C5F6D4D6CBB9"
+    },
+    {
+      "Path": "guest/summary.json",
+      "SHA256": "0BD768E4D1E22D5B218EE76D0C211F4D83389D530786DF2846EB6678A3388EC0"
+    },
+    {
+      "Path": "guest/pester.xml",
+      "SHA256": "EC797F30FF673810714779BE5161C42FBB50349DA51D24B9348773F2144FEE2B"
+    },
+    {
+      "Path": "source-files.json",
+      "SHA256": "2E8B46813A99017334CFD5A811AB15891E0E9A5A5B3741FFCFB9AB011E905363"
+    }
+  ],
+  "Baseline": {
+    "Name": "RIDE-clean-test-base-26300.9711-20261029",
+    "FullBuild": "26300.9711",
+    "Id": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "FullBuildSource": "Operator-supplied guest registry output before checkpoint creation"
+  },
+  "Diagnosis": {
+    "DuplicateCheckpointRenamed": "723fdbe1-2faf-4832-833f-41b75a25a64e renamed RIDE-updated-spare-26300.9711-20261029 by operator",
+    "OriginalCheckpointPreserved": true,
+    "EarlierFailedRunResetCause": "Unconfirmed; servicing is plausible but not proven for the earlier run.",
+    "IdleRestartCause": "Operator-supplied guest event 1074 identifies MoUsoCoreWorker.exe at 05:34:38 and TrustedInstaller.exe at 05:38:38 local on 2026-10-29."
+  },
+  "PostRun": {
+    "CurrentVMAndTaskState": "Elevated operator output after the run confirms RIDE-Win11-Test Off, Operating normally, and RIDEWin11Test Ready. Direct tool CIM queries remain denied.",
+    "PendingRequests": 0,
+    "RecoveryBlockPresent": false,
+    "RunningRequests": 0,
+    "RegistrationValidationStatus": "NotValidated"
+  },
+  "Acceptance": {
+    "NativeIntegration": "Not run: UnitOnly=true despite IntegrationSuite=Full",
+    "NewExclusions": 0,
+    "FullControllerCertification": "Not claimed",
+    "ResolvedLegacyOutcomes": 0,
+    "CurrentCheckout": "Not assumed identical to the staged source snapshot",
+    "Windows11RegisteredUnitOnly": "Passed for staged source snapshot",
+    "RetiredLegacyOutcomes": 0,
+    "WindowsServer": "Not covered"
+  },
+  "RemainingEstimates": {
+    "Settings": "37-57",
+    "Reason": "Controller recovery and unit regression enable acceptance; they do not close native legacy feature/product outcomes.",
+    "FilesAndAssets": "25-35",
+    "Components": "19-24",
+    "RoundedTotal": "125-180; about 155",
+    "Maintenance": "8-12",
+    "ExactTotal": "126-180",
+    "Packages": "37-52"
+  }
+}

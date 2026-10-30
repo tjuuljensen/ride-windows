@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T07:28:00Z",
+  "batch": "OpenSSH Server component current-source regression",
+  "candidate": "Windows capability install/remove, observation, service activation and independent inbound firewall control",
+  "testFiles": [
+    "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+    "tests/OpenSshServerObservation.Tests.ps1",
+    "tests/OpenSshServerLifecycle.Tests.ps1",
+    "tests/NetworkAndSoundControls.Tests.ps1"
+  ],
+  "results": [
+    {
+      "edition": "Windows PowerShell 5.1.26100.9711",
+      "pester": "5.7.1",
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    {
+      "edition": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    }
+  ],
+  "testBoundary": {
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "nativeServicingServiceAndFirewallProvidersMocked": true,
+    "whatIfGuardCoverageIncluded": true,
+    "capabilityInstalledOrRemoved": false,
+    "sshdStarted": false,
+    "firewallStateChanged": false,
+    "vmOrCheckpointAccessed": false
+  },
+  "repositoryValidation": {
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 299,
+    "result": "Passed",
+    "generatedOperationDocumentation": "Current"
+  },
+  "acceptance": {
+    "legacyOutcomeClosed": false,
+    "deferred": [
+      "Native Windows 11 and Windows Server 2025 capability, service, firewall, recovery and target acceptance remain pending because host VM access fails at CIM before inspection."
+    ],
+    "relatedVmAccessEvidence": "ride-win11-and-server2025-vm-access-recheck-2026-10-28-0724.json",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; mocked source regression does not establish native Windows behavior or close a legacy outcome."
+    }
+  }
+}

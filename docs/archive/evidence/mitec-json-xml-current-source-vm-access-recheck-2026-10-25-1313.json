@@ -1,0 +1,122 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T13:17:25Z",
+  "Scope": "MiTeC JSON/XML Viewer current-source acceptance blocker recheck",
+  "VmAccess": {
+    "Vm": "RIDE-Win11-Test",
+    "Result": "Get-VM failed at CIM before VM or checkpoint inspection",
+    "VmStateChanged": false,
+    "UacPromptRequested": false
+  },
+  "PriorAcceptance": {
+    "Evidence": "docs/archive/evidence/focused-portable-vm-rerun-2026-10-17.json",
+    "RunId": "a2cfd331a10e4f71a607a148361cdc0b",
+    "Status": "Passed",
+    "Target": "Windows 11",
+    "Build": "26300",
+    "ToolExecuted": false,
+    "Cases": [
+      {
+        "Id": "package.mitec-json-viewer",
+        "Variant": "portable",
+        "Status": "Passed",
+        "LifecycleRecovery": true
+      },
+      {
+        "Id": "package.mitec-json-viewer",
+        "Variant": "portable-x86",
+        "Status": "Passed",
+        "LifecycleRecovery": true
+      },
+      {
+        "Id": "package.mitec-xml-viewer",
+        "Variant": "portable",
+        "Status": "Passed",
+        "LifecycleRecovery": true
+      },
+      {
+        "Id": "package.mitec-xml-viewer",
+        "Variant": "portable-x86",
+        "Status": "Passed",
+        "LifecycleRecovery": true
+      }
+    ]
+  },
+  "CurrentArchiveChecks": [
+    {
+      "Id": "package.mitec-json-viewer",
+      "AssetName": "JSONView.zip",
+      "ExpectedSha256": "9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21",
+      "ActualSha256": "9C6D38BC040BAE98E9847539220611E4DEA915D27314463E602B880C3F845B21",
+      "MatchesPinnedHash": true,
+      "CurrentSupportedTargets": []
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "AssetName": "XMLView.zip",
+      "ExpectedSha256": "c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960",
+      "ActualSha256": "C64A87EE9D26096D3A2EFC63D2C1B38FB5440A825FA5B1BDC0D50CBB2D6B7960",
+      "MatchesPinnedHash": true,
+      "CurrentSupportedTargets": []
+    }
+  ],
+  "SourceManifestChecks": [
+    {
+      "Path": "catalog/operations.psd1",
+      "AcceptedRunSha256": "2BDB4068913A29FC7E8DF4988EBC4E36013D56DE731AFEC988B5599772E2C291",
+      "CurrentSha256": "09B9DE304AE1800BA1C49C7C14AD846CE30EC035CFA6A088CA7E26EEAAA9EAE5",
+      "MatchesAcceptedRun": false
+    },
+    {
+      "Path": "modules/RIDE.Engine.psm1",
+      "AcceptedRunSha256": "27F7A1423A401EA64C3BCB5D027D28603927E010DDD0B14EE699D6C281C48EE5",
+      "CurrentSha256": "40761B7DA4770E6D10B3CB3C7CE83CFE3F5149F9F16EF82486402341C88B00FD",
+      "MatchesAcceptedRun": false
+    },
+    {
+      "Path": "tests/ApplicationPackages.Tests.ps1",
+      "AcceptedRunSha256": "23D1F18037AD4F3A79F128718DC4F1CB5D9AC0D55817A0B35E1E79C8F33ABF51",
+      "CurrentSha256": "30EEC8EEEEA953322F3C7796CBA6D903895DAE2958B5BA5246104AE0CFE263E1",
+      "MatchesAcceptedRun": false
+    },
+    {
+      "Path": "tests/PortableAcceptanceAutomation.Tests.ps1",
+      "AcceptedRunSha256": "2B4CBCCCAF7F9901CC66BDF2087348F1BBFC2DAA81A83002653B1EC55003DBC2",
+      "CurrentSha256": "7A82F5CCC5EB3C10869C252FE5AEAB8F75ADAC6D45ADCC6CD3C656EB3B2E19AA",
+      "MatchesAcceptedRun": false
+    },
+    {
+      "Path": "tests/integration/Invoke-RidePortableAcceptance.ps1",
+      "AcceptedRunSha256": "C574558B2C579016D6771290A91BAAC336FB8E10F416993F08C83EB3DDBDB669",
+      "CurrentSha256": "3F8D641DF8F7795FD9DD3AD501155861B72BAACA11FF2CB8D18245467C306EED",
+      "MatchesAcceptedRun": false
+    },
+    {
+      "Path": "tests/integration/Invoke-RidePortableVmAcceptance.ps1",
+      "AcceptedRunSha256": "7981D0833F3915D54CFD827FFB26B3731BDC1546F9B78A25CC4DBBA4B3383134",
+      "CurrentSha256": "B10EBA95800CE2A32A5D172F14DD74E0BF5037F5937FAC7E4739F7654ED51B81",
+      "MatchesAcceptedRun": false
+    },
+    {
+      "Path": "tests/integration/RIDE.PortableAcceptance.psm1",
+      "AcceptedRunSha256": "50E815DBF43C01B313E6CE0C14EE51546997D34A8A5A7D2B2A610D661156B308",
+      "CurrentSha256": "D5BAE840071D98E6668B84B5468ED1E22B0D609949E09F756BDB159C12CEDF05",
+      "MatchesAcceptedRun": false
+    }
+  ],
+  "Disposition": "Prior Windows 11 file-lifecycle evidence remains valid for its recorded source manifest, but the recorded source hashes differ from the current checkout. Keep current SupportedTargets empty and PendingAcceptance true until rerun against current source. No GUI, document, activation or application behavior is inferred.",
+  "SecurityAndLicense": "No license blocker; local NeedsReview markers are administrative. Defender-blocked utilities are unrelated and remain excluded.",
+  "EstimateImpact": {
+    "LegacyOutcomesResolved": 0,
+    "RangesChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

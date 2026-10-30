@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:08:55Z",
+  "batch": "Gpg4win source review disposable-VM access preflight",
+  "source": "Read-only PowerShell Get-VM attempt",
+  "targets": [
+    "RIDE-Win11-Test",
+    "RIDE-Server2025-Test"
+  ],
+  "result": "Get-VM failed before target inspection with: Access to a CIM resource was not available to the client.",
+  "handling": {
+    "vmInspected": false,
+    "checkpointInspected": false,
+    "taskEnumeratedOrDispatched": false,
+    "vmStateChanged": false,
+    "hostServiceChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "deferred": [
+      "Gpg4win native installer/configuration and lifecycle acceptance on RIDE-Win11-Test; resolve host CIM access before inspection or dispatch."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the access preflight did not execute a target scenario or change a legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "gpg4win-currentuser-multiuser-source-verification-2026-10-28-0907.json",
+    "ride-win11-and-server2025-vm-access-recheck-2026-10-28-0724.json"
+  ]
+}

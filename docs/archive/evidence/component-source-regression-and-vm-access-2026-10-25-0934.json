@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:34:00Z",
+  "scope": "Component preparation/lifecycle, inventory, OpenSSH Server and F1 local regression",
+  "testRun": {
+    "runner": "PowerShell 7 / Pester 5.7.1",
+    "testFiles": [
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/F1Help.Tests.ps1"
+    ],
+    "result": "Passed",
+    "passed": 91,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "testRegistryEnabled": false,
+    "tempRoot": ".local/pester-current"
+  },
+  "coverage": "Mocked/synthetic component provider, lifecycle/recovery, inventory, OpenSSH observation, and candidate F1 behavior checks. No real VM or Windows state was changed.",
+  "vmAccess": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "result": "Denied before inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "lastReadOnlyCheck": "2026-10-25T09:32:00Z",
+    "stateChanged": false
+  },
+  "deferred": [
+    "OpenSSH Client Features-on-Demand media and servicing dependency acceptance on Windows 11 and Server 2025",
+    "OpenSSH Server service/firewall lifecycle and recovery on disposable Windows targets",
+    "physical Windows 11 Explorer/Desktop F1 behavior and saved-state recovery"
+  ],
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

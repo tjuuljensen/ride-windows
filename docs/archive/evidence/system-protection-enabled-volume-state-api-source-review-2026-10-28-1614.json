@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:14:47Z",
+  "batch": "System Protection enabled-volume state API source review",
+  "sources": [
+    {
+      "title": "Enable-ComputerRestore",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/enable-computerrestore?view=powershell-5.1",
+      "finding": "The cmdlet documentation explicitly directs operators to Rstrui.exe to find System Restore state for each drive. It also documents system-drive enablement dependency and client-only support."
+    },
+    {
+      "title": "SystemRestore WMI class",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/sr/systemrestore",
+      "finding": "Documented properties are restore-point metadata (description, type, sequence and creation time); methods include Enable/Disable and restore-point actions. It does not document a per-volume protection-enabled property."
+    },
+    {
+      "title": "SystemRestoreConfig WMI class",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/sr/systemrestoreconfig",
+      "finding": "Its documented read-only fields cover scheduled checkpoint intervals, restore-point lifetime and maximum disk allocation percentage, not whether protection is enabled on a volume."
+    },
+    {
+      "title": "Configuring System Restore",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/sr/configuring-system-restore",
+      "finding": "Microsoft describes SystemRestore and SystemRestoreConfig as separate WMI classes for control/restore-point actions and schedule/storage configuration."
+    }
+  ],
+  "conclusion": "The reviewed official scripting/WMI references do not establish a reliable read-only per-volume enabled-state API. Use the native System Protection interface for operator inspection; do not infer protection from restore-point presence, disk allocation, or a generic shadow-copy inventory. Keep the RIDE automation candidate pending until an accepted, stable read-only status source and current-build behavior are proven.",
+  "handling": {
+    "windowsStateRead": false,
+    "uiOpened": false,
+    "registryRead": false,
+    "vmInspected": false,
+    "testsRun": false,
+    "codeOrCatalogChanged": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Documented the current source boundary for automated System Protection state inspection."
+    ],
+    "partial": [
+      "The accepted Windows 11 On/advanced-Off design still lacks a proven scriptable status/readback route, affected-volume capture and async completion evidence."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Automated System Protection operation implementation and Windows 11 acceptance pending reliable per-volume observation and recovery semantics."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source review closes no legacy setting outcome."
+    }
+  }
+}

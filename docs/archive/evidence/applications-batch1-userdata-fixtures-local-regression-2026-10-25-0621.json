@@ -1,0 +1,84 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T06:21:00Z",
+  "Scope": "ApplicationsBatch1 synthetic user-data preservation fixture implementation and local regression",
+  "Implementation": {
+    "Runner": "tests/integration/Invoke-RideApplicationBatch.ps1",
+    "Version": "0.15.2",
+    "PackagesCovered": [
+      "package.vscode",
+      "package.firefox",
+      "package.sqlitebrowser",
+      "package.autopsy",
+      "package.chrome",
+      "package.wireshark",
+      "package.signal",
+      "package.thunderbird",
+      "package.tmog",
+      "package.phoenix-protector",
+      "package.gpg4win"
+    ],
+    "PreservationStages": [
+      "After install",
+      "After RIDE removal invokes the package vendor uninstaller",
+      "After saved-state recovery"
+    ],
+    "Evidence": "Synthetic fixture relative paths and SHA-256 values are recorded per package; every fixture path contains a unique acceptance token and remains under the intended user profile or Documents root.",
+    "ExecutionBoundary": "No application or utility was launched to create data. Fixtures contain no credentials, keys, certificates, messages, or real forensic case content."
+  },
+  "Validation": {
+    "PowerShellParser": "Passed for the runner and both focused test files.",
+    "FocusedFixturePester": {
+      "Passed": 2,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 2
+    },
+    "ApplicationPackageAndControllerPester": {
+      "PesterVersion": "5.7.1",
+      "TestRegistryEnabled": false,
+      "TemporaryRoot": ".local (unique per run)",
+      "Passed": 237,
+      "Failed": 0,
+      "Skipped": 2,
+      "Total": 239
+    },
+    "GitDiffCheck": "Passed",
+    "LineEndings": "All four edited tracked text files remain LF per repository attributes."
+  },
+  "Attempts": [
+    {
+      "Outcome": "The first Pester invocation was blocked before test bodies because the sandbox denied Pester TestRegistry access to HKCU\\Software\\Pester."
+    },
+    {
+      "Outcome": "The first fixture-helper Pester attempt exposed a test wrapper that defined but did not invoke the extracted helper; both new cases failed. The wrapper was corrected."
+    },
+    {
+      "Outcome": "The corrected focused fixture tests and the full focused regression passed with TestRegistry disabled and temporary storage redirected into .local."
+    }
+  ],
+  "WindowsAcceptance": {
+    "RunId": "e32591497a8347ab836d0426c9b28bb3",
+    "IntegrationSuite": "ApplicationsBatch1",
+    "StatusAtRecording": "Running",
+    "SourceTiming": "The request snapshot predates version 0.15.2 and does not include the all-package user-data fixtures.",
+    "Disposition": "Do not treat that run as acceptance of this change. Retest ApplicationsBatch1 on current source after the existing request reaches a terminal result."
+  },
+  "MigrationDisposition": {
+    "Resolved": 0,
+    "Retired": 0,
+    "Excluded": 0,
+    "Deferred": "Current-source Windows 11 vendor-uninstall and user-data preservation acceptance; Gpg4win and Phoenix Protector installation blockers; broader application and target-specific acceptance.",
+    "Partial": "Local synthetic fixture coverage and regression only; no Windows product behavior or full legacy outcome is closed.",
+    "EstimatesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

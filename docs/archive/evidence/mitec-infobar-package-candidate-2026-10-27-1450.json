@@ -1,0 +1,130 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T14:49:04Z",
+  "Scope": "MiTeC InfoBar 4.6.2 pinned direct-installer package candidate, retained-payload hash verification and local license-planning regression; no installer or product payload executed.",
+  "Candidate": {
+    "Id": "package.mitec-infobar",
+    "PackageVersion": "4.6.2",
+    "DownloadUri": "https://www.mitec.cz/wp/files/InfoBar_Setup.exe",
+    "InstallerSha256": "6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a",
+    "PendingAcceptance": true,
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "InstallerType": "Exe"
+  },
+  "RetainedSourceVerification": {
+    "InstallerHashMatches": true,
+    "ExpectedMembers": 29,
+    "MatchedMemberHashes": 29,
+    "Mismatches": 0,
+    "Products": [
+      {
+        "Path": "app/InfoBar.exe",
+        "Sha256": "55ce47b7c1f304847dcbada41ba9ba7cede707783958a92951cc1394b5ac0024",
+        "FileVersion": "4.6.2.0",
+        "Architecture": "x86"
+      },
+      {
+        "Path": "app/InfoBar64.exe",
+        "Sha256": "b3887cd91ca424adfa4bb0a6ee7ed71828bdf0af63761148b4efa872bd07a438",
+        "FileVersion": "4.6.2.0",
+        "Architecture": "x64"
+      },
+      {
+        "Path": "app/DeskExp.exe",
+        "Sha256": "f4709ae8278798424067c525b36e143d8ba489cc62b48f6a6375903fd3982075",
+        "FileVersion": "1.4.0.0",
+        "Architecture": "x86"
+      },
+      {
+        "Path": "app/DeskExp64.exe",
+        "Sha256": "6408f98e8acc117f061bfc5491540162b30d97495697c47d58a105a3d2d48cb0",
+        "FileVersion": "1.4.0.0",
+        "Architecture": "x64"
+      }
+    ]
+  },
+  "LicenseAdministration": {
+    "ReviewOwner": "Unassigned",
+    "LicenseReviewStatus": "NeedsReview",
+    "ReviewedVersion": "4.6.2",
+    "MigrationGate": false,
+    "Note": "The product page describes non-commercial freeware and the support page lists additional tiers. This is an owner-specific administrative marker only; no entitlement or redistribution determination is inferred."
+  },
+  "Validation": {
+    "CatalogExport": "passed",
+    "RepositoryValidation": "passed",
+    "CatalogOperations": 438,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 297,
+    "LicenseReviewPester": [
+      {
+        "Shell": "PowerShell 7.6.5",
+        "Pester": "5.7.1",
+        "Passed": 24,
+        "Failed": 0,
+        "TestRegistryAndTestResultPlugins": "disabled"
+      },
+      {
+        "Shell": "Windows PowerShell 5.1",
+        "Pester": "5.7.1",
+        "Passed": 24,
+        "Failed": 0,
+        "TestRegistryAndTestResultPlugins": "disabled"
+      }
+    ],
+    "PendingPackageCoverage": {
+      "Operations": 44,
+      "ExactVersionSelections": 53,
+      "NeedsReviewMatched": 53,
+      "MissingOrDuplicate": 0
+    }
+  },
+  "Acceptance": {
+    "Windows11": "Deferred: read-only Get-VM -Name RIDE-Win11-Test failed with CIM access denied before VM or checkpoint inspection; no VM task was dispatched.",
+    "Required": [
+      "Verify installer scope, registration, dependencies, silent install/uninstall, repeat and saved-run recovery on a disposable Windows 11 VM.",
+      "Verify whether startup integration changes and how exact cleanup/recovery works.",
+      "Inspect network behavior only with synthetic feeds and data; no real weather location, API key, RSS account or personal data."
+    ]
+  },
+  "Effects": {
+    "InstallerOrPayloadExecuted": false,
+    "WindowsChanged": false,
+    "VmChanged": false,
+    "DefenderChanged": false,
+    "FreshUacPrompts": 0,
+    "DefenderBlockedToolsTouched": false
+  },
+  "Migration": {
+    "WholeLegacyOutcomesClosed": 0,
+    "EstimateChanged": false,
+    "EstimateRanges": [
+      "37-57",
+      "38-53",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Note": "Source and package identity are pinned, but installer lifecycle, startup/network behavior and recovery acceptance remain incomplete."
+  },
+  "EvidenceReferences": [
+    "docs/archive/evidence/mitec-infobar-static-behavior-review-2026-10-20.json",
+    "docs/archive/evidence/installer-static-extraction-2026-10-17.json"
+  ],
+  "CurrentPublisherPageRecheck": {
+    "RecordedDate": "2026-10-27",
+    "ProductPageUri": "https://www.mitec.cz/wp/mib/",
+    "ObservedVersion": "4.6.2 dated 2025-04-03; still the current version shown on the publisher page",
+    "ProductPageSays": "Free to use for private, educational and non-commercial purposes; describes the taskbar-like panel, RSS/news, weather, process/network monitoring and embedded tools.",
+    "OfficialDownloadLink": "https://www.mitec.cz/wp/files/InfoBar_Setup.exe",
+    "OfficialDownloadLinkCheck": "The product-page Download link resolves to the pinned official installer URL; the web reader does not fetch application/x-msdownload.",
+    "TermsPageUri": "https://www.mitec.cz/wp/support/",
+    "TermsPageFetch": "Current page fetch timed out; the previously retained 2026-10-17 support-page snapshot remains the terms reference for the local NeedsReview note."
+  }
+}

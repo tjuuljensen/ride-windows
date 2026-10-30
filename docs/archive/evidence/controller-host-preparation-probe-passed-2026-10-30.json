@@ -1,0 +1,155 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T11:02:58.2893666Z",
+  "Status": "HostOnlyProbePassed",
+  "Parent": {
+    "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+    "Status": "Passed",
+    "VmChanged": false,
+    "Error": null,
+    "Evidence": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\controller-probes\\2f5fb9b79e954335b3c1387985c7b965",
+    "StartedAtUtc": "2026-10-30T10:59:58.2863944Z",
+    "LastStage": "Host preparation probe completed",
+    "Files": 1819,
+    "FinishedAtUtc": "2026-10-30T11:01:36.2619212Z"
+  },
+  "Child": {
+    "Files": 1819,
+    "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+    "VMState": "Off",
+    "TaskState": "Ready",
+    "VmChanged": false,
+    "Status": "Passed"
+  },
+  "ManifestEntries": 1819,
+  "Progress": [
+    {
+      "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+      "Phase": "Preparation",
+      "Stage": "Starting host-only probe",
+      "RecordedAtUtc": "2026-10-30T10:59:58.2666006Z",
+      "PhaseStartedAtUtc": "2026-10-30T10:59:58.2666006Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+      "Phase": "Preparation",
+      "Stage": "Validate host and import dependencies",
+      "RecordedAtUtc": "2026-10-30T11:00:01.2789083Z",
+      "PhaseStartedAtUtc": "2026-10-30T10:59:58.2666006Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+      "Phase": "Preparation",
+      "Stage": "Import lab and verify VM/checkpoint pins",
+      "RecordedAtUtc": "2026-10-30T11:00:23.9530187Z",
+      "PhaseStartedAtUtc": "2026-10-30T10:59:58.2666006Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+      "Phase": "Preparation",
+      "Stage": "Check registered task is idle",
+      "RecordedAtUtc": "2026-10-30T11:00:26.8664182Z",
+      "PhaseStartedAtUtc": "2026-10-30T10:59:58.2666006Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+      "Phase": "Preparation",
+      "Stage": "Copy approved checkout snapshot",
+      "RecordedAtUtc": "2026-10-30T11:00:28.8226082Z",
+      "PhaseStartedAtUtc": "2026-10-30T10:59:58.2666006Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "2f5fb9b79e954335b3c1387985c7b965",
+      "Phase": "Preparation",
+      "Stage": "Host preparation probe completed",
+      "RecordedAtUtc": "2026-10-30T11:01:35.8894172Z",
+      "PhaseStartedAtUtc": "2026-10-30T10:59:58.2666006Z",
+      "VmMayHaveChanged": false
+    }
+  ],
+  "ErrorLogBytes": 0,
+  "EvidenceFiles": [
+    {
+      "Name": "host-phase.json",
+      "Bytes": 282,
+      "Sha256": "2e46f5bed1f1217e32aacade69d97d47ebb718bc775fcc83251e5d01d6e04b87"
+    },
+    {
+      "Name": "host-phase.json.lock",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Name": "host-progress.jsonl",
+      "Bytes": 1405,
+      "Sha256": "7e2c75ab625dd591fa150bbd837efbde72cc139c15e628bb3e77a3adcfc6f561"
+    },
+    {
+      "Name": "host-worker-errors.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Name": "host-worker.log",
+      "Bytes": 96,
+      "Sha256": "994655f7d4e3bc9918c6e2e9f296d1e1197126a3b62de87a7d1b9bc65fa6fb44"
+    },
+    {
+      "Name": "probe-child.json",
+      "Bytes": 184,
+      "Sha256": "811bcdd2e5d4292542090a89dc23274f24d4b630902e7ebb3e769b68188a9d5a"
+    },
+    {
+      "Name": "probe-result.json",
+      "Bytes": 441,
+      "Sha256": "56400ad8743d9d2c233158774ba6b261bb17790e26ea72e780351f852bac2b67"
+    },
+    {
+      "Name": "source-files.json",
+      "Bytes": 363267,
+      "Sha256": "692fea4d0931438fe7815f29b5052978b6c90f76a7838d2f1a14b50591aac637"
+    }
+  ],
+  "SourceVerification": [
+    {
+      "Path": "tests/integration/RIDE.TestAutomation.psm1",
+      "CapturedSha256": "1f0e8325114e3c3402e9b71663ae9148a83858fdb2663dcc41c6a4763e86b8ec",
+      "CheckoutSha256": "1f0e8325114e3c3402e9b71663ae9148a83858fdb2663dcc41c6a4763e86b8ec"
+    },
+    {
+      "Path": "tests/integration/Test-RideVmHostPreparation.ps1",
+      "CapturedSha256": "7fb83095379913c7e6814ec12c06a4b59a2136e62711b0a28f847e26b01d1dab",
+      "CheckoutSha256": "7fb83095379913c7e6814ec12c06a4b59a2136e62711b0a28f847e26b01d1dab"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTestRequest.ps1",
+      "CapturedSha256": "c45edd8880a971420a9b8c2f18388a98dc3638ad2c9f63d25afddf01e71cab2d",
+      "CheckoutSha256": "c45edd8880a971420a9b8c2f18388a98dc3638ad2c9f63d25afddf01e71cab2d"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTestTaskWorker.ps1",
+      "CapturedSha256": "cacc121c6420bbe79d3b3872198cf87a9afa9cfc43700a58f1c308304362c943",
+      "CheckoutSha256": "cacc121c6420bbe79d3b3872198cf87a9afa9cfc43700a58f1c308304362c943"
+    }
+  ],
+  "ProtectedControllerChanged": false,
+  "InstallerExecuted": false,
+  "Next": "Refresh protected registration 0.13.0 once, verify HostPreparationWatchdogV1 and installed source hashes, then select one focused migration request.",
+  "ControllerCertification": "NotValidated",
+  "ProjectMakerAcceptance": "Unresolved",
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "Components": "19-24",
+    "Rounded": "125-180",
+    "Settings": "37-57",
+    "Maintenance": "8-12",
+    "FilesAndAssets": "25-35",
+    "Packages": "37-52",
+    "Exact": "126-180"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "B06ClientComponentCurrentSourceCrossShellRegression",
+  "RecordedAtUtc": "2026-10-27T12:58:37Z",
+  "Scope": [
+    "OpenSSH Client local-source preparation/lifecycle",
+    "Telnet Client local-source refusal boundary",
+    "read-only component inventory"
+  ],
+  "FocusedSuites": {
+    "PowerShell7": {
+      "Skipped": 0,
+      "Scratch": ".local/pester-b06-current-20261027",
+      "TestResult": "disabled",
+      "Version": "7.6.5",
+      "Passed": 67,
+      "Pester": "5.7.1",
+      "Failed": 0,
+      "TestRegistry": "disabled"
+    },
+    "WindowsPowerShell51": {
+      "Failed": 0,
+      "Passed": 67,
+      "Pester": "5.7.1",
+      "TestResult": "disabled",
+      "Skipped": 0,
+      "Version": "5.1.26100.9711",
+      "TestRegistry": "disabled",
+      "Scratch": ".local/pester-b06-winps51-current-20261027",
+      "ExecutionPolicy": "process-only Bypass"
+    },
+    "Files": [
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/ComponentInventory.Tests.ps1"
+    ]
+  },
+  "SourceReview": {
+    "Telnet": "Current Microsoft FOD inventory does not establish a package identity/source layout; LocalSource remains refused.",
+    "MicrosoftReferences": [
+      "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11",
+      "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-server/system-management-components/cant-install-openssh-features"
+    ],
+    "OpenSshClient": {
+      "Capability": "OpenSSH.Client~~~~0.0.1.0",
+      "SamplePackage": "OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab",
+      "SatellitePackages": false,
+      "LocalSourceMustMatchImageRelease": true
+    },
+    "Boundary": "LimitAccess blocks Windows Update lookup; Group Policy-configured servicing source fallback is not verified, so NetworkBoundaryVerified remains false."
+  },
+  "CurrentBlocker": {
+    "Evidence": "ride-win11-test-cim-access-recheck-2026-10-27-1251.json",
+    "Result": "Host CIM denied Get-VM before inspection; no target acceptance dispatched."
+  },
+  "Boundaries": {
+    "WindowsChanged": false,
+    "DefenderChanged": false,
+    "SupportedTargetsAdded": false,
+    "VmChanged": false,
+    "ElevationRequested": false,
+    "CheckpointChanged": false,
+    "DismCalled": false,
+    "CatalogOperationRegistered": false
+  },
+  "MigrationAccounting": {
+    "Retired": [],
+    "Deferred": [
+      "OpenSSH Client/Telnet native servicing acceptance and source/dependency/recovery proof"
+    ],
+    "EstimateReason": "Cross-shell mocked regression and source-reference recheck close no legacy outcome or native acceptance.",
+    "Estimates": {
+      "Packages": "38-53",
+      "FilesAssets": "25-35",
+      "Rounded": "125-180/about 155",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Components": "19-24",
+      "Settings": "37-57"
+    },
+    "ResolvedLegacyOutcomes": [],
+    "Partial": [
+      "Current-source mocked preparation/inventory/lifecycle only; candidate remains unregistered and unsupported."
+    ],
+    "Excluded": []
+  }
+}

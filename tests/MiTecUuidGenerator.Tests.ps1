@@ -8,7 +8,7 @@
   Invoke-Pester .\tests\MiTecUuidGenerator.Tests.ps1
 .NOTES
   Compatibility: Pester 5 on native Windows PowerShell 5.1 and PowerShell 7.
-  Product UI, target support, activation and live-identifier privacy remain pending.
+  Windows 11 file lifecycle is accepted; product UI, activation and functional behavior remain pending.
 #>
 BeforeAll {
   $script:RepositoryRoot=Split-Path -Parent $PSScriptRoot
@@ -20,7 +20,7 @@ BeforeAll {
   Add-Type -AssemblyName System.IO.Compression.FileSystem
   Add-Type -AssemblyName System.IO.Compression
 }
-Describe 'MiTeC UUID Generator candidate' {
+Describe 'MiTeC UUID Generator package' {
   BeforeEach {
     $script:Root=Join-Path $FixtureRoot ([guid]::NewGuid().ToString('N'))
     $null=New-Item -ItemType Directory -Path $Root -Force
@@ -35,7 +35,7 @@ Describe 'MiTeC UUID Generator candidate' {
       Remove-Item -LiteralPath $resolved -Recurse -Force
     }
   }
-  It 'binds the exact retained source and preserves the explicit acceptance and license boundaries' {
+  It 'binds the exact retained source and preserves the synthetic-only behavior boundary' {
     $operation=$Catalog.Operations|Where-Object Id -eq 'package.mitec-uuid-generator'
     $operation|Should -Not -BeNullOrEmpty
     $operation.DownloadUri|Should -BeExactly $Evidence.PinnedArtifact.DownloadUri
@@ -43,13 +43,13 @@ Describe 'MiTeC UUID Generator candidate' {
     $operation.PackageVersion|Should -BeExactly '1.0.0'
     $operation.RequiredFiles|Should -Be @('UUID.exe')
     $operation.PortableMembers|Should -Be @('UUID.exe')
-    $operation.SupportedTargets.Count|Should -Be 0
-    $operation.PendingAcceptance|Should -BeTrue
+    $operation.SupportedTargets|Should -Contain 'Windows 11'
+    $operation.PendingAcceptance|Should -BeFalse
     $operation.License|Should -Match 'private, educational and non-commercial'
     $operation.License|Should -Match 'redistribution remain unresolved'
     $operation.TermsUri|Should -BeExactly $Evidence.PublisherEvidence.TermsPage.Uri
-    $operation.Description|Should -Match 'persistent UEFI, SMBIOS, machine and device identifiers'
-    $operation.Description|Should -Match 'synthetic values only'
+    $operation.Description|Should -Match 'persistent device identifiers'
+    $operation.Description|Should -Match 'Never capture, log or export live identifiers'
   }
 
   It 'installs only the selected inert member, repeats, and restores owned files without losing user data' {

@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T14:14:18.6019376Z",
+  "Status": "Prepared; Windows acceptance pending",
+  "IntegrationSuite": "MiTeCSystemAndTelephony",
+  "Source": "Local",
+  "TimeoutMinutes": 20,
+  "ExpectedCases": 2,
+  "Products": [
+    "System Information eXtra 16.0.0",
+    "TAPI Monitor 1.2.0"
+  ],
+  "SelectedMembers": [
+    "MSIX.exe",
+    "GetSys.exe",
+    "MSIX64.exe",
+    "GetSys64.exe",
+    "TAPIMon.exe"
+  ],
+  "Manifest": ".local/acceptance-input/MiTeCSystemAndTelephony.json",
+  "ManifestSha256": "62ef5ed52b3eaf12b595e58bb267ff36ca7f1b269bb2c573b40dc469419dc324",
+  "Payloads": [
+    {
+      "Id": "package.mitec-system-information",
+      "File": "MSIX.zip",
+      "Sha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976"
+    },
+    {
+      "Id": "package.mitec-tapi-monitor",
+      "File": "TAPIMon.zip",
+      "Sha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914"
+    }
+  ],
+  "SelectionAndPayloadValidation": "Passed using Get-RidePortableAcceptanceCases and Get-RidePortableAcceptancePayloads",
+  "ControllerCapability": "MiTeCSystemAndTelephonyV1 verified",
+  "ProtectedCopies": "Seven relevant installed controller/portable scripts match checkout",
+  "PriorTerminalResults": 0,
+  "PendingRequests": 0,
+  "RunningRequests": 0,
+  "RecoveryBlockPresent": false,
+  "LastOperatorReportedState": "VM Off/Operating normally; task Ready",
+  "FocusedTests": {
+    "PowerShell": "5.1.26100.9818",
+    "Pester": "5.7.1",
+    "Result": "Passed",
+    "Total": 6,
+    "Passed": 6,
+    "Failed": 0,
+    "Skipped": 0,
+    "Failures": [],
+    "ContainerErrors": []
+  },
+  "VmChanged": false,
+  "ToolExecuted": false,
+  "AcceptanceCriteria": [
+    "Two cases Passed",
+    "ToolExecuted=false",
+    "EvidenceCollected=true",
+    "Cleanup=ResetAndOff",
+    "Terminal Passed",
+    "Final VM Off and task Ready"
+  ],
+  "Deferred": "Product functionality, system report redaction and simulated TAPI-provider behavior; support promotion",
+  "LegacyOutcomeClosed": false,
+  "EstimatedRemaining": "37-57 / 37-52 / 19-24 / 25-35 / 8-12; exact 126-180; rounded 125-180/about 155"
+}

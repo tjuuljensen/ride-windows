@@ -1,0 +1,63 @@
+{
+  "recordedAtUtc": "2026-10-27T19:57:12Z",
+  "batch": "NirSoft package-scoped Defender exclusion guard and synthetic lifecycle regression",
+  "alert": {
+    "repeatNotification": true,
+    "pathEvidence": "nirsoft-passwordscan-temp-defender-alert-2026-10-27-1935.json",
+    "samePathPreviouslyRecordedAtUtc": "2026-10-27T18:35:00Z",
+    "detectionName": null,
+    "temporaryPathOrigin": "Unresolved. The repeated alert path was already recorded in the 18:35 UTC filtered-retry evidence; this run does not establish how that earlier temporary file was created or classify it."
+  },
+  "testChanges": [
+    "Add pre-staging assertions so a blocked basename in a candidate's PortableMembers stops its synthetic or retained-archive lifecycle test before staging.",
+    "Scope exclusion assertions by package: NirLauncher omits its 21 excluded archive paths; the separate x64 package omits the two user-reported x64 archive members, ProduKey.exe and WirelessKeyView.exe.",
+    "Limit synthetic lifecycle coverage to RequiredFiles plus one safe representative member; the separate catalog test still checks the full selected-member inventory."
+  ],
+  "validation": {
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "file": "tests/NirsoftCollectionPackages.Tests.ps1",
+    "discovered": 5,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Retained publisher archive lifecycle test was not enabled; RIDE_NIRSOFT_FIXTURE_DIRECTORY was unset.",
+    "testRegistryPluginEnabled": false,
+    "testResultPluginEnabled": false,
+    "temporaryStorage": "A new workspace-local .local/nirsoft-guard-focused-* directory.",
+    "firstAttempts": "Not accepted as validation: the initial command used unsupported New-Item -LiteralPath for its temp root and left Pester's optional TestRegistry setup enabled, which was denied HKCU access. With plugins disabled, a subsequent run exposed an overbroad shared blocked-name assertion that treated x64 NetPass as blocked although the x64 package evidence excludes only ProduKey.exe and WirelessKeyView.exe. That full synthetic run was interrupted; it did not produce an acceptance result."
+  },
+  "repositoryValidation": {
+    "result": "Passed",
+    "operations": 438,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 297,
+    "operationDocumentation": "Current"
+  },
+  "safety": {
+    "publisherArchiveReadOrExtracted": false,
+    "defenderReportedExecutableStagedByPassingRun": false,
+    "utilityLaunched": false,
+    "defenderSettingsChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "packageCommitted": false,
+    "interruptedSyntheticWorkspacesCreatedByThisRunRemoved": true,
+    "reportedAlertPathTouched": false,
+    "legacyOutcomeClosed": false
+  },
+  "remainingBlockers": [
+    "Reconcile the previously reported temporary PasswordScan path before another retained NirLauncher archive lifecycle run.",
+    "Disposable Windows 11 acceptance remains blocked before VM inspection by host CIM access."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; the scoped regression fixes test coverage but closes no legacy package outcome."
+  }
+}

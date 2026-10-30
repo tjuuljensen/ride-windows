@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:41:57Z",
+  "batch": "PSScriptTools full inert 360-member local package-file lifecycle regression and Windows 11 VM access recheck",
+  "command": "Windows PowerShell 5.1 with Pester 5.7.1; tests/PSScriptToolsPackage.Tests.ps1; Pester TestRegistry disabled; TestResult plugin is not present in this Pester configuration; TEMP/TMP scoped to a unique workspace .local directory; no retained archive fixture supplied.",
+  "results": {
+    "discovered": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "durationSeconds": 323.37,
+    "full360MemberLifecycle": "Passed: stages and repeats the complete inert 360-member fixture, checks all selected files, removes, restores saved present/absence states, and preserves unowned analyst output.",
+    "otherFocusedCases": "All six compact fixture and failure-boundary cases passed.",
+    "exitCode": 0,
+    "setupNote": "The first invocation failed before test bodies because the default TestRegistry plugin could not create its temporary registry key. The successful retry disabled that plugin. No registry permissions or user registry state were changed."
+  },
+  "safety": {
+    "fixture": "Generated inert archive member contents; no retained publisher archive or upstream PSScriptTools source was imported or executed.",
+    "defenderBlockedFilesSelected": false,
+    "nirsoftTestOrStagingRun": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "vmReadOnlyPreflight": {
+    "target": "RIDE-Win11-Test",
+    "command": "Get-VM -Name RIDE-Win11-Test",
+    "result": "Blocked before returning VM state: Access to a CIM resource was not available to the client.",
+    "checkpointInspected": false,
+    "guestRunnerDispatched": false
+  },
+  "outcome": {
+    "localFullLifecycleRegression": "Resolved for the synthetic inert fixture in Windows PowerShell 5.1; PowerShell 7.6.5 previously emitted 7/7 passing assertions, although its wrapper returned exit code 1 because -PassThru was omitted.",
+    "legacyOutcomeClosed": 0,
+    "remaining": "PSScriptTools runtime/feature behavior and Windows 11 acceptance remain open; native acceptance awaits readable VM/checkpoint access."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; local test completion closes no legacy package outcome."
+  }
+}

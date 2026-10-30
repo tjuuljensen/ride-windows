@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:41:00Z",
+  "scope": "Read-only integrity recheck of retained MiTeC package candidate archives",
+  "archives": [
+    {
+      "Id": "MiTeC Network Scanner",
+      "Path": ".local/remaining-collections-20261017/NetScanner.zip",
+      "Length": 11317163,
+      "ExpectedLength": 11317163,
+      "ExpectedSha256": "02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66",
+      "ActualSha256": "02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "NetScanner64.exe",
+          "ExpectedSha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06",
+          "ActualSha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06",
+          "Matches": true
+        },
+        {
+          "Path": "NetScanner.exe",
+          "ExpectedSha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4",
+          "ActualSha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4",
+          "Matches": true
+        }
+      ]
+    },
+    {
+      "Id": "MiTeC Interbase Query",
+      "Path": ".local/remaining-collections-20261017/IBQ.zip",
+      "Length": 7322738,
+      "ExpectedLength": 7322738,
+      "ExpectedSha256": "6ce815ac089ff38afc0e4ed3eda4f3255f61a9e46611b55619dbdcfbb1688478",
+      "ActualSha256": "6ce815ac089ff38afc0e4ed3eda4f3255f61a9e46611b55619dbdcfbb1688478",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "IBQ64.exe",
+          "ExpectedSha256": "12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0",
+          "ActualSha256": "12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0",
+          "Matches": true
+        },
+        {
+          "Path": "IBQ.exe",
+          "ExpectedSha256": "0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971",
+          "ActualSha256": "0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971",
+          "Matches": true
+        }
+      ]
+    },
+    {
+      "Id": "MiTeC OLE/COM Object Explorer",
+      "Path": ".local/remaining-collections-20261017/OLExp.zip",
+      "Length": 1279322,
+      "ExpectedLength": 1279322,
+      "ExpectedSha256": "322a2d03c31b9bb995a7b176a95aa3bbfba9ba155dd9770a0e55d88fc1085769",
+      "ActualSha256": "322a2d03c31b9bb995a7b176a95aa3bbfba9ba155dd9770a0e55d88fc1085769",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "OLExp.exe",
+          "ExpectedSha256": "eeb8a18c5f8a961e1f0fc7fefc131f4fc33f900cf1d0cf2107e73fc45c504b4b",
+          "ActualSha256": "eeb8a18c5f8a961e1f0fc7fefc131f4fc33f900cf1d0cf2107e73fc45c504b4b",
+          "Matches": true
+        }
+      ]
+    },
+    {
+      "Id": "MiTeC Windows Registry Recovery",
+      "Path": ".local/remaining-collections-20261017/WRR.zip",
+      "Length": 5593684,
+      "ExpectedLength": 5593684,
+      "ExpectedSha256": "bc0785fbf3184a5f1c83d791bb759363d58d47fe249e77e54ef41e5fc7cb6aa9",
+      "ActualSha256": "bc0785fbf3184a5f1c83d791bb759363d58d47fe249e77e54ef41e5fc7cb6aa9",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "WRR.exe",
+          "ExpectedSha256": "2585f37fea169883e5340c111a77dc96763f6546ba79d4ff1651067372c1ef14",
+          "ActualSha256": "2585f37fea169883e5340c111a77dc96763f6546ba79d4ff1651067372c1ef14",
+          "Matches": true
+        },
+        {
+          "Path": "WRR64.exe",
+          "ExpectedSha256": "cd11e0630e46539f8d6ad485f58b8dc58132afad75d465efb9199bc3a984aa2e",
+          "ActualSha256": "cd11e0630e46539f8d6ad485f58b8dc58132afad75d465efb9199bc3a984aa2e",
+          "Matches": true
+        }
+      ]
+    },
+    {
+      "Id": "MiTeC SMBIOS Explorer",
+      "Path": ".local/remaining-collections-20261017/SMBE.zip",
+      "Length": 9212025,
+      "ExpectedLength": 9212025,
+      "ExpectedSha256": "7297b844b5fa0c4b84bd514f06e635e90f75541b5e38422bd0bed2d3c4db8f68",
+      "ActualSha256": "7297b844b5fa0c4b84bd514f06e635e90f75541b5e38422bd0bed2d3c4db8f68",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "SMBE.exe",
+          "ExpectedSha256": "4384dfa9ea81a4f870df55c270d08e81e9172857c4d995182291e8179e987f74",
+          "ActualSha256": "4384dfa9ea81a4f870df55c270d08e81e9172857c4d995182291e8179e987f74",
+          "Matches": true
+        },
+        {
+          "Path": "SMBE64.exe",
+          "ExpectedSha256": "5fdbd6cafe3bb56172bff18bd29238fbcd12de34bf813dae494353ab888c8842",
+          "ActualSha256": "5fdbd6cafe3bb56172bff18bd29238fbcd12de34bf813dae494353ab888c8842",
+          "Matches": true
+        },
+        {
+          "Path": "SMBIOS.exe",
+          "ExpectedSha256": "358113343a4b8d52536466e8ddeb88cd00a9fe98b0b8b7288bd74d2986956a12",
+          "ActualSha256": "358113343a4b8d52536466e8ddeb88cd00a9fe98b0b8b7288bd74d2986956a12",
+          "Matches": true
+        }
+      ]
+    },
+    {
+      "Id": "MiTeC System Information eXtra",
+      "Path": ".local/remaining-collections-20261017/MSIX.zip",
+      "Length": 10635839,
+      "ExpectedLength": 10635839,
+      "ExpectedSha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+      "ActualSha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "MSIX.exe",
+          "ExpectedSha256": "27f17567efbbc6fbd39263f43b97d2d95b0fcf1745789517a589ffbf273716c3",
+          "ActualSha256": "27f17567efbbc6fbd39263f43b97d2d95b0fcf1745789517a589ffbf273716c3",
+          "Matches": true
+        },
+        {
+          "Path": "GetSys.exe",
+          "ExpectedSha256": "80efa6ceee1859d5da5f32d827d88db7569dbd23e161eca8c82a43cae21209dd",
+          "ActualSha256": "80efa6ceee1859d5da5f32d827d88db7569dbd23e161eca8c82a43cae21209dd",
+          "Matches": true
+        },
+        {
+          "Path": "GetSys64.exe",
+          "ExpectedSha256": "9a43a1b1acccf50f9a7902cb8c2e1fa25e1ef662bbaf5fa42b797602df99e85d",
+          "ActualSha256": "9a43a1b1acccf50f9a7902cb8c2e1fa25e1ef662bbaf5fa42b797602df99e85d",
+          "Matches": true
+        },
+        {
+          "Path": "MSIX64.exe",
+          "ExpectedSha256": "3ee0d2031c4b733fcfc2c1f5d87726aa7c9d0557af1525f372774e2775e0841d",
+          "ActualSha256": "3ee0d2031c4b733fcfc2c1f5d87726aa7c9d0557af1525f372774e2775e0841d",
+          "Matches": true
+        }
+      ]
+    },
+    {
+      "Id": "MiTeC TAPI Monitor",
+      "Path": ".local/remaining-collections-20261017/TAPIMon.zip",
+      "Length": 2015874,
+      "ExpectedLength": 2015874,
+      "ExpectedSha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914",
+      "ActualSha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "TAPIMon.exe",
+          "ExpectedSha256": "4eb667fbdf159c44399dac9aae6d68cc30e0857589f284f1cf72f7584ee81df5",
+          "ActualSha256": "4eb667fbdf159c44399dac9aae6d68cc30e0857589f284f1cf72f7584ee81df5",
+          "Matches": true
+        }
+      ]
+    },
+    {
+      "Id": "MiTeC DFM Editor",
+      "Path": ".local/remaining-collections-20261017/DFMEdit.zip",
+      "Length": 16714229,
+      "ExpectedLength": 16714229,
+      "ExpectedSha256": "189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa",
+      "ActualSha256": "189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa",
+      "ArchiveHashMatches": true,
+      "MemberHashes": [
+        {
+          "Path": "Delphi 11/DFMEdit.exe",
+          "ExpectedSha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d",
+          "ActualSha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/bindengine280.bpl",
+          "ExpectedSha256": "a4a20f21e51057be2b10138ceea79fbfed5563f63746bd2d78b545a09067529a",
+          "ActualSha256": "a4a20f21e51057be2b10138ceea79fbfed5563f63746bd2d78b545a09067529a",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/rtl280.bpl",
+          "ExpectedSha256": "88ee1956f414d8e41b88b372a5a5a9660d33f1fe7724a08c24f24a53ca5c2bd2",
+          "ActualSha256": "88ee1956f414d8e41b88b372a5a5a9660d33f1fe7724a08c24f24a53ca5c2bd2",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/vcl280.bpl",
+          "ExpectedSha256": "332631ee642bb72e66bf49e1e2c52cb7dbb874f9718f4e2a0816e7ab28169f7b",
+          "ActualSha256": "332631ee642bb72e66bf49e1e2c52cb7dbb874f9718f4e2a0816e7ab28169f7b",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/vclactnband280.bpl",
+          "ExpectedSha256": "69459030053d608592733a3d10cc63638775f3ec95b71b091611c71f4874f86f",
+          "ActualSha256": "69459030053d608592733a3d10cc63638775f3ec95b71b091611c71f4874f86f",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/vclimg280.bpl",
+          "ExpectedSha256": "da04ecc04737f40408a68705a3ee785eed535cdad91a1f97fa2b45f99531090a",
+          "ActualSha256": "da04ecc04737f40408a68705a3ee785eed535cdad91a1f97fa2b45f99531090a",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/vclwinx280.bpl",
+          "ExpectedSha256": "f437e8f6faf83922ffe8ec51c00a7ba0142cc45364abb3f17952638042ed0bb2",
+          "ActualSha256": "f437e8f6faf83922ffe8ec51c00a7ba0142cc45364abb3f17952638042ed0bb2",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/vclx280.bpl",
+          "ExpectedSha256": "b0fb25e387dbf92ec6b287ecee2c82a4420794cb5bdf76335f84678ad77a750a",
+          "ActualSha256": "b0fb25e387dbf92ec6b287ecee2c82a4420794cb5bdf76335f84678ad77a750a",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 11/xmlrtl280.bpl",
+          "ExpectedSha256": "3409e923cc571d73ed88d28bb6ecc489b82e2bf2ef0404ec0fcecd3ea6800d33",
+          "ActualSha256": "3409e923cc571d73ed88d28bb6ecc489b82e2bf2ef0404ec0fcecd3ea6800d33",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/DFMEdit.exe",
+          "ExpectedSha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2",
+          "ActualSha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/bindengine290.bpl",
+          "ExpectedSha256": "adc785fa306d2e3dbf635ba240a2a1c492df7a75a451b2e36af35cfccc667461",
+          "ActualSha256": "adc785fa306d2e3dbf635ba240a2a1c492df7a75a451b2e36af35cfccc667461",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/rtl290.bpl",
+          "ExpectedSha256": "e6b9f5a6075364bc4bfa1502b58ac195b75755ef11a4207c9e7985d19c4036cd",
+          "ActualSha256": "e6b9f5a6075364bc4bfa1502b58ac195b75755ef11a4207c9e7985d19c4036cd",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/vcl290.bpl",
+          "ExpectedSha256": "a429b15a755d2a909f53086a4353efbb2f7e881d556ad6fe0d5a8fa072e8eb4e",
+          "ActualSha256": "a429b15a755d2a909f53086a4353efbb2f7e881d556ad6fe0d5a8fa072e8eb4e",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/vclactnband290.bpl",
+          "ExpectedSha256": "36421659d74671a04adc9d1c2c1502febd5b92b9d215a98fc9f52e7c0ffe4074",
+          "ActualSha256": "36421659d74671a04adc9d1c2c1502febd5b92b9d215a98fc9f52e7c0ffe4074",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/vclimg290.bpl",
+          "ExpectedSha256": "c458735e4fb9915d8d1cc3bb7caa57e220e1f87dc89b996ab079369a23b3e53e",
+          "ActualSha256": "c458735e4fb9915d8d1cc3bb7caa57e220e1f87dc89b996ab079369a23b3e53e",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/vclwinx290.bpl",
+          "ExpectedSha256": "02d2df7beb04fae67c831aa453b5fd5054a7b39c3bdf40a0566c35abef4c7479",
+          "ActualSha256": "02d2df7beb04fae67c831aa453b5fd5054a7b39c3bdf40a0566c35abef4c7479",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/vclx290.bpl",
+          "ExpectedSha256": "8ac114422f55a1967d00fe092d016e8a3de2c5af37c1508991a856d0c4ba9a90",
+          "ActualSha256": "8ac114422f55a1967d00fe092d016e8a3de2c5af37c1508991a856d0c4ba9a90",
+          "Matches": true
+        },
+        {
+          "Path": "Delphi 12/xmlrtl290.bpl",
+          "ExpectedSha256": "b0b4192d91cd6e06c46acfbbb8185b5d66fa5e8f871604588c7a7ef76bb99926",
+          "ActualSha256": "b0b4192d91cd6e06c46acfbbb8185b5d66fa5e8f871604588c7a7ef76bb99926",
+          "Matches": true
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "archiveCount": 8,
+    "archiveHashesMatched": 8,
+    "recordedMemberHashes": 33.0,
+    "memberHashesMatched": 33,
+    "result": "All recorded local archive and member SHA-256 values match"
+  },
+  "interpretation": "Hashes were compared with existing local review evidence only; no publisher freshness check or claim that all recorded digests are publisher-posted. No extraction to disk, executable launch, network, VM, or Windows change.",
+  "acceptance": "Static payload integrity only. Runtime behavior and Windows target acceptance remain pending; no complete legacy outcome closed.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

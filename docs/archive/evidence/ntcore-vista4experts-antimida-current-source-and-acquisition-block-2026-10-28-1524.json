@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T15:24:17Z",
+  "batch": "NTCore Vista4Experts and AntiMida current source and exact-artifact acquisition",
+  "decision": "Both publisher-listed products remain selected for migration preparation under the 2026-10-27 NTCore collection decision. No license disposition is being used as a migration gate.",
+  "products": {
+    "vista4experts": {
+      "productUri": "https://ntcore.com/vista4experts/",
+      "officialDownloadUri": "https://ntcore.com/files/Vista4Experts.zip",
+      "currentPageVersion": "1.2.0.1",
+      "sourceFindings": [
+        "Publisher describes a Windows Vista configuration utility that changes UAC, automatic Windows Defender scanning, automatic updates and other settings.",
+        "Publisher claims changes can be enabled, discarded or reversed, but the current page does not map individual effects or prior-state restoration."
+      ],
+      "migrationDisposition": "Keep selected. The old Vista focus and broad settings behavior do not establish Windows 11 package support or a RIDE setting mapping."
+    },
+    "antimida": {
+      "productUri": "https://ntcore.com/files/antimida_1.0.htm",
+      "officialDownloadUri": "https://ntcore.com/files/antimida_1.0.zip",
+      "publisherSourceFindings": [
+        "Article describes a research helper for working with Themida-protected processes; capabilities include process memory inspection/dumping and file/registry access monitoring.",
+        "The described design injects a user-mode DLL into a selected process and uses a companion kernel driver for protected process-memory operations.",
+        "Publisher warns that the techniques are obsolete and that the project does not work with PAE."
+      ],
+      "migrationDisposition": "Keep selected for package preparation under the full collection decision. Treat compatibility, installed scope and driver behavior as technical acceptance questions; do not infer Windows support from the article."
+    }
+  },
+  "retrieval": {
+    "webReader": "The official download links were identified, but both ZIP retrievals failed because the reader does not support application/zip content.",
+    "directPublisherRequests": {
+      "Vista4Experts.zip": "Failed before response: No such host is known (ntcore.com:443).",
+      "antimida_1.0.zip": "Failed before response: No such host is known (ntcore.com:443)."
+    },
+    "archiveBytesRetrieved": false,
+    "digestsCalculated": false,
+    "memberInventoryRead": false,
+    "scratchPathCreatedAndRemoved": true
+  },
+  "observations": {
+    "sourcePagesRead": true,
+    "archiveOrExecutableOpened": false,
+    "codeOrDriverExecuted": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "outcomes": {
+    "resolved": [
+      "Current publisher page/version and described product capabilities were rechecked."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Acquire exact publisher ZIP bytes, record SHA-256, and statically inventory package members before adding pinned candidates.",
+      "Establish candidate install scope and Windows target support separately through authorized acceptance."
+    ],
+    "partial": [
+      "Both products remain selected but lack hash-pinned catalog candidates."
+    ]
+  },
+  "estimate": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None. This source and acquisition batch closes no legacy outcome; unavailable exact archives prevent candidate completion."
+  },
+  "sources": [
+    "https://ntcore.com/vista4experts/",
+    "https://ntcore.com/files/antimida_1.0.htm",
+    "https://ntcore.com/download/"
+  ]
+}

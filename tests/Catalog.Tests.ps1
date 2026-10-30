@@ -41,6 +41,7 @@
 BeforeAll {
   $script:RepositoryRoot = Split-Path -Parent $PSScriptRoot
   Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE.CatalogData.psm1') -Force
+  Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE.CatalogValidation.psm1') -Force
   $script:Catalog = Import-RideCatalogData (Join-Path $script:RepositoryRoot 'catalog/operations.psd1')
   $script:EnginePath = Join-Path $script:RepositoryRoot 'modules/RIDE.Engine.psm1'
   Import-Module $script:EnginePath -Force
@@ -54,6 +55,20 @@ Describe 'RIDE operation catalog' {
     'PowerShell 7.6.6' | Should -Match $operation.DisplayNamePattern
     'PowerShell 7-preview-x64' | Should -Not -Match $operation.DisplayNamePattern
     'PowerShell 7-arm64' | Should -Not -Match $operation.DisplayNamePattern
+  }
+  It 'accepts HashCheck on Windows 11 while retaining the publisher pin and interactive context requirement' {
+    $operation = $script:Catalog.Operations | Where-Object Id -eq 'package.hashcheck-shell-extension'
+    $operation.PendingAcceptance | Should -BeFalse
+    @($operation.SupportedTargets) | Should -Be @('Windows 11')
+    $operation.CandidateTargets | Should -BeNullOrEmpty
+    $operation.Description | Should -Match 'elevated interactive session'
+    $operation.Scope | Should -Be 'Machine'
+    $operation.RequiresAdmin | Should -BeTrue
+    $operation.PackageVersion | Should -Be '2.6.3'
+    $operation.ExpectedSha256 | Should -Be 'cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa'
+    $operation.InstallerArguments | Should -Be '/S'
+    $operation.License | Should -Match 'BSD-3-Clause'
+    $operation.LicenseUri | Should -Match 'https://github.com/idrassi/HashCheck/blob/v2.6.3/license.txt'
   }
   It 'orders standalone Git LFS after Git and uses documented user policies' {
     $group = $script:Catalog.Groups | Where-Object Id -eq 'solution.git-development'
@@ -74,8 +89,8 @@ Describe 'RIDE operation catalog' {
   }
 
   It 'provides user-facing presentation metadata for every setting and control operation' {
-    $settings = @($script:Catalog.Operations | Where-Object Kind -notin @('Package','StoreApp','Artifact','ProfileSetting'))
-    $settings.Count | Should -Be 281
+    $settings = @($script:Catalog.Operations | Where-Object { $_.Kind -notin @('Package','StoreApp','Artifact','ProfileSetting','WindowsCapability') -and -not ($_.Kind -eq 'WindowsService' -and $_.RequiredCapabilityName) })
+    $settings.Count | Should -BeGreaterThan 0
     foreach ($operation in $settings) {
       $operation.ContainsKey('SettingPresentation') | Should -BeTrue -Because $operation.Id
     }
@@ -93,13 +108,13 @@ Describe 'RIDE operation catalog' {
   It 'declares support, scope, privilege, actions, and rollback for every operation' {
     foreach ($operation in $script:Catalog.Operations) {
       if ($operation.PendingAcceptance) {
-        $operation.Kind | Should -BeIn @('Package', 'StoreApp', 'ProfileSetting', 'UserPath', 'UserProxy', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge')
+        $operation.Kind | Should -BeIn @('Package', 'StoreApp', 'ProfileSetting', 'UserPath', 'UserProxy', 'WinHttpProxy', 'FirewallProfile', 'RemoteDesktopFirewall', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge', 'DesktopShortcut', 'BitLockerWorkflow', 'WindowsCapability')
         $operation.SupportedTargets.Count | Should -Be 0
         $operation.CandidateTargets.Count | Should -BeGreaterThan 0
       } else { $operation.SupportedTargets.Count | Should -BeGreaterThan 0 }
       $operation.Scope | Should -BeIn @('User', 'Machine')
       $operation.Actions.Count | Should -BeGreaterThan 0
-      $operation.Rollback | Should -BeIn @('Exact', 'Compensating', 'BestEffort', 'None')
+      $operation.Rollback | Should -BeIn @('Exact', 'Compensating', 'BestEffort', 'None', 'Staged', 'NonRestorable', 'Conditional')
     }
   }
 
@@ -123,9 +138,93 @@ Describe 'RIDE operation catalog' {
       elseif ($operation.Kind -eq 'UserProxy') {
         $operation.DocumentationUri | Should -Match '^https://learn\.microsoft\.com/'
       }
+      elseif ($operation.Kind -eq 'WinHttpProxy') {
+        $operation.DocumentationUri | Should -Match '^https://learn\.microsoft\.com/'
+      }
       elseif ($operation.Kind -eq 'Package') {
         $operation.ProductUri | Should -Match '^https://'
       }
+    }
+  }
+
+  It 'discovers the pending OpenSSH Server capability as a component, not a setting or package' {
+    $component = @(Show-RideCatalog -View components | Where-Object Id -eq 'component.openssh-server-capability')
+    $component.Count | Should -Be 1
+    $component[0].Kind | Should -Be 'WindowsCapability'
+    @(Show-RideCatalog -View settings | Where-Object Id -eq 'component.openssh-server-capability').Count | Should -Be 0
+    @(Show-RideCatalog -View packages | Where-Object Id -eq 'component.openssh-server-capability').Count | Should -Be 0
+    $component[0].PendingAcceptance | Should -BeTrue
+    $component[0].SupportedTargets | Should -BeNullOrEmpty
+  }
+
+  It 'lists sshd activation as a separate capability-bound component' {
+    $service = @($script:Catalog.Operations | Where-Object Id -eq 'windows.openssh-server-service')
+    $service.Count | Should -Be 1
+    $service[0].Kind | Should -Be 'WindowsService'
+    $service[0].RequiredCapabilityName | Should -Be 'OpenSSH.Server~~~~0.0.1.0'
+    $service[0].ServiceName | Should -Be 'sshd'
+    $service[0].SupportedTargets | Should -BeNullOrEmpty
+    $service[0].PendingAcceptance | Should -BeTrue
+    @(Show-RideCatalog -View components | Where-Object Id -eq $service[0].Id).Count | Should -Be 1
+    @(Show-RideCatalog -View settings | Where-Object Id -eq $service[0].Id).Count | Should -Be 0
+  }
+
+  It 'lists the OpenSSH inbound firewall rule as a separate pending setting' {
+    $firewall = @($script:Catalog.Operations | Where-Object Id -eq 'windows.openssh-server-firewall')
+    $firewall.Count | Should -Be 1
+    $firewall[0].Kind | Should -Be 'RemoteDesktopFirewall'
+    $firewall[0].FirewallRuleNames | Should -Be @('OpenSSH-Server-In-TCP')
+    $firewall[0].RequiredCapabilityName | Should -Be 'OpenSSH.Server~~~~0.0.1.0'
+    $firewall[0].States.Disabled | Should -Be 'False'
+    $firewall[0].States.Enabled | Should -Be 'True'
+    $firewall[0].PendingAcceptance | Should -BeTrue
+    $firewall[0].SupportedTargets | Should -BeNullOrEmpty
+    @(Show-RideCatalog -View settings | Where-Object Id -eq $firewall[0].Id).Count | Should -Be 1
+    @(Show-RideCatalog -View components | Where-Object Id -eq $firewall[0].Id).Count | Should -Be 0
+  }
+
+  It 'refuses OpenSSH service inspection and state matching while its capability is absent' {
+    InModuleScope RIDE.Engine {
+      $operation = Get-RideOperation -Id 'windows.openssh-server-service'
+      Mock Get-RideOpenSshServerEngineState { [pscustomobject]@{ Available = $true; Present = $false; Reason = $null } }
+      Mock Get-RideWindowsServiceState { throw 'Service must not be inspected when its capability is absent.' }
+      $current = Get-RideWindowsServiceEngineState -Operation $operation
+      $current.Available | Should -BeFalse
+      $current.Reason | Should -Match 'not installed'
+      Test-RideCurrentStateMatch -Operation $operation -State ManualRunning -CurrentState $current | Should -BeFalse
+      { Assert-RideRequiredServiceCapability -Operation $operation } | Should -Throw '*requires the installed OpenSSH Server capability*'
+      Should -Not -Invoke Get-RideWindowsServiceState
+    }
+  }
+
+  It 'matches OpenSSH capability states without coupling activation or firewall state' {
+    InModuleScope RIDE.Engine {
+      $operation = @{ Kind = 'WindowsCapability'; States = @{ Present = 'Installed'; Absent = 'NotPresent' } }
+      $state = [pscustomobject]@{ Available = $true; CapabilityState = 'Installed' }
+      Test-RideCurrentStateMatch -Operation $operation -State Present -CurrentState $state | Should -BeTrue
+      Test-RideCurrentStateMatch -Operation $operation -State Absent -CurrentState $state | Should -BeFalse
+      Get-RideCurrentStateName -Operation $operation -CurrentState $state | Should -Be 'Present'
+    }
+  }
+
+  It 'plans OpenSSH capability installation but refuses apply until target acceptance' {
+    InModuleScope RIDE.Engine {
+      Mock Get-RideOpenSshServerEngineState {
+        [pscustomobject]@{
+          Available = $true
+          Reason = $null
+          Present = $false
+          CapabilityState = 'NotPresent'
+          Observation = [pscustomobject]@{ WindowsContext = [pscustomobject]@{ ComputerName = 'TEST-VM'; Build = '26100'; EditionId = 'Professional' }; Providers = @() }
+        }
+      }
+      Mock Install-RideOpenSshServerCapability { throw 'Installer must not be called before target acceptance.' }
+      $plan = @(Get-RideSingleOperationPlan -Id 'component.openssh-server-capability' -Action Install)
+      $plan.Count | Should -Be 1
+      $plan[0].State | Should -Be 'Present'
+      $plan[0].Operation.PendingAcceptance | Should -BeTrue
+      { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*does not support*'
+      Should -Not -Invoke Install-RideOpenSshServerCapability
     }
   }
 
@@ -137,7 +236,7 @@ Describe 'RIDE operation catalog' {
     $operation.TargetDefaults.'Windows 11'.DefaultValue|Should -Be 'Absent'
     $operation.Description|Should -Match 'RIDE adds package.vcredist-v14-x64 to the install plan'
     $operation.Description|Should -Match '14\.50\.35710'
-    $operation.Description|Should -Match 'cannot be applied until that acceptance passes'
+    $operation.Description|Should -Match 'Windows 11-supported runtime package is skipped when a sufficient version is already installed'
     $operation.PrerequisitePackageId|Should -Be 'package.vcredist-v14-x64'
   }
 
@@ -172,7 +271,7 @@ Describe 'RIDE operation catalog' {
     $operation.CandidateTargets|Should -Be @('Windows 11')
     $operation.PendingAcceptance|Should -BeTrue
     $operation.MigrationBatch|Should -BeExactly 'ApplicationsBatch1'
-    $operation.License|Should -Match 'release-candidate document'
+    $operation.License|Should -Match 'free features and optional individually licensed PRO features'
     $plan=@(Get-RideSingleOperationPlan -Id 'package.tmog' -Action Install)
     $plan.Count|Should -Be 1
     $plan[0].Operation.PendingAcceptance|Should -BeTrue
@@ -246,7 +345,7 @@ Describe 'RIDE operation catalog' {
     }
   }
 
-  It 'maps the BitLocker AES-256 selector to the legacy policy value without claiming to encrypt existing drives' {
+  It 'keeps the legacy BitLocker selector distinct from split future-encryption choices' {
     $operation = $script:Catalog.Operations | Where-Object Id -eq 'windows.bitlocker-encryption-method'
     $operation.RegistryPath | Should -Be 'HKLM:\SOFTWARE\Policies\Microsoft\FVE'
     $operation.ValueName | Should -Be 'EncryptionMethod'
@@ -258,7 +357,18 @@ Describe 'RIDE operation catalog' {
     $operation.Description | Should -Match 'Vista/Windows 7-era'
     $operation.Description | Should -Match 'not verified as the current Windows 11'
     $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
-    ($defaultProfile.Operations | Where-Object Id -eq $operation.Id).State | Should -Be 'AesCbc256'
+    $futureOperationIds = @('windows.bitlocker-encryption-method-os', 'windows.bitlocker-encryption-method-fixed-data', 'windows.bitlocker-encryption-method-removable-data')
+    foreach ($futureOperationId in $futureOperationIds) {
+      $futureOperation = $script:Catalog.Operations | Where-Object Id -eq $futureOperationId
+      $futureOperation.SupportedTargets | Should -BeNullOrEmpty
+      $futureOperation.CandidateTargets | Should -Contain 'Windows 11'
+      $futureOperation.CandidateTargets | Should -Contain 'Windows Server 2025'
+      $futureOperation.PendingAcceptance | Should -BeTrue
+    }
+    $futureStates = @($defaultProfile.Operations | Where-Object Id -in $futureOperationIds)
+    $futureStates.Count | Should -Be 3
+    @($futureStates | Where-Object State -ne 'XtsAes256').Count | Should -Be 0
+    @($defaultProfile.Operations | Where-Object Id -eq $operation.Id).Count | Should -Be 0
   }
 
   It 'maps Microsoft product updates to the documented Windows Update preference' {
@@ -340,6 +450,28 @@ Describe 'RIDE package download resolution' {
     }
   }
 
+  It 'resolves the verified ThreadJob NuGet package through the portable ZIP path' {
+    InModuleScope RIDE-Packages {
+      $operation = @{
+        PackageId = 'microsoft-powershell-threadjob'
+        ProductUri = 'https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0'
+        PackageVersion = '2.2.0'
+        Architecture = 'neutral'
+        InstallerType = 'Portable'
+        PortableFormat = 'Zip'
+        RequiredFiles = @('Microsoft.PowerShell.ThreadJob.psd1')
+        AssetName = 'Microsoft.PowerShell.ThreadJob.2.2.0.nupkg'
+        DownloadUri = 'https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0'
+        DownloadProvider = 'DirectHttps'
+      }
+
+      $artifact = Resolve-RidePackageArtifact -Operation $operation
+      $artifact.FileName | Should -BeExactly 'Microsoft.PowerShell.ThreadJob.2.2.0.nupkg'
+      $artifact.Uri | Should -BeExactly $operation.DownloadUri
+      $artifact.Version | Should -BeExactly '2.2.0'
+    }
+  }
+
   It 'models the SwiftOnSecurity XML as a separate download-only artifact' {
     $artifact = $script:Catalog.Operations | Where-Object Id -eq 'artifact.sysmon-swift-config'
     $artifact.Kind | Should -Be 'Artifact'
@@ -348,6 +480,35 @@ Describe 'RIDE package download resolution' {
     $artifact.Description | Should -Match 'never applied automatically'
     $defaultProfile = Import-PowerShellDataFile (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
     @($defaultProfile.Operations.Id) | Should -Not -Contain $artifact.Id
+  }
+
+  It 'pins the RawCopy Windows 11 staging candidate to its official source snapshot' {
+    $package = $script:Catalog.Operations | Where-Object Id -eq 'package.rawcopy'
+    $package.Kind | Should -Be 'Package'
+    $package.CandidateTargets | Should -Contain 'Windows 11'
+    $package.SupportedTargets | Should -Be @()
+    $package.PendingAcceptance | Should -BeTrue
+    $package.DownloadUri | Should -Be 'https://github.com/jschicht/RawCopy/archive/0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip'
+    $package.ExpectedSha256 | Should -Be 'F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF'
+    $package.PortableFormat | Should -Be 'Zip'
+    $package.RequiredFiles | Should -Contain 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/LICENSE.md'
+    $package.Description | Should -Match 'does not run RawCopy'
+  }
+
+  It 'pins ETL2PCAPNG to the signed Microsoft release and retained MIT notice' {
+    $package = $script:Catalog.Operations | Where-Object Id -eq 'package.etl2pcapng'
+    $package.CandidateTargets | Should -Contain 'Windows 11'
+    $package.SupportedTargets | Should -Be @()
+    $package.PendingAcceptance | Should -BeTrue
+    $package.PackageVersion | Should -BeExactly '1.11.0'
+    $package.ExpectedSha256 | Should -Be 'C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043'
+    $package.LicenseUri | Should -Be 'https://github.com/microsoft/etl2pcapng/blob/65e2a98feb029a63318de2d821d6444fd7e148c3/LICENSE'
+    $package.RequiredFiles | Should -Contain 'LICENSE.txt'
+    $package.PortableLocalFiles[0].Sha256 | Should -Be 'C2CFCCB812FE482101A8F04597DFC5A9991A6B2748266C47AC91B6A5AAE15383'
+    $originalHash = $package.PortableLocalFiles[0].Sha256
+    $package.PortableLocalFiles[0].Sha256 = ('0' * 64)
+    (@(Get-RideCatalogValidationErrors -Catalog $script:Catalog) -join ' ') | Should -Match 'PortableLocalFiles source is outside the repository or has a mismatched SHA-256'
+    $package.PortableLocalFiles[0].Sha256 = $originalHash
   }
 
   It 'selects the Sysmon package independently from its optional community configuration' {
@@ -682,6 +843,30 @@ Describe 'RIDE profile planning' {
     }
   }
 
+  It 'plans machine WinHTTP automatic detection as pending until native acceptance' {
+    $operation = Get-RideOperation -Id 'windows.winhttp-automatic-proxy-detection'
+    $operation.Kind | Should -Be 'WinHttpProxy'
+    $operation.Handler | Should -Be 'WinHttpProxy'
+    $operation.Scope | Should -Be 'Machine'
+    $operation.RequiresAdmin | Should -BeTrue
+    $operation.SupportedTargets | Should -BeNullOrEmpty
+    $operation.CandidateTargets | Should -Contain 'Windows 11'
+    $operation.PendingAcceptance | Should -BeTrue
+    $operation.States.Enabled | Should -BeTrue
+    $operation.States.Disabled | Should -BeFalse
+    $enabled = @(Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Enabled)
+    $enabled.Count | Should -Be 1
+    $enabled[0].State | Should -Be 'Enabled'
+    { Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Custom } | Should -Throw
+    InModuleScope RIDE.Engine {
+      Mock Get-RidePlatform { 'Windows 11' }
+      Mock Get-RideWinHttpProxyObservation { throw 'Unsupported candidates must fail before native WinHTTP inspection.' }
+      $plan = @(Get-RideSingleOperationPlan -Id 'windows.winhttp-automatic-proxy-detection' -Action Set -State Disabled)
+      { Invoke-RidePlan -Plan $plan -WhatIf } | Should -Throw '*does not support Windows 11*'
+      Should -Invoke Get-RideWinHttpProxyObservation -Exactly 0
+    }
+  }
+
   It 'routes proxy status through the read-only inventory and reports the observed flag state' {
     InModuleScope RIDE.Engine {
       $observation=[pscustomobject]@{AutoDetectFlag=$true;FlagsSource='FlagsUi'}
@@ -694,6 +879,70 @@ Describe 'RIDE profile planning' {
       Test-RideCurrentStateMatch -Operation $operation -State Enabled -CurrentState $current | Should -BeTrue
       Test-RideCurrentStateMatch -Operation $operation -State Disabled -CurrentState $current | Should -BeFalse
       Should -Invoke Get-RideUserProxyCurrentState -Exactly 1
+    }
+  }
+
+  It 'routes machine WinHTTP status through the read-only inventory and rejects user scope' {
+    InModuleScope RIDE.Engine {
+      $observation = [pscustomobject]@{Kind='WinHttpProxyConfiguration';Status='Captured';Scope='Machine';AutoDetect=$true;ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001'}
+      $script:WinHttpObservation = $observation
+      Mock Get-RideWinHttpProxyObservation { $script:WinHttpObservation }
+      $operation = Get-RideOperation -Id 'windows.winhttp-automatic-proxy-detection'
+      $current = Get-RideCurrentState -Operation $operation
+      $current.Available | Should -BeTrue
+      Get-RideCurrentStateName -Operation $operation -CurrentState $current | Should -Be 'Enabled'
+      Get-RideCurrentValueText -Operation $operation -CurrentState $current | Should -Be 'Machine WinHTTP automatic proxy detection: Enabled'
+      Test-RideCurrentStateMatch -Operation $operation -State Enabled -CurrentState $current | Should -BeTrue
+      Test-RideCurrentStateMatch -Operation $operation -State Disabled -CurrentState $current | Should -BeFalse
+      Should -Invoke Get-RideWinHttpProxyObservation -Exactly 1
+
+      $script:WinHttpObservation.Scope = 'User'
+      $current = Get-RideCurrentState -Operation $operation
+      $current.Available | Should -BeFalse
+      $current.Reason | Should -Match 'user-scoped'
+    }
+  }
+
+  It 'captures machine WinHTTP recovery preparation and machine/user identity in saved state' {
+    InModuleScope RIDE.Engine {
+      Mock Initialize-RideStateRoot { $TestDrive }
+      Mock New-RideWinHttpProxyConfigurationPatch { [pscustomobject]@{Snapshot=[pscustomobject]@{SchemaVersion=1;Kind='WinHttpProxyPreparationSnapshot';Scope='Machine';ChangedFields=@('AutoDetect')}} }
+      $operation = Get-RideOperation -Id 'windows.winhttp-automatic-proxy-detection'
+      $observation = [pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001';Scope='Machine';AutoDetect=$true}
+      $current = [pscustomobject]@{Available=$true;Observation=$observation;Identity=[pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001'}}
+      Save-RideOperationSnapshot -RunId 'winhttp-run' -Operation $operation -CurrentState $current -DesiredState Disabled
+      $path = Join-Path (Join-Path $TestDrive 'winhttp-run') 'windows.winhttp-automatic-proxy-detection.json'
+      $record = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+      $record.Snapshot.OperationId | Should -Be 'windows.winhttp-automatic-proxy-detection'
+      $record.Snapshot.WinHttpSnapshot.Scope | Should -Be 'Machine'
+      $record.Snapshot.ComputerName | Should -Be 'TEST'
+      $record.Snapshot.UserSid | Should -Be 'S-1-5-21-1-2-3-1001'
+      Should -Invoke New-RideWinHttpProxyConfigurationPatch -Exactly 1 -ParameterFilter { $Scope -eq 'Machine' -and $AutoDetect -eq $false }
+    }
+  }
+
+  It 'uses one engine RunId for WinHTTP lifecycle state and the saved run' {
+    InModuleScope RIDE.Engine {
+      Mock Assert-RidePlanAllowed {}
+      Mock Expand-RidePackageDependencyPlan { $Plan }
+      Mock Save-RideRunManifest { $script:SavedWinHttpRunId = $RunId }
+      Mock Save-RideOperationSnapshot {}
+      Mock Set-RideRunOperationProgress {}
+      Mock New-RideWinHttpProxyConfigurationPatch { [pscustomobject]@{ChangeRequired=$true;DesiredValues=[pscustomobject]@{AutoDetect=$false};SettingsJson='{}';Snapshot=[pscustomobject]@{SchemaVersion=1;Kind='WinHttpProxyPreparationSnapshot';Scope='Machine';OriginalValues=[pscustomobject]@{}}} }
+      Mock Get-RideCurrentState {
+        $observation = [pscustomobject]@{Kind='WinHttpProxyConfiguration';Status='Captured';Scope='Machine';AutoDetect=$true;Proxy='';ProxyBypass='';AutoconfigUrl='';ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001'}
+        [pscustomobject]@{Available=$true;Observation=$observation;Identity=[pscustomobject]@{ComputerName='TEST';UserSid='S-1-5-21-1-2-3-1001'}}
+      }
+      Mock Apply-RideWinHttpProxyPatch { $script:ForwardedWinHttpRunId=$RunId; [pscustomobject]@{Status='Applied';ChangeApplied=$true} }
+      $operation = Get-RideOperation -Id 'windows.winhttp-automatic-proxy-detection'
+      $plan = @([pscustomobject]@{Operation=$operation;State='Disabled'})
+      $output = @(Invoke-RidePlan -Plan $plan -Confirm:$false)
+      $engineRunId = [regex]::Match(($output -join "`n"),'Run ID: ([0-9a-f]{32})').Groups[1].Value
+      $engineRunId | Should -Match '^[0-9a-f]{32}$'
+      $script:ForwardedWinHttpRunId | Should -BeExactly $engineRunId
+      $script:SavedWinHttpRunId | Should -BeExactly $engineRunId
+      Should -Invoke Save-RideOperationSnapshot -Exactly 1 -ParameterFilter { $RunId -eq $engineRunId -and $Operation.Id -eq 'windows.winhttp-automatic-proxy-detection' }
+      Should -Invoke Apply-RideWinHttpProxyPatch -Exactly 1 -ParameterFilter { $RunId -eq $engineRunId }
     }
   }
 
@@ -901,7 +1150,7 @@ Describe 'RIDE desired-state comparison' {
       $operation = Get-RideOperation -Id 'windows.inking-typing-data'
       $plan = @([pscustomobject]@{ Operation = $operation; State = 'Disabled' })
 
-      { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*Run ID:*Saved state:*simulated registry failure*'
+      { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*Run ID:*Saved state:*Completed operations:*Failed operation:*Unfinished operations:*Recovery:*restore -RunId*simulated registry failure*'
     }
   }
 
@@ -966,6 +1215,63 @@ Describe 'RIDE desired-state comparison' {
       Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false
       Should -Invoke Save-RideOperationSnapshot -Exactly 0
       Should -Invoke Set-RideSettingState -Exactly 0
+    }
+  }
+}
+
+Describe 'RIDE run operation progress' {
+  It 'persists pending, snapshot, completion and failure states atomically in the run manifest' {
+    $fixtureRoot = Join-Path $TestDrive 'run-progress'
+    InModuleScope RIDE.Engine -Parameters @{ Root = $fixtureRoot } {
+      Mock Get-RideStateRoot { Join-Path $Root $Scope }
+      $runId = 'a' * 32
+      $plan = @(
+        [pscustomobject]@{ Operation = @{ Id = 'test.user-setting'; Scope = 'User' }; State = 'Enabled' },
+        [pscustomobject]@{ Operation = @{ Id = 'test.user-package'; Scope = 'User' }; State = 'Present' }
+      )
+      Save-RideRunManifest -RunId $runId -Plan $plan
+      $manifestPath = Join-Path (Join-Path (Join-Path $Root 'User') $runId) '_manifest.json'
+      $initial = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+      @($initial.OperationProgress | ForEach-Object Status) | Should -Be @('Pending', 'Pending')
+
+      Set-RideRunOperationProgress -RunId $runId -OperationId 'test.user-setting' -Status 'SnapshotSaved'
+      Set-RideRunOperationProgress -RunId $runId -OperationId 'test.user-setting' -Status 'Completed'
+      Set-RideRunOperationProgress -RunId $runId -OperationId 'test.user-package' -Status 'Failed' -ErrorMessage 'simulated package failure'
+      $updated = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+      $updated.OperationProgress[0].Status | Should -Be 'Completed'
+      $updated.OperationProgress[0].SnapshotSaved | Should -BeTrue
+      $updated.OperationProgress[1].Status | Should -Be 'Failed'
+      $updated.OperationProgress[1].SnapshotSaved | Should -BeFalse
+      $updated.OperationProgress[1].Error | Should -Be 'simulated package failure'
+      @(Get-ChildItem -LiteralPath (Split-Path -Parent $manifestPath) -Filter '.manifest-*.tmp' -File).Count | Should -Be 0
+    }
+  }
+
+  It 'reports prior completion when a later operation fails before its handler starts' {
+    InModuleScope RIDE.Engine {
+      Mock Assert-RidePlanAllowed {}
+      Mock Get-RideCurrentState {
+        if ($Operation.Id -eq 'windows.show-known-extensions') { throw 'simulated state inspection failure' }
+        [pscustomobject]@{ Exists = $true; Value = 1; ValueType = 'DWord' }
+      }
+      Mock Test-RideDesiredState { $false }
+      Mock Save-RideRunManifest {}
+      Mock Save-RideOperationSnapshot {}
+      Mock Set-RideSettingState {}
+      $first = Get-RideOperation -Id 'windows.inking-typing-data'
+      $second = Get-RideOperation -Id 'windows.show-known-extensions'
+      $plan = @(
+        [pscustomobject]@{ Operation = $first; State = 'Disabled' },
+        [pscustomobject]@{ Operation = $second; State = 'Enabled' }
+      )
+      $failure = $null
+      try { Invoke-RidePlan -Plan $plan -Confirm:$false | Out-Null }
+      catch { $failure = $_.Exception.Message }
+      $failure | Should -Match 'Completed operations: windows\.inking-typing-data'
+      $failure | Should -Match 'Failed operation: windows\.show-known-extensions'
+      $failure | Should -Match 'Recovery: run.*restore -RunId.*then reapply the same profile'
+      $failure | Should -Match 'simulated state inspection failure'
+      Should -Invoke Set-RideSettingState -Exactly 1
     }
   }
 }
@@ -1242,6 +1548,35 @@ Describe 'RIDE network profile operations' {
       $mixed = [pscustomobject]@{ Profiles = @([pscustomobject]@{ NetworkCategory = 'Private' }, [pscustomobject]@{ NetworkCategory = 'Public' }) }
       Test-RideCurrentStateMatch -Operation $operation -State Private -CurrentState $private | Should -BeTrue
       Test-RideCurrentStateMatch -Operation $operation -State Private -CurrentState $mixed | Should -BeFalse
+    }
+  }
+}
+
+Describe 'RIDE registry value-set recovery snapshot persistence' {
+  It 'persists captured ancestor-key existence for exact recovery' {
+    InModuleScope RIDE.Engine {
+      Mock Initialize-RideStateRoot { $TestDrive }
+      $operation = Get-RideOperation -Id 'windows.sha256-certutil-context-menu'
+      $keyPathExistence = @(
+        [pscustomobject]@{ Path = 'HKCU:\Software'; Existed = $true }
+        [pscustomobject]@{ Path = 'HKCU:\Software\Classes'; Existed = $true }
+        [pscustomobject]@{ Path = 'HKCU:\Software\Classes\*\shell\RIDE.Sha256Certutil'; Existed = $false }
+      )
+      $currentState = [pscustomobject]@{
+        Values = @(
+          [pscustomobject]@{ Key = 'Menu'; Exists = $false; Value = $null; ValueType = $null; KeyExisted = $false }
+          [pscustomobject]@{ Key = 'Command'; Exists = $false; Value = $null; ValueType = $null; KeyExisted = $false }
+        )
+        KeyPathExistence = $keyPathExistence
+      }
+
+      Save-RideOperationSnapshot -RunId 'registry-value-set-test' -Operation $operation -CurrentState $currentState -DesiredState Enabled
+      $recordPath = Join-Path (Join-Path $TestDrive 'registry-value-set-test') 'windows.sha256-certutil-context-menu.json'
+      $record = Get-Content -LiteralPath $recordPath -Raw | ConvertFrom-Json
+      @($record.Snapshot.KeyPathExistence).Count | Should -Be 3
+      $record.Snapshot.KeyPathExistence[0].Path | Should -Be 'HKCU:\Software'
+      $record.Snapshot.KeyPathExistence[0].Existed | Should -BeTrue
+      $record.Snapshot.KeyPathExistence[2].Existed | Should -BeFalse
     }
   }
 }

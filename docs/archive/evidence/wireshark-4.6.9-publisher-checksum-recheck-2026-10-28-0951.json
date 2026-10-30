@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:51:43Z",
+  "batch": "Wireshark 4.6.9 official MSI checksum source recheck",
+  "sources": {
+    "signedChecksums": "https://www.wireshark.org/download/SIGNATURES-4.6.9.txt",
+    "x64ArtifactIndex": "https://www.wireshark.org/download/win64/all-versions/"
+  },
+  "publisherFinding": {
+    "artifact": "Wireshark-4.6.9-x64.msi",
+    "bytes": 80433152,
+    "sha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "signatureFileFormat": "The official checksum file is an OpenPGP-signed cleartext message.",
+    "signatureCryptographicallyVerified": false
+  },
+  "catalog": {
+    "operation": "package.wireshark",
+    "packageVersion": "4.6.9",
+    "expectedSha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "catalogAndPublisherSha256Match": true,
+    "pendingAcceptance": true,
+    "supportedTargets": []
+  },
+  "handling": {
+    "artifactDownloaded": false,
+    "localArtifactHashRecomputed": false,
+    "publisherPgpSignatureVerified": false,
+    "installerExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The catalog's exact MSI SHA-256 matches the current official publisher checksum record and file size."
+    ],
+    "partial": [
+      "The current publisher checksum text is present and matches; neither its OpenPGP signature nor a local MSI byte stream was independently verified in this source-only recheck."
+    ],
+    "deferred": [
+      "Verify the retained MSI bytes and publisher signature, then complete disposable Windows 11 install/repeat/remove/recovery acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; publisher digest confirmation does not establish the local artifact or lifecycle."
+    }
+  },
+  "relatedEvidence": [
+    "wireshark-stable-release-current-source-recheck-2026-10-28-0950.json",
+    "wireshark-4.6.9-msi-database-inspection-2026-10-25-1548.json"
+  ]
+}

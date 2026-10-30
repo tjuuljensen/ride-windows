@@ -1,23 +1,236 @@
+## MiTeC Network Meter 2.5.0 owner review marker, 2026-10-29 00:09 UTC
+
+The workspace-local review store now records NeedsReview / Unassigned for package.mitec-network-meter version 2.5.0. The historical publisher page describes free private and commercial use; current terms and intended-use fit remain owner review. The store contains 92 records after the update, and all 51 pending package versions have exact local review markers. Review does not gate package planning or acceptance. See [structured evidence](archive/evidence/mitec-network-meter-v3-portable-candidate-regression-2026-10-29-0009.json).
+## Package review reminders and non-blocking planning regression, 2026-10-28 19:15 UTC
+
+## MiTeC DirList 1.3.0 owner review marker, 2026-10-29 00:06 UTC
+
+The workspace-local review store now records NeedsReview / Unassigned for package.mitec-dirlist version 1.3.0. The historical publisher page describes free private and commercial use; current terms and intended-use fit remain owner review. This marker does not restrict package planning, installation or acceptance. The store contains 91 records after the update, and all 50 pending package versions have exact local review markers. See [structured evidence](archive/evidence/mitec-dirlist-v3-portable-candidate-regression-2026-10-29-0006.json).
+
+
+Four exact-version owner-administration reminders were added to the workspace-local review store for Visual C++ Redistributable 14.51.36247.0, Chrome 156.0.8078.48, Slack 4.52.182 and Discord 1.0.9264. The existing 49 pending package versions retain exact operation-ID/version review records, and the ten Sysinternals records were not changed under the settled RIDE v2 approval. These local reminders do not block direct-download/install migration. The focused accepted-package planning regression passed 1/1 in PowerShell 7 and 1/1 in Windows PowerShell 5.1; it did not download or install any package. See [migration evidence](archive/evidence/package-license-review-reminders-and-nonblocking-plan-regression-2026-10-28-1915.json).
+
+## NTCore Explorer Suite review marker, 2026-10-28 13:18 UTC
+
+The local review store now has a `NeedsReview` / `Unassigned` record for `package.ntcore-explorer-suite` version `III-2012-11-18`. NTCore describes the suite as freeware; retain upstream attribution. This owner-administration marker does not block migration or establish any additional distribution grant. The exact retained installer hash matches the current publisher listing. The store contains 86 versioned review records; a pre-change export is retained under `.local/`.
+
+## NTCore VirtualReg Manager and ScreenWriter review markers, 2026-10-28 13:11 UTC
+
+The workspace-local `.local/license-reviews.json` now records `NeedsReview` / `Unassigned` for VirtualReg Manager 1.0.0.1 and ScreenWriter MSI ProductVersion 1.0.0. The NTCore index says VirtualReg may be included in freeware; ScreenWriter's retained readme calls it free software but gives no explicit redistribution grant. These exact-version notes are for owner administration, not legal findings or migration gates. The current selected publisher-list scope continues through technical migration. See [candidate and lifecycle evidence](archive/evidence/ntcore-screenwriter-virtualreg-candidate-preparation-and-virtualreg-lifecycle-2026-10-28-1311.json) and [official publisher list](https://ntcore.com/download/).
 # Package licensing and local reviews
+
+## MiTeC Paradox Data Editor review-marker registration prerequisite, 2026-10-28 23:55 UTC
+
+MiTeC's current and legacy pages give different price/free-use descriptions for Paradox Data Editor 3.7.0. An attempt to add the requested `NeedsReview` / `Unassigned` local marker through the supported review-store command was rejected because `package.mitec-paradox-data-editor` does not yet exist in the catalog. The store remains unchanged at 90 records; a pre-change backup was verified byte-for-byte. The marker is owner administration, not a migration gate. Register the package candidate after exact publisher artifact and installer metadata are available, then add the exact-version marker. See [guard evidence](archive/evidence/mitec-paradox-license-review-marker-catalog-id-guard-2026-10-28-2355.json) and [source/catalog gap evidence](archive/evidence/mitec-paradox-data-editor-publisher-current-source-and-catalog-gap-2026-10-28-2352.json).
+
+## Current catalog review-marker coverage, 2026-10-28 22:57 UTC
+
+The current catalog has 119 package operations, including 49 pending exact package versions. Each pending version has a matching operation-ID/version record in `.local/license-reviews.json` (90 records total; zero missing matches). All ten exact-version Sysinternals records remain `Reviewed` under the settled RIDE v2 specialist approval for direct download-and-install. Review status remains owner administration and does not gate implementation or acceptance. No catalog or review-store data changed, and no legacy outcome closed; estimates are unchanged. See [structured coverage evidence](archive/evidence/package-license-review-current-catalog-coverage-2026-10-28-2257.json).
+
+## Current catalog review-marker coverage, 2026-10-28 17:03 UTC
+
+The current catalog has 49 package operations marked `PendingAcceptance`; all 49
+have an exact operation-ID and version local review record in the 86-record
+workspace store. All 10 Sysinternals exact versions remain `Reviewed`. These
+records track owner/version administration and do not block package planning
+or installation. The Sysinternals disposition remains settled under the prior
+RIDE v2 license-specialist approval for direct download-and-install; Defender
+exclusions are separate. This audit does not make a new legal determination
+and does not cover unpinned publisher items without catalog IDs and versions.
+See the [current coverage evidence](archive/evidence/migration-review-store-coverage-recheck-2026-10-28-1703.json).
+
+## Current catalog review-marker coverage, 2026-10-28 13:41 UTC
+
+The catalog contains 445 operations and 119 package operations. All 49 packages
+marked `PendingAcceptance` have an exact operation-ID and reviewed-version
+`NeedsReview` / `Unassigned` entry in the workspace-local review store (86 records
+total, zero missing matches). These are owner-administration markers; they are
+not legal findings, planning gates or reasons to delay technical migration.
+Sysinternals remains settled for RIDE's direct download-and-install workflow
+under the prior RIDE v2 license-specialist approval. See the [current audit
+evidence](archive/evidence/current-catalog-license-review-marker-audit-2026-10-28-1341.json).
+
+## Raspberry Pi Imager 2.0.12 local review marker, 2026-10-28 12:19 UTC
+
+The catalog records Apache License 2.0 for the main source and points to the
+tagged publisher `license.txt`, which lists separate third-party component
+licenses and notices. The exact-version local record is NeedsReview/Unassigned;
+this is owner/version administration, not a legal finding or a migration gate.
+The post-candidate audit found exact markers for all 46/46 pending package
+versions, with zero missing. Retain publisher notices and continue the package
+migration on its technical lifecycle. See [candidate source evidence](archive/evidence/raspberry-pi-imager-v2.0.12-package-candidate-source-review-2026-10-28-1219.json).
+## Pending package review-marker coverage refresh, 2026-10-28 07:18 UTC
+
+The user's local review store now has exact-version `NeedsReview` / `Unassigned`
+records for all **45/45** pending package versions. The audit found 28 missing
+markers; those rows were merged after exporting a same-directory backup. The
+existing 32 review records were preserved, leaving 60 total versioned records.
+These are owner-administration markers, not legal findings or package-planning
+gates. They do not restrict RIDE's ordinary publisher download-and-install
+workflow. Sysinternals remains covered by the prior RIDE v2 license-specialist
+approval and the user's settled direct-install disposition. See [structured
+coverage evidence](archive/evidence/package-license-review-pending-marker-coverage-2026-10-28-0718.json)
+and the [package verification entry](package-verification-matrix.md#pending-package-review-marker-coverage-refresh-2026-10-28-0718-utc).
+
+## Sysinternals migration decision reaffirmed, 2026-10-27 15:05 UTC
+
+The user reiterates that the prior RIDE v2 license-specialist approval governs
+RIDE's ordinary direct-download-and-install workflow. RIDE does not transfer
+or publish Sysinternals; the user confirms there are no legal issues and directs
+that strict redistribution analysis must not block package migration. No new
+legal review is required. Keep Defender-blocked utilities as separate security
+exclusions and track any remaining Sysinternals work as technical acceptance.
+This decision closes no additional legacy outcome and changes no estimate. See
+the [dated decision evidence](archive/evidence/sysinternals-license-practical-administration-reaffirmation-2026-10-27-1505.json).
 
 RIDE keeps publisher references in its shared catalog and acquires packages and
 standalone artifacts directly from the declared publisher sources. Current
 providers use publisher-owned GitHub releases, immutable GitHub file revisions,
 and Microsoft's Sysinternals hosting. GitHub asset resolution rejects an asset
 URL outside the repository declared by the release API URI. Normal publisher
-hosting redirects still apply. A download cache is for local acquisition and
-recovery; it is not an approved redistribution bundle.
+hosting redirects still apply. A download cache supports local acquisition and
+recovery; it is not itself a publication bundle. That general distinction does
+not restrict RIDE's direct-download-and-install use of Sysinternals, which is
+settled below under the prior RIDE v2 specialist approval.
 
-## Important to review licensing
+## HashCheck Shell Extension 2.6.3
 
-Review these products before organizational deployment or paid client work,
-even when a download is free. "Free for individuals" is not a reliable blanket
-rule: eligibility can depend on use, organization size, installation counts,
-edition, automation and redistribution. This watchlist covers requested and
-deferred products as well as catalog entries; inclusion does not mean RIDE can
-install them. Publisher references checked **2026-10-13**.
+The tagged publisher license identifies BSD-3-Clause. The local exact-version
+`NeedsReview`/`Unassigned` record is owner/version administration only; it does
+not identify a legal issue or gate migration or package planning. See the
+[publisher license](https://github.com/idrassi/HashCheck/blob/v2.6.3/license.txt)
+and [candidate evidence](archive/evidence/hashcheck-nsis-source-and-pending-package-candidate-2026-10-26-1658.json).
+## Sysinternals: settled RIDE v2 approval
+
+**Sysinternals has no licensing blocker in this migration.** The prior RIDE v2
+license-specialist assessment approved RIDE's direct download-and-install use.
+RIDE downloads from Microsoft for installation on supported devices; it does
+not transfer or publish Sysinternals. The user's determination is that there
+are no legal issues using it in RIDE. Do not reopen licensing or apply generic
+redistribution analysis as a migration gate. Product metadata and archive
+integrity remain ordinary technical records. Defender-detected utilities are
+excluded separately for security reasons. See the [settled disposition](#sysinternals-approval-for-ride-download-and-install).
+
+## MiTeC Project Maker 1.9.0 owner/version record
+
+The Project Maker 1.9.0 package candidate acquires the installer directly from
+the publisher. Its local `NeedsReview` / `Unassigned` record notes the
+publisher-listed trial and paid tiers for owner-specific administration; it
+does not establish an entitlement finding and does not gate candidate
+implementation or package planning. Windows installer and build acceptance are
+tracked separately. See the [pinned candidate](archive/evidence/mitec-project-maker-package-candidate-2026-10-27-1440.json)
+and the [publisher terms](https://www.mitec.cz/wp/support/).
+
+## MiTeC InfoBar 4.6.2 owner/version record
+
+The InfoBar package candidate downloads the pinned installer directly from
+MiTeC. The product page describes non-commercial freeware and the support page
+lists additional license tiers. The local exact-version `NeedsReview` /
+`Unassigned` marker records owner-specific administration; it is not an
+entitlement finding and does not gate direct-download/install migration or
+package planning. See the [candidate evidence](archive/evidence/mitec-infobar-package-candidate-2026-10-27-1450.json)
+and [publisher terms](https://www.mitec.cz/wp/support/).
+
+The user reaffirmed this scope on 2026-10-27: the prior specialist approval
+controls RIDE's deployment workflow. Licensing must not be used to defer or
+block any otherwise authorized Sysinternals package migration. Technical
+acceptance and Defender exclusions continue to be recorded on their own merits.
+
+On 2026-10-27 at 15:54 UTC, the user corrected the migration rationale again:
+RIDE downloads Sysinternals from Microsoft for ordinary computer deployment
+and does not transfer or publish it. The prior RIDE v2 license-specialist
+approval governs this use; the user states there are no legal issues. Do not
+apply generalized redistribution reasoning, require another legal review, or
+use licensing to block migration. This does not relax separate Defender-based
+exclusions. See the [current decision record](archive/evidence/sysinternals-license-practical-administration-reaffirmation-2026-10-27-1554.json).
+
+The 2026-10-27 current-catalog audit confirms that all ten exact-version Sysinternals operations are already Reviewed, supported on Windows 11, and have existing Windows lifecycle evidence for the suite and nine independent products. No further license review is required; remaining work is technical package behavior only. See the [current catalog and license disposition audit](archive/evidence/sysinternals-current-catalog-and-license-disposition-audit-2026-10-27-0949.json).
+
+On 2026-10-27, the user reaffirmed that reasoning which treats RIDE's direct
+download-and-install workflow as redistribution is too strict and must not block
+Sysinternals package migration. The prior RIDE v2 license-specialist approval
+remains controlling; no new legal review is required. No migration outcome or
+estimate changes from this reaffirmation. See the [dated evidence](archive/evidence/sysinternals-license-practical-administration-reaffirmation-2026-10-27.json).
+
+The user reiterated on 2026-10-26 at 06:46 UTC that RIDE is a normal
+download-and-install tool, does not transfer or publish Sysinternals, and has
+no legal issue under the previously specialist-approved RIDE v2 use. Apply
+that practical administration decision directly: no new legal review,
+redistribution analysis, or `NeedsReview` marker is a prerequisite for
+Sysinternals migration. Continue ordinary technical source, lifecycle,
+functional, and Windows acceptance; keep only the separately directed
+Defender exclusions. See the [current reaffirmation](archive/evidence/sysinternals-practical-use-reaffirmation-2026-10-26-0646.json)
+and the [prior decision record](archive/evidence/sysinternals-practical-use-reaffirmation-2026-10-26-0629.json).
+
+The user reaffirmed on 2026-10-26 at 07:28 UTC that the prior RIDE v2
+specialist approval governs Sysinternals in RIDE. RIDE acquires the product
+directly from Microsoft for ordinary deployment and does not transfer or
+publish it. Treat legal status as settled with no remaining legal issue; do
+not block package migration on a stricter interpretation or another review.
+The current ten Sysinternals package plans remain free of licensing gates.
+Defender-blocked utilities remain separately excluded, and technical Windows
+acceptance is unaffected. See the [dated reaffirmation](archive/evidence/sysinternals-practical-use-reaffirmation-2026-10-26-0728.json).
+
+## Sysinternals practical administration reaffirmed, 2026-10-25 12:36 UTC
+
+The user states that the earlier rationale was too strict and did not reflect
+practical license administration. The prior RIDE v2 license-specialist review
+approved Sysinternals for RIDE's normal direct-download-and-install workflow:
+RIDE obtains it from Microsoft for installation and does not transfer or
+publish copies. The user confirms there are no legal issues using Sysinternals
+in RIDE. Treat the specialist approval as settled; do not require a new review
+or use redistribution analysis as a package-migration gate. This does not
+change the scope into publishing or shared-bundle distribution. Defender-alerted
+utilities remain separately excluded for security reasons, and technical
+acceptance remains a separate matter. See the [dated decision evidence](archive/evidence/sysinternals-practical-administration-reaffirmed-2026-10-25-1236.json).
+
+## Sysinternals migration rationale reaffirmed, 2026-10-25 14:54 UTC
+
+The user again rejected the overly strict migration rationale: RIDE is a direct
+download-and-install tool, not a publisher or transfer mechanism for
+Sysinternals. The prior RIDE v2 license-specialist approval governs this use,
+and the user confirms there are no legal issues. Keep Sysinternals eligible
+for package migration without another license review or generalized
+redistribution gate. Defender-detected utilities remain separate security
+exclusions; remaining blockers are technical acceptance only.
+
+## Cookie Cruncher owner/version administration, 2026-10-26 08:31 UTC
+
+Added an exact-version `NeedsReview` / `Unassigned` reminder for
+`package.google-analytic-cookie-cruncher` version `2.0.0.1` to the workspace-local
+RIDE review store. Its bundled publisher notice permits redistribution; the
+reminder records owner/deployment context and does not block package migration
+or acceptance. A current join against the 34 pending package operations found
+all 34 exact catalog versions have a `NeedsReview` record. This is administrative
+coverage, not an entitlement or legal determination. See the [structured marker
+and coverage evidence](archive/evidence/cookie-cruncher-license-marker-and-pending-package-audit-2026-10-26-0831.json).
+
+## Current catalog package review-marker coverage, 2026-10-25 18:31 UTC
+
+The current catalog contains **103** package operations, of which **33** remain
+pending acceptance. The bounded license-text filter flagged 41 operations and
+exact versions; ten are Sysinternals entries. Following the settled RIDE v2
+specialist approval and the user's direct-download-and-install determination,
+exclude Sysinternals from this marker set. The remaining **31** non-Sysinternals
+exact versions all have `NeedsReview` / `Unassigned` reminders in the default
+user-local RIDE review store. Seventeen cover 16 pending operations; fourteen
+cover already accepted package operations. These are administrative reminders,
+not entitlement findings or migration gates. Defender-blocked tools remain
+separate security exclusions. The text filter is a coverage aid, not exhaustive
+legal classification. See the [full-catalog coverage evidence](archive/evidence/package-license-review-full-catalog-coverage-2026-10-25-1831.json).
+The watchlist below covers products other than Sysinternals. Sysinternals is
+explicitly excluded: its RIDE v2 specialist approval and the user's direct
+download-and-install scope are settled above, so it needs no further legal
+review or migration gate. For the listed products, owner-specific terms may
+need review before organizational deployment or paid client work, even when a
+download is free. "Free for individuals" is not a reliable blanket rule:
+eligibility can depend on use, organization size, installation counts, edition,
+automation and redistribution. Inclusion does not mean RIDE can install them.
+Publisher references checked **2026-10-13**.
 
 | Product or component | Free-use context | Corporate or professional review trigger | Official references |
+| Magnet Encrypted Disk Detector v3.10 (retained candidate) | The publisher calls it a free tool and states downloads are governed by its End User License Agreement. The product page requires a request form; no copy was obtained. | Record exact-version owner NeedsReview after the package identity is established. This is an administrative reminder, not a migration gate; verify the terms/version accompanying the supplied artifact. | [Product page](https://www.magnetforensics.com/resources/encrypted-disk-detector/), [legal agreements](https://www.magnetforensics.com/legal/), [source evidence](archive/evidence/magnet-encrypted-disk-detector-official-source-recheck-2026-10-25-1025.json) |
+| Magnet RAM Capture v1.20 (retained candidate) | The publisher calls it a free tool and says Free Tools downloads are governed by its End User License Agreement. The page currently requires a request form and email delivery; no copy was obtained for this review. | Record exact-version NeedsReview for owner-specific administration after the artifact/package identity is established. This is not a migration gate; verify the actual supplied artifact and applicable EULA version. | [Product page](https://www.magnetforensics.com/resources/magnet-ram-capture/), [legal agreements](https://www.magnetforensics.com/legal/), [source evidence](archive/evidence/magnet-ram-capture-official-source-recheck-2026-10-25-1024.json) |
 | --- | --- | --- | --- |
 | Microsoft Visual C++ v14 Redistributable (`package.vcredist-v14-x64`, version 14.51.36247.0) | Microsoft provides the redistributable for applications built with Visual Studio; use of the files and redistribution are governed by the applicable Visual Studio license terms. | Installing Microsoft's public installer for an application's runtime dependency is distinct from copying or redistributing the payload. Review the applicable Visual Studio license and the organization's redistribution role before including the installer in a shared offline bundle or other distribution. No redistribution entitlement is inferred. | [Latest supported downloads](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist), [redistribution guidance](https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files), [license terms](https://visualstudio.microsoft.com/license-terms/) |
 | Npcap, including the separate Wireshark capture driver | The standard license generally limits use to five copies/computers/users. It has exceptions for use solely with the official Nmap, Wireshark or Microsoft Defender for Identity distributions. | Check the exact exception and all consumers of a shared driver. Broader deployment, silent installation and redistribution need separate review; OEM internal-use and redistribution rights differ. Wireshark's license does not grant general Npcap rights. | [Npcap license](https://github.com/nmap/npcap/blob/master/LICENSE), [OEM options](https://npcap.com/oem/) |
@@ -29,7 +242,7 @@ Additional publisher checks on **2026-10-17**:
 
 | Product or component | Review finding | Publisher reference |
 | --- | --- | --- |
-| JoeWare tools | The publisher clarified on 2024-06-06 that companies may download a copy and serve it to their internal users for internal corporate use. Distribution as part of a solution sold to others is a separate case. The internal-use clarification covers RIDE's direct download-and-install workflow; it is not a migration gate. AdFind has separate publisher-documented AV/PUP blocking, which remains a technical selection issue for that product only. The `rdp-sec-check` page identifies GPLv2 source included in its ZIP; exact source, compiled PerlApp binary and dependency notices remain uninspected, as does the applicability of a separate source-repository condition to those exact ZIP contents. | [JoeWare internal-use clarification](https://blog.joeware.net/2024/06/06/6216/), [general terms](https://www.joeware.net/freetools/warranty.htm), [AdFind AV/download notes](https://joeware.net/freetools/tools/adfind/index.htm), [rdp-sec-check](https://www.joeware.net/freetools/tools/rdp-sec-check/index.htm), [dated version/licence follow-up](archive/evidence/joeware-rdp-sec-check-version-license-follow-up-2026-10-17.json), [2026-10-23 review](archive/evidence/joeware-internal-use-current-version-review-2026-10-23.json) |
+| JoeWare tools | The publisher clarified on 2024-06-06 that companies may download a copy and serve it to their internal users for internal corporate use. Distribution as part of a solution sold to others is a separate case. The internal-use clarification covers RIDE's direct download-and-install workflow; it is not a migration gate. AdMod 1.29.00 has an exact-version local NeedsReview/Unassigned reminder for owner-specific terms administration, including the publisher note about commercial packaging; this does not gate migration. AdFind has separate publisher-documented AV/PUP blocking, which remains a technical selection issue for that product only. The `rdp-sec-check` page identifies GPLv2 source included in its ZIP; exact source, compiled PerlApp binary and dependency notices remain uninspected, as does the applicability of a separate source-repository condition to those exact ZIP contents. | [JoeWare internal-use clarification](https://blog.joeware.net/2024/06/06/6216/), [general terms](https://www.joeware.net/freetools/warranty.htm), [AdFind AV/download notes](https://joeware.net/freetools/tools/adfind/index.htm), [rdp-sec-check](https://www.joeware.net/freetools/tools/rdp-sec-check/index.htm), [dated version/licence follow-up](archive/evidence/joeware-rdp-sec-check-version-license-follow-up-2026-10-17.json), [2026-10-23 review](archive/evidence/joeware-internal-use-current-version-review-2026-10-23.json) |
 | MiTeC standalone apps | Product pages distinguish licence tiers; the software EULA describes unregistered non-commercial use, evaluation conditions and purchased licences. Do not inherit the old site's freeware labels. Keep licence keys private and preserve activation; deployment, use and distribution assessments remain separate. | [Software EULA](https://www.mitec.cz/wp/support/), [JSON Viewer](https://www.mitec.cz/wp/mjsonv/), [XML Viewer](https://www.mitec.cz/wp/mxmlv/) |
 | MiTeC historical standalone products | Reconcile each historical product statement with current terms. Internet History Browser, Icon Explorer and Windows File Analyzer restrict free use to private, educational and non-commercial purposes; the other ten reviewed historical pages state private/commercial free use. None establishes shared-kit distribution approval. The Windows File Analyzer 2.10.0 and Icon Explorer 5.3.0 candidates have local `NeedsReview` records for owner-specific use administration; these markers do not block their RIDE direct-download/install migration. SSView's bundled codec/source/sample require their own terms review; a ZLib name is insufficient. | [Dated reconciliation](archive/evidence/mitec-historical-reconciliation-2026-10-17.json), [SSView ownership review](archive/evidence/ssview-ownership-follow-up-2026-10-17.json) |
 | NTCore Driver List and Rebel.NET | Neither inspected archive contains a licence file; no explicit use/distribution grant was located on the reviewed product pages. Keep admission pending a product-specific reference; do not inherit Explorer Suite terms or treat a C/C++ format header as a licence. | [Driver List](https://ntcore.com/driver-list/), [Rebel.NET](https://ntcore.com/rebel-net/), [Artifact evidence](archive/evidence/ntcore-member-source-follow-up-2026-10-17.json) |
@@ -53,7 +266,7 @@ The remaining MiTeC/NTCore source pass on **2026-10-17** adds these findings:
 | NTCore 4GB Patch (`package.ntcore-4gb-patch`) | The publisher page and retained archive provide no product-specific license grant; executable copyright metadata says 2007 Daniel Pistelli, all rights reserved. Package candidacy and native acceptance proceed with the exact-version local status `NeedsReview`, per the user's migration priority. This does not assert internal entitlement or distribution permission. | [Publisher page](https://ntcore.com/4gb-patch/), [source/license findings](archive/evidence/ntcore-4gb-patch-page-follow-up-2026-10-21.json), [candidate and acceptance limits](application-packages.md#ntcore-4gb-patch-portable-candidate) |
 | NTCore Driver List (`package.ntcore-driver-list`) | The exact archive and selected x64/x86 member versions are pinned from retained publisher bytes. The publisher page/archive provide no product-specific use or distribution grant. Candidate planning proceeds with an exact-version local `NeedsReview` marker; this review note is not an installation gate or an entitlement statement. | [Publisher page](https://ntcore.com/driver-list/), [source/member evidence](archive/evidence/ntcore-member-source-follow-up-2026-10-17.json), [candidate and report boundary](application-packages.md#ntcore-driver-list-and-rebelnet-portable-candidates) |
 | NTCore Rebel.NET (`package.ntcore-rebelnet`) | The official guide says commercial use goes against the product terms; intended-use applicability and redistribution remain under review. Candidate planning proceeds with an exact-version local `NeedsReview` marker; this review note is not an installation gate or an entitlement statement. | [Publisher product page](https://ntcore.com/rebel-net/), [official guide](https://ntcore.com/files/rebelnet.htm), [source/member evidence](archive/evidence/ntcore-member-source-follow-up-2026-10-17.json), [candidate and synthetic-target boundary](application-packages.md#ntcore-driver-list-and-rebelnet-portable-candidates) |
-| Remaining NTCore bundles | NETUnpack, DynLogger, NoDel, SNSRemover and WIM Installer retain product-specific grant/dependency gates. SNSRemover's nested older PE Detective is a separate pinned bundle; no inherited permission or automatic replacement of the reviewed standalone candidate. Explorer Suite's matching publisher hash does not resolve its opaque installer contents. | [Per-product evidence and exclusions](archive/evidence/ntcore-remaining-source-review-2026-10-17.json), [Collection coverage](archive/evidence/mitec-ntcore-source-coverage-2026-10-17.json) |
+| Remaining NTCore bundles | NETUnpack, DynLogger, NoDel and SNSRemover retain their recorded product-specific grant/dependency questions. WIM Installer now has a pinned, one-member staging candidate; its exact-version `NeedsReview` note is informational and does not block package planning. SNSRemover's nested older PE Detective is a separate pinned bundle; no inherited permission or automatic replacement of the reviewed standalone candidate. Explorer Suite's matching publisher hash does not resolve its opaque installer contents. | [WIM Installer candidate](application-packages.md#ntcore-wim-installer-portable-staging-candidate), [Per-product evidence and exclusions](archive/evidence/ntcore-remaining-source-review-2026-10-17.json), [Collection coverage](archive/evidence/mitec-ntcore-source-coverage-2026-10-17.json) |
 
 The later [static installer extraction](migrations/application-migration-review.md#six-installer-static-extraction-2026-10-17)
 resolved all six outer payload inventories. Additional findings:
@@ -237,8 +450,9 @@ On 2026-10-24 at 15:20 UTC, the user again emphasized that the v2 specialist
 approval governs RIDE's direct download-and-install use. Do not apply strict or
 generalized redistribution reasoning as a Sysinternals migration blocker. See
 [latest disposition evidence](archive/evidence/sysinternals-license-disposition-reaffirmation-2026-10-24-1520.json).
-The user most recently reaffirmed on 2026-10-23 that there are no legal issues using
-Sysinternals in RIDE and that license concerns must not block package migration. Keep
+The user reaffirmed this practical direct-download-and-install disposition on 2026-10-25 at 11:23 UTC. The user most recently reaffirmed on 2026-10-25 that the prior v2 specialist
+approval governs this workflow, there are no legal issues using Sysinternals in
+RIDE, and license concerns must not block package migration. Keep
 the current disposition: approved for RIDE's direct download-and-install workflow;
 no separate license review or distribution gate is required for this migration. See
 the [original reaffirmation](archive/evidence/sysinternals-license-reaffirmation-2026-10-23.json)
@@ -452,6 +666,17 @@ reported Defender-detected file groups remain separate security exclusions; they
 do not create a Sysinternals license blocker.
 The 2026-10-24 05:52 UTC migration run kept the user's Sysinternals disposition in force: the prior RIDE v2 specialist approval settles direct download/install, so no license review or redistribution gate blocks that package migration. Defender detections remain separate security exclusions.
 
+## Sysinternals approval reaffirmed, 2026-10-25 12:10 UTC
+
+The user reiterates that RIDE v2 was reviewed and approved by a license
+specialist, and that RIDE's workflow downloads Sysinternals directly from
+Microsoft for installation without transferring or publishing copies. The user
+states there are no legal issues using Sysinternals in RIDE. Treat that approval
+as settled: no new legal or licensing review, generalized redistribution test,
+or license-based migration gate applies. Defender-alerted utilities remain
+separate security exclusions; technical acceptance is independent. See the
+[dated decision evidence](archive/evidence/sysinternals-license-disposition-reaffirmed-2026-10-25-1210.json).
+
 ## Sysinternals license rationale corrected, 2026-10-24 08:17 UTC
 
 The user corrected the migration rationale again: it is too strict and not
@@ -471,3 +696,21 @@ transfer or publish Sysinternals copies, and the user states there are no legal
 issues using Sysinternals in RIDE. No new review or redistribution gate applies
 to package migration. Keep Defender-detected utilities excluded separately; the
 remaining acceptance blockers are technical. See the [decision evidence](archive/evidence/sysinternals-direct-download-install-approval-reaffirmed-2026-10-24-1748.json).
+
+## Microsoft ETL2PCAPNG v1.11.0 MIT notice, 2026-10-25
+
+The official v1.11.0 release executable is Microsoft-signed. The source tag resolves to commit `65e2a98feb029a63318de2d821d6444fd7e148c3` and its MIT license notice is retained at `catalog/notices/etl2pcapng-v1.11.0-license.txt`. The catalog pins that notice by SHA-256 and the portable handler stages it beside the executable as owned `LICENSE.txt` content. This record documents the publisher license; Windows package lifecycle and synthetic trace conversion remain technical acceptance work. See [candidate evidence](archive/evidence/etl2pcapng-v1.11.0-source-and-candidate-2026-10-25-1117.json).
+## Sysinternals migration disposition reaffirmed, 2026-10-26
+
+The user reaffirmed that the prior RIDE v2 license-specialist review approved Sysinternals for RIDE's normal direct-download-and-install workflow. RIDE downloads the tools directly from Microsoft for computer deployment and does not transfer or publish copies. No additional license review or license gate applies to migration. Defender-blocked files remain separately excluded; remaining Sysinternals acceptance is technical package lifecycle, recovery and Windows target verification. See the [dated decision evidence](archive/evidence/sysinternals-license-scope-reaffirmation-2026-10-26-0927.json).
+## Pending package review-marker audit, 2026-10-26 09:59 UTC
+
+The workspace-local review store has exact-version `NeedsReview` / `Unassigned` records for all **35/35** packages marked `PendingAcceptance`, including NTCore WIM Installer 1.0.0.1. These are informational owner/version administration records; they do not block package planning or migration. See the [structured coverage audit](archive/evidence/pending-package-license-marker-audit-2026-10-26-0959.json).
+## Current package-planning regression, 2026-10-26 10:05 UTC
+
+The current `ApplicationPackages.Tests.ps1` and `LicenseReviews.Tests.ps1` suites passed **148/148** with registry fixture creation and Pester result-file output disabled. This confirms that local `NeedsReview` markers remain informational to planning; it does not establish owner-specific entitlement or Windows installation acceptance. The workspace store has exact-version markers for all **35/35** pending packages. See the [regression evidence](archive/evidence/package-planning-license-regression-2026-10-26-1005.json) and [marker audit](archive/evidence/pending-package-license-marker-audit-2026-10-26-0959.json).
+
+
+## Pending package owner-review marker coverage, 2026-10-27 07:20 UTC
+
+The current catalog has **38** package operations marked PendingAcceptance; the workspace-local review store contains exact-version NeedsReview / Unassigned records for all **38/38**, with no missing, duplicate or wrong-status matches. ApplicationPackages.Tests.ps1 and LicenseReviews.Tests.ps1 passed **148/148**. These entries are administrative reminders for owner/deployment context and do not block planning or technical migration. Sysinternals is excluded from further review gates because the prior RIDE v2 specialist approval covers RIDE's direct-download-and-install use. Defender-blocked tools remain separate security exclusions. See the [structured coverage audit](archive/evidence/pending-package-license-marker-audit-2026-10-27-0720.json).

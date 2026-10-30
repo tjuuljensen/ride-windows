@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-28T17:34:56Z",
+  "batch": "Hash Suite Free current publisher source and artifact acquisition",
+  "source": "Official Hash Suite publisher site",
+  "productUri": "https://hashsuite.openwall.net/",
+  "downloadPageUri": "https://hashsuite.openwall.net/download",
+  "downloadUri": "https://hashsuite.openwall.net/downloads/Hash_Suite_Free_4_1.zip",
+  "publisherVersion": "4.1",
+  "publisherReleaseDate": "2026-10-17",
+  "publisherListedSize": "28.3 MB",
+  "publisherSha256": "72c215e7c6a5da0941d73cd7a474af9565b7823017d29e400e5a4ef9892165fe",
+  "minimumOperatingSystem": "Windows 10 64-bit",
+  "sourceFinding": "The current publisher download page lists Hash Suite Free separately from Standard and Pro, says Free is for any legal use, lists the 4.1 ZIP and SHA-256, and states Windows 10 64-bit minimum. The separate license page presents paid commercial terms; exact Free-edition terms should be recorded as NeedsReview/Unassigned in the local owner review store once the catalog candidate ID is established. This administrative review does not block direct-download package migration.",
+  "acquisition": {
+    "attempt": "Windows PowerShell Invoke-WebRequest to the exact publisher HTTPS ZIP URL",
+    "result": "Failed before transfer: local DNS could not resolve hashsuite.openwall.net.",
+    "localArchiveRetained": false,
+    "localSha256Verified": false,
+    "archiveMembersInventoried": false
+  },
+  "migrationOutcome": {
+    "catalogCandidateAdded": false,
+    "reason": "Without exact archive bytes/member inventory, the portable RequiredFiles and PortableMembers contract cannot be pinned.",
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; version/source review and failed acquisition close no legacy outcome."
+    }
+  },
+  "handling": {
+    "artifactExecuted": false,
+    "archiveExtracted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "nextStep": "Retry the same exact publisher URL when DNS is available; verify local SHA-256 against the publisher checksum, inventory archive members without executing them, then add the package candidate and exact-version NeedsReview/Unassigned local owner record. Continue with other independent migrations meanwhile."
+}

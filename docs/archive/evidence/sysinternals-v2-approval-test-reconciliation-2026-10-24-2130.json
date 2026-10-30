@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedAtUtc": "2026-10-24T21:30:00Z",
+  "Decision": "The prior RIDE v2 license-specialist approval covers RIDE's direct Microsoft download-and-install workflow. Do not use a separate legal or redistribution review as a package migration gate.",
+  "DefenderDisposition": "Defender-detected tools remain separately excluded from package selections.",
+  "Pester": {
+    "Version": "5.7.1",
+    "TestRegistryEnabled": false,
+    "Passed": 21,
+    "Failed": 0,
+    "Skipped": 0,
+    "Selections": [
+      {
+        "File": "tests/LicenseReviews.Tests.ps1",
+        "Selection": "RIDE v2 approved Sysinternals package planning",
+        "Passed": 10
+      },
+      {
+        "File": "tests/SysinternalsProductPackages.Tests.ps1",
+        "Selection": "Pinned publisher archive metadata for the accepted Windows 11 lifecycle",
+        "Passed": 9
+      },
+      {
+        "File": "tests/PortableAcceptanceAutomation.Tests.ps1",
+        "Selection": "Sysinternals suite and independent product selection; Defender exclusions",
+        "Passed": 2
+      }
+    ]
+  },
+  "MigrationOutcomeClosed": false,
+  "Notes": "These focused local tests reconcile test assertions with the supported catalog state and confirm that licensing does not gate install planning. They do not replace the previously recorded Windows 11 file-lifecycle evidence or test product behavior beyond that lifecycle."
+}

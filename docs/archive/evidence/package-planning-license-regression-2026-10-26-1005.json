@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T10:05:31Z",
+  "batch": "Current package planning and license-review regression",
+  "runtime": "PowerShell 7.6.5 on Windows with Pester 5.7.1",
+  "tests": [
+    {
+      "path": "tests/ApplicationPackages.Tests.ps1",
+      "total": 91,
+      "passed": 91,
+      "failed": 0,
+      "elapsedSeconds": 91.96
+    },
+    {
+      "path": "tests/LicenseReviews.Tests.ps1",
+      "total": 57,
+      "passed": 57,
+      "failed": 0,
+      "elapsedSeconds": 79.95
+    }
+  ],
+  "summary": {
+    "total": 148,
+    "passed": 148,
+    "failed": 0,
+    "skipped": 0
+  },
+  "configuration": {
+    "testRegistry": false,
+    "testResult": false,
+    "scratchRoot": ".local/pester-package-license-current-20261026"
+  },
+  "coverage": {
+    "packagePlanning": "Install, removal, dependency and acceptance-gate planning boundaries using mocked handlers and providers.",
+    "licenseReview": "Local version/owner review store behavior and informational NeedsReview planning behavior.",
+    "pendingPackageMarkerAudit": "35/35 exact-version NeedsReview markers in .local/license-reviews.json."
+  },
+  "sideEffects": {
+    "installerOrUtilityExecuted": false,
+    "networkUsed": false,
+    "vmUsed": false,
+    "windowsOrDefenderStateChanged": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    },
+    "deferred": [
+      "Windows package installation, removal and exact-state recovery on disposable targets",
+      "Package-specific product behavior and Windows target acceptance"
+    ]
+  }
+}

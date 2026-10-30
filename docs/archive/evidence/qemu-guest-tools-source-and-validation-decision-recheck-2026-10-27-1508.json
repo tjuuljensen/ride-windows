@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T15:08:00Z",
+  "batch": "QEMU guest-tools publisher-source and validation-decision recheck",
+  "userDecision": {
+    "selectedFedoraEnvironment": "Fedora 44",
+    "debianReleasePrePinRequired": false,
+    "ubuntuReleasePrePinRequired": false,
+    "gnomeBoxesBuildPrePinRequired": false,
+    "recordActualDebianUbuntuAndBoxesVersionsWhenMatchingGuestIsPrepared": true,
+    "supersedesEarlierPrePinInstruction": "decision-session-2026-10-17.md, 2026-10-24 03:00 UTC section; superseded by the later 2026-10-24 follow-up decision"
+  },
+  "publisherSourceReview": {
+    "spiceWebdavIndex": "https://www.spice-space.org/download/windows/spice-webdavd/",
+    "observedX64Artifact": "spice-webdavd-x64-2.4.msi",
+    "observedSidecars": [
+      "spice-webdavd-x64-2.4.msi.sha256",
+      "spice-webdavd-x64-2.4.msi.sig"
+    ],
+    "indexLastModified": "2020-03-16 12:51 UTC",
+    "payloadAndSidecarBytesAcquired": false,
+    "reason": "The web source reader refused MSI and signature MIME types; prior local curl acquisition failed DNS resolution.",
+    "sha256IndependentlyVerified": false,
+    "authenticodeOrOpenPgpSignatureVerified": false
+  },
+  "integrationSourceReview": {
+    "spiceWindowsGuestTools": "https://www.spice-space.org/download.html",
+    "virtioWinGuestToolsInstaller": "https://github.com/virtio-win/virtio-win-guest-tools-installer",
+    "finding": "The official virtio-win installer combines VirtIO drivers with SPICE guest components; SPICE guest tools include QXL and the SPICE agent; WebDAV is separate for shared-folder support. Avoid duplicate SPICE installs and select drivers for actual guest devices."
+  },
+  "migrationImpact": {
+    "catalogChanges": false,
+    "packagesAcquired": [],
+    "installerExecuted": false,
+    "matchingQemuGuestAcceptanceRun": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "remainingBlockers": [
+      "Acquire exact publisher artifact bytes and verify release identity, hashes, notices and signatures.",
+      "Prepare a matching Windows QEMU/SPICE guest; record the actual Debian/Ubuntu environment and GNOME Boxes build then, without pre-pinning them.",
+      "Verify guest-device-specific driver choice, install/repeat/detection/remove/recovery, and optional WebDAV service and folder-sharing behavior."
+    ],
+    "licensing": "No license gate; any exact-version owner-review marker is informational."
+  },
+  "estimateRanges": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exact": "127-181",
+    "rounded": "125-180/about 155"
+  }
+}

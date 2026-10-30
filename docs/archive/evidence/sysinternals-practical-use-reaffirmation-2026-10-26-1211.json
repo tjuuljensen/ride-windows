@@ -1,0 +1,18 @@
+{
+  "ReviewedAtUtc": "2026-10-26T12:11:00Z",
+  "Subject": "Sysinternals package migration licensing disposition",
+  "UserDecision": "The prior RIDE v2 license-specialist review approved Sysinternals for RIDE use. RIDE is a download-and-install tool and does not transfer or publish Sysinternals. The user confirms there are no legal issues using Sysinternals in RIDE and directs that strict redistribution reasoning must not block package migration.",
+  "MigrationDisposition": "No legal review, generalized redistribution analysis, or license-administration marker is a prerequisite or migration gate for Sysinternals. Proceed with authorized package migration and technical lifecycle/Windows acceptance.",
+  "SecurityDisposition": "Defender-blocked tools remain excluded as a separate security decision; this does not create a licensing gate for the Sysinternals suite.",
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  },
+  "LegacyOutcomeClosed": false,
+  "EvidenceScope": "User direction and prior specialist approval; this is a migration disposition, not new legal advice or a runtime acceptance result."
+}

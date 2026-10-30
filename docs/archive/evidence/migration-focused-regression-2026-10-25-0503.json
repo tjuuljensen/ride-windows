@@ -1,0 +1,78 @@
+{
+  "RunDateUtc": "2026-10-25 05:03",
+  "Purpose": "Focused current-source migration regressions after NTCore and MiTeC Windows 11 staging acceptance",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "RepositoryPath": "Windows filesystem checkout",
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 412,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 277
+  },
+  "Pester": [
+    {
+      "File": "tests/LicenseReviews.Tests.ps1",
+      "Total": 24,
+      "Passed": 24,
+      "Failed": 0,
+      "Result": "Passed"
+    },
+    {
+      "Files": [
+        "tests/NtcorePackages.Tests.ps1",
+        "tests/MiTeCMailHistoryViewers.Tests.ps1"
+      ],
+      "Total": 30,
+      "Passed": 30,
+      "Failed": 0,
+      "Result": "Passed"
+    },
+    {
+      "File": "tests/Catalog.Tests.ps1",
+      "Total": 83,
+      "Passed": 82,
+      "Failed": 0,
+      "NotRun": 1,
+      "NotRunReason": "WindowsIntegration excluded",
+      "Result": "Passed"
+    }
+  ],
+  "Scope": {
+    "InstallersExecuted": false,
+    "UtilitiesExecuted": false,
+    "ViewersExecuted": false,
+    "UserDataOpened": false,
+    "VMUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderStateQueriedOrChanged": false,
+    "DefenderBlockedToolsIncluded": false,
+    "FreshUacRequested": false,
+    "LegacyOutcomeClosed": false,
+    "EstimateChanged": false
+  },
+  "RelatedWindowsAcceptance": [
+    "ntcore-additional-win11-lifecycle-acceptance-2026-10-25-0402.json",
+    "mitec-mail-history-viewers-win11-lifecycle-acceptance-2026-10-25-0409.json"
+  ],
+  "MigrationEstimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "AccountsFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  },
+  "BroadPester": {
+    "Discovered": 3282,
+    "FinalAggregate": null,
+    "Outcome": "Unverified; no aggregate captured"
+  },
+  "Disposition": "Focused catalog, license-review and NTCore/MiTeC unit regressions pass. They do not establish utility/viewer behavior or activation. The broad Pester run remains unverified and is not counted as a pass."
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T19:27:57Z",
+  "batch": "BloodHound CE 9.8.0 pinned collector artifact acquisition preflight",
+  "assets": [
+    {
+      "repository": "SpecterOps/SharpHound",
+      "tag": "v2.17.0",
+      "name": "SharpHound_v2.17.0_windows_x86.zip",
+      "sha256": "09ef123ada22be00a6af4dbfa28f9aa357930205f88991374373d634609efb03",
+      "url": "https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip"
+    },
+    {
+      "repository": "SpecterOps/AzureHound",
+      "tag": "v3.1.1",
+      "name": "AzureHound_v3.1.1_windows_amd64.zip",
+      "sha256": "6532c29e0bb2195656296bbb9b199ca51fa641b90d30633d3caf8882ff9fe4e4",
+      "url": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.1/AzureHound_v3.1.1_windows_amd64.zip"
+    }
+  ],
+  "preflight": {
+    "method": "Resolve-DnsName github.com before attempting exact official asset downloads",
+    "result": "blocked_before_dns_lookup",
+    "error": "Access is denied",
+    "bytesReceived": 0,
+    "partialFilesCreated": false,
+    "assetFilesExistedBeforeAttempt": false
+  },
+  "resolved": [],
+  "deferred": [
+    "Publisher ZIP/sidecar byte acquisition and independent digest verification",
+    "Archive member and upstream notice inspection",
+    "Owned package lifecycle/recovery",
+    "No-collection smoke checks",
+    "Windows 11 acceptance"
+  ],
+  "safety": {
+    "collectorExecuted": false,
+    "backendOrContainerRun": false,
+    "credentialsOrDirectoryDataAccessed": false,
+    "defenderStateChanged": false,
+    "vmStateChanged": false,
+    "uacRequested": false
+  },
+  "legacyOutcomeClosed": false,
+  "estimatesChanged": false,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155"
+  }
+}

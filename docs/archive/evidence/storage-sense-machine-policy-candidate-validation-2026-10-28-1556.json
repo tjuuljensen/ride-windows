@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T15:56:51Z",
+  "batch": "Storage Sense machine enforcement policy candidate implementation and local validation",
+  "source": "Repository catalog, tests, operator guide, Microsoft Storage Policy CSP",
+  "candidate": {
+    "id": "windows.storage-sense-global-policy",
+    "supportedTargets": [],
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "acceptancePending": true,
+    "scope": "Machine-level AllowStorageSenseGlobal policy, separate from the existing current-user preference.",
+    "effects": {
+      "enabled": "Forces Storage Sense on; users cannot disable it.",
+      "disabled": "Forces Storage Sense off; users cannot enable it.",
+      "windowsDefault": "Removes only this local policy override and returns control to Windows/user behavior, which may enable it under low storage."
+    },
+    "boundaries": [
+      "Does not configure cadence, temporary-file cleanup, Downloads, Recycle Bin or cloud content.",
+      "Does not run cleanup.",
+      "Exact registry restore does not recover deleted files.",
+      "Microsoft CSP edition list is Pro, Enterprise, Education and IoT Enterprise; Home and Server are not candidate targets."
+    ],
+    "acceptanceRequired": [
+      "Confirm Windows 11 edition and actual UI enforcement.",
+      "Verify effective policy source/precedence.",
+      "Prove exact saved-value/type/absence restoration.",
+      "Confirm cleanup boundary with expendable fixture content."
+    ]
+  },
+  "changes": [
+    "Cataloged the separate machine policy candidate with no supported targets and pending Windows 11 acceptance.",
+    "Added focused metadata and engine state-match tests; candidate excluded from profiles.",
+    "Updated Storage Sense operator guide and remaining-settings decision row.",
+    "Regenerated docs/OPERATIONS.md."
+  ],
+  "validation": {
+    "catalogExport": "Passed: generated docs/OPERATIONS.md.",
+    "repositoryValidation": "Passed: 447 operations, 8 groups, 5 profiles, 301 PowerShell files.",
+    "focusedPester": {
+      "testFile": "tests/OptionalWindowsSettings.Tests.ps1",
+      "result": "No result/count obtained. The isolated PowerShell/Pester invocation ended with a FileSystem InitializeDefaultDrives provider error and no Pester summary; assertion execution cannot be confirmed.",
+      "registryAndResultPluginsDisabled": true
+    }
+  },
+  "handling": {
+    "nativePolicyQueriedOrChanged": false,
+    "registryChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "defenderBlockedFileAccessed": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Native Windows 11 UI/effective policy, edition and exact restoration acceptance; no supported target declared."
+    ],
+    "partial": [
+      "Separate advanced Storage Sense machine-policy candidate is cataloged, documented and statically validated; no legacy outcome closed."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; candidate preparation and static validation do not establish a legacy outcome or Windows behavior."
+    }
+  },
+  "relatedEvidence": [
+    "../../catalog/operations.psd1",
+    "../../tests/OptionalWindowsSettings.Tests.ps1",
+    "../../docs/storage-sense.md",
+    "../../docs/migrations/remaining-settings-decisions.md"
+  ]
+}

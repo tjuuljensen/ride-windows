@@ -1,0 +1,298 @@
+{
+  "RecordedAtUtc": "2026-10-25T14:46:00Z",
+  "Kind": "CurrentPublisherPageVersionAndMutableHelperRecheck",
+  "PublisherPage": "https://ericzimmerman.github.io/",
+  "SelectedLegacyMemberCount": 26,
+  "MappedCurrentPageVersionCount": 26,
+  "VersionsAdvancedSince2026_10_24": 17,
+  "Members": [
+    {
+      "Name": "AmcacheParser",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/AmcacheParser.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "AppCompatCacheParser",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/AppCompatCacheParser.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "bstrings",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/bstrings.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "EvtxECmd",
+      "PublisherVersion": "2026.10.2",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/EvtxECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "EZViewer",
+      "PublisherVersion": "2026.10.0",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/EZViewer.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "Hasher",
+      "PublisherVersion": "2026.10.0",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/hasher.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false,
+      "PublisherPageVariantLabel": ".NET 4.7.2",
+      "LinkedPath": "/net/",
+      "FrameworkSelection": "Deferred pending exact bytes or publisher clarification"
+    },
+    {
+      "Name": "JLECmd",
+      "PublisherVersion": "2026.10.5",
+      "PreviousObservedVersion": "2026.10.3",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/JLECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "JumpList Explorer",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/JumpListExplorer.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "LECmd",
+      "PublisherVersion": "2026.10.3",
+      "PreviousObservedVersion": "2026.10.2",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/LECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "MFTECmd",
+      "PublisherVersion": "2026.10.6",
+      "PreviousObservedVersion": "2026.10.2",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/MFTECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "MFTExplorer",
+      "PublisherVersion": "2026.10.0",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/MFTExplorer.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "PECmd",
+      "PublisherVersion": "2026.10.3",
+      "PreviousObservedVersion": "2026.10.2",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/PECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "RBCmd",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/RBCmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "RecentFileCacheParser",
+      "PublisherVersion": "2026.10.2",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/RecentFileCacheParser.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "RECmd",
+      "PublisherVersion": "2026.10.2",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/RECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "Registry Explorer",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/RegistryExplorer.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "RLA",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/rla.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "SBECmd",
+      "PublisherVersion": "2026.10.2",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/SBECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "SDB Explorer",
+      "PublisherVersion": "2026.10.0",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/SDBExplorer.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "ShellBags Explorer",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/ShellBagsExplorer.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "SQLECmd",
+      "PublisherVersion": "2026.10.3",
+      "PreviousObservedVersion": "2026.10.1",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/SQLECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "SrumECmd",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/SrumECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "SumECmd",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/SumECmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "Timeline Explorer",
+      "PublisherVersion": "2026.10.0",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/TimelineExplorer.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "VSCMount",
+      "PublisherVersion": "2026.10.0",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/VSCMount.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    },
+    {
+      "Name": "WxTCmd",
+      "PublisherVersion": "2026.10.1",
+      "PreviousObservedVersion": "2026.10.0",
+      "DownloadUri": "https://download.ericzimmermanstools.com/net/WxTCmd.zip",
+      "ArtifactBytesAcquired": false,
+      "Sha256Verified": false,
+      "MembersInspected": false
+    }
+  ],
+  "SelectedFrameworkVariant": false,
+  "HasherVariantConflict": "Publisher page labels Hasher under .NET 4.7.2 while its link is /net/; prior updater behavior treats /net/ as .NET 10. Keep Hasher deferred pending exact bytes or publisher clarification.",
+  "HelperSource": {
+    "MutableMasterUrl": "https://raw.githubusercontent.com/EricZimmerman/Get-ZimmermanTools/master/Get-ZimmermanTools.ps1",
+    "ObservedHeaderUpdated": "2026-10-23",
+    "ObservedCurrentBehavior": [
+      "NetVersion defaults to 10; 9 is accepted as an alias for 10",
+      "Self-update can overwrite the helper beside the running script unless NoUpdate is selected",
+      "Discover ZIP/TXT URLs by regex from the live publisher tools page",
+      "Download up to six jobs concurrently using ETag conditional requests",
+      "Store ETag values in a CSV field named SHA1; this is not a payload SHA-1/SHA-256 verification",
+      "Extract downloaded ZIPs into the requested destination with overwrite enabled",
+      "Optional Sync runs --sync on matching EvtxECmd, SQLECmd and RECmd executables"
+    ],
+    "PinnedPriorCommit": "d808d1dfe6446faf884576a8a1c11b6875197a19",
+    "SourceIdentityFinding": "The previously pinned May 2026 commit describes .NET 9 behavior, while the observed mutable master text describes an October 2026 update and .NET 10. The current master page did not expose a verifiable immutable commit/hash in this review, so d808d1d is not treated as a current-source pin.",
+    "RepositoryLicense": "MIT for Get-ZimmermanTools helper source only; not a statement about individual selected tool licenses."
+  },
+  "HostResolution": {
+    "PublisherDownloadHost": "Resolve-DnsName was denied by host policy before an address was returned.",
+    "Github": "Resolve-DnsName was denied by host policy before an address was returned.",
+    "ArtifactAcquisitionAttempted": false
+  },
+  "Boundaries": {
+    "ToolExecuted": false,
+    "ArchiveExtracted": false,
+    "WindowsOrVmStateChanged": false,
+    "DefenderStateChanged": false,
+    "CatalogChanged": false,
+    "LicenseStoreChanged": false,
+    "DefenderBlockedMembersAdded": false
+  },
+  "Deferred": [
+    "Resolve current immutable helper revision and acquire its source archive/hash",
+    "Select a framework variant for the 25 non-Hasher artifacts",
+    "Resolve Hasher page/link framework mismatch",
+    "Acquire exact official ZIPs; verify hashes, signatures, notices, members, dependencies and version contents",
+    "Create package-scoped selection and lifecycle/recovery tests; keep all tool execution separate",
+    "Record owner-specific review status after catalog identities exist; those markers do not gate migration"
+  ],
+  "LegacyProductOutcomesClosed": 0,
+  "EstimateImpact": {
+    "RangesChanged": false,
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

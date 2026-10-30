@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T10:30:12Z",
+  "method": "Read-only elevated Hyper-V and Task Scheduler inspection; no request submitted and no VM or checkpoint state changed.",
+  "vm": {
+    "name": "RIDE-Win11-Test",
+    "id": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "state": "Off",
+    "status": "Operating normally",
+    "checkpointType": "Production",
+    "configuredCheckpointName": "RIDE-clean-test-base",
+    "configuredCheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "currentCheckpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "checkpointPinMatches": true
+  },
+  "serverVm": {
+    "name": "RIDE-Srv2025Test",
+    "result": "No virtual machine with this name exists on the inspected Hyper-V host."
+  },
+  "registeredTask": {
+    "path": "\\RIDE\\",
+    "name": "RIDEWin11Test",
+    "state": "Ready",
+    "lastRunTimeLocal": "2026-10-25T11:10:11+01:00",
+    "lastTaskResult": 0,
+    "principal": "tjuuljensen",
+    "logonType": "Interactive",
+    "runLevel": "Highest"
+  },
+  "controller": {
+    "configurationSchemaVersion": 2,
+    "capabilities": ["GitHubPatGuestV1", "FocusedPortableV1"],
+    "validationStatus": "NotValidated",
+    "pendingQueueCount": 0,
+    "runningQueueCount": 0,
+    "recoveryBlockPresent": false,
+    "installedControllerFiles": [
+      {
+        "file": "RIDE.TestAutomation.psm1",
+        "installedSha256": "DA5761F9D46F31EB0C037665F03E99B00741A30D8F27FB006E1E40E513DAF418",
+        "matchesCurrentCheckout": false
+      },
+      {
+        "file": "RIDE.PortableAcceptance.psm1",
+        "installedSha256": "C71345A166E1BED9122B92D38121C93106ADBB5A6A353415586B4CF2C509A425",
+        "currentCheckoutSha256": "D5BAE840071D98E6668B84B5468ED1E22B0D609949E09F756BDB159C12CEDF05",
+        "matchesCurrentCheckout": false
+      },
+      {
+        "file": "Invoke-RidePortableVmAcceptance.ps1",
+        "installedSha256": "B10EBA95800CE2A32A5D172F14DD74E0BF5037F5937FAC7E4739F7654ED51B81",
+        "currentCheckoutSha256": "B10EBA95800CE2A32A5D172F14DD74E0BF5037F5937FAC7E4739F7654ED51B81",
+        "matchesCurrentCheckout": true
+      },
+      {
+        "file": "Invoke-RideVmTestTaskWorker.ps1",
+        "installedSha256": "36A81A1392D5BEAEFD8CE85F8D90DE95F76E14479475E56872550A79870C9C6A",
+        "currentCheckoutSha256": "36A81A1392D5BEAEFD8CE85F8D90DE95F76E14479475E56872550A79870C9C6A",
+        "matchesCurrentCheckout": true
+      },
+      {
+        "file": "Invoke-RideVmTest.ps1",
+        "installedSha256": "6564457FC845DECCB850C50568130A6F3E5E440DFE1839BFC781545F6B70DC8C",
+        "currentCheckoutSha256": "CF19DB80E9B2C193D6052036C467CD9177F2DD99049C1DA5A8D32C2719ED9B0D",
+        "matchesCurrentCheckout": false
+      }
+    ],
+    "otherMissingInstalledFile": "Invoke-RideGuestTests.ps1"
+  },
+  "rawCopy": {
+    "localRunnerPrepared": true,
+    "registeredPortableBatchAvailable": false,
+    "batchAllowlistContainsRawCopy": false,
+    "executionOccurred": false
+  },
+  "sideEffects": {
+    "vmRequestSubmitted": false,
+    "guestStarted": false,
+    "checkpointChanged": false,
+    "windowsOrDefenderChanged": false,
+    "freshUacRequested": false
+  },
+  "disposition": {
+    "deferredAcceptance": "Refresh or otherwise reconcile the protected controller files and batch capability before dispatching the current-source package or settings acceptance run.",
+    "sysinternalsLicense": "Prior RIDE v2 license-specialist approval covers RIDE's direct Microsoft download-and-install workflow; no legal or licensing gate applies.",
+    "defender": "Defender-blocked utilities remain excluded separately.",
+    "legacyOutcomesClosed": [],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

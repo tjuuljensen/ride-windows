@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T13:18:10Z",
+  "batch": "NTCore full Explorer Suite candidate preparation",
+  "publisher": {
+    "indexUri": "https://ntcore.com/download/",
+    "productUri": "https://ntcore.com/explorer-suite/",
+    "currentPageLabel": "III (18/11/2012)",
+    "downloadUri": "https://ntcore.com/files/ExplorerSuite.exe",
+    "publishedSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d"
+  },
+  "retainedArtifact": {
+    "path": ".local/remaining-collections-20261017/ExplorerSuite.exe",
+    "length": 3613174,
+    "sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+    "outerInstallerPeMachine": "014c",
+    "outerInstallerArchitecture": "x86",
+    "installerFormat": "Inno Setup",
+    "embeddedLabel": "Explorer Suite IV",
+    "staticMemberCount": 27,
+    "inventoryEvidence": "installer-static-extraction-2026-10-17.json",
+    "sha256MatchesCurrentPublishedDigest": true
+  },
+  "candidate": {
+    "catalogId": "package.ntcore-explorer-suite",
+    "catalogVersion": "III-2012-11-18",
+    "licenseReviewKeyVersion": "III-2012-11-18",
+    "pendingWindows11Acceptance": true,
+    "supportedTargets": [],
+    "licenseReview": "NeedsReview/Unassigned exact-version marker; administrative and non-blocking",
+    "separateFrom": "package.ntcore-cff-explorer"
+  },
+  "validation": {
+    "catalogOperations": 445,
+    "catalogGroups": 8,
+    "catalogValidationErrors": 0,
+    "generatedOperationsDocumentationCurrent": true,
+    "catalogProfilesValidated": 5
+  },
+  "staticInventoryHighlights": [
+    "CFF Explorer x86 and x64",
+    "Task Explorer x86 and x64",
+    "PE Detective x86 and x64",
+    "Driver List x86 and x64",
+    "Signature Explorer",
+    "CFF Explorer UPX extension files",
+    "SDK installer and documentation",
+    "Scripts and shared signature databases"
+  ],
+  "acceptanceRequired": [
+    "Confirm exact installed components and user or machine scope",
+    "Confirm shortcuts, uninstall display name and uninstall command",
+    "Verify repeat install, removal, exact recovery and preservation of unowned data",
+    "Use the existing Windows 11 checkpoint after VM access is restored"
+  ],
+  "execution": {
+    "InstallerExecuted": false,
+    "IncludedUtilitiesExecuted": false,
+    "PayloadsExtractedThisRun": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "ElevationRequested": false
+  },
+  "migrationOutcome": {
+    "legacyOutcomesClosed": 0,
+    "newCandidateOperations": 1,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the full-suite catalog candidate advances preparation but does not close its legacy package outcome before Windows lifecycle acceptance."
+    }
+  },
+  "sources": [
+    "https://ntcore.com/download/",
+    "https://ntcore.com/explorer-suite/",
+    "https://jrsoftware.org/ishelp/topic_setupcmdline.htm",
+    "https://jrsoftware.org/ishelp/topic_uninstcmdline.htm"
+  ]
+}

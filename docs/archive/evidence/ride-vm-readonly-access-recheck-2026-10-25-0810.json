@@ -1,0 +1,23 @@
+{
+  "RecordedAtUtc": "2026-10-25T08:10:39Z",
+  "Targets": [
+    "RIDE-Win11-Test",
+    "RIDE-Srv2025Test"
+  ],
+  "Action": "Read-only Get-VM by exact registered target names",
+  "Result": "Blocked before target or checkpoint inspection",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "FreshUacRequested": false,
+  "VmStateChanged": false,
+  "AcceptanceStatus": "Deferred; no VM was inspected or used in this check.",
+  "MigrationEstimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "AccountsFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155",
+    "Changed": false
+  }
+}

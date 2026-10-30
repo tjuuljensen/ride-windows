@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T16:55:00Z",
+  "workstream": "B06 OpenSSH Client LocalSource guarded lifecycle",
+  "change": {
+    "module_version": "0.4.3",
+    "behavior": [
+      "Read the target's HKLM Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Servicing\\LocalSourcePath before CAB metadata inspection, snapshot creation, or servicing.",
+      "Refuse LocalSource servicing when the policy value is nonempty.",
+      "Fail closed when the policy key or value cannot be inspected.",
+      "Persist the fallback inspection result in the run snapshot and return it in transition results.",
+      "Repeat the policy guard when validating a saved LocalSource for restore."
+    ],
+    "network_boundary_verified": false,
+    "telnet_local_source_implemented": false
+  },
+  "evidence": {
+    "microsoft_sources": [
+      "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/dism-capabilities-package-servicing-command-line-options",
+      "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-a-windows-repair-source?view=windows-11"
+    ],
+    "validation": {
+      "windows_powershell_parser_module": "passed",
+      "windows_powershell_parser_focused_tests": "passed",
+      "git_diff_check_focused_files": "passed",
+      "pester_assertions": "not run",
+      "native_servicing": "not run",
+      "vm_acceptance": "not run"
+    }
+  },
+  "safety": {
+    "registry_read": false,
+    "registry_write": false,
+    "cab_metadata_read": false,
+    "dism_invoked": false,
+    "vm_or_checkpoint_changed": false,
+    "defender_state_changed": false,
+    "defender_blocked_tools_restored_or_run": false
+  },
+  "migration_outcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred_or_partial": [
+      "B06 OpenSSH Client source completeness, servicing dependencies, exact payload recovery, full network isolation, and Windows lifecycle acceptance remain open.",
+      "B06 Telnet LocalSource validation remains unimplemented and blocked on target-specific package identity and matching media."
+    ],
+    "legacy_outcome_closed": false,
+    "estimate_adjustment": "None. This guard is implementation hardening and does not establish a migrated legacy outcome or Windows behavior."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "files_and_assets": "25-35",
+    "maintenance": "8-12",
+    "exact_total": "126-180",
+    "rounded_total": "125-180; about 155 outcomes"
+  },
+  "sysinternals_disposition": {
+    "status": "settled; no legal or redistribution blocker",
+    "basis": "Prior RIDE v2 license-specialist approval for RIDE's direct download-and-install workflow, reaffirmed by the user on 2026-10-28.",
+    "defender_exclusions": "Separate security handling; does not reopen licensing or block other Sysinternals package migration."
+  }
+}

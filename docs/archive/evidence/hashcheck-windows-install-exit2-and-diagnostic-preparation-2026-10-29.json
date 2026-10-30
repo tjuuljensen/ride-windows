@@ -1,0 +1,184 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T08:21:58.7408319Z",
+  "RunId": "bf40deb404b848178494030a77656d9b",
+  "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\bf40deb404b848178494030a77656d9b",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "bf40deb404b848178494030a77656d9b",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch11",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-10-29T08:03:39.9960511Z",
+    "FinishedAtUtc": "2026-10-29T08:16:28.1635759Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "GuestSummary": {
+    "SchemaVersion": 1,
+    "RunId": "bf40deb404b848178494030a77656d9b",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 426,
+      "Passed": 422
+    },
+    "Error": "Applications batch 11 has failed scenarios; see application evidence.",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Application": {
+    "Id": "package.hashcheck-shell-extension",
+    "Variant": "installed",
+    "Target": "Windows 11",
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "InstallationType": "Client",
+    "Scope": "Machine",
+    "Provider": "DirectHttps",
+    "Applicability": "Applicable to deployment lifecycle",
+    "Status": "Failed",
+    "Version": null,
+    "Error": "RIDE operation 'package.hashcheck-shell-extension' failed. Run ID: 722910d62c104783918b7c271485644e. Saved state: package.hashcheck-shell-extension. Completed operations: <none>. Failed operation: package.hashcheck-shell-extension. Unfinished operations: package.hashcheck-shell-extension. Recovery: run '.\\ride.ps1 restore -RunId 722910d62c104783918b7c271485644e', then reapply the same profile. Error: Installer for HashCheck Shell Extension 2.6.3 (x86/x64) exited with code 2. Artifact retained at 'C:\\ProgramData\\RIDE\\State\\Cache\\hashcheck-shell-extension\\2.6.3\\HashCheckSetup-v2.6.3.0.exe'.",
+    "Recovery": false,
+    "ProfilePreservation": null,
+    "UserDataPreservation": null,
+    "UserDataFixtures": [],
+    "RemovalRecoveryVersion": null,
+    "Checks": [],
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "Elevated": true,
+    "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+  },
+  "Acquisition": [
+    {
+      "ObservationId": "4408c4a08f54434180343b07d15fe1ed",
+      "RunId": "bf40deb404b848178494030a77656d9b",
+      "PackageId": "hashcheck-shell-extension",
+      "ArtifactId": null,
+      "Version": "2.6.3",
+      "Architecture": "x64",
+      "FileName": "HashCheckSetup-v2.6.3.0.exe",
+      "OriginUri": "https://github.com/idrassi/HashCheck",
+      "SourceUri": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+      "ReleaseUri": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+      "ReleaseMetadata": null,
+      "Variant": "installed",
+      "Provider": "DirectHttps",
+      "License": "BSD-3-Clause; retain publisher copyright and license notice",
+      "LicenseUri": "https://github.com/idrassi/HashCheck/blob/v2.6.3/license.txt",
+      "TermsUri": null,
+      "ObservedAtUtc": "2026-10-29T08:14:53.8367951Z",
+      "Route": "direct",
+      "AcquisitionKind": "Download",
+      "Sha256": "cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa",
+      "ProviderDigest": "sha256:cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa",
+      "PublisherSha256": null,
+      "PublisherChecksumUri": null,
+      "PublisherChecksumResult": "Unavailable",
+      "ChecksumUris": [],
+      "SignatureUris": [],
+      "AuthenticodeStatus": "Valid",
+      "AuthenticodeSigner": "CN=IDRIX SARL, O=IDRIX SARL, STREET=5 AVENUE INGRES, L=Paris, S=Île-de-France, C=FR, OID.1.3.6.1.4.1.311.60.2.1.3=FR, SERIALNUMBER=490 000 619, OID.2.5.4.15=Private Organization",
+      "AuthenticodeIssuer": "CN=GlobalSign GCC R45 EV CodeSigning CA 2020, O=GlobalSign nv-sa, C=BE",
+      "AuthenticodeThumbprint": "86E1D426731E79117452F090188A828426B29B5F",
+      "TimestampSigner": "CN=DigiCert SHA256 RSA4096 Timestamp Responder 2026 1, O=\"DigiCert, Inc.\", C=US",
+      "TimestampThumbprint": "51D9ABDA034973D84F4266ACA48248E6B369C439",
+      "FileSize": 2157368,
+      "FileVersion": "2.6.3.0",
+      "ProductVersion": "2.6.3.0",
+      "Contents": []
+    }
+  ],
+  "SourceEvidence": [
+    {
+      "Path": "result.json",
+      "SHA256": "665D30F059D7628DC4E05CF030690C811F0F8FD7609EB0A37AB1ECC9AEC5B10A"
+    },
+    {
+      "Path": "guest/summary.json",
+      "SHA256": "97EB0EB593B277C3321B6470F624D0A866F7ACF38AFA4261BF9926F8FF587487"
+    },
+    {
+      "Path": "guest/applications-batch11.json",
+      "SHA256": "DB2BDBFEFBEDAB4AE3B6191A7067F574E5CFA4645EEAFB8AACFE44F444CABCD8"
+    },
+    {
+      "Path": "guest/artifact-observations.json",
+      "SHA256": "2CCBD0CFA25C3E021875CC71975243411F1C7C6657D8DE45B2D294C6B5B0480C"
+    },
+    {
+      "Path": "guest/transcript.log",
+      "SHA256": "B69D5505AA2210CEC0F9417502A31F1A5C8A6BF35BD2E24DC49B0447E48D03B4"
+    },
+    {
+      "Path": "source-files.json",
+      "SHA256": "1DF37795C8C476995E6BAA089B27C41F4A1202F09C9F6D396904FEF07A60D981"
+    }
+  ],
+  "Diagnosis": {
+    "ControllerCleanup": "No cleanup/collection/export error reported; queues empty and no recovery block; elevated operator confirms VM Off / Operating normally and task Ready.",
+    "Unknown": "Exact failed installer step and cause; exit 2 alone is insufficient.",
+    "PackageRecovery": "Application scenario Recovery=false; do not equate with successful package restore.",
+    "Known": "Official payload downloaded with the pinned SHA256; installer launched and returned 2 before installation verification."
+  },
+  "DiagnosticPreparation": {
+    "Runtime": "Diagnostic retry not yet run; installer failure not fixed.",
+    "Change": "Append publisher-supported /LOG= targeting guest result hashcheck-install.log; normal collector includes it before checkpoint reset.",
+    "HostValidation": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 132,
+      "Passed": 1,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "SourceAccess": "Connected GitHub file fetch; no anonymous release API discovery used.",
+    "PublisherSource": "https://github.com/idrassi/HashCheck/blob/v2.6.3/installer/HashCheck.nsi",
+    "RunnerVersion": "0.19.1",
+    "Parser": "Passed",
+    "SourceBlob": "4428ff394b820a00efef8898b43c65d63bb4273b"
+  },
+  "Migration": {
+    "Maintenance": "8-12",
+    "FilesAndAssets": "25-35",
+    "Settings": "37-57",
+    "RetiredLegacyOutcomes": 0,
+    "Deferred": "Installation, removal/recovery, intended-user sparse registration and Explorer behavior.",
+    "NewExclusions": 0,
+    "Packages": "37-52",
+    "ResolvedLegacyOutcomes": 0,
+    "ExactTotal": "126-180",
+    "Partial": "Publisher acquisition succeeded in guest; native installation failed.",
+    "Reason": "Failed native installation and added diagnostics close no legacy outcome.",
+    "RoundedTotal": "125-180; about 155",
+    "Components": "19-24"
+  }
+}

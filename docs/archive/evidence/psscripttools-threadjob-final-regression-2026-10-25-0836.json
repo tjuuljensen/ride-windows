@@ -1,0 +1,83 @@
+{
+  "recordedAtUtc": "2026-10-25T08:36:00Z",
+  "scope": "Final PSScriptTools ThreadJob prerequisite and failed ApplicationsBatch1 review",
+  "combinedWin11Run": {
+    "runId": "e32591497a8347ab836d0426c9b28bb3",
+    "suite": "ApplicationsBatch1",
+    "status": "Failed",
+    "guestPester": {
+      "total": 362,
+      "passed": 361,
+      "failed": 0,
+      "skipped": 1
+    },
+    "error": "Limited Thunderbird worker exceeded 45 minutes (Task Scheduler 267014).",
+    "collectionError": "Partial-evidence collection timed out after 90 seconds.",
+    "sourceRunnerVersion": "0.15.1",
+    "userDataScenarioRecords": 0,
+    "vendorUninstallPreservationVerified": false
+  },
+  "implementation": {
+    "prerequisitePackageId": "package.microsoft-powershell-threadjob",
+    "version": "2.2.0",
+    "sha256": "1678c5a5a5cf8ae65e127ecc77dfb7241513a61a1a398a4f79f44f12767108bc",
+    "dependentPackageId": "package.psscripttools",
+    "behaviors": [
+      "dependency plan orders module package before dependent",
+      "module prerequisite requires healthy RIDE ownership manifest and module manifest version >= 2.2.0",
+      "removal is refused while dependent package remains",
+      "ordinary installation does not alter machine or user PSModulePath",
+      "isolated positive runtime child temporarily prepends the managed module path"
+    ]
+  },
+  "artifactPreflight": {
+    "result": "Passed",
+    "selectedPackages": 2,
+    "threadJobSha256": "1678c5a5a5cf8ae65e127ecc77dfb7241513a61a1a398a4f79f44f12767108bc",
+    "psscripttoolsSha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd"
+  },
+  "validation": {
+    "focusedPester": {
+      "result": "Passed",
+      "passed": 255,
+      "failed": 0,
+      "skipped": 0,
+      "files": [
+        "PortableAcceptanceAutomation.Tests.ps1",
+        "PackageDependencyPlanning.Tests.ps1",
+        "ApplicationPackages.Tests.ps1",
+        "Catalog.Tests.ps1"
+      ],
+      "modulePrerequisiteStateTests": {
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    "repository": {
+      "result": "Passed",
+      "operations": 413,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 277
+    },
+    "diffCheck": "Passed"
+  },
+  "boundaries": [
+    "No Windows VM lifecycle or runtime result is claimed from local tests.",
+    "ThreadJob package lifecycle and PSScriptTools runtime acceptance remain pending on Windows 11.",
+    "Server support remains undeclared.",
+    "Windows 11 and Server 2025 controller queues were read-only checked and empty."
+  ],
+  "legacyOutcome": "No legacy outcome closed.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "accountsConfigurationFiles": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  },
+  "nextAction": "Refresh the registered Windows 11 controller, then run ApplicationsBatch1Machine, ApplicationsBatch1User and PSScriptTools separately from current source."
+}

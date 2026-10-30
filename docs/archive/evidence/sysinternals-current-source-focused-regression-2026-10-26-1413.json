@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T14:13:17Z",
+  "run": {
+    "host": "Windows PowerShell 5.1.26100.9444",
+    "pester": "5.7.1",
+    "suites": [
+      "tests/SysinternalsProductPackages.Tests.ps1",
+      "tests/SysinternalsSuitePackage.Tests.ps1"
+    ],
+    "discovered": 80,
+    "passed": 80,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 236.8,
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "temporaryRoot": ".local unique run-scoped temporary directory, removed after completion"
+  },
+  "scope": {
+    "coverage": "Synthetic owned-file lifecycle, catalog pins/versions/member sets, target metadata, repeat stage/remove, collision/modified-file preservation, saved-state recovery and Suite/individual folder coexistence.",
+    "fixtures": "Inert generated ZIP members; mocked signature and network calls.",
+    "utilityExecuted": false,
+    "driverLoaded": false,
+    "eulaInteractedWith": false,
+    "firewallPolicyChanged": false,
+    "defenderStateChanged": false,
+    "vmAcceptance": false
+  },
+  "disposition": {
+    "legacyOutcomeClosed": false,
+    "licensingGate": false,
+    "licenseStore": "All ten Sysinternals package records are Reviewed under the settled prior RIDE v2 specialist approval.",
+    "securityExclusions": "Defender-blocked utilities remain excluded separately from licensing.",
+    "estimatesChanged": false,
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

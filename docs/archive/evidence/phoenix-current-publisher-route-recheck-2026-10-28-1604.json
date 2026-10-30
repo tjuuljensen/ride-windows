@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:04:20Z",
+  "batch": "Phoenix Protector official publisher page and artifact-route recheck",
+  "source": "Current official NTCore Phoenix Protector page and official download link fetch result",
+  "publisherPage": {
+    "uri": "https://ntcore.com/phoenix-protector/",
+    "pageVersion": "1.8.0.1",
+    "description": "The publisher calls the application freeware.",
+    "downloadUri": "https://ntcore.com/files/Phoenix_Protector.msi"
+  },
+  "downloadAttempt": {
+    "method": "Official page download link retrieval",
+    "result": "Failed before bytes were decoded: web tool returned Unicode decoding error for the MSI.",
+    "newArtifactBytesObtained": false
+  },
+  "retainedCandidate": {
+    "catalogPackageVersion": "1.7.1",
+    "retainedMsiProductVersion": "1.7.1",
+    "retainedMsiSha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+    "containedExecutableVersion": "1.9.0.1",
+    "pageVersion": "1.8.0.1",
+    "mapping": "No publisher version chronology or mapping is given. Keep page, MSI ProductVersion, contained executable version, and retained hash distinct; do not relabel the pinned bytes as a newly acquired current version."
+  },
+  "migrationDisposition": {
+    "candidateRemainsPinned": true,
+    "licenseReviewMarkerIsMigrationGate": false,
+    "windows11AcceptancePending": true,
+    "legacyOutcomeClosed": false,
+    "blockers": [
+      "No current publisher MSI bytes acquired in this recheck; the current page label is not mapped to the retained MSI/executable version fields.",
+      "Windows 11 MSI prerequisite, repeat/remove, exact recovery and offline acceptance remain pending on the existing VM."
+    ]
+  },
+  "handling": {
+    "msiExecuted": false,
+    "utilityExecuted": false,
+    "windowsOrVmStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no new artifact identity or package lifecycle outcome was verified."
+  }
+}

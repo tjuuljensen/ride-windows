@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T15:54:31Z",
+  "scope": "User clarification of Sysinternals package migration license disposition",
+  "decision": "The prior RIDE v2 license-specialist review approved Sysinternals for RIDE's normal direct download-and-install deployment workflow. RIDE downloads from Microsoft for installation on devices and does not transfer or publish copies. The user states there are no legal issues using Sysinternals in RIDE and directs that generalized redistribution analysis must not block package migration or require a new license review.",
+  "licenseMigrationGate": false,
+  "defenderDisposition": "Separate security exclusions; the four Defender-alerted NirSoft collection files remain excluded.",
+  "remainingWork": "Technical package lifecycle and target-specific Windows acceptance only.",
+  "migrationImpact": {"legacyOutcomesClosed": [], "estimateRangesChanged": false},
+  "sourceDecision": "RIDE v2 license-specialist approval, reaffirmed by user on 2026-10-27"
+}

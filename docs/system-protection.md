@@ -16,6 +16,7 @@ policy. No additional RIDE account or subscription is required.
 
 Microsoft's [System Protection guide](https://support.microsoft.com/en-us/windows/experience/backup-recovery/system-protection)
 documents native configuration and separate manual restore-point creation.
+Microsoft's [Enable-ComputerRestore reference](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/enable-computerrestore?view=powershell-5.1) says to use Rstrui.exe to find protection state for each drive. The documented SystemRestore WMI class provides enable/disable and restore-point methods but no per-volume protection-state property; SystemRestoreConfig reports schedule and storage settings. Use the native interface to inspect each volume, and do not infer protection state from restore-point or shadow-copy presence or storage allowance.
 Record the selected volume, protection choice and current storage allowance.
 For a deliberate On choice, select **Turn on system protection**, preserving
 the existing allowance unless resizing was separately requested, then Apply.

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T15:57:00Z",
+  "scope": "Official Gpg4win release and installer status recheck after the 5.1.1 limited-user failure",
+  "officialSources": [
+    {
+      "uri": "https://www.gpg4win.org/change-history.html",
+      "observation": "The publisher change history lists Gpg4win 5.1.1, released 2026-09-23, as the newest release shown."
+    },
+    {
+      "uri": "https://www.gpg4win.org/download.html",
+      "observation": "The official download page still offers Gpg4win 5.1.1 and publishes SHA-256 ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf for gpg4win-5.1.1.exe."
+    }
+  ],
+  "candidate": {
+    "packageId": "package.gpg4win",
+    "catalogVersion": "5.1.1",
+    "catalogSha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+    "OfficialReplacementAvailable": false,
+    "NativeFailure": "Prior Windows 11 limited-user installation exited 0xC0000005; failing module and cause remain unconfirmed.",
+    "Disposition": "Retain the selected per-user GnuPG command-line plus Kleopatra candidate. Do not repeat the same 5.1.1 component configuration as an expected pass. Revisit when the publisher offers a newer installer or a separately documented workaround can be tested without changing the approved scope."
+  },
+  "licenseDisposition": {
+    "Gpg4win": "This record concerns publisher version availability and technical acceptance only.",
+    "Sysinternals": "The prior RIDE v2 specialist approval covers direct Microsoft download-and-install; the user confirms no legal issue applies and licensing is not a migration gate."
+  },
+  "safety": {
+    "InstallerExecuted": false,
+    "PackageUtilityExecuted": false,
+    "ArtifactDownloaded": false,
+    "VmAccessed": false,
+    "WindowsOrDefenderStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "migrationAccounting": {
+    "resolved": 0,
+    "retired": 0,
+    "excluded": 0,
+    "deferred": ["Gpg4win 5.1.1 Windows 11 lifecycle/recovery and crash diagnosis"],
+    "partial": ["Gpg4win remains a technical acceptance candidate; no legacy outcome closed"],
+    "estimatesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

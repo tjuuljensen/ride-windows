@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T15:50:53Z",
+  "runtime": "PowerShell 7.6.5",
+  "pester": "5.7.1",
+  "testRegistryEnabled": false,
+  "testResultEnabled": false,
+  "temporaryRoot": ".local/pester-package-source-batch-current-20261026",
+  "suites": [
+    {
+      "path": "tests/WinPmemPackage.Tests.ps1",
+      "passed": 4,
+      "failed": 0,
+      "result": "Passed"
+    },
+    {
+      "path": "tests/WfnPackage.Tests.ps1",
+      "passed": 3,
+      "failed": 0,
+      "durationSeconds": 848.76,
+      "result": "Passed"
+    },
+    {
+      "path": "tests/WiresharkPackage.Tests.ps1",
+      "passed": 8,
+      "failed": 0,
+      "result": "Passed"
+    },
+    {
+      "path": "tests/RufusPackage.Tests.ps1",
+      "passed": 4,
+      "failed": 0,
+      "result": "Passed"
+    }
+  ],
+  "total": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "result": "Passed"
+  },
+  "coverage": "WinPmem pin and deployment-only boundary, complete 531-member Windows Firewall Notifier inert-archive lifecycle, and Wireshark/Rufus mocked package boundaries. No utility or installer executed and no publisher/network request was made.",
+  "vmAccess": {
+    "GetVmWin11": "Access to a CIM resource was not available to the client.",
+    "GetVmServer": "Access to a CIM resource was not available to the client.",
+    "GetVmCheckpointWin11": "Access to a CIM resource was not available to the client.",
+    "registeredTaskQuery": "ERROR: The network address is invalid.",
+    "guestInspected": false,
+    "requestDispatched": false,
+    "checkpointChanged": false,
+    "hostServiceChanged": false,
+    "defenderChanged": false,
+    "elevationPromptRequested": false
+  },
+  "migrationEffect": "Focused package source/lifecycle regression passed; no legacy outcome closed and no estimate deducted. Native package acceptance remains deferred by VM/controller access.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  },
+  "sysinternalsDisposition": "Prior RIDE v2 specialist approval settles direct download/install with no licensing gate; Defender-blocked utilities remain excluded separately."
+}

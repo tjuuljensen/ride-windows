@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:46:00Z",
+  "batch": "NTCore package current-source regression",
+  "suite": "tests/NtcorePackages.Tests.ps1",
+  "runtime": {
+    "shell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass for this test process only",
+    "testRegistry": "Disabled",
+    "testResult": "Disabled"
+  },
+  "result": {
+    "discovered": 23,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 1,
+    "durationSeconds": 22.05,
+    "skipReason": "Retained ScreenWriter MSI check skipped because RIDE_NTCORE_FIXTURE_DIRECTORY was not configured."
+  },
+  "coverage": "Package metadata, publisher pins, synthetic portable staging/removal/recovery, and the ApplicationsBatch12 exact-package/capability runner test. No suite utility or installer was launched.",
+  "blockers": [
+    "The skipped ScreenWriter retained-MSI check needs its explicit fixture directory; prior retained-source evidence exists in the migration ledger.",
+    "Native Explorer Suite install/repeat/remove/recovery still requires controller capability refresh and usable RIDE-Win11-Test host access."
+  ],
+  "boundary": {
+    "realArtifactAccessed": false,
+    "installerRun": false,
+    "utilityRun": false,
+    "publisherNetwork": false,
+    "vmQueried": false,
+    "queueRequestSubmitted": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertPathAccessed": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false,
+    "persistentExecutionPolicyChanged": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "NTCore package regression passed 22/22 executed tests; one retained ScreenWriter MSI case was skipped."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "NTCore Explorer Suite native Windows 11 lifecycle acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; unit regression does not close a Windows package outcome."
+    }
+  }
+}

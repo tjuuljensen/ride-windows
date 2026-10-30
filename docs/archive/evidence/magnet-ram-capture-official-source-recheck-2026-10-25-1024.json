@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T10:24:00Z",
+  "legacySelectors": [
+    "InstallMagnetRAMCapture",
+    "RemoveMagnetRAMCapture"
+  ],
+  "userScope": {
+    "purpose": "Retained for forensic memory acquisition on external systems.",
+    "rideHostTarget": "Windows 11 staging/deployment host selected by the user.",
+    "runtimeScope": "RIDE stages the utility for transfer and does not imply or perform memory acquisition."
+  },
+  "publisherSources": {
+    "product": "https://www.magnetforensics.com/resources/magnet-ram-capture/",
+    "legalAgreements": "https://www.magnetforensics.com/legal/",
+    "freeTools": "https://www.magnetforensics.com/free-tools/",
+    "usageArticle": "https://www.magnetforensics.com/blog/acquiring-memory-with-magnet-ram-capture/"
+  },
+  "observations": {
+    "publisherVersion": "1.20, released 2019-07-24.",
+    "publisherOperatingSystemList": "Windows XP, Vista, 7, 8, 10, Server 2003, 2008 and 2012, x86/x64; Windows 11 is not listed.",
+    "publisherDistribution": "The official product page offers a request form and says a confirmation email follows; there is no direct public artifact URL on the page.",
+    "publisherUseDescription": "Captures physical memory to raw DMP/RAW/BIN format; the publisher blog describes standalone USB use, configurable output and fragmentation, and scripted silent mode.",
+    "terms": "The product page says Magnet Free Tools downloads are governed by the End User License Agreement available on the legal page. Exact agreement applicability and product-version terms should be recorded with the acquired artifact.",
+    "artifactAcquired": false,
+    "artifactHash": null,
+    "signature": null
+  },
+  "migrationDisposition": {
+    "sourceReview": "Progressed: official version, declared legacy operating systems, request-form distribution and EULA reference recorded.",
+    "nextTechnicalStep": "Obtain the publisher-supplied 1.20 artifact through the established authorized channel, then record exact hash, signature and embedded notices before candidate admission.",
+    "licenseReview": "Record owner/version NeedsReview when the exact package identity is admitted; this is an administrative marker, not a migration gate.",
+    "windows11Support": "Not accepted. Staging-host choice does not establish tool compatibility, driver behavior or memory-acquisition behavior.",
+    "toolExecuted": false,
+    "registrationSubmitted": false,
+    "vmChanged": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

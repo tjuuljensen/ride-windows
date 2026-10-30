@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "05b88a9e29fa4f9d867962759c2c3a82",
+  "Suite": "ApplicationsBatch8",
+  "Target": "Windows Server 2025 Standard Evaluation",
+  "Build": "26100",
+  "StartedAtUtc": "2026-10-24T20:16:01.4477069Z",
+  "FinishedAtUtc": "2026-10-24T20:28:29.9663386Z",
+  "Status": "Failed",
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 352,
+    "Failed": 0,
+    "Skipped": 1,
+    "Total": 353
+  },
+  "IntegrationPassed": false,
+  "Failure": "All four pinned Microsoft OpenJDK MSI installers reported completion, but RIDE did not detect the products afterward. The expanded versioned/with-Hotspot DisplayNamePattern did not resolve detection.",
+  "Packages": [
+    {
+      "Id": "package.microsoft-openjdk",
+      "PackageId": "microsoft-openjdk-25",
+      "Version": "25.0.4.1",
+      "Sha256": "a7c4cee7c626e6947357a0bfb21bf8bf740f063daaea4a15e4775c5b37f87cc6",
+      "AuthenticodeStatus": "Valid"
+    },
+    {
+      "Id": "package.microsoft-openjdk-21",
+      "PackageId": "microsoft-openjdk-21",
+      "Version": "21.0.12.1",
+      "Sha256": "3a3f7e1a9fd9edd1fcc0545ffbe7dc87787a8417dc1bf303e41c7a697c8490c1",
+      "AuthenticodeStatus": "Valid"
+    },
+    {
+      "Id": "package.microsoft-openjdk-17",
+      "PackageId": "microsoft-openjdk-17",
+      "Version": "17.0.20.1",
+      "Sha256": "38599e2961026250937e114df06fb3334510e84daed55167398935c564eed8a7",
+      "AuthenticodeStatus": "Valid"
+    },
+    {
+      "Id": "package.microsoft-openjdk-11",
+      "PackageId": "microsoft-openjdk-11",
+      "Version": "11.0.32.1",
+      "Sha256": "e325d93d63bd194a594724abe34e7c5b8e77da47c7519952396243503347c7df",
+      "AuthenticodeStatus": "Valid"
+    }
+  ],
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "SupportPromoted": false,
+  "NextAction": "Capture bounded machine uninstall records, declared install-directory files, and recent matching Windows Installer events on the next isolated retry before changing detection again."
+}

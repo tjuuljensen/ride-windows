@@ -1,0 +1,51 @@
+{
+  "EvidenceType": "B06.FeaturesOnDemandMediaRecheck",
+  "ObservedAtUtc": "2026-10-26T16:15:50Z",
+  "Method": "Read-only PowerShell directory inventory on the existing LabSources share. No ISO was mounted or read, no VM was queried, and no Windows component or servicing operation ran.",
+  "SourceRoots": {
+    "LabSources": "Z:\\LabSources",
+    "IsoDirectory": "Z:\\LabSources\\ISOs",
+    "OsUpdatesDirectory": "Z:\\LabSources\\OSUpdates",
+    "SoftwarePackagesDirectory": "Z:\\LabSources\\SoftwarePackages"
+  },
+  "IsoFiles": [
+    {
+      "Name": "26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso",
+      "Length": 5112850432,
+      "LastWriteTimeUtc": "2026-10-07T23:55:20Z"
+    },
+    {
+      "Name": "26100.32230.260111-0550.lt_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
+      "Length": 8152356864,
+      "LastWriteTimeUtc": "2026-10-08T02:48:27Z"
+    },
+    {
+      "Name": "26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+      "Length": 8225329152,
+      "LastWriteTimeUtc": "2026-10-07T23:56:30Z"
+    },
+    {
+      "Name": "Windows11_Client_x64_en-us_26300_9457.iso",
+      "Length": 9047330816,
+      "LastWriteTimeUtc": "2026-10-08T01:28:22Z"
+    }
+  ],
+  "OsUpdatesRootEntries": ["README.md"],
+  "SoftwarePackagesRootEntries": ["README.md"],
+  "Finding": "No separate Languages and Optional Features ISO or package source is present in the existing top-level LabSources inventory. The four listed ISOs are setup media already covered by prior static review; they do not satisfy the OpenSSH Client matching non-satellite FOD source requirement, and prior UDF review found no Telnet-named payload in the inspected setup media.",
+  "Disposition": {
+    "OpenSshClient": "Deferred: exact matching FOD CAB, servicing dependencies, configured-source fallback boundary, exact payload recovery and disposable Windows acceptance remain unverified.",
+    "TelnetClient": "Deferred: matching Telnet optional-feature package identity/source, dependencies, exact payload recovery and disposable Windows acceptance remain unverified.",
+    "LegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

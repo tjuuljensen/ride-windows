@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:05:01Z",
+  "batch": "BitLocker wizard DesktopShortcut current-source regression",
+  "runtime": {
+    "powerShell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "testFile": "tests/DesktopShortcuts.Tests.ps1",
+    "discovered": 5,
+    "selected": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "TestRegistryPlugin": false,
+    "TestResultPlugin": false,
+    "executionPolicy": "Process-only Bypass to import Pester; persistent policy unchanged."
+  },
+  "coveredBehavior": [
+    "Normalize declared shortcut paths without mutating catalog metadata.",
+    "Reject unsupported shortcut metadata before resolving paths.",
+    "Report a missing shortcut path without COM access.",
+    "Refuse a directory collision before COM access.",
+    "Identify an ordinary file as a candidate without COM access."
+  ],
+  "safety": {
+    "shortcutComAccessed": false,
+    "desktopChanged": false,
+    "bitlockerStateReadOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": "Focused resolver/path-safety regression only. Disposable Windows 11 shortcut ownership, create/inspect/remove, saved-state recovery and native acceptance remain pending.",
+  "migrationOutcome": {
+    "resolved": [
+      "The DesktopShortcut path collision and metadata guards now have a passing Pester regression in Windows PowerShell 5.1."
+    ],
+    "partial": [
+      "The test does not verify native shortcut ownership or lifecycle behavior."
+    ],
+    "deferred": [
+      "Native Windows 11 acceptance remains blocked before VM inspection by host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; path-safety test coverage is now verified but the legacy shortcut behavior still awaits native acceptance."
+    }
+  }
+}

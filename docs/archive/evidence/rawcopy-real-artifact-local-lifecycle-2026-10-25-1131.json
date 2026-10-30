@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:31:00Z",
+  "package": "package.rawcopy",
+  "version": "1.0.0.22",
+  "sourceCommit": "0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c",
+  "archiveSha256": "F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF",
+  "x64ExecutableSha256": "619795AA357E1EB36FEBF45B398CCCCB289CB27B547814BFB422EFB3E8F98E3D",
+  "selectedMembers": [
+    "RawCopy64.exe",
+    "LICENSE.md",
+    "readme.txt",
+    "changelog.txt"
+  ],
+  "excludedMembers": [
+    "RawCopy32.exe",
+    "AutoIt source"
+  ],
+  "checks": {
+    "repeatInstall": "Passed",
+    "ownedFiles": 4,
+    "snapshotCapture": "Passed",
+    "uninstall": "Passed",
+    "exactSnapshotRestore": "Passed",
+    "finalUninstall": "Passed",
+    "utilityExecuted": false,
+    "evidenceOrSystemDataAccessed": false
+  },
+  "acceptance": {
+    "localRealArtifactLifecycle": "Passed",
+    "candidateTarget": "Windows 11",
+    "supportedTargets": [],
+    "syntheticBehavior": "Deferred to disposable Windows VM",
+    "vmAccess": "Read-only Get-VM denied at CIM before state/checkpoint inspection",
+    "legacyOutcomesClosed": [],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

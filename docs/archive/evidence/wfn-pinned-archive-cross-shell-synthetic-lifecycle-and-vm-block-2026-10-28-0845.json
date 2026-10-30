@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:45:29Z",
+  "batch": "Windows Firewall Notifier pinned-archive current-source regression",
+  "source": "Current checkout and retained publisher archive",
+  "archive": {
+    "packageId": "package.windows-firewall-notifier",
+    "version": "20250719-ac02df",
+    "path": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip",
+    "length": 118745388,
+    "sha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "matchesCatalogPin": true,
+    "archiveMemberCount": 531
+  },
+  "tests": {
+    "path": "tests/WfnPackage.Tests.ps1",
+    "pesterVersion": "5.7.1",
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "discovered": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0,
+      "durationSeconds": 302.45
+    },
+    "powerShell": {
+      "version": "7.6.5",
+      "discovered": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0,
+      "durationSeconds": 818.86
+    },
+    "registryAndResultPluginsEnabled": false,
+    "scope": "Three tests exercised metadata and complete 531-member owned-file lifecycle/recovery using generated inert synthetic ZIP files. The retained publisher archive was checked against its catalog SHA-256 and complete member inventory. The actual WFN executable was not staged or launched."
+  },
+  "temporaryData": {
+    "testOwnedGuidDirectoryCleaned": true,
+    "remainingDirectoriesInTestRoot": 0
+  },
+  "handling": {
+    "wfnExecutableLaunched": false,
+    "installerExecuted": false,
+    "firewallOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "defenderBlockedToolsSelectedOrRun": false,
+    "elevationRequested": false
+  },
+  "vmAcceptance": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Server2025-Test"
+    ],
+    "result": "Blocked before VM/checkpoint inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "acceptanceTaskDispatched": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source WFN candidate metadata, pinned publisher archive hash/member inventory, and synthetic 531-member file lifecycle/recovery regression pass in both PowerShell editions."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Actual archived payload staging, Windows 11 package lifecycle and target support remain unverified pending VM access.",
+      "WFN runtime/firewall-notification behavior was not exercised."
+    ],
+    "partial": [
+      "Source and synthetic lifecycle coverage do not close the whole legacy package outcome."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; cross-shell archive/source and synthetic lifecycle evidence closes no legacy outcome without Windows acceptance."
+    }
+  },
+  "relatedEvidence": [
+    "wfn-current-source-full-531-member-lifecycle-regression-2026-10-27-0940.json",
+    "wfn-pinned-archive-current-source-inventory-2026-10-27-0849.json"
+  ]
+}

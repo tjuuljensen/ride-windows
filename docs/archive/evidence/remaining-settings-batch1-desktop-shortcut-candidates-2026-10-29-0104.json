@@ -1,0 +1,59 @@
+{
+  "recordedAtUtc": "2026-10-29T01:04:53Z",
+  "batch": "Remaining-settings batch 1 desktop shortcut candidate preparation",
+  "runner": {
+    "path": "tests/integration/Invoke-RideRemainingSettings.ps1",
+    "version": "0.3.4",
+    "baseOperationCount": 21,
+    "pendingCandidateCount": 7,
+    "totalOperationCount": 28,
+    "addedCandidates": [
+      "windows.bitlocker-wizard-shortcut",
+      "windows.power-options-shortcut"
+    ],
+    "candidateState": "All seven candidates remain PendingAcceptance=true and SupportedTargets empty in the published catalog; the runner enables targets only in its private guest catalog.",
+    "shortcutLifecycle": "Test Present/Absent and exact saved-run restore for current-user shortcut files; do not launch either target.",
+    "storageSenseGuard": "Storage Sense policy state tests run only for EditionID families Professional, Enterprise, Education or IoTEnterprise."
+  },
+  "verification": {
+    "windowsPowerShellParser": "passed: Windows PowerShell 5.1.26100.9818, zero parse errors",
+    "runnerVersion": "passed: reports 0.3.4",
+    "catalogSelection": "passed: 21 base operations + 7 candidates = 28; all seven remain unsupported and pending",
+    "shortcutTestSuite": {
+      "path": "tests/DesktopShortcuts.Tests.ps1",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "powershell": "Windows PowerShell 5.1.26100.9818",
+      "pester": "5.7.1",
+      "testRegistryPlugin": "disabled",
+      "testResultPlugin": "disabled",
+      "executionPolicy": "Process-only Bypass; persistent policy unchanged"
+    },
+    "repositoryValidation": "passed: 451 operations, 8 groups, 5 profiles, 305 PowerShell files; generated operation documentation current."
+  },
+  "nativeAcceptance": {
+    "blockedBy": "Read-only Get-VM for RIDE-Win11-Test and RIDE-S25-Test fails before state retrieval at host CIM; see ride-win11-s25-current-cim-access-block-2026-10-29-0051.json.",
+    "guestDispatched": false,
+    "shortcutCreatedOrRemoved": false
+  },
+  "sideEffects": {
+    "shortcutTargetLaunched": false,
+    "vmOrWindowsStateChanged": false,
+    "storageSenseCleanupRequested": false,
+    "defenderChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "Runner preparation and mocked metadata tests do not establish native Windows target acceptance or close a legacy setting outcome."
+  }
+}

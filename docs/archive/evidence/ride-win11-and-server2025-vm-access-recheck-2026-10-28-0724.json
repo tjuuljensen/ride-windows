@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T07:24:51Z",
+  "batch": "Read-only Hyper-V access recheck",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "command": "Get-VM -Name RIDE-Win11-Test",
+      "result": "Blocked before VM inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-Server2025-Test",
+      "command": "Get-VM -Name RIDE-Server2025-Test",
+      "result": "Blocked before VM inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "handling": {
+    "snapshotOrCheckpointInspected": false,
+    "taskDispatched": false,
+    "vmStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Current read-only access status for both named acceptance VMs was rechecked; host CIM denied access before inspection."
+    ],
+    "deferred": [
+      "Disposable Windows 11 and Windows Server 2025 acceptance batches remain deferred until host VM/CIM access is available."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no migration outcome was accepted or retired by this access check."
+    }
+  }
+}

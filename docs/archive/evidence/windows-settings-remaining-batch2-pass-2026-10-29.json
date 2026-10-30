@@ -1,0 +1,140 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T07:53:07.9522809Z",
+  "RunId": "37649311827142d0b459e876824f175d",
+  "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\37649311827142d0b459e876824f175d",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "37649311827142d0b459e876824f175d",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "SettingsRemainingBatch2",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-29T07:27:15.7354288Z",
+    "FinishedAtUtc": "2026-10-29T07:45:36.825418Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "GuestSummary": {
+    "SchemaVersion": 1,
+    "RunId": "37649311827142d0b459e876824f175d",
+    "Status": "Passed",
+    "ValidationPassed": true,
+    "IntegrationPassed": true,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 398,
+      "Passed": 398
+    },
+    "Error": null,
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression",
+    "IntegrationSuite": "SettingsRemainingBatch2"
+  },
+  "SourceEvidence": [
+    {
+      "SHA256": "A2D5B0AD30C2E7925D6EDFAC9CFCA266876815768E858E892BD4ED67290BB800",
+      "Path": "result.json"
+    },
+    {
+      "SHA256": "11A94907837600FDB9414CF1FF04C184564982FC1F0C3DE9B9CB39A15BDB8E63",
+      "Path": "guest/summary.json"
+    },
+    {
+      "SHA256": "5A0091A8C8DA56882FC92B97014E2C225F8AB06367B5F17AF087227F96A864FD",
+      "Path": "guest/pester.xml"
+    },
+    {
+      "SHA256": "BE5C992E32DFEDDA9283E05D5B0028E8548EBC984D004C279237E2A3B29E6A87",
+      "Path": "guest/transcript.log"
+    },
+    {
+      "SHA256": "89A9AAC5D6CFF3FBEB15883CB5F101DEE34E7ED1E1BDEA839DF51CCDFBC44B2B",
+      "Path": "source-files.json"
+    }
+  ],
+  "Native": {
+    "PassedOperationIds": [
+      "windows.adapter-lldp-binding",
+      "windows.adapter-lltd-binding",
+      "windows.adapter-microsoft-network-client-binding",
+      "windows.adapter-qos-packet-scheduler-binding",
+      "windows.adapter-ipv4-binding",
+      "windows.adapter-ipv6-binding",
+      "windows.adapter-file-printer-sharing-binding",
+      "windows.smb2-server-protocol",
+      "windows.controlled-folder-access",
+      "windows.ncsi-active-probe-policy",
+      "windows.netbios-over-tcpip",
+      "windows.remote-desktop-firewall",
+      "windows.remote-desktop-connections",
+      "windows.registered-sound-scheme",
+      "application.edge-startup-boost",
+      "application.edge-background-mode",
+      "application.edge-install-desktop-shortcut",
+      "windows.active-power-scheme"
+    ],
+    "Failed": 0,
+    "Summary": "Remaining-settings batch 2 finished: 18 passed; 43 named states; 1 unavailable operations; 0 unavailable variants; 0 failed. Feature/UI/restart acceptance remains separate.",
+    "UnavailableOperationIds": [
+      "windows.smb1-server-protocol"
+    ],
+    "NamedStates": 43,
+    "UnavailableVariants": 0
+  },
+  "PostRun": {
+    "Running": 0,
+    "VMAndTaskState": "Elevated operator output confirms VM Off / Operating normally and controller task Ready after this run.",
+    "RecoveryBlockPresent": false,
+    "Pending": 0
+  },
+  "Scope": {
+    "NotAccepted": "SMB1 server protocol unavailable; network/application/security feature behavior, restart persistence, Windows Server and full controller certification remain separate.",
+    "Accepted": "Native preview, named-state apply, idempotence, restore preview and exact captured-state recovery for the 18 listed operations on this guest.",
+    "PublishedSupportChanged": false,
+    "Next": "Verify VM Off/task Ready, retain six unavailable operations across both batches as coverage gaps, then select remaining feature/package acceptance from the ledgers."
+  },
+  "CombinedBatches": {
+    "Note": "398 focused unit tests passed in each run; these are repeated regression coverage, not 796 distinct tests.",
+    "PassedOperationLifecycles": 41,
+    "UnavailableOperations": 6,
+    "NamedStates": 107,
+    "Failed": 0,
+    "Batch1RunId": "eb595b6052644422a19c45f8cf02d4ab"
+  },
+  "Migration": {
+    "ResolvedLegacyOutcomes": 0,
+    "NewExclusions": 0,
+    "Settings": "37-57",
+    "Components": "19-24",
+    "Reason": "Native operation lifecycle passes are not whole legacy outcome acceptance; no outcome-count deduction is justified by these checks alone.",
+    "RoundedTotal": "125-180; about 155",
+    "RetiredLegacyOutcomes": 0,
+    "Maintenance": "8-12",
+    "Deferred": "SMB1 unavailable on this baseline; five unavailable batch 1 task operations and broader feature/UI/restart checks remain open.",
+    "FilesAndAssets": "25-35",
+    "Packages": "37-52",
+    "Partial": "18 additional native operation lifecycles passed; effective feature behavior remains separate.",
+    "ExactTotal": "126-180"
+  }
+}

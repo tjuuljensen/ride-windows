@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T16:18:57Z",
+  "Package": "package.regripper",
+  "Scope": "Consolidated current-source fixture regression, real retained-artifact lifecycle and repository validation.",
+  "RealArtifactLifecycle": {
+    "Evidence": "regripper-3.0-real-artifact-local-lifecycle-2026-10-25-1605.json",
+    "Status": "Passed",
+    "ArchiveSha256": "a1a13f6742990ca413e1763b90176d22ed4a9d663c4b37cb3f66e46f296acb43",
+    "ArchiveFileEntries": 282,
+    "ManagedFiles": 282,
+    "Checks": [
+      "Install and repeat install",
+      "Exact saved-run restore",
+      "Unowned plugin and analyst report preservation",
+      "Modified bundled file refuses upgrade and survives removal"
+    ],
+    "PowerShell": "7.6.5",
+    "ProgramsLaunched": 0
+  },
+  "FocusedPester": {
+    "TestFile": "tests/RegRipperPackage.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell": "7.6.5",
+    "Passed": 4,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistry": "Disabled"
+  },
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 415,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 278,
+    "GeneratedOperationDocumentation": "Current"
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "WindowsTargetPromoted": false,
+    "ParserAcceptance": "Pending",
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "Safety": {
+    "ProgramsLaunched": 0,
+    "RegistryHiveOpened": false,
+    "ForensicInputRead": false,
+    "WindowsStateChanged": false,
+    "ScratchTreeRemoved": true
+  }
+}

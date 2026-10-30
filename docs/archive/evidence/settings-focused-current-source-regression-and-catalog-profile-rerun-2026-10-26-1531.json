@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T15:31:22Z",
+  "runs": [
+    {"suite":"tests/RemainingSettings.Tests.ps1","runtime":"Windows PowerShell 5.1.26100.9711","pester":"5.7.1","passed":77,"failed":0,"skipped":0,"result":"Passed"},
+    {"suite":"tests/SixtySettings.Tests.ps1","runtime":"Windows PowerShell 5.1.26100.9711","pester":"5.7.1","passed":130,"failed":0,"skipped":0,"result":"Passed"},
+    {"suite":"tests/ProfileSettings.Tests.ps1","runtime":"Windows PowerShell 5.1.26100.9711","pester":"5.7.1","passed":37,"failed":0,"skipped":0,"result":"Passed"},
+    {"suite":"tests/Catalog.Tests.ps1 and tests/CatalogProfileValidation.Tests.ps1","runtime":"Windows PowerShell 5.1.26100.9711","pester":"5.7.1","passed":95,"failed":0,"notRun":1,"result":"All runnable unit tests passed; WindowsIntegration excluded"}
+  ],
+  "harness": {"testRegistryEnabled":false,"testResultEnabled":false,"temporaryRoots":".local/pester-*current-20261026","excludedTags":["WindowsIntegration"]},
+  "catalogCorrection": {"settingAndControlOperations":288,"missingSettingPresentation":0,"testAssertionChanged":"tests/Catalog.Tests.ps1 expected count 287 updated to 288 to match current catalog."},
+  "initialUnfilteredCatalogAttempt": {"passed":94,"failed":2,"details":["Stale catalog-size assertion 287 vs actual 288; corrected.","WindowsIntegration registry subtree test was inadvertently included and access to its disposable HKCU key was denied; no registry access was granted. Rerun explicitly excluded WindowsIntegration."]},
+  "hostState": {"settingsChanged":false,"registryWriteAuthorized":false,"runtimeIntegrationAccepted":false},
+  "migrationEffect":"Focused current-source settings/catalog/profile tests passed. WindowsIntegration remains deferred; no legacy outcome closed and no estimate deducted.",
+  "estimates":{"settings":"37-57","packages":"40-55","components":"19-24","filesAndAssets":"25-35","maintenance":"8-12","exactTotal":"129-183","roundedTotal":"130-185/about 155"},
+  "acceptanceBlockerEvidence":"remaining-settings-focused-current-source-regression-and-vm-recheck-2026-10-26-1516.json"
+}

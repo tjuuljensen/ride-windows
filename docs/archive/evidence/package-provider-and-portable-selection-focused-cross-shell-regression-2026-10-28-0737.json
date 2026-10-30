@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T07:37:09Z",
+  "batch": "Focused package provider and portable acceptance selection regression",
+  "testFiles": [
+    "tests/ApplicationPackages.Tests.ps1",
+    "tests/PortableAcceptanceAutomation.Tests.ps1"
+  ],
+  "filterPatterns": [
+    "RIDE-managed PowerShell module prerequisites",
+    "Microsoft OpenJDK pinned checksum provider",
+    "JoeWare AdMod publisher-form package provider",
+    "Microsoft OpenJDK registered presence detection",
+    "NuGet package as a ZIP-format portable asset",
+    "pinned ThreadJob nupkg selection",
+    "HashCheck Shell Extension candidate",
+    "Focused portable acceptance boundaries"
+  ],
+  "discovery": {
+    "totalTests": 179,
+    "executedByFilter": 62,
+    "excludedByFilter": 117
+  },
+  "results": [
+    {
+      "edition": "Windows PowerShell 5.1.26100.9711",
+      "pester": "5.7.1",
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 117,
+      "testRegistryEnabled": false,
+      "testResultEnabled": false
+    },
+    {
+      "edition": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 117,
+      "testRegistryEnabled": false,
+      "testResultEnabled": false
+    }
+  ],
+  "testBoundary": {
+    "publisherRequestsMocked": true,
+    "installerOrUtilityExecuted": false,
+    "packageAcceptanceVmUsed": false,
+    "actualPackageInstallationOrRemovalPerformed": false
+  },
+  "repositoryValidation": {
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 299,
+    "result": "Passed",
+    "generatedOperationDocumentation": "Current"
+  },
+  "vmAccess": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Server2025-Test"
+    ],
+    "result": "Get-VM failed before VM or checkpoint inspection for both targets.",
+    "error": "Access to a CIM resource was not available to the client."
+  },
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "deferred": [
+      "Package installation/removal, exact recovery and target acceptance remain deferred until disposable VM access is available."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; focused provider and selector tests do not establish installed package lifecycle."
+    }
+  }
+}

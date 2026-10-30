@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:11:42Z",
+  "batch": "NTCore Unpacker, DynLogger, SNSRemover and NoDel current-source regression",
+  "source": "Current working-tree source; tests/NtcoreUnpackerDynLogger.Tests.ps1",
+  "results": [
+    { "powerShell": "5.1.26100.9818", "pester": "5.7.1", "total": 18, "passed": 12, "failed": 0, "skipped": 6, "result": "Passed" },
+    { "powerShell": "7.6.5", "pester": "5.7.1", "total": 18, "passed": 12, "failed": 0, "skipped": 6, "result": "Passed" }
+  ],
+  "scope": {
+    "syntheticLifecycle": "For NET Generic Unpacker x86/x64, DynLogger x86/x64, SNSRemover and NoDel, inert synthetic ZIP files exercised exact selection, repeat staging, uninstall and snapshot restore in TestDrive.",
+    "retainedPublisherArchives": "Six retained archive checks were skipped because RIDE_NTCORE_FIXTURE_DIRECTORY was unset; these checks verify exact archive hash/member identity and repeat lifecycle.",
+    "executionBoundary": "No NTCore executable or DLL was launched or loaded, no driver was loaded, no target process was inspected, and no archive was fetched. TestRegistry and TestResult were disabled; WindowsIntegration tags were excluded."
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source synthetic package file lifecycle is verified in both supported local PowerShell editions for the six listed package variants."
+    ],
+    "partial": [
+      "Publisher archive digest/member lifecycle remains unverified in this run because the six retained-artifact checks were skipped."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Exact retained publisher archive checks and disposable Windows 11 package lifecycle acceptance for these NTCore candidates."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; synthetic lifecycle regression resolves no legacy product outcome."
+    }
+  },
+  "relatedEvidence": [
+    "ntcore-unpacker-dynlogger-portable-candidate-regression-2026-10-27-1410.json",
+    "remaining-settings-current-source-cross-shell-and-vm-queue-access-block-2026-10-28-2208.json"
+  ]
+}

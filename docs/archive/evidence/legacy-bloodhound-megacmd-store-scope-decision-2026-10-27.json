@@ -1,0 +1,39 @@
+{
+  "recordedAtUtc": "2026-10-27T05:41:09Z",
+  "decision": "Retire the legacy BloodHound-bound Neo4j/APOC outcome and the Arsenal MEGAcmd helper; continue validating the existing reviewed Store app selection.",
+  "retiredLegacyOutcomes": [
+    {
+      "id": "InstallNeo4j",
+      "scope": "Neo4j Community ZIP, separately acquired APOC JAR, service and configuration behavior formerly bound to the old BloodHound deployment.",
+      "preservation": "Do not uninstall or change existing installations, databases, configuration or service state."
+    },
+    {
+      "id": "Arsenal MEGAcmd helper",
+      "scope": "The helper formerly used by the legacy Arsenal selector to download Arsenal tools.",
+      "preservation": "Do not uninstall or change existing MEGAcmd installations or data. Continue Arsenal product migration independently."
+    }
+  ],
+  "storeApps": {
+    "decision": "Validate the existing reviewed app selection.",
+    "dynamicDiscovery": "Remains deferred as a separate extension; no app identities or target support are added."
+  },
+  "estimateBefore": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  },
+  "estimateAfter": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155"
+  },
+  "runtimeEffects": "No existing software, database, user data, Windows, VM or Defender state changed."
+}

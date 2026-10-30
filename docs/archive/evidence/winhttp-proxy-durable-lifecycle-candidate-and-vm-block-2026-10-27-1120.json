@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T11:25:25Z",
+  "batch": "E07/B04 WinHTTP durable guarded lifecycle candidate and acceptance preflight",
+  "source": {
+    "uri": "https://learn.microsoft.com/en-us/windows/win32/winhttp/netsh-exe-commands",
+    "usedFor": "Documented netsh winhttp show advproxy and set advproxy settings-file interface"
+  },
+  "implementation": {
+    "inventoryModule": "modules/RIDE.WinHttpProxyInventory.psm1",
+    "preparationModule": "modules/RIDE.WinHttpProxyPreparation.psm1",
+    "lifecycleModule": "modules/RIDE.WinHttpProxyLifecycle.psm1",
+    "testFile": "tests/WinHttpProxyLifecycle.Tests.ps1",
+    "candidateOnly": true,
+    "catalogOrEngineIntegrated": false,
+    "supportedWindowsTargets": [],
+    "behaviors": [
+      "Require one complete explicit User or Machine patch and an already elevated process for Machine scope.",
+      "Bind apply and restore to current computer name, user SID and scope; reject reported configuration drift.",
+      "Honor ShouldProcess and use a fixed SystemRoot\\System32\\netsh.exe path with the documented settings-file interface.",
+      "Persist a protected per-scope snapshot before mutation, then read back and record applied, failed or partial status.",
+      "Restore only while current reported values match the last saved observation; make repeat restore idempotent."
+    ],
+    "recoveryPrecision": "ReportedConfiguration",
+    "limitations": [
+      "Does not capture hidden or omitted disabled strings or prove exact underlying registry bytes.",
+      "No catalog/engine integration or supported target is declared.",
+      "Host Windows build 26300 does not support netsh winhttp show advproxy; no native command was run.",
+      "Effective policy, consumers, PAC behavior, RAS, GUI behavior and Windows lifecycle acceptance remain open."
+    ]
+  },
+  "tests": {
+    "pesterVersion": "5.7.1",
+    "runs": [
+      {
+        "shell": "PowerShell 7.6.5",
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "shell": "Windows PowerShell 5.1.26100.9711",
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0,
+        "processExecutionPolicy": "Bypass (process only; not persisted)"
+      }
+    ],
+    "suites": [
+      "tests/WinHttpProxyInventory.Tests.ps1",
+      "tests/WinHttpProxyPreparation.Tests.ps1",
+      "tests/WinHttpProxyLifecycle.Tests.ps1"
+    ],
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "nativeNetshCalled": false,
+    "proxyStateReadOrChanged": false
+  },
+  "repositoryValidation": {
+    "result": "Passed",
+    "operations": 432,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 296,
+    "catalogDocumentationCurrent": true
+  },
+  "vmAccess": {
+    "target": "RIDE-Win11-Test",
+    "recordedAtUtc": "2026-10-27T11:20:18Z",
+    "getVm": {
+      "result": "FailedBeforeInspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    "registeredTaskQuery": {
+      "result": "FailedBeforeInspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    "dispatch": false,
+    "elevationRequested": false,
+    "guestOrHostStateChanged": false
+  },
+  "legacyOutcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "WinHTTP catalog/engine integration and supported-target declaration",
+      "Windows 11 and Windows Server acceptance, effective policy, consumer and GUI behavior",
+      "Exact underlying literal recovery beyond the configuration reported by netsh"
+    ],
+    "partial": [
+      "Standalone guarded lifecycle candidate and mocked regression are complete; no legacy setting outcome closes."
+    ]
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; the candidate advances source readiness but closes no legacy feature outcome."
+  }
+}

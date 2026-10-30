@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-10-28T17:43:49Z",
+  "batch": "RIDE-Win11-Test Hyper-V status and checkpoint access recheck",
+  "source": "Read-only Hyper-V Manager screenshot",
+  "targetVm": "RIDE-Win11-Test",
+  "observations": {
+    "vmState": "Running",
+    "targetCheckpointMembership": "Unconfirmed",
+    "visibleCheckpointBelongsToSelectedVm": "RIDE-S25-Test",
+    "hyperVManagerAccessibility": "The elevated console exposes only its window and title-bar elements to the lower-integrity automation helper; the VM/checkpoint list could not be read through accessibility.",
+    "hostCim": "Previously denied before Get-VM state retrieval; no successful CIM query in this recheck."
+  },
+  "handling": {
+    "vmStartedStoppedOrReverted": false,
+    "checkpointCreatedDeletedOrChanged": false,
+    "guestCommandOrTaskDispatched": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "blockers": [
+    "Confirm that the existing RIDE-clean-test-base checkpoint is attached to RIDE-Win11-Test before dispatching its authorized acceptance batch.",
+    "Host CIM access is denied and the elevated Hyper-V console does not expose the VM/checkpoint list to read-only accessibility inspection."
+  ],
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Hyper-V Manager confirms RIDE-Win11-Test is running."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "VM acceptance pending read-only confirmation of the target VM checkpoint and task readiness."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the VM status observation closes no legacy outcome."
+    }
+  }
+}

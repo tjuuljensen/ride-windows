@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-28T17:30:15Z",
+  "batch": "Current NirSoft catalog-selection and test-staging safety audit",
+  "source": "Current worktree catalog and test source",
+  "method": "Loaded the catalog through Get-RideCatalog; parsed tests/NirsoftCollectionPackages.Tests.ps1 without executing tests or archive staging.",
+  "catalog": [
+    {
+      "id": "package.nirsoft-launcher",
+      "selectedMemberCount": 647,
+      "passwordscanMemberCount": 0,
+      "pendingAcceptance": true,
+      "supportedTargetCount": 0
+    },
+    {
+      "id": "package.nirsoft-x64-tools",
+      "selectedMemberCount": 47,
+      "passwordscanMemberCount": 0,
+      "pendingAcceptance": true,
+      "supportedTargetCount": 0
+    }
+  ],
+  "tests": {
+    "file": "tests/NirsoftCollectionPackages.Tests.ps1",
+    "parserErrors": 0,
+    "portableStagingCallCount": 2,
+    "stagingInput": "Both calls use the test-created synthetic-inert.zip and catalog-selected members after asserting blocked executable names are absent.",
+    "retainedEncryptedArchiveCase": "Inventory and hash/member-selection assertions only; does not extract payloads or call the staging lifecycle."
+  },
+  "finding": "Current catalog selections and tracked NirSoft test source do not explain the reported PasswordScan file. A stale/older catalog snapshot, another caller, or prior output remain possible; the creating execution is not identified.",
+  "handling": {
+    "alertedFileOrPathAccessed": false,
+    "archiveOrExecutableStaged": false,
+    "pesterExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "blockers": [
+    "Keep PasswordScan x86 and x64 excluded from package selection and acceptance.",
+    "Keep NirSoft staging/Pester lifecycle runs paused when they could materialize the blocked member until the creating execution and catalog revision are reconciled.",
+    "Current tracked source is not the identified creator; stage provenance remains unresolved."
+  ],
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; current-source audit resolves no legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "nirsoft-passwordscan-user-defender-repeat-2026-10-28-1726.json",
+    "nirsoft-passwordscan-user-defender-repeat-2026-10-28-1712.json",
+    "nirsoft-current-catalog-blocked-member-selection-audit-2026-10-28-1459.json"
+  ]
+}

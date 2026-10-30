@@ -15,6 +15,34 @@ The [media and privacy comparison](setting-presentation.md#media-and-privacy-cho
 explains AutoPlay preferences versus drive policy, clipboard history versus sync,
 and the separate location/advertising policy recovery boundaries.
 
+## BitLocker encryption method policies
+
+The default workstation profile selects **XTS-AES 256-bit** for future
+operating-system, fixed-data and removable-data drive encryption through three
+separate policy operations. Microsoft recommends XTS-AES and says the choice
+between 128-bit and 256-bit depends on device performance. The profile keeps the
+user-approved 256-bit default; choose XTS-AES 128-bit on a less performant device
+when performance is the priority.
+
+- **windows.bitlocker-encryption-method-os**
+- **windows.bitlocker-encryption-method-fixed-data**
+- **windows.bitlocker-encryption-method-removable-data**
+
+Each operation can instead select AES-CBC 128/256 or XTS-AES 128/256, or remove
+its local policy override with **WindowsDefault**. The default profile maps the
+previous AES-CBC 256-bit intent to XTS-AES 256-bit for all three drive types.
+Microsoft says the policy applies when encryption starts; it does not change an
+already encrypted volume. It also does not apply to hardware-based encryption.
+RIDE changes only the local policy values and does not encrypt/decrypt drives,
+enroll protectors, handle recovery secrets, or configure the BitLocker CSP/MDM
+interface. The CSP requires all three drive-type choices in one SyncML request;
+RIDE's separate settings write local Group Policy values. Windows 11 policy
+precedence and drive behavior remain subject to disposable-target acceptance.
+
+See the [catalog](OPERATIONS.md), [implementation evidence](archive/evidence/bitlocker-drive-method-policy-source-review-2026-10-27.json),
+[current source recheck](archive/evidence/bitlocker-current-source-and-default-profile-recheck-2026-10-28-1126.json)
+and [Microsoft policy guidance](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength).
+
 Optional [PowerShell profile settings](powershell-profiles.md) provide separate
 5.1/7 normal-session palettes and consistent administrator blue. Tab completes
 Recommended, AdminBlue, Default and Baseline; unset/default remove only the managed
@@ -92,9 +120,10 @@ pointer precision, sound schemes and startup sound.
 day choices and focused SAM field recovery. The candidate refuses domain
 controllers and remains blocked pending target acceptance.
 
-Use the [BitLocker recovery guide](bitlocker-recovery.md) for explicit
-native backup and selected-key retrieval. Automated creation and secret handling
-remain pending; no recovery secret belongs in RIDE state or reports.
+Use the [BitLocker recovery guide](bitlocker-recovery.md) for explicit enrollment,
+decryption, recovery-key creation, native backup and selected-key retrieval.
+Source workflows are cataloged but remain blocked pending disposable Windows
+acceptance; no recovery secret belongs in RIDE state or reports.
 
 Use [Windows recovery readiness](recovery-readiness.md) to prepare independent
 media, backups and access before a deliberate Advanced startup entry. Windows RE

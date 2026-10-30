@@ -124,7 +124,7 @@ $lines.Add('| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |')
 foreach ($operation in ($catalog.Operations | Sort-Object { $_.Category }, { $_.Name })) {
   $description = ($operation.Description -replace '\|', '\|')
   $targets = $operation.SupportedTargets -join ', '
-  if ($operation.PendingAcceptance) { $targets = 'None (awaiting VM acceptance)' }
+  if ($operation.PendingAcceptance) { $targets = 'None (awaiting target acceptance)' }
   $actions = $operation.Actions -join ', '
   $admin = if ($operation.RequiresAdmin) { 'Yes' } else { 'No' }
   $referenceUri = if ($operation.Kind -in @('Package', 'Artifact')) { $operation.ProductUri } else { $operation.DocumentationUri }
@@ -143,7 +143,7 @@ $lines.Add('')
 $lines.Add('| ID | Applies to | Behavior | GUI effect / location | Requirements | Other supported choices | Evidence |')
 $lines.Add('| --- | --- | --- | --- | --- | --- | --- |')
 $settingsById = @{}
-foreach ($entry in ($catalog.Operations | Where-Object { $_.Kind -notin @('Package', 'Artifact', 'StoreApp') })) { $settingsById[$entry.Id] = $entry }
+foreach ($entry in ($catalog.Operations | Where-Object { $_.Kind -notin @('Package', 'Artifact', 'StoreApp', 'WindowsCapability') })) { $settingsById[$entry.Id] = $entry }
 $settingIds = [string[]]@($settingsById.Keys)
 [Array]::Sort($settingIds, [StringComparer]::Ordinal)
 foreach ($settingId in $settingIds) {
@@ -176,8 +176,18 @@ foreach ($operation in ($catalog.Operations | Where-Object Kind -eq 'RegistryVal
   }
 }
 $lines.Add('')
-$lines.Add('## Managed settings')
+$lines.Add('## Windows component lifecycle')
 $lines.Add('')
+$lines.Add('Windows capabilities and capability-bound services are optional machine components with saved-run recovery rules. OpenSSH Server capability installation does not start the service or open the firewall. Service activation is selectable separately from capability installation. No firewall operation is registered in this candidate; any future inbound firewall choice must remain separate. Candidate targets are not supported until disposable Windows acceptance passes.')
+$lines.Add('')
+$lines.Add('| Operation | Component or dependent service | Candidate targets | Rollback | Acceptance |')
+$lines.Add('| --- | --- | --- | --- | --- |')
+foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -eq 'WindowsCapability' -or ($_.Kind -eq 'WindowsService' -and $_.RequiredCapabilityName) } | Sort-Object { $_.Id })) {
+  $component = if ($operation.Kind -eq 'WindowsCapability') { $operation.CapabilityName } else { $operation.RequiredCapabilityName + ' / service ' + $operation.ServiceName }
+  $lines.Add("| $($operation.Id) | $component | $($operation.CandidateTargets -join ', ') | $($operation.Rollback) | $($operation.AcceptanceNotes) |")
+}
+$lines.Add('')
+$lines.Add('## Managed settings')
 $lines.Add('These settings use Windows management cmdlets, powercfg or NetBIOS/sound registry preferences. The NetBIOS and sound references document feature behavior, not their registry mappings. No baseline or universal clean-image value is assumed. Scheduled tasks must already exist. Adapter recovery captures coupled flags by adapter GUID. Power scheme selection does not create a missing scheme. Refer to the migration review for omitted legacy bundle behavior.')
 $lines.Add('')
 $lines.Add('| Operation | Managed target | States |')
@@ -191,7 +201,7 @@ foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('Sche
     AdapterBinding { $operation.ComponentIds -join ', ' }
     PowerScheme { 'Active existing scheme GUID' }
     NetBios { 'Existing NetBT interface GUID / NetbiosOptions registry preference' }
-    RemoteDesktopFirewall { 'PersistentStore / RemoteDesktop-* existing local rules' }
+    RemoteDesktopFirewall { if ($operation.FirewallRuleNames) { 'PersistentStore / ' + ($operation.FirewallRuleNames -join ', ') + ' existing local rules' } else { 'PersistentStore / RemoteDesktop-* existing local rules' } }
     SoundScheme { 'Current-user AppEvents selector and existing event mappings' }
     default { $operation.Preference }
   }
@@ -235,7 +245,7 @@ foreach ($package in $catalog.Operations | Where-Object { $_.Kind -eq 'Package' 
   foreach ($key in $package.Variants.Keys | Sort-Object) {
     $variant = $package.Clone()
     foreach ($field in $package.Variants[$key].Keys) { $variant[$field] = $package.Variants[$key][$field] }
-    $targets = if ($variant.PendingAcceptance) { 'None (awaiting VM acceptance)' } else { $variant.SupportedTargets -join ', ' }
+    $targets = if ($variant.PendingAcceptance) { 'None (awaiting target acceptance)' } else { $variant.SupportedTargets -join ', ' }
     $lines.Add("| $($package.Id) | $($package.DefaultVariant) | $key | $($variant.InstallerType) | $($variant.Scope) | $($variant.DownloadProvider) | $($variant.Rollback) | $targets |")
   }
 }

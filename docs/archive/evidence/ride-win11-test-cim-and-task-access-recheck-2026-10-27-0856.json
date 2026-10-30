@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-27",
+  "timeUtc": "08:56",
+  "target": "RIDE-Win11-Test",
+  "checks": {
+    "GetVm": {
+      "result": "failed-before-inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    "GetVmCheckpoint": {
+      "result": "not-run",
+      "reason": "The VM object could not be inspected."
+    },
+    "GetScheduledTask": {
+      "result": "failed-before-inspection",
+      "taskPath": "\\RIDE\\",
+      "taskName": "RIDEWin11Test",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    "SchtasksQuery": {
+      "result": "failed-before-dispatch",
+      "error": "The network address is invalid."
+    }
+  },
+  "actions": {
+    "requestDispatched": false,
+    "vmStarted": false,
+    "checkpointInspectedOrChanged": false,
+    "hostServiceChanged": false,
+    "guestOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "status": "deferred",
+    "blocker": "Host CIM access denies VM and task inspection before the registered runner can be verified or dispatched; schtasks reports an invalid network address.",
+    "nextStep": "Continue independent source review and local mocked validation. Retry read-only preflight before submitting any authorized VM acceptance batch.",
+    "legacyOutcomeClosed": false,
+    "estimateChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

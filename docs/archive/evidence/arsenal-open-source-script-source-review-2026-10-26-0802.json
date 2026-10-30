@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-26T08:02:22Z",
+  "method": "Read the three selected source files and publisher READMEs through GitHub's connected file API at previously recorded immutable commit IDs. No checkout, execution, input data, VM, Windows, or Defender change.",
+  "products": [
+    {
+      "name": "Backstage Parser",
+      "repository": "ArsenalRecon/BackstageParser",
+      "commit": "cf09c312d663428a2c02511f00f4683921014ddd",
+      "source": "BackstageParser.py",
+      "dependencies": "Python 3 standard library only: os, re, sys, json, codecs, argparse, datetime.",
+      "behavior": "Reads user-selected Office Backstage cache files or directories; writes user-selected JSON/TSV/CSV/PSV output and a log.",
+      "packageBoundary": "Stage source and notices only. Do not enumerate Office profiles or run the parser as part of RIDE installation."
+    },
+    {
+      "name": "CyberGate Log Decrypt",
+      "repository": "ArsenalRecon/CyberGateLogDecrypt",
+      "commit": "6ac20b5603db69598a9d5095ba93c2dfeee8aeb4",
+      "source": "CyberGateLogDecrypt.py",
+      "dependencies": "Python standard library only: sys, re, codecs.",
+      "behavior": "Reads a user-selected keylogger ciphertext file and writes decrypted plaintext to a sibling filename ending _decrypted.",
+      "packageBoundary": "Stage source and notices only. The encrypted/decrypted data is user-controlled input/output and is never accessed by RIDE."
+    },
+    {
+      "name": "Gmail URL Decoder",
+      "repository": "ArsenalRecon/GmailURLDecoder",
+      "commit": "2c20a431b2baafe675287230f7ab3f397fac6755",
+      "source": "GmailURLDecoder.py",
+      "dependencies": "Python standard library only: re, mmap, argparse, json, collections, base64, datetime.",
+      "behavior": "Reads a user-selected plaintext or raw-data input file and writes JSON to a user-selected output file.",
+      "packageBoundary": "Stage source and notices only. RIDE does not inspect user files or run the decoder."
+    }
+  ],
+  "sharedFindings": {
+    "publisherLicense": "The pinned repositories provide MIT license files; retain each notice if future package declarations are added.",
+    "networkOrSubprocessImports": "No network or subprocess imports appeared in the reviewed source import lists.",
+    "releaseArtifacts": "The three repositories publish no GitHub release ZIPs. The official immutable source archive bytes and hashes remain unacquired.",
+    "legacyOutcomesClosed": [],
+    "migrationState": "Source behavior and runtime dependency needs are clarified; exact package artifact, hash, archive inventory, package lifecycle and Windows acceptance remain deferred.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

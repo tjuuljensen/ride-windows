@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "kind": "B06ClientComponentsCrossShellCurrentSourceRegression",
+  "recordedAtUtc": "2026-10-28T06:19:51Z",
+  "files": [
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1",
+    "tests/ComponentInventory.Tests.ps1"
+  ],
+  "runtime": {
+    "powerShell7": {
+      "version": "7.6.5",
+      "pester": "5.7.1",
+      "total": 70,
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistryPlugin": false,
+      "testResultPlugin": false
+    },
+    "windowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "pester": "5.7.1",
+      "total": 70,
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "b06-client-component-windows-powershell-local-regression-2026-10-28-0353.json"
+    }
+  },
+  "boundary": {
+    "nativeDismCalled": false,
+    "serverManagerOrNativeInventoryQueried": false,
+    "vmOrCheckpointUsed": false,
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "flaggedPasswordScanFileAccessed": false,
+    "elevationRequested": false,
+    "catalogOperationRegistered": false,
+    "supportedTargetsAdded": false
+  },
+  "migrationOutcome": {
+    "resolvedLegacyOutcomes": [],
+    "partial": [
+      "Current-source mocked preparation, lifecycle guards and inventory regression now pass 70/70 in both PowerShell editions."
+    ],
+    "deferred": [
+      "OpenSSH Client/Telnet matching source and servicing dependency proof, offline source fallback, exact recovery, and disposable Windows 11/Server acceptance."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; cross-shell mocked regression closes no legacy outcome or native Windows acceptance."
+    }
+  }
+}

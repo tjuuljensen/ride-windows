@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T16:01:29Z",
+  "runs": [
+    {
+      "suite": "tests/UserBinProfile.Tests.ps1",
+      "runtime": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "result": "Passed"
+    },
+    {
+      "suite": "tests/UserBinProfile.Tests.ps1",
+      "runtime": "Windows PowerShell 5.1",
+      "pester": "5.7.1",
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "result": "Passed"
+    }
+  ],
+  "harness": {
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "temporaryRoots": [
+      ".local/pester-userbin-20261026",
+      ".local/pester-userbin-20261026-ps51"
+    ],
+    "initialAttempt": "Pester's optional TestRegistry fixture failed before assertions because HKCU registry access was denied; the scoped rerun disabled unused TestRegistry and TestResult plugins."
+  },
+  "coverage": [
+    "both runtime candidates remain optional and outside supported targets/profiles",
+    "normalized duplicate handling and process-only PATH append",
+    "missing/inaccessible directory, mismatched runtime and remote guards",
+    "read-only completion",
+    "managed profile ownership, repeat apply, exact byte recovery and concurrent-edit refusal",
+    "legacy-writer refusal and color-block coexistence"
+  ],
+  "vmAccess": {
+    "timestampUtc": "2026-10-26T16:01:29Z",
+    "vmQuery": "Get-VM RIDE-Win11-Test failed before inspection: Access to a CIM resource was not available to the client.",
+    "checkpointQuery": "Get-VMCheckpoint RIDE-Win11-Test failed before inspection: Access to a CIM resource was not available to the client.",
+    "registeredTaskQuery": "schtasks /Query /TN \\\\RIDE\\\\RIDEWin11Test returned ERROR: The network address is invalid.",
+    "requestDispatched": false,
+    "elevationPrompted": false,
+    "vmOrHostStateChanged": false
+  },
+  "migrationEffect": "The current-source user-bin lifecycle suite is verified in both supported PowerShell runtimes. Native ConsoleHost startup behavior remains pending disposable Windows 11 acceptance; no legacy outcome closed and no estimate deducted.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

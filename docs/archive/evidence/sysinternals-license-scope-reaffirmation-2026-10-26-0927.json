@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T09:27:00Z",
+  "packageFamily": "Microsoft Sysinternals",
+  "decision": "License approval is settled for RIDE's direct-download-and-install workflow.",
+  "userDirection": {
+    "rideWorkflow": "RIDE downloads Sysinternals from Microsoft and installs it as part of normal computer deployment; RIDE does not transfer or publish Sysinternals copies.",
+    "priorAssessment": "The RIDE v2 license specialist reviewed and approved this tool.",
+    "legalConclusion": "The user confirms there are no legal issues using Sysinternals in RIDE and rejects generalized redistribution reasoning as a migration blocker."
+  },
+  "migrationDisposition": {
+    "additionalLicenseReviewRequired": false,
+    "licenseGateApplies": false,
+    "migrationMayProceed": true,
+    "defenderBlockedFilesRemainSeparatelyExcluded": true,
+    "remainingWork": "Technical package lifecycle, exact recovery and Windows target acceptance."
+  },
+  "effect": {
+    "legacyOutcomeClosed": false,
+    "estimateRangesChanged": false
+  }
+}

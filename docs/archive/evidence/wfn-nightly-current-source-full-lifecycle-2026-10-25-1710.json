@@ -1,0 +1,75 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T17:09:55Z",
+  "Batch": "Current-source Windows Firewall Notifier full 531-member synthetic lifecycle regression",
+  "Package": {
+    "OperationId": "package.windows-firewall-notifier",
+    "Version": "20250719-ac02df",
+    "PinnedArchiveMembers": 531,
+    "Fixture": "One-byte inert ZIP entries created from the current catalog member set; operator-owned file added to the installed destination."
+  },
+  "Test": {
+    "File": "tests/WfnPackage.Tests.ps1",
+    "Name": "repeats the complete 531-member snapshot and restores both prior package states",
+    "Pester": "5.7.1",
+    "PowerShell": "7.6.5",
+    "TestRegistryFixtureEnabled": false,
+    "Selected": 1,
+    "Passed": 1,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 2,
+    "DurationSeconds": 943.57,
+    "Behavior": [
+      "Installed all 531 synthetic archive members and verified package health.",
+      "Repeated installation and verified health and all 531 owned members again.",
+      "Preserved an operator-owned file across package operations.",
+      "Removed package-owned files and restored the saved installed snapshot with all members healthy.",
+      "Removed the package again and restored the captured prior-absence state."
+    ]
+  },
+  "InitialUnfilteredAttempt": {
+    "Result": "InterruptedDuringLongFullMemberCaseAfterStall",
+    "CompletedCases": 2,
+    "LongCaseCompletionEvidence": "The selected rerun above passed.",
+    "GeneratedFixtureCleanup": "The interrupted run's unique UUID directory was path-validated and removed; an older unrelated fixture directory was preserved."
+  },
+  "FixtureCleanup": {
+    "CurrentRunDirectoryRemoved": true,
+    "OnlyCurrentRunDirectoryRemoved": true
+  },
+  "PriorEvidence": {
+    "RealPublisherArtifactLifecycle": "docs/archive/evidence/wfn-nightly-real-artifact-local-lifecycle-2026-10-25-1153.json",
+    "StaticArchiveInventory": "docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json"
+  },
+  "Acceptance": {
+    "CurrentSourceFullSyntheticLifecycle": "Passed",
+    "RetainedPublisherArchiveLocalLifecycle": "PreviouslyPassed",
+    "Windows11Lifecycle": "Pending VM access",
+    "IntendedUserLogWrite": "Pending",
+    "FirewallPolicyUnchanged": "Pending Windows VM verification",
+    "ApplicationActivation": "Not run; separate runtime behavior"
+  },
+  "SideEffects": {
+    "WfnExecutableExecuted": false,
+    "PublisherInstallerExecuted": false,
+    "FirewallPolicyChanged": false,
+    "LiveRegistryChanged": false,
+    "DefenderStateChanged": false,
+    "VmOrWindowsStateChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [
+      "Current portable handler passes complete 531-member synthetic repeat/install/remove and installed/absent snapshot recovery after the latest module update."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 package lifecycle, intended-user log writing and unchanged-firewall-policy acceptance require VM access."
+    ],
+    "Partial": [
+      "No legacy package outcome closes; WFN was not launched."
+    ],
+    "EstimateRangesUnchanged": "37-57 / 40-55 / 19-24 / 25-35 / 8-12; exact 129-183; rounded 130-185/about 155"
+  }
+}

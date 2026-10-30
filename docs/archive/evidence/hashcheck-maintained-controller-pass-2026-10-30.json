@@ -1,0 +1,286 @@
+{
+  "SchemaVersion": 1,
+  "ReviewDate": "2026-10-30",
+  "RunId": "77f50d48b54c4f5c9b5393208f54987e",
+  "Status": "Passed through maintained ApplicationsBatch11 controller",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "77f50d48b54c4f5c9b5393208f54987e",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch11",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-30T05:06:11.4418562Z",
+    "FinishedAtUtc": "2026-10-30T05:17:19.8359123Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Summary": {
+    "SchemaVersion": 1,
+    "RunId": "77f50d48b54c4f5c9b5393208f54987e",
+    "Status": "Passed",
+    "ValidationPassed": true,
+    "IntegrationPassed": true,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 432,
+      "Passed": 428
+    },
+    "Error": null,
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression",
+    "IntegrationSuite": "ApplicationsBatch11"
+  },
+  "Application": {
+    "Id": "package.hashcheck-shell-extension",
+    "Variant": "installed",
+    "Target": "Windows 11",
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "InstallationType": "Client",
+    "Scope": "Machine",
+    "Provider": "DirectHttps",
+    "Applicability": "Applicable to deployment lifecycle",
+    "Status": "Passed",
+    "Version": "2.6.3.0",
+    "Error": null,
+    "Recovery": true,
+    "ProfilePreservation": null,
+    "UserDataPreservation": null,
+    "UserDataFixtures": [],
+    "RemovalRecoveryVersion": "2.6.3.0",
+    "Checks": [
+      "RIDEManagedInstall",
+      "PinnedPackageVersion",
+      "RepeatInstall",
+      "RemovalPreview",
+      "RIDERemoval",
+      "RepeatRemoval",
+      "SavedRemovalRecovery",
+      "SavedInstallRecovery"
+    ],
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "Elevated": true,
+    "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+  },
+  "Task": {
+    "RunId": "77f50d48b54c4f5c9b5393208f54987e",
+    "TaskName": "RIDE-InteractiveGuest-77f50d48b54c4f5c9b5393208f54987e",
+    "ExpectedUserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "ExpectedSessionId": 1,
+    "LastTaskResult": 0,
+    "TaskRemoved": true,
+    "Error": null,
+    "CleanupError": null
+  },
+  "Worker": {
+    "RunId": "77f50d48b54c4f5c9b5393208f54987e",
+    "Context": {
+      "Computer": "RIDE-WIN11-TEST",
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "User": "RIDE-WIN11-TEST\\admin",
+      "SessionId": 1,
+      "UserInteractive": true,
+      "Elevated": true
+    },
+    "StartedAtUtc": "2026-10-30T05:12:29.9227461Z",
+    "Status": "Passed",
+    "Error": null,
+    "FinishedAtUtc": "2026-10-30T05:17:01.7634353Z"
+  },
+  "PesterXml": {
+    "Failed": 0,
+    "Errors": 0,
+    "Skipped": 4,
+    "Total": 432,
+    "Passed": 428
+  },
+  "SelectedSource": [
+    {
+      "Path": "tests\\integration\\Invoke-RideInteractiveGuestTests.ps1",
+      "SHA256": "3F7870F5938D336C69C5E4EC9095622615A8C7BACB9C47325A4297E5BC058D38"
+    },
+    {
+      "Path": "tests\\integration\\Invoke-RideVmTest.ps1",
+      "SHA256": "7BB4AE7A9E3277AE5229309EBE1B31CF3F9B672592B233FF65D513AD55336B1C"
+    },
+    {
+      "Path": "tests\\integration\\RIDE.InteractiveGuestTests.psm1",
+      "SHA256": "29EA015C6E612E5E4B3864383A1CFBC031A735229AE803529AAC89D29F2AFEEF"
+    },
+    {
+      "Path": "tests\\integration\\RIDE.TestAutomation.psm1",
+      "SHA256": "E308EA2AFF5B17BF677C06F891ACB0B06645B6E24497179898BC62E33E0E249C"
+    }
+  ],
+  "HostDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\77f50d48b54c4f5c9b5393208f54987e",
+  "HostFiles": [
+    {
+      "Path": "controller-errors.log",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "controller.log",
+      "SHA256": "D1ABE51C8F363D0C4FCE00779436CB2F3D884F7D4D373963925649666115583D",
+      "Bytes": 1104
+    },
+    {
+      "Path": "result.json",
+      "SHA256": "9BD0802B5F0FC647AA1A280E04454B6F6E3EF4EE5729367E0913B1B98A1BAC20",
+      "Bytes": 562
+    },
+    {
+      "Path": "source-files.json",
+      "SHA256": "6CFDDAF8DA99BE7BEBE08E9823CBEF403733ADD170481D0D31A2FAFAA003803C",
+      "Bytes": 360930
+    },
+    {
+      "Path": "guest/applications-batch11.json",
+      "SHA256": "87060A1EFAA1CBC20E212CC66E8EB629F38726A82077BE8AFDF6131246E0D3CF",
+      "Bytes": 843
+    },
+    {
+      "Path": "guest/artifact-observations.json",
+      "SHA256": "9CA64433AD25B771AF502CF0E8C39C8688B0B22DB8336D9698F0FC750CF2C2DE",
+      "Bytes": 458364
+    },
+    {
+      "Path": "guest/hashcheck-install.log",
+      "SHA256": "9762064BE7E60D00DA85FE6C72DFE1B97B44C282EC003B8DFCCD6688F9074640",
+      "Bytes": 1622
+    },
+    {
+      "Path": "guest/interactive-dispatch.claim",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "guest/interactive-output.log",
+      "SHA256": "0A4680E40D92D65AFECCA69A91DE771E92FAFCA9182254DA72DA5FEF29F82A05",
+      "Bytes": 19216
+    },
+    {
+      "Path": "guest/interactive-request.json",
+      "SHA256": "13A7C619E6BBE2020C52B23D2E00EB2143A975B8E821C2C4B1B27D874F177426",
+      "Bytes": 258
+    },
+    {
+      "Path": "guest/interactive-task.json",
+      "SHA256": "AE76BF0B3C2D3DE78D6CD86A96CF0215FA86A9F67134D116EA40E6A1E5779A6C",
+      "Bytes": 343
+    },
+    {
+      "Path": "guest/interactive-task.xml",
+      "SHA256": "9D03E49647E32EA92D39840264CF511B531F887AA70D42D6C29464785F63E924",
+      "Bytes": 1742
+    },
+    {
+      "Path": "guest/interactive-worker.claim",
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "Bytes": 0
+    },
+    {
+      "Path": "guest/interactive-worker.json",
+      "SHA256": "88106F4B8C9AE31004B1870E55FAFB891704DC8F2CD578C339D253E0BFBA8519",
+      "Bytes": 566
+    },
+    {
+      "Path": "guest/pester.xml",
+      "SHA256": "7251A5AC06FD78E6DD6598F9B46DA0D4CA0FC3C877D1E04B6A3388E68C4913AE",
+      "Bytes": 155686
+    },
+    {
+      "Path": "guest/progress.jsonl",
+      "SHA256": "6CEE60C272C10197053CDA6F8A7C3B54E4BD752A994F5A69CAEA071CCAADEDDC",
+      "Bytes": 1417
+    },
+    {
+      "Path": "guest/summary.json",
+      "SHA256": "D70356BEF97732A2F62DE50F0F0BB41E7E572462A134882CFA8240E413EB1125",
+      "Bytes": 1206
+    },
+    {
+      "Path": "guest/transcript.log",
+      "SHA256": "917FD27A3435F0709DAAF43C1D8D9170AA98F1A1BF04FA9F663B6834235F14D0",
+      "Bytes": 58478
+    },
+    {
+      "Path": "guest/state/Machine/ab6a7fd903ff43d99a5b1b579249cfe5/package.hashcheck-shell-extension.json",
+      "SHA256": "298F0DDA67CCF386F0FE30B03784F00A8E790B405799B19806AC5F743C1B8F02",
+      "Bytes": 6964
+    },
+    {
+      "Path": "guest/state/Machine/ab6a7fd903ff43d99a5b1b579249cfe5/_manifest.json",
+      "SHA256": "D0E35DBABF63FA8C8CE87B308019BB8A702649373B9EC492CDA15A1AF6AB00E0",
+      "Bytes": 785
+    },
+    {
+      "Path": "guest/state/Machine/f67cff6bff9748c1a8b9c8c4e00ed15c/package.hashcheck-shell-extension.json",
+      "SHA256": "72AF927879C25750331A79868D5D166E79918EA1ADF2CA95C790D00711C45EE3",
+      "Bytes": 3807
+    },
+    {
+      "Path": "guest/state/Machine/f67cff6bff9748c1a8b9c8c4e00ed15c/_manifest.json",
+      "SHA256": "378102447CA573402D366EB4048C62AFDB2E87D7BF9765CFA685B3AC4C984A01",
+      "Bytes": 784
+    },
+    {
+      "Path": "guest/state/Machine/PackageSelections/package.hashcheck-shell-extension.json",
+      "SHA256": "55827229340174DA37F66FA2AD118E181E8AADD85690FBAB8D949E7E6BED8DE2",
+      "Bytes": 3169
+    }
+  ],
+  "Verification": "Read correlated exported records, ran host interactive evidence validator, checked Pester XML and publisher log; hashes record retained host bytes, not an independent guest-to-host hash comparison",
+  "Cleanup": "Complete: guest task removed, controller reports no collection or cleanup error, queues empty and no recovery block; operator confirmed VM Off / Operating normally and host task Ready after the run.",
+  "Acceptance": {
+    "LoggedOutInstallation": "Not accepted",
+    "MaintainedRemoteInteractiveLifecycle": "Passed",
+    "FullControllerCertification": "Pending",
+    "PublishedSupportChanged": false,
+    "HistoricalVersionRecovery": "Compensating presence recovery of declared installer; arbitrary prior versions not guaranteed",
+    "ExplorerBehavior": "Pending",
+    "SignedInAdministratorRequired": true
+  },
+  "Migration": {
+    "Components": "19-24",
+    "ExactTotal": "126-180",
+    "Retired": 0,
+    "FilesAndAssets": "25-35",
+    "Resolved": 0,
+    "Partial": "Maintained HashCheck lifecycle accepted; Explorer feature checks remain",
+    "Packages": "37-52",
+    "NewExclusions": 0,
+    "RoundedTotal": "125-180; about 155",
+    "Maintenance": "8-12",
+    "Settings": "37-57"
+  },
+  "OperatorFinalState": {
+    "ReviewDate": "2026-10-30",
+    "Source": "User-provided elevated P52 Get-VM and Get-ScheduledTask output",
+    "VMState": "Off",
+    "VMStatus": "Operating normally",
+    "TaskState": "Ready"
+  }
+}

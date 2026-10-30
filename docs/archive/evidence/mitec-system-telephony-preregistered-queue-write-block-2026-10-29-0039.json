@@ -1,0 +1,44 @@
+{
+  "recordedAtUtc": "2026-10-29T00:39:59Z",
+  "configuration": {
+    "name": "RIDEWin11Test",
+    "schemaVersion": 2,
+    "requiredCapabilitiesPresent": ["FocusedPortableV1", "MiTeCSystemAndTelephonyV1"],
+    "currentAccountMatchesRegisteredAccount": true,
+    "cleanupBlocked": false,
+    "pendingJsonBeforeSubmission": 0,
+    "runningJsonBeforeSubmission": 0
+  },
+  "request": {
+    "runId": "8515794b05e24dd582ba2beb0165a0e5",
+    "integrationSuite": "MiTeCSystemAndTelephony",
+    "source": "Local",
+    "timeoutMinutes": 90,
+    "submissionResult": "Failed before request submission: Set-Content was denied writing the temporary request under queue/pending.",
+    "pendingRequestAfterFailure": false,
+    "runningRequestAfterFailure": false,
+    "temporaryRequestFileAfterFailure": false,
+    "scheduledTaskStarted": false
+  },
+  "vmAccess": "A separate read-only Get-VM query for RIDE-Win11-Test and RIDE-S25-Test failed before state retrieval with host CIM access denied. Scheduled-task state also could not be read because of the same CIM access error.",
+  "outcome": {
+    "guestTestsRun": false,
+    "packageStagedOrInstalled": false,
+    "utilitiesLaunched": false,
+    "reportCreated": false,
+    "realTapiProviderOrCallDataAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationPromptRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "blocker": "The existing pre-registered task configuration is valid and advertises the focused portable MiTeC capability, but the host account cannot create the controller's temporary queue request file. The target task and VM state remain inaccessible through host CIM. Do not modify task ACLs or trigger a fresh elevation prompt; keep native acceptance deferred and continue independent local work.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

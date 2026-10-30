@@ -1,0 +1,35 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T16:47:00Z",
+  "Batch": "RIDE-Win11-Test VM and registered task read-only access recheck",
+  "Queries": {
+    "GetVM": { "Result": "Denied before VM inspection.", "Error": "Access to a CIM resource was not available to the client." },
+    "GetScheduledTask": { "Result": "Denied before task inspection.", "Error": "Access to a CIM resource was not available to the client." },
+    "SchtasksQuery": { "Command": "schtasks.exe /Query /TN \"\\RIDE\\RIDEWin11Test\" /V /FO LIST", "ExitCode": 1, "Error": "The network address is invalid." }
+  },
+  "StateChanges": {
+    "GuestRequestSubmitted": false,
+    "CheckpointChanged": false,
+    "VmStateChanged": false,
+    "HostServiceChanged": false,
+    "DefenderChanged": false,
+    "ElevationPromptRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Acceptance access was checked through Hyper-V CIM, ScheduledTasks CIM and native schtasks; all paths failed before guest/task dispatch."],
+    "Deferred": ["Windows 11 VM inspection, checkpoint verification and preregistered acceptance execution."],
+    "LegacyOutcomeClosed": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

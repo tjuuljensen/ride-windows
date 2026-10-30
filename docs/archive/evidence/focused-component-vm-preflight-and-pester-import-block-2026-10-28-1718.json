@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T17:18:19Z",
+  "batch": "Focused component acceptance readiness and local Pester access recheck",
+  "repository": "C:\\Users\\tjuuljensen\\git\\ride-windows",
+  "preflight": {
+    "vmName": "RIDE-Win11-Test",
+    "vmState": "Off; observed in the open Hyper-V Manager VM list",
+    "controllerAccountMatchesCurrentUser": true,
+    "pinnedCheckpointName": "RIDE-clean-test-base",
+    "checkpointIdConfigured": true,
+    "liveCheckpointMembershipVerified": false,
+    "focusedPortableV1": true,
+    "pendingQueueCount": 0,
+    "runningQueueCount": 0,
+    "cleanupBlocked": false,
+    "taskState": "Unknown; Get-ScheduledTask and schtasks query were unavailable; Schedule.Service COM returned Access denied (0x80070005)",
+    "requestQueued": false,
+    "vmOrCheckpointChanged": false
+  },
+  "testAccess": {
+    "windowsPowerShell": "5.1",
+    "pester5AvailableVersion": "5.7.1",
+    "pesterImport": "Blocked before test discovery: AuthorizationManager rejected Pester.Format.ps1xml and PesterConfiguration.Format.ps1xml from the user module path.",
+    "assertionsRun": false,
+    "powerShell7PesterAvailableVersion": "3.4.0",
+    "componentLifecycleSuites": "Not run"
+  },
+  "securityBoundaries": {
+    "defenderQueriedOrChanged": false,
+    "passwordScanPathAccessed": false,
+    "nirsoftStagingOrPesterRun": false,
+    "uacPromptOpened": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "RIDE-Win11-Test is visibly Off; controller config is readable, account matches, FocusedPortableV1 is present, queues are empty and no cleanup block exists. Scheduled-task readiness and live checkpoint membership could not be confirmed, so no guest request was dispatched.",
+      "ClientComponentLifecycle Pester 5.7.1 import failed before test discovery due AuthorizationManager format-file validation."
+    ],
+    "retired": [],
+    "excluded": [
+      "PasswordScan x86 and x64 remain excluded; NirSoft staging/Pester runs that could materialize them remain paused."
+    ],
+    "deferred": [
+      "Current-source component acceptance pending confirmation that the registered task is Ready and RIDE-clean-test-base is present on RIDE-Win11-Test.",
+      "ClientComponentLifecycle assertions pending usable Pester 5 import path."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; preflight and test-loader failure close no legacy outcome."
+    }
+  }
+}

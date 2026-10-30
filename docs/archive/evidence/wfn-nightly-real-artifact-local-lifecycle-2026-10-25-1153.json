@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:53:00Z",
+  "package": "package.windows-firewall-notifier",
+  "version": "20250719-ac02df",
+  "channel": "Nightlies/Unstable",
+  "archiveSha256": "B7ECEA5A7C1CAC4DBB845522AFCF49BBB7D7EFA01D3A8266033D11CA88678378",
+  "archiveBytes": 118745388,
+  "archiveInventoryCount": 531,
+  "uncompressedBytes": 265089178,
+  "unsafeArchiveEntries": 0,
+  "retainedNotices": [
+    "LICENSE.txt",
+    "Resources/IPDatabase/LICENSE.txt"
+  ],
+  "checks": {
+    "install": "Passed",
+    "repeatInstall": "Passed",
+    "ownedMembers": 531,
+    "snapshotCapture": "Passed",
+    "uninstall": "Passed",
+    "exactSnapshotRestore": "Passed",
+    "finalUninstall": "Passed",
+    "utilityExecuted": false,
+    "firewallConfigurationChanged": false
+  },
+  "acceptance": {
+    "realArtifactLocalLifecycle": "Passed",
+    "candidateTarget": "Windows 11",
+    "supportedTargets": [],
+    "vmLifecycle": "Deferred: Get-VM denied at CIM before VM/checkpoint inspection",
+    "applicationAndFirewallBehavior": "Deferred to explicitly scoped disposable Windows acceptance",
+    "legacyOutcomesClosed": [],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

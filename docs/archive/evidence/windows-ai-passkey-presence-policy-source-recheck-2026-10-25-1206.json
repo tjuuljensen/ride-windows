@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T12:06:37Z",
+  "Batch": "Windows AI, passkey, presence and security-control source recheck",
+  "Sources": [
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys/",
+      "Findings": [
+        "Windows 11 version 24H2 provides per-app passkey consent in Settings.",
+        "Declining app consent prevents passkey registration and authentication for that app.",
+        "The page states that enterprise consent policies were targeted for general availability by the end of June 2026."
+      ]
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy",
+      "Findings": [
+        "As checked 2026-10-25, base passkey access, per-app ForceAllow/ForceDeny/UserInControl lists, and passkey enumeration controls are still labeled Windows Insider Preview.",
+        "These policy nodes are device-scope; per-app list policies use semicolon-delimited Microsoft Store Package Family Names.",
+        "Presence-sensing app access and per-app controls are device-scope with a listed 10.0.25000+ build floor; this is not a named released Windows target."
+      ]
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/administrator-protection/",
+      "Findings": [
+        "The current page says Administrator protection is available with KB5120998, off by default, on Windows 11 Home, Pro, Enterprise and Education; Windows Server is not supported by the feature page.",
+        "A restart is required for enablement or disablement."
+      ]
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-localpoliciessecurityoptions",
+      "Findings": [
+        "The current LocalPoliciesSecurityOptions CSP still labels the Administrator protection elevation-prompt policy Windows Insider Preview."
+      ]
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/apps/develop/smart-app-control/test-your-app-with-smart-app-control",
+      "Findings": [
+        "Settings transitions between Off and Enforcement are one-way unless the current mode is Evaluation.",
+        "The documented registry configuration is for testing and warns it could compromise protection."
+      ]
+    }
+  ],
+  "LocalReadOnlyObservation": {
+    "HostBuild": "10.0.26300.0",
+    "Source": "C:\\WINDOWS\\PolicyDefinitions\\AppPrivacy.admx",
+    "Finding": "This local template contains the named passkey and human-presence policy entries. Host template presence is not Windows integration acceptance or evidence of a supported production target."
+  },
+  "MigrationDisposition": {
+    "CatalogChanges": [],
+    "ProfileChanges": [],
+    "Resolved": ["Refreshed the selected controls' official source statements and documented current publication conflicts."],
+    "Deferred": [
+      "Passkey enterprise policy implementation pending resolution of its passed general-availability target versus current Insider-only CSP labeling and per-app target acceptance.",
+      "Presence policy support pending a named released build and hardware/consumer verification.",
+      "Administrator protection policy backend pending reconciliation of feature availability with preview prompt-policy applicability.",
+      "Smart App Control state-changing operation pending a supported reversible path outside Evaluation."
+    ],
+    "LegacyOutcomesClosed": 0,
+    "EstimateRanges": ["37-57", "40-55", "19-24", "25-35", "8-12"],
+    "ExactEndpoints": "129-183",
+    "RoundedTotal": "130-185/about 155",
+    "EstimateAdjustment": "No legacy outcome closed; user-selected candidate controls remain separately tracked."
+  }
+}

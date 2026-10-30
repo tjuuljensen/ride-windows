@@ -36,8 +36,11 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.24.0
+  Version: 0.26.0
   Changelog:
+    0.26.0: Inspect BitLocker workflow state without exposing recovery passwords or treating staged actions as restorable settings.
+    0.25.1: Retain operational portable destinations when probing package dependency state during planning.
+    0.25.0: Persist RegistryValueSet ancestor-key existence in saved recovery snapshots.
     0.24.0: Resolve package destinations before checking portable prerequisite dependents during removal.
     0.23.0: Integrate the pending default/LAN automatic proxy-detection setting and saved-state recovery.
     0.22.0: Add pending persistent user PATH operation with captured entry-only recovery.
@@ -82,7 +85,7 @@
 #>
 
 
-$script:ModuleVersion = '0.24.0'
+$script:ModuleVersion = '0.26.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -116,11 +119,18 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE-ManagedSettings.psm1') -Force -Erro
 Import-Module (Join-Path $PSScriptRoot 'RIDE-OwnedPowerPlans.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-LocalPasswordAge.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-ShellFolders.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE-DesktopShortcuts.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.BitLockerWorkflows.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.OpenSshServerObservation.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.OpenSshServerCapabilityLifecycle.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-ProfileSettings.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserPathPreparation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyInventory.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyPreparation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyLifecycle.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyInventory.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyPreparation.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyLifecycle.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.StoreApps.psm1') -Force -ErrorAction Stop
 
 function Set-RideLibraryContext {
@@ -297,9 +307,9 @@ function Expand-RideProfileOperations {
         $removing = $Action -eq 'Remove' -or $selection.State -eq 'Absent'
         $entry = Resolve-RideLifecycleSelection -Operation $entry -Variant $selection.Variant -Removal:$removing
       }
-      if ($Action -eq 'Remove' -and $entry.Kind -notin @('Package', 'DefenderExclusion')) { continue }
+      if ($Action -eq 'Remove' -and $entry.Kind -notin @('Package', 'DefenderExclusion', 'WindowsCapability')) { continue }
       $state = if ($Action -eq 'Remove') { 'Absent' } elseif ($selection.ContainsKey('State')) { $selection.State } else { $null }
-      if ($entry.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder', 'ProfileSetting') -and $state -eq 'Baseline') { $state = $entry.BaselineState }
+      if ($entry.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder', 'DesktopShortcut', 'ProfileSetting') -and $state -eq 'Baseline') { $state = $entry.BaselineState }
       $expanded.Add([pscustomobject]@{ Operation = $entry; State = $state })
       continue
     }
@@ -408,7 +418,7 @@ function Expand-RidePackageDependencyPlan {
         $dependency = if ($explicitDependency) { $explicitDependency.Operation } else { Get-RideOperation -Id $dependencyId }
         if (-not $dependency -or $dependency.Kind -ne 'Package') { throw "Package '$id' declares an unknown package prerequisite '$dependencyId'." }
         $dependencyVariant = if ($explicitDependency) { [string]$explicitDependency.Operation.SelectedVariant } else { $null }
-        $dependency = Resolve-RidePackageSelection -Operation $dependency -Variant $dependencyVariant -MetadataOnly -IgnorePreferences
+        $dependency = Resolve-RidePackageSelection -Operation $dependency -Variant $dependencyVariant -IgnorePreferences
         if (-not $check.Satisfied -and (Get-RideInstalledPackage -Operation $dependency).Present) {
           throw "Package '$dependencyId' is installed, but does not satisfy '$id': $($check.Reason). Review the installed package and prerequisite path before continuing."
         }
@@ -418,6 +428,8 @@ function Expand-RidePackageDependencyPlan {
             if ($operation.PrerequisiteSystemFileMinimumVersions -and $operation.PrerequisiteSystemFileMinimumVersions.ContainsKey($fileName)) { "$fileName version $($operation.PrerequisiteSystemFileMinimumVersions[$fileName]) or later" } else { $fileName }
           }
           'system requirement ' + ($parts -join ', ')
+        } elseif ($operation.PrerequisitePowerShellModuleName) {
+          "PowerShell module $($operation.PrerequisitePowerShellModuleName) version $($operation.PrerequisitePowerShellModuleMinimumVersion) or later"
         } else { "executable $($operation.PrerequisiteProgramFilesExecutable)" }
         $dependencyReason = "Required by ${id}: $requirement"
         $dependencyItem = [pscustomobject]@{ Operation = $dependency; State = 'Present'; Reason = $dependencyReason }
@@ -462,13 +474,17 @@ function Get-RideOperationValue {
     if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
     return $Operation.States[$State]
   }
-  if ($Operation.Kind -in @('ShellFolder', 'ProfileSetting', 'UserPath', 'UserProxy')) {
+  if ($Operation.Kind -in @('ShellFolder', 'DesktopShortcut', 'ProfileSetting', 'UserPath', 'UserProxy', 'WinHttpProxy')) {
     if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
     return $Operation.States[$State]
   }
   if ($Operation.Kind -eq 'Package' -and $State -notin @('Present', 'Absent')) { throw "Package '$($Operation.Id)' requires State Present or Absent." }
   if ($Operation.Kind -eq 'DefenderExclusion' -and $State -notin @('Present', 'Absent')) { throw "Defender exclusion '$($Operation.Id)' requires State Present or Absent." }
   if ($Operation.Kind -eq 'WindowsService') {
+    if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
+    return $Operation.States[$State]
+  }
+  if ($Operation.Kind -eq 'WindowsCapability') {
     if (-not $Operation.States.ContainsKey($State)) { throw "State '$State' is not supported by '$($Operation.Id)'." }
     return $Operation.States[$State]
   }
@@ -486,6 +502,44 @@ function Get-RideOperationValue {
   }
   if ($Operation.Kind -eq 'BackgroundAppOverrides' -and $State -ne 'Reset') { throw "Operation '$($Operation.Id)' requires State Reset." }
   $State
+}
+
+function Get-RideOpenSshServerEngineState {
+  $version = Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction Stop
+  $observation = Get-RideOpenSshServerState -ExpectedComputerName $env:COMPUTERNAME -ExpectedBuild ([string]$version.CurrentBuildNumber) -ExpectedEditionId ([string]$version.EditionID)
+  $provider = @($observation.Providers | Where-Object Name -CEQ 'Capability' | Select-Object -First 1)
+  if ($provider.Count -ne 1 -or $provider[0].Status -cne 'Captured') {
+    $reason = if ($provider.Count -eq 1) { [string]$provider[0].ErrorType } else { 'Capability observation is missing.' }
+    return [pscustomobject]@{ Available = $false; Reason = $reason; Present = $false; CapabilityState = 'Unavailable'; Observation = $observation }
+  }
+  $capabilityState = [string]$provider[0].Observation.State
+  if ($capabilityState -cnotin @('Installed', 'NotPresent')) { return [pscustomobject]@{ Available = $false; Reason = 'Windows reported an unknown OpenSSH Server capability state.'; Present = $false; CapabilityState = $capabilityState; Observation = $observation } }
+  [pscustomobject]@{ Available = $true; Reason = $null; Present = ($capabilityState -ceq 'Installed'); CapabilityState = $capabilityState; Observation = $observation }
+}
+
+function Assert-RideRequiredServiceCapability {
+  param([Parameter(Mandatory)][hashtable]$Operation)
+  if (-not $Operation.RequiredCapabilityName) { return }
+  if ($Operation.RequiredCapabilityName -cne 'OpenSSH.Server~~~~0.0.1.0' -or $Operation.ServiceName -cne 'sshd') { throw "Unsupported service capability prerequisite for '$($Operation.Id)'." }
+  $capability = Get-RideOpenSshServerEngineState
+  if (-not $capability.Available) { throw "Service '$($Operation.ServiceName)' prerequisite could not be verified: $($capability.Reason)" }
+  if (-not $capability.Present) { throw "Service '$($Operation.ServiceName)' requires the installed OpenSSH Server capability; install the capability separately first." }
+}
+
+function Get-RideWindowsServiceEngineState {
+  param([Parameter(Mandatory)][hashtable]$Operation)
+  if ($Operation.RequiredCapabilityName) {
+    $capability = Get-RideOpenSshServerEngineState
+    if (-not $capability.Available) {
+      return [pscustomobject]@{ Available = $false; Reason = "Capability prerequisite observation failed: $($capability.Reason)" }
+    }
+    if (-not $capability.Present) {
+      return [pscustomobject]@{ Available = $false; Reason = "The '$($Operation.RequiredCapabilityName)' capability is not installed." }
+    }
+  }
+  $state = Get-RideWindowsServiceState -Operation $Operation
+  if ($Operation.RequiredCapabilityName) { $state | Add-Member -NotePropertyName Available -NotePropertyValue $true -Force }
+  $state
 }
 
 function Get-RideCurrentState {
@@ -527,13 +581,16 @@ function Get-RideCurrentState {
     'Package' { return Get-RideInstalledPackage -Operation $Operation }
     'Artifact' { return [pscustomobject]@{ Present = $false; DisplayName = 'Download-only artifact'; DisplayVersion = $null } }
     'DefenderExclusion' { return Get-RideDefenderExclusionState -Operation $Operation }
-    'WindowsService' { return Get-RideWindowsServiceState -Operation $Operation }
+    'WindowsService' { return Get-RideWindowsServiceEngineState -Operation $Operation }
     'BackgroundAppOverrides' { return Get-RideBackgroundAppOverrides -Operation $Operation }
     'BootConfiguration' { return Get-RideBootConfigurationState -Operation $Operation }
     'NetworkProfile' { return Get-RideNetworkProfileState -Operation $Operation }
     'RegistryKeySet' { return Get-RideRegistryKeyTreeState -Operation $Operation }
     'PowerSetting' { return Get-RidePowerSettingState -Operation $Operation }
     'ShellFolder' { return Get-RideShellFolderState -Operation $Operation }
+    'DesktopShortcut' { return Get-RideDesktopShortcutState -Operation $Operation }
+    'BitLockerWorkflow' { return Get-RideBitLockerVolumeObservation -MountPoint $Operation.MountPoint }
+    'OpenSshServerCapability' { return Get-RideOpenSshServerEngineState }
     'ProfileSetting' { return Get-RideProfileSettingState -Operation $Operation }
     'UserPath' {
       try { return [pscustomobject]@{ Available = $true; Observation = (Get-RideCurrentUserBinPathObservation) } }
@@ -541,6 +598,14 @@ function Get-RideCurrentState {
     }
     'UserProxy' {
       try { return Get-RideUserProxyCurrentState }
+      catch { return [pscustomobject]@{Available=$false;Reason=$_.Exception.Message;Observation=$null;Identity=$null} }
+    }
+    'WinHttpProxy' {
+      try {
+        $observation = Get-RideWinHttpProxyObservation
+        if ($observation.Scope -cne 'Machine') { return [pscustomobject]@{Available=$false;Reason='The current WinHTTP advanced configuration is user-scoped; this operation manages machine scope only.';Observation=$observation;Identity=[pscustomobject]@{ComputerName=$observation.ComputerName;UserSid=$observation.UserSid}} }
+        return [pscustomobject]@{Available=$true;Reason=$null;Observation=$observation;Identity=[pscustomobject]@{ComputerName=$observation.ComputerName;UserSid=$observation.UserSid}}
+      }
       catch { return [pscustomobject]@{Available=$false;Reason=$_.Exception.Message;Observation=$null;Identity=$null} }
     }
     default { throw "No handler is registered for '$($Operation.Handler)'." }
@@ -590,11 +655,29 @@ function Get-RideCurrentValueText {
     [Parameter(Mandatory = $true)] $CurrentState
   )
 
+  if ($Operation.Kind -eq 'WindowsCapability') {
+    if (-not $CurrentState.Available) { return 'Unavailable: ' + $CurrentState.Reason }
+    $service = @($CurrentState.Observation.Providers | Where-Object Name -CEQ 'Service' | Select-Object -First 1)[0]
+    $firewall = @($CurrentState.Observation.Providers | Where-Object Name -CEQ 'Firewall' | Select-Object -First 1)[0]
+    $serviceState = if ($service.Status -eq 'Captured') { '{0}/{1}' -f $service.Observation.StartMode, $service.Observation.State } else { $service.Status }
+    $firewallState = if ($firewall.Status -eq 'Captured') { '{0} {1}/{2}:{3}' -f $firewall.Observation.Enabled, $firewall.Observation.Direction, $firewall.Observation.Protocol, $firewall.Observation.LocalPort } else { $firewall.Status }
+    return 'OpenSSH Server capability: {0}; sshd: {1}; TCP/22 firewall: {2}. Installation does not start sshd or enable inbound access.' -f $CurrentState.CapabilityState, $serviceState, $firewallState
+  }
   if ($Operation.Kind -eq 'FirewallProfile') {
     if (-not $CurrentState.Available) { return 'Unavailable' }
     return (@($CurrentState.Entries | ForEach-Object {
       '{0}: local={1}, effective={2}, active={3}{4}' -f $_.Name, $_.Value, $_.EffectiveValue, $_.Active, $(if ($_.PolicyConflict) { ' (policy conflict)' })
     }) -join '; ')
+  }
+  if ($Operation.Kind -eq 'BitLockerWorkflow') {
+    $protectorIds = @($CurrentState.KeyProtectors | Where-Object { $_.KeyProtectorType -eq 'RecoveryPassword' } | ForEach-Object { $_.KeyProtectorId }) -join ', '
+    $protectorSummary = @(
+      foreach ($protector in @($CurrentState.KeyProtectors)) {
+        $assessment = if ($protector.RouteAssessment) { [string]$protector.RouteAssessment } else { 'Route behavior is unreviewed.' }
+        '{0} {1}: {2}' -f $protector.KeyProtectorType, $protector.KeyProtectorId, $assessment
+      }
+    ) -join '; '
+    return 'Volume {0}; encryption {1}% ({2}); protection {3}; method {4}; recovery protector IDs: {5}; protector routes: {6}. Recovery passwords are not inspected for display.' -f $CurrentState.MountPoint, $CurrentState.EncryptionPercentage, $CurrentState.VolumeStatus, $CurrentState.ProtectionStatus, $CurrentState.EncryptionMethod, $(if ($protectorIds) { $protectorIds } else { '<none>' }), $(if ($protectorSummary) { $protectorSummary } else { '<none>' })
   }
   if ($Operation.Kind -eq 'ProfileSetting') {
     if (-not $CurrentState.Available) { return 'Unavailable: ' + $CurrentState.Reason }
@@ -608,6 +691,10 @@ function Get-RideCurrentValueText {
   if ($Operation.Kind -eq 'UserProxy') {
     if (-not $CurrentState.Available -or $null -eq $CurrentState.Observation) { return 'Unavailable: ' + $CurrentState.Reason }
     return 'Default/LAN automatic detection: {0}; {1}' -f $(if ($CurrentState.Observation.AutoDetectFlag) { 'Enabled' } else { 'Disabled' }), $CurrentState.Observation.FlagsSource
+  }
+  if ($Operation.Kind -eq 'WinHttpProxy') {
+    if (-not $CurrentState.Available -or $null -eq $CurrentState.Observation) { return 'Unavailable: ' + $CurrentState.Reason }
+    return 'Machine WinHTTP automatic proxy detection: {0}' -f $(if ($CurrentState.Observation.AutoDetect) { 'Enabled' } else { 'Disabled' })
   }
   if ($Operation.Kind -eq 'RegistryValue') {
     if (-not $CurrentState.Exists) { return '<unset>' }
@@ -644,11 +731,15 @@ function Get-RideCurrentValueText {
   if ($Operation.Kind -eq 'ShellFolder') {
     return '{0}: {1}' -f $(if ($CurrentState.Present) { 'Present' } else { 'Absent' }), $CurrentState.Path
   }
+  if ($Operation.Kind -eq 'DesktopShortcut') {
+    return '{0}: {1}' -f $(if ($CurrentState.Present) { 'Present' } else { 'Absent' }), $CurrentState.Path
+  }
   if ($Operation.Kind -eq 'DefenderExclusion') {
     if (-not $CurrentState.Present) { return '<absent>' }
     return $CurrentState.Path
   }
   if ($Operation.Kind -eq 'WindowsService') {
+    if ($CurrentState.PSObject.Properties.Name -contains 'Available' -and -not $CurrentState.Available) { return 'Unavailable: ' + $CurrentState.Reason }
     $text = '{0} / {1}' -f $CurrentState.StartupType, $CurrentState.Status
     if ($Operation.PreserveDelayedAutoStart) {
       $delay = if ($null -eq $CurrentState.EffectiveDelayedAutoStart) { 'Unknown' } elseif ($CurrentState.EffectiveDelayedAutoStart) { 'On' } else { 'Off' }
@@ -687,6 +778,9 @@ function Test-RideCurrentStateMatch {
   if ($Operation.Kind -eq 'ProfileSetting') {
     return ([bool]$CurrentState.Available -and $CurrentState.State -eq $State)
   }
+  if ($Operation.Kind -eq 'WindowsCapability') {
+    return ($CurrentState.Available -and $Operation.States.ContainsKey($State) -and [string]$CurrentState.CapabilityState -ceq [string]$Operation.States[$State])
+  }
   if ($Operation.Kind -eq 'UserPath') {
     if (-not $CurrentState.Available -or $State -ne 'Enabled') { return $false }
     return (-not (New-RideUserBinPathPatch $CurrentState.Observation).ChangeRequired)
@@ -694,6 +788,10 @@ function Test-RideCurrentStateMatch {
   if ($Operation.Kind -eq 'UserProxy') {
     if (-not $CurrentState.Available -or $null -eq $CurrentState.Observation) { return $false }
     return ($Operation.States.ContainsKey($State) -and [bool]$CurrentState.Observation.AutoDetectFlag -eq ($State -eq 'Enabled'))
+  }
+  if ($Operation.Kind -eq 'WinHttpProxy') {
+    if (-not $CurrentState.Available -or $null -eq $CurrentState.Observation) { return $false }
+    return ($Operation.States.ContainsKey($State) -and [bool]$CurrentState.Observation.AutoDetect -eq [bool]$Operation.States[$State])
   }
   if ($Operation.Kind -eq 'LocalPasswordMaximumAge') {
     return ($CurrentState.Available -and $CurrentState.GuiCompatible -and $Operation.States.ContainsKey($State) -and $CurrentState.Value -eq $Operation.States[$State])
@@ -727,6 +825,7 @@ function Test-RideCurrentStateMatch {
   if ($Operation.Kind -eq 'RegistryValueSet') { return Test-RideRegistryValueSetMatch -Operation $Operation -State $State -CurrentState $CurrentState }
   if ($Operation.Kind -eq 'PowerSetting') { return ([bool]$CurrentState.Available -and [uint32]$CurrentState.Index -eq [uint32](Get-RideOperationValue -Operation $Operation -State $State)) }
   if ($Operation.Kind -eq 'WindowsService') {
+    if ($CurrentState.PSObject.Properties.Name -contains 'Available' -and -not $CurrentState.Available) { return $false }
     $desired = Get-RideOperationValue -Operation $Operation -State $State
     return ($CurrentState.StartupType -eq $desired.StartupType -and
       (-not $desired.ContainsKey('Status') -or $CurrentState.Status -eq $desired.Status) -and
@@ -760,10 +859,18 @@ function Get-RideCurrentStateName {
     [Parameter(Mandatory = $true)] $CurrentState
   )
 
+  if ($Operation.Kind -eq 'WindowsCapability') {
+    if (-not $CurrentState.Available) { return 'Unavailable' }
+    foreach ($stateName in $Operation.States.Keys) { if (Test-RideCurrentStateMatch -Operation $Operation -State $stateName -CurrentState $CurrentState) { return $stateName } }
+    return 'Custom'
+  }
   if ($Operation.Kind -eq 'OwnedPowerPlan') {
     if ($CurrentState.Value) { return 'Create' }
     if ($CurrentState.OriginalOwned -and -not $CurrentState.DestinationExists) { return 'Owned destination missing' }
     return $CurrentState.Stage
+  }
+  if ($Operation.Kind -eq 'BitLockerWorkflow') {
+    return '{0}; protection {1}; {2}% encrypted' -f $CurrentState.VolumeStatus, $CurrentState.ProtectionStatus, $CurrentState.EncryptionPercentage
   }
   if ($Operation.Kind -eq 'ProfileSetting') {
     if (-not $CurrentState.Available) { return 'Unavailable' }
@@ -778,6 +885,10 @@ function Get-RideCurrentStateName {
     if (-not $CurrentState.Available -or $null -eq $CurrentState.Observation) { return 'Unavailable' }
     return $(if ($CurrentState.Observation.AutoDetectFlag) { 'Enabled' } else { 'Disabled' })
   }
+  if ($Operation.Kind -eq 'WinHttpProxy') {
+    if (-not $CurrentState.Available -or $null -eq $CurrentState.Observation) { return 'Unavailable' }
+    return $(if ($CurrentState.Observation.AutoDetect) { 'Enabled' } else { 'Disabled' })
+  }
   if ($Operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) {
     if ($CurrentState.PSObject.Properties.Name -contains 'Available' -and -not $CurrentState.Available) { return 'Unavailable' }
     foreach ($stateName in $Operation.States.Keys) { if (Test-RideCurrentStateMatch $Operation $stateName $CurrentState) { return $stateName } }
@@ -790,6 +901,7 @@ function Get-RideCurrentStateName {
     return 'Custom'
   }
   if ($Operation.Kind -eq 'WindowsService') {
+    if ($CurrentState.PSObject.Properties.Name -contains 'Available' -and -not $CurrentState.Available) { return 'Unavailable' }
     # Prefer explicit delay/runtime matches over overlapping compatibility and startup-only presets.
     foreach ($stateName in ($Operation.States.Keys | Sort-Object @{ Expression = {
       $candidate = $Operation.States[$_]
@@ -831,7 +943,7 @@ function Get-RideCurrentStateName {
     if (-not $CurrentState.Present) { return 'Reset' }
     return 'Configured'
   }
-  if ($Operation.Kind -in @('Package', 'StoreApp', 'DefenderExclusion', 'ShellFolder')) {
+  if ($Operation.Kind -in @('Package', 'StoreApp', 'DefenderExclusion', 'ShellFolder', 'DesktopShortcut')) {
     if ($Operation.InstallerType -eq 'Portable' -and $CurrentState.Present -and -not $CurrentState.Healthy) { return 'Incomplete or modified' }
     if ($CurrentState.Present) { return 'Present' }
     return 'Absent'
@@ -981,7 +1093,11 @@ function Save-RideOperationSnapshot {
     }
   }
   elseif ($Operation.Kind -eq 'RegistryValueSet') {
-    [ordered]@{ Values = @($CurrentState.Values) }
+    $registryValueSetSnapshot = [ordered]@{ Values = @($CurrentState.Values) }
+    if ($null -ne $CurrentState.PSObject.Properties['KeyPathExistence']) {
+      $registryValueSetSnapshot.KeyPathExistence = @($CurrentState.KeyPathExistence)
+    }
+    $registryValueSetSnapshot
   }
   elseif ($Operation.Kind -eq 'LocalPasswordMaximumAge') {
     [ordered]@{ SnapshotVersion = 1; OperationId = $Operation.Id; Prior = $CurrentState.Policy
@@ -1040,6 +1156,10 @@ function Save-RideOperationSnapshot {
     $preparation = New-RideUserProxyConfigurationPatch -Observation $CurrentState.Observation -AutomaticDetection $DesiredState -SetupScript Unchanged
     [ordered]@{ SnapshotVersion=1;OperationId=$Operation.Id;OriginalObservation=$CurrentState.Observation;ProxySnapshot=$preparation.Snapshot;ComputerName=$CurrentState.Identity.ComputerName;UserSid=$CurrentState.Identity.UserSid;SessionId=[int]$CurrentState.Identity.SessionId }
   }
+  elseif ($Operation.Kind -eq 'WinHttpProxy') {
+    $preparation = New-RideWinHttpProxyConfigurationPatch -Observation $CurrentState.Observation -Scope Machine -AutoDetect:($DesiredState -eq 'Enabled')
+    [ordered]@{SnapshotVersion=1;OperationId=$Operation.Id;OriginalObservation=$CurrentState.Observation;WinHttpSnapshot=$preparation.Snapshot;ComputerName=$CurrentState.Identity.ComputerName;UserSid=$CurrentState.Identity.UserSid}
+  }
   elseif ($Operation.Kind -eq 'ShellFolder') {
     [ordered]@{
       Path = $CurrentState.Path; Present = [bool]$CurrentState.Present
@@ -1047,6 +1167,12 @@ function Save-RideOperationSnapshot {
       CreationTimeUtc = $CurrentState.CreationTimeUtc; LastWriteTimeUtc = $CurrentState.LastWriteTimeUtc
       SecurityDescriptor = $CurrentState.SecurityDescriptor
     }
+  }
+  elseif ($Operation.Kind -eq 'DesktopShortcut') {
+    [ordered]@{ Path = $CurrentState.Path; Present = [bool]$CurrentState.Present }
+  }
+  elseif ($Operation.Kind -eq 'WindowsCapability') {
+    [ordered]@{ SnapshotVersion = 1; OperationId = $Operation.Id; CapabilityState = [string]$CurrentState.CapabilityState; Observation = $CurrentState.Observation }
   }
   else {
     [ordered]@{ Present = [bool]$CurrentState.Present; Version = $CurrentState.DisplayVersion }
@@ -1079,6 +1205,10 @@ function Save-RideRunManifest {
     RunId = $RunId
     Scopes = $scopes
     OperationIds = @($Plan | ForEach-Object { $_.Operation.Id })
+    OperationProgress = @($Plan | ForEach-Object {
+      [ordered]@{ OperationId = $_.Operation.Id; DesiredState = $_.State; Status = 'Pending'
+        SnapshotSaved = $false; UpdatedUtc = [DateTime]::UtcNow.ToString('o') }
+    })
     CreatedUtc = [DateTime]::UtcNow.ToString('o')
   }
   $libraryIdentities = @($Plan | Where-Object { $_.Operation.Library } | ForEach-Object {
@@ -1090,7 +1220,49 @@ function Save-RideRunManifest {
     $root = Initialize-RideStateRoot -Scope $scope
     $directory = Join-Path $root $RunId
     New-Item -ItemType Directory -Path $directory -Force | Out-Null
-    $manifest | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $directory '_manifest.json') -Encoding UTF8
+    Write-RideRunManifestAtomically -Path (Join-Path $directory '_manifest.json') -Manifest $manifest
+  }
+}
+
+function Write-RideRunManifestAtomically {
+  param([Parameter(Mandatory = $true)][string] $Path, [Parameter(Mandatory = $true)] $Manifest)
+  $directory = Split-Path -Parent $Path
+  $temporaryName = '.manifest-' + [guid]::NewGuid().ToString('N')
+  $temporaryPath = Join-Path $directory ($temporaryName + '.tmp')
+  $backupPath = Join-Path $directory ($temporaryName + '.bak')
+  try {
+    $json = $Manifest | ConvertTo-Json -Depth 20
+    [System.IO.File]::WriteAllText($temporaryPath, $json, [System.Text.UTF8Encoding]::new($false))
+    if ([System.IO.File]::Exists($Path)) { [System.IO.File]::Replace($temporaryPath, $Path, $backupPath) }
+    else { [System.IO.File]::Move($temporaryPath, $Path) }
+  }
+  finally {
+    if ([System.IO.File]::Exists($temporaryPath)) { [System.IO.File]::Delete($temporaryPath) }
+    if ([System.IO.File]::Exists($backupPath)) { [System.IO.File]::Delete($backupPath) }
+  }
+}
+
+function Set-RideRunOperationProgress {
+  param(
+    [Parameter(Mandatory = $true)][string] $RunId,
+    [Parameter(Mandatory = $true)][string] $OperationId,
+    [Parameter(Mandatory = $true)][ValidateSet('Pending', 'AlreadyDesired', 'SnapshotSaved', 'Completed', 'Failed')][string] $Status,
+    [string] $ErrorMessage
+  )
+  foreach ($scope in @('User', 'Machine')) {
+    $path = Join-Path (Get-RideStateRoot -Scope $scope) (Join-Path $RunId '_manifest.json')
+    if (-not [System.IO.File]::Exists($path)) { continue }
+    $manifest = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+    if ($manifest.RunId -cne $RunId) { throw "Invalid run manifest while updating '$OperationId'." }
+    if ($scope -notin @($manifest.Scopes)) { continue }
+    $entry = @($manifest.OperationProgress | Where-Object { $_.OperationId -ceq $OperationId })
+    if ($entry.Count -ne 1) { throw "Operation '$OperationId' is not uniquely listed in run '$RunId'." }
+    $entry[0].Status = $Status
+    if ($Status -in @('SnapshotSaved', 'Completed')) { $entry[0].SnapshotSaved = $true }
+    $entry[0].UpdatedUtc = [DateTime]::UtcNow.ToString('o')
+    if ($Status -eq 'Failed' -and $ErrorMessage) { $entry[0] | Add-Member -NotePropertyName Error -NotePropertyValue $ErrorMessage -Force }
+    elseif ($entry[0].PSObject.Properties.Name -contains 'Error') { $entry[0].Error = $null }
+    Write-RideRunManifestAtomically -Path $path -Manifest $manifest
   }
 }
 
@@ -1158,9 +1330,11 @@ function Get-RidePlan {
   foreach ($item in $plan) {
     if (-not $item.State) { throw "No state was selected for '$($item.Operation.Id)'." }
     $null = Get-RideOperationValue -Operation $item.Operation -State $item.State
-    if ($Action -eq 'Apply' -and $item.Operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'UserPath', 'UserProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
+    if ($Action -eq 'Apply' -and $item.Operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'DesktopShortcut', 'ProfileSetting', 'UserPath', 'UserProxy', 'WinHttpProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') -and 'Set' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support set." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Present' -and 'Install' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support install." }
     if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Absent' -and 'Uninstall' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support uninstall." }
+    if ($item.Operation.Kind -eq 'WindowsCapability' -and $item.State -eq 'Present' -and 'Install' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support installation." }
+    if ($item.Operation.Kind -eq 'WindowsCapability' -and $item.State -eq 'Absent' -and 'Uninstall' -notin $item.Operation.Actions) { throw "'$($item.Operation.Id)' does not support removal." }
   }
   $plan
 }
@@ -1211,9 +1385,9 @@ function Get-RideSingleOperationPlan {
   if (-not $operation.ContainsKey('Kind')) { throw "Direct actions require an operation ID, not a group ID: $Id" }
   switch ($Action) {
     'Set' {
-    if ($operation.Kind -notin @('RegistryValue', 'RegistryValueSet', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'UserPath', 'UserProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
+    if ($operation.Kind -notin @('RegistryValue', 'RegistryValueSet', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'DesktopShortcut', 'ProfileSetting', 'UserPath', 'UserProxy', 'WinHttpProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { throw "'set' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
       if (-not $State) {
-        $availableStates = if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'UserPath', 'UserProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $operation.States.Keys -join ', ' } else { 'Present, Absent' }
+        $availableStates = if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'DesktopShortcut', 'ProfileSetting', 'UserPath', 'UserProxy', 'WinHttpProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $operation.States.Keys -join ', ' } else { 'Present, Absent' }
         throw "The set command requires -State. Available states: $availableStates."
       }
       if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
@@ -1221,8 +1395,8 @@ function Get-RideSingleOperationPlan {
     'Unset' {
       if ($operation.Kind -eq 'ProfileSetting') { $State = $operation.UnsetState }
       elseif ($operation.Kind -eq 'UserPath') { throw "'$Id' has no declared unset state. Restore the saved run that added the entry." }
-      elseif ($operation.Kind -eq 'UserProxy') { throw "'$Id' has no unset state. Select Enabled or Disabled, or restore a saved run." }
-      elseif ($operation.Kind -in @('DefenderExclusion', 'ShellFolder')) {
+      elseif ($operation.Kind -in @('UserProxy','WinHttpProxy')) { throw "'$Id' has no unset state. Select Enabled or Disabled, or restore a saved run." }
+      elseif ($operation.Kind -in @('DefenderExclusion', 'ShellFolder', 'DesktopShortcut')) {
         $State = 'Absent'
       }
       elseif ($operation.Kind -eq 'RegistryValueSet') { $State = 'WindowsDefault' }
@@ -1236,12 +1410,12 @@ function Get-RideSingleOperationPlan {
       if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
     }
     'Install' {
-      if ($operation.Kind -ne 'Package') { throw "'install' requires a package ID; '$Id' is a $($operation.Kind) operation." }
+      if ($operation.Kind -notin @('Package', 'WindowsCapability')) { throw "'install' requires a package or Windows capability ID; '$Id' is a $($operation.Kind) operation." }
       $State = 'Present'
       if ('Install' -notin $operation.Actions) { throw "'$Id' does not support installation." }
     }
     'Remove' {
-      if ($operation.Kind -ne 'Package') { throw "'remove -Id' requires a package ID; '$Id' is a $($operation.Kind) operation." }
+      if ($operation.Kind -notin @('Package', 'WindowsCapability')) { throw "'remove -Id' requires a package or Windows capability ID; '$Id' is a $($operation.Kind) operation." }
       $State = 'Absent'
       if ('Uninstall' -notin $operation.Actions) { throw "'$Id' does not support uninstallation." }
     }
@@ -1423,7 +1597,8 @@ function Invoke-RidePlan {
   .DESCRIPTION
     Checks target/elevation, skips matching states, and uses ShouldProcess before
     snapshots/handlers. Writes manifests and per-scope snapshots only for approved changes. Failure
-    reports run ID plus saved/completed operations; prior approved changes can remain.
+    updates durable per-operation progress and reports the run ID, saved/completed/unfinished
+    operations, and the failed operation. Restore the reported run before reapplying its profile.
 
   .PARAMETER Plan
     Ordered operation/state objects returned by Get-RidePlan or Get-RideSingleOperationPlan.
@@ -1483,9 +1658,11 @@ function Invoke-RidePlan {
   $runId = [guid]::NewGuid().ToString('N')
   $savedOperationIds = New-Object System.Collections.Generic.List[string]
   $completedOperationIds = New-Object System.Collections.Generic.List[string]
+  $alreadyDesiredOperationIds = New-Object System.Collections.Generic.List[string]
   $manifestSaved = $false
   foreach ($item in $Plan) {
     $operation = $item.Operation
+    try {
     if ($operation.Kind -eq 'Package') {
       $product = Get-RideOperation -Id $operation.Id
       $recorded = Get-RideRecordedPackageSelection $product
@@ -1508,16 +1685,21 @@ function Invoke-RidePlan {
     if ($before.PSObject.Properties.Name -contains 'Available' -and -not $before.Available) { throw "Operation '$($operation.Id)' is unavailable on this device; no state was saved or changed." }
     if (Test-RideDesiredState -Operation $operation -State $item.State) {
       Write-Output ("Already in desired state: {0} ({1})" -f $operation.Id, $item.State)
+      if ($manifestSaved) { Set-RideRunOperationProgress -RunId $runId -OperationId $operation.Id -Status 'AlreadyDesired' }
+      else { $alreadyDesiredOperationIds.Add($operation.Id) }
       continue
     }
     if ($PSCmdlet.ShouldProcess($operation.Name, "Set state to $($item.State)")) {
-      try {
         if (-not $manifestSaved) {
           Save-RideRunManifest -RunId $runId -Plan $Plan
           $manifestSaved = $true
+          foreach ($alreadyDesiredId in $alreadyDesiredOperationIds) {
+            Set-RideRunOperationProgress -RunId $runId -OperationId $alreadyDesiredId -Status 'AlreadyDesired'
+          }
         }
         Save-RideOperationSnapshot -RunId $runId -Operation $operation -CurrentState $before -DesiredState $item.State
         $savedOperationIds.Add($operation.Id)
+        Set-RideRunOperationProgress -RunId $runId -OperationId $operation.Id -Status 'SnapshotSaved'
         if ($operation.Kind -eq 'RegistryValue') {
           $value = Get-RideOperationValue -Operation $operation -State $item.State
           Set-RideSettingState -Operation $operation -Value $value
@@ -1528,6 +1710,15 @@ function Invoke-RidePlan {
         elseif ($operation.Kind -eq 'LocalPasswordMaximumAge') { Set-RideLocalPasswordAgeState -Operation $operation -State $item.State -ExpectedState $before }
         elseif ($operation.Kind -eq 'OwnedPowerPlan') { Set-RideOwnedPowerPlanState -Operation $operation -State $item.State -ExpectedState $before -OwnershipRoot (Join-Path (Get-RideStateRoot -Scope Machine) 'OwnedPowerPlans') }
         elseif ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { Set-RideManagedSettingState -Operation $operation -State $item.State -ExpectedState $before }
+        elseif ($operation.Kind -eq 'WindowsCapability') {
+          $context = $before.Observation.WindowsContext
+          if ($item.State -eq 'Present') {
+            Install-RideOpenSshServerCapability -ExpectedComputerName $context.ComputerName -ExpectedBuild $context.Build -ExpectedEditionId $context.EditionId -RunId $runId -Confirm:$false | Out-Null
+          } elseif ($item.State -eq 'Absent') {
+            $ownedRunId = Get-RideOpenSshServerActiveInstallRunId -ExpectedComputerName $context.ComputerName -ExpectedBuild $context.Build -ExpectedEditionId $context.EditionId
+            Remove-RideOpenSshServerCapability -RunId $ownedRunId -ExpectedComputerName $context.ComputerName -ExpectedBuild $context.Build -ExpectedEditionId $context.EditionId -Confirm:$false | Out-Null
+          } else { throw "Unsupported desired Windows capability state '$($item.State)'." }
+        }
         elseif ($operation.Kind -eq 'Package') {
           Save-RidePackageSelectionIndex -Operation $operation
           if ($item.State -eq 'Present') {
@@ -1550,6 +1741,7 @@ function Invoke-RidePlan {
           Set-RideDefenderExclusionState -Operation $operation -State $item.State -ExpectedState $before
         }
         elseif ($operation.Kind -eq 'WindowsService') {
+          Assert-RideRequiredServiceCapability -Operation $operation
           Set-RideWindowsServiceState -Operation $operation -State $item.State
         }
         elseif ($operation.Kind -eq 'BackgroundAppOverrides') {
@@ -1570,6 +1762,9 @@ function Invoke-RidePlan {
         elseif ($operation.Kind -eq 'ShellFolder') {
           Set-RideShellFolderState -Operation $operation -State $item.State
         }
+        elseif ($operation.Kind -eq 'DesktopShortcut') {
+          Set-RideDesktopShortcutState -Operation $operation -State $item.State
+        }
         elseif ($operation.Kind -eq 'ProfileSetting') {
           Set-RideProfileSettingState -Operation $operation -State $item.State -ExpectedState $before -Confirm:$false
         }
@@ -1580,14 +1775,26 @@ function Invoke-RidePlan {
           $patch=New-RideUserProxyConfigurationPatch -Observation $before.Observation -AutomaticDetection $item.State -SetupScript Unchanged
           Set-RideUserProxyConfigurationPatch -Patch $patch -RunId $runId -ExpectedComputerName $before.Identity.ComputerName -ExpectedUserSid $before.Identity.UserSid -ExpectedSessionId $before.Identity.SessionId -Confirm:$false
         }
+        elseif ($operation.Kind -eq 'WinHttpProxy') {
+          $patch = New-RideWinHttpProxyConfigurationPatch -Observation $before.Observation -Scope Machine -AutoDetect:($item.State -eq 'Enabled')
+          $result = Apply-RideWinHttpProxyPatch -RunId $runId -Patch $patch -ExpectedComputerName $before.Identity.ComputerName -ExpectedUserSid $before.Identity.UserSid -Confirm:$false
+          if ($result.Status -in @('Partial','FailedNoChange')) { throw "WinHTTP proxy handler returned $($result.Status)." }
+        }
         $completedOperationIds.Add($operation.Id)
+        Set-RideRunOperationProgress -RunId $runId -OperationId $operation.Id -Status 'Completed'
         Write-Output ("Applied: {0} ({1})" -f $operation.Id, $item.State)
-      }
-      catch {
-        $savedList = if ($savedOperationIds.Count) { $savedOperationIds -join ', ' } else { '<none>' }
-        $completedList = if ($completedOperationIds.Count) { $completedOperationIds -join ', ' } else { '<none>' }
-        throw "RIDE operation '$($operation.Id)' failed. Run ID: $runId. Saved state: $savedList. Completed operations: $completedList. Error: $($_.Exception.Message)"
-      }
+    }
+    }
+    catch {
+      if (-not $manifestSaved) { throw }
+      $operationError = $_.Exception.Message
+      try { Set-RideRunOperationProgress -RunId $runId -OperationId $operation.Id -Status 'Failed' -ErrorMessage $operationError }
+      catch { $operationError = "$operationError; progress could not be persisted: $($_.Exception.Message)" }
+      $savedList = if ($savedOperationIds.Count) { $savedOperationIds -join ', ' } else { '<none>' }
+      $completedList = if ($completedOperationIds.Count) { $completedOperationIds -join ', ' } else { '<none>' }
+      $unfinishedOperationIds = @($Plan | Where-Object { $_.Operation.Id -notin $completedOperationIds } | ForEach-Object { $_.Operation.Id })
+      $unfinishedList = if ($unfinishedOperationIds.Count) { $unfinishedOperationIds -join ', ' } else { '<none>' }
+      throw "RIDE operation '$($operation.Id)' failed. Run ID: $runId. Saved state: $savedList. Completed operations: $completedList. Failed operation: $($operation.Id). Unfinished operations: $unfinishedList. Recovery: run '.\ride.ps1 restore -RunId $runId', then reapply the same profile. Error: $operationError"
     }
   }
   if (-not $WhatIfPreference) {
@@ -1712,7 +1919,7 @@ function Show-RideOperation {
         Id = $operation.Id
         Name = $operation.Name
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($operation.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($operation.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($operation.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($operation.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($operation.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $operation.Kind } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'BitLockerWorkflow') { 'Nonsecret OS-volume BitLocker state' } elseif ($operation.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($operation.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($operation.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($operation.Kind -eq 'DesktopShortcut') { 'Desktop shortcut' } elseif ($operation.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($operation.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($operation.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($operation.Kind -eq 'WinHttpProxy') { 'Machine WinHTTP automatic proxy detection' } elseif ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $operation.Kind } elseif ($operation.Kind -eq 'WindowsCapability') { 'Windows capability' } else { 'Package' }
       }
     }
     $memberRows = foreach ($member in $members) {
@@ -1732,7 +1939,7 @@ function Show-RideOperation {
   if ($entry.Kind -eq 'FirewallProfile') { $presentation.EffectivePolicy = Get-RideFirewallEffectivePolicyText $current }
   foreach ($property in $presentation.PSObject.Properties) { $details[$property.Name] = $property.Value }
   $details.CurrentValue = Get-RideCurrentValueText -Operation $entry -CurrentState $current
-  $details.CurrentValueType = if ($entry.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($entry.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($entry.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($entry.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($entry.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($entry.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($entry.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($entry.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($entry.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($entry.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($entry.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($entry.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($entry.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($entry.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $entry.Kind } elseif ($entry.Kind -eq 'Artifact') { 'Download-only artifact' } else { 'Package' }
+  $details.CurrentValueType = if ($entry.Kind -eq 'BitLockerWorkflow') { 'Nonsecret OS-volume BitLocker state' } elseif ($entry.Kind -eq 'RegistryValue') { $current.ValueType } elseif ($entry.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($entry.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($entry.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($entry.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($entry.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($entry.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($entry.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($entry.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($entry.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($entry.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($entry.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($entry.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($entry.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $entry.Kind } elseif ($entry.Kind -eq 'Artifact') { 'Download-only artifact' } elseif ($entry.Kind -eq 'WindowsCapability') { 'Windows capability' } else { 'Package' }
   if ($entry.Kind -eq 'RegistryValue') {
     $baselineValue = Get-RideOperationValue -Operation $entry -State $entry.BaselineState
     $details.BaselineValue = ConvertTo-RideDisplayValue -Value $baselineValue
@@ -1812,6 +2019,20 @@ function Show-RideOperation {
     $details.HasContents = $current.HasContents
     $details.BaselineValue = $entry.States[$entry.BaselineState]
   }
+  elseif ($entry.Kind -eq 'DesktopShortcut') {
+    $details.CurrentValueType = 'Desktop shortcut'
+    $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
+    $details.Path = $current.Path
+    $details.BaselineValue = $entry.States[$entry.BaselineState]
+  }
+  elseif ($entry.Kind -eq 'BitLockerWorkflow') {
+    $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
+    $details.RecoveryProtectorIds = @($current.KeyProtectors | Where-Object { $_.KeyProtectorType -eq 'RecoveryPassword' } | ForEach-Object { $_.KeyProtectorId })
+    $details.KeyProtectors = @($current.KeyProtectors | ForEach-Object { [pscustomobject]@{ KeyProtectorId = $_.KeyProtectorId; KeyProtectorType = $_.KeyProtectorType; RouteAssessment = $_.RouteAssessment } })
+    $details.StartupPolicy = $current.StartupPolicy
+    $details.Available = $true
+    $details.IsDesiredStateModel = $false
+  }
   elseif ($entry.Kind -eq 'ProfileSetting') {
     $details.CurrentState = Get-RideCurrentStateName -Operation $entry -CurrentState $current
     $details.Path = $current.Path
@@ -1867,6 +2088,9 @@ function Show-RidePlan {
     elseif ($item.Operation.Kind -eq 'UserProxy') {
       'Set default/LAN automatic detection to ' + $item.State
     }
+    elseif ($item.Operation.Kind -eq 'WinHttpProxy') {
+      'Set machine WinHTTP automatic detection to ' + $item.State
+    }
     elseif ($item.Operation.Kind -eq 'WindowsService') {
       $desired = Get-RideOperationValue -Operation $item.Operation -State $item.State
       Get-RideServiceDesiredValueText -Desired $desired -Operation $item.Operation
@@ -1880,7 +2104,7 @@ function Show-RidePlan {
     $row = [pscustomobject]@{
       Id = $item.Operation.Id
       Name = $item.Operation.Name
-      Action = if ($item.Operation.Kind -eq 'Package' -and $item.State -eq 'Absent') { 'Uninstall' } elseif ($item.Operation.Kind -eq 'Package') { 'Install' } else { 'Set' }
+      Action = if ($item.Operation.Kind -in @('Package', 'WindowsCapability') -and $item.State -eq 'Absent') { 'Uninstall' } elseif ($item.Operation.Kind -in @('Package', 'WindowsCapability')) { 'Install' } else { 'Set' }
       CurrentValue = Get-RideCurrentValueText -Operation $item.Operation -CurrentState $current
       DesiredState = $item.State
       DesiredValue = $desiredValue
@@ -1914,7 +2138,8 @@ function Test-RideStatusView {
     '^all$' { return $true }
     '^profiles?$' { throw "The 'profiles' view applies to list. For status, select one profile with -Profile <file>." }
     '^packages?$' { return ($Operation.Kind -eq 'Package') }
-    '^settings?$' { return ($Operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'UserPath', 'UserProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) }
+    '^settings?$' { return ($Operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'DefenderExclusion', 'WindowsService', 'BackgroundAppOverrides', 'BootConfiguration', 'NetworkProfile', 'RegistryKeySet', 'PowerSetting', 'ShellFolder', 'DesktopShortcut', 'ProfileSetting', 'UserPath', 'UserProxy', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') -and -not ($Operation.Kind -eq 'WindowsService' -and $Operation.RequiredCapabilityName)) }
+    '^components?$' { return ($Operation.Kind -in @('WindowsCapability', 'StoreApp') -or ($Operation.Kind -eq 'WindowsService' -and [bool]$Operation.RequiredCapabilityName)) }
     '^groups?$' {
       return [bool]($Catalog.Groups | Where-Object { $Operation.Id -in $_.Members } | Select-Object -First 1)
     }
@@ -2005,7 +2230,7 @@ function Get-RideStatus {
         InDesiredState = Test-RideCurrentStateMatch -Operation $item.Operation -State $item.State -CurrentState $current
         CurrentState = Get-RideCurrentStateName -Operation $item.Operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $item.Operation -CurrentState $current
-        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($item.Operation.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($item.Operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($item.Operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($item.Operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($item.Operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($item.Operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($item.Operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($item.Operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($item.Operation.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($item.Operation.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($item.Operation.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($item.Operation.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($item.Operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $item.Operation.Kind } else { 'Package' }
+        CurrentValueType = if ($item.Operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($item.Operation.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($item.Operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($item.Operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($item.Operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($item.Operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($item.Operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($item.Operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($item.Operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($item.Operation.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($item.Operation.Kind -eq 'DesktopShortcut') { 'Desktop shortcut' } elseif ($item.Operation.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($item.Operation.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($item.Operation.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($item.Operation.Kind -eq 'WinHttpProxy') { 'Machine WinHTTP automatic proxy detection' } elseif ($item.Operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $item.Operation.Kind } elseif ($item.Operation.Kind -eq 'WindowsCapability') { 'Windows capability' } else { 'Package' }
       })
     }
   }
@@ -2027,7 +2252,7 @@ function Get-RideStatus {
         $defaultValue = if ($defaults) { $defaults.DefaultValue } else { '<not declared>' }
         $matchesDefault = if ($defaults -and $current.Available) { $current.State -eq $defaultValue } else { $null }
       }
-      elseif ($operation.Kind -in @('Package', 'DefenderExclusion', 'ShellFolder')) {
+      elseif ($operation.Kind -in @('Package', 'DefenderExclusion', 'ShellFolder', 'DesktopShortcut')) {
         $defaultValue = if ($defaults) { $defaults.DefaultValue } else { '<not declared>' }
         $matchesDefault = if ($defaults) { (-not $current.Present) -eq ($defaultValue -eq 'Absent') } else { $null }
       }
@@ -2099,12 +2324,125 @@ function Get-RideStatus {
         MatchesDefault = $matchesDefault
         CurrentState = Get-RideCurrentStateName -Operation $operation -CurrentState $current
         CurrentValue = Get-RideCurrentValueText -Operation $operation -CurrentState $current
-        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($operation.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($operation.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($operation.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($operation.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($operation.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $operation.Kind } else { 'Package' }
+        CurrentValueType = if ($operation.Kind -eq 'RegistryValue') { if ($current.Exists) { $current.ValueType } else { '<unset>' } } elseif ($operation.Kind -eq 'RegistryValueSet') { 'Coordinated registry values' } elseif ($operation.Kind -eq 'PowerSetting') { 'Power setting index' } elseif ($operation.Kind -eq 'DefenderExclusion') { 'Defender exclusion' } elseif ($operation.Kind -eq 'WindowsService') { 'Service configuration' } elseif ($operation.Kind -eq 'BackgroundAppOverrides') { 'Per-app registry values' } elseif ($operation.Kind -eq 'BootConfiguration') { 'Boot configuration' } elseif ($operation.Kind -eq 'NetworkProfile') { 'Connection profiles' } elseif ($operation.Kind -eq 'RegistryKeySet') { 'Registry key set' } elseif ($operation.Kind -eq 'ShellFolder') { 'Desktop Shell folder' } elseif ($operation.Kind -eq 'DesktopShortcut') { 'Desktop shortcut' } elseif ($operation.Kind -eq 'ProfileSetting') { 'PowerShell startup profile setting' } elseif ($operation.Kind -eq 'UserPath') { 'Persistent user PATH' } elseif ($operation.Kind -eq 'UserProxy') { 'WinINet automatic proxy detection' } elseif ($operation.Kind -eq 'WinHttpProxy') { 'Machine WinHTTP automatic proxy detection' } elseif ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) { $operation.Kind } elseif ($operation.Kind -eq 'WindowsCapability') { 'Windows capability' } else { 'Package' }
       })
     }
   }
   if ($rows.Count -eq 0) { throw "No operations matched status view '$View' for the selected target and profile." }
   $rows.ToArray()
+}
+
+function Test-RideRunTreeContainsReparsePoint {
+  param([Parameter(Mandatory = $true)][string] $Path)
+  $pending = New-Object 'System.Collections.Generic.Stack[string]'
+  $pending.Push($Path)
+  while ($pending.Count -gt 0) {
+    $current = $pending.Pop()
+    foreach ($item in @(Get-ChildItem -LiteralPath $current -Force -ErrorAction Stop)) {
+      if (($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) { return $true }
+      if ($item.PSIsContainer) { $pending.Push($item.FullName) }
+    }
+  }
+  return $false
+}
+
+function Remove-RideOldRunRecords {
+  <#
+  .SYNOPSIS
+    Preview or remove old, fully completed RIDE recovery records.
+  .DESCRIPTION
+    Only removes 32-character run directories with valid manifests whose operation
+    progress is entirely Completed or AlreadyDesired and whose creation time is
+    older than the requested retention period. Failed, unfinished, malformed,
+    linked, and otherwise unrecognized records are retained. Cleanup is never
+    automatic; ShouldProcess must approve each exact run directory.
+  .PARAMETER OlderThanDays
+    Minimum age in days; values from 30 through 36500 are accepted.
+  .PARAMETER Scope
+    Select the user store, machine store, or both. Machine cleanup requires elevation.
+  .EXAMPLE
+    Remove-RideOldRunRecords -OlderThanDays 365 -Scope User -WhatIf
+  .NOTES
+    Recovery snapshots are permanently removed when cleanup is applied.
+  #>
+  [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+  param(
+    [ValidateRange(30, 36500)][int] $OlderThanDays = 365,
+    [ValidateSet('User', 'Machine', 'Both')][string] $Scope = 'User'
+  )
+
+  $scopes = if ($Scope -eq 'Both') { @('User', 'Machine') } else { @($Scope) }
+  if ('Machine' -in $scopes -and -not (Test-RideAdministrator)) {
+    throw 'Machine run records require an elevated PowerShell session. Use -Scope User to inspect or clean only user records.'
+  }
+  $cutoffUtc = [DateTime]::UtcNow.AddDays(-$OlderThanDays)
+  foreach ($selectedScope in $scopes) {
+    $root = Get-RideStateRoot -Scope $selectedScope
+    if (-not (Test-Path -LiteralPath $root -PathType Container)) { continue }
+    $rootItem = Get-Item -LiteralPath $root -Force -ErrorAction Stop
+    if (($rootItem.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
+      Write-Warning "Skipping $selectedScope state root because it is a reparse point: $root"
+      continue
+    }
+    $canonicalRoot = [System.IO.Path]::GetFullPath($rootItem.FullName).TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+    foreach ($directory in @(Get-ChildItem -LiteralPath $root -Directory -Force -ErrorAction Stop)) {
+      $reason = $null
+      $manifest = $null
+      $createdUtc = [DateTime]::MinValue
+      if ($directory.Name -notmatch '^[a-fA-F0-9]{32}$') { $reason = 'Not a RIDE run ID directory' }
+      elseif (($directory.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) { $reason = 'Run directory is a reparse point' }
+      else {
+        $canonicalDirectory = [System.IO.Path]::GetFullPath($directory.FullName)
+        if (-not $canonicalDirectory.StartsWith($canonicalRoot, [StringComparison]::OrdinalIgnoreCase)) { $reason = 'Run directory is outside its state root' }
+      }
+      $manifestPath = Join-Path $directory.FullName '_manifest.json'
+      if (-not $reason -and -not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) { $reason = 'Missing run manifest' }
+      if (-not $reason) {
+        $manifestFile = Get-Item -LiteralPath $manifestPath -Force -ErrorAction Stop
+        if ($manifestFile.Length -gt 1048576 -or (($manifestFile.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0)) {
+          $reason = 'Manifest is oversized or linked'
+        }
+        else {
+          try { $manifest = Get-Content -LiteralPath $manifestPath -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop }
+          catch { $reason = 'Manifest is unreadable or invalid JSON' }
+        }
+      }
+      if (-not $reason) {
+        if ($manifest.SchemaVersion -notin @(1, 2) -or $manifest.RunId -cne $directory.Name -or @($manifest.Scopes).Count -eq 0 -or $selectedScope -notin @($manifest.Scopes)) {
+          $reason = 'Manifest identity or scope is unrecognized'
+        }
+        elseif (-not [DateTime]::TryParse([string]$manifest.CreatedUtc, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::AssumeUniversal, [ref]$createdUtc)) {
+          $reason = 'Manifest creation time is invalid'
+        }
+        elseif ($createdUtc.ToUniversalTime() -ge $cutoffUtc) { $reason = 'Younger than retention period' }
+        else {
+          $operationIds = @($manifest.OperationIds | ForEach-Object { [string]$_ })
+          $progressIds = @($manifest.OperationProgress | ForEach-Object { [string]$_.OperationId })
+          $progressIdsMatch = $operationIds.Count -gt 0 -and $operationIds.Count -eq $progressIds.Count -and
+            @($operationIds | Sort-Object -Unique).Count -eq $operationIds.Count -and
+            @($progressIds | Sort-Object -Unique).Count -eq $progressIds.Count -and
+            @(Compare-Object -ReferenceObject $operationIds -DifferenceObject $progressIds -CaseSensitive).Count -eq 0
+          if (-not $progressIdsMatch) { $reason = 'Operation progress is incomplete or inconsistent' }
+        }
+        if (-not $reason -and @($manifest.OperationProgress | Where-Object { $_.Status -notin @('Completed', 'AlreadyDesired') }).Count -gt 0) {
+          $reason = 'Contains failed or unfinished operations'
+        }
+      }
+      if (-not $reason -and (Test-RideRunTreeContainsReparsePoint -Path $directory.FullName)) { $reason = 'Run tree contains a reparse point' }
+      if ($reason) {
+        [pscustomobject]@{ Scope = $selectedScope; RunId = $directory.Name; CreatedUtc = $(if ($createdUtc -eq [DateTime]::MinValue) { $null } else { $createdUtc.ToUniversalTime().ToString('o') }); Status = 'Retained'; Reason = $reason; Bytes = $null }
+        continue
+      }
+      $bytes = [long](Get-ChildItem -LiteralPath $directory.FullName -File -Force -Recurse -ErrorAction Stop | Measure-Object -Property Length -Sum).Sum
+      $target = "$selectedScope run $($directory.Name) ($($createdUtc.ToUniversalTime().ToString('o'))), $bytes bytes"
+      if ($PSCmdlet.ShouldProcess($target, "Permanently remove completed recovery records older than $OlderThanDays days")) {
+        Remove-Item -LiteralPath $directory.FullName -Recurse -Force -ErrorAction Stop
+        $status = 'Removed'
+      }
+      else { $status = 'Previewed' }
+      [pscustomobject]@{ Scope = $selectedScope; RunId = $directory.Name; CreatedUtc = $createdUtc.ToUniversalTime().ToString('o'); Status = $status; Reason = 'All operations completed and record is older than retention period'; Bytes = $bytes }
+    }
+  }
 }
 
 function Restore-RideRun {
@@ -2195,6 +2533,7 @@ function Restore-RideRun {
     }
     if ($operation.RequiresUnelevatedUser -and -not $WhatIfPreference -and (Test-RideAdministrator)) { throw 'Restore this current-user package from a non-elevated PowerShell session.' }
     if ($record.Kind -ne $operation.Kind -or $record.Scope -ne $operation.Scope) { throw "Saved operation contract changed for '$($record.OperationId)'." }
+    if ($operation.Kind -eq 'WindowsCapability' -and ($record.Snapshot.SnapshotVersion -ne 1 -or $record.Snapshot.OperationId -cne $operation.Id -or $record.Snapshot.CapabilityState -cnotin @('Installed', 'NotPresent') -or -not $record.Snapshot.Observation)) { throw "Invalid saved Windows capability recovery record for '$($operation.Id)'." }
     if ($operation.Kind -eq 'ProfileSetting') { Restore-RideProfileSettingState -Operation $operation -Snapshot $record.Snapshot -ValidateOnly }
     if ($operation.Kind -eq 'UserPath') {
       if ($record.Snapshot.SnapshotVersion -ne 1 -or $record.Snapshot.OperationId -cne $operation.Id -or -not $record.Snapshot.UserPathSnapshot) { throw "Invalid saved user PATH recovery record for '$($operation.Id)'." }
@@ -2255,7 +2594,19 @@ function Restore-RideRun {
       Restore-RideDefenderExclusionState -Operation $operation -Snapshot $record.Snapshot
     }
     elseif ($operation.Kind -eq 'WindowsService') {
+      Assert-RideRequiredServiceCapability -Operation $operation
       Restore-RideWindowsServiceState -Operation $operation -Snapshot $record.Snapshot
+    }
+    elseif ($operation.Kind -eq 'WindowsCapability') {
+      $currentCapability = Get-RideOpenSshServerEngineState
+      if (-not $currentCapability.Available) { throw "OpenSSH Server capability is unavailable for recovery: $($currentCapability.Reason)" }
+      $context = $currentCapability.Observation.WindowsContext
+      if ($record.Snapshot.CapabilityState -ceq 'Installed' -and -not $currentCapability.Present) {
+        Install-RideOpenSshServerCapability -ExpectedComputerName $context.ComputerName -ExpectedBuild $context.Build -ExpectedEditionId $context.EditionId -RunId $record.RunId -Confirm:$false | Out-Null
+      } elseif ($record.Snapshot.CapabilityState -ceq 'NotPresent' -and $currentCapability.Present) {
+        $ownedRunId = Get-RideOpenSshServerActiveInstallRunId -ExpectedComputerName $context.ComputerName -ExpectedBuild $context.Build -ExpectedEditionId $context.EditionId
+        Remove-RideOpenSshServerCapability -RunId $ownedRunId -ExpectedComputerName $context.ComputerName -ExpectedBuild $context.Build -ExpectedEditionId $context.EditionId -Confirm:$false | Out-Null
+      }
     }
     elseif ($operation.Kind -eq 'BackgroundAppOverrides') {
       Restore-RideBackgroundAppOverrides -Operation $operation -Snapshot $record.Snapshot
@@ -2275,6 +2626,9 @@ function Restore-RideRun {
     elseif ($operation.Kind -eq 'ShellFolder') {
       Restore-RideShellFolderState -Operation $operation -Snapshot $record.Snapshot
     }
+    elseif ($operation.Kind -eq 'DesktopShortcut') {
+      Restore-RideDesktopShortcutState -Operation $operation -Snapshot $record.Snapshot
+    }
     elseif ($operation.Kind -eq 'ProfileSetting') {
       Restore-RideProfileSettingState -Operation $operation -Snapshot $record.Snapshot -Confirm:$false
     }
@@ -2285,6 +2639,10 @@ function Restore-RideRun {
     }
     elseif ($operation.Kind -eq 'UserProxy') {
       Restore-RideUserProxyConfigurationSnapshot -RunId $record.RunId -ExpectedComputerName $record.Snapshot.ComputerName -ExpectedUserSid $record.Snapshot.UserSid -ExpectedSessionId ([int]$record.Snapshot.SessionId) -Confirm:$false
+    }
+    elseif ($operation.Kind -eq 'WinHttpProxy') {
+      if ($record.Snapshot.SnapshotVersion -ne 1 -or $record.Snapshot.OperationId -cne $operation.Id -or -not $record.Snapshot.WinHttpSnapshot -or $record.Snapshot.ComputerName -cne $record.Snapshot.OriginalObservation.ComputerName -or $record.Snapshot.UserSid -cne $record.Snapshot.OriginalObservation.UserSid) { throw "Invalid saved WinHTTP recovery record for '$($operation.Id)'." }
+      Restore-RideWinHttpProxyPatch -RunId $record.RunId -ExpectedComputerName $record.Snapshot.ComputerName -ExpectedUserSid $record.Snapshot.UserSid -Confirm:$false | Out-Null
     }
     Write-Output "Restored prior state: $($operation.Id)"
   }
@@ -2319,4 +2677,4 @@ foreach ($offlineParameter in @('OfflineProfileId','OfflineCatalogFileId')) {
   }
 }
 
-Export-ModuleMember -Function Set-RideLibraryContext, Get-RideCatalog, Get-RideOperation, Get-RideProfile, Get-RidePlan, Get-RideSingleOperationPlan, Save-RidePackage, Invoke-RidePlan, Show-RideCatalog, Show-RideOperation, Show-RidePlan, Get-RideStatus, Get-RideCurrentState, Test-RideDesiredState, Get-RidePlatform, Restore-RideRun
+Export-ModuleMember -Function Set-RideLibraryContext, Get-RideCatalog, Get-RideOperation, Get-RideProfile, Get-RidePlan, Get-RideSingleOperationPlan, Save-RidePackage, Invoke-RidePlan, Show-RideCatalog, Show-RideOperation, Show-RidePlan, Get-RideStatus, Get-RideCurrentState, Test-RideDesiredState, Get-RidePlatform, Restore-RideRun, Remove-RideOldRunRecords

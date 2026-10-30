@@ -1,0 +1,39 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:24:40Z",
+  "Scope": "Read-only registered disposable VM and checkpoint access recheck",
+  "Targets": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Command": "Get-VM then Get-VMSnapshot",
+      "Result": "Failed before VM/checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Command": "Get-VM then Get-VMSnapshot",
+      "Result": "Failed before VM/checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "GuestRequestSent": false,
+  "VmOrWindowsStateChanged": false,
+  "FreshElevationRequested": false,
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "All remaining disposable Windows VM acceptance requiring these registered targets. Continue local and source work that does not need VM access."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

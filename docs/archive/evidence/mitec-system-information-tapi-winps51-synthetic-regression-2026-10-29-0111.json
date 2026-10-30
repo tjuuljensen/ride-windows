@@ -1,0 +1,50 @@
+{
+  "recordedAtUtc": "2026-10-29T01:11:06Z",
+  "test": "tests/MiTeCSystemInformationTapiMonitor.Tests.ps1",
+  "result": {
+    "status": "passed_with_intentional_skips",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 2,
+    "powershell": "Windows PowerShell 5.1",
+    "pester": "5.7.1",
+    "testRegistryIntegration": "disabled",
+    "testResultIntegration": "disabled"
+  },
+  "scope": "Candidate metadata and synthetic inert-ZIP repeat staging, removal, snapshot restore, and preservation of unowned files for MiTeC System Information eXtra 16.0.0 and TAPI Monitor 1.2.0. The retained-archive cases were intentionally skipped by clearing their explicit archive environment variables.",
+  "safety": {
+    "productExecutablesLaunched": false,
+    "retainedPublisherArchivesRead": false,
+    "networkAccessed": false,
+    "telephoneLinesCallsOrTapiProviderAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "nirsoftOrPasswordScanSelected": false,
+    "vmOrGuestAcceptanceRun": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "candidateTargets": ["Windows 11", "Windows Server 2025"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "remaining": [
+      "Retained pinned publisher-archive lifecycle checks when archives are explicitly authorized and safely available",
+      "Windows 11 and Server 2025 install/repeat/remove/recovery acceptance",
+      "System Information report redaction and collection behavior",
+      "TAPI simulated-provider behavior without real telephone lines or call data"
+    ]
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  },
+  "initialAttempt": "The first Pester invocation failed before executing cases because the default Pester TestRegistry integration could not create its HKCU test key under the restricted execution context. The rerun disabled TestRegistry and TestResult integrations; no registry state was changed."
+}

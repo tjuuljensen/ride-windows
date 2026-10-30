@@ -1,0 +1,40 @@
+{
+  "RecordedAtUtc": "2026-10-25T08:05:54Z",
+  "Batch": "CCleaner publisher-source acquisition preflight",
+  "Attempts": [
+    {
+      "Artifact": "CCleaner Free current standard online installer",
+      "Uri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+      "Result": "Failed before transfer",
+      "Error": "No such host is known. (bits.avcdn.net:443)",
+      "PartialFile": false
+    },
+    {
+      "Artifact": "Official CCleaner portable build linked by publisher",
+      "Uri": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "Result": "Failed before transfer",
+      "Error": "No such host is known. (download.ccleaner.com:443)",
+      "PartialFile": false
+    }
+  ],
+  "Disposition": "Do not substitute a third-party mirror or undocumented endpoint. Keep the direct publisher routes as source evidence; exact bytes, hash, Authenticode and package lifecycle remain open. The linked portable is v6.41 and is distinct from the current standard v7.13.1573 installer.",
+  "Scope": {
+    "PayloadBytesAcquired": false,
+    "InstallerOrUtilityExecuted": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "FreshUacRequested": false,
+    "LegacyOutcomeClosed": false
+  },
+  "MigrationEstimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "AccountsFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155",
+    "Changed": false
+  }
+}

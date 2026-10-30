@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T19:26:06Z",
+  "batch": "B04 advanced WinHTTP proxy read-only inventory",
+  "implementation": {
+    "module": "modules/RIDE.WinHttpProxyInventory.psm1",
+    "test": "tests/WinHttpProxyInventory.Tests.ps1",
+    "capabilities": [
+      "Parses the JSON object from netsh winhttp show advproxy output",
+      "Validates reported Boolean and string field types and size bounds",
+      "Distinguishes omitted optional strings from reported empty strings",
+      "Maps PerUserProxySettings to User or Machine scope",
+      "Binds a native observation to the current computer and user SID",
+      "Reports that exact underlying literal state is not established"
+    ],
+    "limitations": [
+      "No write or recovery lifecycle is implemented",
+      "No catalog operation or supported Windows target is declared",
+      "No live netsh query was run",
+      "Disabled or omitted string values and underlying registry state are not inferred",
+      "WinHTTP consumer behavior, policy, UI, and disposable-VM acceptance remain open"
+    ]
+  },
+  "tests": {
+    "pesterVersion": "5.7.1",
+    "powershell7": {
+      "version": "7.6.5",
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "processExecutionPolicyBypass": true,
+      "persistentPolicyChanged": false
+    },
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "nativeNetshCalled": false,
+    "proxyStateChanged": false
+  },
+  "vmAccess": {
+    "target": "RIDE-Win11-Test",
+    "checkedAtUtc": "2026-10-26T19:26:06Z",
+    "vmQuery": "Failed before inspection: Access to a CIM resource was not available to the client.",
+    "registeredTaskQuery": "Failed before inspection: Access to a CIM resource was not available to the client.",
+    "guestRequestDispatched": false,
+    "elevationRequested": false,
+    "vmOrCheckpointChanged": false,
+    "windowsOrDefenderStateChanged": false
+  },
+  "legacyOutcomesClosed": [],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155",
+    "adjustment": "None; source implementation and mocked tests do not close a legacy outcome."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T16:01:00Z",
+  "Scope": "Current-source intended-user identity and acceptance-runner preflight regression; read-only VM access recheck.",
+  "VmAccess": {
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Result": "BlockedBeforeInspection",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "VmOrCheckpointInspected": false,
+    "GuestRequestQueued": false
+  },
+  "LocalRegression": {
+    "Engine": "PowerShell 7; Pester 5.7.1",
+    "Tests": [
+      "tests/UserHandoff.Tests.ps1",
+      "tests/ProfileAcceptanceAutomation.Tests.ps1"
+    ],
+    "Passed": 35,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistry": "Disabled",
+    "TemporaryRoot": "Workspace-local .local/test-temp, removed after run",
+    "SourceHashes": {
+      "tests/UserHandoff.Tests.ps1": "ED31E9709F9566E2E0C70A2B1B3CE3838AA01ADAC3569921107370FB5588135A",
+      "tests/ProfileAcceptanceAutomation.Tests.ps1": "8C9E9C73B2AC97DEB753431D6365ECAAF958CB9B2C454D8DC0233AEA01934C36",
+      "tests/integration/Invoke-RideProfileIdentityAcceptance.ps1": "17C54A1EEE5D7828A91528144AC37AC37C9CC988D1943BDD31AAF6AC7E063E94"
+    }
+  },
+  "Migration": {
+    "OutcomesClosed": 0,
+    "NativeMixedScopeAcceptance": "Deferred; VM inaccessible before inspection",
+    "AlternateAdministratorDesktopAcceptance": "Deferred; VM inaccessible before inspection",
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "Safety": {
+    "WindowsStateChanged": false,
+    "AccountOrSessionCreated": false,
+    "InstallerOrPackageExecuted": false,
+    "FreshUacRequested": false
+  }
+}

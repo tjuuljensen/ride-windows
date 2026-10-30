@@ -1,0 +1,52 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T08:08:11Z",
+  "Scope": "Exact official ThreadJob dependency acquisition for PSScriptTools runtime acceptance",
+  "Package": {
+    "Id": "Microsoft.PowerShell.ThreadJob",
+    "Version": "2.2.0",
+    "SourceUri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "ProductUri": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0",
+    "LocalStagingPath": ".local/threadjob-2.2.0-acquisition/Microsoft.PowerShell.ThreadJob.2.2.0.nupkg",
+    "SizeBytes": 49678,
+    "Sha256": "1678C5A5A5CF8AE65E127ECC77DFB7241513A61A1A398A4F79F44F12767108BC",
+    "NuGetContentHashSha512Base64": "LMwiAtzYSr1RdPecbmtEEMLGjfdqaX+kqpizvPOaufGPLXW9fNCje2lO+Y2wJBIFE02pB6xMnSqnVLBp2yXVpA==",
+    "NuspecIdVersionMatch": true,
+    "MinimumPowerShellVersion": "5.1",
+    "DeclaredPackageDependencies": [],
+    "PackageFiles": [
+      "Microsoft.PowerShell.ThreadJob.nuspec",
+      "LICENSE",
+      "Microsoft.PowerShell.ThreadJob.dll",
+      "Microsoft.PowerShell.ThreadJob.psd1",
+      "ThirdPartyNotices.txt",
+      "en-us/Microsoft.PowerShell.ThreadJob.dll-Help.xml",
+      ".signature.p7s"
+    ],
+    "License": "MIT",
+    "UpstreamNoticesRetained": true
+  },
+  "SignatureVerification": {
+    "Tool": "NuGet CLI 7.9.0.83",
+    "ToolSourceUri": "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe",
+    "ToolAuthenticodeStatus": "Valid",
+    "ToolSigner": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "ToolSignerThumbprint": "AB172913A2960A224809EE8A0C371CD47A079B72",
+    "Command": "nuget verify -Signatures Microsoft.PowerShell.ThreadJob.2.2.0.nupkg -Verbosity normal -NonInteractive",
+    "ExitCode": 0,
+    "Result": "Successfully verified package",
+    "PackageSigner": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "PackageSignerSha256": "566A31882BE208BE4422F7CFD66ED09F5D4524A5994F50CCC8B05EC0528C1353",
+    "TimestampUtc": "2025-03-06T17:49:42Z",
+    "Warnings": []
+  },
+  "Boundaries": {
+    "Installed": false,
+    "Executed": false,
+    "CatalogOperationAdded": false,
+    "RuntimeAcceptance": "Pending",
+    "Windows11TargetAcceptance": "Pending",
+    "Server2025TargetAcceptance": "Pending"
+  },
+  "NextAction": "Add the verified package as a catalog-managed prerequisite for PSScriptTools, test its portable lifecycle and dependency plan, then refresh the Windows 11 controller and rerun PSScriptTools on the disposable VM."
+}

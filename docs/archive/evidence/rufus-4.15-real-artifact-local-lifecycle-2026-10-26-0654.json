@@ -1,0 +1,58 @@
+{
+  "CheckedAtUtc": "2026-10-26T06:54:12Z",
+  "PackageId": "package.rufus",
+  "Version": "4.15",
+  "PublisherEvidence": {
+    "ProductUri": "https://rufus.ie/en/",
+    "DownloadListingUri": "https://rufus.ie/downloads/",
+    "ReleaseUri": "https://github.com/pbatard/rufus/releases/tag/v4.15",
+    "LatestX64PortableRelease": "4.15",
+    "PublisherListedPortableAsset": "rufus-4.15p.exe",
+    "PublisherListedSize": "1.9 MB",
+    "ReleaseDate": "2026-06-30"
+  },
+  "LocalArtifact": {
+    "Path": ".local/b08-rufus/downloads/rufus/4.15/rufus-4.15p.exe",
+    "Bytes": 1989992,
+    "Sha256": "84c8a437f8af89257524478489e5c85f1edf25f761d299e2bcde46ac0afbe106",
+    "CatalogSha256Matched": true,
+    "FileVersion": "4.15.2396",
+    "AuthenticodeStatus": "Valid",
+    "AuthenticodeSigner": "CN=Akeo Consulting, O=Akeo Consulting, S=Donegal, C=IE, OID.2.5.4.15=Business Entity, OID.1.3.6.1.4.1.311.60.2.1.3=IE, SERIALNUMBER=407950",
+    "ExecutionAttempted": false
+  },
+  "LocalLifecycle": {
+    "RepeatInstall": "Passed",
+    "ExactOwnedFileSelection": "Passed: rufusp.exe only",
+    "ByteIdentityAfterStage": "Passed",
+    "Uninstall": "Passed",
+    "UserConfigurationAndLogPreservation": "Passed",
+    "SavedSnapshotRecovery": "Passed with exact pinned bytes",
+    "PostCaptureOperatorEditPreservation": "Passed",
+    "ModifiedExecutableWarningAndPreservation": "Passed"
+  },
+  "FocusedPester": {
+    "File": "tests/RufusPackage.Tests.ps1",
+    "PesterVersion": "5.7.1",
+    "Passed": 4,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryPluginEnabled": false,
+    "TestResultPluginEnabled": false
+  },
+  "VmAcceptance": "Deferred: registered VM access failed at CIM before inspection; no target support is declared.",
+  "UsbOrMediaAccess": false,
+  "DefenderQueriedOrChanged": false,
+  "WindowsSystemStateChanged": false,
+  "LegacyOutcomeClosed": false,
+  "EstimatesChanged": false,
+  "EstimateRanges": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

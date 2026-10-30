@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:56:33Z",
+  "batch": "JoeWare AdMod retained-archive current-source Pester lifecycle regression",
+  "runtime": {
+    "powerShell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "testFile": "tests/ApplicationPackages.Tests.ps1",
+    "filter": "*JoeWare AdMod retained archive file lifecycle*",
+    "discoveredInFile": 131,
+    "selected": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "TestRegistryPlugin": false,
+    "TestResultPlugin": false,
+    "executionPolicy": "Process-only Bypass to import Pester; persistent policy unchanged."
+  },
+  "artifact": {
+    "fixturePath": ".local/joeware-admod-ride-managed-cache/joeware-admod/1.29.00/AdMod.zip",
+    "version": "1.29.00",
+    "architecture": "x86",
+    "archiveSha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+    "selectedMember": "AdMod.exe",
+    "memberSha256": "86c922fc98c115ea21c2053739938234fd90ce626ed227b2c3c122c2484e4d79"
+  },
+  "assertions": [
+    "Capture the initial absent state.",
+    "Install an inert prior owned fixture and snapshot that state.",
+    "Stage the exact pinned AdMod member and verify its publisher member digest.",
+    "Repeat install and verify healthy state.",
+    "Snapshot and restore the current pinned version exactly.",
+    "Restore the exact prior-version fixture and its version metadata.",
+    "Restore initial absence and clean the unique workspace-local fixture."
+  ],
+  "setupRetries": {
+    "notCountedAsProductFailures": [
+      "Initial fixture setup assigned new properties on a catalog result array; corrected to select and clone the operation hashtable.",
+      "An initial Windows PowerShell 5.1 run needed System.IO.Compression loaded before ZipArchiveMode use.",
+      "A Pester TestDrive attempt failed manifest replacement with Access is denied in its app-container temp path; the test now uses the repository's writable .local/application-package-tests fixture root."
+    ],
+    "externalTempInspectionOrCleanup": false,
+    "successfulWorkspaceCleaned": true
+  },
+  "safety": {
+    "utilityExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "registryChanged": false,
+    "defenderQueriedOrChanged": false,
+    "defenderBlockedToolSelected": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": "Host-local RIDE portable module file lifecycle only. Machine-scope engine dispatch, ACL behavior, disposable Windows 11 acceptance and package operation support remain pending.",
+  "migrationOutcome": {
+    "resolved": [
+      "A repeatable current-source Pester regression now covers actual pinned AdMod archive staging, member identity, repeat, removal, exact current-version restore, cross-version restore and prior-absence restore."
+    ],
+    "partial": [
+      "This does not execute the utility or prove the machine-scope RIDE engine path or Windows target behavior."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "No complete legacy product outcome closed; estimates unchanged."
+    }
+  }
+}

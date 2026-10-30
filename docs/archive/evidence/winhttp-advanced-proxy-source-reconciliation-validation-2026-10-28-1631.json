@@ -1,0 +1,33 @@
+{
+  "recordedAtUtc": "2026-10-28T16:31:48Z",
+  "kind": "WinHTTPAdvancedProxyCurrentSourceAndRepositoryValidation",
+  "sourceEvidence": "Microsoft netsh winhttp documentation currently lists Windows 11 and documents set advproxy with settings-file, machine/user scopes and Proxy, ProxyBypass, AutoconfigUrl, AutoDetect.",
+  "implementationEvidence": "The repository has an existing guarded machine-scope candidate integrated with catalog and engine lifecycle. Its set/readback path has not been executed natively.",
+  "validation": {
+    "repositoryValidator": "tools/validate.ps1 -Root . passed; operation documentation current; checked 447 operations, 8 groups, 5 profiles and 301 PowerShell files.",
+    "moduleParser": "RIDE.WinHttpProxyLifecycle.psm1 passed Windows PowerShell 5.1 parser.",
+    "focusedDiffCheck": "pending final check"
+  },
+  "hostObservation": "Local Windows build 10.0.26300.0 reported netsh winhttp show advproxy command not found in the 2026-10-27 read-only check.",
+  "vm": "Latest RIDE-Win11-Test Get-VM preflight failed before inspection at CIM at 2026-10-28 16:25 UTC.",
+  "status": {
+    "supportedTargets": [],
+    "nativeCommandRun": false,
+    "mutations": false,
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "deferred": [
+      "Native availability and exact readback/recovery on the supported Windows targets",
+      "Effective policy and controlled proxy-consumer behavior",
+      "RIDE-Win11-Test acceptance pending host CIM/runner access"
+    ]
+  }
+}

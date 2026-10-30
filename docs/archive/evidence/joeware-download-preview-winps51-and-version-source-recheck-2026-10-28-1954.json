@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:54:26Z",
+  "batch": "JoeWare download-only preview regression and official version-source recheck",
+  "test": {
+    "suite": "tests/Download-JoeWareCollection.Tests.ps1",
+    "shell": "Windows PowerShell 5.1",
+    "pesterVersion": "5.7.1",
+    "discovered": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 2.9,
+    "exitCode": 0,
+    "testRegistry": "Disabled",
+    "scope": "Mocked preview and source URI handling only."
+  },
+  "testCoverage": [
+    "WhatIf does not contact publisher pages or create the output directory.",
+    "Default preview excludes Defender-blocked AdFind; explicit AdFind selection is rejected before any request or directory creation.",
+    "The default collection currently contains 40 products and omits AdFind."
+  ],
+  "officialSourceRecheck": {
+    "versionsFile": {
+      "url": "https://www.joeware.net/freetools/versions.txt",
+      "reportedUpdated": "2023.05.06",
+      "observedAt": "Current available source snapshot was unchanged from repository review."
+    },
+    "userDump": {
+      "productPage": "Current Version 1.01.00 dated January 28, 2001; version history separately lists 2.02.00 on that date.",
+      "versionsRow": "01.01.00 dated 2001.01.28.",
+      "disposition": "Existing version-history discrepancy remains; no archive identity inferred."
+    },
+    "dnsSrvRec": {
+      "productPage": "1.00.00 dated January 15, 2005.",
+      "versionsRow": "01.00.00 dated 2006.01.15.",
+      "usagePage": "AddSrvRec V01.00.00cpp, January 2006.",
+      "disposition": "Existing one-year date discrepancy remains."
+    },
+    "eldllex": {
+      "versionsRow": "01.00.00 dated 2002.02.17 with no MD5/SHA-1 values.",
+      "usagePage": "ELDLLExInstall V01.00.00cpp, July 2004; describes the two-DLL event-source installer/remover.",
+      "productPage": "Could not be fetched in this web recheck; prior dated evidence remains the only record of its Current Version and Version History sections.",
+      "disposition": "Exact release and archive identity remain unresolved."
+    }
+  },
+  "acquisition": {
+    "networkDownloadAttempted": false,
+    "publisherBytesReceived": 0,
+    "packageExecuted": false,
+    "archiveExtracted": false,
+    "localDnsAcquisitionBlockRemains": true,
+    "adFindIncluded": false
+  },
+  "vm": {
+    "target": "RIDE-Win11-Test",
+    "latestReadOnlyGetVMAt": "2026-10-28T19:53:32Z",
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateReturned": false,
+    "checkpointInspected": false,
+    "guestRequestDispatched": false
+  },
+  "safety": {
+    "defenderBlockedFilesSelected": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "outcome": {
+    "resolved": [
+      "Current Windows PowerShell 5.1 download-preview regression, including AdFind exclusion."
+    ],
+    "partial": [
+      "Official version-source discrepancies rechecked; UserDump and DNSSrvRec conflicts remain, and ELDLLEx product page was unavailable in this source read."
+    ],
+    "deferred": [
+      "Exact publisher artifacts, SHA-256/member manifests, package lifecycle and disposable Windows acceptance for selected JoeWare products; AdFind remains excluded."
+    ],
+    "legacyOutcomeClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no legacy package outcome closed."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:36:10Z",
+  "batch": "Current migration repository validation and package-test/VM access recheck",
+  "repositoryValidation": {
+    "command": "tools/validate.ps1 -Root .",
+    "result": "passed",
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 299
+  },
+  "generatedDocumentation": {
+    "command": "tools/Export-RideCatalog.ps1 -Check",
+    "result": "passed",
+    "status": "Operation documentation is current."
+  },
+  "packageTests": {
+    "requestedSuite": "tests/ApplicationPackages.Tests.ps1",
+    "result": "not run",
+    "reason": "The current Windows PowerShell 5.1 and PowerShell 7.6.5 environments expose Pester 3.4.0 only. A targeted search of the configured module roots and workspace-local test modules found no Pester 5 module. The suite requires the repository current Pester 5 workflow.",
+    "defenderBlockedCollectionsSelected": false
+  },
+  "vmPreflight": {
+    "GetVM": "Access to a CIM resource was not available to the client.",
+    "GetScheduledTask": "Access to a CIM resource was not available to the client.",
+    "checkpointInspected": false,
+    "acceptanceDispatched": false
+  },
+  "handling": {
+    "installerOrUtilityRun": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current repository/catalog structure validates and generated operation docs are current."
+    ],
+    "partial": [
+      "The current source package suite remains unverified because Pester 5 is not discoverable in the current shell environment."
+    ],
+    "deferred": [
+      "Focused package Pester regression pending Pester 5 availability; all disposable-VM acceptance remains blocked before VM/checkpoint inspection by host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; repository validation and access checks close no legacy outcome."
+    }
+  }
+}

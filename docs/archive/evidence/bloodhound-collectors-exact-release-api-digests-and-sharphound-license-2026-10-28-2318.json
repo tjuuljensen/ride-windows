@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T23:18:16Z",
+  "batch": "BloodHound CE 9.8.0 collector publisher release metadata and SharpHound license retention",
+  "backendPin": {
+    "repository": "SpecterOps/BloodHound",
+    "tag": "v9.8.0",
+    "dockerfile": "https://raw.githubusercontent.com/SpecterOps/BloodHound/v9.8.0/dockerfiles/bloodhound.Dockerfile",
+    "sharpHoundVersion": "v2.17.0",
+    "azureHoundVersion": "v3.1.1"
+  },
+  "publisherAssets": [
+    {
+      "repository": "SpecterOps/SharpHound",
+      "tag": "v2.17.0",
+      "name": "SharpHound_v2.17.0_windows_x86.zip",
+      "size": 2540780,
+      "sha256": "09ef123ada22be00a6af4dbfa28f9aa357930205f88991374373d634609efb03",
+      "publisherReleaseMetadata": "https://api.github.com/repos/SpecterOps/SharpHound/releases/tags/v2.17.0",
+      "downloadUri": "https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip",
+      "sha256SidecarAsset": "SharpHound_v2.17.0_windows_x86.zip.sha256",
+      "sidecarAssetSha256": "6c47569f04f378b5df0329bd6b6514896a79d01d3d8213ebdf9bda3638dd3040"
+    },
+    {
+      "repository": "SpecterOps/AzureHound",
+      "tag": "v3.1.1",
+      "name": "AzureHound_v3.1.1_windows_amd64.zip",
+      "size": 5025203,
+      "sha256": "6532c29e0bb2195656296bbb9b199ca51fa641b90d30633d3caf8882ff9fe4e4",
+      "publisherReleaseMetadata": "https://api.github.com/repos/SpecterOps/AzureHound/releases/tags/v3.1.1",
+      "downloadUri": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.1/AzureHound_v3.1.1_windows_amd64.zip",
+      "sha256SidecarAsset": "AzureHound_v3.1.1_windows_amd64.zip.sha256",
+      "sidecarAssetSha256": "3c7356a440d8b8561dde325608d956d8e97709947d547ba153efb83ddda46258"
+    }
+  ],
+  "sharpHoundLicense": {
+    "source": "https://raw.githubusercontent.com/SpecterOps/SharpHound/v2.17.0/LICENSE",
+    "license": "GNU General Public License version 3",
+    "retainedPath": "catalog/notices/sharphound-v2.17.0-license.md",
+    "bytes": 35149,
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "upstreamGitBlobSha": "f288702d2fa16d3cdf0035b15a9fcbc552cd88e7",
+    "verified": "Retained file Git blob SHA matches GitHub contents API for v2.17.0/LICENSE. SharpHound v2.17.0 root listing contains LICENSE and no separate NOTICE file."
+  },
+  "acquisition": {
+    "selectedArchivesPresent": false,
+    "payloadBytesDownloaded": false,
+    "archiveMembersInventoried": false,
+    "collectorExecuted": false,
+    "backendOrContainerRun": false,
+    "credentialsOrDirectoryDataAccessed": false,
+    "defenderStateChanged": false,
+    "vmStateChanged": false,
+    "elevationRequested": false,
+    "blocker": "The latest local exact-asset preflight remains blocked before DNS lookup with Access is denied (see bloodhound-collector-current-acquisition-preflight-access-denied-2026-10-27-1927.json). The GitHub connector exposes release metadata and text, not binary downloads."
+  },
+  "disposition": {
+    "licenseReview": "Administrative review only; not a migration gate. Record the exact-version review marker when package operations are added.",
+    "next": "Acquire the two exact official release ZIPs and sidecars when publisher access is available; verify bytes, inspect selected member inventories without execution, then implement owned portable lifecycle and acceptance.",
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180; about 155"
+    }
+  }
+}

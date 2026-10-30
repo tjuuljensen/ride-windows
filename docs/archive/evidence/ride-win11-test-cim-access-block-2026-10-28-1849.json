@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-10-28T18:49:02Z",
+  "batch": "RIDE-Win11-Test read-only CIM access recheck",
+  "command": "Get-VM -Name RIDE-Win11-Test",
+  "result": {
+    "status": "BlockedBeforeVmStateRetrieval",
+    "error": "Access to a CIM resource was not available to the client."
+  },
+  "handling": {
+    "checkpointInspected": false,
+    "guestTaskInspected": false,
+    "guestRequestDispatched": false,
+    "vmOrCheckpointChanged": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "deferred": ["Windows 11 acceptance batches requiring RIDE-Win11-Test until target VM, checkpoint and registered task readiness can be verified."],
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "partial": ["The target-specific read-only VM query was attempted again but host CIM denied access before returning state."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no target acceptance ran and no legacy outcome closed."
+    }
+  }
+}

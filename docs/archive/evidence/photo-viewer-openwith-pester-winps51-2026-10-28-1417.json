@@ -1,0 +1,53 @@
+{
+  "recordedAtUtc": "2026-10-28T14:17:30Z",
+  "testFile": "tests/PhotoViewerOpenWith.Tests.ps1",
+  "shell": "Windows PowerShell 5.1.26100.9711",
+  "pester": "5.7.1",
+  "configuration": {
+    "testRegistryEnabled": false,
+    "testDriveUsedByFixture": false,
+    "executionPolicy": "Process-scoped Bypass to import repository modules after default AuthorizationManager denial; no persistent policy or elevation."
+  },
+  "initialAttempt": {
+    "result": "Failed before test bodies.",
+    "reason": "Pester default TestRegistry initialization could not create HKCU\\Software\\Pester because the sandbox denied registry writes.",
+    "registryChanged": false
+  },
+  "retry": {
+    "result": "Passed",
+    "discovered": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "durationSeconds": 4.02
+  },
+  "coveredAssertions": [
+    "Operation remains an unsupported Windows 11 candidate, current-user scoped, and non-admin.",
+    "Only the six declared HKCU Photo Viewer application-registration values are modeled; no UserChoice or legacy ProgID paths are changed.",
+    "Complete synthetic Registered state matches and an altered value is rejected.",
+    "WindowsDefault removes every declared override and Unset plans WindowsDefault."
+  ],
+  "scope": {
+    "registryOrFeatureStateChanged": false,
+    "photoViewerInvoked": false,
+    "vmOrCheckpointAccessed": false,
+    "defenderQueriedOrChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "acceptanceBlockers": [
+    "Native Windows 11 component availability, Open with visibility, actual invocation, exact extensions, managed behavior and saved-state restoration remain unverified.",
+    "RIDE-Win11-Test and checkpoint inspection remain blocked before inspection by host CIM."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; local candidate tests do not close a legacy setting outcome."
+  }
+}

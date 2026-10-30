@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-26T17:11:14Z",
+  "target": "RIDE-Win11-Test",
+  "queries": [
+    {
+      "command": "Get-VM -Name 'RIDE-Win11-Test'",
+      "result": "failed before inspection",
+      "errorType": "Microsoft.HyperV.PowerShell.VirtualizationException",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "command": "Get-VMSnapshot -VMName 'RIDE-Win11-Test'",
+      "result": "not reached",
+      "note": "Get-VM failed before checkpoint query."
+    }
+  ],
+  "actions": "Read-only preflight only. No guest request, checkpoint, VM, host service, Defender state, or elevation change.",
+  "disposition": "Keep native Windows acceptance deferred. Continue independent source and local lifecycle work.",
+  "migrationOutcome": "No legacy outcome closed; estimates unchanged."
+}

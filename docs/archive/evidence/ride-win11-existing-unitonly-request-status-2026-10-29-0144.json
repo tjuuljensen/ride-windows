@@ -1,0 +1,51 @@
+{
+  "observedAtUtc": "2026-10-29T01:44:18Z",
+  "source": "Read-only check of the pre-existing RIDEWin11Test automation request",
+  "request": {
+    "runId": "95bc76d3055f4f17964087ed15422295",
+    "submittedAtUtc": "2026-10-29T01:13:24Z",
+    "source": "Local",
+    "unitOnly": true,
+    "integrationSuite": "Full",
+    "timeoutMinutes": 120,
+    "queueStateObserved": "running",
+    "requestFileLastWriteUtc": "2026-10-29T01:13:24Z",
+    "correlatedResultPresent": false,
+    "controllerLogLastWriteUtc": "2026-10-29T01:19:09Z",
+    "controllerLogSummary": "AutomatedLab imported RIDEWin11Test, waited for the RIDE-Win11-Test session, then logged a guest command activity waiting for completion.",
+    "controllerErrorsLogLength": 0,
+    "blockedMarkerPresent": false,
+    "pendingRequestCount": 0,
+    "runningRequestCount": 1
+  },
+  "stateVerification": {
+    "liveWorkerOrScheduledTaskVerified": false,
+    "hostCimProcessAndTaskQueries": "denied before state retrieval",
+    "taskSchedulerComQuery": "access denied",
+    "guestPowerShellRemoting": "not enabled or supported",
+    "guestWinRmProbe": "endpoint responded to Test-WSMan only; no shell command was available",
+    "terminalOrStoppedStateEstablished": false
+  },
+  "handling": {
+    "newRequestSubmitted": false,
+    "existingRequestCancelledOrModified": false,
+    "vmCheckpointOrGuestStateChangedByThisCheck": false,
+    "defenderStateReadOrChanged": false,
+    "passwordScanOrOtherDefenderBlockedToolSelectedOrStagedByThisCheck": false,
+    "possibleNirSoftMaterializationWithinUnresolvedFullSuite": "unknown"
+  },
+  "disposition": "Do not submit a second VM request or mark this request stopped. The full UnitOnly suite may include NirSoft tests, and its terminal result/live worker could not be verified; preserve the request and defer further VM submissions until correlated terminal evidence and cleanup state are available. PasswordScan remains excluded from new runs.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

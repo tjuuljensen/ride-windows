@@ -1,0 +1,31 @@
+{
+  "recordedAtUtc": "2026-10-26T06:29:38Z",
+  "decisionType": "user-reaffirmation",
+  "subject": "Sysinternals package migration for RIDE",
+  "scope": {
+    "rideUse": "Direct download from Microsoft and installation on user-supported devices",
+    "transferOrPublication": false,
+    "priorReview": "The user reports that a license specialist reviewed and approved Sysinternals for RIDE v2."
+  },
+  "userDisposition": "There are no legal issues using Sysinternals in RIDE under this download-and-install workflow.",
+  "migrationTreatment": {
+    "legalReviewRequiredBeforeMigration": false,
+    "generalizedRedistributionAnalysisIsMigrationGate": false,
+    "administrativeNeedsReviewMarkerIsMigrationPrerequisite": false,
+    "remainingAcceptance": "Technical package lifecycle and Windows behavior acceptance remain separate.",
+    "defenderBlockedUtilities": "Remain excluded under the separate security disposition."
+  },
+  "outcomes": {
+    "legacyOutcomesClosed": 0,
+    "estimateChanged": false,
+    "estimatedRanges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

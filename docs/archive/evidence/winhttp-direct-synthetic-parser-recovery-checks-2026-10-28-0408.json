@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:08:44Z",
+  "batch": "WinHTTP parser and recovery preparation direct synthetic regression",
+  "environment": {
+    "powershell": "7.6.5",
+    "pester": "unavailable in this shell",
+    "modules": [
+      "modules/RIDE.WinHttpProxyInventory.psm1",
+      "modules/RIDE.WinHttpProxyPreparation.psm1"
+    ]
+  },
+  "result": {
+    "checks": 8,
+    "passed": 8,
+    "failed": 0,
+    "scope": "Direct calls to pure parser/preparation functions using synthetic JSON and no Pester."
+  },
+  "verified": [
+    "Machine scope is preserved from PerUserProxySettings.",
+    "Reported empty strings remain distinct from omitted fields.",
+    "Changing Proxy and AutoDetect preserves unselected ProxyBypass and AutoconfigUrl values.",
+    "Machine preparation reports RequiresElevation while leaving ReadyForMutation and MutationAuthorized false.",
+    "Recovery preparation reconstructs the prior supplied values.",
+    "Recovery refuses when the reported current proxy value has drifted."
+  ],
+  "limitations": [
+    "No native WinHTTP observation or setter was invoked; these checks do not establish netsh output or exact underlying registry recovery.",
+    "WinHTTP remains unintegrated with the RIDE catalog/engine and has no supported target pending native behavior and recovery evidence.",
+    "The focused Pester attempt remains blocked before discovery by Pester unavailability/import authorization."
+  ],
+  "safety": {
+    "nativeCommandsCalled": false,
+    "networkAccessed": false,
+    "executionPolicyChanged": false,
+    "uacRequested": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; source-level synthetic checks do not close a legacy setting outcome."
+  }
+}

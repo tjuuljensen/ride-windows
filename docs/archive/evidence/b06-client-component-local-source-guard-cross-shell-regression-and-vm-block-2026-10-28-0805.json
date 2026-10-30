@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:05:58Z",
+  "batch": "OpenSSH Client and Telnet component source guard regression",
+  "source": "Current checkout",
+  "tests": {
+    "paths": [
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ComponentInventory.Tests.ps1"
+    ],
+    "pesterVersion": "5.7.1",
+    "discovered": 70,
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    "powerShell": {
+      "version": "7.6.5",
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    "configuration": "Pester TestRegistry and TestResult plugins were disabled. Windows PowerShell used process-scoped ExecutionPolicy Bypass; no persistent execution-policy change was made. PowerShell 7 imported installed Pester 5.7.1 from the WindowsPowerShell module path."
+  },
+  "scope": {
+    "validated": [
+      "OpenSSH Client LocalSource CAB identity, architecture, package name, target build and digest guards.",
+      "Saved-state restore revalidates the same CAB identity and digest.",
+      "Missing or changed recovery source leaves saved state intact and blocks unsafe removal or restoration.",
+      "Preparation and component inventory behavior through mocked providers."
+    ],
+    "nativeServicingCommandInvoked": false,
+    "dismInvoked": false,
+    "realComponentInventoryCollected": false
+  },
+  "vmAcceptance": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Server2025-Test"
+    ],
+    "result": "Blocked before VM/checkpoint inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "acceptanceTaskDispatched": false
+  },
+  "handling": {
+    "defenderBlockedToolsSelectedOrRun": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Cross-shell unit regression for the OpenSSH Client local-source removal and exact restore guard passed."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "OpenSSH Client source-matched Windows servicing and exact payload recovery remain unverified until matching media and VM access are available.",
+      "Telnet package identity, source completeness, and LocalSource acceptance remain unresolved.",
+      "Disposable Windows 11 and Windows Server 2025 component acceptance remains pending."
+    ],
+    "partial": [
+      "The no-removal-without-recovery-source guard is covered by local mocks; no Windows component migration outcome closes."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the guard regression improves source evidence but closes no legacy component outcome."
+    }
+  },
+  "relatedEvidence": [
+    "b06-openssh-client-local-source-removal-guard-2026-10-27-2115.json",
+    "b06-client-components-cross-shell-current-source-regression-2026-10-28-0619.json"
+  ]
+}

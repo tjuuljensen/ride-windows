@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T16:54:00Z",
+  "Batch": "HashCheck idrassi v2.6.3 official release digest and installer source review",
+  "Sources": {
+    "OfficialReleaseApi": "https://api.github.com/repos/idrassi/HashCheck/releases/tags/v2.6.3",
+    "OfficialReleasePage": "https://github.com/idrassi/HashCheck/releases/tag/v2.6.3",
+    "TaggedReadme": "https://github.com/idrassi/HashCheck/blob/v2.6.3/README.md",
+    "TaggedLicense": "https://github.com/idrassi/HashCheck/blob/v2.6.3/license.txt",
+    "TaggedWinGetIdentityNotes": "https://github.com/idrassi/HashCheck/blob/v2.6.3/installer/winget/README.md"
+  },
+  "Release": {
+    "Tag": "v2.6.3",
+    "PublishedAtUtc": "2026-10-07T07:51:03Z",
+    "Commit": "50e5384",
+    "Asset": "HashCheckSetup-v2.6.3.0.exe",
+    "AssetSize": 2157368,
+    "AssetUrl": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+    "PublisherApiDigest": "sha256:cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa",
+    "ChecksumSidecar": {
+      "Name": "HashCheckSetup-v2.6.3.0.exe.sha256",
+      "Size": 95,
+      "PublisherApiDigest": "sha256:d99d095920e2dedae44ba20f607f003e59b767f9f3f057196e71194d84d438c2"
+    },
+    "DigestVerification": "The official GitHub release API reports asset digests. The EXE and sidecar bytes were not downloaded, so local digest comparison and sidecar-content validation remain pending."
+  },
+  "ProductFindings": {
+    "PackageIdentity": "idrassi.HashCheckShellExtension",
+    "License": "BSD-3-Clause",
+    "ProductBehavior": ["Explorer checksum-file verification", "checksum creation and separate checksum-file creation", "Explorer shell-extension registration"],
+    "InstallerIdentity": "Native HKLM uninstall entry idrassi.HashCheckShellExtension; the WinGet notes describe legacy key migration and native/32-bit companion registration interactions.",
+    "InstallerSwitches": "The official README and tagged WinGet notes do not document silent install/uninstall switches. A third-party Chocolatey script reports /S but is not treated as authoritative installer behavior.",
+    "PublisherAcceptanceGuidance": "The tagged WinGet notes call for disposable-machine clean install, legacy-registration migration, companion-DLL registration and uninstall checks."
+  },
+  "MigrationDisposition": {
+    "Resolved": ["Official release asset identity and publisher-reported SHA-256 digest", "Tagged README and BSD-3-Clause license identification", "Official uninstall identity and registration interactions"],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Acquire exact EXE and SHA-256 sidecar bytes; verify local hash and Authenticode signer", "Inspect installer/uninstaller execution semantics and registry lifecycle from authoritative source", "Implement a catalog package and reversible uninstall/recovery path after switch and detection behavior is established", "Disposable Windows 11 lifecycle, Explorer integration and target acceptance"],
+    "Partial": ["Optional HashCheck package candidate remains source-reviewed but not implemented or accepted."],
+    "LegacyOutcomeClosed": false
+  },
+  "LicenseDisposition": "BSD-3-Clause; no license blocker identified. Record owner-specific review only as administration if a catalog candidate is created.",
+  "VmAccess": {
+    "ObservedAtUtc": "2026-10-26T16:52:40Z",
+    "GetVm": "Failed before inspection: Access to a CIM resource was not available to the client.",
+    "GetScheduledTask": "Failed before inspection: Access to a CIM resource was not available to the client.",
+    "RequestSubmitted": false,
+    "StateChanged": false
+  },
+  "EstimateRangesChanged": false,
+  "EstimateRanges": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  },
+  "Execution": {
+    "InstallerRun": false,
+    "UtilityRun": false,
+    "TestsRun": false,
+    "DefenderChanged": false,
+    "FreshUacPromptRequested": false
+  }
+}

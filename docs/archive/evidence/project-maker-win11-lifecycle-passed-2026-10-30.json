@@ -1,0 +1,262 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T13:05:41.6055845Z",
+  "Status": "Windows11DeploymentLifecycleAccepted",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "2ecfe2bb51b447a7ae586a860d7123da",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch10",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-30T12:43:36.9921287Z",
+    "FinishedAtUtc": "2026-10-30T12:56:41.8404052Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Guest": {
+    "SchemaVersion": 1,
+    "RunId": "2ecfe2bb51b447a7ae586a860d7123da",
+    "Status": "Passed",
+    "ValidationPassed": true,
+    "IntegrationPassed": true,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 439,
+      "Passed": 435
+    },
+    "Error": null,
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression",
+    "IntegrationSuite": "ApplicationsBatch10"
+  },
+  "PackageResults": [
+    {
+      "Id": "package.mitec-project-maker",
+      "Variant": "installed",
+      "Target": "Windows 11",
+      "OS": "Microsoft Windows 11 Enterprise Evaluation",
+      "Build": "26300",
+      "InstallationType": "Client",
+      "Scope": "Machine",
+      "Provider": "DirectHttps",
+      "Applicability": "Applicable to deployment lifecycle",
+      "Status": "Passed",
+      "Version": "1.9.0",
+      "Error": null,
+      "Recovery": true,
+      "ProfilePreservation": null,
+      "UserDataPreservation": null,
+      "UserDataFixtures": [],
+      "RemovalRecoveryVersion": "1.9.0",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+      "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Elevated": true,
+      "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+    }
+  ],
+  "ArtifactObservations": [
+    {
+      "ObservationId": "08b5eaeffc9d46dd9aff79d8eb67d433",
+      "RunId": "2ecfe2bb51b447a7ae586a860d7123da",
+      "PackageId": "mitec-project-maker",
+      "ArtifactId": null,
+      "Version": "1.9.0",
+      "Architecture": "x86",
+      "FileName": "PMInstall.exe",
+      "OriginUri": "https://www.mitec.cz/wp/pm/",
+      "SourceUri": "https://www.mitec.cz/wp/files/PMInstall.exe",
+      "ReleaseUri": "https://www.mitec.cz/wp/files/PMInstall.exe",
+      "ReleaseMetadata": null,
+      "Variant": "installed",
+      "Provider": "DirectHttps",
+      "License": "MiTeC proprietary software; publisher lists a 30-day trial and paid license tiers. Exact-version owner-specific review is recorded locally and is informational, not a package migration gate.",
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "ObservedAtUtc": "2026-10-30T12:56:02.1006929Z",
+      "Route": "direct",
+      "AcquisitionKind": "Download",
+      "Sha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+      "ProviderDigest": "sha256:ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+      "PublisherSha256": null,
+      "PublisherChecksumUri": null,
+      "PublisherChecksumResult": "Unavailable",
+      "ChecksumUris": [],
+      "SignatureUris": [],
+      "AuthenticodeStatus": "UnknownError",
+      "AuthenticodeSigner": "E=michal.mutl@mitec.cz, C=CZ, S=Praha, O=ing. Michal Mutl, CN=ing. Michal Mutl",
+      "AuthenticodeIssuer": "E=michal.mutl@mitec.cz, C=CZ, S=Praha, O=ing. Michal Mutl, CN=ing. Michal Mutl",
+      "AuthenticodeThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C",
+      "TimestampSigner": "CN=Sectigo Public Time Stamping Signer R36, O=Sectigo Limited, S=West Yorkshire, C=GB",
+      "TimestampThumbprint": "38C914811044B4DC663E93D4744B814186A9B5B1",
+      "FileSize": 9944720,
+      "FileVersion": "1.9.0               ",
+      "ProductVersion": "1.9.0                                             ",
+      "Contents": []
+    },
+    {
+      "ObservationId": "83abd03e53e94ed78f1ba0cd2ada60c5",
+      "RunId": "2ecfe2bb51b447a7ae586a860d7123da",
+      "PackageId": "mitec-project-maker",
+      "ArtifactId": null,
+      "Version": "1.9.0",
+      "Architecture": "x86",
+      "FileName": "PMInstall.exe",
+      "OriginUri": "https://www.mitec.cz/wp/pm/",
+      "SourceUri": "https://www.mitec.cz/wp/files/PMInstall.exe",
+      "ReleaseUri": "https://www.mitec.cz/wp/files/PMInstall.exe",
+      "ReleaseMetadata": null,
+      "Variant": "installed",
+      "Provider": "DirectHttps",
+      "License": "MiTeC proprietary software; publisher lists a 30-day trial and paid license tiers. Exact-version owner-specific review is recorded locally and is informational, not a package migration gate.",
+      "LicenseUri": "https://www.mitec.cz/wp/support/",
+      "TermsUri": "https://www.mitec.cz/wp/support/",
+      "ObservedAtUtc": "2026-10-30T12:56:31.4062578Z",
+      "Route": "direct",
+      "AcquisitionKind": "Cache",
+      "Sha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+      "ProviderDigest": "sha256:ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+      "PublisherSha256": null,
+      "PublisherChecksumUri": null,
+      "PublisherChecksumResult": "Unavailable",
+      "ChecksumUris": [],
+      "SignatureUris": [],
+      "AuthenticodeStatus": "UnknownError",
+      "AuthenticodeSigner": "E=michal.mutl@mitec.cz, C=CZ, S=Praha, O=ing. Michal Mutl, CN=ing. Michal Mutl",
+      "AuthenticodeIssuer": "E=michal.mutl@mitec.cz, C=CZ, S=Praha, O=ing. Michal Mutl, CN=ing. Michal Mutl",
+      "AuthenticodeThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C",
+      "TimestampSigner": "CN=Sectigo Public Time Stamping Signer R36, O=Sectigo Limited, S=West Yorkshire, C=GB",
+      "TimestampThumbprint": "38C914811044B4DC663E93D4744B814186A9B5B1",
+      "FileSize": 9944720,
+      "FileVersion": "1.9.0               ",
+      "ProductVersion": "1.9.0                                             ",
+      "Contents": []
+    }
+  ],
+  "PesterXml": {
+    "Errors": 0,
+    "Passed": 435,
+    "Failed": 0,
+    "Total": 439,
+    "Skipped": 4
+  },
+  "EvidenceFiles": [
+    {
+      "Path": "result.json",
+      "Bytes": 562,
+      "Sha256": "d60433f287b7ca69c34adf881e9de85b5610868ada1d9751e1035a6e4d599ec4"
+    },
+    {
+      "Path": "host-progress.jsonl",
+      "Bytes": 2530,
+      "Sha256": "3c0f590bc98ba68b1dee9e5fa3aa742cfb0a0f71eed93621438f9e9f61f42690"
+    },
+    {
+      "Path": "guest/summary.json",
+      "Bytes": 1206,
+      "Sha256": "dc3234b67dec000231635f837834fd9e5e4c67fa9e064da005cd836273978379"
+    },
+    {
+      "Path": "guest/applications-batch10.json",
+      "Bytes": 833,
+      "Sha256": "ec011568387c7eef363e5a9c35b9c8973ed4c50c0efd287c0da8311b58d71467"
+    },
+    {
+      "Path": "guest/application-progress.jsonl",
+      "Bytes": 1067,
+      "Sha256": "1eda411ae006b41d6cd645fda9d5ce25e97f5c417baee505f4b7a9370f11c547"
+    },
+    {
+      "Path": "guest/pester.xml",
+      "Bytes": 159013,
+      "Sha256": "7aece4784539ccf0cc0f17d978146fe0ae00bd964df9e251bf181c7774a4f997"
+    },
+    {
+      "Path": "guest/artifact-observations.json",
+      "Bytes": 458338,
+      "Sha256": "868c69d7fdb9bc950974ea5c37f9f0e89073b7bf6f83209f7fed58c83bcacf7a"
+    }
+  ],
+  "SourceComparison": [
+    {
+      "Path": "modules/RIDE-Packages.psm1",
+      "SnapshotSha256": "e4f07deef0e8bd883674f1eef38a687939d09b7a7c62aed0453081b8c88a2223",
+      "CheckoutSha256": "e4f07deef0e8bd883674f1eef38a687939d09b7a7c62aed0453081b8c88a2223"
+    },
+    {
+      "Path": "modules/RIDE.CatalogValidation.psm1",
+      "SnapshotSha256": "c0bcca6925832801aa695877f6bde7cbfb44dbc3d546daf7ed563ca8fe6d20bf",
+      "CheckoutSha256": "c0bcca6925832801aa695877f6bde7cbfb44dbc3d546daf7ed563ca8fe6d20bf"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1",
+      "SnapshotSha256": "69880f0eea4d7be871b1723cd189f79c164dac90d9a92976131d3faebcb2dbc6",
+      "CheckoutSha256": "69880f0eea4d7be871b1723cd189f79c164dac90d9a92976131d3faebcb2dbc6"
+    }
+  ],
+  "QueueReadback": {
+    "RecoveryBlockPresent": false,
+    "Archived": true,
+    "Running": 0,
+    "Pending": 0
+  },
+  "LiveOffReady": "Operator-confirmed on P52: VM Off / Operating normally; task Ready.",
+  "Scope": "Project Maker 1.9.0 Windows 11 elevated deployment lifecycle; compensating presence recovery only",
+  "OutsideScope": [
+    "Arbitrary previous-version recovery",
+    "Compiler/project/signing product features",
+    "Broader controller certification"
+  ],
+  "CatalogSupportChanged": false,
+  "Next": "Installation milestone complete. Move to the next selected migration blocker; no repeat lifecycle or manual product-feature test required for this scope.",
+  "LegacyWholeOutcomesClosed": 0,
+  "PartialCollection": "MiTeC",
+  "Estimates": {
+    "FilesAndAssets": "25-35",
+    "Packages": "37-52",
+    "Rounded": "125-180",
+    "Maintenance": "8-12",
+    "Settings": "37-57",
+    "Exact": "126-180",
+    "Components": "19-24"
+  },
+  "FinalRecoveryConfirmation": {
+    "RecordedAtUtc": "2026-10-30T13:38:26.2332809Z",
+    "Source": "Operator-pasted elevated P52 Get-VM and Get-ScheduledTask output",
+    "VMName": "RIDE-Win11-Test",
+    "VMState": "Off",
+    "VMStatus": "Operating normally",
+    "TaskName": "RIDEWin11Test",
+    "TaskState": "Ready"
+  }
+}

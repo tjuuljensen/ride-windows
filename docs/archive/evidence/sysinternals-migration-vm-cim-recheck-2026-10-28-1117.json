@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:17:00Z",
+  "batch": "Sysinternals migration host VM access and estimate recheck",
+  "query": {
+    "command": "Get-VM -Name RIDE-Win11-Test",
+    "result": "Failed before VM/checkpoint inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "vmStateInspected": false,
+    "checkpointInspected": false
+  },
+  "handling": {
+    "acceptanceDispatched": false,
+    "elevationRequested": false,
+    "vmOrCheckpointChanged": false,
+    "defenderOrWindowsStateChanged": false
+  },
+  "migrationStatus": {
+    "sysinternalsSuiteWindows11PackageLifecycle": "Previously accepted on RIDE-Win11-Test; this access failure does not invalidate the recorded passed run.",
+    "remainingWindowsAcceptance": "New or deferred VM-backed acceptance remains blocked before VM/checkpoint inspection by host CIM access.",
+    "legacyOutcomesClosedThisRecheck": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "latestResolvedPackageOutcome": "One legacy Sysinternals Suite download/install outcome on Windows 11 was closed using the existing passed suite and independent product lifecycle evidence; utility feature execution and licensing are not migration blockers."
+  },
+  "relatedEvidence": [
+    "sysinternals-windows11-package-migration-scope-reconciliation-2026-10-28-1114.json",
+    "sysinternals-suite-win11-current-lifecycle-acceptance-2026-10-25-0201.json",
+    "migration-prerequisites-recheck-and-defraggler-source-batch-2026-10-28-1054.json"
+  ]
+}

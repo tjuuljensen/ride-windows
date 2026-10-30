@@ -1,0 +1,122 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T14:09:47Z",
+  "Scope": "Current-source candidate catalog admission, exact retained archive verification, and isolated portable staging/recovery for NTCore .NET Generic Unpacker and DynLogger",
+  "Packages": [
+    {
+      "Id": "package.ntcore-net-generic-unpacker",
+      "Version": "1.0.0.1",
+      "Variants": [
+        {
+          "Name": "portable-x86",
+          "Archive": "NETUnpack.zip",
+          "Sha256": "e46bd2ecdd1cc72c011406fa07d239f1ad8d8cd5e6c5e9945d186078c3e24278",
+          "Members": [
+            "NETUnpack.exe"
+          ]
+        },
+        {
+          "Name": "portable-x64",
+          "Archive": "NETUnpack_x64.zip",
+          "Sha256": "af7f2ca052855d6c1613eb6901897ab9c1ffa4eda17b115e71651fbdcec13852",
+          "Members": [
+            "NETUnpack.exe"
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "package.ntcore-dynlogger",
+      "Version": "1.1.0.1",
+      "Variants": [
+        {
+          "Name": "portable-x86",
+          "Archive": "DynLogger_x86.zip",
+          "Sha256": "416e92b91b05ecbcf622476da538785ecfa30910cd42ee1a508361f22a1ccaa5",
+          "Members": [
+            "DynLogger.exe",
+            "DynLoggerDll.dll",
+            "NtHookEngine.dll"
+          ]
+        },
+        {
+          "Name": "portable-x64",
+          "Archive": "DynLogger_x64.zip",
+          "Sha256": "a5e17491696d36f5c9b17f0e73ed33cfb9bf0f14fb035bb40c868ab5b6c0be3c",
+          "Members": [
+            "DynLogger.exe",
+            "DynLoggerDll.dll",
+            "NtHookEngine.dll"
+          ]
+        }
+      ]
+    }
+  ],
+  "FocusedTests": {
+    "WindowsPowerShell": "5.1.26100.9711",
+    "Pester": "5.7.1",
+    "Passed": 8,
+    "Failed": 0,
+    "PowerShell7": "7.6.5",
+    "PowerShell7Passed": 8,
+    "PowerShell7Failed": 0,
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Scratch": ".local/pester-ntcore-unpack-dynlogger",
+    "Lifecycle": "Exact archive pins and member inventory, repeated staging, uninstall, saved-state recovery, and operator file preservation",
+    "CatalogAndLicenseReviewRegression": {
+      "Pester": "5.7.1",
+      "Discovered": 119,
+      "Passed": 118,
+      "Failed": 0,
+      "NotRun": 1,
+      "Excluded": "WindowsIntegration registry subtree test; sandbox registry access denied",
+      "Scratch": ".local/pester-ntcore-unpack-dynlogger"
+    }
+  },
+  "Safety": {
+    "UtilityExecuted": false,
+    "TargetProcessOpened": false,
+    "ProcessDumped": false,
+    "ProcessInstrumented": false,
+    "WindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderBlockedToolsTouched": false,
+    "HostChanges": false,
+    "FreshUacPrompts": 0
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "PendingAcceptance": true,
+    "VmQuery": "Get-VM -Name RIDE-Win11-Test",
+    "VmQueryResult": "Failed before VM inspection: Access to a CIM resource was not available to the client.",
+    "CheckpointState": "Unknown; not inspected",
+    "Next": "Native Windows package lifecycle acceptance when existing VM access works without a fresh elevation prompt; any functional test requires an owned synthetic process and isolated output."
+  },
+  "LicenseReview": {
+    "Status": "NeedsReview",
+    "Owner": "Unassigned",
+    "Purpose": "Owner-specific administrative tracking",
+    "MigrationGate": false
+  },
+  "LegacyOutcomes": {
+    "Closed": 0,
+    "EstimateRangesUnchanged": true
+  },
+  "Sources": {
+    "Unpacker": "https://ntcore.com/net-generic-unpacker/",
+    "DynLogger": "https://ntcore.com/dynlogger/"
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 434,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 297,
+    "GeneratedOperationsDocumentation": "Current"
+  }
+}

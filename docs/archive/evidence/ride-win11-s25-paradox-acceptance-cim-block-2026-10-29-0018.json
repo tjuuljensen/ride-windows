@@ -1,0 +1,26 @@
+{
+  "recordedAtUtc": "2026-10-29T00:18:20Z",
+  "source": "Read-only Hyper-V host VM preflight",
+  "purpose": "Check whether the registered Windows 11 and Windows Server 2025 targets are currently available for the Paradox Data Editor acceptance batch.",
+  "targets": [
+    { "name": "RIDE-Win11-Test", "result": "Failed before state retrieval", "error": "Access to a CIM resource was not available to the client." },
+    { "name": "RIDE-S25-Test", "result": "Failed before state retrieval", "error": "Access to a CIM resource was not available to the client." }
+  ],
+  "checkpointOrTaskStateInspected": false,
+  "guestRequestDispatched": false,
+  "installerExecuted": false,
+  "windowsOrVmStateChanged": false,
+  "defenderStateChanged": false,
+  "elevationRequested": false,
+  "acceptanceDisposition": "Keep package.mitec-paradox-data-editor Windows 11 and Windows Server 2025 install, repeat, uninstall, BDE coexistence and recovery acceptance deferred. Continue independent source work.",
+  "legacyOutcomeClosed": false,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

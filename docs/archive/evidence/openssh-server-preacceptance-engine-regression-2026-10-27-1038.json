@@ -1,0 +1,85 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "OpenSshServerPreacceptanceEngineRegression",
+  "RecordedAtUtc": "2026-10-27T10:38:33Z",
+  "Repository": "RIDE-Windows",
+  "Validation": {
+    "CatalogEnginePester": {
+      "Path": "tests/Catalog.Tests.ps1",
+      "Filter": "*OpenSSH*",
+      "Passed": 3,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 89,
+      "Cases": [
+        "component discovery preserves pending acceptance and candidate targets",
+        "state matching maps Installed to Present and NotPresent to Absent",
+        "install planning succeeds but apply fails closed before installer invocation while SupportedTargets is empty"
+      ]
+    },
+    "OpenSshCandidatePester": {
+      "Paths": [
+        "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+        "tests/OpenSshServerObservation.Tests.ps1",
+        "tests/OpenSshServerLifecycle.Tests.ps1"
+      ],
+      "Passed": 32,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "RepositoryValidation": {
+      "Result": "Passed",
+      "Operations": 430,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 294,
+      "GeneratedOperationsDocumentation": "Current"
+    },
+    "Cli": {
+      "Command": "./ride.ps1 list components",
+      "Result": "Passed",
+      "CapabilityId": "component.openssh-server-capability",
+      "Kind": "WindowsCapability",
+      "PendingAcceptance": true,
+      "CandidateTargets": [
+        "Windows 11",
+        "Windows Server 2025"
+      ],
+      "SupportedTargets": []
+    }
+  },
+  "Acceptance": {
+    "LatestVmTaskPreflightEvidence": "ride-win11-test-vm-and-task-cim-access-recheck-2026-10-27-1034.json",
+    "NativeAcceptance": "Blocked",
+    "Blocker": "Get-VM and Get-ScheduledTask failed at CIM before VM, checkpoint or runner inspection.",
+    "CapabilityInstalled": false,
+    "ServiceStarted": false,
+    "FirewallChanged": false,
+    "AcceptanceDispatched": false,
+    "DefenderChanged": false,
+    "UacRequested": false
+  },
+  "Migration": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "OpenSSH Server native Windows 11 and Server 2025 acceptance",
+      "Separate service activation and firewall exposure candidates"
+    ],
+    "Partial": [
+      "Capability lifecycle source integration; native acceptance and activation/firewall lifecycle remain open"
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "These checks validate source integration and preserve the acceptance blocker; no legacy outcome closed."
+  },
+  "SysinternalsDisposition": "Prior RIDE v2 specialist approval settles direct download-and-install; no licensing gate. Defender-blocked tools remain separate security exclusions."
+}

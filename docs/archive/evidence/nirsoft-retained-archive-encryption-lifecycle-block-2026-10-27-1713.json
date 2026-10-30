@@ -1,0 +1,64 @@
+{
+  "RecordedAtUtc": "2026-10-27T17:13:00Z",
+  "Batch": "NirSoft retained archive lifecycle capability check",
+  "SourceArchives": [
+    {
+      "File": "nirlauncher-referred.zip",
+      "Bytes": 41961437,
+      "Sha256": "6cfd973d0f2d34ec2fe5c7cfdcc0bdbcb56a8fad329fb4683f6446602769f1b2",
+      "CentralDirectoryEntries": 668,
+      "SelectedMembers": 660,
+      "DefenderExcludedEntries": 8,
+      "ZipMethodAndFlags": "Deflate method 8; general-purpose bit 0 is set, indicating encrypted entries"
+    },
+    {
+      "File": "x64tools.zip",
+      "Bytes": 2105172,
+      "Sha256": "305556bfa9796fd5320ffe4f87ccc66a1fca6dad5fed7d5653bc21ac5df2806b",
+      "CentralDirectoryEntries": 49,
+      "SelectedMembers": 47,
+      "DefenderExcludedEntries": 2,
+      "ZipMethodAndFlags": "Deflate method 8; general-purpose bit 0 is set, indicating encrypted entries"
+    }
+  ],
+  "PublisherDocumentation": [
+    "https://www.nirsoft.net/launcher/downloads/",
+    "https://mail.nirsoft.net/x64_download_package.html"
+  ],
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "FocusedFilteredTests": {
+      "Discovered": 1,
+      "Passed": 0,
+      "Failed": 1,
+      "Skipped": 0,
+      "DurationSeconds": 22.85,
+      "Failure": "Install-RidePortablePayload failed in System.IO.Compression.ZipFileExtensions.ExtractToFile because the encrypted ZIP entry is unsupported."
+    },
+    "CentralDirectoryReview": "Both archives have matching central/local headers, method 8, and encryption flag bit 0. No archive entry data was opened during this metadata review."
+  },
+  "SafetyAndAcceptance": {
+    "DefenderExcludedExecutableEntriesOpenedOrExtracted": false,
+    "UtilitiesLaunched": false,
+    "WindowsOrDefenderStateChanged": false,
+    "VmAcceptance": "Still deferred; the latest read-only RIDE-Win11-Test inspection was blocked before guest access by host CIM access.",
+    "Finding": "The catalog member filters omit the Defender-reported executables, but the current ZIP lifecycle handler cannot extract the publisher's password-protected archives. Do not infer package staging acceptance from the earlier synthetic inert-ZIP regression.",
+    "RequiredFollowUp": [
+      "Select and implement a supported password-protected ZIP extraction path that preserves exact PortableMembers filtering, collision checks, archive bounds, state ownership, and recovery semantics.",
+      "Rerun real-archive install/repeat/remove/saved-state recovery against both retained archives without opening or extracting Defender-excluded entries.",
+      "Perform disposable Windows 11 acceptance when VM access is available."
+    ]
+  },
+  "MigrationEstimate": {
+    "ResolvedLegacyOutcomes": [],
+    "PartialLegacyOutcomes": [
+      "InstallNirsoftLauncher / RemoveNirsoftLauncher",
+      "InstallNirsoftToolsX64 / RemoveNirsoftToolsX64"
+    ],
+    "DeferredOutcomes": [
+      "NirSoft archive installation pending encrypted-ZIP handler support and Windows acceptance"
+    ],
+    "EstimateAdjustment": "No legacy outcome closed; exact settings/packages/components/files-assets/maintenance estimates remain 127-181 and rounded 125-180/about 155."
+  }
+}

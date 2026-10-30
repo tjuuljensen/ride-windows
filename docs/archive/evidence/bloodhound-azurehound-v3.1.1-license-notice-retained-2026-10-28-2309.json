@@ -1,0 +1,55 @@
+{
+  "recordedAtUtc": "2026-10-28T23:09:39Z",
+  "batch": "BloodHound CE 9.8.0 selected AzureHound v3.1.1 upstream license and notice retention",
+  "selectedPair": {
+    "bloodHoundCE": "9.8.0",
+    "azureHound": "3.1.1",
+    "sharpHound": "2.17.0"
+  },
+  "sources": {
+    "license": "https://raw.githubusercontent.com/SpecterOps/AzureHound/v3.1.1/LICENSE.md",
+    "notice": "https://raw.githubusercontent.com/SpecterOps/AzureHound/v3.1.1/NOTICE.md"
+  },
+  "retainedFiles": [
+    {
+      "path": "catalog/notices/azurehound-v3.1.1-license.md",
+      "bytes": 34917,
+      "sha256": "01e2419d68912b7888cc2fd3889aba27b5291b693db4a42a1795428c925aba40"
+    },
+    {
+      "path": "catalog/notices/azurehound-v3.1.1-notice.md",
+      "bytes": 660,
+      "sha256": "503ffd9f1761a2a39afea63a4067439360f2cec0efd33f0826f32b1597f1da7d"
+    }
+  ],
+  "licenseText": "GNU General Public License version 3 or any later version",
+  "reconciliation": "Retained v3.1.1 license and notice text was retrieved from the exact upstream tag. The files match the retained v3.1.2 text byte-for-byte. This preserves notices for the selected version but does not provide the missing selected-version ZIP or establish collector/backend compatibility.",
+  "scope": {
+    "payloadAcquired": false,
+    "binaryInspectedOrRun": false,
+    "catalogCandidateAdded": false,
+    "localLicenseReviewRecordAdded": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateAccessedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationStatus": {
+    "resolved": ["Exact v3.1.1 upstream license and notice text retained with verified lengths and digests."],
+    "deferred": ["Exact AzureHound 3.1.1 and SharpHound 2.17.0 payloads, package candidate, compatibility, selected-member review, lifecycle/recovery, and Windows acceptance."],
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180; about 155"
+    }
+  },
+  "relatedEvidence": [
+    "bloodhound-azurehound-v3.1.2-retained-archive-integrity-and-version-mismatch-2026-10-28-2304.json",
+    "bloodhound-ce-9.8.0-collector-match-2026-10-23.json"
+  ]
+}

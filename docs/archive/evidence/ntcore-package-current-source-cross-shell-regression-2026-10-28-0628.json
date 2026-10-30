@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:28:49Z",
+  "batch": "NTCore current-source package staging regression",
+  "test": {
+    "file": "tests/NtcorePackages.Tests.ps1",
+    "selected": 16,
+    "powerShell7": {
+      "version": "7.6.5",
+      "pester": "5.7.1",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "pester": "5.7.1",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "executionPolicy": "Process-scoped Bypass"
+    },
+    "testRegistryPlugin": false,
+    "testResultPlugin": false,
+    "fixtureSource": "RIDE_NTCORE_FIXTURE_DIRECTORY was unset; the suite used generated inert ZIP fixtures and TestDrive.",
+    "coverage": [
+      "PE Detective and CFF Explorer selected-member identity, guarded file lifecycle, collision refusal and exact saved-file recovery",
+      "Driver List x64/x86 and Rebel.NET selected-member staging, repeat, remove and exact recovery",
+      "WIM Installer selected executable staging and exact recovery"
+    ]
+  },
+  "boundary": {
+    "upstreamArchivesRead": false,
+    "utilitiesExecuted": false,
+    "driverLoadedOrServiceCreated": false,
+    "nativeWindowsOrDefenderStateQueriedOrChanged": false,
+    "vmOrCheckpointUsed": false,
+    "elevationRequested": false,
+    "defenderBlockedToolsSelected": false
+  },
+  "migrationOutcome": {
+    "resolvedLegacyOutcomes": [],
+    "partial": [
+      "Current-source NTCore package staging regression passed 16/16 in both PowerShell editions."
+    ],
+    "deferred": [
+      "NTCore utility behavior and remaining declared package lifecycle/Windows acceptance remain separate from synthetic staging fixtures."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; synthetic staging tests close no legacy outcome or target acceptance."
+    }
+  },
+  "relatedEvidence": [
+    "ntcore-packages-focused-current-source-regression-2026-10-26-1442.json",
+    "ntcore-nodel-portable-candidate-regression-2026-10-27-1425.json"
+  ]
+}

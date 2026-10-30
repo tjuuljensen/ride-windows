@@ -1,0 +1,95 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:13:00Z",
+  "Scope": "Current-source VM controller result-session recovery regression and retained ApplicationsBatch3 outcome review",
+  "CurrentSourceRegression": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestFile": "tests/TestAutomation.Tests.ps1",
+    "Passed": 129,
+    "Failed": 0,
+    "Skipped": 2,
+    "Total": 131,
+    "TestRegistryEnabled": false,
+    "TemporaryRoot": "Workspace-local .local directory; removed after run.",
+    "RelevantCoverage": [
+      "Reuses connected/available AutomatedLab result session.",
+      "Reconnects after guest session disconnect before collecting results.",
+      "Refuses to replace a guest session while a command is still running."
+    ],
+    "OutputNote": "One fixture emitted a warning that transcript.log was unavailable; the Pester suite completed with no failures.",
+    "HostVmOrWindowsStateChanged": false,
+    "InstallerOrPackageExecuted": false
+  },
+  "PriorApplicationsBatch3": {
+    "RunId": "d68b653e1d034f6a9c0e8d0b640553bb",
+    "Suite": "ApplicationsBatch3",
+    "FinishedAtUtc": "2026-10-20T12:40:49Z",
+    "Status": "Failed",
+    "ControllerError": "Copy-Item could not use the disconnected guest session: Availability was None.",
+    "CollectionError": "New-LabPSSession could not reconnect; guest port remained closed.",
+    "CurrentSourceChange": "tests/integration/Invoke-RideVmTest.ps1 0.14.1 selects a result session through Get-RideAutomationResultSession and reconnects before guest result copy.",
+    "LocalTestsCoverCorrection": true,
+    "DockerBehaviorAcceptance": "Unresolved; this controller-copy fix does not establish package behavior."
+  },
+  "PriorApplicationsBatch3AllUsers": {
+    "RunId": "1256ae69b1a2470b8024f776f128eb41",
+    "Suite": "ApplicationsBatch3AllUsers",
+    "FinishedAtUtc": "2026-10-20T15:18:14Z",
+    "Status": "TimedOut",
+    "TimeoutMinutes": 90,
+    "SelectedArtifact": {
+      "PackageId": "docker-desktop",
+      "Version": "4.96.0",
+      "Variant": "all-users",
+      "FileSize": 650507696,
+      "AuthenticodeStatus": "Valid",
+      "SourceUri": "https://desktop.docker.com/win/main/amd64/243774/Docker%20Desktop%20Installer.exe"
+    },
+    "Interpretation": "The process tree was terminated at timeout. No successful lifecycle aggregate exists; keep all-users Docker Desktop behavior deferred. Do not infer the installer cause from the timeout.",
+    "CapturedPackageState": {
+      "TargetBuild": "26300",
+      "RunId": "e666b05182184fa495ee7cffa9532d4e",
+      "SnapshotPriorPresent": false,
+      "SelectedVariant": "all-users",
+      "ArtifactVersion": "4.96.0",
+      "ArtifactSha256": "3f75d46a07ff7c7adcc42e55b2bab862e25a459351723ac2633de9ad22a5b4b6",
+      "ArtifactFileSize": 650507696,
+      "PostInstallStateCaptured": false,
+      "Interpretation": "Pinned artifact and prior absence were recorded, but this does not establish that install completed or what state remained when the run timed out."
+    },
+    "GuestPesterXml": {
+      "TestCases": 272,
+      "Success": 272,
+      "Failure": 0,
+      "Meaning": "The retained Pester XML does not contain a Docker lifecycle post-state or acceptance summary; it does not convert the timeout into a pass."
+    }
+  },
+  "CurrentAccess": {
+    "GetVmStillCimBlocked": true,
+    "TaskSchedulerComStillAccessDenied": true,
+    "RequestSubmitted": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [],
+    "Deferred": [
+      "Windows VM runner result export awaits a connected registered guest/session.",
+      "Docker Desktop all-users lifecycle remains timed out without a passing aggregate and needs a later disposable-VM rerun after controller dispatch is restored."
+    ],
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "EvidenceAuditAtUtc": "2026-10-25T18:15:00Z"
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-26T08:06:05Z",
+  "method": "Read publisher README and selected AutoIt/PowerShell files through the connected GitHub file API at the pinned commits. Sample snapshots, uploaded sample files, decrypted payloads, binary assets and runtime execution were not inspected or used.",
+  "products": [
+    {
+      "name": "NetWire Log Decoder",
+      "repository": "ArsenalRecon/NetWireLogDecoder",
+      "commit": "d5d8d653f7f31656b47a993ed652cc353a86d78e",
+      "filesReviewed": ["NetWireLogDecoder.au3", "ReadFromDevice.ps1", "scan-launch-netwire.ps1", "sigscan-core.ps1", "README.md"],
+      "findings": ["AutoIt GUI source uses built-in Windows/AutoIt APIs.", "Source declares #RequireAdmin.", "Reads raw volume/device data through CreateFile and ReadFile; source can write filtered/output data, CSV and logs.", "Publisher README describes temporary PowerShell execution-policy relaxation; RIDE must not change execution policy."],
+      "packageBoundary": "Stage release files only. Do not execute, read a device, alter execution policy, or launch helpers during install."
+    },
+    {
+      "name": "Sdba Parser",
+      "repository": "ArsenalRecon/SdbaParser",
+      "commit": "8dcf29a3545722c7ed8d6dc7272678cb025fc00a",
+      "filesReviewed": ["SdbaParser.au3", "sigscan.ps1", "README.md"],
+      "findings": ["AutoIt GUI source uses built-in Windows/AutoIt APIs.", "Reads a user-selected input file and writes CSV and log output under a selected output directory.", "The GUI may open Explorer to display the output directory.", "Publisher README advises temporarily enabling Unrestricted PowerShell policy; RIDE must not change execution policy."],
+      "packageBoundary": "Stage release files only. Do not run parsing, open evidence files, launch Explorer, or alter execution policy during install."
+    },
+    {
+      "name": "NwStacks",
+      "repository": "ArsenalRecon/NetWireStackForensics",
+      "commit": "d6c4068b9e898b3a3b7068531027b4a423f69ada",
+      "filesReviewed": ["NwStacks/nwstacks.au3", "NwStacks/readme.txt", "README.md"],
+      "findings": ["The proof-of-concept source scans raw device paths and writes nwstacks.log.", "README identifies sample uploads, stack snapshots, and decrypted payload files as research material outside the tool directory.", "The repository contains 72 entries, so the release ZIP must be inspected to confirm it contains only intended tool files."],
+      "packageBoundary": "Do not package repository sample files, snapshots, decrypted payloads or research spreadsheets by default. Stage only after exact release archive inspection."
+    }
+  ],
+  "sharedFindings": {
+    "releaseArchiveStatus": "Exact release ZIP bytes, SHA-256 values and member inventories remain unavailable through the current GitHub API text-only access.",
+    "userDataAccessed": false,
+    "toolsExecuted": false,
+    "executionPolicyChanged": false,
+    "vmWindowsOrDefenderChanged": false,
+    "legacyOutcomesClosed": [],
+    "migrationState": "Source behavior and runtime dependencies are clarified for all six selected ArsenalRecon products; package artifact acquisition/inventory and Windows acceptance remain deferred.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

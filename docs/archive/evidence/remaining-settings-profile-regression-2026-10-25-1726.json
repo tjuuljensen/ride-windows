@@ -1,0 +1,49 @@
+{
+  "recordedUtc": "2026-10-25T17:26:00Z",
+  "scope": "Local mocked settings lifecycle and profile acceptance regression",
+  "environment": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistry": "Disabled",
+    "temporaryRoot": "Workspace-local process TEMP/TMP; Pester TestDrive remained isolated"
+  },
+  "suites": [
+    {
+      "path": "tests/CatalogProfileValidation.Tests.ps1",
+      "result": "Passed"
+    },
+    {
+      "path": "tests/RemainingSettings.Tests.ps1",
+      "result": "Passed"
+    },
+    {
+      "path": "tests/ProfileAcceptanceAutomation.Tests.ps1",
+      "result": "Passed"
+    }
+  ],
+  "totals": {
+    "passed": 94,
+    "failed": 0,
+    "skipped": 0
+  },
+  "diagnosis": "The earlier 36 failures came from File.Move being denied in the system-temp location used by Pester TestDrive under the restricted sandbox. A direct probe reproduced the denial in system TEMP and succeeded under the writable repository. Re-running with process-scoped TEMP/TMP rooted under the repository passed all tests; no product code change was required.",
+  "vmAcceptance": {
+    "status": "Blocked",
+    "reason": "Last read-only Get-VM checks for RIDE-Win11-Test and RIDE-Srv2025Test were denied at CIM before VM or checkpoint inspection; no VM work was attempted during this local regression.",
+    "evidence": "current-catalog-count-and-vm-access-recheck-2026-10-25-1636.json"
+  },
+  "windowsStateChanged": false,
+  "defenderStateChanged": false,
+  "legacyOutcomesClosed": [],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155",
+    "changed": false
+  },
+  "sysinternals": "The prior RIDE v2 license-specialist approval for RIDE direct download/install remains settled; licensing is not a migration blocker. Defender-alerted utilities remain separate security exclusions."
+}

@@ -1,0 +1,35 @@
+{
+  "recordedAtUtc": "2026-10-28T23:53:00Z",
+  "publisherSource": "https://www.mitec.cz/wp/apps/",
+  "scope": "The 22 named products visible on the current MiTeC Apps & Tools page only; this does not claim to reconcile every product linked from the older site.",
+  "currentPageProductCount": 22,
+  "catalogAudit": {
+    "method": "Read package.mitec-* operation IDs/names from catalog/operations.psd1 and compare with the current page product names, allowing the publisher/product display-name alias OLE/COM Object Explorer.",
+    "mitecPackageOperationCount": 26,
+    "currentPageProductsMatched": 21,
+    "selectedCurrentPageProductMissing": ["MiTeC Paradox Data Editor"],
+    "missingProductEvidence": "docs/archive/evidence/mitec-paradox-data-editor-publisher-current-source-and-catalog-gap-2026-10-28-2352.json"
+  },
+  "observations": [
+    "The current page says the new site is under construction and links to older pages for software not found there.",
+    "The catalog includes 26 MiTeC package operations, including products present on the older publisher pages; this comparison checks only the current page's 22 named product entries."
+  ],
+  "sideEffects": {
+    "catalogOrWindowsChanged": false,
+    "downloadOrInstallerRun": false,
+    "vmOrDefenderAccessed": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "packageEstimateChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

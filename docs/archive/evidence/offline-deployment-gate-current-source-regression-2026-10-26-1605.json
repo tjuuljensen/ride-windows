@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T16:05:55Z",
+  "suites": [
+    "tests/OfflineBundle.Tests.ps1",
+    "tests/OfflineBundleAssembly.Tests.ps1",
+    "tests/OfflineProfileCoverage.Tests.ps1",
+    "tests/OfflineExecution.Tests.ps1",
+    "tests/CliShouldProcess.Tests.ps1"
+  ],
+  "runs": [
+    {
+      "runtime": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 234,
+      "failed": 0,
+      "skipped": 0,
+      "result": "Passed"
+    },
+    {
+      "runtime": "Windows PowerShell 5.1",
+      "pester": "5.7.1",
+      "passed": 234,
+      "failed": 0,
+      "skipped": 0,
+      "result": "Passed"
+    }
+  ],
+  "harness": {
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "temporaryRoots": [
+      ".local/pester-offline-gate-20261026",
+      ".local/pester-offline-gate-20261026-ps51"
+    ]
+  },
+  "verifiedGate": {
+    "cliCommands": ["install", "apply"],
+    "engineEntry": "Invoke-RidePlan -> Get-RideOfflinePlanContext",
+    "requirements": [
+      "selected profile and ordered plan match exactly",
+      "running engine/catalog source is byte-bound to the bundle and unchanged",
+      "selected payloads and notices are complete, hash-checked and held under read leases",
+      "target, build, edition and architecture match the selected bundle profile",
+      "package type and declared no-network capability are supported",
+      "missing, changed, wrong-source, unsupported or pending-acceptance requirements fail before snapshots or handlers",
+      "network acquisition is mocked to fail and cannot serve as fallback"
+    ]
+  },
+  "scope": {
+    "installersOrUtilitiesExecuted": false,
+    "publisherRequestsMade": false,
+    "windowsOrVmStateChanged": false,
+    "nativeOfflineDeploymentAccepted": false,
+    "legacyOutcomeClosed": false
+  },
+  "acceptanceBlocker": "Current RIDE-Win11-Test CIM/checkpoint access and its registered task query failed before guest inspection/dispatch; see user-bin-current-source-regression-and-vm-access-2026-10-26-1601.json.",
+  "migrationEffect": "The mandatory offline install/apply gate is already integrated in current source and its focused integrity, assembly, coverage, no-network, whole-plan and CLI regression passed in both PowerShell runtimes. Only local capability regression is confirmed; reviewed-bundle Windows offline deployment, target servicing behavior and full real package compatibility remain open. No legacy outcome closed and no estimate deducted.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

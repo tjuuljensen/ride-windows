@@ -87,6 +87,7 @@ Describe 'Explicit GitHub PAT credentials' {
   InModuleScope RIDE.GitHubAuthentication {
     BeforeEach {
       $script:CredentialRootOverride = Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+      Mock Get-RideGitHubCredentialRoot { $script:CredentialRootOverride }
       $script:ReleaseCache.Clear(); $script:AccountBackoff.Clear()
       $script:Now = ([datetime]'2026-10-13T12:00:00Z').ToUniversalTime()
       Mock Get-RideGitHubAuthenticationTime { $script:Now }
@@ -201,9 +202,9 @@ Describe 'Explicit GitHub PAT credentials' {
     It 'rejects foreign ACL grants' {
       Set-RideGitHubCredential public -Token $script:Secret -ExpiresAtUtc $script:Now.AddHours(1)
       $path = Get-RideGitHubCredentialPath public
-      $acl = Get-Acl -LiteralPath $path
-      $acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new([Security.Principal.SecurityIdentifier]::new('S-1-1-0'), 'Read', 'Allow'))
-      Set-Acl -LiteralPath $path -AclObject $acl
+      $script:foreignAcl = Get-Acl -LiteralPath $path
+      $script:foreignAcl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new([Security.Principal.SecurityIdentifier]::new('S-1-1-0'), 'Read', 'Allow'))
+      Mock Get-Acl { $script:foreignAcl }
       { Get-RideGitHubCredentialContext public } | Should -Throw '*UnsafeCredentialPermissions*'
     }
 
@@ -435,6 +436,9 @@ Describe 'Guest credential lease binding' {
       $other = Get-RideGitHubCredentialPath ('run:' + ('b'*32))
       Initialize-RideGitHubCredentialDirectory (Split-Path -Parent $other)
       Copy-Item -LiteralPath (Get-RideGitHubCredentialPath $reference) -Destination $other
+      # Exercise request binding with a valid file ACL, independent of Copy-Item ownership.
+      Set-RideGitHubCredentialFileAcl -Path $other
+      Assert-RideGitHubPath $other -CheckAcl
       { Get-RideGitHubCredentialContext ('run:' + ('b'*32)) } | Should -Throw '*CredentialUnavailable*'
     }
     It 'rejects expired deadlines and personal credentials before writing' {

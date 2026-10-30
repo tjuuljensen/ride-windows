@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:10:13Z",
+  "batch": "WinHTTP Windows PowerShell direct-check authorization preflight",
+  "attempt": {
+    "powershell": "Windows PowerShell 5.1.26100.9711",
+    "action": "Invoke temporary local runner that imports only RIDE WinHTTP inventory and preparation modules and calls pure functions with synthetic JSON.",
+    "result": "AuthorizationManager check failed before module/test body executed; no assertions ran."
+  },
+  "readOnlyPolicyQuery": {
+    "action": "Get-ExecutionPolicy -List",
+    "result": "Returned partially, then failed with Requested registry access is not allowed.",
+    "policyChanged": false
+  },
+  "lastVerifiedWinHttpChecks": {
+    "powershell": "7.6.5",
+    "syntheticChecksPassed": 8,
+    "syntheticChecksFailed": 0,
+    "nativeCommandsCalled": false
+  },
+  "safety": {
+    "temporaryRunnerRemoved": true,
+    "executionPolicyChanged": false,
+    "uacRequested": false,
+    "nativeWinHttpCommandsCalled": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "blocker": "Windows PowerShell 5.1 cannot execute/import the candidate in this session; policy inspection itself is access-denied. Cross-shell and Pester validation remain unverified here.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no assertions or legacy outcome changed."
+  }
+}

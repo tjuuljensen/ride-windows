@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "openssh-server-current-source-regression-and-repository-validation-2026-10-27-0744",
+  "RecordedAtUtc": "2026-10-27T07:44:08Z",
+  "Repository": "ride-windows",
+  "CheckoutPath": "C:/Users/tjuuljensen/git/ride-windows",
+  "Scope": "Current-source local OpenSSH Server capability install/removal, observation and activation regression plus repository validation.",
+  "Runtime": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false
+  },
+  "Pester": {
+    "Status": "Passed",
+    "Passed": 30,
+    "Failed": 0,
+    "Skipped": 0,
+    "Files": [
+      "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "Boundary": "All servicing, service, firewall and server-state providers are mocked; no Windows component or service was changed."
+  },
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 429,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 294
+  },
+  "VMAccess": {
+    "CheckedThisRun": false,
+    "LatestEvidence": "winhttp-proxy-preparation-incomplete-state-guard-and-vm-access-2026-10-27-0731.json",
+    "LatestResult": "Read-only VM and registered task queries failed at CIM before inspection or dispatch."
+  },
+  "WindowsStateChanged": false,
+  "DefenderStateChanged": false,
+  "CatalogIntegration": "Open",
+  "Windows11Acceptance": "DeferredPendingVMAccess",
+  "WindowsServer2025Acceptance": "DeferredPendingVMAccess",
+  "LegacyOutcomeClosed": false,
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Adjustment": "None; this local regression verifies the existing source candidate but adds no catalog integration, supported target or legacy closure."
+  }
+}

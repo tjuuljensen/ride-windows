@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T10:25:00Z",
+  "legacySelectors": [
+    "InstallEncryptedDiskDetector",
+    "RemoveEncryptedDiskDetector"
+  ],
+  "userScope": {
+    "purpose": "Retained to detect third-party encrypted volumes beyond BitLocker-only inspection.",
+    "rideHostTarget": "No Windows 11 target selection recorded for this package.",
+    "runtimeScope": "Package review only; no local drives were queried and no detector was run."
+  },
+  "publisherSources": {
+    "product": "https://www.magnetforensics.com/resources/encrypted-disk-detector/",
+    "legalAgreements": "https://www.magnetforensics.com/legal/",
+    "freeTools": "https://www.magnetforensics.com/free-tools/"
+  },
+  "observations": {
+    "publisherVersion": "3.10, released 2022-06-19.",
+    "requirements": "Windows 7 or higher.",
+    "purposeAndCoverage": "Command-line tool for non-intrusive checks of local physical drives. Publisher lists TrueCrypt, PGP, VeraCrypt, Check Point, SafeBoot and BitLocker signatures, with OEM ID/volume label output when signatures are not found.",
+    "distribution": "Publisher requires a request form; no direct artifact URL is published on the page.",
+    "terms": "The page says Magnet Free Tools downloads are governed by Magnet's End User License Agreement.",
+    "artifactAcquired": false,
+    "artifactHash": null,
+    "signature": null
+  },
+  "migrationDisposition": {
+    "sourceReview": "Progressed: current publisher version, purpose, requirements, form-based distribution and EULA reference recorded.",
+    "licenseReview": "Record exact-version owner NeedsReview when the package identity is established; informational and not a migration gate.",
+    "nextTechnicalStep": "Obtain the publisher-supplied exact artifact through an authorized channel, then record hash, signature, embedded notices and current command/output behavior.",
+    "windowsSupport": "Not established; publisher's Windows 7+ requirement is not RIDE target acceptance.",
+    "toolExecuted": false,
+    "registrationSubmitted": false,
+    "localDisksInspected": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

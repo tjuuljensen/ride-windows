@@ -1,0 +1,42 @@
+{
+  "recordedAtUtc": "2026-10-29T00:50:34Z",
+  "batch": "MiTeC Mail Checker current-source focused regression",
+  "test": "tests/MiTeCMailChecker.Tests.ps1",
+  "result": {
+    "status": "passed",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "executionPolicy": "Process-only Bypass; persistent policy unchanged"
+  },
+  "coverage": [
+    "The candidate remains optional, pending and unsupported; retained publisher installer/version pins match the existing static extraction evidence.",
+    "The bundled OpenSSL 1.0.1e warning remains recorded without asserting that the DLLs are loaded."
+  ],
+  "initialInvocation": "One preceding invocation used an invalid Pester parameter-set combination and failed before discovery; the passing configured rerun is the only test result counted.",
+  "limits": "These metadata/static-evidence assertions do not verify runtime DLL loading, TLS behavior, installation, UI behavior, mail access, send/delete safeguards or Windows target support.",
+  "sideEffects": {
+    "applicationOrDllExecuted": false,
+    "installerExecuted": false,
+    "networkRequestMade": false,
+    "mailAccountOrCredentialUsed": false,
+    "registryOrWindowsStateChanged": false,
+    "vmOrDefenderStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "The focused test verifies candidate metadata and warning provenance only; native lifecycle and isolated mail behavior remain unaccepted."
+  }
+}

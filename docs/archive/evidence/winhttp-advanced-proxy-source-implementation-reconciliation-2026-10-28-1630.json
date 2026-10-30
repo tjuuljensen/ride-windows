@@ -1,0 +1,63 @@
+{
+  "recordedAtUtc": "2026-10-28T16:30:15Z",
+  "kind": "WinHTTPAdvancedProxySourceAndImplementationReconciliation",
+  "officialDocumentation": {
+    "url": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winhttp",
+    "appliesTo": "Windows 11 and Windows Server 2016/2019/2022/2025 as listed on the current page",
+    "supportedScopeValues": [
+      "user",
+      "machine"
+    ],
+    "setCommand": "netsh winhttp set advproxy",
+    "supportedInputForms": [
+      "settings JSON",
+      "settings-file JSON"
+    ],
+    "requiredProperties": [
+      "Proxy",
+      "ProxyBypass",
+      "AutoconfigUrl",
+      "AutoDetect"
+    ]
+  },
+  "repositoryImplementation": {
+    "lifecycleModule": "modules/RIDE.WinHttpProxyLifecycle.psm1",
+    "implementation": "The guarded candidate invokes netsh winhttp set advproxy with a scope-bound settings-file and performs observation/readback and conflict-checked recovery.",
+    "catalogEngineStatus": "Machine-scope AutoDetect candidate is registered and wired through planning, status, saved-run preparation, dispatch and restore.",
+    "localRegressions": "Previously passed inventory/preparation/lifecycle 22/22 in both Windows PowerShell 5.1 and PowerShell 7, plus five catalog/engine tests; all native calls were mocked."
+  },
+  "observedHostEvidence": {
+    "osBuild": "10.0.26300.0",
+    "readOnlyCommand": "netsh winhttp show advproxy",
+    "result": "command not found",
+    "evidence": "winhttp-netsh-advproxy-host-capability-check-2026-10-27-0821.json"
+  },
+  "acceptance": {
+    "currentVm": "RIDE-Win11-Test Get-VM latest failed before inspection at CIM (2026-10-28 16:25 UTC)",
+    "nativeSetOrReadbackRun": false,
+    "supportedTargets": [],
+    "mutation": false
+  },
+  "disposition": {
+    "resolved": [
+      "Current Microsoft command reference confirms the set advproxy settings-file contract used by the implementation and lists Windows 11 applicability.",
+      "Corrected implementation status: a guarded setter candidate exists; native execution remains unverified."
+    ],
+    "deferred": [
+      "Native command availability and exact observation/readback on RIDE-Win11-Test",
+      "Exact underlying registry recovery and effective-policy/consumer behavior",
+      "Windows 11 and declared Windows Server acceptance"
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "reason": "Official command documentation validates the candidate invocation shape but does not supersede the local missing-command observation or establish target behavior."
+  }
+}

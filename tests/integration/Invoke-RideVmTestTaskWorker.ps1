@@ -29,8 +29,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+    - 0.2.0: Supervise request execution, including host preparation and recovery.
     - 0.1.0: Initial serialized task worker.
   Internal entry point: use the registered task, not direct invocation, for operational execution.
 
@@ -45,7 +46,7 @@
 
 [CmdletBinding()]
 param([string] $ConfigurationPath, [switch] $Version)
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -61,7 +62,7 @@ try {
   while ($true) {
     $claim = Get-RideAutomationClaim $root
     if (-not $claim) { break }
-    $null = Invoke-RideAutomationRequest -Configuration $config -Request $claim.Request -Root $root
+    $null = Invoke-RideAutomationSupervisedRequest -Configuration $config -Request $claim.Request -Root $root
     Move-Item -LiteralPath $claim.Path -Destination (Join-Path $root "queue\finished\$($claim.Name)")
   }
 }

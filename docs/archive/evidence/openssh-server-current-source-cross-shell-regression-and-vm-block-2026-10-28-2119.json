@@ -1,0 +1,20 @@
+{
+  "recordedAtUtc": "2026-10-28T21:19:25Z",
+  "batch": "OpenSSH Server capability/service/observation current-source cross-shell regression and VM access recheck",
+  "tests": {
+    "powerShell7": { "version": "7.6.5", "pester": "5.7.1", "capabilityLifecycle": { "total": 16, "passed": 16, "failed": 0, "skipped": 0 }, "serviceLifecycle": { "total": 11, "passed": 11, "failed": 0, "skipped": 0 }, "observation": { "total": 7, "passed": 7, "failed": 0, "skipped": 0 } },
+    "windowsPowerShell": { "version": "5.1.26100.9818", "pester": "5.7.1", "capabilityLifecycle": { "total": 16, "passed": 16, "failed": 0, "skipped": 0 }, "serviceLifecycle": { "total": 11, "passed": 11, "failed": 0, "skipped": 0 }, "observation": { "total": 7, "passed": 7, "failed": 0, "skipped": 0 }, "executionPolicy": "Process-only Bypass" },
+    "plugins": { "TestRegistry": false, "TestResult": false },
+    "scope": "All capability servicing, service, firewall, privilege, target observation and snapshot providers were mocked. The test output's WhatIf lines are simulated plan descriptions; no Windows capability, sshd service, TCP/22 rule, host key or SSH data was changed."
+  },
+  "vm": { "checkedAtUtc": "2026-10-28T21:19:25Z", "target": "RIDE-Win11-Test", "result": "Access to a CIM resource was not available to the client.", "stateRetrieved": false, "guestRequestSubmitted": false },
+  "sideEffects": { "capabilityInstalledOrRemoved": false, "serviceChanged": false, "firewallChanged": false, "serverDataChanged": false, "networkRequest": false, "windowsChanged": false, "defenderChanged": false, "elevationRequested": false },
+  "migration": {
+    "resolved": [ "Current-source OpenSSH Server capability install/removal, service lifecycle and read-only observation regressions passed 34/34 in each PowerShell edition." ],
+    "retired": [], "excluded": [],
+    "deferred": [ "Native Windows 11 and Windows Server 2025 acceptance for capability install/repeat/removal/recovery, service activation, exact firewall state and server-data recovery remains blocked by VM access." ],
+    "partial": [ "Candidate catalog targets remain unsupported and pending acceptance; no legacy component outcome closed." ],
+    "estimates": { "settings": "37-57", "packages": "37-52", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exactTotal": "126-180", "roundedTotal": "125-180/about 155" },
+    "estimateAdjustment": "No legacy outcome resolved or retired; all estimate ranges remain unchanged."
+  }
+}

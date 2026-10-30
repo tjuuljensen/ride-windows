@@ -1,0 +1,73 @@
+{
+  "dateUtc": "2026-10-28T03:58:09Z",
+  "scope": "Current-source OpenSSH Server local regression; no native target acceptance.",
+  "environment": {
+    "os": "Windows",
+    "powershell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "optionalPesterPlugins": {
+      "TestRegistry": "disabled",
+      "TestResult": "disabled"
+    },
+    "temporaryPath": ".local/pester-opensshserver-winps51-current-20261028"
+  },
+  "results": [
+    {
+      "suites": [
+        "tests/OpenSshServerLifecycle.Tests.ps1",
+        "tests/OpenSshServerObservation.Tests.ps1",
+        "tests/OpenSshServerCapabilityLifecycle.Tests.ps1"
+      ],
+      "total": 34,
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 18
+    },
+    {
+      "suites": [
+        "tests/Catalog.Tests.ps1",
+        "tests/NetworkAndSoundControls.Tests.ps1"
+      ],
+      "discovered": 109,
+      "passed": 108,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 1,
+      "notRunReason": "WindowsIntegration-tagged live-registry test excluded from this local run.",
+      "durationSeconds": 111.42
+    }
+  ],
+  "catalogState": {
+    "capabilityOperation": "component.openssh-server-capability",
+    "serviceOperation": "windows.openssh-server-service",
+    "firewallOperation": "windows.openssh-server-firewall",
+    "nativeSupportedTargets": []
+  },
+  "limitations": [
+    "All native providers were mocked; no DISM, service, firewall, registry integration, VM, or Windows state change occurred.",
+    "The operations are registered in the engine/catalog, but Windows 11 and Windows Server 2025 native acceptance and support promotion remain deferred.",
+    "The last read-only VM access attempt failed at host CIM before VM/checkpoint inspection; this regression did not retry VM access."
+  ],
+  "legacyOutcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "OpenSSH Server native capability/service/firewall lifecycle and recovery acceptance on Windows 11 and Windows Server 2025."
+    ],
+    "partial": [
+      "OpenSSH Server capability is integrated; service/firewall separation is registered, but native behavior and first-start data recovery are unverified."
+    ]
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; local regression and documentation reconciliation close no legacy outcome."
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "recordedAtUtc": "2026-10-29T01:06:49Z",
+  "batch": "MiTeC Paradox Data Editor current-source static regression",
+  "test": "tests/MiTeCParadoxDataEditor.Tests.ps1",
+  "result": {
+    "status": "passed",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "executionPolicy": "Process-only Bypass; persistent policy unchanged"
+  },
+  "coverage": [
+    "The pending x86 EXE candidate binds the retained PDESetup.exe source digest and package version 3.7.0.",
+    "The static extracted payload evidence records Paradox Data Editor 3.7.0.0 and TUTIL32.DLL 5.0.0.38 without claiming install-time verification.",
+    "Candidate targets remain Windows 11 and Windows Server 2025; SupportedTargets remains empty and PendingAcceptance remains true.",
+    "The test file does not require the ignored .local installer artifact."
+  ],
+  "licenseAdministration": {
+    "storePath": ".local/license-reviews.json",
+    "packageId": "package.mitec-paradox-data-editor",
+    "version": "3.7.0",
+    "status": "NeedsReview",
+    "owner": "Unassigned",
+    "migrationGate": false
+  },
+  "nativeAcceptance": {
+    "status": "Deferred",
+    "reason": "RIDE-Win11-Test and RIDE-S25-Test are not inspectable because host Get-VM CIM access fails before state retrieval; see ride-win11-s25-current-cim-access-block-2026-10-29-0051.json.",
+    "installerOrProductExecuted": false,
+    "bdeRegisteredOrRun": false,
+    "databaseOpenedOrChanged": false
+  },
+  "sideEffects": {
+    "networkRequestMade": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "Static candidate/payload assertions do not establish Windows package lifecycle acceptance or close a legacy outcome."
+  }
+}

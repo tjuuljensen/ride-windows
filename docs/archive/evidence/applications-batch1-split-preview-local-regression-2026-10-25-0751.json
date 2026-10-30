@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T07:51:10Z",
+  "Scope": "Verify ApplicationsBatch1 split suite names across controller dispatch and guest preflight preview",
+  "ImplementationUnderTest": {
+    "ControllerModuleVersion": "1.6.0",
+    "Suites": ["ApplicationsBatch1Machine", "ApplicationsBatch1User"],
+    "Coverage": [
+      "Server-side request validation accepts each suite.",
+      "Controller dispatch forwards the requested suite and correlates matching acceptance evidence.",
+      "Guest preflight accepts each suite in preview mode without starting Pester/integration or creating guest evidence.",
+      "Operator docs and help identify the split selections."
+    ],
+    "Files": [
+      "tests/integration/RIDE.TestAutomation.psm1",
+      "tests/integration/Invoke-RideGuestTests.ps1",
+      "tests/integration/automatedlab-tasks.md",
+      "tests/TestAutomation.Tests.ps1"
+    ]
+  },
+  "LocalValidation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "PesterVersion": "5.7.1",
+    "TestFile": "tests/TestAutomation.Tests.ps1",
+    "TestRegistry": "Disabled because sandbox access to HKCU\\Software\\Pester is denied",
+    "TemporaryRoot": ".local/test-output/split-preview-*",
+    "Passed": 126,
+    "Failed": 0,
+    "Skipped": 2,
+    "Discovered": 128,
+    "DurationSeconds": 44.22
+  },
+  "VMState": {
+    "RequestQueued": false,
+    "GuestStarted": false,
+    "CurrentProcessElevated": false,
+    "RegisteredControllersRemainStale": true
+  },
+  "MigrationDisposition": {
+    "Resolved": "Current source accepts, forwards and previews both ApplicationsBatch1 split suites; operator guidance names the new selections.",
+    "Deferred": "Refresh Windows 11 and Server 2025 protected controllers from elevated PowerShell, then run the pending Windows 11 acceptance suites and continue remaining migration target acceptance.",
+    "LegacyOutcomesClosed": [],
+    "EstimateRangesChanged": false,
+    "CurrentOverviewRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

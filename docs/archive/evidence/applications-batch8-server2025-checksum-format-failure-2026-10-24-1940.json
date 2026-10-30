@@ -1,0 +1,92 @@
+{
+  "RunId": "abedaa9209d74bf1b639fde2e3ce8596",
+  "Batch": "ApplicationsBatch8",
+  "RecordedAtUtc": "2026-10-24T19:40:08Z",
+  "VMName": "RIDE-S25-Test",
+  "Checkpoint": "RIDE-clean-test-base",
+  "Target": "Windows Server 2025",
+  "OS": "Microsoft Windows Server 2025 Standard Evaluation",
+  "Build": "26100",
+  "RunStatus": "Failed",
+  "StartedAtUtc": "2026-10-24T19:25:36.9827244Z",
+  "FinishedAtUtc": "2026-10-24T19:40:04.0610868Z",
+  "RunnerSha256": "F15B25FD5D2D66CF1B0C5B443A9E4DA184CB2FF47B1C748AA40F1FB81BFD0C59",
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 350,
+    "Passed": 349,
+    "Failed": 0,
+    "Skipped": 1,
+    "Result": "Passed"
+  },
+  "IntegrationPassed": false,
+  "PackageRows": [
+    {
+      "Id": "package.microsoft-openjdk",
+      "Version": "25.0.4.1",
+      "Status": "Failed",
+      "RIDERecordedTemporaryTarget": "Windows Server 2025",
+      "InstallerInvocation": false,
+      "CompletedOperations": [],
+      "Error": "Microsoft OpenJDK checksum file does not contain one supported SHA-256 record."
+    },
+    {
+      "Id": "package.microsoft-openjdk-21",
+      "Version": "21.0.12.1",
+      "Status": "Failed",
+      "RIDERecordedTemporaryTarget": "Windows Server 2025",
+      "InstallerInvocation": false,
+      "CompletedOperations": [],
+      "Error": "Microsoft OpenJDK checksum file does not contain one supported SHA-256 record."
+    },
+    {
+      "Id": "package.microsoft-openjdk-17",
+      "Version": "17.0.20.1",
+      "Status": "Failed",
+      "RIDERecordedTemporaryTarget": "Windows Server 2025",
+      "InstallerInvocation": false,
+      "CompletedOperations": [],
+      "Error": "Microsoft OpenJDK checksum file does not contain one supported SHA-256 record."
+    },
+    {
+      "Id": "package.microsoft-openjdk-11",
+      "Version": "11.0.32.1",
+      "Status": "Failed",
+      "RIDERecordedTemporaryTarget": "Windows Server 2025",
+      "InstallerInvocation": false,
+      "CompletedOperations": [],
+      "Error": "Microsoft OpenJDK checksum file does not contain one supported SHA-256 record."
+    }
+  ],
+  "Acquisition": {
+    "PublisherSidecarRequestReachedParser": true,
+    "ChecksumResponseBodyCaptured": false,
+    "MsiBytesAcquired": false,
+    "InstallerExecuted": false,
+    "VersionVerified": false
+  },
+  "Controller": {
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "RuntimeBlockedMarkerPresent": false
+  },
+  "FollowUpImplementation": {
+    "Module": "modules/RIDE-Packages.psm1",
+    "Change": "Strip an optional UTF-8 BOM before parsing; include a bounded sanitized response sample and content type when the checksum format is unexpected.",
+    "FocusedPester": {
+      "TestFile": "tests/ApplicationPackages.Tests.ps1",
+      "Version": "5.7.1",
+      "PowerShell": "7.6.5",
+      "Passed": 5,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 108,
+      "TestRegistryPlugin": "Disabled"
+    },
+    "WindowsPowerShell51Validation": "Passed: 410 operations, 8 groups, 5 profiles, 273 PowerShell files; generated operations documentation current."
+  },
+  "NextAction": "Save the post-repair Server retry until an available preregistered submission path or later authorized host access is available; the restricted workspace shell was denied writing the request under ProgramData, and no request was queued. Then retain the bounded checksum response diagnostic and do not promote Server support until full four-package install, repeat, uninstall, recovery and preservation acceptance passes.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateImpact": "No legacy outcome closed; ranges remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170."
+}

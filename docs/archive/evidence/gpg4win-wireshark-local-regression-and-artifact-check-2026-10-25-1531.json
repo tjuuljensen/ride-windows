@@ -1,0 +1,71 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:31:13Z",
+  "Scope": "Gpg4win 5.1.1 and Wireshark 4.6.9 package regression plus retained Gpg4win artifact identity check",
+  "Pester": {
+    "Version": "5.7.1",
+    "TestRegistryEnabled": false,
+    "Tests": [
+      {
+        "File": "tests/Gpg4winPackage.Tests.ps1",
+        "Discovered": 12,
+        "Passed": 12,
+        "Failed": 0
+      },
+      {
+        "File": "tests/WiresharkPackage.Tests.ps1",
+        "Discovered": 8,
+        "Passed": 8,
+        "Failed": 0
+      }
+    ],
+    "AggregateDiscovered": 20,
+    "Passed": 20,
+    "Failed": 0,
+    "Skipped": 0,
+    "DurationSeconds": 15.67,
+    "Environment": "PowerShell 7.6.5; workspace-local TEMP/TMP",
+    "Coverage": "Mocked install-plan, package process boundaries, installer configuration, nested GnuPG ownership and synthetic user-data preservation; no actual installer or Wireshark process executed."
+  },
+  "Gpg4winArtifact": {
+    "Path": ".local/results/installed-next-samples/gpg4win-5.1.1.exe",
+    "SourceUri": "https://files.gpg4win.org/gpg4win-5.1.1.exe",
+    "Length": 44831736,
+    "ObservedSha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+    "CatalogSha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+    "HashMatches": true,
+    "AuthenticodeStatus": "Valid",
+    "Signer": "g10 Code GmbH",
+    "Thumbprint": "83CC4E382E5E4AF554C66E429E8F66FFE499910D",
+    "InspectedNotExecuted": true
+  },
+  "Acceptance": {
+    "Gpg4winWindows11": "Still pending; prior 5.1.1 native installer crash with 0xC0000005 remains unexplained and no retry was performed.",
+    "Wireshark": "Still pending; this local run only covered mocked package behavior.",
+    "VmAccess": "Both registered VM targets remain CIM-inaccessible before checkpoint inspection."
+  },
+  "Safety": {
+    "ActualInstallerExecuted": false,
+    "ProductUtilityExecuted": false,
+    "RealGnuPgUserDataAccessed": false,
+    "DefenderChanged": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Gpg4win 5.1.1 Windows lifecycle/recovery and its prior crash analysis; Wireshark 4.6.9 native installer lifecycle/associations; registered VM access."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

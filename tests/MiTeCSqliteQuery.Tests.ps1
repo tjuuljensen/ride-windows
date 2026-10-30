@@ -86,4 +86,37 @@ Describe 'MiTeC SQLite Query portable candidate' {
     (Get-RidePortableState $operation).Healthy|Should -BeTrue
     [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'user-note.txt'))|Should -BeExactly 'preserve'
   }
+
+  It 'stages and restores the retained real archive without launching SQLite Query' {
+    if([string]::IsNullOrWhiteSpace($env:RIDE_MITEC_SQLITE_QUERY_FIXTURE_ARCHIVE)){
+      Set-ItResult -Skipped -Because 'No explicit retained archive fixture was supplied.'
+      return
+    }
+    $archivePath=[IO.Path]::GetFullPath($env:RIDE_MITEC_SQLITE_QUERY_FIXTURE_ARCHIVE)
+    $archive=Get-Item -LiteralPath $archivePath -Force -ErrorAction Stop
+    if($archive.PSIsContainer -or ($archive.Attributes -band [IO.FileAttributes]::ReparsePoint)){
+      throw 'Retained archive fixture must be a regular file.'
+    }
+    $operation=($Catalog.Operations|Where-Object Id -eq 'package.mitec-sqlite-query').Clone()
+    $sha=(Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    $sha|Should -BeExactly $operation.ExpectedSha256
+    $operation.SelectedVariant='portable'
+    $operation.ResolvedToolsDirectory=$Root
+    $operation.InstallDirectory=Join-Path $Root $operation.PackageId
+    $artifact=[pscustomobject]@{Path=$archivePath;Sha256=$sha;Version=$operation.PackageVersion}
+
+    Install-RidePortablePayload $operation $artifact -Offline
+    Install-RidePortablePayload $operation $artifact -Offline
+    $state=Get-RidePortableState $operation
+    $state.Healthy|Should -BeTrue
+    $state.Files.Count|Should -Be 3
+    @($state.Files.RelativePath|Sort-Object)|Should -Be @('sqlite3.dll','sqlite3.exe','SQLiteQuery.exe')
+
+    $snapshot=Save-RidePortableSnapshot $operation (Join-Path $Root 'real-archive-backup')
+    [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'user-note.txt'),'preserve')
+    Uninstall-RidePortablePayload $operation
+    Restore-RidePortableSnapshot $operation $snapshot
+    (Get-RidePortableState $operation).Healthy|Should -BeTrue
+    [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'user-note.txt'))|Should -BeExactly 'preserve'
+  }
 }

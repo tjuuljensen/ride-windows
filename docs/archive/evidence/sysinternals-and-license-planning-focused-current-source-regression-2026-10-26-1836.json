@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T18:36:45Z",
+  "scope": "Current-source Sysinternals package lifecycle and license-review planning regression",
+  "environment": {
+    "operatingSystem": "Windows",
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "temporaryDirectory": ".local/pester-sysinternals-current"
+  },
+  "tests": {
+    "files": [
+      "tests/SysinternalsProductPackages.Tests.ps1",
+      "tests/SysinternalsSuitePackage.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "total": 104,
+    "passed": 104,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 459.3,
+    "coverage": [
+      "ten prior-v2-approved Sysinternals product package lifecycle suites",
+      "pinned acquisition and archive integrity boundaries",
+      "owned-file repeat, uninstall, snapshot recovery, collision and modified-file handling",
+      "Sysinternals Suite staging and product-folder ownership",
+      "pending package install planning with informational NeedsReview records",
+      "all ten Sysinternals install plans remain available without a licensing gate"
+    ]
+  },
+  "scopeBoundaries": {
+    "executablesLaunched": false,
+    "publisherNetworkAccess": false,
+    "vmOrGuestRequest": false,
+    "windowsOrDefenderStateChanged": false,
+    "licenseDisposition": "Settled by prior RIDE v2 specialist approval for RIDE direct download-and-install; the user's 2026-10-26 clarification states RIDE does not transfer or publish Sysinternals and there are no legal issues. No legal review or licensing gate blocks package migration.",
+    "defenderBlockedTools": "Remain separately excluded based on Defender alerts; this regression does not change those exclusions."
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "remainingAcceptance": "Windows-target acceptance and product runtime behavior remain separate; no utility was launched. VM/controller access currently fails before inspection or dispatch.",
+    "estimateRanges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

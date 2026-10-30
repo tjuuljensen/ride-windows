@@ -1,0 +1,60 @@
+{
+  "recordedAtUtc": "2026-10-25T08:22:00Z",
+  "scope": "ThreadJob ZIP-format portable package validation and current migration disposition",
+  "sourceChanges": [
+    "Direct HTTPS package validation and artifact resolution accept .nupkg only as a ZIP-format Portable package.",
+    "Added catalog-format and exact ThreadJob artifact-resolution regressions.",
+    "Updated RIDE-Packages to 0.21.0 and RIDE.CatalogValidation to 0.28.0."
+  ],
+  "validation": {
+    "repositoryValidation": {
+      "result": "passed",
+      "operations": 413,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 277
+    },
+    "applicationPackagesPester": {
+      "result": "passed",
+      "passed": 119,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistryPluginEnabled": false
+    },
+    "catalogPester": {
+      "result": "passed",
+      "passed": 83,
+      "failed": 0,
+      "notRun": 1,
+      "excludedTag": "WindowsIntegration",
+      "testRegistryPluginEnabled": false,
+      "temporaryDirectory": ".local/pester-nupkg-catalog/temp"
+    },
+    "focusedRegressions": {
+      "threadJobCatalogFormat": "passed",
+      "threadJobDirectHttpsResolution": "passed"
+    },
+    "diffCheck": "passed"
+  },
+  "environmentLimitations": [
+    "An initial unconfigured Catalog.Tests run had one HKCU-denied WindowsIntegration failure and two artifact-write sandbox failures; rerunning with that tag excluded and scratch under .local passed all 83 runnable tests.",
+    "No VM, checkpoint, network, installer, or package utility was accessed or changed in this regression."
+  ],
+  "sysinternalsDisposition": "No legal or licensing blocker. The prior RIDE v2 license-specialist approval covers RIDE's direct Microsoft download-and-install workflow. RIDE does not transfer or publish Sysinternals; the user confirms no legal issues apply. Defender-blocked utilities remain separate security exclusions; technical acceptance is separate.",
+  "legacyOutcome": "No legacy outcome closed.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "accountsConfigurationFiles": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155",
+    "changeReason": "Ranges unchanged; validation support was corrected, but no new legacy outcome completed."
+  },
+  "remaining": [
+    "Test ThreadJob install/remove/recovery and the PSScriptTools dependency plan on an accessible Windows 11 target.",
+    "Verify module visibility only in the isolated runtime probe.",
+    "Windows VM access remains separately blocked by host CIM permissions."
+  ]
+}

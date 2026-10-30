@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T07:26:25Z",
+  "scope": "Source-page and exact-ref retry for the six user-selected ArsenalRecon open-source products",
+  "repositories": [
+    {
+      "name": "Backstage Parser",
+      "repository": "ArsenalRecon/BackstageParser",
+      "branch": "master",
+      "repoPage": "Accessible via browser",
+      "exactCommit": null,
+      "commitHistory": "Not exposed by page source reader",
+      "license": "MIT",
+      "finding": "Python parser reads Office Backstage cache files and writes report output."
+    },
+    {
+      "name": "CyberGate Log Decrypt",
+      "repository": "ArsenalRecon/CyberGateLogDecrypt",
+      "branch": "master",
+      "repoPage": "Accessible via browser",
+      "exactCommit": null,
+      "commitHistory": "Not exposed by page source reader",
+      "license": "MIT",
+      "finding": "Decrypts CyberGate keylogger records and writes plaintext output."
+    },
+    {
+      "name": "Gmail URL Decoder",
+      "repository": "ArsenalRecon/GmailURLDecoder",
+      "branch": "master",
+      "repoPage": "Accessible via browser",
+      "exactCommit": null,
+      "commitHistory": "Two repository commits shown; exact current commit not exposed",
+      "license": "MIT",
+      "finding": "Python 3 tool accepts plaintext or raw-data input and writes JSON results; README reports testing on Python 3.6.7."
+    },
+    {
+      "name": "NetWire Log Decoder",
+      "repository": "ArsenalRecon/NetWireLogDecoder",
+      "branch": "master",
+      "release": "v1.0.0.1",
+      "exactCommit": "d5d8d653f7f31656b47a993ed652cc353a86d78e",
+      "releaseAssetsListed": 3,
+      "releaseAssetsRetrieved": false,
+      "license": "MIT",
+      "finding": "Official release page identifies the immutable commit; exact release payloads remain unavailable."
+    },
+    {
+      "name": "Sdba Parser",
+      "repository": "ArsenalRecon/SdbaParser",
+      "branch": "main",
+      "repoPage": "Accessible via browser",
+      "exactCommit": null,
+      "commitHistory": "Two repository commits shown; exact current commit not exposed",
+      "license": "MIT",
+      "finding": "Parser targets SDBA memory-pool tags; do not automate its temporary execution-policy change."
+    },
+    {
+      "name": "NwStacks",
+      "repository": "ArsenalRecon/NetWireStackForensics",
+      "branch": "main",
+      "repoPage": "Accessible via browser",
+      "exactCommit": null,
+      "commitHistory": "Six repository commits shown; exact current commit not exposed",
+      "license": "MIT",
+      "finding": "Repository contains PoC code, sample files/snapshots, a spreadsheet and decrypted payload samples; exclude samples and decrypted data from automatic package members."
+    }
+  ],
+  "directRefLookup": {
+    "command": "git ls-remote --refs <official repository URL> HEAD",
+    "repositoriesAttempted": 6,
+    "refsResolved": 0,
+    "error": "Could not resolve host: github.com",
+    "exitCode": 128
+  },
+  "acquisition": {
+    "repositoryCheckout": false,
+    "archiveDownload": false,
+    "artifactHashOrMemberInventory": false,
+    "toolExecuted": false,
+    "vmWindowsDefenderOrHostStateChanged": false,
+    "elevationRequested": false
+  },
+  "licenseDisposition": "Publisher repository pages identify MIT licenses. No migration license gate was added; local owner/version review markers remain informational after exact package identities exist.",
+  "migrationAccounting": {
+    "resolved": [
+      "Repository purpose and declared MIT license reconfirmed from accessible official pages for this batch.",
+      "NetWire Log Decoder v1.0.0.1 retains immutable source commit d5d8d653f7f31656b47a993ed652cc353a86d78e.",
+      "NwStacks repository contents confirm sample/decrypted files must remain excluded from automatic packaging."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Five candidates still lack exact immutable commit IDs from the current source.",
+      "Exact artifacts, hashes, member inventories and inert package lifecycle checks remain incomplete for all six.",
+      "Native Windows acceptance remains deferred by VM/controller access."
+    ],
+    "partial": [
+      "No candidate artifact or legacy outcome closed."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "129-183",
+      "rounded": "130-185/about 155"
+    }
+  }
+}

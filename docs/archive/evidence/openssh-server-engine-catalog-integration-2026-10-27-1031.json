@@ -1,0 +1,79 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "OpenSshServerEngineCatalogIntegration",
+  "RecordedAtUtc": "2026-10-27T10:31:00Z",
+  "Repository": "RIDE-Windows",
+  "Changes": [
+    "Registered OpenSSH Server capability as a pending WindowsCapability operation with no supported targets.",
+    "Wired capability state observation, install, owned removal and saved-run recovery into the engine.",
+    "Added components discovery and state projection; excluded WindowsCapability from settings and packages views.",
+    "Added exact ownership resolver coverage and fixed its PowerShell $Matches automatic-variable collision.",
+    "Kept activation and firewall exposure separately selectable and outside this capability operation.",
+    "Reaffirmed Sysinternals licensing as settled by prior RIDE v2 specialist approval for direct download-and-install; Defender exclusions remain separate."
+  ],
+  "Validation": {
+    "CatalogAndRepository": "Passed",
+    "Operations": 430,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 294,
+    "Pester": [
+      {
+        "Path": "tests/Catalog.Tests.ps1",
+        "Filter": "*OpenSSH*",
+        "Passed": 2,
+        "Failed": 0,
+        "NotRun": 89
+      },
+      {
+        "Paths": [
+          "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+          "tests/OpenSshServerObservation.Tests.ps1",
+          "tests/OpenSshServerLifecycle.Tests.ps1"
+        ],
+        "Passed": 32,
+        "Failed": 0,
+        "Skipped": 0
+      }
+    ]
+  },
+  "RegressionNotes": "The first run of the new ownership-resolver test failed because the PowerShell automatic $Matches variable replaced the collection. The collection was renamed and all 32 OpenSSH candidate tests passed on rerun.",
+  "Scope": {
+    "ExecutablesLaunched": false,
+    "CapabilityInstalled": false,
+    "ServiceStarted": false,
+    "FirewallChanged": false,
+    "VmRequested": false,
+    "DefenderChanged": false,
+    "FreshUacRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "Candidates": [
+      "Windows 11",
+      "Windows Server 2025"
+    ],
+    "Blocker": "RIDE-Win11-Test and VM/controller inspection remains blocked by existing CIM/task access failures; native capability, service, firewall and saved-run recovery acceptance remains deferred."
+  },
+  "Migration": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "OpenSSH Server Windows behavior and saved-run acceptance"
+    ],
+    "Partial": [
+      "OpenSSH Server source integration; activation and firewall exposure remain separate unregistered choices"
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No legacy feature or product outcome closed; implementation progress does not change legacy outcome counts."
+  }
+}

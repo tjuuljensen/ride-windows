@@ -1,0 +1,44 @@
+{
+  "recordedAtUtc": "2026-10-29T02:29:41Z",
+  "batch": "MiTeC Network Meter source and synthetic portable lifecycle regression",
+  "package": {
+    "operationId": "package.mitec-network-meter",
+    "version": "2.5.0",
+    "architecture": "x86",
+    "portableMembers": ["NetMet.exe"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "localLicenseReviewStatus": "NeedsReview",
+    "licenseReviewMigrationGate": false
+  },
+  "verification": {
+    "testFile": "tests/MiTeCNetworkMeter.Tests.ps1",
+    "windowsPowerShell": "5.1",
+    "pester": "5.7.1",
+    "testsDiscovered": 2,
+    "passed": 2,
+    "failed": 0,
+    "coverage": "Catalog candidate pin and metadata; inert synthetic ZIP with exact selected-member staging, repeat install, health check, removal, snapshot restore and operator-content preservation.",
+    "publisherArchiveDownloadedOrRehashed": false,
+    "productExecuted": false,
+    "networkOrLiveAdapterUsed": false,
+    "windowsOrVmStateChanged": false,
+    "defenderOrPayloadTouched": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "resolved": ["Current candidate metadata, synthetic staging and snapshot recovery checks pass; exact owner-specific NeedsReview marker exists and is non-gating."],
+    "deferred": ["Publisher-byte revalidation and Windows 11 package lifecycle/product behavior."],
+    "legacyOutcomesClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; this source/synthetic regression closes no legacy package outcome."
+  }
+}

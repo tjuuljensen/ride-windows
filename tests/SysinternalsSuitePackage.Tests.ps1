@@ -8,14 +8,17 @@
   Invoke-Pester .\tests\SysinternalsSuitePackage.Tests.ps1
 .NOTES
   Compatibility: Pester 5.x on native Windows PowerShell 5.1 and PowerShell 7.
-  Version: Repository fixture; individual selection/native acceptance remain pending.
+  Version: Repository fixture; package staging is supported on Windows 11. Per-tool
+  runtime behavior and activation remain separate acceptance scopes.
 #>
 BeforeAll {
   $Repo=Split-Path -Parent $PSScriptRoot
   Import-Module (Join-Path $Repo modules/RIDE.CatalogData.psm1) -Force
   Import-Module (Join-Path $Repo modules/RIDE-PortablePackages.psm1) -Force
   $Suite=(Import-RideCatalogData (Join-Path $Repo catalog/operations.psd1)).Operations|Where-Object Id -eq package.sysinternals-suite
+  $Product=(Import-RideCatalogData (Join-Path $Repo catalog/operations.psd1)).Operations|Where-Object Id -eq package.sysinternals-process-explorer
   $Evidence=Get-Content -LiteralPath (Join-Path $Repo docs/archive/evidence/sysinternals-suite-source-review-2026-10-17.json) -Raw|ConvertFrom-Json
+  $GuestEvidence=Get-Content -LiteralPath (Join-Path $Repo docs/archive/evidence/sysinternals-suite-win11-current-lifecycle-acceptance-2026-10-25-0201.json) -Raw|ConvertFrom-Json
   Add-Type -AssemblyName System.IO.Compression.FileSystem
   Add-Type -AssemblyName System.IO.Compression
   function New-InertSuiteArchive([string]$Path,[string[]]$Members){
@@ -51,7 +54,7 @@ Describe 'Sysinternals reviewed portable snapshot' {
     $Operation=$Suite.Clone();$Operation.SelectedVariant='portable';$Operation.ResolvedToolsDirectory=$CaseRoot;$Operation.InstallDirectory=Join-Path $CaseRoot $Operation.PackageId
     Mock Get-AuthenticodeSignature -ModuleName RIDE-PortablePackages {[pscustomobject]@{Status='NotSigned';SignerCertificate=$null}}
   }
-  It 'binds the official observed archive and every reviewed member without support claims' {
+  It 'binds the official archive and only the accepted Windows 11 staging target' {
     $Suite.ExpectedSha256|Should -BeExactly $Evidence.Acquisition.Sha256
     $Suite.PackageVersion|Should -BeExactly $Evidence.SnapshotId
     $Suite.RequiredFiles.Count|Should -Be 164
@@ -60,17 +63,37 @@ Describe 'Sysinternals reviewed portable snapshot' {
     @($Evidence.Members|Where-Object ErrorType).Count|Should -Be 0
     $Suite.RequiredFiles|Should -Contain Eula.txt
     $Suite.DownloadUri|Should -BeExactly 'https://download.sysinternals.com/files/SysinternalsSuite.zip'
-    $Suite.PendingAcceptance|Should -BeTrue;$Suite.SupportedTargets.Count|Should -Be 0
+    $Suite.PendingAcceptance|Should -BeFalse
+    $Suite.SupportedTargets|Should -Be @('Windows 11')
+    $GuestEvidence.status|Should -BeExactly 'Passed'
+    $GuestEvidence.case.id|Should -BeExactly $Suite.Id
+    $GuestEvidence.case.lifecycleRecovery|Should -BeTrue
+    $GuestEvidence.toolExecuted|Should -BeFalse
+    $GuestEvidence.functionalAcceptance|Should -BeExactly 'Pending'
     $Suite.InstallerArguments|Should -BeNullOrEmpty;$Suite.UninstallerArguments|Should -BeNullOrEmpty
     $Suite.Architecture|Should -BeExactly neutral
     foreach($path in Get-ChildItem -LiteralPath (Join-Path $Repo profiles) -Filter '*.psd1'){
       [IO.File]::ReadAllText($path.FullName)|Should -Not -Match 'package\.sysinternals-suite'
     }
   }
-  It 'refuses an archive missing notices before creating the destination' {
+  It 'requires the complete pinned archive member set before creating the destination' {
     $artifact=New-InertSuiteArchive (Join-Path $CaseRoot incomplete.zip) @($Suite.RequiredFiles|Where-Object {$_ -cne 'Eula.txt'})
     {Install-RidePortablePayload $Operation $artifact}|Should -Throw '*missing required file*'
     Test-Path -LiteralPath $Operation.InstallDirectory|Should -BeFalse
+  }
+  It 'does not remove independently owned product files with matching names' {
+    $sharedMember=@($Suite.RequiredFiles|Where-Object {$_ -in $Product.RequiredFiles}|Select-Object -First 1)
+    $sharedMember.Count|Should -BeGreaterThan 0
+    $Operation.RequiredFiles=@($sharedMember[0])
+    $artifact=New-InertSuiteArchive (Join-Path $CaseRoot suite-single-member.zip) $Operation.RequiredFiles
+    Install-RidePortablePayload $Operation $artifact
+    $productRoot=Join-Path $CaseRoot $Product.PackageId
+    $Operation.InstallDirectory|Should -Not -BeExactly $productRoot
+    $null=New-Item -ItemType Directory -Path $productRoot
+    $productFile=Join-Path $productRoot $sharedMember[0];[IO.File]::WriteAllText($productFile,'separate product fixture')
+    Uninstall-RidePortablePayload $Operation
+    [IO.File]::ReadAllText($productFile)|Should -BeExactly 'separate product fixture'
+    Test-Path -LiteralPath (Join-Path $Operation.InstallDirectory $sharedMember[0])|Should -BeFalse
   }
   It 'rejects changed archive bytes before extraction' {
     $artifact=New-InertSuiteArchive (Join-Path $CaseRoot changed.zip) $Suite.RequiredFiles

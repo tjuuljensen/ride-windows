@@ -70,6 +70,79 @@ application behavior or network route. Microsoft's
 [internet options guidance](https://learn.microsoft.com/en-us/windows/win32/wininet/setting-and-retrieving-internet-options)
 is the API basis; packed registry connection bytes are not decoded or changed.
 
+### Advanced WinHTTP configuration research, 2026-10-26
+
+The accepted advanced WinHTTP control must use the documented `netsh winhttp
+set advproxy` / `show advproxy` interface, not `WinHttpSetDefaultProxyConfiguration`.
+Microsoft documents separate `user` and `machine` scopes and the JSON fields
+`Proxy`, `ProxyBypass`, `AutoconfigUrl` and `AutoDetect`. The older setter is
+deprecated on Windows 8.1 and newer and does not support most proxy
+configurations or proxy authentication. See Microsoft's [WinHTTP netsh command
+reference](https://learn.microsoft.com/en-us/windows/win32/winhttp/netsh-exe-commands),
+[WinHttpSetDefaultProxyConfiguration reference](https://learn.microsoft.com/en-us/windows/win32/api/winhttp/nf-winhttp-winhttpsetdefaultproxyconfiguration),
+and [default proxy structure](https://learn.microsoft.com/en-us/windows/win32/api/winhttp/ns-winhttp-winhttp_proxy_info).
+
+This establishes a supported configuration interface, not a RIDE lifecycle.
+Before catalog integration, implement and test JSON input/output handling,
+literal state capture for both scopes, one-scope-at-a-time writes, conflict-aware
+exact restore, ShouldProcess behavior, command failure/readback handling and
+scope-specific privilege checks. Verify supported OS/build behavior and actual
+WinHTTP consumers in a disposable Windows target. Do not import WinINet settings,
+restart services, infer application routing, or change both scopes implicitly.
+
+The read-only [`RIDE.WinHttpProxyInventory`](../modules/RIDE.WinHttpProxyInventory.psm1)
+candidate parses `netsh winhttp show advproxy` output and binds the reported
+scope to the current machine and user SID. It preserves whether optional strings
+were reported and distinguishes missing from empty values.
+`ExactLiteralStateVerified` is always false because the command view does not
+prove disabled strings or underlying registry state. Use
+`ConvertFrom-RideWinHttpProxyOutput` with captured text for inert parsing or
+`Get-RideWinHttpProxyObservation` for a read-only native query; neither writes a
+file or changes settings. Seven mocked Pester cases pass on PowerShell 7.6.5 and
+Windows PowerShell 5.1.26100.9711. The command itself, write/recovery lifecycle,
+and target behavior remain unverified.
+
+The separate [`RIDE.WinHttpProxyPreparation`](../modules/RIDE.WinHttpProxyPreparation.psm1)
+candidate builds the full `Proxy`, `ProxyBypass`, `AutoconfigUrl` and `AutoDetect`
+JSON payload for an explicit User or Machine scope, preserving unselected
+reported fields. It now refuses preparation and recovery when any of the three
+string properties is omitted, because a complete `set advproxy` payload would
+otherwise replace an unknown prior value with an empty string. This closes a
+data-loss path in preparation; it does not prove that a complete command
+observation equals the underlying literal registry state.
+`Restore-RideWinHttpProxyConfigurationPatch` prepares recovery only when all
+four current values still match the requested payload; drift refuses recovery.
+Machine preparations are marked as requiring elevation, and all preparations
+report `ReadyForMutation = false`. Nine supplied-object tests cover scope, field
+preservation, payload shape, incomplete observations and recovery conflicts. No
+setter, durable state, catalog operation, or supported target is provided in the
+preparation module. See the [2026-10-27 guard regression](archive/evidence/winhttp-proxy-preparation-incomplete-state-guard-and-vm-access-2026-10-27-0731.json).
+
+### Standalone lifecycle candidate
+
+`RIDE.WinHttpProxyLifecycle` now contains guarded apply/restore commands for
+maintainer testing. They accept only a complete patch for one scope, verify the
+current machine and user, save a protected per-scope record before calling the
+documented `netsh` settings-file interface, and refuse detected drift. Machine
+scope requires an already elevated process. `WhatIf` remains read-only. The
+snapshot and recovery guarantee cover only configuration reported by `netsh`;
+disabled or omitted strings and exact underlying registry bytes are not
+recoverable through this candidate. It is not catalog/engine integrated and no
+Windows target is supported. Do not use it as a deployment operation. The
+focused inventory, preparation and lifecycle tests passed 22/22 under PowerShell
+7.6.5 and Windows PowerShell 5.1.26100.9711 using mocked identity, state
+directory, observations and setter; they did not run `netsh` or change proxy
+state. Disposable Windows acceptance, effective policy, consumer
+behavior, GUI effect and exact recovery remain pending. See the
+[dated migration evidence](archive/evidence/winhttp-proxy-durable-lifecycle-candidate-and-vm-block-2026-10-27-1120.json)
+and [settings migration ledger](migrations/settings-post-migration-review.md).
+
+The current-source inventory, preparation and lifecycle suites were rerun on
+2026-10-27: **22/22** passed in PowerShell 7.6.5 and **22/22** in Windows
+PowerShell 5.1.26100.9711. Native observation and setter commands were mocked;
+the run does not establish live proxy behavior or exact underlying registry
+recovery. See the [cross-shell regression and access evidence](archive/evidence/winhttp-proxy-current-source-cross-shell-regression-and-access-2026-10-27-1648.json).
+
 ## Prepare an edit and recovery in memory
 
 Import the separate preparation module and pass an already captured record. The
@@ -110,12 +183,12 @@ scope, and refuses conflicting owned values. It preserves later edits to manual
 proxy, bypass, unrelated flags and an unowned URL. Null and empty originals remain
 distinct. A no-op snapshot does not acquire ownership of later changes.
 
-This is a preparation snapshot, not an authenticated or durable engine manifest.
-It assumes the supplied current observation is accurate and cannot perform a live
-compare-and-set. After actual recovery, owned values no longer match the prepared
-edit; a later engine integration must track completion rather than infer another
-write from this snapshot. Same-session binding deliberately refuses later sessions;
-cross-session recovery requires its own identity/state contract.
+This is a preparation snapshot, not by itself an authenticated or durable engine
+manifest. It assumes the supplied current observation is accurate and cannot
+perform a live compare-and-set. The engine-integrated lifecycle persists this
+snapshot under its saved RunId and tracks restore completion. Same-session binding
+deliberately refuses later sessions; cross-session recovery requires its own
+identity/state contract.
 
 ## Native write boundary candidate
 
@@ -127,13 +200,16 @@ separate `INTERNET_OPTION_SETTINGS_CHANGED` and `INTERNET_OPTION_REFRESH` result
 The setter requires the expected current computer, user SID and interactive
 session, and honors `ShouldProcess`.
 
-This is a native write boundary, not a complete setting lifecycle or a command for
-direct use. It has no durable pre-change store, complete managed-policy coverage, atomic
-compare-and-set, post-write readback, partial-failure compensation, conflict-aware
-restore or RIDE engine/catalog integration. It can therefore change proxy behavior
-if invoked and approved, while recovery remains unimplemented. Do not invoke it
-outside a future lifecycle wrapper. WinHTTP, named RAS/VPN connections, PAC
-retrieval and PAC consumer behavior remain separate. Microsoft documents the
+This inventory writer is a low-level API, not a command for direct use. It does
+not independently compare state, persist recovery, read back results, compensate
+partial writes or restore. The current `RIDE.UserProxyLifecycle` wrapper supplies
+identity and policy checks, `ShouldProcess`, a durable create-new pre-change
+snapshot, fresh comparison, post-write readback, partial-failure compensation,
+saved-run restore and completion tracking. The engine integrates that lifecycle
+for `windows.proxy-auto-detect`; the catalog still declares no supported target.
+Effective policy, PAC-consumer behavior, visible GUI effect and disposable
+Windows acceptance remain open. WinHTTP, named RAS/VPN connections, PAC retrieval
+and other proxy consumers remain separate. Microsoft documents the
 [per-connection option structures](https://learn.microsoft.com/en-us/windows/win32/api/wininet/ns-wininet-internet_per_conn_optionw)
 and the [set/refresh sequence](https://learn.microsoft.com/en-us/windows/win32/wininet/setting-and-retrieving-internet-options).
 
@@ -153,8 +229,8 @@ and [NetworkProxy CSP](https://learn.microsoft.com/en-us/windows/client-manageme
 not a complete effective-policy inventory and does not prove desktop ownership,
 effective routing or that an application consumes WinINet settings. The policy
 observation is not durable state. The low-level writer itself has no compare,
-readback or recovery; the separate guarded lifecycle candidate below supplies
-local compare/readback behavior but still lacks engine integration.
+readback or recovery; the guarded lifecycle below supplies those checks and is
+integrated with engine state for `windows.proxy-auto-detect`.
 
 ## Guarded apply and restore candidate
 
@@ -232,7 +308,13 @@ pending automatic-detection operation with:
 The fake writer and lifecycle tests validate buffers, comparisons, durable
 snapshot ordering, restore by run ID, readback and compensation only; no WinINet
 setter was called.
-Named RAS identity and machine WinHTTP require separate coverage. No live setter
-exists here, and removing this preparation needs no proxy-state recovery. See the
-[capture record](migrations/settings-post-migration-review.md#b04-defaultlan-proxy-observation-2026-10-16)
-and [edit-preparation record](migrations/settings-post-migration-review.md#b04-proxy-edit-and-recovery-preparation-2026-10-16).
+The guarded live setter and durable saved-run recovery are implemented for the
+engine-integrated `windows.proxy-auto-detect` operation. This scope changes only
+the owned automatic-detection flag; it does not set up a PAC URL, change manual
+proxy/bypass values, query or modify named RAS profiles, or configure machine
+WinHTTP. Those paths need separate selection, identity and recovery contracts.
+Effective-policy coverage, controlled PAC-consumer behavior, visible GUI effect
+and disposable Windows acceptance remain open, so the catalog declares no
+supported target. See the [capture record](migrations/settings-post-migration-review.md#b04-defaultlan-proxy-observation-2026-10-16),
+[edit-preparation record](migrations/settings-post-migration-review.md#b04-proxy-edit-and-recovery-preparation-2026-10-16),
+and [engine integration record](migrations/settings-post-migration-review.md#b04-auto-detection-engine-integration-2026-10-23-1104-utc).

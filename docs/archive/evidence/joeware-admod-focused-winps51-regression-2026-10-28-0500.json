@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:00:41Z",
+  "batch": "JoeWare AdMod provider and download-source focused regression",
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass for this process only to import Pester; no persistent policy change.",
+    "optionalPlugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "scratchRoot": ".local/pester-joeware-admod-winps51"
+  },
+  "suites": [
+    {
+      "path": "tests/ApplicationPackages.Tests.ps1",
+      "filter": "*JoeWare AdMod*",
+      "discovered": 130,
+      "selected": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 127
+    },
+    {
+      "path": "tests/Download-JoeWareCollection.Tests.ps1",
+      "discovered": 7,
+      "selected": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    }
+  ],
+  "coverage": [
+    "Pinned AdMod publisher form, archive digest and hostile product-URI rejection.",
+    "AdMod catalog declaration and pending Windows 11 target acceptance.",
+    "Current page-version HTML decoding and Windows PowerShell 5.1/PowerShell 7 response-URI shapes.",
+    "Refusal of non-JoeWare response URIs.",
+    "WhatIf preview performs no publisher request or destination creation.",
+    "AdFind remains excluded from default preview and explicit selection is rejected before request/directory creation.",
+    "Product tab completion uses the reviewed inventory and shared exclusion policy."
+  ],
+  "harness": "The default first ApplicationPackages invocation failed before test bodies because Pester TestRegistry could not create HKCU\\\\Software\\\\Pester in the sandbox. The configured rerun disabled TestRegistry and TestResult and passed the three selected AdMod tests. Downloader suite passed in the same configured process. No test selected or staged NirSoft/PasswordScan.",
+  "boundaries": {
+    "publisherRequestMade": false,
+    "packageArchiveDownloaded": false,
+    "utilityExecuted": false,
+    "adfindRequested": false,
+    "passwordScanSelected": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "pending": [
+    "Pester 5 tests in PowerShell 7 and the remaining broad package suite.",
+    "End-to-end Save-RidePackageArtifact acquisition path.",
+    "Managed AdMod install, repeat, uninstall, exact restore and Windows 11 acceptance on RIDE-Win11-Test."
+  ],
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "Focused current-source regression adds confidence but no legacy product outcome closed; estimates unchanged."
+    }
+  }
+}

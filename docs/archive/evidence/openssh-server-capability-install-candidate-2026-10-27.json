@@ -1,0 +1,126 @@
+{
+  "SchemaVersion": 1,
+  "Scope": "Source-ready OpenSSH Server capability installation candidate for unattended setup",
+  "UserDecision": "Make OpenSSH Server available as a selected unattended-install option. Keep capability installation separate from starting sshd and enabling inbound firewall access. Preserve pre-existing service, firewall, configuration and host-key state.",
+  "MicrosoftReference": {
+    "Uri": "https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse",
+    "RelevantBehavior": "Installing OpenSSH Server creates and enables the OpenSSH-Server-In-TCP inbound TCP/22 firewall rule. Service startup is a separately documented action."
+  },
+  "Candidate": {
+    "Module": "modules/RIDE.OpenSshServerCapabilityLifecycle.psm1",
+    "TestFile": "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+    "Capability": "OpenSSH.Server~~~~0.0.1.0",
+    "Behavior": [
+      "Requires an already elevated native process and explicit computer/build/edition identity.",
+      "Refuses servicing while reboot is pending and refuses ambiguous provider state.",
+      "Uses ShouldProcess before saving state or invoking servicing.",
+      "Installs only the Server capability and never starts sshd.",
+      "Restores a TCP/22 allow rule to disabled when it was absent or disabled before servicing.",
+      "Preserves a pre-existing enabled TCP/22 rule and reports that exposure remains.",
+      "Passes an explicit local source and LimitAccess when requested.",
+      "Saves a protected pre-install observation before servicing; exact capability removal/recovery is not implemented.",
+      "Writes a completed post-install snapshot with capability, service, firewall and server-data observations.",
+      "Removes the capability only when a matching saved run began with no service, firewall rule or server data and those surfaces have not drifted.",
+      "If capability removal leaves the exact disabled TCP/22 rule created by the saved run, removes that rule and verifies absence.",
+      "Writes an idempotent removal record after verifying NotPresent capability and absence of service, firewall rule and server data."
+    ],
+    "Registration": "Unregistered source candidate; no catalog operation or supported target is declared."
+  },
+  "FocusedPester": {
+    "Version": "5.7.1",
+    "PowerShell": "7.6.5",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Total": 6,
+    "Passed": 6,
+    "Failed": 0,
+    "Skipped": 0,
+    "Coverage": [
+      "Exact capability staging and disabled newly created firewall rule",
+      "WhatIf performs no servicing or firewall mutation",
+      "Pre-existing enabled firewall rule preservation",
+      "Already installed Server capability no-op",
+      "Refusal when sshd runs while capability reports absent",
+      "Explicit local source with LimitAccess"
+    ],
+    "CombinedSuites": [
+      "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "CombinedTotal": 24,
+    "CombinedPassed": 24,
+    "CombinedFailed": 0,
+    "PowerShellVersions": [
+      "7.6.5",
+      "Windows PowerShell 5.1.26100.9711"
+    ]
+  },
+  "InitialTestAttempts": "Two runs failed before test discovery because Pester's optional TestRegistry plugin could not create its HKCU fixture in the sandbox. The successful run disabled TestRegistry and TestResult plugins.",
+  "StateChanged": {
+    "Capability": false,
+    "Service": false,
+    "Firewall": false,
+    "Windows": false,
+    "Defender": false,
+    "VMOrCheckpoint": false
+  },
+  "Deferred": [
+    "Catalog and engine integration",
+    "Native Windows 11 and Windows Server 2025 acceptance",
+    "Acceptance of Add-WindowsCapability firewall timing and Remove-WindowsCapability firewall cleanup",
+    "Native service-stopped and data-preservation behavior",
+    "Removal remains unsupported when service, firewall rule or server data existed before install"
+  ],
+  "LegacyOutcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "OpenSSH Server native acceptance and registration"
+    ],
+    "Partial": [
+      "OpenSSH Server migration implementation"
+    ]
+  },
+  "CurrentVmAccessBlocker": "Latest recorded read-only VM/checkpoint access at 2026-10-27 05:34 UTC failed at CIM before inspection; the registered task query returned an invalid network address. No VM request or elevation was made during this candidate run.",
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Adjustment": "None; no legacy outcome closed."
+  },
+  "RecordedAtUtc": "2026-10-27T06:50:00Z",
+  "LatestCombinedPester": {
+    "Version": "5.7.1",
+    "PowerShellVersions": [
+      "7.6.5",
+      "Windows PowerShell 5.1.26100.9711"
+    ],
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Files": [
+      "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "Total": 30,
+    "Passed": 30,
+    "Failed": 0,
+    "Skipped": 0,
+    "Coverage": [
+      "Install snapshot completion",
+      "WhatIf install and removal",
+      "Exact removal from eligible absence baseline",
+      "Removal of a retained disabled rule proved newly created by RIDE",
+      "Service, firewall and data drift refusal",
+      "Idempotent repeat removal",
+      "Existing install, observer and activation behavior"
+    ]
+  },
+  "RepositoryValidation": "Passed: 429 operations, 8 groups, 5 profiles, 294 PowerShell files; generated docs/OPERATIONS.md current."
+}

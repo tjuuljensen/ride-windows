@@ -8,7 +8,7 @@
   Invoke-Pester .\tests\MiTecCertificateTools.Tests.ps1
 .NOTES
   Compatibility: Pester 5 on native Windows PowerShell 5.1 and PowerShell 7.
-  Certificate parsing, generation, export, UI, target support and activation remain pending.
+  Windows 11 file lifecycle is accepted; certificate parsing, generation, export, UI and activation remain pending.
 #>
 BeforeAll {
   $script:RepositoryRoot=Split-Path -Parent $PSScriptRoot
@@ -38,7 +38,7 @@ Describe 'MiTeC certificate package <PackageId>' -ForEach @(
       Remove-Item -LiteralPath $resolved -Recurse -Force
     }
   }
-  It 'matches its frozen publisher record and stays unsupported pending synthetic-only acceptance' {
+  It 'matches its frozen publisher record and restricts future behavior tests to synthetic data' {
     $row=$Evidence.Products|Where-Object Name -eq $Product
     $operation=$Catalog.Operations|Where-Object Id -eq ('package.'+$PackageId)
     $operation|Should -Not -BeNullOrEmpty
@@ -49,8 +49,8 @@ Describe 'MiTeC certificate package <PackageId>' -ForEach @(
     $operation.Architecture|Should -BeExactly $Architecture
     $operation.RequiredFiles|Should -Be @($Member)
     $operation.PortableMembers|Should -Be @($Member)
-    $operation.SupportedTargets.Count|Should -Be 0
-    $operation.PendingAcceptance|Should -BeTrue
+    $operation.SupportedTargets|Should -Contain 'Windows 11'
+    $operation.PendingAcceptance|Should -BeFalse
     $operation.License|Should -Match 'private, educational and non-commercial'
     $operation.License|Should -Match 'redistribution remain unresolved'
     $operation.TermsUri|Should -BeExactly $Evidence.TermsUri

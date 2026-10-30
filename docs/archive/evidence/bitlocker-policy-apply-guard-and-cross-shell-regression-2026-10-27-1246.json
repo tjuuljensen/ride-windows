@@ -1,0 +1,105 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "BitLockerPolicyApplyGuardCrossShellRegression",
+  "RecordedAtUtc": "2026-10-27T12:46:41Z",
+  "Scope": "Strengthen the target-pending regression by proving that Invoke-RidePlan refuses all three Windows 11 candidates before policy handlers can run.",
+  "CatalogState": {
+    "OperationIds": [
+      "windows.bitlocker-encryption-method-os",
+      "windows.bitlocker-encryption-method-fixed-data",
+      "windows.bitlocker-encryption-method-removable-data"
+    ],
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "DefaultProfileState": "XtsAes256",
+    "HistoricalOperationUnchanged": "windows.bitlocker-encryption-method"
+  },
+  "FocusedPester": [
+    {
+      "Shell": "PowerShell 7.6.5",
+      "Pester": "5.7.1",
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "Scratch": ".local/pester-bitlocker-method-policy-focused-20261027"
+    },
+    {
+      "Shell": "Windows PowerShell 5.1.26100.9711",
+      "Pester": "5.7.1",
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "ExecutionPolicy": "Process-only Bypass",
+      "Scratch": ".local/pester-bitlocker-method-policy-winps51-20261027",
+      "ResultAssertion": "Process exited 0 after requiring exactly 4 passed, 0 failed, and 0 skipped."
+    }
+  ],
+  "ApplicationGuard": {
+    "Test": "Mocks the platform as Windows 11, builds XtsAes256 plans for all three operations, then calls Invoke-RidePlan with WhatIf.",
+    "Expected": "Each request throws the unsupported-target error before the registry handler.",
+    "Cases": 3,
+    "Passed": true,
+    "WhatIf": true
+  },
+  "CatalogRegression": {
+    "TargetedLegacyIdentityAssertion": {
+      "Test": "keeps the legacy BitLocker selector distinct from split future-encryption choices",
+      "Passed": 1,
+      "Failed": 0,
+      "NotRun": 94
+    },
+    "EarlierCombinedCatalogRun": {
+      "Discovered": 98,
+      "Passed": 97,
+      "Failed": 1,
+      "Failure": "Direct registry security-descriptor access was denied by the sandbox; unrelated to BitLocker."
+    }
+  },
+  "RepositoryValidation": {
+    "Result": "passed",
+    "Operations": 432,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 296,
+    "GeneratedOperationDocumentationCurrent": true
+  },
+  "Diagnostics": [
+    "The first draft of the new guard test tried to mock a private registry setter and failed before reaching the assertion because Pester could not resolve that non-exported command. Replacing it with an explicit -WhatIf invocation retained the no-state-change boundary, and the final focused suite passed 4/4 in both shells.",
+    "The initial post-catalog-change validation reported stale generated docs; tools/Export-RideCatalog.ps1 regenerated docs/OPERATIONS.md, after which tools/validate.ps1 passed."
+  ],
+  "VMAccess": {
+    "LatestCheckAtUtc": "2026-10-27T12:40:01Z",
+    "Targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "Result": "Get-VM failed before inspection: Access to a CIM resource was not available to the client.",
+    "AcceptanceDispatch": "not attempted"
+  },
+  "Safety": {
+    "WhatIfEnabledForApplyGuard": true,
+    "RegistryHandlerReached": false,
+    "RegistryOrDriveStateChanged": false,
+    "VMOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "Deferred": "Disposable Windows 11 Group Policy view, precedence and saved-state restoration acceptance for all three drive-type operations.",
+    "Blocker": "Host CIM access prevents VM inspection and acceptance dispatch."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Candidate target gating is verified through the engine; native acceptance remains pending."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "The extra fail-closed regression closes no legacy outcome; the target acceptance blocker remains unchanged."
+  }
+}

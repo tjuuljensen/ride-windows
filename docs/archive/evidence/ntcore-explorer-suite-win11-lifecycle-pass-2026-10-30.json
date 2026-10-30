@@ -1,0 +1,243 @@
+{
+    "SchemaVersion":  1,
+    "ReviewDate":  "2026-10-30",
+    "RunId":  "ed4f857b82314e70ad72a807266a5282",
+    "Status":  "Windows 11 installation-lifecycle milestone accepted",
+    "Result":  {
+                   "SchemaVersion":  1,
+                   "RunId":  "ed4f857b82314e70ad72a807266a5282",
+                   "Source":  "Local",
+                   "UnitOnly":  false,
+                   "IntegrationSuite":  "ApplicationsBatch12",
+                   "Status":  "Passed",
+                   "StartedAtUtc":  "2026-10-30T06:46:24.5948301Z",
+                   "FinishedAtUtc":  "2026-10-30T06:57:30.5766750Z",
+                   "Error":  null,
+                   "CleanupError":  null,
+                   "CollectionError":  null,
+                   "GuestGitHubAuthentication":  "Anonymous",
+                   "GitHubTestScenario":  "Acquire",
+                   "CredentialCleanupVerified":  null,
+                   "EvidenceExportError":  null
+               },
+    "Summary":  {
+                    "SchemaVersion":  1,
+                    "RunId":  "ed4f857b82314e70ad72a807266a5282",
+                    "Status":  "Passed",
+                    "ValidationPassed":  true,
+                    "IntegrationPassed":  true,
+                    "Pester":  {
+                                   "Version":  "5.7.1",
+                                   "Failed":  0,
+                                   "Result":  "Passed",
+                                   "Total":  436,
+                                   "Passed":  432
+                               },
+                    "Error":  null,
+                    "StateCollectionError":  null,
+                    "Guest":  {
+                                  "SID":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                                  "Account":  "RIDE-WIN11-TEST\\admin",
+                                  "PowerShell":  "5.1.26100.9711",
+                                  "OS":  {
+                                             "Caption":  "Microsoft Windows 11 Enterprise Evaluation",
+                                             "Version":  "10.0.26300",
+                                             "BuildNumber":  "26300"
+                                         }
+                              },
+                    "GuestGitHubAuthentication":  "Anonymous",
+                    "GitHubTestScenario":  "Acquire",
+                    "CredentialCleanupVerified":  null,
+                    "PesterSelection":  "Application lifecycle, catalog, acquisition and controller regression",
+                    "IntegrationSuite":  "ApplicationsBatch12"
+                },
+    "Application":  {
+                        "value":  [
+                                      {
+                                          "Id":  "package.ntcore-explorer-suite",
+                                          "Variant":  "installed",
+                                          "Target":  "Windows 11",
+                                          "OS":  "Microsoft Windows 11 Enterprise Evaluation",
+                                          "Build":  "26300",
+                                          "InstallationType":  "Client",
+                                          "Scope":  "Machine",
+                                          "Provider":  "DirectHttps",
+                                          "Applicability":  "Applicable to deployment lifecycle",
+                                          "Status":  "Passed",
+                                          "Version":  null,
+                                          "Error":  null,
+                                          "Recovery":  true,
+                                          "ProfilePreservation":  null,
+                                          "UserDataPreservation":  null,
+                                          "UserDataFixtures":  [
+
+                                                               ],
+                                          "RemovalRecoveryVersion":  null,
+                                          "Checks":  [
+                                                         "RepeatInstall",
+                                                         "RemovalPreview",
+                                                         "RIDERemoval",
+                                                         "RepeatRemoval",
+                                                         "SavedRemovalRecovery",
+                                                         "SavedInstallRecovery"
+                                                     ],
+                                          "RecoveryMode":  "Compensating presence recovery; previous-version recovery unavailable",
+                                          "ExecutionSid":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                                          "Elevated":  true,
+                                          "LocalAppData":  "C:\\Users\\admin\\AppData\\Local"
+                                      }
+                                  ],
+                        "Count":  1
+                    },
+    "ArtifactObservations":  [
+                                 {
+                                     "ObservationId":  "385340e36d294f7195be1250203cbe68",
+                                     "RunId":  "ed4f857b82314e70ad72a807266a5282",
+                                     "PackageId":  "ntcore-explorer-suite",
+                                     "ArtifactId":  null,
+                                     "Version":  "III-2012-11-18",
+                                     "Architecture":  "x86",
+                                     "FileName":  "ExplorerSuite.exe",
+                                     "OriginUri":  "https://ntcore.com/explorer-suite/",
+                                     "SourceUri":  "https://ntcore.com/files/ExplorerSuite.exe",
+                                     "ReleaseUri":  "https://ntcore.com/files/ExplorerSuite.exe",
+                                     "ReleaseMetadata":  null,
+                                     "Variant":  "installed",
+                                     "Provider":  "DirectHttps",
+                                     "License":  "The NTCore product page describes the suite as freeware; an exact-version NeedsReview record is administrative and does not block migration.",
+                                     "LicenseUri":  "https://ntcore.com/explorer-suite/",
+                                     "TermsUri":  null,
+                                     "ObservedAtUtc":  "2026-10-30T06:56:49.2296557Z",
+                                     "Route":  "direct",
+                                     "AcquisitionKind":  "Download",
+                                     "Sha256":  "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+                                     "ProviderDigest":  "sha256:94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+                                     "PublisherSha256":  null,
+                                     "PublisherChecksumUri":  null,
+                                     "PublisherChecksumResult":  "Unavailable",
+                                     "ChecksumUris":  [
+
+                                                      ],
+                                     "SignatureUris":  [
+
+                                                       ],
+                                     "AuthenticodeStatus":  "NotSigned",
+                                     "AuthenticodeSigner":  null,
+                                     "AuthenticodeIssuer":  null,
+                                     "AuthenticodeThumbprint":  null,
+                                     "TimestampSigner":  null,
+                                     "TimestampThumbprint":  null,
+                                     "FileSize":  3613174,
+                                     "FileVersion":  "                    ",
+                                     "ProductVersion":  "                    ",
+                                     "Contents":  [
+
+                                                  ]
+                                 },
+                                 {
+                                     "ObservationId":  "268f6db558b54d2a901f2501083349d2",
+                                     "RunId":  "ed4f857b82314e70ad72a807266a5282",
+                                     "PackageId":  "ntcore-explorer-suite",
+                                     "ArtifactId":  null,
+                                     "Version":  "III-2012-11-18",
+                                     "Architecture":  "x86",
+                                     "FileName":  "ExplorerSuite.exe",
+                                     "OriginUri":  "https://ntcore.com/explorer-suite/",
+                                     "SourceUri":  "https://ntcore.com/files/ExplorerSuite.exe",
+                                     "ReleaseUri":  "https://ntcore.com/files/ExplorerSuite.exe",
+                                     "ReleaseMetadata":  null,
+                                     "Variant":  "installed",
+                                     "Provider":  "DirectHttps",
+                                     "License":  "The NTCore product page describes the suite as freeware; an exact-version NeedsReview record is administrative and does not block migration.",
+                                     "LicenseUri":  "https://ntcore.com/explorer-suite/",
+                                     "TermsUri":  null,
+                                     "ObservedAtUtc":  "2026-10-30T06:57:16.8104747Z",
+                                     "Route":  "direct",
+                                     "AcquisitionKind":  "Cache",
+                                     "Sha256":  "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+                                     "ProviderDigest":  "sha256:94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+                                     "PublisherSha256":  null,
+                                     "PublisherChecksumUri":  null,
+                                     "PublisherChecksumResult":  "Unavailable",
+                                     "ChecksumUris":  [
+
+                                                      ],
+                                     "SignatureUris":  [
+
+                                                       ],
+                                     "AuthenticodeStatus":  "NotSigned",
+                                     "AuthenticodeSigner":  null,
+                                     "AuthenticodeIssuer":  null,
+                                     "AuthenticodeThumbprint":  null,
+                                     "TimestampSigner":  null,
+                                     "TimestampThumbprint":  null,
+                                     "FileSize":  3613174,
+                                     "FileVersion":  "                    ",
+                                     "ProductVersion":  "                    ",
+                                     "Contents":  [
+
+                                                  ]
+                                 }
+                             ],
+    "Pester":  {
+                   "Failed":  0,
+                   "Skipped":  4,
+                   "Total":  436,
+                   "Passed":  432
+               },
+    "Scope":  "Pinned installer acquisition and presence, repeat install, removal preview, removal/repeat, compensating saved-removal recovery and saved-install recovery",
+    "Limitations":  [
+                        "No bundled utility was launched; utility functionality is outside this milestone.",
+                        "Installed DisplayVersion and recovery DisplayVersion are null; identity is evidenced by the acquired installer pin, not an asserted installed version.",
+                        "Recovery reinstalls the declared installer; arbitrary historical-version recovery is unavailable.",
+                        "Installed component/shortcut inventory and full product support promotion are not established by this run."
+                    ],
+    "Cleanup":  "Controller reports no cleanup, collection or evidence-export error; this is controller evidence, not an independent live VM/task state observation.",
+    "Next":  "No repeat of this accepted lifecycle run is required without a relevant change or failure. Keep remaining collection/product scope explicit and separate.",
+    "Migration":  {
+                      "Components":  "19-24",
+                      "ExactTotal":  "126-180",
+                      "Retired":  0,
+                      "FilesAndAssets":  "25-35",
+                      "Resolved":  0,
+                      "Partial":  "Explorer Suite installation lifecycle accepted; wider NTCore collection/product review remains partial",
+                      "Packages":  "37-52",
+                      "NewExclusions":  0,
+                      "Rationale":  "A scoped installation milestone does not close the whole remaining legacy NTCore collection outcome. Other deferred scope is unchanged.",
+                      "RoundedTotal":  "125-180; about 155",
+                      "Maintenance":  "8-12",
+                      "Settings":  "37-57"
+                  },
+    "Files":  [
+                  {
+                      "Path":  "result.json",
+                      "SHA256":  "413C82E3288F439B96FD937663DD8A60A227D0E3D71C0121FD0FB669FB111754",
+                      "Bytes":  562
+                  },
+                  {
+                      "Path":  "controller-errors.log",
+                      "SHA256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                      "Bytes":  0
+                  },
+                  {
+                      "Path":  "guest/summary.json",
+                      "SHA256":  "B6B47F7910DBEB088C34179FA52179EFC5F90E72473255C61CBA1A6E04837FD9",
+                      "Bytes":  1206
+                  },
+                  {
+                      "Path":  "guest/applications-batch12.json",
+                      "SHA256":  "8A68FD9B0B3AE3138E0326CF27545728A552D7661665A0054FF713BBD748A70B",
+                      "Bytes":  785
+                  },
+                  {
+                      "Path":  "guest/pester.xml",
+                      "SHA256":  "E861A98AAC8C4E83012EABDAD631EE90440A5CA61713A6487771306722248382",
+                      "Bytes":  157794
+                  },
+                  {
+                      "Path":  "guest/artifact-observations.json",
+                      "SHA256":  "27FCE9DE8FE0D8BB41DAC480E3FEDD3E0540EF8210423496D2D9E597F8CB3C9F",
+                      "Bytes":  457534
+                  }
+              ]
+}

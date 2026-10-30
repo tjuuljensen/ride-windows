@@ -1,0 +1,43 @@
+{
+  "recordedAtUtc": "2026-10-29T00:44:24Z",
+  "source": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength",
+  "policy": "Choose drive encryption method and cipher strength (Group Policy)",
+  "microsoftApplicability": ["Windows 11", "Windows Server 2025", "Windows Server 2022", "Windows Server 2019", "Windows Server 2016"],
+  "microsoftGuidance": {
+    "configurationPath": "Computer Configuration > Administrative Templates > Windows Components > BitLocker Drive Encryption",
+    "driveTypeChoices": ["Operating system drives", "Fixed data drives", "Removable data drives"],
+    "methodChoices": {"AesCbc128": 3, "AesCbc256": 4, "XtsAes128": 6, "XtsAes256": 7},
+    "recommendedAlgorithm": "XTS-AES",
+    "keyLengthChoice": "128-bit or 256-bit based on device performance",
+    "defaultWhenNotConfigured": "XTS-AES 128-bit",
+    "serverManagementNote": "Windows Server does not support BitLocker CSP or Configuration Manager for this policy; use Group Policy."
+  },
+  "catalogChanges": [
+    {"operationId": "windows.bitlocker-encryption-method-os", "candidateTargetsBefore": ["Windows 11"], "candidateTargetsAfter": ["Windows 11", "Windows Server 2025"]},
+    {"operationId": "windows.bitlocker-encryption-method-fixed-data", "candidateTargetsBefore": ["Windows 11"], "candidateTargetsAfter": ["Windows 11", "Windows Server 2025"]},
+    {"operationId": "windows.bitlocker-encryption-method-removable-data", "candidateTargetsBefore": ["Windows 11"], "candidateTargetsAfter": ["Windows 11", "Windows Server 2025"]}
+  ],
+  "acceptanceBoundary": "These remain candidate targets only. SupportedTargets stays empty and PendingAcceptance stays true until disposable Windows 11 and Server 2025 acceptance verifies registry policy application/readback/restore, effective Group Policy behavior and that no existing encrypted volume or protector changes.",
+  "profileDecision": "The user's approved XtsAes256 default selections remain in profiles/default.psd1 for all three drive types. The engine blocks application on unsupported targets while supported targets remain empty.",
+  "verification": {
+    "focusedTestSourceUpdated": true,
+    "focusedTestSourceParses": true,
+    "catalogValidation": "passed: 451 operations, 8 groups, 5 profiles, and 305 PowerShell files",
+    "directMetadataAssertions": "passed: all three candidates include Windows 11 and Server 2025, remain unsupported and pending; default profile remains XtsAes256",
+    "verifiedAtUtc": "2026-10-29T00:45:18Z",
+    "pester": "not run: only Pester 3.4.0 is available in the current PowerShell 7.6.5 session; focused suite requires Pester 5",
+    "vmOrRegistryStateChanged": false,
+    "existingVolumeOrProtectorTouched": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "The candidate target list now reflects Microsoft applicability; no native policy acceptance or legacy outcome closed."
+  }
+}

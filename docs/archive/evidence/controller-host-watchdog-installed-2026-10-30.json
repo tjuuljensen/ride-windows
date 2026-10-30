@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T11:07:34.3719995Z",
+  "Status": "ProtectedInstallationVerified",
+  "Registration": "Operator-reported success; independent configuration/file read-back",
+  "WatchdogCapability": true,
+  "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+  "ValidationStatus": "NotValidated",
+  "Files": [
+    {
+      "File": "RIDE.TestAutomation.psm1",
+      "InstalledSha256": "1f0e8325114e3c3402e9b71663ae9148a83858fdb2663dcc41c6a4763e86b8ec",
+      "CheckoutSha256": "1f0e8325114e3c3402e9b71663ae9148a83858fdb2663dcc41c6a4763e86b8ec"
+    },
+    {
+      "File": "Invoke-RideVmTestTaskWorker.ps1",
+      "InstalledSha256": "cacc121c6420bbe79d3b3872198cf87a9afa9cfc43700a58f1c308304362c943",
+      "CheckoutSha256": "cacc121c6420bbe79d3b3872198cf87a9afa9cfc43700a58f1c308304362c943"
+    },
+    {
+      "File": "Invoke-RideVmTestRequest.ps1",
+      "InstalledSha256": "c45edd8880a971420a9b8c2f18388a98dc3638ad2c9f63d25afddf01e71cab2d",
+      "CheckoutSha256": "c45edd8880a971420a9b8c2f18388a98dc3638ad2c9f63d25afddf01e71cab2d"
+    },
+    {
+      "File": "Invoke-RideVmTest.ps1",
+      "InstalledSha256": "7bb4ae7a9e3277ae5229309ebe1b31cf3f9b672592b233ff65d513ad55336b1c",
+      "CheckoutSha256": "7bb4ae7a9e3277ae5229309ebe1b31cf3f9b672592b233ff65d513ad55336b1c"
+    },
+    {
+      "File": "Invoke-RideVmTestTask.ps1",
+      "InstalledSha256": "8c54dd5c100b406f4ed800d11dc8726079dfff807b25e77183764f9864a29b32",
+      "CheckoutSha256": "8c54dd5c100b406f4ed800d11dc8726079dfff807b25e77183764f9864a29b32"
+    },
+    {
+      "File": "Export-RideVmTestEvidence.ps1",
+      "InstalledSha256": "2e7c2e50106a4a877ab8591c603ef32fe7136f7bbd05709da78dbf17fbd7a1e4",
+      "CheckoutSha256": "2e7c2e50106a4a877ab8591c603ef32fe7136f7bbd05709da78dbf17fbd7a1e4"
+    }
+  ],
+  "PendingRequests": 0,
+  "RunningRequests": 0,
+  "RecoveryBlockPresent": false,
+  "LiveVmAndTaskCheck": "Pending operator pre-dispatch check",
+  "PriorHostProbe": "2f5fb9b79e954335b3c1387985c7b965",
+  "RequestSubmittedByThisReview": false,
+  "Next": "After Off/Ready check, one Source Local ApplicationsBatch10 diagnostic request with TimeoutMinutes 20; inspect evidence before another retry.",
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "Settings": "37-57",
+    "Maintenance": "8-12",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "Rounded": "125-180",
+    "FilesAndAssets": "25-35",
+    "Exact": "126-180"
+  }
+}

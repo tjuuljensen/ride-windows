@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "runId": "8284883b83a6482cbe389f94a1fd954b",
+  "suite": "ImageMagick",
+  "target": "Windows Server 2025",
+  "status": "RejectedBySuiteTargetGuard",
+  "startedAtUtc": "2026-10-25T02:21:33.6069806Z",
+  "finishedAtUtc": "2026-10-25T02:25:24.7861812Z",
+  "reason": "The reviewed acceptance batch requires Windows 11 x64.",
+  "packageExecuted": false,
+  "toolExecuted": false,
+  "prerequisiteInstalled": false,
+  "functionalAcceptance": "NotRun",
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "cleanupError": null,
+  "collectionError": null,
+  "vm": "RIDE-S25-Test",
+  "vmId": "06c2ae01-bf82-4634-9215-f240f3ea4147",
+  "checkpointId": "4a5b49ba-0795-480a-8d01-6f4f670577c8",
+  "controllerEvidence": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDESrv2025Test\\results\\8284883b83a6482cbe389f94a1fd954b\\controller-errors.log"
+}

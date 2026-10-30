@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T08:23:04Z",
+  "validation": {
+    "command": "tools/validate.ps1",
+    "status": "passed",
+    "operations": 416,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 279
+  },
+  "pester": {
+    "version": "5.7.1",
+    "powershell": "7.6.5",
+    "files": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "discovered": 148,
+    "passed": 148,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "durationSeconds": 206.55,
+    "suiteDurationsSeconds": {
+      "ApplicationPackages.Tests.ps1": 125.37,
+      "LicenseReviews.Tests.ps1": 81.14
+    },
+    "testRegistryPluginEnabled": false,
+    "testResultPluginEnabled": false
+  },
+  "vmAccess": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "getVm": "Access to a CIM resource was not available to the client.",
+    "registeredTaskQuery": "ERROR: The network address is invalid.",
+    "guestRequestSubmitted": false,
+    "checkpointInspected": false,
+    "elevationPrompt": false
+  },
+  "scope": {
+    "installerOrUtilityExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false,
+    "licenseReviewMarkersAreMigrationGates": false,
+    "decision": "Current package planning and owner/version review administration pass locally. Sysinternals remains eligible under the prior RIDE v2 specialist approval for direct download and install. Native Windows acceptance remains blocked before guest inspection.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

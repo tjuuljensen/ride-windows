@@ -1,0 +1,32 @@
+{
+  "RecordedAtUtc": "2026-10-25T14:52:00Z",
+  "Kind": "ReadOnlyVmAndCheckpointAccessRecheck",
+  "Targets": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "GetVm": "Failed: Access to a CIM resource was not available to the client",
+      "SnapshotInspection": "Not attempted because Get-VM failed"
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "GetVm": "Failed: Access to a CIM resource was not available to the client",
+      "SnapshotInspection": "Not attempted because Get-VM failed"
+    }
+  ],
+  "GuestRequestSubmitted": false,
+  "HostOrGuestStateChanged": false,
+  "FreshElevationRequested": false,
+  "WindowsAcceptanceRun": false,
+  "Deferred": "All outstanding disposable-VM acceptance remains deferred until host CIM access is restored or an already-authorized controller can execute the current checkout.",
+  "EstimateImpact": {
+    "LegacyOutcomesClosed": 0,
+    "RangesChanged": false,
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

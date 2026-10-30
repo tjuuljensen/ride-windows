@@ -1,0 +1,72 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T06:25:06Z",
+  "Scope": "Read-only recheck of official CCleaner-family build pages and download routes",
+  "Publisher": "Gen Digital Inc.",
+  "Sources": {
+    "CCleanerBuilds": "https://www.ccleaner.com/ccleaner/builds",
+    "RecuvaBuilds": "https://www.ccleaner.com/recuva/builds",
+    "SpeccyBuilds": "https://www.ccleaner.com/speccy/builds",
+    "DefragglerBuilds": "https://www.ccleaner.com/defraggler/builds"
+  },
+  "Observations": {
+    "CCleaner": {
+      "LatestOfficialRelease": "7.13.1573",
+      "OnlineInstallerRoute": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+      "OfflineInstallerRoute": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_FULL/build_RELEASE",
+      "PortableRoute": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "PublisherNotice": "Builds below are for system admins and advanced users. They are not for distribution or mirroring."
+    },
+    "Recuva": {
+      "Route": "https://download.ccleaner.com/rcsetup155.exe",
+      "InstallerType": "Standard installer",
+      "VersionDisplayedOnBuildPage": false
+    },
+    "Speccy": {
+      "Route": "https://download.ccleaner.com/spsetup134.exe",
+      "InstallerType": "Standard installer",
+      "VersionDisplayedOnBuildPage": false
+    },
+    "Defraggler": {
+      "Result": "The /builds page redirects to the product page and does not provide a direct build route."
+    }
+  },
+  "ArtifactAccess": {
+    "OnlineInstaller": "Publisher route returned application/octet-stream; the browser source reader refused the binary.",
+    "OfflineInstaller": "Publisher route returned application/octet-stream; the browser source reader refused the binary.",
+    "PortableArchive": "Publisher route returned application/zip; the browser source reader refused the archive.",
+    "RecuvaInstaller": "Publisher route returned application/octet-stream; the browser source reader refused the binary.",
+    "SpeccyInstaller": "Publisher route returned application/octet-stream; the browser source reader refused the binary.",
+    "PayloadsAcquired": 0,
+    "HashesOrSignaturesVerified": 0
+  },
+  "Disposition": {
+    "ExistingSelectionPreserved": true,
+    "PackageCandidatesAdded": false,
+    "LicenseGateAdded": false,
+    "LicenseMarkerPolicy": "Add version-specific local NeedsReview records once exact package identities exist; markers remain administrative and do not block package migration.",
+    "NoInstallerOrUtilityExecuted": true,
+    "NoWindowsVmDefenderOrHostStateChanged": true
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Current official CCleaner build-page version and the listed official family download routes were reconfirmed."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire exact publisher payloads and verify product version, hash, signature, installer metadata and managed-file ownership/recovery.",
+      "Recuva and Speccy build pages still do not expose versions; the Defraggler build route remains unavailable.",
+      "Windows 11 and any declared Server lifecycle acceptance remain pending VM access."
+    ],
+    "Partial": ["No CCleaner-family package or whole legacy outcome closes."],
+    "EstimateEffect": {
+      "Changed": false,
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

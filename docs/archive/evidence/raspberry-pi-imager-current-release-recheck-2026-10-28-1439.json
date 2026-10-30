@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T14:39:03Z",
+  "batch": "Raspberry Pi Imager current publisher release recheck",
+  "source": "https://github.com/raspberrypi/rpi-imager/releases",
+  "publisherObservation": {
+    "latestTag": "v2.0.12",
+    "releaseDate": "2026-10-08",
+    "windowsAsset": "imager-v2.0.12.exe",
+    "architecture": "x64",
+    "reportedSize": "21.3 MB",
+    "publishedSha256": "98bff90afe23339d0768915f6f68d35ac254740ec1eac2082ebeaa9ba41bc8e3"
+  },
+  "catalogComparison": {
+    "operationId": "package.raspberry-pi-imager",
+    "catalogVersion": "2.0.12",
+    "catalogAsset": "imager-v2.0.12.exe",
+    "catalogSha256": "98bff90afe23339d0768915f6f68d35ac254740ec1eac2082ebeaa9ba41bc8e3",
+    "match": true,
+    "pendingAcceptance": true,
+    "supportedTargets": [],
+    "candidateTargets": ["Windows 11"]
+  },
+  "observations": {
+    "artifactDownloadedOrInspected": false,
+    "installerRun": false,
+    "imageWriterLaunched": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "resolved": ["The selected catalog version/asset/digest still matches the publisher page's current latest release."],
+    "remainingAcceptance": "Local artifact bytes and Authenticode remain unverified. Disposable Windows 11 install, repeat install, uninstall, expected publisher effects and checkpoint restoration remain required before target support is declared.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this source recheck confirms a new v3 candidate pin and closes no legacy outcome."
+    }
+  }
+}

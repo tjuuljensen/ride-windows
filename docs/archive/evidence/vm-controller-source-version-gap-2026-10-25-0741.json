@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T07:41:33Z",
+  "Scope": "Verify whether Windows 11 and Server 2025 registered controllers contain the current migration acceptance runners",
+  "ControllerState": [
+    {
+      "Name": "RIDEWin11Test",
+      "InvokeRideVmTestTask": {
+        "LocalVersion": "1.5.0",
+        "InstalledVersion": "1.4.0",
+        "LocalSha256": "711E7AD73F5C485F151284ABB6CE9767DF2952F8C7231529CEBA82D0395E10D0",
+        "InstalledSha256": "64B4905C2A56C571D3B598CA533C31C91EB2D81815CE9682E5EA7BE397F5CEAF"
+      },
+      "InvokeRideVmTest": {
+        "LocalVersion": "0.15.0",
+        "InstalledVersion": "0.13.0",
+        "LocalSha256": "CF19DB80E9B2C193D6052036C467CD9177F2DD99049C1DA5A8D32C2719ED9B0D",
+        "InstalledSha256": "6564457FC845DECCB850C50568130A6F3E5E440DFE1839BFC781545F6B70DC8C"
+      }
+    },
+    {
+      "Name": "RIDESrv2025Test",
+      "InvokeRideVmTestTask": {
+        "LocalVersion": "1.5.0",
+        "InstalledVersion": "1.1.0",
+        "LocalSha256": "711E7AD73F5C485F151284ABB6CE9767DF2952F8C7231529CEBA82D0395E10D0",
+        "InstalledSha256": "1A0EDEE8700AB938AEC32D21328D110127E9B0BA404E3C01CA0161D686C2EEA2"
+      },
+      "InvokeRideVmTest": {
+        "LocalVersion": "0.15.0",
+        "InstalledVersion": "0.13.0",
+        "LocalSha256": "CF19DB80E9B2C193D6052036C467CD9177F2DD99049C1DA5A8D32C2719ED9B0D",
+        "InstalledSha256": "6564457FC845DECCB850C50568130A6F3E5E440DFE1839BFC781545F6B70DC8C"
+      }
+    }
+  ],
+  "RuntimeObservations": {
+    "Windows11QueuePending": 0,
+    "Windows11QueueRunning": 0,
+    "Server2025QueuePending": 0,
+    "Server2025QueueRunning": 0,
+    "LatestWindows11Result": "e32591497a8347ab836d0426c9b28bb3",
+    "LatestServer2025Result": "8ec925d3611241c1ab00b3e107bf844b",
+    "GetVm": "Denied: Access to a CIM resource was not available to the client.",
+    "CurrentProcessElevated": false
+  },
+  "Disposition": {
+    "Resolved": "Confirmed both protected VM controllers are stale relative to the checked-out runner source.",
+    "RequiredAction": "Refresh both registered controllers from an elevated Windows PowerShell session before requesting new acceptance suites.",
+    "DeferredSuites": [
+      "Windows 11: ApplicationsBatch1Machine",
+      "Windows 11: ApplicationsBatch1User",
+      "Windows 11: ApplicationsBatch3",
+      "Windows 11: ApplicationsBatch3AllUsers"
+    ],
+    "LegacyOutcomesClosed": [],
+    "EstimateRangesChanged": false,
+    "CurrentOverviewRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

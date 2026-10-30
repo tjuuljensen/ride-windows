@@ -96,4 +96,51 @@ Describe 'MiTeC Network Scanner portable candidate' {
       [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'user-note.txt'))|Should -BeExactly 'preserve'
     }
   }
+
+  It 'stages the exact retained publisher archive for both variants and restores only managed files' {
+    $archivePath=$env:RIDE_MITEC_NETSCANNER_FIXTURE_ARCHIVE
+    if([string]::IsNullOrWhiteSpace($archivePath)){
+      Set-ItResult -Skipped -Because 'No explicit retained NetScanner.zip archive was supplied.'
+      return
+    }
+    $archivePath=[IO.Path]::GetFullPath($archivePath)
+    Test-Path -LiteralPath $archivePath -PathType Leaf|Should -BeTrue
+    (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $Evidence.ArchiveSha256
+    $zip=[IO.Compression.ZipFile]::OpenRead($archivePath)
+    try {
+      foreach($variant in @('x64','x86')){
+        $member=$Evidence.Variants.$variant
+        $entries=@($zip.Entries|Where-Object FullName -CEQ $member.Path)
+        $entries.Count|Should -Be 1
+        $entries[0].Length|Should -Be $member.Length
+        $stream=$entries[0].Open();$sha=[Security.Cryptography.SHA256]::Create()
+        try {$digest=([BitConverter]::ToString($sha.ComputeHash($stream))).Replace('-','').ToLowerInvariant()}
+        finally {$sha.Dispose();$stream.Dispose()}
+        $digest|Should -BeExactly $member.Sha256
+      }
+    } finally {$zip.Dispose()}
+
+    foreach($variant in @('x64','x86')){
+      $base=($Catalog.Operations|Where-Object Id -eq 'package.mitec-network-scanner').Clone()
+      $operation=Resolve-RidePackageSelection -Operation $base -Variant $variant -MetadataOnly
+      $operation.ResolvedToolsDirectory=Join-Path $Root "real-$variant"
+      $operation.InstallDirectory=Join-Path $operation.ResolvedToolsDirectory $operation.PackageId
+      $null=New-Item -ItemType Directory -Path $operation.ResolvedToolsDirectory -Force
+      $artifact=[pscustomobject]@{Path=$archivePath;Sha256=$Evidence.ArchiveSha256;Version='6.1.0'}
+      Install-RidePortablePayload $operation $artifact -Offline
+      Install-RidePortablePayload $operation $artifact -Offline
+      $state=Get-RidePortableState $operation
+      $state.Healthy|Should -BeTrue
+      $state.Files.Count|Should -Be 1
+      $state.Files[0].RelativePath|Should -BeExactly $Evidence.Variants.$variant.Path
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory $Evidence.Variants.$variant.Path) -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $Evidence.Variants.$variant.Sha256
+
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $Root "real-backup-$variant")
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'),'preserve')
+      Uninstall-RidePortablePayload $operation
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy|Should -BeTrue
+      [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'))|Should -BeExactly 'preserve'
+    }
+  }
 }

@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T01:45:47Z",
+  "Batch": "Current-source local regression, Sysinternals package checks, and Windows 11 queue follow-up",
+  "Environment": {
+    "OperatingSystem": "Windows host checkout",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryFixtureEnabled": false,
+    "TemporaryFiles": "Workspace-local .local paths"
+  },
+  "BroadPesterRun": {
+    "Discovered": 3270,
+    "Files": 121,
+    "Status": "Interrupted during tests/SixtySettings.Tests.ps1; no aggregate result",
+    "LicenseReviewTransientFailure": "An intermittent IOException from File.Replace was seen in pending-package planning. A standalone 43-update store diagnostic passed, and the final isolated LicenseReviews rerun passed 22/22.",
+    "DoNotClaim": "No repository-wide Pester pass or final aggregate is established."
+  },
+  "FocusedPester": {
+    "tests/LicenseReviews.Tests.ps1": { "Discovered": 22, "Passed": 22, "Failed": 0, "Skipped": 0 },
+    "tests/SysinternalsSuitePackage.Tests.ps1": { "Discovered": 7, "Passed": 7, "Failed": 0, "Skipped": 0, "DurationSeconds": 576.52 },
+    "tests/SysinternalsProductPackages.Tests.ps1": { "Discovered": 72, "Passed": 72, "Failed": 0, "Skipped": 0, "DurationSeconds": 164.24 }
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Summary": "411 operations, 8 groups, 5 profiles, 274 PowerShell files; generated operation documentation current.",
+    "GitDiffCheck": "Passed"
+  },
+  "SettingsRemainingBatch2QueueAttempt": {
+    "Suite": "SettingsRemainingBatch2",
+    "ClientRequestId": "1cc37d2c35324f1fb2b946482420b0c4",
+    "Outcome": "Denied before request creation while writing queue/pending temporary file; no VM task was created.",
+    "Error": "Access to the path under C:/ProgramData/RIDE/TestAutomation/RIDEWin11Test/queue/pending was denied.",
+    "AuthoritativeBatchStatus": "A separate registered run passed at 2026-10-25T01:39:40Z, RunId 70f4c7c4d9ff40028155aa88521e88a9; the denied duplicate attempt does not block that completed acceptance."
+  },
+  "VmAccess": {
+    "DirectReadOnlyGetVM": "Access to a CIM resource was not available to the client.",
+    "ControllerAcceptance": "SettingsRemainingBatch1 and SettingsRemainingBatch2 both have successful registered-run evidence for Windows 11 build 26300."
+  },
+  "SideEffects": {
+    "SysinternalsExecutableExecuted": false,
+    "InstallerExecuted": false,
+    "PackageInstalledOrRemoved": false,
+    "LiveRegistryChanged": false,
+    "DefenderStateChanged": false,
+    "VmOrWindowsStateChangedByLocalTests": false,
+    "TemporaryTestData": "Synthetic files under .local"
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Current-source Sysinternals suite and independent-product package regressions pass 7/7 and 72/72 using synthetic payloads.", "LicenseReviews passes 22/22 on isolated serial rerun.", "SettingsRemainingBatch1 and Batch2 have successful Windows 11 lifecycle/recovery acceptance in separate registered-run evidence."],
+    "Retired": [],
+    "Excluded": ["Defender-detected utilities remain separately excluded; none were executed by these tests."],
+    "Deferred": ["Broad 3,270-test Pester aggregate remains unverified because the run was interrupted.", "User-facing Sysinternals behavior and all other named feature/UI acceptance remain separate from file lifecycle evidence."],
+    "Partial": ["No legacy package, setting, or component outcome closes in this run."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170",
+    "SysinternalsDisposition": "Prior RIDE v2 specialist approval controls direct Microsoft download-and-install; no legal or generalized redistribution analysis gates migration."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:14:47Z",
+  "batch": "NirSoft filtered Pester temporary-stage static source trace",
+  "method": "Read-only source inspection of tests/NirsoftCollectionPackages.Tests.ps1 and modules/RIDE-PortablePackages.psm1; no Pester or staging code was run.",
+  "findings": {
+    "testGate": "The retained encrypted ZIP lifecycle case runs only when RIDE_NIRSOFT_FIXTURE_DIRECTORY is set to an existing directory. It then passes the retained nirlauncher-referred.zip and x64tools.zip paths to Install-RidePortablePayload.",
+    "testCalls": "The retained-archive case invokes Install-RidePortablePayload twice per selected archive after checking catalog PortableMembers and frozen inventories; it inspects the installed manifest/state but is a staging lifecycle test.",
+    "tempPattern": "Install-RidePortablePayload creates RIDE-Portable-<guid> under [IO.Path]::GetTempPath(). This is consistent with the reported path pattern; it cannot identify the environment temp root, the actual caller, archive revision, or process that created the report file.",
+    "currentSelection": "The catalog operations specify exact PortableMembers lists that omit PasswordScan in both architectures. The installer selects encrypted ZIP members before calling tar.exe for selected members only; source inspection does not prove runtime extraction behavior."
+  },
+  "disposition": "The retained encrypted-Pester test is a plausible source of a RIDE-Portable-GUID subtree if explicitly enabled, but causation is not established. Do not repeat it or inspect the reported file. Keep both PasswordScan architectures excluded and affected staging/Pester reruns paused until actual run configuration and catalog/source revision can be established safely.",
+  "handling": {
+    "reportedFileAccessed": false,
+    "archiveBytesAccessed": false,
+    "reportedFileContentsOrHashRead": false,
+    "pesterRun": false,
+    "stagingRun": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Static source trace identifies the conditional retained-archive Pester test and the generic RIDE-Portable-GUID staging path."
+    ],
+    "partial": [
+      "The trace establishes a possible mechanism only; it does not establish the creator or exact revision."
+    ],
+    "excluded": [
+      "PasswordScan x86 and x64 remain excluded."
+    ],
+    "deferred": [
+      "Retained encrypted archive lifecycle until stage provenance is reconciled."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source tracing closes no legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "nirsoft-passwordscan-user-defender-repeat-2026-10-28-1612.json",
+    "nirsoft-encrypted-stager-current-source-trace-2026-10-28-0646.json",
+    "nirsoft-current-catalog-blocked-member-selection-audit-2026-10-28-1459.json"
+  ]
+}

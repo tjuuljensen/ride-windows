@@ -1,0 +1,48 @@
+{
+  "recordedAtUtc": "2026-10-29T02:01:01Z",
+  "testFile": "tests/Download-JoeWareCollection.Tests.ps1",
+  "shell": "Windows PowerShell 5.1",
+  "pesterVersion": "5.7.1",
+  "result": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0
+  },
+  "testConfiguration": {
+    "testRegistryPlugin": false,
+    "testResultPlugin": false,
+    "tempRoot": ".local",
+    "executionPolicy": "Process-only Bypass"
+  },
+  "coverage": [
+    "Current-page version labels are decoded and parsed as one string.",
+    "Windows PowerShell 5.1 and PowerShell 7 response URI object shapes are handled.",
+    "Non-official HTTPS response origins are rejected.",
+    "WhatIf makes no publisher request and creates no destination directory.",
+    "Default selection and tab completion exclude Defender-blocked AdFind.",
+    "Explicit AdFind selection is refused before any request or directory creation."
+  ],
+  "handling": {
+    "publisherNetworkRequests": 0,
+    "destinationDirectoriesCreated": 0,
+    "archiveDownloadedExtractedOrExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "vmRequestCreated": false,
+    "elevationRequested": false
+  },
+  "disposition": "Current-source download-only preview behavior passes focused regression. Exact publisher acquisition, archive integrity/member review, package lifecycle and Windows target acceptance remain open; no JoeWare legacy outcome closes from this test.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "recordedAtUtc": "2026-10-28T21:13:07Z",
+  "batch": "Current-source package adoption review cross-shell regression and VM access recheck",
+  "test": {
+    "path": "tests/PackageAdoptionReview.Tests.ps1",
+    "powerShell7": { "version": "7.6.5", "pester": "5.7.1", "total": 25, "passed": 25, "failed": 0, "skipped": 0 },
+    "windowsPowerShell": { "version": "5.1.26100.9818", "pester": "5.7.1", "total": 25, "passed": 25, "failed": 0, "skipped": 0, "executionPolicy": "Process-only Bypass" },
+    "plugins": { "TestRegistry": false, "TestResult": false },
+    "scope": "Supplied synthetic registration records and catalog variants only. Tests verify metadata-only variant resolution and adoption review without native inventory, package configuration, installer, filesystem scan or uninstall commands."
+  },
+  "vm": {
+    "checkedAtUtc": "2026-10-28T21:13:07Z",
+    "target": "RIDE-Win11-Test",
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateRetrieved": false,
+    "guestRequestSubmitted": false
+  },
+  "sideEffects": {
+    "nativeInventoryQueried": false,
+    "packageConfigurationQueried": false,
+    "installerExecuted": false,
+    "filesystemScanned": false,
+    "networkRequest": false,
+    "windowsChanged": false,
+    "defenderChanged": false,
+    "elevationRequested": false
+  },
+  "migration": {
+    "resolved": [ "Current-source package adoption review regression passed in both PowerShell editions." ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [ "RIDE-Win11-Test lifecycle acceptance remains blocked at host CIM before state retrieval." ],
+    "partial": [ "No legacy package outcome closed; current tests cover offline review logic, not live installed-software ownership." ],
+    "estimates": { "packages": "37-52", "exactTotal": "126-180", "roundedTotal": "125-180/about 155" },
+    "estimateAdjustment": "No legacy outcome resolved or retired; all five migration ranges remain unchanged."
+  },
+  "licenseDisposition": "License review markers remain informational and do not block direct-download/install planning. Sysinternals remains settled under prior RIDE v2 specialist approval; Defender exclusions are separate."
+}

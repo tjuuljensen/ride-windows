@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:34:30Z",
+  "batch": "MiTeC Mail and History Viewer archive central-directory and catalog-selection review",
+  "results": [
+    {"id":"package.mitec-mail-viewer","entryCount":23,"pinnedMemberCount":23,"inventoryMatchesPinnedEvidence":true,"catalogSelectedCount":23,"allSelectedNamesPresent":true},
+    {"id":"package.mitec-email-history-browser","entryCount":1,"pinnedMemberCount":1,"inventoryMatchesPinnedEvidence":true,"catalogSelectedCount":1,"allSelectedNamesPresent":true},
+    {"id":"package.mitec-internet-history-browser","entryCount":2,"pinnedMemberCount":2,"inventoryMatchesPinnedEvidence":true,"catalogSelectedCount":2,"allSelectedNamesPresent":true},
+    {"id":"package.mitec-instant-messaging-history-browser","entryCount":2,"pinnedMemberCount":2,"inventoryMatchesPinnedEvidence":true,"catalogSelectedCount":2,"allSelectedNamesPresent":true}
+  ],
+  "scope": {"zipCentralDirectoriesEnumerated":true,"archiveMembersExtracted":false,"memberContentStreamsRead":false,"executablesLaunched":false,"personalDataOpened":false,"vmOrWindowsStateChanged":false,"elevationRequested":false,"defenderQueriedOrChanged":false},
+  "availability": {"powerShell":"7.6.5","installedPester":"3.4.0","pester5Available":false,"vmQuery":"Get-VM -Name RIDE-Win11-Test failed before inspection: Access to a CIM resource was not available to the client."},
+  "blockers": ["Fresh VM inspection/runs are blocked by host CIM access; prior Windows 11 package file-lifecycle acceptance passed 4/4 on RIDE-Win11-Test.","Functional/runtime/activation acceptance and synthetic product behavior remain deferred."],
+  "migrationOutcome": {"legacyOutcomesClosed":[],"packageEstimate":"37-52","exactTotal":"126-180","roundedTotal":"125-180/about 155","estimateAdjustment":"None; catalog/archive scope reconciliation does not close a legacy product outcome."}
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T19:47:12Z",
+  "runId": "d45d2619bd9c4ba1b7cc67c96e9d77f9",
+  "controller": "RIDESrv2025Test",
+  "target": "RIDE-S25-Test",
+  "suite": "ApplicationsBatch8",
+  "request": {
+    "source": "Local",
+    "unitOnly": false,
+    "timeoutMinutes": 180,
+    "submittedAtUtc": "2026-10-24T19:43:24.6398387Z"
+  },
+  "sourceSnapshot": {
+    "modules/RIDE-Packages.psm1": {
+      "sha256": "FD40EB0E087492B1C08153E1B1BE1B7B6D0BFF546F238CAFC1B89971A8A5D253",
+      "matchesCurrentWorktree": true
+    },
+    "tests/ApplicationPackages.Tests.ps1": {
+      "sha256": "E178868173F65C971CB038C054373B2ED24465B1E3B3079F343859F27394A8E7",
+      "matchesCurrentWorktree": true
+    },
+    "tests/integration/Invoke-RideApplicationBatch.ps1": {
+      "sha256": "F15B25FD5D2D66CF1B0C5B443A9E4DA184CB2FF47B1C748AA40F1FB81BFD0C59",
+      "matchesCurrentWorktree": true
+    }
+  },
+  "observedState": {
+    "queueState": "running",
+    "controllerLastActivityLocal": "2026-10-24T21:47:12",
+    "controllerActivity": "Waiting for completion of the guest lab command",
+    "resultPresent": false,
+    "controllerErrorsLength": 0,
+    "runtimeBlockedMarkerPresent": false
+  },
+  "followUpObservation": {
+    "recordedAtUtc": "2026-10-24T19:55:00Z",
+    "queueState": "running",
+    "controllerLogUnchangedSince": "2026-10-24T21:47:12",
+    "guestResultPresent": false,
+    "controllerErrorsLength": 0,
+    "runtimeBlockedMarkerPresent": false,
+    "processAndTaskInspection": "Denied: Access to a CIM resource was not available to the client.",
+    "disposition": "Preserve the existing serialized request. Do not restart or duplicate based on the stale log observation."
+  },
+  "context": "This post-repair request follows the 19:40 UTC checksum-format failure. Its frozen source snapshot contains the BOM-tolerant checksum parser with bounded format diagnostics, the matching focused regression tests, and the test-only OpenJDKCompatibility target overlay. The production package target declarations remain unchanged.",
+  "disposition": "Keep the registered serialized request running and inspect its correlated terminal result before drawing acceptance conclusions. Do not duplicate, interrupt, or promote Server target support.",
+  "estimateImpact": "No migration outcome has closed; all ranges remain unchanged."
+}

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T17:25:00Z",
+  "batch": "BitLocker drive-type policy lifecycle added to the registered SettingsRemainingBatch1 runner",
+  "changes": {
+    "runner": "tests/integration/Invoke-RideRemainingSettings.ps1",
+    "version": "0.3.1",
+    "existingBatch1SelectionCount": 19,
+    "addedCandidateIds": [
+      "windows.bitlocker-encryption-method-os",
+      "windows.bitlocker-encryption-method-fixed-data",
+      "windows.bitlocker-encryption-method-removable-data"
+    ],
+    "newBatch1SelectionCount": 22,
+    "namedMethodStates": [
+      "AesCbc128",
+      "AesCbc256",
+      "XtsAes128",
+      "XtsAes256",
+      "WindowsDefault"
+    ],
+    "coverage": "The existing guest runner enables declared Windows 11 candidates only in its private catalog, then exercises preview, every named registry state, repeat behavior and exact saved-run restoration. These policies affect future encryption only; the runner does not encrypt or convert any volume.",
+    "controllerContract": "SettingsRemainingBatch1 is already an accepted controller selector; this repository-side selection change requires no protected-controller refresh."
+  },
+  "validation": {
+    "powershellParser": "Passed for Invoke-RideRemainingSettings.ps1",
+    "versionCommand": "Passed; reports 0.3.1",
+    "catalogSelection": "Passed; 19 existing batch-1 operations plus exactly 3 catalog candidates = 22",
+    "repositoryValidation": "Passed: 447 operations, 8 groups, 5 profiles, 301 PowerShell files; operation documentation current",
+    "pesterAssertions": "Not run: Windows PowerShell 5.1 Pester 5.7.1 import is blocked by AuthorizationManager format-file validation.",
+    "guestAcceptance": "Not run; controller task readiness and live checkpoint membership could not be verified."
+  },
+  "vmPreflight": {
+    "vmName": "RIDE-Win11-Test",
+    "vmState": "Off; confirmed in the current Hyper-V Manager screenshot",
+    "configuredCheckpointName": "RIDE-clean-test-base",
+    "configuredCheckpointIdPresent": true,
+    "liveCheckpointMembershipVerified": false,
+    "controllerCapability": "FocusedPortableV1 present",
+    "pendingAndRunningQueues": 0,
+    "cleanupBlocked": false,
+    "taskState": "Unknown; Get-ScheduledTask/schtasks were unavailable and Schedule.Service returned Access Denied (0x80070005)",
+    "requestQueued": false
+  },
+  "safety": {
+    "bitlockerPolicyOrVolumeChanged": false,
+    "vmOrCheckpointChanged": false,
+    "defenderQueriedOrChanged": false,
+    "nirsoftPayloadAccessed": false,
+    "uacPromptRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The existing Windows 11 runner now includes all three pending BitLocker drive-type candidates and their five named policy values in batch 1; the runner and catalog selection are statically validated."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Disposable Windows 11 run and actual policy-registry lifecycle acceptance until the registered task is verified Ready and RIDE-clean-test-base is verified on RIDE-Win11-Test.",
+      "Pester assertions remain open because Pester 5.7.1 import fails before discovery."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; runner preparation and static validation close no legacy outcome or Windows acceptance gate."
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:07:35Z",
+  "batch": "RIDE-Win11-Test preregistered controller access recheck",
+  "controllerConfiguration": {
+    "path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\configuration.json",
+    "name": "RIDEWin11Test",
+    "vmName": "RIDE-Win11-Test",
+    "checkpointName": "RIDE-clean-test-base",
+    "isDisposable": true,
+    "focusedPortableV1CapabilityPresent": true,
+    "localRepositoryPath": "C:\\Users\\tjuuljensen\\git\\ride-windows",
+    "runtimeBlockedMarkerPresent": false,
+    "pendingQueueCount": 0,
+    "runningQueueCount": 0
+  },
+  "accessChecks": [
+    {
+      "method": "Get-ScheduledTask",
+      "result": "Failed: Access to a CIM resource was not available to the client."
+    },
+    {
+      "method": "schtasks.exe /Query /FO CSV /V",
+      "result": "Failed: The network address is invalid; exit code 1."
+    },
+    {
+      "method": "Task Scheduler COM GetFolder(\\\\RIDE\\\\)",
+      "result": "Failed: Access is denied (0x80070005)."
+    }
+  ],
+  "status": "The installed configuration identifies the intended disposable VM and checkpoint, but the registered task state cannot be read or started from this session. No queue request was submitted because task access could not be verified.",
+  "vmStateRetrieved": false,
+  "checkpointStateRetrieved": false,
+  "taskStateRetrieved": false,
+  "requestQueued": false,
+  "guestRequestDispatched": false,
+  "changes": {
+    "vmOrCheckpoint": false,
+    "elevation": false,
+    "queue": false,
+    "controllerConfiguration": false,
+    "windows": false,
+    "defender": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Confirmed the installed controller configuration pins RIDE-Win11-Test, RIDE-clean-test-base, the local checkout, and FocusedPortableV1."
+    ],
+    "partial": [
+      "Pre-registered no-prompt controller access remains unavailable to this session."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "VM acceptance remains pending until the task scheduler grants read/execute access or host CIM/task access is restored; do not queue an unstartable request."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "adjustment": "None; controller configuration discovery and access failure close no migration outcome.",
+      "packages": "37-52",
+      "settings": "37-57",
+      "exactTotal": "126-180",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "roundedTotal": "125-180/about 155",
+      "maintenance": "8-12"
+    }
+  }
+}

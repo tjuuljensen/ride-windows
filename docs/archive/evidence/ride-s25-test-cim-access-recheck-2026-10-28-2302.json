@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T23:02:08Z",
+  "batch": "RIDE-S25-Test non-elevated read-only access recheck",
+  "command": "Get-VM -Name 'RIDE-S25-Test'",
+  "result": "Failed before VM state retrieval: Access to a CIM resource was not available to the client.",
+  "review": {
+    "vmStateRetrieved": false,
+    "checkpointQueried": false,
+    "taskSchedulerQueried": false,
+    "guestRequestDispatched": false,
+    "vmOrCheckpointChanged": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "deferred": [
+      "Windows Server 2025 acceptance on RIDE-S25-Test remains pending restored host CIM access and confirmed checkpoint/task readiness."
+    ],
+    "noLegacyOutcomeClosed": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  },
+  "relatedEvidence": [
+    "ride-win11-test-cim-access-recheck-2026-10-28-2256.json",
+    "ride-win11-and-server2025-vm-access-recheck-2026-10-26-1924.json"
+  ]
+}

@@ -13,7 +13,7 @@
   Pester results.
 .NOTES
   Compatibility: Pester 5 on native Windows PowerShell 5.1 and PowerShell 7.
-  Product behavior and Windows target acceptance remain deferred.
+  Windows 11 package lifecycle/recovery is accepted; product behavior remains deferred.
 #>
 BeforeAll {
   $script:RepositoryRoot=Split-Path -Parent $PSScriptRoot
@@ -22,6 +22,7 @@ BeforeAll {
   Import-Module (Join-Path $RepositoryRoot 'modules/RIDE-PortablePackages.psm1') -Force
   $script:Catalog=Get-RideCatalog
   $script:Evidence=Get-Content (Join-Path $RepositoryRoot 'docs/archive/evidence/mitec-mail-history-viewer-candidates-2026-10-23.json') -Raw | ConvertFrom-Json
+  $script:WindowsAcceptance=Get-Content (Join-Path $RepositoryRoot 'docs/archive/evidence/mitec-mail-history-viewers-win11-lifecycle-acceptance-2026-10-25-0409.json') -Raw | ConvertFrom-Json
   $script:FixtureRoot=Join-Path $RepositoryRoot '.local/pester-mitec-mail-history'
   Add-Type -AssemblyName System.IO.Compression.FileSystem
   Add-Type -AssemblyName System.IO.Compression
@@ -48,7 +49,7 @@ Describe 'MiTeC mail/history package candidate <Id>' -ForEach @(
     }
   }
 
-  It 'matches the retained publisher archive and every selected member hash' {
+  It 'matches catalog package metadata to the reviewed publisher evidence' {
     $row=$Evidence.Products|Where-Object Id -CEQ $Id
     $operation=$Catalog.Operations|Where-Object Id -CEQ $Id
     $row|Should -Not -BeNullOrEmpty
@@ -59,11 +60,24 @@ Describe 'MiTeC mail/history package candidate <Id>' -ForEach @(
     $operation.PackageVersion|Should -BeExactly $Version
     @($operation.PortableMembers|Sort-Object)|Should -Be @($row.Members.Path|Sort-Object)
     foreach($requiredFile in $operation.RequiredFiles){@($row.Members.Path)|Should -Contain $requiredFile}
-    $operation.CandidateTargets|Should -Be @('Windows 11')
-    $operation.SupportedTargets.Count|Should -Be 0
-    $operation.PendingAcceptance|Should -BeTrue
+    $operation.CandidateTargets|Should -BeNullOrEmpty
+    $operation.SupportedTargets|Should -Contain 'Windows 11'
+    $operation.PendingAcceptance|Should -BeFalse
     $operation.AcceptanceNotes|Should -Match ([regex]::Escape($Sensitive))
+    $case=@($WindowsAcceptance.cases|Where-Object Id -CEQ $Id)[0]
+    $case.Status|Should -BeExactly 'Passed'
+    $case.LifecycleRecovery|Should -BeTrue
+    $case.ToolExecuted|Should -BeFalse
+  }
+
+  It 'rechecks the retained publisher archive and selected member hashes when source bytes are staged' {
+    $row=$Evidence.Products|Where-Object Id -CEQ $Id
+    $operation=$Catalog.Operations|Where-Object Id -CEQ $Id
     $archivePath=Join-Path $RepositoryRoot $row.Archive.Replace('/','\')
+    if(-not (Test-Path -LiteralPath $archivePath -PathType Leaf)){
+      Set-ItResult -Skipped -Because 'The retained publisher ZIP is local-only and is not staged in this VM source snapshot.'
+      return
+    }
     (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $row.ArchiveSha256
     @($row.Members.Path|Sort-Object)|Should -Be @($operation.PortableMembers|Sort-Object)
     $zip=[IO.Compression.ZipFile]::OpenRead($archivePath)
@@ -78,12 +92,13 @@ Describe 'MiTeC mail/history package candidate <Id>' -ForEach @(
     }finally{$zip.Dispose()}
   }
 
-  It 'keeps install planning available while Windows acceptance remains pending' {
+  It 'keeps package staging available while product behavior remains untested' {
     $plan=@(Get-RideSingleOperationPlan -Id $Id -Action Install -Variant portable)
     $plan.Count|Should -Be 1
     $plan[0].Operation.PackageVersion|Should -BeExactly $Version
     $plan[0].Operation.SelectedVariant|Should -BeExactly 'portable'
-    $plan[0].Operation.PendingAcceptance|Should -BeTrue
+    $plan[0].Operation.PendingAcceptance|Should -BeFalse
+    $plan[0].Operation.SupportedTargets|Should -Contain 'Windows 11'
     $plan[0].State|Should -BeExactly 'Present'
   }
 

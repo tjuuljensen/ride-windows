@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T07:09:44Z",
+  "Scope": "Windows 11 ApplicationsBatch1 limited-user lifecycle attempt",
+  "Request": {
+    "RunId": "e32591497a8347ab836d0426c9b28bb3",
+    "IntegrationSuite": "ApplicationsBatch1",
+    "Source": "Local",
+    "StartedAtUtc": "2026-10-25T05:42:09Z",
+    "FinishedAtUtc": "2026-10-25T07:09:44Z",
+    "Guest": "Windows 11 Enterprise build 26300",
+    "PowerShell": "5.1.26100.9444",
+    "SourceSnapshotRunnerVersion": "0.15.1",
+    "CurrentRunnerVersionAtReview": "0.15.2"
+  },
+  "Result": {
+    "Status": "Failed",
+    "Pester": {
+      "Version": "5.7.1",
+      "Total": 362,
+      "Passed": 361,
+      "Failed": 0,
+      "Skipped": 1,
+      "ElapsedSeconds": 960.11
+    },
+    "IntegrationError": "The temporary limited-user scheduled task exceeded its 45-minute execution limit (Task Scheduler result 267014).",
+    "WorkerLastOutput": "Mozilla Thunderbird was previously installed, but exact package version recovery is unavailable; reinstalling the catalog's declared installer.",
+    "WorkerArtifactObservations": [
+      { "PackageId": "thunderbird", "Version": "158.0.1", "ObservedAtUtc": "2026-10-25T06:53:15Z", "AuthenticodeStatus": "Valid" },
+      { "PackageId": "thunderbird", "Version": "158.0.1", "ObservedAtUtc": "2026-10-25T06:59:40Z", "AuthenticodeStatus": "Valid" }
+    ],
+    "UserScenarioRecords": 0,
+    "UserDataPreservationVerified": false,
+    "CollectionError": "Partial-evidence collection timed out after 90 seconds.",
+    "ControllerError": "Test controller exited with code 1.",
+    "CleanupError": null
+  },
+  "Interpretation": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Current-source Windows 11 ApplicationsBatch1 acceptance for all eleven packages",
+      "Thunderbird limited-user install, vendor uninstall and saved-state recovery; the timeout occurred during the user scenario and no scenario record was written",
+      "Gpg4win limited-user lifecycle; it was not reached"
+    ],
+    "Partial": "361 Pester cases passed with one skipped, but the requested Windows lifecycle did not complete. The request snapshot predates runner 0.15.2 and contained no synthetic user-data fixtures, so it provides no vendor-data preservation acceptance.",
+    "EstimateChanged": false,
+    "PackageEstimate": "40-55",
+    "TotalEstimate": "37-57 / 40-55 / 19-24 / 25-35 / 8-12; exact 129-183; rounded 130-185/about 155"
+  },
+  "FollowUpImplementation": {
+    "RunnerVersion": "0.15.3",
+    "Changes": [
+      "Added separate ApplicationsBatch1Machine and ApplicationsBatch1User integration suites.",
+      "Raised the batch 1 limited-user task limit to 60 minutes.",
+      "Added application-user-progress.jsonl milestones and collection after timeout."
+    ],
+    "CatalogScopeCheck": "Passed: 9 machine-scoped and 2 limited-user packages, 11 total.",
+    "ParserAndParameterChecks": "Passed for the application runner, guest runner, VM runner and task client.",
+    "RepositoryValidation": "Passed: 412 operations, 8 groups, 5 profiles and 277 PowerShell files."
+  },
+  "NextAction": "Refresh the registered controller and run ApplicationsBatch1Machine and ApplicationsBatch1User separately from current source. The user worker emits application-user-progress.jsonl to identify its last lifecycle stage if it times out again."
+}

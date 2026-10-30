@@ -1,0 +1,103 @@
+{
+  "date_utc": "2026-10-27T11:03:00Z",
+  "subject": "Separate pending OpenSSH Server inbound firewall setting",
+  "operation": {
+    "id": "windows.openssh-server-firewall",
+    "kind": "RemoteDesktopFirewall",
+    "rule_name": "OpenSSH-Server-In-TCP",
+    "rule_scope": "Exact existing local PersistentStore rule",
+    "required_capability": "OpenSSH.Server~~~~0.0.1.0",
+    "states": {
+      "Disabled": "False",
+      "Enabled": "True"
+    },
+    "supported_targets": [],
+    "candidate_targets": [
+      "Windows 11",
+      "Windows Server 2025"
+    ],
+    "pending_acceptance": true,
+    "safety_boundaries": [
+      "Does not install or remove the OpenSSH Server capability.",
+      "Does not start or stop sshd.",
+      "Does not create firewall rules or alter unrelated rules.",
+      "Requires the capability to be installed and the exact local inbound TCP/22 allow rule to exist.",
+      "Refuses a same-name rule if its direction, action, profile, local policy store, protocol, or port differs from the bounded identity."
+    ]
+  },
+  "verification": {
+    "pester": {
+      "version": "5.7.1",
+      "edition": "PowerShell 7.6.5",
+      "tests": [
+        "tests/Catalog.Tests.ps1",
+        "tests/NetworkAndSoundControls.Tests.ps1"
+      ],
+      "result": "passed",
+      "passed": 108,
+      "failed": 0,
+      "not_run": 1,
+      "not_run_reason": "The live-registry WindowsIntegration case was excluded.",
+      "test_registry_plugin": false,
+      "test_result_plugin": false,
+      "scratch": ".local/pester-openssh-firewall-regression-20261027-final",
+      "coverage": [
+        "Catalog metadata and discovery classify the rule as a setting, not a component.",
+        "The handler captures and restores the exact enabled flag.",
+        "Missing capability and missing rule fail closed without mutation.",
+        "A same-name rule with a non-TCP/22 port is rejected before mutation.",
+        "Existing Remote Desktop firewall and other network-control tests pass."
+      ],
+      "intermediate_attempts": "An initial focused run exposed test mock typing and settings-view classification issues; a first broad run exposed stale catalog count and BitLocker profile assertions. The classification and assertions were corrected; the final broad run passed."
+    },
+    "repository_validation": {
+      "result": "passed",
+      "operations": 432,
+      "groups": 8,
+      "profiles": 5,
+      "powershell_files": 294,
+      "generated_operation_documentation_current": true
+    },
+    "cli": {
+      "command": "./ride.ps1 list settings",
+      "result": "passed",
+      "operation_id_present": true,
+      "pending_acceptance": true,
+      "supported_targets": []
+    }
+  },
+  "vm_access": {
+    "target": "RIDE-Win11-Test",
+    "vm_query": "failed before inspection: Access to a CIM resource was not available to the client.",
+    "registered_task_query": "failed before inspection: Access to a CIM resource was not available to the client.",
+    "acceptance_dispatch": "not attempted",
+    "state_change": "none; no VM/checkpoint, host service, Windows, firewall, Defender, or elevation state changed"
+  },
+  "sysinternals_license_disposition": {
+    "status": "no licensing blocker",
+    "basis": "Prior RIDE v2 license-specialist approval covers RIDE's direct download-and-install workflow; RIDE does not transfer or publish Sysinternals.",
+    "migration_effect": "No package migration is deferred for licensing. Defender-blocked tools remain separate security exclusions."
+  },
+  "migration_accounting": {
+    "resolved_legacy_outcomes": [],
+    "retired_legacy_outcomes": [],
+    "excluded_legacy_outcomes": [],
+    "deferred_acceptance": [
+      "OpenSSH capability, service, and firewall behavior on Windows 11 and Windows Server 2025 pending VM/controller access.",
+      "First-start server data ownership and recovery."
+    ],
+    "partial": [
+      "OpenSSH capability, service, and firewall are now separate pending catalog choices; all remain without supported targets."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "files_assets": "25-35",
+      "maintenance": "8-12",
+      "exact_total": "127-181",
+      "rounded_total": "125-180/about 155",
+      "reason_unchanged": "No legacy outcome closed. The firewall catalog and handler implementation adds migration progress but not a completed legacy outcome or Windows acceptance."
+    }
+  }
+}

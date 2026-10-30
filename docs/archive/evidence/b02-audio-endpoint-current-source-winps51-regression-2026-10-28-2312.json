@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T23:12:35Z",
+  "batch": "B02 read-only playback endpoint inventory current-source regression",
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled on successful run",
+    "testResultPlugin": "disabled on successful run",
+    "processExecutionPolicy": "Bypass; process only"
+  },
+  "testFile": "tests/AudioEndpointInventory.Tests.ps1",
+  "attempts": [
+    {
+      "result": "framework failure before test bodies",
+      "cause": "Pester's default TestRegistry integration could not create its HKCU Software Pester key; access was denied. No test body ran."
+    },
+    {
+      "result": "passed",
+      "discovered": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  ],
+  "coverage": [
+    "Expected account SID and interactive session guards before Core Audio access",
+    "Post-collection identity consistency",
+    "Explicit empty, unavailable, malformed, duplicated, and bounded endpoint observations",
+    "Saved JSON selection by exact opaque endpoint identity without selecting a default or granting mutation/recovery authority",
+    "Data-only completion and non-overwriting export behavior",
+    "Read-only interop compilation without invoking Core Audio"
+  ],
+  "sideEffects": {
+    "nativeCoreAudioCalled": false,
+    "audioSettingChanged": false,
+    "successfulRegistryWrite": false,
+    "testRegistryPluginUsedOnSuccessfulRun": false,
+    "outputFilesInRepository": false,
+    "vmOrCheckpointAccessed": false,
+    "defenderBlockedToolSelectedOrTouched": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": {
+    "resolved": "The current mocked/synthetic source contract for the B02 playback endpoint observation slice passes local regression.",
+    "pending": [
+      "Intended-user/session native endpoint observation on disposable Windows acceptance target",
+      "Hardware, state and default-role behavior",
+      "Any future mute setter decision and lifecycle acceptance remain separate"
+    ],
+    "legacyOutcomeClosed": false,
+    "supportedTargetAdded": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180; about 155",
+    "adjustment": "None; local read-only regression closes no legacy outcome or native acceptance."
+  }
+}

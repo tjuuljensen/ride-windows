@@ -1,0 +1,54 @@
+{
+  "recordedAtUtc": "2026-10-28T23:52:00Z",
+  "source": {
+    "currentAppsPage": "https://www.mitec.cz/wp/apps/",
+    "productPage": "https://www.mitec.cz/wp/mpde/",
+    "legacyProductPage": "https://www.mitec.cz/pde.html"
+  },
+  "product": "MiTeC Paradox Data Editor",
+  "publisherVersion": "3.7.0",
+  "publisherReleaseDate": "2023-08-09",
+  "publisherClaimedTargets": ["Windows XP-11", "Windows Server 2003-2025"],
+  "publisherDescribedBehavior": [
+    "Views and edits Paradox tables; uses Borland Database Engine (BDE).",
+    "Provides password-protection removal, fix/repair, BLOB viewing, conversion, import, and export features."
+  ],
+  "licenseAdministration": {
+    "currentProductPage": "Lifetime single-user license listed at EUR 30.",
+    "legacyProductPage": "Free for private, educational and non-commercial purposes; commercial use requires a purchased license.",
+    "reviewRequired": true,
+    "migrationGate": false,
+    "note": "Reconcile page/version-specific terms in the local review store after a catalog package ID/version is established; do not treat this as a migration blocker."
+  },
+  "artifact": {
+    "publisherDownloadUrl": "https://www.mitec.cz/wp/files/PDESetup.exe",
+    "webReaderResult": "400 Unsupported content-type: application/x-msdownload; no installer bytes returned.",
+    "localDnsProbe": "Failed before connection: No such host is known (www.mitec.cz:443).",
+    "artifactBytesRetrieved": false,
+    "sha256Verified": false,
+    "staticInventoryAvailable": false
+  },
+  "catalogAudit": {
+    "packageOperationPresent": false,
+    "licenseReviewMarkerPresent": false,
+    "disposition": "Selected MiTeC publisher product not yet registered in the v3 catalog; keep in the remaining package estimate and continue once exact artifact bytes are available."
+  },
+  "sideEffects": {
+    "installerExecuted": false,
+    "bdeInstalledOrRun": false,
+    "userDatabaseOpenedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "alertReportedPasswordScanFileAccessed": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

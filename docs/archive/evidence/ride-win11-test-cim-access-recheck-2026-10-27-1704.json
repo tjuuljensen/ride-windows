@@ -1,0 +1,29 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T17:04:00Z",
+  "Scope": "Read-only Windows 11 VM acceptance access recheck",
+  "Target": "RIDE-Win11-Test",
+  "Command": "Get-VM -Name RIDE-Win11-Test",
+  "Result": "Access to a CIM resource was not available to the client.",
+  "Outcome": {
+    "VmInspected": false,
+    "CheckpointInspected": false,
+    "AcceptanceDispatched": false,
+    "TaskQueried": false,
+    "VmChanged": false,
+    "WindowsChanged": false,
+    "DefenderChanged": false,
+    "UacRequested": false,
+    "MigrationOutcomesChanged": false
+  },
+  "NextBoundary": "Registered VM/checkpoint inspection and Windows acceptance remain deferred until host CIM access is available; independent local/source work continues.",
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "127-181",
+    "Rounded": "125-180/about 155"
+  }
+}

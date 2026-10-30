@@ -17,6 +17,8 @@
 BeforeAll {
   $script:RepositoryRoot=Split-Path -Parent $PSScriptRoot
   $script:LauncherPath=Join-Path $RepositoryRoot 'tools/Invoke-Ride4GbPatch.ps1'
+  Import-Module (Join-Path $RepositoryRoot 'modules/RIDE.CatalogData.psm1') -Force
+  $script:NtcoreCatalog=Import-RideCatalogData (Join-Path $RepositoryRoot 'catalog/operations.psd1')
   function New-LauncherX86Pe {
     $bytes=New-Object byte[] 1024
     $bytes[0]=0x4d;$bytes[1]=0x5a
@@ -34,6 +36,18 @@ BeforeAll {
 }
 
 Describe 'Guarded NTCore 4GB Patch launcher' {
+  It 'matches the accepted Windows 11 synthetic-only guarded workflow evidence' {
+    $operation=@($NtcoreCatalog.Operations|Where-Object Id -ceq 'package.ntcore-4gb-patch')[0]
+    $evidence=Get-Content (Join-Path $RepositoryRoot 'docs/archive/evidence/ntcore-win11-guarded-lifecycle-acceptance-2026-10-25-0145.json') -Raw|ConvertFrom-Json
+    $case=@($evidence.cases|Where-Object id -ceq $operation.Id)[0]
+    $operation.PendingAcceptance|Should -BeFalse
+    $operation.SupportedTargets|Should -Contain 'Windows 11'
+    $evidence.status|Should -BeExactly 'Passed'
+    $case.functionalAcceptance|Should -BeExactly 'Passed'
+    $case.fixture|Should -BeExactly 'owned synthetic x86 PE'
+    $case.toolExecuted|Should -BeTrue
+  }
+
   It 'prints its version without requiring or reading a target' {
     $version=& $LauncherPath -Version
     $version | Should -BeExactly '0.2.0'

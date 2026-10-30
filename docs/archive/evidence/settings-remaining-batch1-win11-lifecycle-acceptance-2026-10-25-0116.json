@@ -1,0 +1,65 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T01:16:09Z",
+  "RunId": "b5b8e02f408642f78ba8cb53f68281b0",
+  "Suite": "SettingsRemainingBatch1",
+  "Target": "Windows 11 Enterprise Evaluation",
+  "Build": "26300",
+  "GuestPowerShell": "5.1.26100.9444",
+  "Status": "Passed",
+  "ValidationPassed": true,
+  "IntegrationPassed": true,
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 343,
+    "Failed": 0,
+    "Skipped": 0,
+    "Total": 343,
+    "Selection": "Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression"
+  },
+  "Lifecycle": {
+    "Passed": 14,
+    "Failed": 0,
+    "NamedStates": 32,
+    "UnavailableOperations": [
+      "windows.task-compatibility-appraiser",
+      "windows.task-program-data-updater",
+      "application.office-task-click-to-run-monitor",
+      "application.office-task-telemetry-fallback-2016",
+      "application.office-task-telemetry-logon-2016"
+    ],
+    "UnavailableVariants": 0,
+    "CandidateOperationsWithExactRecovery": [
+      "windows.sha256-certutil-context-menu",
+      "windows.hash-value-context-menu"
+    ]
+  },
+  "Recovery": {
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "BlockedMarkerPresent": false
+  },
+  "Regression": {
+    "EarlierRunId": "eed256004cfe42dbb8541efece6a77cf",
+    "EarlierPester": "342/342 passed; integration failed because saved RegistryValueSet snapshots omitted captured ancestor-key existence.",
+    "Correction": "Save-RideOperationSnapshot now persists KeyPathExistence for RegistryValueSet records; a focused engine persistence regression was added."
+  },
+  "MigrationAccounting": {
+    "Resolved": [
+      "Windows 11 setting lifecycle and exact recovery for the 14 available operations in SettingsRemainingBatch1.",
+      "RegistryValueSet saved-run persistence of captured key ancestor existence."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "User-facing feature and GUI acceptance, including context-menu placement, rendering and command quoting.",
+      "SettingsRemainingBatch2 Windows 11 execution.",
+      "SettingsRemainingBatch1 Server 2025 execution."
+    ],
+    "Partial": [
+      "Five catalog operations could not be exercised because their scheduled tasks were absent from the guest image; no legacy setting outcome closes."
+    ],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

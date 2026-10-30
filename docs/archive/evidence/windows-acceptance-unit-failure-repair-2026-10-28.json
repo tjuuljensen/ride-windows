@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:37:38.5871398Z",
+  "priorGuestRunId": "8f8965788fb145a3854def3d37ae0480",
+  "priorGuestResult": {
+    "passed": 3410,
+    "failed": 8,
+    "validationPassed": true,
+    "skipped": 15,
+    "integrationRequested": false
+  },
+  "operatorReadiness": {
+    "winrmAfterStart": "Running",
+    "running": 0,
+    "localhostWsman": "Responding",
+    "task": "Ready",
+    "vm": "Off",
+    "winrmInitially": "Stopped",
+    "recoveryBlock": false,
+    "startupTypeChanged": false,
+    "source": "User-provided elevated PowerShell output in this chat, 2026-10-28",
+    "pending": 0,
+    "vmms": "Running"
+  },
+  "repairs": [
+    "Resolve completion through the PowerShell provider location and parsed command name; test relative and quoted absolute paths.",
+    "Isolate F1 Help profile entry before asserting its platform refusal.",
+    "Set and verify copied synthetic lease file ACL before asserting request-ID mismatch.",
+    "Use neutral synthetic NTCore members for generic lifecycle assertions; keep real member metadata checks separate.",
+    "Read WIM and VirtualReg publisher digest assertions from the unmodified catalog; require explicit fixture directory for all retained NTCore artifacts.",
+    "Existing NirSoft representative fixture change was verified; no NirSoft source edit in this repair."
+  ],
+  "windowsPowerShell": {
+    "initialFiveSuites": {
+      "PowerShell": "5.1.26100.9711",
+      "Pester": "5.7.1",
+      "Result": "Failed",
+      "Total": 94,
+      "Passed": 88,
+      "Failed": 4,
+      "Skipped": 2,
+      "Failures": [
+        {
+          "Name": "Reviewed NTCore Windows 11 package ntcore-pe-detective.binds exact source and content to the recorded Windows 11 package acceptance",
+          "Error": [
+            "Index operation failed; the array index evaluated to null."
+          ]
+        },
+        {
+          "Name": "Reviewed NTCore Windows 11 package ntcore-pe-detective.installs only reviewed members, repeats, removes and exactly restores owned files",
+          "Error": [
+            "Index operation failed; the array index evaluated to null."
+          ]
+        },
+        {
+          "Name": "Reviewed NTCore Windows 11 package ntcore-pe-detective.preserves edited signature databases and refuses replacement",
+          "Error": [
+            "Index operation failed; the array index evaluated to null."
+          ]
+        },
+        {
+          "Name": "Reviewed NTCore Windows 11 package ntcore-pe-detective.refuses an unowned executable collision before creating ownership",
+          "Error": [
+            "Index operation failed; the array index evaluated to null."
+          ]
+        }
+      ],
+      "ContainerErrors": []
+    },
+    "finalCoverage": {
+      "skipped": 2,
+      "failed": 0,
+      "distinctPassed": 92
+    },
+    "note": "Initial repair introduced a null PortableMembers lookup in four PE Detective cases; fixed and reran the complete 21-case NTCore suite. Other four suites passed in the first run.",
+    "version": "5.1.26100.9711",
+    "pester": "5.7.1",
+    "correctedNtcoreRerun": {
+      "PowerShell": "5.1.26100.9711",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 21,
+      "Passed": 20,
+      "Failed": 0,
+      "Skipped": 1,
+      "Failures": [],
+      "ContainerErrors": []
+    }
+  },
+  "powerShell7": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Result": "Passed",
+    "Total": 94,
+    "Passed": 92,
+    "Failed": 0,
+    "Skipped": 2,
+    "Failures": [],
+    "ContainerErrors": []
+  },
+  "harness": {
+    "processExecutionPolicy": "Bypass for each test subprocess only",
+    "testRegistry": false,
+    "retainedFixtureEnvironmentVariables": "Cleared in test subprocesses",
+    "pesterSource": "Existing Windows PowerShell Pester 5.7.1 installation explicitly imported for PowerShell 7 after name-based lookup failed before tests.",
+    "temporaryRoot": ".local/acceptance-repair",
+    "testResultFile": false
+  },
+  "skippedChecks": [
+    "Explicit retained NirSoft publisher archive lifecycle",
+    "Explicit retained ScreenWriter MSI digest"
+  ],
+  "postRunSourceHashes": [
+    {
+      "path": "tools/Download-JoeWareCollection.ps1",
+      "sha256": "00d11bd6f9fbbc8f79c275ec07a52dee9b7f25418318d011286194e0e3521290"
+    },
+    {
+      "path": "tests/Download-JoeWareCollection.Tests.ps1",
+      "sha256": "6ad0d38b3893dc98ef1327803ec0a21a8678789d32ab28ad0df86f8afc40a2d3"
+    },
+    {
+      "path": "tests/F1Help.Tests.ps1",
+      "sha256": "1702a62ca0a6802694692e2f182f1364d495631cb2945df7760d666e216eb071"
+    },
+    {
+      "path": "tests/GitHubAuthentication.Tests.ps1",
+      "sha256": "44ebc1cf07b42802e9669e0064fc65e3e519075692a75e9889ba5f7e8c8f017a"
+    },
+    {
+      "path": "tests/NirsoftCollectionPackages.Tests.ps1",
+      "sha256": "820da5d9ee9cab675a7493af4cd393cfe4d22d09de86ae0c61f2b7f4d79c98e0"
+    },
+    {
+      "path": "tests/NtcorePackages.Tests.ps1",
+      "sha256": "7d28652d5c7f2c91cc19c4033c301b0e24ff3d86fbb155cc7b71f5c13c40548a"
+    }
+  ],
+  "boundaries": {
+    "nativeFeatureAcceptancePending": true,
+    "publisherPayloadExtracted": false,
+    "realCredentialUsed": false,
+    "publisherRequest": false,
+    "utilityExecuted": false,
+    "vmRunDispatched": false,
+    "fullGuestRerunPending": true,
+    "controllerStatus": "NotValidated",
+    "defenderChanged": false
+  },
+  "migration": {
+    "excluded": 0,
+    "deferred": "Existing Windows feature and controller certification gates",
+    "rangesChanged": false,
+    "resolved": 0,
+    "retired": 0,
+    "partial": "Focused local regression repair only",
+    "reason": "Unit fixtures and local regression do not close a legacy feature or product outcome."
+  }
+}

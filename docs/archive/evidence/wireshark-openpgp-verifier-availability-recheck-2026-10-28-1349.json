@@ -1,0 +1,53 @@
+{
+  "recordedAtUtc": "2026-10-28T13:49:33Z",
+  "batch": "Wireshark 4.6.9 detached checksum-signature verifier availability recheck",
+  "artifact": {
+    "catalogId": "package.wireshark",
+    "version": "4.6.9",
+    "artifactPath": ".local/wireshark-review/cache/wireshark/4.6.9/Wireshark-4.6.9-x64.msi",
+    "checksumSignaturePath": ".local/wireshark-review/SIGNATURES-4.6.9.txt",
+    "filesReadThisRun": false
+  },
+  "toolAvailability": {
+    "gpg": false,
+    "gpg2": false,
+    "gpgv": false,
+    "sq": false,
+    "openssl": false,
+    "rnp": "PowerShell alias to Rename-ItemProperty; not an OpenPGP tool",
+    "certutil": "available, but not an OpenPGP verifier; not invoked"
+  },
+  "signatureVerification": "not performed; no usable OpenPGP verifier is available",
+  "priorArtifactEvidence": "The 2026-10-28 12:04 UTC record reports the retained 80,433,152-byte MSI matched the catalog and publisher checksum, with prior Valid Authenticode evidence.",
+  "handling": {
+    "packageOrUtilityExecuted": false,
+    "installerExecuted": false,
+    "verifierInstalled": false,
+    "vmOrWindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "partial": [
+      "Current tool availability was rechecked; detached PGP signature verification remains open."
+    ],
+    "deferred": [
+      "Wireshark Windows package lifecycle and shared-runtime acceptance require accessible disposable VMs."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; verifier availability recheck closes no package lifecycle outcome."
+    }
+  },
+  "nextAction": "Use a trusted OpenPGP verifier in an approved environment when available; meanwhile continue independent source-ready migration work."
+}

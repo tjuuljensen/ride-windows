@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:15:02Z",
+  "batch": "Package license review reminder coverage and non-blocking planning regression",
+  "localReviewStore": "Workspace-local .local/license-reviews.json",
+  "preChangeExport": ".local/license-reviews-before-migration-triage-20261028.json",
+  "reviewRemindersAdded": [
+    {
+      "id": "package.vcredist-v14-x64",
+      "version": "14.51.36247.0"
+    },
+    {
+      "id": "package.chrome",
+      "version": "156.0.8078.48"
+    },
+    {
+      "id": "package.slack",
+      "version": "4.52.182"
+    },
+    {
+      "id": "package.discord",
+      "version": "1.0.9264"
+    }
+  ],
+  "storeRecordCountAfterUpdate": 90,
+  "coverage": {
+    "catalogPackageOperations": 119,
+    "pendingAcceptanceWithExactVersionRecord": 49,
+    "sysinternalsRecordsChanged": 0,
+    "pendingAcceptancePackages": 49
+  },
+  "planningRegression": {
+    "powershell7": {
+      "version": "7.6.5",
+      "passed": 1,
+      "skipped": 0,
+      "testRegistryEnabled": false,
+      "failed": 0,
+      "pester": "5.7.1",
+      "testResultEnabled": false
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "passed": 1,
+      "skipped": 0,
+      "testRegistryEnabled": false,
+      "failed": 0,
+      "pester": "5.7.1",
+      "testResultEnabled": false
+    },
+    "testScope": "Accepted Windows 11 package planning remains available with a local review entry, including Visual C++ Redistributable.",
+    "testFile": "tests/LicenseReviews.Tests.ps1"
+  },
+  "boundaries": {
+    "elevationRequested": false,
+    "vmOrWindowsStateChanged": false,
+    "installerExecuted": false,
+    "payloadDownloaded": false,
+    "packageInstalled": false,
+    "defenderStateChanged": false
+  },
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "partial": [
+      "Four versioned package review reminders were added to the workspace-local store; accepted package planning remains available with the review metadata present."
+    ],
+    "estimates": {
+      "components": "19-24",
+      "packages": "37-52",
+      "exactTotal": "126-180",
+      "adjustment": "None; administrative review tracking closes no legacy package outcome.",
+      "settings": "37-57",
+      "maintenance": "8-12",
+      "roundedTotal": "125-180/about 155",
+      "filesAndAssets": "25-35"
+    },
+    "resolved": [],
+    "excluded": [],
+    "retired": [],
+    "deferred": [
+      "Package runtime acceptance and the existing host CIM/task-access VM blocker are unchanged."
+    ]
+  }
+}

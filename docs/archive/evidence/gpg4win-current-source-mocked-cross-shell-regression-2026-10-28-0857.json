@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:57:29Z",
+  "batch": "Gpg4win 5.1.1 current-source mocked package regression",
+  "package": {
+    "id": "package.gpg4win",
+    "version": "5.1.1",
+    "scope": "Current user; unelevated",
+    "selectedComponents": [
+      "GnuPG command-line tools",
+      "Kleopatra"
+    ],
+    "excludedComponents": [
+      "Explorer integration",
+      "Outlook integration",
+      "Browser integration",
+      "Okular",
+      "GpgPass",
+      "Paperkey"
+    ]
+  },
+  "test": {
+    "path": "tests/Gpg4winPackage.Tests.ps1",
+    "pesterVersion": "5.7.1",
+    "powershell7": {
+      "version": "7.6.5",
+      "discovered": 12,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0,
+      "durationSeconds": 9.88
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "discovered": 12,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0,
+      "durationSeconds": 9.52
+    },
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "assertionScope": [
+      "Accepted unelevated current-user scope and exact optional component configuration",
+      "Strict validation of declared installer configuration and section names",
+      "CreateNew temporary installer configuration passed to a mocked installer process and cleaned after success or failure",
+      "Refusal to replace a separate GnuPG registration or silently downgrade another Gpg4win version",
+      "Matching nested GnuPG registration acceptance only with the expected Gpg4win registration",
+      "Refusal to move key data while a declared GnuPG process is running",
+      "Restore of pre-existing key data after mocked package removal, preserving package-created data separately"
+    ],
+    "initialEnvironmentObservation": "A PowerShell 7 run using the default protected app-container TEMP discovered 12 tests: eight passed and four file-preservation assertions failed on denied temp writes. No installer was invoked. Both editions then passed all 12 tests with process-local TEMP/TMP rooted in unique repository .local directories; those test roots were cleaned."
+  },
+  "handling": {
+    "installerProcessMocked": true,
+    "installerExecuted": false,
+    "actualGpg4winOrGnuPgInstallationObserved": false,
+    "actualRegistryStateReadOrChanged": false,
+    "actualUserKeyOrConfigurationDirectoryAccessed": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "vmAcceptance": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Server2025-Test"
+    ],
+    "result": "Read-only Get-VM failed before inspection for both targets at host CIM",
+    "error": "Access to a CIM resource was not available to the client.",
+    "taskSchedulerPreregistrationInspection": "Blocked: Task Scheduler COM returned E_ACCESSDENIED and schtasks reported an invalid network address; no task was identified or dispatched.",
+    "acceptanceTaskDispatched": false,
+    "priorWindows11LimitedUserFailure": "Gpg4win 5.1.1 exited with 0xC0000005 during ApplicationsBatch1; the cause remains unresolved."
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The current source implements the selected component configuration, guarded unelevated user scope, nested registration conflict checks, and mocked GnuPG user-data preservation/recovery; the focused suite passes in both PowerShell editions."
+    ],
+    "retired": [],
+    "excluded": [],
+    "partial": [
+      "Mocked current-source coverage does not prove actual Gpg4win installer configuration, nested GnuPG scope, registry registration, or exact key-directory recovery."
+    ],
+    "deferred": [
+      "Diagnose and retest the prior Windows 11 0xC0000005 failure on the disposable target; verify actual install/repeat/remove/recovery and user-data preservation."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the current-source test pass advances evidence but does not close the package lifecycle outcome."
+    }
+  },
+  "licenseDisposition": "The catalog's exact-version NeedsReview marker is administrative and does not gate package planning or implementation.",
+  "relatedEvidence": [
+    "gpg4win-package-candidate-implementation-2026-10-23-1755.json",
+    "gpg4win-applications-batch-routing-2026-10-24-0646.json",
+    "applications-batch1-win11-follow-up-2026-10-24-1543.json",
+    "gpg4win-acceptance-queue-access-block-2026-10-24-0651.json"
+  ]
+}

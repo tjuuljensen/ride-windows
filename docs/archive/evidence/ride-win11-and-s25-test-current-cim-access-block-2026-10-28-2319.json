@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T23:19:46Z",
+  "batch": "Current non-elevated disposable VM access preflight",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "command": "Get-VM -Name RIDE-Win11-Test",
+      "result": "Access to a CIM resource was not available to the client.",
+      "stateRetrieved": false
+    },
+    {
+      "name": "RIDE-S25-Test",
+      "command": "Get-VM -Name RIDE-S25-Test",
+      "result": "Access to a CIM resource was not available to the client.",
+      "stateRetrieved": false
+    }
+  ],
+  "boundary": {
+    "checkpointQueried": false,
+    "taskOrQueueQueried": false,
+    "guestRequestSubmitted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": "Defer disposable Windows 11 and Server 2025 acceptance until non-elevated host CIM can retrieve target state and existing checkpoint/task readiness can be confirmed. Continue source and synthetic regression work that does not require guest dispatch.",
+  "legacyOutcomeClosed": false,
+  "estimatesChanged": false,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180; about 155"
+  }
+}

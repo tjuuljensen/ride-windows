@@ -1,0 +1,61 @@
+{
+  "dateUtc": "2026-10-25T12:55:00Z",
+  "batch": "B03-Q08 persistent user PATH checkpoint runner preparation",
+  "result": "Prepared; current guest transport is incompatible; acceptance deferred",
+  "scope": {
+    "operationId": "windows.user-bin-persistent-path",
+    "runner": "tests/integration/Invoke-RidePersistentUserPathAcceptance.ps1",
+    "hostRunnerScenario": "PersistentUserPath",
+    "target": "Windows 11 disposable VM",
+    "checks": [
+      "preview leaves registry unchanged",
+      "apply and repeat",
+      "registry value kind preservation",
+      "engine desired state",
+      "current process PATH preservation",
+      "run-owned sentinel preservation",
+      "exact saved-run registry restoration",
+      "cleanup only of run-owned sentinel and empty runner-created bin directory"
+    ],
+    "effectivePathClaimed": false,
+    "environmentBroadcastPerformed": false,
+    "interactiveNativeUserRequired": true,
+    "currentPowerShellDirectChildInteractive": false,
+    "currentTransportPreflight": "Refuses before registry writes",
+    "futureRequirement": "Reviewed interactive-session guest transport",
+    "publishedSupportedTargets": []
+  },
+  "validation": {
+    "focusedPester": "125/125 passed",
+    "powershell7Parse": "passed",
+    "windowsPowerShell51Parse": "passed",
+    "repositoryValidator": {
+      "operations": 415,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 278
+    },
+    "gitDiffCheck": "passed"
+  },
+  "runtime": {
+    "vmUsed": false,
+    "hostRegistryChanged": false,
+    "guestRequestSubmitted": false,
+    "hostVmInspection": "Get-VM denied at CIM before VM/checkpoint inspection",
+    "protectedController": "Installed runner module hash differs from current checkout; refresh requires a future elevated host session",
+    "nextStep": "In a later attended session, design and review an interactive-session guest transport. Separately refresh the registered controller while idle in an elevated host session, then run the focused scenario against its existing configuration/checkpoint and review evidence before any target-support decision."
+  },
+  "migrationAccounting": {
+    "legacyOutcomeClosed": false,
+    "estimateChanged": false,
+    "remainingRanges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

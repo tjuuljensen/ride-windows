@@ -1,0 +1,58 @@
+{
+  "recordedAtUtc": "2026-10-28T16:37:26Z",
+  "kind": "CurrentSysinternalsReviewStoreAndAcceptanceAccessAudit",
+  "sysinternals": {
+    "catalogSource": "Get-RideCatalog from current modules/RIDE.Engine.psm1",
+    "catalogPackageCount": 10,
+    "reviewStorePath": ".local/license-reviews.json",
+    "reviewRecordCount": 10,
+    "allRecordsReviewed": true,
+    "allReviewedVersionsMatchCatalogPackageVersion": true,
+    "mismatches": [],
+    "userDisposition": "Prior RIDE v2 license-specialist approval applies to RIDE direct Microsoft download-and-install; user states no legal issue. Do not require another license review or use licensing to block migration.",
+    "reviewStoreChanged": false
+  },
+  "vmPreflight": {
+    "target": "RIDE-Win11-Test",
+    "readOnlyGetVm": "failed before inspection: Access to a CIM resource was not available to the client",
+    "checkpointInspected": false,
+    "guestDispatched": false
+  },
+  "testRuntime": {
+    "discoverablePester": [
+      {
+        "version": "3.4.0",
+        "path": "C:\\Program Files\\WindowsPowerShell\\Modules\\Pester\\3.4.0\\Pester.psd1"
+      }
+    ],
+    "pester5Available": false,
+    "testSuiteRun": false
+  },
+  "sideEffects": {
+    "windowsStateChanged": false,
+    "vmStateChanged": false,
+    "defenderStateChanged": false
+  },
+  "migration": {
+    "resolved": [
+      "Current catalog and local license-review store match all ten Sysinternals package versions and Reviewed status; no additional license gate."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Authorized package/component/settings Windows acceptance due current VM CIM access failure",
+      "Pester 5 assertion runs due current discoverable Pester 3.4.0 only"
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "reason": "This read-only catalog/store and access audit closes no legacy technical outcome; estimates unchanged."
+  }
+}

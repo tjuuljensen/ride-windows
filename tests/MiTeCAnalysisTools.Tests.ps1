@@ -46,7 +46,7 @@ Describe 'MiTeC analysis package candidate <Id>' -ForEach @(
     }
   }
 
-  It 'matches the retained publisher archive and exact selected member hashes' {
+  It 'matches catalog package metadata to the reviewed publisher evidence' {
     $row=$Evidence.Products|Where-Object Id -CEQ $Id
     $operation=$Catalog.Operations|Where-Object Id -CEQ $Id
     $row|Should -Not -BeNullOrEmpty
@@ -66,8 +66,16 @@ Describe 'MiTeC analysis package candidate <Id>' -ForEach @(
     @($row.Members.Path)|Should -Be $Members
     @($row.Members|Where-Object {$_.Sha256 -notmatch '^[a-f0-9]{64}$'}).Count|Should -Be 0
     $operation.AcceptanceNotes|Should -Match ([regex]::Escape($SelectedFeature))
+  }
+
+  It 'rechecks retained publisher archive and exact selected member hashes when source bytes are staged' {
+    $row=$Evidence.Products|Where-Object Id -CEQ $Id
     $archiveRelative=if($Id -ceq 'package.mitec-exe-explorer'){'.local/remaining-collections-20261017/EXE.zip'}else{'.local/remaining-collections-20261017/HEXEdit.zip'}
     $archivePath=Join-Path $RepositoryRoot $archiveRelative
+    if(-not (Test-Path -LiteralPath $archivePath -PathType Leaf)){
+      Set-ItResult -Skipped -Because 'The retained publisher ZIP is local-only and is not staged in this VM source snapshot.'
+      return
+    }
     (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $row.ArchiveSha256
     $zip=[IO.Compression.ZipFile]::OpenRead($archivePath)
     try{
@@ -75,7 +83,7 @@ Describe 'MiTeC analysis package candidate <Id>' -ForEach @(
         $entry=@($zip.Entries|Where-Object FullName -CEQ $expected.Path)
         $entry.Count|Should -Be 1
         $stream=$entry[0].Open();$sha=[Security.Cryptography.SHA256]::Create()
-        try{$actual=[Convert]::ToHexString($sha.ComputeHash($stream)).ToLowerInvariant()}finally{$stream.Dispose();$sha.Dispose()}
+        try{$actual=([BitConverter]::ToString($sha.ComputeHash($stream))).Replace('-','').ToLowerInvariant()}finally{$stream.Dispose();$sha.Dispose()}
         $actual|Should -BeExactly $expected.Sha256
       }
     }finally{$zip.Dispose()}
@@ -88,6 +96,38 @@ Describe 'MiTeC analysis package candidate <Id>' -ForEach @(
     $plan[0].Operation.SelectedVariant|Should -BeExactly 'portable'
     $plan[0].Operation.PendingAcceptance|Should -BeTrue
     $plan[0].State|Should -BeExactly 'Present'
+  }
+
+  It 'stages the actual retained archive and restores the exact selected members' {
+    $row=$Evidence.Products|Where-Object Id -CEQ $Id
+    $archivePath=Join-Path $RepositoryRoot ".local/remaining-collections-20261017/$Archive"
+    if(-not (Test-Path -LiteralPath $archivePath -PathType Leaf)){
+      Set-ItResult -Skipped -Because 'The retained publisher archive is local acquisition evidence and is unavailable in this checkout.'
+      return
+    }
+    (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $row.ArchiveSha256
+    $operation=($Catalog.Operations|Where-Object Id -CEQ $Id).Clone()
+    $operation.SelectedVariant='portable'
+    $operation.ResolvedToolsDirectory=Join-Path $CaseRoot 'real-archive'
+    $operation.InstallDirectory=Join-Path $operation.ResolvedToolsDirectory $operation.PackageId
+    $null=New-Item -ItemType Directory -Path $operation.ResolvedToolsDirectory -Force
+    $artifact=[pscustomobject]@{Path=$archivePath;Sha256=$row.ArchiveSha256;Version=$Version}
+
+    Install-RidePortablePayload $operation $artifact -Offline
+    Install-RidePortablePayload $operation $artifact -Offline
+    $state=Get-RidePortableState $operation
+    $state.Healthy|Should -BeTrue
+    (@($state.Files.RelativePath|Sort-Object) -join '|')|Should -BeExactly ((@($Members|Sort-Object)) -join '|')
+    foreach($member in $row.Members){
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory $member.Path) -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $member.Sha256
+    }
+
+    $snapshot=Save-RidePortableSnapshot $operation (Join-Path $CaseRoot 'real-archive-backup')
+    [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'),'preserve')
+    Uninstall-RidePortablePayload $operation
+    Restore-RidePortableSnapshot $operation $snapshot
+    (Get-RidePortableState $operation).Healthy|Should -BeTrue
+    [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'))|Should -BeExactly 'preserve'
   }
 
   It 'repeats inert staging and restores only owned files with the snapshot' {

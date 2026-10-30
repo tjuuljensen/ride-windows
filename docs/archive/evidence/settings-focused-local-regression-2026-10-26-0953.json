@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T09:53:38Z",
+  "batch": "Current settings and profile focused regression",
+  "runtime": "Windows PowerShell host with Pester 5.7.1",
+  "suites": [
+    {
+      "path": "tests/SettingPresentation.Tests.ps1",
+      "total": 14,
+      "passed": 14,
+      "failed": 0
+    },
+    {
+      "path": "tests/RemainingSettings.Tests.ps1",
+      "status": "passed",
+      "elapsedSeconds": 289.24
+    },
+    {
+      "path": "tests/SixtySettings.Tests.ps1",
+      "status": "passed",
+      "elapsedSeconds": 662.2
+    },
+    {
+      "path": "tests/ProfileSettings.Tests.ps1",
+      "initialCombinedRun": {
+        "status": "one transient failure",
+        "failedCase": "preserves another managed setting in the same file during unset and restore",
+        "error": "The process could not exclusively open the isolated profile file because it was being used by another process."
+      },
+      "isolatedRerun": {
+        "total": 37,
+        "passed": 37,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "tests/CatalogProfileValidation.Tests.ps1",
+      "status": "passed"
+    }
+  ],
+  "presentationRerun": {
+    "total": 14,
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0
+  },
+  "combinedRun": {
+    "total": 266,
+    "passed": 265,
+    "failed": 1,
+    "skipped": 0
+  },
+  "sideEffects": {
+    "testRegistry": false,
+    "testResult": false,
+    "scratchRoot": ".local/pester-settings-current-20261026",
+    "isolatedScratchRoot": ".local/pester-profile-settings-isolated-20261026",
+    "liveWindowsStateChanged": false,
+    "vmUsed": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    },
+    "deferred": [
+      "Native Windows setting behavior and exact restore on disposable Windows targets",
+      "Windows PowerShell profile interaction in the intended user context",
+      "Managed policy precedence, device-specific behavior and restart-dependent settings"
+    ]
+  }
+}

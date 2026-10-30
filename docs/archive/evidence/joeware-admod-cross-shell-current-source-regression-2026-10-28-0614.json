@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:14:52Z",
+  "batch": "JoeWare AdMod current-source cross-shell package regression",
+  "powerShell7Run": {
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "testFiles": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/Download-JoeWareCollection.Tests.ps1"
+    ],
+    "selected": 11,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "TestRegistryPlugin": false,
+    "TestResultPlugin": false,
+    "covers": [
+      "Pinned AdMod product-form provider and archive digest resolution.",
+      "Exact publisher page guard and catalog declaration.",
+      "Actual pinned archive staging, repeat, removal and prior-state recovery.",
+      "Download preview URI/version parsing, no-request WhatIf behavior and AdFind exclusion."
+    ]
+  },
+  "windowsPowerShell51Runs": [
+    {
+      "evidence": "joeware-admod-focused-winps51-regression-2026-10-28-0500.json",
+      "pester": "5.7.1",
+      "selected": 10,
+      "passed": 10,
+      "failed": 0,
+      "covers": "Three AdMod resolver/catalog cases and seven downloader preview/mock cases."
+    },
+    {
+      "evidence": "joeware-admod-retained-archive-pester-regression-2026-10-28-0556.json",
+      "pester": "5.7.1",
+      "selected": 1,
+      "passed": 1,
+      "failed": 0,
+      "covers": "Actual pinned archive file lifecycle and exact installed/prior/absent state recovery."
+    }
+  ],
+  "artifact": {
+    "version": "1.29.00",
+    "archiveSha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+    "member": "AdMod.exe",
+    "memberSha256": "86c922fc98c115ea21c2053739938234fd90ce626ed227b2c3c122c2484e4d79"
+  },
+  "safety": {
+    "admodUtilityExecuted": false,
+    "publisherRequestMadeDuringPreviewTests": false,
+    "defenderBlockedToolSelected": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "registryChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": "Cross-shell local package-provider, catalog and portable file-lifecycle evidence. The machine-scope RIDE engine route, guest ACL behavior, publisher acquisition after the original DNS failure and Windows 11 acceptance remain pending.",
+  "migrationOutcome": {
+    "resolved": [
+      "AdMod provider/catalog and download-preview current-source Pester coverage is verified in both PowerShell editions; actual pinned archive lifecycle and recovery pass in both editions."
+    ],
+    "partial": [
+      "The test calls the portable module directly and does not establish machine-scope engine dispatch or Windows target support."
+    ],
+    "deferred": [
+      "Machine-scope RIDE engine integration, guest ACL/lifecycle acceptance and supported-target promotion remain open."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; cross-shell package evidence is stronger, but the legacy package outcome still awaits engine and Windows acceptance."
+    }
+  }
+}

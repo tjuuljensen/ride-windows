@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:14:00Z",
+  "batch": "Sysinternals Windows 11 package migration scope reconciliation",
+  "userDecision": {
+    "workflow": "RIDE downloads from Microsoft and installs/stages for the user's own device; RIDE does not transfer or publish Sysinternals copies.",
+    "priorRideV2LicenseSpecialistApproval": "Controlling",
+    "legalOrLicenseGate": false,
+    "utilityFeatureExecutionRequiredForPackageLifecycleAcceptance": false
+  },
+  "acceptanceEvidence": {
+    "suite": {
+      "evidence": "sysinternals-suite-win11-current-lifecycle-acceptance-2026-10-25-0201.json",
+      "target": "RIDE-Win11-Test, Windows 11 build 26300",
+      "result": "Passed 1/1",
+      "scope": "Pinned 164-member snapshot selection, preview, install, repeat, removal, saved-state restore, prior absence, unowned-file preservation, collision refusal and modified-file preservation."
+    },
+    "independentProducts": {
+      "evidence": "sysinternals-products-runner-path-fix-and-win11-acceptance-2026-10-25-1017.json",
+      "target": "RIDE-Win11-Test, Windows 11 build 26300",
+      "result": "Passed 9/9",
+      "scope": "The nine separately selectable product packages completed package file lifecycle and recovery."
+    },
+    "licenseDisposition": {
+      "evidence": "sysinternals-current-catalog-and-license-disposition-audit-2026-10-27-0949.json",
+      "result": "All ten exact-version package records are Reviewed; the prior RIDE v2 specialist approval settles direct download-and-install."
+    }
+  },
+  "scopeDecision": {
+    "accepted": "The legacy Sysinternals Suite download/install package outcome is complete for its declared Windows 11 file lifecycle.",
+    "packageLifecycleBoundary": "RIDE manages pinned file acquisition/staging, repeat install, removal and saved-state recovery. Executing utility features is outside package install lifecycle acceptance.",
+    "separateScope": [
+      "Windows Server support remains undeclared and unaccepted.",
+      "Defender-blocked utility names remain excluded from staging and acceptance.",
+      "Tool-specific actions such as driver/service installation, process changes, disk imaging and remote reputation queries remain outside package staging and require their own explicitly selected workflow."
+    ]
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "One legacy product outcome: Sysinternals Suite download/install package lifecycle on Windows 11."
+    ],
+    "partial": [],
+    "deferred": [
+      "No Windows Server target is declared for these packages; no claim is made about the runtime feature behavior of any utility."
+    ],
+    "legacyOutcomesClosed": 1,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "Package estimate reduced by one legacy product outcome. The nine additional selectable package IDs are not counted as nine separate legacy outcomes. The rounded range remains 125-180/about 155."
+    }
+  }
+}

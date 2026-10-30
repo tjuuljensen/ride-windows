@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T09:58:08Z",
+  "batch": "Sysinternals Products registered Windows 11 acceptance submission",
+  "runId": "98afb39d8829437ab0883e89b9bc1167",
+  "controller": {
+    "name": "RIDEWin11Test",
+    "schemaVersion": 2,
+    "capability": "FocusedPortableV1",
+    "hostAccountMatched": true,
+    "queuePendingBefore": 0,
+    "queueRunningBefore": 0,
+    "cleanupBlockedBefore": false
+  },
+  "manifest": {
+    "path": ".local/acceptance-input/SysinternalsProducts.json",
+    "expectedPackages": 9,
+    "selectedPackages": 9,
+    "retainedArchivesPresent": 9,
+    "defenderBlockedOrNirSoftPackages": 0
+  },
+  "submission": {
+    "result": "Denied before request enqueue",
+    "error": "Access to the protected queue pending temporary file was denied.",
+    "pendingAfter": 0,
+    "runningAfter": 0,
+    "temporaryFileRemains": false,
+    "scheduledTaskStarted": false,
+    "vmChanged": false,
+    "checkpointChanged": false,
+    "guestTestsRun": false,
+    "defenderStateChanged": false,
+    "freshUacRequested": false
+  },
+  "disposition": "Historical failed submission, superseded by reviewed sandbox submission and successful acceptance. The ordinary workspace-restricted shell could not write outside the workspace; follow-up ACL inspection showed the registered account had Modify access, so this was not a broken controller ACL. The reviewed sandbox submission succeeded without a fresh UAC prompt. Licensing is settled under prior RIDE v2 specialist approval for direct download-and-install and is not a blocker. Defender-blocked tools remain excluded.",
+  "resolution": {
+    "resolvedByRunId": "a28bfdd730d24bb4a6f52b649c6ffe90",
+    "successfulScenarios": "9/9",
+    "recordedAtUtc": "2026-10-25T10:17:00Z"
+  },
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

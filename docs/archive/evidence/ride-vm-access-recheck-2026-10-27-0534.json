@@ -1,0 +1,42 @@
+{
+  "TimestampUtc": "2026-10-27T05:34:52Z",
+  "Scope": "Read-only access check for the registered Windows 11 and Server 2025 migration acceptance VMs and Windows 11 task.",
+  "Targets": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Command": "Get-VM and Get-VMCheckpoint",
+      "Result": "Blocked before VM or checkpoint inspection.",
+      "Error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-S25-Test",
+      "Command": "Get-VM and Get-VMCheckpoint",
+      "Result": "Blocked before VM or checkpoint inspection.",
+      "Error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "RegisteredTask": {
+    "Name": "\\RIDE\\RIDEWin11Test",
+    "Command": "schtasks.exe /Query",
+    "Result": "Blocked before task inspection or dispatch.",
+    "Error": "The network address is invalid."
+  },
+  "GuestRequestDispatched": false,
+  "ElevationRequested": false,
+  "VmCheckpointHostWindowsOrDefenderStateChanged": false,
+  "Resolved": [],
+  "Deferred": [
+    "Windows 11 and Server 2025 native acceptance remains pending until VM/CIM and registered-task access are available."
+  ],
+  "EstimateRanges": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  },
+  "EstimateDisposition": "All five ranges are unchanged because no legacy feature/product outcome was resolved, retired, excluded, deferred or partially implemented by this access check.",
+  "SysinternalsLicenseDisposition": "Settled under prior RIDE v2 license-specialist approval for RIDE direct download-and-install. No license or redistribution gate applies; Defender exclusions remain separate."
+}

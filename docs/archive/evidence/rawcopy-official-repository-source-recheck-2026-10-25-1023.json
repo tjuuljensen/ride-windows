@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T10:23:00Z",
+  "legacySelectors": [
+    "GetRawCopy",
+    "RemoveRawCopy"
+  ],
+  "userScope": {
+    "purpose": "Retained for forensic acquisition on external systems.",
+    "rideHostTarget": "Windows 11 staging/deployment host selected by the user.",
+    "runtimeScope": "RIDE stages the tool for later transfer; this is not approval for automatic extraction or evidence acquisition."
+  },
+  "publisherSources": {
+    "repository": "https://github.com/jschicht/RawCopy",
+    "readme": "https://github.com/jschicht/RawCopy/blob/master/readme.txt",
+    "license": "https://github.com/jschicht/RawCopy/blob/master/LICENSE.md",
+    "releases": "https://github.com/jschicht/RawCopy/releases",
+    "releaseTag": "https://github.com/jschicht/RawCopy/tree/1.0.0.19"
+  },
+  "observations": {
+    "repositoryFiles": [
+      "RawCopy.au3",
+      "RawCopy.exe",
+      "RawCopy64.exe",
+      "changelog.txt",
+      "readme.txt",
+      "LICENSE.md"
+    ],
+    "repositoryReadme": "Describes low-level NTFS file extraction, raw directory listing, disk-image and device paths, and optional TCP sending; TCP output is documented as unencrypted.",
+    "numberedLatestRelease": "1.0.0.19, dated 2017-08-01; publisher says this release is a special build for Windows 2000/NTFS 3.0.",
+    "currentReadme": "Says the regular version is incompatible with Windows 2000/NTFS 3.0 and links the special 1.0.0.19 build; it does not give a modern Windows support declaration.",
+    "licenseTerms": "Repository LICENSE.md contains a Creative Commons Public License grant with reproduction and distribution rights subject to conditions, including keeping notices and attribution. Do not assume its applicability to each binary until the exact selected revision and files are pinned.",
+    "immutableCurrentBinaryRevision": "Not established from accessible publisher pages in this review.",
+    "sha256": "Not verified; no binary was downloaded."
+  },
+  "migrationDisposition": {
+    "sourceReview": "Progressed: current repository layout, binary variants, product behavior and license text recorded.",
+    "packageImplementation": "Deferred pending a pinned immutable publisher revision and exact x64 asset/hash; do not use the Windows 2000 release for the Windows 11 staging candidate.",
+    "windowsAcceptance": "Deferred; no payload or VM action occurred.",
+    "toolExecuted": false,
+    "targetDataAccessed": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:46:38Z",
+  "batch": "NirSoft encrypted portable stager source trace after repeated PasswordScan Defender alert",
+  "sourceReview": {
+    "catalog": "catalog/operations.psd1: package.nirsoft-launcher selects 647/668 paths and package.nirsoft-x64-tools selects 47/49 paths; both omit PasswordScan. No catalog file was modified.",
+    "tests": "tests/NirsoftCollectionPackages.Tests.ps1 checks full current member selection against frozen inventories and asserts blocked names are absent before lifecycle calls; the synthetic lifecycle verifies no blocked basename in staged state. The retained-archive lifecycle case is optional and was not run in this review.",
+    "staging": "modules/RIDE-PortablePackages.psm1 Install-RidePortablePayload verifies the archive digest, validates ZIP entry metadata and, when PortableMembers is set, skips every unselected entry. For encrypted ZIPs it records lengths only for selected entries, then calls Expand-RidePortableEncryptedZip.",
+    "extraction": "Expand-RidePortableEncryptedZip builds tar.exe argument batches from ExpectedFiles.Keys only and verifies the resulting file inventory against those exact selected keys and lengths. This is a source-path finding; it does not verify tar.exe runtime behavior in this environment.",
+    "tempPath": "Install-RidePortablePayload names its temporary directory RIDE-Portable-<guid> under [IO.Path]::GetTempPath(), which is consistent with the reported path pattern but cannot identify its creating process, catalog revision or run."
+  },
+  "disposition": "Current checked-in selection and extraction code do not request PasswordScan. Alert origin remains unresolved; possible stale catalog/source or another caller is not established. Keep both PasswordScan architectures excluded and retained archive lifecycle deferred until the creating run/revision is identified.",
+  "actions": {
+    "reportedFileAccessed": false,
+    "reportedFileMetadataChecked": false,
+    "contentsOrHashRead": false,
+    "fileOpenedOrExecuted": false,
+    "restoredOrExtracted": false,
+    "DefenderQueriedOrChanged": false,
+    "PesterRun": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Static trace narrows the current checked-in encrypted-staging behavior to exact selected members."
+    ],
+    "partial": [
+      "Current selection and source trace exclude PasswordScan, but alert provenance remains unresolved."
+    ],
+    "deferred": [
+      "Identify the creating staging run and catalog/source revision before any retained NirLauncher lifecycle rerun."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source tracing does not prove alert origin or close a package outcome."
+    }
+  },
+  "relatedEvidence": [
+    "nirsoft-passwordscan-repeat-defender-alert-2026-10-28-0639.json",
+    "nirsoft-package-scoped-filter-regression-2026-10-27-1954.json",
+    "nirsoft-passwordscan-defender-alert-2026-10-28-0618.json"
+  ]
+}

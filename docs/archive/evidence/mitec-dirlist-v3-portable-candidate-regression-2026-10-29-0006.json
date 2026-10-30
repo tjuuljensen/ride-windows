@@ -1,0 +1,73 @@
+{
+  "recordedAtUtc": "2026-10-29T00:06:11Z",
+  "batch": "MiTeC historical standalone portable-package implementation",
+  "product": {
+    "id": "package.mitec-dirlist",
+    "packageVersion": "1.3.0",
+    "productUri": "https://www.mitec.cz/dirlist.html",
+    "downloadUri": "https://www.mitec.cz/Downloads/DirList.zip",
+    "expectedArchiveSha256": "635e8d311eb99a2730aecff405272e1b0b92636763051e41d451961d3b9c0e26",
+    "archiveDigestSource": "Locally measured retained archive digest in the 2026-10-17 static review; not a publisher-provided digest and current direct-download bytes were not reacquired.",
+    "selectedMembers": [
+      {
+        "architecture": "x86",
+        "fileVersion": "1.3.0.0",
+        "length": 2386944,
+        "sha256": "e1dc9d150c97739e2678e57c0b3de88d5dff78f5161722577042c4463694749b",
+        "productVersion": "1.0.0.0",
+        "path": "DirList.exe"
+      }
+    ],
+    "target": "Windows 11 candidate only; SupportedTargets remains empty. Historical publisher target list ends at Windows 10."
+  },
+  "licenseReview": {
+    "status": "NeedsReview",
+    "owner": "Unassigned",
+    "reviewedVersion": "1.3.0",
+    "store": ".local/license-reviews.json",
+    "recordsAfterWrite": 91,
+    "effect": "Owner-administration note only; does not gate package preparation or acceptance.",
+    "basis": "Historical product page describes free private and commercial use; current terms and intended-use fit still need owner review."
+  },
+  "validation": {
+    "focusedPester": "Windows PowerShell 5.1, Pester 5.7.1; tests/MiTeCDirList.Tests.ps1; 2 passed, 0 failed, 0 skipped.",
+    "pesterConfiguration": "The default optional TestRegistry integration failed at denied HKCU access before assertions. The restricted run disabled TestRegistry and TestResult; process-only ExecutionPolicy Bypass loaded the existing module, with no persistent policy change.",
+    "coverage": "Catalog metadata matched the retained static review; inert synthetic ZIP staging, repeat install, owned-file removal, saved-state restore, and operator-note preservation passed. No real publisher archive was staged and DirList was never launched.",
+    "staticValidation": "tools/validate.ps1 passed: 448 operations, 8 groups, 5 profiles, 302 PowerShell files; generated docs/OPERATIONS.md current.",
+    "pendingPackageMarkerAudit": "At 2026-10-29T00:07:24Z, a read-only catalog/store audit found 50/50 pending package versions have exact operation-ID/reviewed-version markers; the store contains 91 records."
+  },
+  "migration": {
+    "resolved": "Added one individually selectable portable catalog candidate and generated operation documentation; added exact-version NeedsReview/Unassigned marker.",
+    "partial": "Two local synthetic Pester assertions passed.",
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Reacquire/verify current publisher archive bytes and version; current catalog pin derives from retained 2026-10-17 archive.",
+      "Disposable Windows 11 acceptance of staging, repeat, removal and exact recovery; synthetic directory-listing behavior and export cleanup."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimateRanges": {
+      "filesAndAssets": "25-35",
+      "components": "19-24",
+      "maintenance": "8-12",
+      "roundedTotal": "125-180/about 155",
+      "packages": "37-52",
+      "exactTotal": "126-180",
+      "settings": "37-57"
+    },
+    "estimateReason": "The implementation is a partial v3 candidate and no legacy product outcome has passed Windows acceptance; legacy-outcome ranges remain unchanged."
+  },
+  "sideEffects": {
+    "catalogChanged": true,
+    "generatedDocsChanged": true,
+    "testFileAdded": true,
+    "workspaceLocalLicenseReviewStoreChanged": true,
+    "realPublisherPayloadDownloaded": false,
+    "installerOrProductLaunched": false,
+    "vmOrCheckpointAccessed": false,
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertFileAccessed": false,
+    "elevationRequested": false
+  }
+}

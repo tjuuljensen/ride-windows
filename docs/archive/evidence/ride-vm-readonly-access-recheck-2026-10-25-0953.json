@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T09:53:35Z",
+  "batch": "Read-only VM access recheck",
+  "targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+  "command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+  "result": "Denied before target or checkpoint inspection",
+  "error": "Access to a CIM resource was not available to the client.",
+  "vmStateChanged": false,
+  "checkpointInspected": false,
+  "guestTestsRun": false,
+  "freshUacRequested": false,
+  "defenderStateChanged": false,
+  "disposition": "Keep target-dependent acceptance deferred. Continue independent source and local regression work without requesting a fresh UAC prompt.",
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

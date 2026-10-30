@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:23:49Z",
+  "batch": "Click to Do current CSP source review and focused catalog regression",
+  "source": "Current Microsoft Learn documentation, current catalog source, and focused Pester test",
+  "officialSources": {
+    "policyCsp": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableclicktodo",
+    "manageClickToDo": "https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do",
+    "currentSourceFinding": "DisableClickToDo is listed for Windows Insider Preview, for user and device scope. Enabling the policy makes the component and entry points unavailable; disabling or not configuring it makes the feature available, subject to user settings and device context. The feature management page specifies Copilot+ PC or eligible Cloud PC requirements, including 40 TOPS NPU, 16 GB RAM, 8 logical processors and 256 GB storage."
+  },
+  "localValidation": {
+    "repositoryValidation": "Passed: 447 operations, 8 groups, 5 profiles and 301 PowerShell files; operation documentation is current.",
+    "focusedTest": {
+      "testFile": "tests/Catalog.Tests.ps1",
+      "testName": "models Click to Do policy availability with exact user-scope recovery and pending target acceptance",
+      "shell": "Windows PowerShell 5.1.26100.9818",
+      "pester": "5.7.1",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistryEnabled": false,
+      "testResultEnabled": false
+    },
+    "preliminaryAttempt": "The initial filtered Pester invocation failed before the test body because the optional TestRegistry plugin was denied permission to create HKCU\\Software\\Pester. Rerunning with TestRegistry and TestResult disabled passed the selected assertion. No registry key or setting was changed.",
+    "otherShellAvailability": "PowerShell 7.6.5 has only Pester 3.4.0 available; no Pester 5 run is claimed for that shell."
+  },
+  "acceptanceBoundary": {
+    "candidateTargetSupportPromoted": false,
+    "windowsGuestAcceptanceRun": false,
+    "insiderPreviewChannelVerifiedOnGuest": false,
+    "eligibleCopilotHardwareVerified": false,
+    "policyPrecedenceAndVisibleEntryPointsVerified": false,
+    "exactNativeRegistryLifecycleVerified": false,
+    "whyPending": "The focused test validates catalog representation only. Native policy behavior needs a Windows Insider Preview target; visible Click to Do behavior additionally needs eligible Copilot+ or Cloud PC hardware. The prior RIDE-Win11-Test access blocker remains, and no guest was inspected or changed in this batch."
+  },
+  "stateChanges": {
+    "catalogOrHandlerCode": false,
+    "registryOrUserSettings": false,
+    "vmOrCheckpoint": false,
+    "defender": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": ["Current source semantics and applicability boundaries were rechecked; the focused catalog candidate assertion passed."],
+    "partial": ["Click to Do remains an implemented candidate; native applicability, policy precedence, feature visibility and restore acceptance remain unverified."],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Windows Insider Preview guest policy acceptance; eligible-hardware visible-effect acceptance; exact saved-state native lifecycle; target-support promotion."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  },
+  "relatedEvidence": [
+    "click-to-do-remaining-settings-batch1-runner-preparation-2026-10-28-2140.json",
+    "click-to-do-policy-candidate-implementation-2026-10-24-1222.json"
+  ]
+}

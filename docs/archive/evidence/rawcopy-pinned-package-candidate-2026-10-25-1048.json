@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T10:48:00Z",
+  "package": {
+    "id": "package.rawcopy",
+    "version": "1.0.0.22",
+    "repositoryCommit": "0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c",
+    "sourceUri": "https://github.com/jschicht/RawCopy/archive/0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+    "archiveSha256": "F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF",
+    "x64Executable": {
+      "member": "RawCopy64.exe",
+      "size": 460288,
+      "sha256": "619795AA357E1EB36FEBF45B398CCCCB289CB27B547814BFB422EFB3E8F98E3D",
+      "publisherGitBlob": "9f4430f36ca8dd5a5a36e411747eaafe2085ec95",
+      "authenticode": "NotSigned"
+    },
+    "retainedNoticeMembers": [
+      "LICENSE.md",
+      "readme.txt",
+      "changelog.txt"
+    ]
+  },
+  "validation": {
+    "catalogPesterAndLicenseReviews": {
+      "passed": 108,
+      "failed": 0,
+      "skipped": 0,
+      "pesterVersion": "5.7.1",
+      "testRegistryPlugin": "disabled",
+      "temporaryFiles": "repository .local"
+    },
+    "repositoryValidation": "Passed",
+    "gitDiffCheck": "Passed"
+  },
+  "acceptance": {
+    "candidateTarget": "Windows 11",
+    "supportedTargets": [],
+    "pending": true,
+    "vmAcceptance": "Deferred: read-only VM/checkpoint access is currently denied before inspection.",
+    "utilityExecuted": false,
+    "evidenceOrSystemDataAccessed": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

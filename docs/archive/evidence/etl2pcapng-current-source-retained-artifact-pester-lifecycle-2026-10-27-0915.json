@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T09:15:00Z",
+  "package": {
+    "id": "package.etl2pcapng",
+    "version": "1.11.0",
+    "artifactPath": ".local/acquisition/etl2pcapng-v1.11.0/etl2pcapng.exe",
+    "sha256": "c2d03aac43ea0f5626fc8d909e6688393feaf71bd6facd39aaf8a637382d9043",
+    "catalogHashMatched": true,
+    "authenticodeEvidence": "Valid Microsoft Corporation signature, verified previously; not rechecked by this run.",
+    "retainedNotice": "catalog/notices/etl2pcapng-v1.11.0-license.txt"
+  },
+  "currentSourcePester": {
+    "file": "tests/ApplicationPackages.Tests.ps1",
+    "case": "stages only the pinned executable and notice and restores saved state",
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 125,
+    "durationSeconds": 5.24,
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "disabledOptionalPlugins": [
+      "TestRegistry"
+    ],
+    "coverage": [
+      "Rechecked executable SHA-256 against catalog pin.",
+      "Repeated owned-file install was healthy.",
+      "Staged exactly etl2pcapng.exe and the pinned MIT LICENSE.txt notice.",
+      "Restored the exact saved executable and notice after uninstall.",
+      "Preserved operator-owned note content."
+    ],
+    "firstAttempt": "Failed only on a case-sensitive expected-list ordering assertion after staging; fixture cleanup ran. Assertion was changed to check membership independent of ordering, and the rerun passed."
+  },
+  "safety": {
+    "converterExecuted": false,
+    "etlTraceAccessed": false,
+    "networkAccessed": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "localRealArtifactLifecycle": "Passed",
+    "syntheticEtlConversion": "Pending",
+    "windows11LifecycleAndRecovery": "Pending VM acceptance",
+    "supportedTargets": [],
+    "legacyOutcomeClosed": false,
+    "estimateChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "127-181",
+      "rounded": "125-180/about 155"
+    }
+  },
+  "repositoryValidation": {
+    "status": "Passed",
+    "command": "tools/validate.ps1",
+    "operations": 429,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 294
+  }
+}

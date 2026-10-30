@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:43:01Z",
+  "batch": "Current-source catalog validation and migration scope audit",
+  "validation": {
+    "operationDocumentation": "Current",
+    "repositoryValidation": "Passed",
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 298,
+    "focusedPesterRun": "Not run in this batch"
+  },
+  "crossCheck": {
+    "settingPresentation": {
+      "result": "Complete",
+      "reviewed": 279,
+      "total": 279,
+      "evidence": "remaining-presentation-reviews-2026-10-17.json",
+      "note": "Presentation coverage is separate from completed legacy outcomes and runtime acceptance."
+    },
+    "sysinternals": {
+      "priorLicenseSpecialistApproval": "Settled for RIDE direct download-and-install",
+      "additionalLegalReviewRequired": false,
+      "licenseGate": false,
+      "supportedTargets": [
+        "Windows 11"
+      ],
+      "packages": 10,
+      "packageLifecycle": "Suite plus nine independent products passed Windows 11 file lifecycle/recovery on RIDE-Win11-Test; no utility was executed",
+      "remainingScope": "Per-tool runtime/activation and other Windows targets are separate technical scope; Defender-blocked utilities remain excluded."
+    },
+    "vmAccess": {
+      "latestCheckUtc": "2026-10-28T06:37:37Z",
+      "result": "Get-VM failed for both registered targets before inspection because host CIM access was unavailable."
+    }
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "partial": [
+      "Catalog documentation and repository validation reconfirmed; no new legacy outcome closed."
+    ],
+    "deferred": [
+      "Disposable-VM acceptance remains blocked by host CIM access."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; static validation does not prove behavior or resolve a legacy outcome."
+    }
+  },
+  "stateChanges": {
+    "windows": false,
+    "vm": false,
+    "defender": false,
+    "elevationRequested": false,
+    "packagePayloadsAcquiredOrExecuted": false
+  }
+}

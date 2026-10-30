@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "0d6cb028efec4b5491e2aa706c68f8c7",
+  "Suite": "ApplicationsBatch8",
+  "Target": "Windows Server 2025 Standard Evaluation",
+  "Build": "26100",
+  "StartedAtUtc": "2026-10-24T20:43:46.1793299Z",
+  "FinishedAtUtc": "2026-10-24T20:56:13.9544217Z",
+  "Status": "Failed",
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 354,
+    "Failed": 0,
+    "Skipped": 1,
+    "Total": 355
+  },
+  "IntegrationPassed": false,
+  "Detection": "The new repeated-whitespace catalog patterns detected all four installed products; registered versions were 25.0.4.101, 21.0.12.101, 17.0.20.101 and 11.0.32.101.",
+  "Failure": "Windows PowerShell 5.1 treated the java.exe -version stderr line as a terminating error because the runner uses ErrorActionPreference=Stop. The emitted line contained the expected pinned Java version, but the process output was not captured safely.",
+  "JavaOutputs": [
+    "openjdk version \"25.0.4.1\" 2026-08-18 LTS",
+    "openjdk version \"21.0.12.1\" 2026-08-18 LTS",
+    "openjdk version \"17.0.20.1\" 2026-08-18 LTS",
+    "openjdk version \"11.0.32.1\" 2026-08-18 LTS"
+  ],
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "SupportPromoted": false,
+  "Repair": "The integration runner now captures stdout, stderr and exit status using System.Diagnostics.Process instead of PowerShell native-command stderr redirection.",
+  "NextAction": "Repeat ApplicationsBatch8 and review complete lifecycle and preservation assertions."
+}

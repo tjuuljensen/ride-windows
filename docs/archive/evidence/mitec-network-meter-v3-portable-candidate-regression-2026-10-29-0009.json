@@ -1,0 +1,72 @@
+{
+  "recordedAtUtc": "2026-10-29T00:09:52Z",
+  "batch": "MiTeC historical standalone portable-package implementation",
+  "product": {
+    "id": "package.mitec-network-meter",
+    "packageVersion": "2.5.0",
+    "productUri": "https://www.mitec.cz/netmet.html",
+    "downloadUri": "https://www.mitec.cz/Downloads/NetMet.zip",
+    "expectedArchiveSha256": "04e55b066b9a6a598c15e619d99597894b0494bae63d7d8a36df391feae1f360",
+    "archiveDigestSource": "Locally measured retained archive digest in the 2026-10-17 static review; not publisher-provided and current direct-download bytes were not reacquired.",
+    "selectedMember": {
+      "path": "NetMet.exe",
+      "length": 3607872,
+      "sha256": "961ef047dd75b4d888aa8e8f247f91926badc6ee75a3c8793e0601cd5b0dc4c0",
+      "architecture": "x86",
+      "fileVersion": "2.5.0.0",
+      "productVersion": "2.0.0.0"
+    },
+    "target": "Windows 11 candidate only; SupportedTargets remains empty. Historical publisher target list ends at Windows 10."
+  },
+  "licenseReview": {
+    "status": "NeedsReview",
+    "owner": "Unassigned",
+    "reviewedVersion": "2.5.0",
+    "store": ".local/license-reviews.json",
+    "recordsAfterWrite": 92,
+    "backup": ".local/license-reviews-before-network-meter-20261029.json",
+    "effect": "Owner-administration note only; does not gate package preparation or acceptance.",
+    "basis": "Historical product page describes free private and commercial use; current terms and intended-use fit remain owner review."
+  },
+  "validation": {
+    "focusedPester": "Windows PowerShell 5.1, Pester 5.7.1; tests/MiTeCDirList.Tests.ps1 and tests/MiTeCNetworkMeter.Tests.ps1; 4 passed, 0 failed, 0 skipped.",
+    "pesterConfiguration": "The restricted run disabled optional TestRegistry and TestResult plugins; process-only ExecutionPolicy Bypass loaded the existing module, with no persistent policy change.",
+    "coverage": "Catalog metadata matched both retained static reviews; inert synthetic ZIP staging, repeat install, owned-file removal, saved-state restore, and operator-note preservation passed for both products. No real publisher archives were staged and neither utility was launched.",
+    "staticValidation": "tools/validate.ps1 passed: 449 operations, 8 groups, 5 profiles, 303 PowerShell files; generated docs/OPERATIONS.md current.",
+    "pendingPackageMarkerAudit": "At 2026-10-29T00:09:52Z, a read-only audit found 51/51 pending package versions have exact operation-ID/reviewed-version markers; the store contains 92 records."
+  },
+  "migration": {
+    "resolved": "Added the Network Meter portable catalog candidate and generated documentation; added its exact-version NeedsReview/Unassigned marker after exporting a 91-record backup.",
+    "partial": "Four local synthetic Pester assertions passed for DirList and Network Meter.",
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Reacquire/verify current publisher archive bytes and version; catalog pin derives from retained 2026-10-17 archive.",
+      "Disposable Windows 11 lifecycle and isolated virtual-adapter behavior acceptance for Network Meter; exact recovery."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimateRanges": {
+      "settings": "37-57",
+      "roundedTotal": "125-180/about 155",
+      "maintenance": "8-12",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "packages": "37-52",
+      "exactTotal": "126-180"
+    },
+    "estimateReason": "These are partial package candidates; no whole legacy product outcome has passed Windows acceptance, so ranges remain unchanged."
+  },
+  "sideEffects": {
+    "catalogChanged": true,
+    "generatedDocsChanged": true,
+    "testFileAdded": true,
+    "workspaceLocalLicenseReviewStoreChanged": true,
+    "realPublisherPayloadDownloaded": false,
+    "installerOrProductLaunched": false,
+    "vmOrCheckpointAccessed": false,
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertFileAccessed": false,
+    "elevationRequested": false
+  }
+}

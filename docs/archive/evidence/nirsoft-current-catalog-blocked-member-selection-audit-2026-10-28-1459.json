@@ -1,0 +1,68 @@
+{
+  "recordedAtUtc": "2026-10-28T14:59:19Z",
+  "batch": "Read-only current catalog and frozen inventory comparison for Defender-blocked NirSoft member exclusions.",
+  "method": "PowerShell 7.6.5 loaded the repository data-only catalog reader and compared each catalog PortableMembers list with its frozen source inventory after applying the blocked executable basenames. No archive, executable payload, temporary stage, or Defender state was accessed.",
+  "results": [
+    {
+      "operationId": "package.nirsoft-launcher",
+      "selectedMembers": 647,
+      "expectedMembers": 647,
+      "blockedMembersSelected": 0,
+      "inventoryDifferenceCount": 0,
+      "pendingAcceptance": true,
+      "supportedTargetCount": 0
+    },
+    {
+      "operationId": "package.nirsoft-x64-tools",
+      "selectedMembers": 47,
+      "expectedMembers": 47,
+      "blockedMembersSelected": 0,
+      "inventoryDifferenceCount": 0,
+      "pendingAcceptance": true,
+      "supportedTargetCount": 0
+    }
+  ],
+  "blockedNames": {
+    "nirLauncher": [
+      "chromecookiesview.exe",
+      "bulletspassview.exe",
+      "produkey.exe",
+      "wirelesskeyview.exe",
+      "iehv.exe",
+      "lanipscanner.exe",
+      "lsasecretsdump.exe",
+      "operapassview.exe",
+      "routerpassview.exe",
+      "netpass.exe",
+      "webbrowserbookmarksview.exe",
+      "browserautofillview.exe",
+      "passwordscan.exe"
+    ],
+    "x64Tools": [
+      "produkey.exe",
+      "wirelesskeyview.exe"
+    ]
+  },
+  "disposition": "Current catalog member selection remains filtered correctly; this read-only check does not establish the origin of the repeated temporary-stage Defender alert or prove tar.exe encrypted extraction behavior. Keep both candidates pending and both reported architectures excluded. Do not rerun retained encrypted archive lifecycle until the stage-provenance blocker is resolved.",
+  "observations": {
+    "catalogReadOnly": true,
+    "frozenJsonInventoriesReadOnly": true,
+    "archiveBytesRead": false,
+    "reportedExecutableAccessed": false,
+    "DefenderQueriedOrChanged": false,
+    "installerOrUtilityRun": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; this confirms current catalog selection only and closes no legacy outcome."
+  }
+}

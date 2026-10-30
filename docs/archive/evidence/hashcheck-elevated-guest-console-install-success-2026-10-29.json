@@ -1,0 +1,111 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T08:51:23.0012009Z",
+  "EvidenceSource": "Operator console output plus guest log and installed-state JSON copied to P52 and independently read and hashed.",
+  "Computer": "RIDE-WIN11-TEST",
+  "User": "RIDE-WIN11-TEST\\admin",
+  "ElevatedGuardPassed": true,
+  "InstallerExitCode": 0,
+  "Payload": {
+    "Sha256": "cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa",
+    "Url": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+    "HashGuardPassed": true,
+    "Arguments": "/S /LOG=\"C:\\RIDE\\Diagnostics\\HashCheck-20261029-094848\\hashcheck-install.log\""
+  },
+  "GuestLogPath": "C:\\RIDE\\Diagnostics\\HashCheck-20261029-094848\\hashcheck-install.log",
+  "PublisherLogResults": {
+    "SparseRegistrationExit": 0,
+    "Provisioning": "Sparse package provisioning completed",
+    "InstalledPackage": "IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw",
+    "InstalledPackageLocation": "C:\\Program Files\\WindowsApps\\IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw",
+    "MsixSignature": "Valid",
+    "Native32RegistrationExit": 0,
+    "Native64RegistrationExit": 0
+  },
+  "Comparison": {
+    "Interpretation": "Strong evidence of execution-context-dependent behavior: same pinned installer and guest account succeeded from elevated signed-in console. Exact context difference is not isolated; path and interactive-session state also differ.",
+    "FailedHResult": "0x80070005",
+    "FailedRegisteredRun": "f3a4ab4a87e34ad085b7cb638f9e76b0",
+    "FailedStep": "Add-AppxPackage -ExternalLocation"
+  },
+  "CurrentState": {
+    "Checkpoint": "Updated clean checkpoint retained unchanged; manual HashCheck installation discarded by verified restore.",
+    "VM": "Operator restored checkpoint 91369e82-5ff2-49ef-87c4-c4518a77ae7b after exporting evidence; VM Off / Operating normally confirmed.",
+    "Controller": "Operator re-enabled RIDEWin11Test; Ready confirmed after restoration with empty queues and no recovery block."
+  },
+  "Acceptance": {
+    "RIDEAutomatedLifecycle": "Not accepted",
+    "ManualInstall": "Succeeded per operator output and publisher log",
+    "ExplorerFunction": "Not tested",
+    "PublishedSupportChanged": false,
+    "RemovalAndRecovery": "Not tested",
+    "Next": "Prepare recorded source snapshot and run existing RIDE ApplicationsBatch11 lifecycle in the elevated signed-in guest console on the clean baseline; disable controller during manual work. Remote workflow remains unresolved."
+  },
+  "Migration": {
+    "NewExclusions": 0,
+    "Reason": "Manual install alone does not establish RIDE lifecycle, uninstall/recovery or user-visible behavior.",
+    "Maintenance": "8-12",
+    "Packages": "37-52",
+    "FilesAndAssets": "25-35",
+    "Settings": "37-57",
+    "Partial": "Manual installation succeeds; remote automation still fails at sparse registration.",
+    "RoundedTotal": "125-180; about 155",
+    "RetiredLegacyOutcomes": 0,
+    "Components": "19-24",
+    "ExactTotal": "126-180",
+    "ResolvedLegacyOutcomes": 0
+  },
+  "HostEvidenceFiles": [
+    {
+      "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\acceptance-input\\hashcheck-console-20261029-094848\\hashcheck-install.log",
+      "Bytes": 1590,
+      "SHA256": "D3019CBDA9A5AD4596D8380BE1FFDC76649C126A41E376DEBC7F63DA75F6D239"
+    },
+    {
+      "Path": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\acceptance-input\\hashcheck-console-20261029-094848\\installed-state.json",
+      "Bytes": 1156,
+      "SHA256": "E74E5CAFFDB8D27AD6D6A096F4011BFCE84A686FBB9C0FD5958480BF14B592DF"
+    }
+  ],
+  "InstalledState": {
+    "Computer": "RIDE-WIN11-TEST",
+    "User": "RIDE-WIN11-TEST\\admin",
+    "Appx": [
+      {
+        "Name": "IDRIX.HashCheck",
+        "Version": "2.6.3.0",
+        "PackageFullName": "IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw",
+        "InstallLocation": "C:\\Program Files\\WindowsApps\\IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw",
+        "Status": 0
+      }
+    ],
+    "UninstallRegistration": [
+      {
+        "DisplayName": "HashCheck Shell Extension",
+        "DisplayVersion": "2.6.3.0",
+        "InstallLocation": null,
+        "UninstallString": "regsvr32.exe /u /i /n /s \"C:\\Program Files\\HashCheck\\HashCheck.dll\"",
+        "QuietUninstallString": "regsvr32.exe /u /i:\"NoRebootPrompt\" /n /s \"C:\\Program Files\\HashCheck\\HashCheck.dll\""
+      }
+    ]
+  },
+  "HostEvidenceVerifiedAtUtc": "2026-10-29T09:26:47.2571921Z",
+  "RunnerPreparation": {
+    "Change": "HashCheck exact installed DisplayVersion is 2.6.3.0; release/download pin remains 2.6.3. Other package version checks remain exact.",
+    "Runtime": "Attended RIDE lifecycle not yet run.",
+    "DesktopHandoff": "Existing handoff supports user-only settings and is not reused for elevated packages.",
+    "Parser": "Passed",
+    "HostValidation": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 132,
+      "Passed": 1,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "Version": "0.19.2"
+  }
+}

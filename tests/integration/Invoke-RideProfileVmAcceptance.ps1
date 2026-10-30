@@ -3,9 +3,9 @@
   Run focused profile acceptance using a registered disposable VM and PowerShell Direct.
 .DESCRIPTION
   Locks the idle registered controller, verifies VM/checkpoint identities, stages a
-  hash-checked checkout, prepares guest PS7/UAC, reboots if needed, and runs focused
-  lifecycle/Terminal acceptance. Collects evidence before unconditional checkpoint
-  recovery. Does not refresh controller binaries, install host software or change host UAC.
+  hash-checked checkout, runs the selected focused guest acceptance and collects
+  evidence before unconditional checkpoint recovery. Does not refresh controller
+  binaries, install host software or change host or guest UAC policy.
 .PARAMETER ConfigurationPath
   Existing installed RIDE controller configuration.json identifying a disposable VM.
 .PARAMETER Credential
@@ -16,9 +16,10 @@
   Optional publisher acquisition JSON containing a local Path, official release Uri
   and Sha256. Verified Microsoft-signed MSI is staged only as a guest prerequisite.
 .PARAMETER Scenario
-  Colors (default) or UserBinPath. UserBinPath may use a verified local
-  PowerShellArtifactPath to install PowerShell 7 inside the disposable guest;
-  it does not change guest UAC or acquire anything over the network.
+  Colors (default), UserBinPath, or PersistentUserPath. UserBinPath may use a
+  verified local PowerShellArtifactPath to install PowerShell 7 inside the
+  disposable guest. PersistentUserPath checks the current user's persistent PATH
+  value and exact saved-run recovery; it does not broadcast environment changes.
 .PARAMETER Version
   Print the version without accessing a VM.
 .EXAMPLE
@@ -30,18 +31,21 @@
 .NOTES
   Compatibility: Windows PowerShell 5.1/PowerShell 7 on a Windows Hyper-V host.
   Prerequisites: Existing idle disposable RIDE controller; Hyper-V/PowerShell Direct access.
-  Guest prerequisites: Existing signed-in unlocked desktop and Windows Terminal.
+  Guest prerequisites: Windows Terminal and an unlocked desktop for Colors;
+    Windows 11 and the owning user's HKCU Environment/Path for PersistentUserPath.
   Recovery: Finally restores only the pinned VM/checkpoint; failures retain source/evidence.
-  Author: RIDE-Windows maintainers. Version: 0.2.0.
-  Changelog: 0.2.0: Add isolated user-bin startup acceptance selection.
+  Author: RIDE-Windows maintainers. Version: 0.4.0.
+  Changelog: 0.4.0: Route persistent user PATH acceptance through its interactive-session worker.
+    0.3.0: Add isolated persistent user PATH lifecycle acceptance selection.
+    0.2.0: Add isolated user-bin startup acceptance selection.
     0.1.1: Remove host UAC observations and comparison; retain guest-specific acceptance.
     0.1.0: Add checkpoint-backed focused profile acceptance.
 #>
 
 
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
-param([string]$ConfigurationPath, [pscredential]$Credential, [string]$OutputDirectory, [string]$PowerShellArtifactPath, [ValidateSet('Colors','UserBinPath')][string]$Scenario = 'Colors', [switch]$Version)
-$script:ScriptVersion = '0.2.0'
+param([string]$ConfigurationPath, [pscredential]$Credential, [string]$OutputDirectory, [string]$PowerShellArtifactPath, [ValidateSet('Colors','UserBinPath','PersistentUserPath')][string]$Scenario = 'Colors', [switch]$Version)
+$script:ScriptVersion = '0.4.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if (-not $ConfigurationPath -or -not $Credential -or -not $OutputDirectory) { throw 'ConfigurationPath, Credential and OutputDirectory are required.' }
@@ -49,6 +53,7 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 $config = Read-RideAutomationConfiguration $ConfigurationPath
 $artifact = $null
 if ($PowerShellArtifactPath) {
+  if ($Scenario -ne 'UserBinPath') { throw 'PowerShellArtifactPath is supported only by the UserBinPath scenario.' }
   $artifact = Get-Content -LiteralPath $PowerShellArtifactPath -Raw | ConvertFrom-Json
   if ($artifact.Uri -cnotmatch '^https://github\.com/PowerShell/PowerShell/releases/download/v[0-9.]+/PowerShell-[0-9.]+-win-x64\.msi$' -or
       $artifact.Sha256 -notmatch '^[0-9a-fA-F]{64}$' -or (Get-FileHash -LiteralPath $artifact.Path -Algorithm SHA256).Hash -ine $artifact.Sha256) { throw 'Invalid PowerShell publisher acquisition evidence.' }
@@ -108,12 +113,20 @@ try {
       $Artifact | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $Evidence -Encoding UTF8
     }
   }
-  $guestFile = if ($Scenario -eq 'UserBinPath') { 'Invoke-RideUserBinAcceptance.ps1' } else { 'Invoke-RideProfileAcceptance.ps1' }
+  $guestFile = switch ($Scenario) {
+    'UserBinPath' { 'Invoke-RideUserBinAcceptance.ps1' }
+    'PersistentUserPath' { 'Invoke-RidePersistentUserPathAcceptance.ps1' }
+    default { 'Invoke-RideProfileAcceptance.ps1' }
+  }
   $guestScript = Join-Path $guestBase ('source/tests/integration/' + $guestFile)
-  $prepared = Invoke-Command -Session $session -ArgumentList $guestScript,$config.VMName,$guestEvidence,$guestArtifact {
-    param($Script,$Expected,$Evidence,$Artifact)
+  $prepared = Invoke-Command -Session $session -ArgumentList $guestScript,$config.VMName,$guestEvidence,$guestArtifact,$Scenario {
+    param($Script,$Expected,$Evidence,$Artifact,$SelectedScenario)
     $env:RIDE_INTEGRATION_VM = '1'
-    & $Script -Stage Prepare -ExpectedComputerName $Expected -EvidencePath $Evidence -PrerequisiteEvidencePath $Artifact -DisposableVm -Confirm:$false
+    if ($SelectedScenario -eq 'UserBinPath') {
+      & $Script -Stage Prepare -ExpectedComputerName $Expected -EvidencePath $Evidence -PrerequisiteEvidencePath $Artifact -DisposableVm -Confirm:$false
+    } else {
+      & $Script -Stage Prepare -ExpectedComputerName $Expected -EvidencePath $Evidence -DisposableVm -Confirm:$false
+    }
   }
   $prepared | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $output 'prerequisites.json') -Encoding UTF8
   if ($prepared.RebootRequired) {

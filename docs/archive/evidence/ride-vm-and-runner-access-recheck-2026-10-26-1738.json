@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T17:38:39Z",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "status": "BlockedBeforeInspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-S25-Test",
+      "status": "BlockedBeforeInspection",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "registeredTask": {
+    "name": "\\RIDE\\RIDEWin11Test",
+    "status": "BlockedBeforeDispatch",
+    "error": "Access to a CIM resource was not available to the client.",
+    "nativeSchtasksExitCode": 1,
+    "nativeSchtasksOutput": "ERROR: The network address is invalid."
+  },
+  "changes": {
+    "guestRequestDispatched": false,
+    "vmOrCheckpointChanged": false,
+    "hostServiceChanged": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationPrompted": false
+  },
+  "acceptance": "Windows 11 and Server 2025 acceptance remain deferred; continue independent local and source-review work.",
+  "migrationOutcome": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

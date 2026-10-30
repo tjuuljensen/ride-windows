@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T19:11:27Z",
+  "suites": [
+    "tests/RemainingSettings.Tests.ps1",
+    "tests/SixtySettings.Tests.ps1"
+  ],
+  "runtimes": [
+    {
+      "powerShell": "7.6.5",
+      "pester": "5.7.1",
+      "passed": 207,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 705.7,
+      "testRegistryEnabled": false,
+      "testResultEnabled": false,
+      "windowsIntegrationExcluded": true,
+      "temporaryRoot": ".local/pester-settings-cross-shell-20261026"
+    },
+    {
+      "powerShell": "5.1.26100.9711",
+      "pester": "5.7.1",
+      "remainingSettingsPassed": 77,
+      "sixtySettingsPassed": 130,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "settings-focused-current-source-regression-and-catalog-profile-rerun-2026-10-26-1531.json"
+    }
+  ],
+  "coverage": "Current-source mocked remaining-setting and 60-setting catalog/discovery, preview, lifecycle, saved-state capture and exact restore paths. Pester WhatIf output was produced by tests; handlers were mocked and no host settings were changed.",
+  "hostState": {
+    "settingsChanged": false,
+    "registryWriteAuthorized": false,
+    "runtimeIntegrationAccepted": false
+  },
+  "vmAccess": {
+    "observedAtUtc": "2026-10-26T19:11:27Z",
+    "getVmError": "Access to a CIM resource was not available to the client.",
+    "getScheduledTaskError": "Access to a CIM resource was not available to the client.",
+    "schtasksExitCode": 1,
+    "schtasksOutput": "ERROR: The network address is invalid.",
+    "guestInspected": false,
+    "requestDispatched": false,
+    "checkpointChanged": false,
+    "elevationPromptRequested": false
+  },
+  "licenseReviewMarkers": {
+    "pendingPackages": 36,
+    "exactVersionMarkersPresent": 36,
+    "missing": 0,
+    "planningGate": false
+  },
+  "migrationEffect": "Current-source settings unit suites pass in both PowerShell editions. WindowsIntegration, GUI, effective policy, hardware/session behavior and disposable Windows target acceptance remain deferred. No legacy outcome closes or estimate changes.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

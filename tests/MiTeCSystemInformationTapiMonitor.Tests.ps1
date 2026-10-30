@@ -2,7 +2,8 @@
 .SYNOPSIS
   Verify MiTeC System Information eXtra and TAPI Monitor package candidates.
 .DESCRIPTION
-  Reconciles retained publisher pins and exercises only synthetic ZIP staging.
+  Reconciles retained publisher pins and tests synthetic ZIP staging plus
+  explicitly supplied retained archives without running application code.
   It does not launch either utility, collect host reports, inspect telephone
   lines/calls, or access a TAPI provider.
 .EXAMPLE
@@ -49,7 +50,7 @@ Describe 'MiTeC portable candidate <Id>' -ForEach @(
     $operation.PackageVersion|Should -BeExactly $Version
     $operation.RequiredFiles|Should -Be $Members
     $operation.PortableMembers|Should -Be $Members
-    $operation.CandidateTargets|Should -Be @('Windows 11')
+    $operation.CandidateTargets|Should -Be @('Windows 11','Windows Server 2025')
     $operation.SupportedTargets.Count|Should -Be 0
     $operation.PendingAcceptance|Should -BeTrue
     $operation.LicenseReviewStatus|Should -BeNullOrEmpty
@@ -89,5 +90,46 @@ Describe 'MiTeC portable candidate <Id>' -ForEach @(
     Restore-RidePortableSnapshot $operation $snapshot
     (Get-RidePortableState $operation).Healthy|Should -BeTrue
     [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'user-note.txt'))|Should -BeExactly 'preserve'
+  }
+  It 'stages the explicitly retained pinned archive and restores only its declared files without launching the product' {
+    $environmentVariable=switch($Id){
+      'package.mitec-system-information'{'RIDE_MITEC_SYSTEM_INFORMATION_FIXTURE_ARCHIVE'}
+      'package.mitec-tapi-monitor'{'RIDE_MITEC_TAPI_MONITOR_FIXTURE_ARCHIVE'}
+      default{throw "Unexpected MiTeC source package: $Id"}
+    }
+    $archiveValue=[Environment]::GetEnvironmentVariable($environmentVariable)
+    if([string]::IsNullOrWhiteSpace($archiveValue)){
+      Set-ItResult -Skipped -Because "No explicit retained archive was supplied through $environmentVariable."
+      return
+    }
+    $archivePath=[IO.Path]::GetFullPath($archiveValue)
+    $archiveFile=Get-Item -LiteralPath $archivePath -Force -ErrorAction Stop
+    if($archiveFile.PSIsContainer -or ($archiveFile.Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'Retained archive fixture must be a regular file.'}
+    $sha=(Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    $operation=($Catalog.Operations|Where-Object Id -ceq $Id).Clone()
+    $sha|Should -BeExactly $operation.ExpectedSha256.ToLowerInvariant()
+    $zip=[IO.Compression.ZipFile]::OpenRead($archivePath)
+    try{
+      $archiveMembers=@($zip.Entries|Where-Object {-not [string]::IsNullOrEmpty($_.Name)}|ForEach-Object FullName|Sort-Object)
+      $archiveMembers.Count|Should -Be $operation.RequiredFiles.Count
+      [string]::Join("`n",$archiveMembers)|Should -BeExactly ([string]::Join("`n",@($operation.RequiredFiles|Sort-Object)))
+    }finally{$zip.Dispose()}
+    $operation.SelectedVariant='portable'
+    $operation.ResolvedToolsDirectory=Join-Path $CaseRoot 'retained-archive'
+    $operation.InstallDirectory=Join-Path $operation.ResolvedToolsDirectory $operation.PackageId
+    $artifact=[pscustomobject]@{Path=$archivePath;Sha256=$sha;Version=$operation.PackageVersion}
+    Install-RidePortablePayload $operation $artifact -Offline
+    Install-RidePortablePayload $operation $artifact -Offline
+    $state=Get-RidePortableState $operation
+    $state.Healthy|Should -BeTrue
+    @($state.Files.RelativePath|Sort-Object)|Should -Be @($operation.RequiredFiles|Sort-Object)
+    $note=Join-Path $operation.InstallDirectory 'operator-note.txt'
+    [IO.File]::WriteAllText($note,'preserve operator-owned data')
+    $snapshot=Save-RidePortableSnapshot $operation (Join-Path $CaseRoot 'retained-archive-backup')
+    Uninstall-RidePortablePayload $operation
+    [IO.File]::ReadAllText($note)|Should -BeExactly 'preserve operator-owned data'
+    Restore-RidePortableSnapshot $operation $snapshot
+    (Get-RidePortableState $operation).Healthy|Should -BeTrue
+    [IO.File]::ReadAllText($note)|Should -BeExactly 'preserve operator-owned data'
   }
 }

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T19:19:21Z",
+  "runId": "9c141bad3d2c4ec29cffd9237a266e52",
+  "controller": "RIDESrv2025Test",
+  "target": "RIDE-S25-Test",
+  "suite": "ApplicationsBatch8",
+  "request": {
+    "source": "Local",
+    "unitOnly": false,
+    "timeoutMinutes": 180,
+    "submittedAtUtc": "2026-10-24T19:11:02.8494751Z"
+  },
+  "observedState": {
+    "queueState": "running",
+    "controllerCommandActivityStartedAtLocal": "2026-10-24T21:14:53",
+    "resultPresent": false,
+    "controllerErrorsLength": 0,
+    "blockedMarkerPresent": false
+  },
+  "context": "This corrected ApplicationsBatch8 run follows a package-selection assertion failure and an ArtCraft Launcher fixture failure in earlier Server 2025 attempts. The latest correction changed the fixture to include MsiInstallDirectory; no installer lifecycle result is available yet.",
+  "disposition": "Leave the registered serialized request running. Do not claim Server 2025 acceptance or support until its correlated result is terminal and inspected.",
+  "estimateImpact": "No legacy outcome has closed; all estimate ranges remain unchanged."
+}

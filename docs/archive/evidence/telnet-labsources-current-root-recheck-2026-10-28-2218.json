@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:18:02Z",
+  "batch": "B06 Telnet registered LabSources root recheck",
+  "scope": "Read-only current root inventory compared with the 2026-10-26 registered FOD-media inspection.",
+  "currentInventory": {
+    "isoCount": 4,
+    "isoNames": [
+      "26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso",
+      "26100.32230.260111-0550.lt_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
+      "26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+      "Windows11_Client_x64_en-us_26300_9457.iso"
+    ],
+    "softwarePackagesTopLevel": ["README.md"],
+    "osUpdatesTopLevel": ["README.md"]
+  },
+  "comparison": "The registered ISO set and the SoftwarePackages/OSUpdates top-level contents are unchanged from the 2026-10-26 inventory. No new matching Languages and Optional Features source is registered in these inspected roots.",
+  "method": "Windows-native top-level directory enumeration. No ISO was opened, mounted or extracted in this recheck; no CAB was read or serviced.",
+  "sourceReadiness": "Telnet LocalSource remains unimplemented because the matching package identity, complete repository, dependencies and exact recovery source cannot be validated without matching media.",
+  "stateChanges": {
+    "repositoryCode": false,
+    "host": false,
+    "windows": false,
+    "vm": false,
+    "checkpoint": false,
+    "defender": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": ["The current registered LabSources root inventory is unchanged."],
+    "partial": ["Telnet LocalSource source readiness remains unresolved."],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Matching Windows-version Languages and Optional Features media, Telnet source identity/completeness, recovery validation and native Windows acceptance."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  },
+  "relatedEvidence": ["telnet-labsource-fod-media-inventory-2026-10-26-0606.json"]
+}

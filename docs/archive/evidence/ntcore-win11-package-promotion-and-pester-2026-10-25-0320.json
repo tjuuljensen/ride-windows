@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T03:20:00Z",
+  "sourceAcceptance": "docs/archive/evidence/ntcore-win11-guarded-lifecycle-acceptance-2026-10-25-0145.json",
+  "sourceRunId": "382d9f94682b4fa4a489690aee9a2d53",
+  "target": "Windows 11",
+  "vm": "RIDE-Win11-Test",
+  "catalogPromotions": [
+    {
+      "id": "package.ntcore-pe-detective",
+      "supportedTargets": ["Windows 11"],
+      "pendingAcceptance": false,
+      "scope": "Package install/remove/recovery; tool was not executed"
+    },
+    {
+      "id": "package.ntcore-cff-explorer",
+      "supportedTargets": ["Windows 11"],
+      "pendingAcceptance": false,
+      "scope": "Package install/remove/recovery; tool was not executed"
+    },
+    {
+      "id": "package.ntcore-4gb-patch",
+      "supportedTargets": ["Windows 11"],
+      "pendingAcceptance": false,
+      "scope": "Package staging and guarded synthetic x86 PE functional acceptance only"
+    }
+  ],
+  "localPester": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "suites": [
+      "tests/NtcorePackages.Tests.ps1",
+      "tests/NtCore4GbPatchLauncher.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "passed": 36,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "durationSeconds": 146.74,
+    "testRegistryPlugin": "disabled",
+    "temporaryFiles": ".local/pester-ntcore-promotion-20261025"
+  },
+  "catalogRegression": {
+    "suite": "tests/Catalog.Tests.ps1",
+    "passed": 82,
+    "failed": 0,
+    "notRun": 1,
+    "notRunReason": "WindowsIntegration tag excluded because this sandbox denies HKCU registry access",
+    "testRegistryPlugin": "disabled"
+  },
+  "licenseAdministration": "Version-specific NeedsReview metadata remains informational and does not block package planning. Sysinternals continues under the prior RIDE v2 specialist approval for RIDE's direct download-and-install workflow; no generalized redistribution analysis is a migration gate.",
+  "defender": "No Defender changes. Defender-blocked tools remain excluded.",
+  "productionFilesPatched": false,
+  "newVmRun": false,
+  "resolved": "Three selected NTCore product package-staging outcomes now have Windows 11 support; guarded 4GB Patch synthetic behavior also passed.",
+  "partialOrDeferred": "The aggregate legacy InstallNtcore/RemoveNTCore dynamic collection remains partial; PE Detective/CFF Explorer runtime and activation are untested; no Server support is inferred.",
+  "estimateAdjustment": {
+    "reason": "Three selected legacy NTCore product outcomes now have accepted Windows 11 package staging. The unenumerated dynamic collection remains deferred.",
+    "groupRanges": "37-57 / 46-61 / 19-24 / 25-35 / 8-12",
+    "exactTotal": "135-189",
+    "roundedTotal": "135-190/about 160"
+  }
+}

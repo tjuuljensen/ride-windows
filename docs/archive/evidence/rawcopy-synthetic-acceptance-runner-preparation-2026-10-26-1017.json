@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T10:17:36Z",
+  "batch": "RawCopy pinned synthetic acceptance runner preparation",
+  "package": "package.rawcopy",
+  "packageVersion": "1.0.0.22",
+  "retainedExecutable": {
+    "path": ".local/acquisition/rawcopy-1.0.0.22/RawCopy64.exe",
+    "sha256": "619795AA357E1EB36FEBF45B398CCCCB289CB27B547814BFB422EFB3E8F98E3D",
+    "matchesCatalogMemberPin": true,
+    "executed": false
+  },
+  "staticSourceReview": {
+    "source": "Pinned RawCopy 1.0.0.22 upstream ZIP retained locally",
+    "readme": {
+      "input": "One exact file path or MFT reference",
+      "output": "Writes extracted output to the specified output directory",
+      "tcpSend": "Optional; upstream README says network output is unencrypted"
+    },
+    "rawVolumeHandle": {
+      "sourceCall": "_WinAPI_CreateFile($TargetDrive, 2, 2, 7)",
+      "officialAutoItParameterMeaning": "Open existing object with read access; share flags 7",
+      "documentation": "https://www.autoitscript.com/autoit3/docs/libfunctions/_WinAPI_CreateFile.htm"
+    }
+  },
+  "runner": {
+    "path": "tests/integration/Invoke-RideRawCopySyntheticAcceptance.ps1",
+    "syntax": "Windows PowerShell parser passed with zero errors after final runner edits",
+    "input": "Runner generates a fixed 4096-byte file in its own unique guest temp directory; no user-provided source path is accepted",
+    "guards": [
+      "Exact Windows 11 guest computer name",
+      "Windows 11 client build",
+      "Already elevated guest session; no UAC request",
+      "Pinned executable SHA-256",
+      "NTFS fixture volume",
+      "New evidence path in an existing directory"
+    ],
+    "arguments": {
+      "allAttributes": false,
+      "rawDirectoryListing": false,
+      "volumeMetadataOutput": false,
+      "tcpSend": false,
+      "imageFile": false
+    },
+    "acceptance": [
+      "Require successful process exit within timeout",
+      "Require exactly one output member with bytes matching the synthetic source SHA-256",
+      "Verify synthetic source remains byte-identical",
+      "On pass remove only unique source/output files and empty directories",
+      "On failure retain fixture and write JSON evidence"
+    ],
+    "executed": false,
+    "windowsSupportPromoted": false
+  },
+  "repositoryValidation": {
+    "status": "Passed",
+    "operations": 417,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 280
+  },
+  "disposition": {
+    "resolved": [
+      "Prepared a pinned, single-file synthetic acceptance runner and parser-validated its PowerShell syntax"
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Windows 11 staging and synthetic extraction acceptance; current VM/CIM and registered-controller access is blocked before inspection/dispatch"
+    ],
+    "partial": [
+      "No RawCopy process or utility behavior was executed; no legacy outcome closed"
+    ],
+    "vmEvidence": "registered-vm-access-recheck-2026-10-26-1011.json"
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

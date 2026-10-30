@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T16:48:06Z",
+  "Scope": "Current-source WinHTTP advanced proxy inventory, preparation and guarded lifecycle regression",
+  "Tests": [
+    "tests/WinHttpProxyInventory.Tests.ps1",
+    "tests/WinHttpProxyPreparation.Tests.ps1",
+    "tests/WinHttpProxyLifecycle.Tests.ps1"
+  ],
+  "Pester": "5.7.1",
+  "PowerShell7": { "Version": "7.6.5", "Passed": 22, "Failed": 0, "Skipped": 0 },
+  "WindowsPowerShell51": { "Version": "5.1.26100.9711", "Passed": 22, "Failed": 0, "Skipped": 0, "ExecutionPolicy": "Process-only Bypass to load Pester; no persistent policy change" },
+  "OptionalPlugins": { "TestRegistry": false, "TestResult": false },
+  "ScratchRoots": [
+    ".local/pester-winhttp-current-20261027",
+    ".local/pester-winhttp-winps51-20261027"
+  ],
+  "Verified": [
+    "Bounded JSON parsing and explicit user/machine scope",
+    "Preparation refuses incomplete prior strings and scope mismatch",
+    "Durable pre-change record precedes setter call in the mocked lifecycle",
+    "Apply and recovery reject identity, configuration and external-writer drift",
+    "WhatIf remains read-only and setter failure retains a recoverable record"
+  ],
+  "NativeBoundaries": {
+    "NetshObserverInvoked": false,
+    "NetshSetterInvoked": false,
+    "RegistryRead": false,
+    "ProxyStateChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "CatalogIntegrated": false,
+    "SupportedTargets": [],
+    "Pending": [
+      "Native netsh command availability and actual query/output behavior",
+      "Exact underlying state capture and restoration for omitted or disabled strings",
+      "Disposable Windows user/machine scope apply, conflict, partial failure and recovery",
+      "Effective policy, WinHTTP consumers, GUI and application behavior"
+    ],
+    "HostCapability": "A prior read-only host check found `netsh winhttp show advproxy` unavailable on build 26300; no native setter was invoked.",
+    "VmAccess": "Get-VM failed before inspection at CIM; Hyper-V Manager content was inaccessible to the lower-integrity helper. See hyper-v-manager-read-only-ui-integrity-recheck-2026-10-27-1636.json."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Mocked cross-shell candidate lifecycle regression passed; live behavior and exact native recovery remain unverified."],
+    "Estimates": { "Settings": "37-57", "Packages": "38-53", "Components": "19-24", "FilesAssets": "25-35", "Maintenance": "8-12", "Exact": "127-181", "Rounded": "125-180/about 155" }
+  }
+}

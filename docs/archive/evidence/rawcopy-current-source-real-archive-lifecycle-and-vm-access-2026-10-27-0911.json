@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27 09:11 UTC",
+  "package": {
+    "id": "package.rawcopy",
+    "version": "1.0.0.22",
+    "sourceCommit": "0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c",
+    "archive": ".local/acquisition/rawcopy-1.0.0.22/RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+    "archiveSha256": "f5daf2c74a4b5a29dbd188e36f003535ab39aa80a5f86a564725a5a1642841df",
+    "executableSha256": "619795aa357e1eb36febf45b398ccccb289cb27b547814bfb422efb3e8f98e3d",
+    "selectedMembers": [
+      "RawCopy64.exe",
+      "LICENSE.md",
+      "readme.txt",
+      "changelog.txt"
+    ],
+    "excludedMembers": [
+      "RawCopy32.exe",
+      "RawCopy.au3"
+    ]
+  },
+  "currentSourceRegression": {
+    "status": "Passed",
+    "testFile": "tests/ApplicationPackages.Tests.ps1",
+    "test": "RawCopy retained publisher archive lifecycle",
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 124,
+    "runtime": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "checks": [
+      "exact archive pin",
+      "four selected owned files",
+      "repeat installation",
+      "excluded x86 executable and AutoIt source",
+      "snapshot capture",
+      "operator-note preservation through uninstall and restore"
+    ],
+    "productExecuted": false,
+    "systemEvidenceAccessed": false
+  },
+  "repositoryValidation": {
+    "status": "Passed",
+    "command": "tools/validate.ps1",
+    "operations": 429,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 294
+  },
+  "vmAccess": {
+    "checkedAt": "2026-10-27 09:11 UTC",
+    "win11": "Get-VM denied at CIM before VM/checkpoint inspection",
+    "server2025": "Get-VM denied at CIM before VM/checkpoint inspection",
+    "scheduledTask": "Get-ScheduledTask denied at CIM",
+    "schtasks": "ERROR: The network address is invalid",
+    "taskEnqueued": false,
+    "checkpointChanged": false,
+    "freshUac": false
+  },
+  "acceptance": {
+    "localRealArchiveLifecycle": "Passed",
+    "windows11Lifecycle": "Pending current-source VM run",
+    "syntheticNtfsBehavior": "Pending disposable Windows 11 acceptance",
+    "supportedTargets": [],
+    "legacyOutcomesClosed": [],
+    "next": "Run current-source package lifecycle and the synthetic-only file-copy check on the registered disposable Windows 11 VM when VM inspection and protected controller queue access work."
+  },
+  "exclusions": "Defender-blocked tools remain excluded; this RawCopy run executed no product utility.",
+  "estimate": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exact": "127-181",
+    "rounded": "125-180/about 155",
+    "changed": false
+  }
+}

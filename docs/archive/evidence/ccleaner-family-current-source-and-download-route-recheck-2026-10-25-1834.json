@@ -1,0 +1,81 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:34:00Z",
+  "Scope": "Current official CCleaner-family build pages, publisher download routes, and acquisition availability",
+  "SourcePages": {
+    "CCleanerBuilds": "https://www.ccleaner.com/ccleaner/builds",
+    "RecuvaBuilds": "https://www.ccleaner.com/recuva/builds",
+    "SpeccyBuilds": "https://www.ccleaner.com/speccy/builds",
+    "DefragglerBuilds": "https://www.ccleaner.com/defraggler/builds"
+  },
+  "Observations": {
+    "CCleaner": {
+      "LatestReleaseOnPage": "7.13.1573",
+      "OnlineInstallerRoute": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+      "OfflineInstallerShown": true,
+      "PortableRoute": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "PageNotice": "Builds below are for system admins and advanced users; they are not for distribution or mirroring."
+    },
+    "Recuva": {
+      "BuildPageOffers": "Standard installer",
+      "DownloadRoute": "https://download.ccleaner.com/rcsetup155.exe",
+      "VersionDisplayedOnCurrentBuildPage": false
+    },
+    "Speccy": {
+      "BuildPageOffers": "Standard installer",
+      "DownloadRoute": "https://download.ccleaner.com/spsetup134.exe",
+      "VersionDisplayedOnCurrentBuildPage": false
+    },
+    "Defraggler": {
+      "BuildPageResult": "The /builds route redirects to the product overview; no direct build route was returned."
+    }
+  },
+  "Acquisition": {
+    "BrowserBinaryFetch": "Refused by the source reader because the routes return application/octet-stream or application/zip, which it cannot fetch.",
+    "LocalDnsProbe": "Access denied by the execution environment.",
+    "FilesAcquired": 0,
+    "PartialFiles": 0,
+    "SignaturesChecked": 0,
+    "HashesChecked": 0
+  },
+  "Disposition": {
+    "ExistingUserSelectionPreserved": true,
+    "CatalogPackageAdded": false,
+    "InstallerExecuted": false,
+    "UtilityExecuted": false,
+    "LicenseGateAdded": false,
+    "NeedsReviewForFuturePackageIdentity": "Add version-specific local NeedsReview when package identities are established; informational only.",
+    "LegacyOutcomeResolved": false,
+    "EstimateChanged": false
+  },
+  "Deferred": [
+    "Acquire exact publisher payloads when a permitted publisher-download path is available.",
+    "Verify exact version, hash, Authenticode, installer metadata, owned-file/state recovery and Windows 11 acceptance.",
+    "Keep portable/full variants and version discrepancies explicit; do not mirror publisher builds or substitute third-party sources."
+  ],
+  "VmAccess": {
+    "GetVm": "Access to a CIM resource was not available to the client.",
+    "RegisteredTaskQuery": "The network address is invalid.",
+    "GuestRequestSubmitted": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "CCleaner-family source routes were rechecked, but no exact payload was acquired."
+    ],
+    "Deferred": [
+      "CCleaner, Recuva and Speccy package identities, artifacts and Windows lifecycle acceptance; Defraggler selected outcome lacks an available current build route."
+    ],
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "recordedAtUtc": "2026-10-28T20:39:51Z",
+  "batch": "NTCore Filter Monitor, Vista4Experts and AntiMida official-page review",
+  "sources": [
+    {
+      "product": "Filter Monitor",
+      "page": "https://ntcore.com/filter-monitor/",
+      "download": "https://ntcore.com/files/FilterMon.zip",
+      "publisherVersion": "1.1.0",
+      "findings": [
+        "Publisher page claims Vista RTM through Windows 7 RTM only and does not guarantee future Windows compatibility.",
+        "The x64 driver is unsigned; publisher instructs pressing F8 at boot and disabling driver-signature enforcement. Utility can list and unregister kernel-mode filters."
+      ],
+      "status": "Selected for static package preparation; no Windows 11 support or driver execution."
+    },
+    {
+      "product": "Vista4Experts",
+      "page": "https://ntcore.com/vista4experts/",
+      "download": "https://ntcore.com/files/Vista4Experts.zip",
+      "publisherVersion": "1.2.0.1",
+      "findings": [
+        "Publisher describes changes to User Account Control, Windows Defender scanning, automatic update installation, Security Center notifications, search provider and other Vista settings.",
+        "Publisher says changes can be discarded, enabled or reversed and labels the software free/no warranty; no package license gate was applied."
+      ],
+      "status": "Selected for static package preparation; no utility or configuration action."
+    },
+    {
+      "product": "AntiMida 1.0",
+      "page": "https://ntcore.com/files/antimida_1.0.htm",
+      "download": "https://ntcore.com/files/antimida_1.0.zip",
+      "publisherVersion": "1.0",
+      "findings": [
+        "Publisher describes the ZIP as project files plus a compiled executable.",
+        "The article describes process injection, a kernel driver, system-call hooking and kernel patching; the article alone does not identify exact archive members or a Windows 11-compatible package."
+      ],
+      "status": "Selected for static scope review; no executable or driver launch."
+    }
+  ],
+  "acquisition": {
+    "archiveBytesReceived": false,
+    "hashesVerified": false,
+    "memberInventoriesCompleted": false,
+    "binaryClickResults": [
+      "FilterMon.zip: web fetch Cache miss",
+      "Vista4Experts.zip: web reader rejected application/zip",
+      "antimida_1.0.zip: web reader rejected application/zip"
+    ]
+  },
+  "sideEffects": {
+    "utilityExecuted": false,
+    "driverLoaded": false,
+    "bootConfigurationChanged": false,
+    "windowsChanged": false,
+    "defenderChanged": false,
+    "vmChanged": false,
+    "elevationRequested": false
+  },
+  "migration": {
+    "resolved": [
+      "Current publisher pages/version/source-route facts reconciled for three already-selected candidates."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Exact archive hashes/member inventories and candidate lifecycle for all three",
+      "Windows 11 support/activation is unverified; do not load Filter Monitor driver or run Vista4Experts/AntiMida"
+    ],
+    "partial": [
+      "No legacy outcome closed; selected NTCore publisher-list migration remains partial."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

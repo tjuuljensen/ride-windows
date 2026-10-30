@@ -1,0 +1,67 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T17:33:00Z",
+  "Batch": "ETL2PCAPNG 1.11.0 retained-artifact local staging and recovery",
+  "Package": {
+    "Id": "package.etl2pcapng",
+    "Version": "1.11.0",
+    "Artifact": "etl2pcapng.exe",
+    "Bytes": 163872,
+    "Sha256": "C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043",
+    "MatchesCatalogPin": true,
+    "PriorAuthenticodeEvidence": "Valid Microsoft Corporation signature; see etl2pcapng-v1.11.0-source-and-candidate-2026-10-25-1117.json"
+  },
+  "Lifecycle": {
+    "Handler": "Current RIDE-PortablePackages module",
+    "SelectedVariant": "portable",
+    "OwnedFiles": [
+      "etl2pcapng.exe",
+      "LICENSE.txt"
+    ],
+    "InitialAbsentSnapshot": "Restored",
+    "Install": "Passed",
+    "RepeatInstall": "Passed",
+    "InstalledSnapshot": "Restored with exact executable hash",
+    "Remove": "Passed",
+    "OperatorOwnedFilePreserved": true,
+    "PriorAbsenceRestored": true,
+    "ScratchRemoved": true
+  },
+  "Boundaries": {
+    "UtilityExecuted": false,
+    "EtlTraceRead": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "FreshUacRequested": false
+  },
+  "Acceptance": {
+    "LocalRealArtifactStagingAndRecovery": "Passed",
+    "Windows11Lifecycle": "Pending",
+    "SyntheticEtlConversion": "Pending",
+    "LatestVmAccess": "CIM access denied for RIDE-Win11-Test and RIDE-Srv2025Test before VM/checkpoint inspection; see current-catalog-count-and-vm-access-recheck-2026-10-25-1636.json"
+  },
+  "Migration": {
+    "Resolved": [
+      "Current source handler stages the retained exact executable and pinned notice, repeats safely, removes only owned files, and restores installed and absent snapshots."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 package lifecycle acceptance and synthetic ETL-to-PCAPNG conversion."
+    ],
+    "Partial": [
+      "No full legacy product outcome closes; local package file lifecycle is now evidenced."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155",
+      "Changed": false
+    }
+  }
+}

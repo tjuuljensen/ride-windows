@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "suite": "ApplicationsBatch5",
+  "target": "Windows 11",
+  "attempts": [
+    {
+      "runId": "7fa7b33b0a2f47f4ba402d13286f0203",
+      "status": "FailedBeforeIntegration",
+      "startedAtUtc": "2026-10-25T02:42:24.7795834Z",
+      "finishedAtUtc": "2026-10-25T02:52:51.8121527Z",
+      "validationPassed": true,
+      "pesterTotal": 358,
+      "pesterPassed": 356,
+      "pesterFailed": 1,
+      "pesterSkipped": 1,
+      "failure": "Catalog.Tests.ps1 expected the old ImageMagick description stating that its supported v14 prerequisite could not be applied.",
+      "packageExecuted": false,
+      "cleanupError": null
+    },
+    {
+      "runId": "e9750ed23dcf49e38eadd77291bbc6ed",
+      "status": "FailedBeforePester",
+      "startedAtUtc": "2026-10-25T02:55:26.3496180Z",
+      "finishedAtUtc": "2026-10-25T03:02:13.9986994Z",
+      "failure": "Catalog validation reported missing Windows 11 target defaults for package.sysinternals-suite while the accepted staging target was declared.",
+      "packageExecuted": false,
+      "cleanupError": null
+    },
+    {
+      "runId": "bb9f14e375df456fbe5850ea3a7db807",
+      "status": "Passed",
+      "startedAtUtc": "2026-10-25T03:05:29.3241180Z",
+      "finishedAtUtc": "2026-10-25T03:15:09.1480604Z",
+      "pesterPassed": 357,
+      "pesterFailed": 0,
+      "pesterSkipped": 1,
+      "packageExecuted": true,
+      "packageId": "package.vcredist-v14-x64"
+    }
+  ],
+  "disposition": "The stale ImageMagick assertion was updated. The Sysinternals Suite's accepted Windows 11 staging target now declares its absent default; tool execution and activation remain pending. The final run passed and reset the checkpoint/off state.",
+  "noLegacyOutcomeClosed": true
+}

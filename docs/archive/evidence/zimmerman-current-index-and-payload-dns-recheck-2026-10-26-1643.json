@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T16:43:00Z",
+  "Batch": "Zimmerman accepted collection current index and official ZIP access recheck",
+  "Sources": {
+    "PublisherHome": "https://ericzimmerman.github.io/",
+    "PublisherChangelog": "https://ericzimmerman.github.io/changelog/",
+    "PinnedSourceMap": "docs/archive/evidence/zimmerman-accepted-26-dotnet10-source-map-2026-10-26-0905.json",
+    "PinnedIndexCommit": "f3947d47f72070c2b7695859d4f746a48aca2845"
+  },
+  "CurrentIndex": {
+    "CheckedAtUtc": "2026-10-26T16:43:00Z",
+    "SelectedTools": 26,
+    "SelectedNamesStillListed": true,
+    "SelectedVersionsMatchPinnedMap": true,
+    "RecommendedFramework": ".NET 10",
+    "OtherListedToolsExcludedBySelection": ["iisGeoLocate", "TimeApp", "XWFIM"],
+    "AcquisitionHelperExecuted": false
+  },
+  "PayloadAccess": {
+    "WebReader": "Publisher link resolved to https://download.ericzimmermanstools.com/net/AmcacheParser.zip; the reader refused the ZIP content type and returned no bytes.",
+    "LocalHeadRequest": "Failed before response: No such host is known (download.ericzimmermanstools.com:443).",
+    "PayloadBytesReceived": 0,
+    "PartialFileCreated": false,
+    "HashComputed": false,
+    "ArchiveInventoried": false,
+    "ToolExecuted": false
+  },
+  "VmAccess": {
+    "CheckedAtUtc": "2026-10-26T16:41:00Z",
+    "GetVm": "Access to a CIM resource was not available to the client.",
+    "RegisteredTask": "Access to a CIM resource was not available to the client.",
+    "GuestRequestSubmitted": false,
+    "CheckpointChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "Current official publisher index reconfirms the 26 selected product names, version map and .NET 10 route. Exact official ZIP bytes remain inaccessible from this host."
+    ],
+    "Deferred": [
+      "Exact artifacts, hashes, notices, archive-member inventories, package identities and Windows 11 package lifecycle/feature acceptance for the selected collection."
+    ],
+    "DefenderBlockedItemsTouched": false,
+    "LicenseGateAdded": false,
+    "LegacyOutcomeClosed": false,
+    "EstimateRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

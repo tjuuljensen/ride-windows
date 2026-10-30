@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T12:04:17Z",
+  "batch": "Wireshark 4.6.9 retained MSI digest and publisher-signature-tool recheck",
+  "artifact": {
+    "path": ".local/wireshark-review/cache/wireshark/4.6.9/Wireshark-4.6.9-x64.msi",
+    "sourceUri": "https://www.wireshark.org/download/win64/all-versions/Wireshark-4.6.9-x64.msi",
+    "bytes": 80433152,
+    "sha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "catalogSidecarVersion": "4.6.9",
+    "catalogSidecarSha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "publisherChecksumFile": ".local/wireshark-review/SIGNATURES-4.6.9.txt",
+    "publisherChecksumFileSha256": "bfb295581bb1d8da8fe1406f138d1f12bb9174558824ee7ecfa823bf9e594fb5",
+    "publisherChecksumMatch": true,
+    "publisherChecksumFileHasArmoredPgpSignature": true,
+    "officialSigningKeyId": "0xE6FEAEEA",
+    "officialSigningKeySource": "https://www.wireshark.org/download.html"
+  },
+  "verificationTools": {
+    "gpgFoundOnPath": false,
+    "pythonInterpreterAvailable": false,
+    "nodeOpenPgpModuleAvailable": false,
+    "pgpSignatureVerifiedThisRun": false,
+    "priorAuthenticodeEvidence": "The same SHA-256 and size were checked at 2026-10-28T09:52:55Z; Authenticode was Valid for Wireshark Foundation with a Microsoft timestamp signature.",
+    "authenticodeRequeriedThisRun": false
+  },
+  "handling": {
+    "msiDatabaseOpened": false,
+    "installerExecuted": false,
+    "utilityExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The retained MSI still matches its catalog sidecar and the publisher checksum entry; its bytes are identical to the artifact with prior Valid Authenticode evidence."
+    ],
+    "partial": [
+      "The detached PGP signature over the publisher checksum list could not be verified because no GPG/OpenPGP verification tool is available in this environment."
+    ],
+    "deferred": [
+      "Windows 11 and Server package lifecycle/recovery, feature behavior and shared-runtime transitions remain pending accessible disposable VMs."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; artifact identity recheck closes no Windows lifecycle outcome."
+    }
+  },
+  "relatedEvidence": [
+    "wireshark-retained-msi-current-digest-signature-check-2026-10-28-0952.json",
+    "wireshark-4.6.9-publisher-checksum-recheck-2026-10-28-0951.json",
+    "migration-static-validation-and-task-cli-block-2026-10-28-1200.json"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:35:46Z",
+  "batch": "MiTeC Mail and History Viewer acceptance-scope reconciliation",
+  "priorWindows11LifecycleEvidence": "mitec-mail-history-viewers-win11-lifecycle-acceptance-2026-10-25-0409.json",
+  "priorRun": {"runId":"31a0471ecae4477f8c81b86a41d47fe7","vm":"RIDE-Win11-Test","build":"26300","passedCases":4,"completedCases":4,"lifecycleRecovery":true,"payloadExecution":false,"toolExecuted":false,"functionalAcceptance":"Pending","activationAcceptance":"Pending"},
+  "currentAvailability": {"getVm":"Access to a CIM resource was not available to the client.","pesterVersions":["3.4.0"],"pester5Available":false},
+  "disposition": "Windows 11 package file lifecycle acceptance for all four packages is already passed. The current host-CIM failure blocks fresh VM inspection/runs only. Utility feature/functionality, runtime and activation checks remain distinct and deferred.",
+  "migrationOutcome": {"legacyOutcomesClosed":[],"packageEstimate":"37-52","exactTotal":"126-180","roundedTotal":"125-180/about 155","estimateAdjustment":"None; these are new v3 candidates, not legacy product outcomes."}
+}

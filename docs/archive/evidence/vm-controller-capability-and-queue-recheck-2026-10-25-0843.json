@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T08:43:10Z",
+  "Scope": "Registered VM controller readiness for deferred Windows integration acceptance",
+  "Observation": {
+    "Configurations": [
+      {
+        "Name": "RIDEWin11Test",
+        "SchemaVersion": 2,
+        "Capabilities": [
+          "GitHubPatGuestV1",
+          "FocusedPortableV1"
+        ]
+      },
+      {
+        "Name": "RIDESrv2025Test",
+        "SchemaVersion": 2,
+        "Capabilities": [
+          "GitHubPatGuestV1",
+          "FocusedPortableV1"
+        ]
+      }
+    ],
+    "Queues": {
+      "Windows11Pending": 0,
+      "Windows11Running": 0,
+      "Server2025Pending": 0,
+      "Server2025Running": 0
+    },
+    "VmInspection": {
+      "Command": "Get-VM -Name 'RIDE-Win11-Test','RIDE-Srv2025Test'",
+      "Result": "Denied before VM or checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client"
+    },
+    "CurrentSourceRequirement": "ApplicationsBatch1SplitV1 is required for ApplicationsBatch1Machine and ApplicationsBatch1User; both installed controller configurations lack this capability.",
+    "RequestQueued": false,
+    "WindowsOrVmStateChanged": false
+  },
+  "Interpretation": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Refresh both idle registered controllers from current source in an elevated PowerShell session",
+      "Run all remaining target-applicable Windows 11 and Server 2025 acceptance suites after controller refresh",
+      "Windows 11 ApplicationsBatch1 vendor-uninstall user-data preservation and Gpg4win lifecycle acceptance"
+    ],
+    "NextAction": "Run Register-RideVmTestTask.ps1 for both configurations from the existing elevated session, verify ApplicationsBatch1SplitV1 appears in each configuration, then run the documented suites in tests/integration/README.md.",
+    "MigrationEstimateChanged": false
+  }
+}

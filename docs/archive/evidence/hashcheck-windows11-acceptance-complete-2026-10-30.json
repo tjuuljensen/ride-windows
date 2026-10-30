@@ -1,0 +1,101 @@
+{
+  "SchemaVersion": 1,
+  "ReviewDate": "2026-10-30",
+  "OperationId": "package.hashcheck-shell-extension",
+  "Status": "Completed",
+  "Scope": "Windows 11; intended signed-in administrator; elevated interactive install and removal",
+  "TestedBuild": "26300.9711",
+  "UnsupportedContexts": [
+    "Session 0",
+    "SYSTEM",
+    "Another intended user",
+    "Windows Server"
+  ],
+  "Publisher": {
+    "Release": "2.6.3",
+    "InstalledVersion": "2.6.3.0",
+    "Bytes": 2157368,
+    "SHA256": "cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa",
+    "Verification": "Matches publisher sidecar and recorded API digest; Valid IDRIX SARL Authenticode signature"
+  },
+  "Lifecycle": {
+    "RunId": "77f50d48b54c4f5c9b5393208f54987e",
+    "Evidence": "hashcheck-maintained-controller-pass-2026-10-30.json",
+    "ChecksPassed": 8,
+    "TestsPassed": 428,
+    "TestsFailed": 0,
+    "TestsSkipped": 4,
+    "RecoverySemantics": "Compensating presence recovery of the declared version; no arbitrary historical-version guarantee"
+  },
+  "Features": {
+    "RunId": "4b1d874246f44009b360753c6a64ad78",
+    "Evidence": "hashcheck-explorer-feature-preparation-2026-10-30.json",
+    "MatchingManifest": "One match; no mismatch, unreadable or remaining files",
+    "TamperedManifest": "One mismatch; no match, unreadable or remaining files",
+    "SHA256Creation": "Generated sample.txt.sha256 matches independently computed fixture checksum and filename",
+    "UIEvidence": "Three operator-reported Explorer observations; not an independent screen recording",
+    "ExportVerification": "Ten guest files compared with guest SHA-256 records and independently rehashed on host"
+  },
+  "Recovery": {
+    "RecordedAtUtc": "2026-10-30T06:05:05.7652536Z",
+    "RunId": "4b1d874246f44009b360753c6a64ad78",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "VMState": "Off",
+    "TaskState": "Ready",
+    "VerifiedEvidenceFiles": 10
+  },
+  "Catalog": {
+    "PendingAcceptance": false,
+    "SupportedTargets": [
+      "Windows 11"
+    ]
+  },
+  "Migration": {
+    "RequestedV3AdditionsCompleted": 1,
+    "LegacyResolved": 0,
+    "LegacyRetired": 0,
+    "NewExclusions": 0,
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "126-180",
+    "RoundedTotal": "125-180; about 155",
+    "Rationale": "HashCheck is a requested v3 addition tracked separately from legacy estimates. Other partial and deferred scope is unchanged."
+  },
+  "BroaderControllerCertification": "NotValidated; not promoted by scoped HashCheck acceptance",
+  "ClosureTests": [
+    {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 99,
+      "Passed": 1,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 132,
+      "Passed": 1,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    }
+  ],
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 451,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 309,
+    "GeneratedDocumentation": "Current",
+    "FocusedDiffWhitespace": "Passed"
+  }
+}

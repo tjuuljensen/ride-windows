@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T14:13:13Z",
+  "Scope": "Current-source SNSRemover stage-only package candidate, retained publisher archive pin and portable-file lifecycle",
+  "Package": {
+    "Id": "package.ntcore-snsremover",
+    "PublisherListing": "https://ntcore.com/download/",
+    "DownloadUri": "https://ntcore.com/files/SNSRemover.zip",
+    "PublisherListedDate": "2005-11-29",
+    "CatalogVersionKey": "2005-11-29",
+    "Note": "Retained executable contains no file/product version; the catalog package version key preserves publisher listing date and is not represented as a binary version.",
+    "Archive": "SNSRemover.zip",
+    "ArchiveSha256": "c6405c5ec5ec8646a02a46bcfdf74e05457addabdc58fe78da84ea28d69ca7cd",
+    "ArchiveMembers": [
+      "SNSRemover.exe",
+      "PE_Detective.zip"
+    ],
+    "SelectedMembers": [
+      "SNSRemover.exe"
+    ],
+    "ExcludedMembers": [
+      "PE_Detective.zip"
+    ],
+    "Architecture": "x86",
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "PendingAcceptance": true
+  },
+  "FocusedTests": {
+    "PowerShell51": "5.1.26100.9711",
+    "Pester": "5.7.1",
+    "PowerShell51Passed": 10,
+    "PowerShell51Failed": 0,
+    "PowerShell7": "7.6.5",
+    "PowerShell7Passed": 10,
+    "PowerShell7Failed": 0,
+    "Cases": "Exact retained archive hash and inventory, candidate metadata, staging, repeat, uninstall, snapshot restore, operator note preservation",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Scratch": ".local/pester-ntcore-unpack-dynlogger"
+  },
+  "LicenseReview": {
+    "Status": "NeedsReview",
+    "Owner": "Unassigned",
+    "MarkerVersion": "2005-11-29",
+    "MigrationGate": false
+  },
+  "Safety": {
+    "ExecutableRun": false,
+    "AssemblyOpenedOrChanged": false,
+    "NestedPEArchiveStaged": false,
+    "DefenderBlockedToolsTouched": false,
+    "VmAcceptanceRun": false,
+    "HostOrDefenderChanged": false,
+    "FreshUacPrompts": 0
+  },
+  "Vm": {
+    "Query": "Get-VM -Name RIDE-Win11-Test",
+    "Result": "Failed before inspection: Access to a CIM resource was not available to the client.",
+    "CheckpointState": "Unknown; not inspected"
+  },
+  "LegacyOutcomes": {
+    "Closed": 0,
+    "EstimateRangesUnchanged": true
+  }
+}

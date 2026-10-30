@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:11:58Z",
+  "batch": "JoeWare AdMod RIDE cache validation and package review-marker audit",
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "pesterSuite": "tests/LicenseReviews.Tests.ps1",
+    "discovered": 24,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 86.02,
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "processExecutionPolicyBypass": true,
+    "persistentPolicyChanged": false
+  },
+  "packageArtifact": {
+    "rideManagedCacheValidationShell": "PowerShell 7.6.5",
+    "freshDirectAcquisitionShell": "PowerShell 7.6.5",
+    "catalogId": "package.joeware-admod",
+    "version": "1.29.00",
+    "architecture": "x86",
+    "acquisitionProvider": "JoeWareAdModForm",
+    "priorPublisherArchive": {
+      "path": ".local/joeware-admod-acquisition-be07559413184229b567f4bd3d2b6a38/AdMod.zip",
+      "bytes": 811771,
+      "sha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235"
+    },
+    "rideManagedCacheValidation": {
+      "path": ".local/joeware-admod-ride-managed-cache/joeware-admod/1.29.00/AdMod.zip",
+      "result": "Passed using the cached-artifact path in Save-RidePackageArtifact; current catalog provider digest matched.",
+      "sha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+      "providerDigest": "sha256:45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+      "archiveMembers": [
+        {
+          "path": "AdMod.exe",
+          "bytes": 1975296,
+          "sha256": "86c922fc98c115ea21c2053739938234fd90ce626ed227b2c3c122c2484e4d79"
+        }
+      ],
+      "authenticodeStatusForZip": "UnknownError"
+    },
+    "freshDirectAcquisition": {
+      "result": "Blocked before a publisher response",
+      "error": "No such host is known while resolving www.joeware.net.",
+      "retryNeeded": true
+    },
+    "utilityExecuted": false,
+    "installed": false
+  },
+  "packageLicenseReviewStore": {
+    "path": ".local/license-reviews.json",
+    "recordCount": 82,
+    "pendingPackageCount": 45,
+    "exactNeedsReviewUnassignedMatches": 45,
+    "missingOrWrongMatches": [],
+    "newRecord": {
+      "id": "package.joeware-admod",
+      "reviewedVersion": "1.29.00",
+      "reviewOwner": "Unassigned",
+      "licenseReviewStatus": "NeedsReview",
+      "purpose": "Administrative owner-specific terms reminder; does not block RIDE direct-download/install migration and makes no entitlement or redistribution determination."
+    },
+    "otherExactRecordsConfirmed": [
+      {
+        "id": "package.phoenix-protector",
+        "reviewedVersion": "1.7.1",
+        "reviewOwner": "Unassigned",
+        "licenseReviewStatus": "NeedsReview"
+      },
+      {
+        "id": "package.ntcore-4gb-patch",
+        "reviewedVersion": "1.0.0.1",
+        "reviewOwner": "Unassigned",
+        "licenseReviewStatus": "NeedsReview"
+      }
+    ],
+    "sysinternalsDispositionChanged": false
+  },
+  "safety": {
+    "defenderQueriedOrChanged": false,
+    "defenderBlockedPayloadsAcquiredOrStaged": false,
+    "licenseSuiteScope": "Metadata-only package planning and local review-store fixtures; no package acquisition, staging, handler, or utility execution.",
+    "vmOrWindowsStateChanged": false,
+    "registryChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "AdMod 1.29.00 previously publisher-acquired archive passes current RIDE managed-cache digest validation.",
+      "Exact-version local NeedsReview/Unassigned marker added for AdMod 1.29.00.",
+      "Current workspace-local review store has exact NeedsReview/Unassigned records for all 45 pending packages.",
+      "LicenseReviews.Tests.ps1 confirms NeedsReview remains informational across package planning."
+    ],
+    "partial": [
+      "Fresh direct RIDE acquisition did not succeed because JoeWare DNS did not resolve; cache validation used the previously acquired publisher archive."
+    ],
+    "deferred": [
+      "AdMod managed installation, repeat, removal, saved-state recovery and Windows 11 acceptance remain pending; host VM access remains blocked at CIM and no elevation was requested."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "No legacy outcome closed; estimate ranges remain unchanged."
+    }
+  }
+}

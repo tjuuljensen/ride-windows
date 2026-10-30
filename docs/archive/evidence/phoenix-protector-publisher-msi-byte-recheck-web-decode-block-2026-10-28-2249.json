@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:49:00Z",
+  "batch": "Phoenix Protector official MSI byte-identity recheck",
+  "publisherPage": "https://ntcore.com/phoenix-protector/",
+  "downloadUri": "https://ntcore.com/files/Phoenix_Protector.msi",
+  "pageIdentity": "Publisher page lists Current Version 1.8.0.1.",
+  "fetchResult": "Direct official MSI fetch via web returned HTTP-tool status 400 with Unicode decoding error; no MSI bytes were available for hashing or inspection.",
+  "retainedPin": {
+    "version": "1.7.1",
+    "sha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369"
+  },
+  "containedExecutableVersion": "1.9.0.1",
+  "decision": "Keep the current exact catalog pin and distinct version labels; the page/MSI/executable mapping is still unsupported by byte evidence.",
+  "licenseReview": "Exact-version NeedsReview is administrative and does not gate migration.",
+  "boundary": {
+    "officialWebRequestMade": true,
+    "installerBytesReceived": false,
+    "fileWritten": false,
+    "localRetainedArtifactRead": false,
+    "installerRun": false,
+    "vmQueried": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertPathAccessed": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false
+  },
+  "blocker": "Publisher MSI current byte identity and Windows acceptance remain unverified.",
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Official current page and download link were checked; direct MSI byte retrieval failed before bytes were available."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Reconcile current Phoenix MSI page/MSI/executable identities when publisher bytes are obtainable; perform Windows lifecycle acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T08:42:41.5965046Z",
+  "RunId": "f3a4ab4a87e34ad085b7cb638f9e76b0",
+  "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\f3a4ab4a87e34ad085b7cb638f9e76b0",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "f3a4ab4a87e34ad085b7cb638f9e76b0",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch11",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-10-29T08:25:14.2735114Z",
+    "FinishedAtUtc": "2026-10-29T08:37:48.5345482Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "GuestSummary": {
+    "SchemaVersion": 1,
+    "RunId": "f3a4ab4a87e34ad085b7cb638f9e76b0",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 426,
+      "Passed": 422
+    },
+    "Error": "Applications batch 11 has failed scenarios; see application evidence.",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Application": {
+    "Id": "package.hashcheck-shell-extension",
+    "Variant": "installed",
+    "Target": "Windows 11",
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "InstallationType": "Client",
+    "Scope": "Machine",
+    "Provider": "DirectHttps",
+    "Applicability": "Applicable to deployment lifecycle",
+    "Status": "Failed",
+    "Version": null,
+    "Error": "RIDE operation 'package.hashcheck-shell-extension' failed. Run ID: 75a4a6305a3e4f4dbba883f5f4ac6eac. Saved state: package.hashcheck-shell-extension. Completed operations: <none>. Failed operation: package.hashcheck-shell-extension. Unfinished operations: package.hashcheck-shell-extension. Recovery: run '.\\ride.ps1 restore -RunId 75a4a6305a3e4f4dbba883f5f4ac6eac', then reapply the same profile. Error: Installer for HashCheck Shell Extension 2.6.3 (x86/x64) exited with code 2. Artifact retained at 'C:\\ProgramData\\RIDE\\State\\Cache\\hashcheck-shell-extension\\2.6.3\\HashCheckSetup-v2.6.3.0.exe'.",
+    "Recovery": false,
+    "ProfilePreservation": null,
+    "UserDataPreservation": null,
+    "UserDataFixtures": [],
+    "RemovalRecoveryVersion": null,
+    "Checks": [],
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "Elevated": true,
+    "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+  },
+  "SourceEvidence": [
+    {
+      "SHA256": "1D3BF22838CF9FA818938752411BA9D25D5106D5CB5497FDF52FA03F2E255C2C",
+      "Path": "result.json"
+    },
+    {
+      "SHA256": "E3C6565A00CDA702000B68CB2B6843DF2C9029598B63632B8AB1846A9A4ADC69",
+      "Path": "guest/summary.json"
+    },
+    {
+      "SHA256": "FC98493332AB31EC1E377EF7C1411E97A67AC26E8FA733EB410C481CB612164C",
+      "Path": "guest/applications-batch11.json"
+    },
+    {
+      "SHA256": "67AF07F99FB551651174DCE428924EF7D1474F7E0C06F023180CACEC4D1DCC01",
+      "Path": "guest/hashcheck-install.log"
+    },
+    {
+      "SHA256": "D7B5EBEC3CA988493A4B85797509B9CB5CE610120825BC3BE7F5E6BA7020BC44",
+      "Path": "guest/transcript.log"
+    },
+    {
+      "SHA256": "3AD672B36741847F936AC694E42F0364F96B6C73EA61BCC3C0BFDABB8E18D256",
+      "Path": "source-files.json"
+    }
+  ],
+  "InstallerLog": "HashCheck setup log\r\nCommand line: \"C:\\ProgramData\\RIDE\\State\\Cache\\hashcheck-shell-extension\\2.6.3\\HashCheckSetup-v2.6.3.0.exe\" /S /LOG=\"C:\\RIDE\\TestResults\\f3a4ab4a87e34ad085b7cb638f9e76b0\\hashcheck-install.log\" \r\nLog file: C:\\RIDE\\TestResults\\f3a4ab4a87e34ad085b7cb638f9e76b0\\hashcheck-install.log\r\nExtracting 64-bit HashCheck.dll\r\nCreating C:\\Program Files\\HashCheck\r\nExtracting x64 HashCheck launcher\r\nRegistering 64-bit shell extension\r\n64-bit regsvr32 exit code: 0\r\nCreating C:\\Program Files\\HashCheck\r\nExtracting 64-bit TBB runtime\r\nInstalling 64-bit TBB runtime\r\nExtracting TBB runtime license\r\nExtracting Windows 11 package visual assets\r\nExtracting Windows 11 package resource index\r\nExtracting Windows 11 sparse package\r\nRegistering Windows 11 sparse package\r\nPowerShell version: 5.1.26100.9711\r\nOS version: 10.0.26300.0\r\nPackage path: C:\\Program Files\\HashCheck\\HashCheckWin11.msix\r\nExternal location: C:\\Program Files\\HashCheck\r\nMSIX signature status: Valid - Signature verified.\r\nCalling Add-AppxPackage with ExternalLocation\r\nERROR installing Windows 11 sparse package: Deployment failed with HRESULT: 0x80070005, Access is denied.\r\n\r\nDeployment Add operation with target volume C: on Package IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw from:  (HashCheckWin11.msix)  failed with error 0x80070005. See http://go.microsoft.com/fwlink/?LinkId=235160 for help diagnosing app deployment issues.\n\nNOTE: For additional information, look for [ActivityId] 33b3659a-677f-0000-ee0f-b6337f67dd01 in the Event Log or use the command line Get-AppPackageLog -ActivityID 33b3659a-677f-0000-ee0f-b6337f67dd01\n\r\nAt: At C:\\Users\\admin\\AppData\\Local\\Temp\\HashCheckWin11Install.ps1:19 char:5\r\n+     Add-AppxPackage -Path $PackagePath -ExternalLocation $ExternalLoc ...\r\n+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\nSparse package registration exit code: 1\r\nERROR: Registering Windows 11 sparse package\r\n",
+  "Diagnosis": {
+    "Next": "Isolate the idle VM from queued automation, perform a targeted elevated interactive guest comparison with vendor logging, and capture activity-specific Appx deployment events on failure before recovery.",
+    "NativeShellRegistrationExit": 0,
+    "MsixSignature": "Valid",
+    "HResult": "0x80070005",
+    "RemoteSessionCause": "Hypothesis only; underlying permission/context cause not yet established.",
+    "AppxActivityEvents": "Not exported before automatic checkpoint recovery; do not expect this ActivityId to survive restoration.",
+    "FailedStep": "Add-AppxPackage -ExternalLocation for the Windows 11 sparse package",
+    "ActivityId": "33b3659a-677f-0000-ee0f-b6337f67dd01",
+    "Package": "IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw",
+    "Message": "Access is denied"
+  },
+  "PostRun": {
+    "ControllerErrors": "No cleanup/collection/export error reported.",
+    "VMAndTaskState": "Awaiting elevated operator confirmation.",
+    "PackageRecovery": false,
+    "Running": 0,
+    "Pending": 0,
+    "RecoveryBlockPresent": false
+  },
+  "Migration": {
+    "Deferred": "Installer context/permission diagnosis, install/remove/recovery acceptance, intended-user registration and Explorer behavior.",
+    "FilesAndAssets": "25-35",
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Maintenance": "8-12",
+    "Reason": "Diagnosing a failed sparse-package registration does not close a legacy outcome.",
+    "RoundedTotal": "125-180; about 155",
+    "NewExclusions": 0,
+    "Partial": "Vendor log collection verified and exact installer failure stage identified.",
+    "RetiredLegacyOutcomes": 0,
+    "Components": "19-24",
+    "ExactTotal": "126-180",
+    "ResolvedLegacyOutcomes": 0
+  }
+}

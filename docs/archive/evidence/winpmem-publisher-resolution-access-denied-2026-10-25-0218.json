@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T02:18:39Z",
+  "Batch": "WinPmem publisher host resolution access check",
+  "Artifact": {
+    "OperationId": "package.winpmem",
+    "Uri": "https://github.com/Velocidex/WinPmem/releases/download/v4.1.dev1/go-winpmem_amd64_1.0-rc2_signed.exe",
+    "ExpectedSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4"
+  },
+  "Attempt": {
+    "Method": "Read-only Resolve-DnsName github.com -Type A",
+    "Result": "Access is denied",
+    "HttpRequestAttempted": false,
+    "BytesTransferred": 0
+  },
+  "SideEffects": {
+    "ExecutableLaunched": false,
+    "DriverLoaded": false,
+    "MemoryCaptured": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false
+  },
+  "Disposition": {
+    "Resolved": ["The current environment denied the read-only publisher hostname lookup before any network transfer."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Acquisition and local hash/Authenticode verification; driver compatibility/lifecycle/recovery and Windows target acceptance."],
+    "Partial": ["The deployment-only candidate remains implemented and synthetically tested, but no whole legacy outcome closes."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

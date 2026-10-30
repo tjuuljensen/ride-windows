@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:03:39Z",
+  "batch": "Package dependency planning cross-shell regression",
+  "source": "Current checkout",
+  "tests": {
+    "path": "tests/PackageDependencyPlanning.Tests.ps1",
+    "pesterVersion": "5.7.1",
+    "discovered": 11,
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    "powerShell": {
+      "version": "7.6.5",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    "configuration": "Pester TestRegistry and TestResult plugins were disabled. Windows PowerShell used process-scoped ExecutionPolicy Bypass; no persistent execution-policy change was made. PowerShell 7 imported installed Pester 5.7.1 from the WindowsPowerShell module path."
+  },
+  "handling": {
+    "installerOrUtilityExecuted": false,
+    "defenderBlockedToolsSelectedOrRun": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Package dependency-planning current-source regression passed in both installed PowerShell editions."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Package installation, removal, saved-state recovery and Windows target behavior remain unverified pending VM/CIM access."
+    ],
+    "partial": [
+      "Dependency-planning unit coverage does not close a legacy package migration outcome."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the added cross-shell regression increases implementation evidence but closes no legacy package outcome."
+    }
+  },
+  "relatedEvidence": [
+    "package-provider-portable-full-cross-shell-regression-and-vm-block-2026-10-28-0801.json"
+  ]
+}

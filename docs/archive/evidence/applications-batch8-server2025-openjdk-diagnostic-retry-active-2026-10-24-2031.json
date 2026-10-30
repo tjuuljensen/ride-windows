@@ -1,0 +1,15 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "e6507fc825cf421181bae2ebe754696a",
+  "Suite": "ApplicationsBatch8",
+  "Target": "RIDESrv2025Test disposable Windows Server 2025 VM",
+  "Status": "Running",
+  "SubmittedAtUtc": "2026-10-24T20:30:33Z",
+  "TimeoutMinutes": 180,
+  "Purpose": "Collect bounded OpenJDK machine uninstall registrations, declared install-directory files and recent matching Windows Installer events when post-install detection fails.",
+  "SourceSnapshotCopiedAtUtc": "2026-10-24T20:31:28Z",
+  "ControllerErrors": [],
+  "ResultAvailable": false,
+  "SupportPromoted": false,
+  "Acceptance": "Pending guest execution and evidence review"
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:56:30Z",
+  "batch": "RIDE-Win11-Test non-elevated read-only access recheck",
+  "command": "Get-VM -Name 'RIDE-Win11-Test'",
+  "result": "Failed before VM state retrieval: Access to a CIM resource was not available to the client.",
+  "review": {
+    "vmStateRetrieved": false,
+    "checkpointQueried": false,
+    "taskSchedulerQueried": false,
+    "guestRequestDispatched": false,
+    "vmOrCheckpointChanged": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "deferred": [
+      "RIDE-Win11-Test Windows acceptance pending restored host CIM access and confirmed checkpoint/task readiness."
+    ],
+    "noLegacyOutcomeClosed": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  },
+  "relatedEvidence": [
+    "ride-win11-test-cim-access-recheck-2026-10-28-1816.json",
+    "ride-win11-test-vm-cim-access-block-2026-10-28-1849.json"
+  ]
+}

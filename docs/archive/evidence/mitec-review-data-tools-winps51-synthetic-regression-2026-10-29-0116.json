@@ -1,0 +1,56 @@
+{
+  "recordedAtUtc": "2026-10-29T01:16:42Z",
+  "test": "tests/MiTeCReviewDataTools.Tests.ps1",
+  "result": {
+    "status": "passed_with_intentional_skips",
+    "passed": 6,
+    "failed": 0,
+    "skipped": 3,
+    "powershell": "Windows PowerShell 5.1",
+    "pester": "5.7.1",
+    "testRegistryIntegration": "disabled",
+    "testResultIntegration": "disabled"
+  },
+  "products": [
+    {"name": "MiTeC OLE/COM Object Explorer", "version": "1.4.0.0", "operationId": "package.mitec-ole-com-explorer"},
+    {"name": "MiTeC Windows Registry Recovery", "version": "3.1.3", "operationId": "package.mitec-windows-registry-recovery"},
+    {"name": "MiTeC SMBIOS Explorer", "version": "1.8.0", "operationId": "package.mitec-smbios-explorer"}
+  ],
+  "scope": "Validated retained source/member metadata and pending targets, and exercised synthetic inert-ZIP repeat staging, selected-member enforcement, removal, snapshot restore, and preservation of unowned files. All three explicit retained-archive environment variables were cleared, so publisher archives were not read.",
+  "safety": {
+    "productExecutablesLaunched": false,
+    "publisherArchivesRead": false,
+    "comActivated": false,
+    "registryHiveOpenedOrExported": false,
+    "firmwareOrLiveSmbiosQueried": false,
+    "networkAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "nirsoftOrPasswordScanSelected": false,
+    "vmOrGuestAcceptanceRun": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "remaining": [
+      "Windows 11 install/repeat/remove/recovery acceptance",
+      "OLE/COM object enumeration in a disposable process",
+      "Offline registry-hive recovery and integrity behavior on synthetic hives",
+      "SMBIOS decoding using controlled synthetic firmware data"
+    ]
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

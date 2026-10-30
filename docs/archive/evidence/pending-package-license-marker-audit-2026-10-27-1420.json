@@ -1,0 +1,36 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T14:17:17Z",
+  "Scope": "Read-only exact-version review-marker coverage for every pending package operation and declared package variant",
+  "Catalog": {
+    "Operations": 435,
+    "PendingPackageOperations": 41,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 297
+  },
+  "ExpectedSelections": 50,
+  "MatchedNeedsReviewMarkers": 50,
+  "Missing": 0,
+  "DuplicateOrWrongStatus": 0,
+  "Store": ".local/license-reviews.json",
+  "LocalStoreChanged": false,
+  "EntitlementDetermined": false,
+  "MigrationGate": false,
+  "Sysinternals": {
+    "PriorV2SpecialistApprovalAccepted": true,
+    "DownloadAndInstallGate": false
+  },
+  "DefenderBlockedToolsTouched": false,
+  "VmOrWindowsStateChanged": false,
+  "Acceptance": {
+    "CatalogTests": {
+      "Discovered": 119,
+      "Passed": 118,
+      "Failed": 0,
+      "NotRun": 1,
+      "Excluded": "WindowsIntegration registry subtree case; sandbox registry access denied"
+    },
+    "RepositoryValidation": "Passed; generated OPERATIONS.md current"
+  }
+}

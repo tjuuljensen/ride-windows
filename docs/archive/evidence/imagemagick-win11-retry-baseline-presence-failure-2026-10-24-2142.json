@@ -1,0 +1,42 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "33c4bbf57c9a43ac9219892f9eeacb02",
+  "Suite": "ImageMagick",
+  "Target": "RIDE-Win11-Test",
+  "OS": "Windows 11 Enterprise Evaluation",
+  "Build": "26300",
+  "Status": "FailedBeforePackageExecution",
+  "StartedAtUtc": "2026-10-24T21:34:37.4969699Z",
+  "FinishedAtUtc": "2026-10-24T21:42:45.3974774Z",
+  "Error": "Expected original package absence.",
+  "CompletedCases": 1,
+  "PassedCases": 0,
+  "Prerequisite": {
+    "Status": "Passed",
+    "PackageId": "package.vcredist-v14-x64",
+    "Version": "14.51.36247.0",
+    "Installer": "https://aka.ms/vc14/vc_redist.x64.exe",
+    "InstallerExitCode": 0,
+    "RuntimeFile": "System32/vcomp140.dll",
+    "RuntimeFileVersion": "14.51.36247.0"
+  },
+  "ImageMagick": {
+    "PackageExecuted": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending"
+  },
+  "Cleanup": "ResetAndOff",
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "RecoveryBlock": false,
+  "Disposition": "The attempt stopped at the original-absence precondition before ImageMagick acquisition or installation. It does not invalidate the previously accepted Windows 11 lifecycle and feature evidence or change catalog support. Diagnose why the checkpoint reports the package present before another retry.",
+  "Sources": [
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\33c4bbf57c9a43ac9219892f9eeacb02\\result.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\33c4bbf57c9a43ac9219892f9eeacb02\\focused\\result.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\33c4bbf57c9a43ac9219892f9eeacb02\\focused\\evidence\\scenarios.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\33c4bbf57c9a43ac9219892f9eeacb02\\focused\\evidence\\imagemagick-runtime-prerequisite.json"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T07:57:13Z",
+  "Scope": "Fail fast on stale protected controllers before queuing split ApplicationsBatch1 runs",
+  "Finding": "Controller version checks showed that the registered task clients were stale. A current client could otherwise submit a split suite that the installed controller cannot validate.",
+  "Implementation": {
+    "Capability": "ApplicationsBatch1SplitV1",
+    "RegistrationScriptVersion": "0.5.0",
+    "TaskClientVersion": "1.6.0",
+    "ControllerModuleVersion": "1.7.0",
+    "Behavior": [
+      "Registration includes ApplicationsBatch1SplitV1 in the protected configuration.",
+      "The current task client rejects split suites before writing a queue request when the capability is missing.",
+      "The controller rechecks the capability before VM import, checkout snapshot, or state changes.",
+      "Integration tests cover current and stale capability paths; operator docs explain idle refresh."
+    ],
+    "Files": [
+      "tests/integration/Register-RideVmTestTask.ps1",
+      "tests/integration/Invoke-RideVmTestTask.ps1",
+      "tests/integration/RIDE.TestAutomation.psm1",
+      "tests/integration/README.md",
+      "tests/integration/automatedlab-tasks.md",
+      "tests/TestAutomation.Tests.ps1"
+    ]
+  },
+  "LocalValidation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "PesterVersion": "5.7.1",
+    "TestFile": "tests/TestAutomation.Tests.ps1",
+    "TestRegistry": "Disabled because sandbox access to HKCU\\Software\\Pester is denied",
+    "TemporaryRoot": ".local/test-output/split-capability-final-*",
+    "Passed": 128,
+    "Failed": 0,
+    "Skipped": 2,
+    "Discovered": 130,
+    "DurationSeconds": 43.98
+  },
+  "VMState": {
+    "Windows11QueuePending": 0,
+    "Windows11QueueRunning": 0,
+    "Server2025QueuePending": 0,
+    "Server2025QueueRunning": 0,
+    "Windows11InstalledTaskClient": "1.4.0",
+    "Windows11InstalledVmRunner": "0.13.0",
+    "Server2025InstalledTaskClient": "1.1.0",
+    "Server2025InstalledVmRunner": "0.13.0",
+    "CurrentProcessElevated": false,
+    "GetVm": "Denied by CIM; no VM or Windows state was changed.",
+    "RequestQueued": false
+  },
+  "MigrationDisposition": {
+    "Resolved": "Current client and controller fail before queue/VM activity when the new split-suite capability is absent.",
+    "Deferred": "Refresh both protected controllers in elevated PowerShell; run Windows 11 ApplicationsBatch1Machine, ApplicationsBatch1User, ApplicationsBatch3 and ApplicationsBatch3AllUsers; continue all remaining target acceptance.",
+    "LegacyOutcomesClosed": [],
+    "EstimateRangesChanged": false,
+    "CurrentOverviewRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

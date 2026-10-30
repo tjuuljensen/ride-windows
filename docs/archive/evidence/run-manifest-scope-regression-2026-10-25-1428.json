@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T14:28:37Z",
+  "batch": "Run-manifest scope handling and current-source regression",
+  "change": {
+    "file": "modules/RIDE.Engine.psm1",
+    "function": "Set-RideRunOperationProgress",
+    "result": "A manifest found under a shared test state root is skipped when its declared scopes do not include the current scope; the other declared scope can still update it. Missing manifests remain a no-op, preserving mocked Save-RideRunManifest tests."
+  },
+  "focusedPester": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "files": [
+      "tests/Catalog.Tests.ps1",
+      "tests/CeipPolicy.Tests.ps1",
+      "tests/ExplorerSettings.Tests.ps1",
+      "tests/CustomRegistryAuthoring.Tests.ps1",
+      "tests/FirewallProfiles.Tests.ps1"
+    ],
+    "discovered": 194,
+    "passed": 193,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 1,
+    "testRegistryEnabled": false,
+    "windowsIntegrationExcluded": true,
+    "tempRoot": ".local/pester-runprogress-verify-144716"
+  },
+  "broadPester": {
+    "discovered": 3324,
+    "testFiles": 122,
+    "testRegistryEnabled": false,
+    "windowsIntegrationExcluded": true,
+    "tempRoot": ".local/pester-final-145031",
+    "status": "Stopped without aggregate",
+    "detail": "The run advanced through settings and package suites, then remained in the 360-member PSScriptTools fixture without new fixture writes or output for over five minutes. It was cancelled; no pass/fail count is claimed."
+  },
+  "repositoryValidation": {
+    "status": "Passed",
+    "operations": 415,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 278
+  },
+  "windowsPowerShell51Parser": "Passed for modules/RIDE.Engine.psm1",
+  "diffCheck": "Passed for changed engine and documentation files",
+  "vmAccess": {
+    "target": "RIDE-Win11-Test",
+    "result": "Get-VM failed with VirtualizationException: Access to a CIM resource was not available to the client, before VM or checkpoint inspection.",
+    "guestRequestSent": false,
+    "vmStateChanged": false
+  },
+  "scope": {
+    "legacyOutcomesResolved": 0,
+    "estimatesChanged": false,
+    "defenderBlockedToolsIncluded": false,
+    "installerOrUtilityExecuted": false,
+    "windowsStateChanged": false,
+    "freshElevationRequested": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T15:03:47Z",
+  "batch": "Current-source reruns of package-focused UnitOnly failure groups",
+  "environment": {
+    "pesterVersion": "5.7.1",
+    "testRegistry": "Disabled",
+    "testResultOutput": "Disabled",
+    "windowsPowerShellExecutionPolicy": "Bypass for test process only; no persistent policy change",
+    "scratch": "Repository-local .local directories"
+  },
+  "focusedSuites": [
+    {
+      "path": "tests/GitHubAuthentication.Tests.ps1",
+      "results": [
+        { "shell": "PowerShell 7.6.5", "discovered": 53, "passed": 53, "failed": 0, "skipped": 0 },
+        { "shell": "Windows PowerShell 5.1.26100.9711", "discovered": 53, "passed": 53, "failed": 0, "skipped": 0 }
+      ],
+      "scope": "Synthetic credentials, TestDrive-isolated roots, mocked HTTP/DPAPI boundaries, ACL rejection and secret redaction. No real PAT or publisher traffic."
+    },
+    {
+      "path": "tests/LicenseReviews.Tests.ps1",
+      "results": [
+        { "shell": "PowerShell 7.6.5", "discovered": 24, "passed": 24, "failed": 0, "skipped": 0 },
+        { "shell": "Windows PowerShell 5.1.26100.9711", "discovered": 24, "passed": 24, "failed": 0, "skipped": 0 }
+      ],
+      "scope": "Informational review planning, Phoenix prerequisite isolation, all ten approved Sysinternals plans without a license gate, local store import/export/preview, completion and concurrent-writer checks."
+    },
+    {
+      "path": "tests/PhoenixPackage.Tests.ps1",
+      "results": [
+        { "shell": "PowerShell 7.6.5", "discovered": 4, "passed": 4, "failed": 0, "skipped": 0 },
+        { "shell": "Windows PowerShell 5.1.26100.9711", "discovered": 4, "passed": 4, "failed": 0, "skipped": 0 }
+      ],
+      "scope": "Exact MSI pin, machine scope, quiet arguments and .NET Framework 3.5 guard; MSI acquisition and invocation mocked."
+    },
+    {
+      "path": "tests/MiTeCDFMEditor.Tests.ps1",
+      "results": [
+        { "shell": "PowerShell 7.6.5", "discovered": 5, "passed": 5, "failed": 0, "skipped": 0 },
+        { "shell": "Windows PowerShell 5.1.26100.9711", "discovered": 5, "passed": 5, "failed": 0, "skipped": 0 }
+      ],
+      "scope": "Retained archive hash/member inventory, both explicit Delphi variant plans, and inert owned-file lifecycle/recovery. No product executable or BPL loaded."
+    },
+    {
+      "path": "tests/MiTeCDFMEditor.Tests.ps1 in disposable source snapshot without .local acquisition evidence",
+      "results": [
+        { "shell": "PowerShell 7.6.5", "discovered": 5, "passed": 4, "failed": 0, "skipped": 1 }
+      ],
+      "scope": "Explicitly verified that the retained-archive-only hash check skips when the archive is absent from a transferred source snapshot; both inert lifecycle variants still pass."
+    }
+  ],
+  "historicalUnitOnlyFailureGroups": {
+    "githubAuthentication": "53/53 current-source tests now pass in each shell; no full guest rerun was performed.",
+    "licenseReviewsPhoenixPlanning": "24/24 current-source tests now pass in each shell; no full guest rerun was performed.",
+    "mitecDfmMissingGuestArchive": "Both current-source local suite runs pass with the archive; a disposable snapshot lacking .local evidence passes with exactly one expected skip and four passes.",
+    "ntcoreWimStaleInventory": "The focused current-source NTCore suite passed 16/16; see ntcore-packages-focused-current-source-regression-2026-10-26-1442.json."
+  },
+  "safety": {
+    "msiOrUtilityExecuted": false,
+    "realCredentialUsed": false,
+    "publisherTraffic": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false,
+    "vmOrCheckpointUsed": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": [],
+    "historicalGuestRun": "The 2026-10-26 12:19 UnitOnly request remains failed; these scoped current-source tests do not replace a complete VM rerun.",
+    "vmAcceptance": "Deferred; fresh CIM and Task Scheduler access failures are documented in ntcore-packages-regression-and-current-vm-access-2026-10-26-1451.json.",
+    "sysinternalsLegalStatus": "Settled under prior RIDE v2 specialist approval; no licensing gate. Defender exclusions remain separate.",
+    "estimateChange": "None; no legacy package outcome closed."
+  }
+}

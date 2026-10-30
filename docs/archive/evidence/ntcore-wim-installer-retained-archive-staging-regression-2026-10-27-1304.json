@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "NtcoreWimInstallerRetainedArchiveStagingRegression",
+  "RecordedAtUtc": "2026-10-27T13:04:53Z",
+  "Package": {
+    "Id": "package.ntcore-wim-installer",
+    "Version": "1.0.0.1",
+    "Archive": ".local/remaining-collections-20261017/WIM_Installer.zip",
+    "ArchiveSha256": "071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264",
+    "SelectedMember": "WIM Installer.exe",
+    "SelectedMemberSha256": "3b932d91a2189e10c0423db00759e31eda24c8c7f38e9d16268f54f8be6e2d23"
+  },
+  "Test": {
+    "Path": "tests/NtcorePackages.Tests.ps1",
+    "Filter": "NTCore WIM Installer staging candidate",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Passed": 2,
+    "Failed": 0,
+    "Skipped": 0,
+    "DiscoveredInFile": 16,
+    "NotRunByFilter": 14,
+    "DisabledOptionalPlugins": ["TestRegistry", "TestResult"],
+    "Scratch": ".local/pester-ntcore-wim-20261027"
+  },
+  "Coverage": [
+    "Revalidated candidate source, version, archive digest, member digest and one-file selection against retained publisher bytes",
+    "Repeatedly stages only the selected executable into a test directory",
+    "Checks owned-file health, saves a snapshot, uninstalls, restores and preserves an operator note"
+  ],
+  "LicenseAdministration": {
+    "RIDEV2SpecialistApproval": "User-confirmed and settled for Sysinternals direct-download-and-install; no licensing gate applies.",
+    "WimInstallerNeedsReviewMarker": "Informational candidate metadata only; does not block package migration."
+  },
+  "Boundaries": {
+    "ExecutableLaunched": false,
+    "WimReadMountedOrApplied": false,
+    "DiskOrPartitionAccessed": false,
+    "PublisherNetworkAccess": false,
+    "VMOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "Deferred": [
+      "Native Windows 11 package file lifecycle acceptance",
+      "Any product behavior involving a WIM or disk; requires separate guarded disposable-image and secondary-disk acceptance"
+    ],
+    "Blocker": "Host CIM access previously prevented RIDE-Win11-Test inspection and acceptance dispatch."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Partial": [
+      "Exact retained archive passed current-source file staging and recovery checks; Windows and any image/disk behavior acceptance remain open."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No legacy package outcome closes before native acceptance; the retained-archive regression adds implementation evidence only."
+  }
+}

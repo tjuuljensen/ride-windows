@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T14:48:19Z",
+  "batch": "SettingsRemainingBatch1 pre-registered task acceptance attempt",
+  "target": {
+    "controllerName": "RIDEWin11Test",
+    "vmName": "RIDE-Win11-Test",
+    "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "configuredCheckpointName": "RIDE-clean-test-base",
+    "disposable": true,
+    "localSourceMatchesCurrentCheckout": true,
+    "submittingAccountMatchesRegisteredAccount": true
+  },
+  "preflight": {
+    "settingsRemainingBatch1AcceptedByInstalledController": true,
+    "pendingRequestsBefore": 0,
+    "runningRequestsBefore": 0,
+    "recoveryBlockBefore": false,
+    "pendingRequestsAfter": 0,
+    "runningRequestsAfter": 0,
+    "recoveryBlockAfter": false
+  },
+  "request": {
+    "runId": "12cac596538542beae3dbf82082a5667",
+    "source": "Local",
+    "integrationSuite": "SettingsRemainingBatch1",
+    "status": "Failed",
+    "startedAtUtc": "2026-10-28T14:48:19.0138328Z",
+    "finishedAtUtc": "2026-10-28T14:48:19.0700736Z",
+    "failure": "WinRM must already be running. Prepare the host in an elevated session; no services were started."
+  },
+  "acceptanceResult": {
+    "sourceSnapshotCreated": false,
+    "guestSummaryCreated": false,
+    "vmStarted": false,
+    "checkpointInspectedOrChanged": false,
+    "windowsSettingsChanged": false,
+    "defenderQueriedOrChanged": false,
+    "hostServiceStartedOrChanged": false,
+    "elevationPromptShown": false,
+    "legacyOutcomeClosed": false
+  },
+  "disposition": {
+    "status": "Deferred before guest dispatch.",
+    "blocker": "Host WinRM must be started in a later elevated session before the registered runner can connect to and recover the disposable guest.",
+    "nextAction": "After the planned host WinRM startup, revalidate the controller queue/recovery state and rerun SettingsRemainingBatch1 on the configured checkpoint."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; the task failed before VM access and closed no legacy outcome."
+  },
+  "priorHostCimEvidence": "ride-win11-test-cim-access-recheck-2026-10-28-1412.json"
+}

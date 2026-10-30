@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T16:04:38Z",
+  "scope": "MiTeC System Information eXtra 16.0.0 and TAPI Monitor 1.2.0 portable acceptance route and retained-archive preparation",
+  "candidateEvidence": "mitec-system-information-tapi-package-candidates-2026-10-23-1218.json",
+  "staticReview": "mitec-system-information-tapi-static-review-2026-10-20.json",
+  "packages": [
+    {
+      "id": "package.mitec-system-information",
+      "version": "16.0.0",
+      "archive": ".local/remaining-collections-20261017/MSIX.zip",
+      "archiveBytes": 10635839,
+      "archiveSha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+      "selectedMembers": ["MSIX.exe", "GetSys.exe", "MSIX64.exe", "GetSys64.exe"]
+    },
+    {
+      "id": "package.mitec-tapi-monitor",
+      "version": "1.2.0",
+      "archive": ".local/remaining-collections-20261017/TAPIMon.zip",
+      "archiveBytes": 2015874,
+      "archiveSha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914",
+      "selectedMembers": ["TAPIMon.exe"]
+    }
+  ],
+  "manifest": {
+    "path": ".local/acceptance-input/MiTeCSystemAndTelephony.json",
+    "rows": 2,
+    "payloadResolver": "Passed; both selected IDs and SHA-256 pins matched",
+    "ignoredLocalInput": true
+  },
+  "route": {
+    "batch": "MiTeCSystemAndTelephony",
+    "controllerCapability": "MiTeCSystemAndTelephonyV1",
+    "checks": ["fixed package selection", "repeat portable file staging", "remove and repeat remove", "saved install and removal recovery", "unowned and modified-file preservation"],
+    "systemReportCreated": false,
+    "tapiProviderAccessed": false,
+    "callPlacedOrControlled": false,
+    "utilityLaunched": false,
+    "supportedTargets": [],
+    "pendingAcceptance": true
+  },
+  "validation": {
+    "pesterVersion": "5.7.1",
+    "testFiles": ["tests/PortableAcceptanceAutomation.Tests.ps1", "tests/TestAutomation.Tests.ps1", "tests/MiTeCSystemInformationTapiMonitor.Tests.ps1", "tests/LicenseReviews.Tests.ps1"],
+    "passed": 215,
+    "failed": 0,
+    "skipped": 2,
+    "notRun": 0,
+    "windowsIntegrationExcluded": true,
+    "optionalPesterRegistryAndResultPluginsDisabled": true,
+    "workspaceLocalTemp": ".local/pester-mitec-system-tapi-route-20261027",
+    "powerShellParser": "Passed for all edited PowerShell files",
+    "versionCommands": {"Invoke-RideVmTestTask.ps1": "1.11.0", "Register-RideVmTestTask.ps1": "0.9.0", "Invoke-RidePortableAcceptance.ps1": "0.12.0", "Invoke-RidePortableVmAcceptance.ps1": "0.10.0"},
+    "retainedPayloadResolver": "Passed for both exact archive IDs and hashes"
+  },
+  "windowsAcceptance": {
+    "status": "Deferred",
+    "vm": "RIDE-Win11-Test",
+    "latestReadOnlyCheck": "Get-VM failed with CIM access denied before VM/checkpoint inspection",
+    "controllerRefreshRequired": true,
+    "controllerRefresh": "Deferred to a later elevated session; not attempted"
+  },
+  "effects": {"taskDispatched": false, "archiveDownloaded": false, "packageInstalled": false, "utilityLaunched": false, "systemReportCreated": false, "tapiProviderAccessed": false, "defenderStateChanged": false, "freshUacPromptRequested": false},
+  "legacyOutcomeAccounting": {
+    "resolved": ["Pinned local archive identity, exact package selection, and focused portable route preparation"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["No whole legacy product outcome is accepted"],
+    "deferred": ["Windows 11 install/remove/repeat and exact recovery", "System report field/redaction review", "TAPI behavior against a simulated provider and synthetic calls", "Protected controller refresh and VM access"],
+    "legacyOutcomesClosed": []
+  },
+  "migrationImpact": {
+    "estimateRangesChanged": false,
+    "estimates": {"settings": "37-57", "packages": "38-53", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exact": "127-181", "rounded": "125-180/about 155"}
+  }
+}

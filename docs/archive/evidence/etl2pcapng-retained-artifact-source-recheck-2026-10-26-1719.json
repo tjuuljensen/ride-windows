@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-26T17:19:58Z",
+  "packageId": "package.etl2pcapng",
+  "version": "1.11.0",
+  "path": ".local/acquisition/etl2pcapng-v1.11.0/etl2pcapng.exe",
+  "length": 163872,
+  "sha256": "C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043",
+  "expectedSha256": "C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043",
+  "digestMatchesCatalog": true,
+  "authenticodeStatus": "Valid",
+  "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+  "fileVersion": null,
+  "productVersion": null,
+  "executableLaunched": false,
+  "traceDataAccessed": false,
+  "windowsVmAcceptance": "Deferred: current Get-VM and registered task/controller access fail before inspection/dispatch.",
+  "license": "MIT notice is retained by the package; no license issue recorded.",
+  "migrationOutcome": "No legacy outcome closed; estimates unchanged."
+}

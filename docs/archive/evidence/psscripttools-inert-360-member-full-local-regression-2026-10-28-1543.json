@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T15:43:30Z",
+  "batch": "PSScriptTools full inert 360-member local package-file lifecycle regression",
+  "command": "PowerShell 7.6.5 with Pester 5.7.1; tests/PSScriptToolsPackage.Tests.ps1; TestRegistry and TestResult plugins disabled; TEMP/TMP scoped to a unique workspace .local directory.",
+  "results": {
+    "discovered": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "durationSeconds": 652.06,
+    "full360MemberLifecycle": "Passed: stages and repeats the complete inert 360-member fixture, checks all selected files, removes, restores saved present/absence states, and preserves unowned analyst output.",
+    "otherFocusedCases": "All six compact fixture and failure-boundary cases passed."
+  },
+  "invocation": {
+    "printedPesterSummary": "Tests Passed: 7, Failed: 0, Skipped: 0",
+    "processExitCode": 1,
+    "wrapperStatus": "The wrapper checked the Invoke-Pester result variable after invoking without the supported -PassThru parameter. The emitted Pester assertion summary was 7/7 with no failures or skips; the wrapper exit code is retained as a separate harness reporting defect."
+  },
+  "diagnostics": [
+    "PowerShell emitted an InitializeDefaultDrives FileSystem-provider warning before Pester output; discovery and all seven test cases completed."
+  ],
+  "safety": {
+    "fixture": "Generated inert archive member contents; no upstream PSScriptTools source was imported or executed.",
+    "defenderBlockedFilesSelected": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "vmReadOnlyPreflight": {
+    "powershell7": "Get-VM returned Value cannot be null (Parameter name: name) before VM state was available.",
+    "windowsPowerShell51": "Get-VM returned Value cannot be null (Parameter name: name) as a Hyper-V VirtualizationException before VM state was available.",
+    "guestRunnerDispatched": false
+  },
+  "outcome": {
+    "localFullLifecycleRegression": "Resolved",
+    "legacyOutcomeClosed": 0,
+    "remaining": "PSScriptTools runtime/feature behavior and Windows 11 package acceptance remain open; native acceptance awaits readable VM/checkpoint access."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; this completes a local test deferral but closes no legacy package outcome."
+  }
+}

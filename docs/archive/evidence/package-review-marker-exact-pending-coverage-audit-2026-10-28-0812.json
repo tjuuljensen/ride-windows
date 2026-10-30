@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:12:20Z",
+  "batch": "Exact pending-package license-review marker coverage audit",
+  "source": "Current catalog and user-local review store",
+  "catalog": {
+    "pendingPackageOperations": 45
+  },
+  "reviewStore": {
+    "location": "%LOCALAPPDATA%/RIDE/license-reviews.json",
+    "recordCount": 60,
+    "exactPendingPackageVersionCoverage": 45,
+    "missingExactPendingPackageVersions": 0,
+    "coveredStatus": "NeedsReview",
+    "reviewOwnerAndNotesExposed": false
+  },
+  "method": "Read the explicitly resolved user-local review store and joined it through Manage-RideLicenseReviews.ps1 Get against the current catalog. Compared each PendingAcceptance package operation's exact PackageVersion and ID.",
+  "handling": {
+    "storeModified": false,
+    "packageOrUtilityExecuted": false,
+    "defenderBlockedToolsIncluded": false,
+    "licenseApprovalInferred": false
+  },
+  "disposition": "NeedsReview is administrative metadata only. It does not block package planning or migration; direct publisher download-and-install remains the workflow. Defender exclusions remain separate.",
+  "migrationOutcome": {
+    "resolved": [
+      "Current exact-version NeedsReview marker coverage for all pending package operations is verified at 45/45."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Package source, lifecycle and Windows target acceptance continue on their independent tracks."
+    ],
+    "partial": [],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; administrative markers do not count as legacy outcomes."
+    }
+  },
+  "relatedEvidence": [
+    "package-license-review-pending-marker-coverage-2026-10-28-0718.json",
+    "package-provider-portable-full-cross-shell-regression-and-vm-block-2026-10-28-0801.json"
+  ]
+}

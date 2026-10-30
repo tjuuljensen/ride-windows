@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:53:00Z",
+  "batch": "NTCore Unpacker/DynLogger/SNSRemover/NoDel retained archive regression",
+  "suite": "tests/NtcoreUnpackerDynLogger.Tests.ps1",
+  "fixtureDirectory": ".local/remaining-collections-20261017",
+  "runtime": {
+    "shell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass for this process only; no persistent policy change",
+    "testRegistry": "Disabled",
+    "testResult": "Disabled"
+  },
+  "results": {
+    "discovered": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "durationSeconds": 27.28
+  },
+  "coverage": "All six retained publisher archives matched declared SHA-256 and selected-member inventories; repeat staging, removal, snapshot recovery and operator-note preservation passed in TestDrive.",
+  "executionBoundary": "No NTCore executable or DLL launched or loaded, no target process inspected, and NoDel driver not loaded. Archive members were only hashed and staged as package data in TestDrive.",
+  "boundary": {
+    "publisherNetwork": false,
+    "packageInstallerRun": false,
+    "upstreamUtilityRun": false,
+    "driverLoaded": false,
+    "targetProcessOpened": false,
+    "vmQueried": false,
+    "queueRequestSubmitted": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertPathAccessed": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false,
+    "persistentExecutionPolicyChanged": false
+  },
+  "acceptance": {
+    "status": "Local retained-source and file-lifecycle checks passed; Windows 11 acceptance remains pending.",
+    "target": "RIDE-Win11-Test",
+    "blockers": [
+      "Host VM/controller access remains blocked by prior CIM/task access errors.",
+      "Candidate package target support remains pending native acceptance."
+    ]
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Retained archive pins and selected-member file-lifecycle checks passed for six NTCore variants; no Windows package outcome closed."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Disposable Windows 11 package install/remove/recovery acceptance for the six NTCore variants."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; local archive lifecycle evidence does not establish Windows acceptance."
+    }
+  },
+  "relatedEvidence": [
+    "ntcore-unpacker-dynlogger-current-source-cross-shell-synthetic-lifecycle-2026-10-28-2211.json",
+    "ntcore-unpacker-dynlogger-portable-candidate-regression-2026-10-27-1410.json"
+  ]
+}

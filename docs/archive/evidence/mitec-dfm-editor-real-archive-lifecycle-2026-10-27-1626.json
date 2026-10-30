@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "MiTeCDFMEditorRealArchiveLifecycle",
+  "RecordedAtUtc": "2026-10-27T16:26:46Z",
+  "Package": {
+    "Id": "package.mitec-dfm-editor",
+    "DownloadUri": "https://www.mitec.cz/wp/files/DFMEdit.zip",
+    "Archive": ".local/remaining-collections-20261017/DFMEdit.zip",
+    "ArchiveLength": 16714229,
+    "ArchiveSha256": "189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa",
+    "Variants": [
+      { "Name": "delphi-11", "Version": "8.3.1.0", "RuntimeFamily": "280", "SelectedMemberCount": 9 },
+      { "Name": "delphi-12", "Version": "8.4.0.0", "RuntimeFamily": "290", "SelectedMemberCount": 9 }
+    ]
+  },
+  "Validation": {
+    "Test": "tests/MiTeCDFMEditor.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell7": { "Edition": "PowerShell 7.6.5", "Passed": 7, "Failed": 0, "Skipped": 0, "DurationSeconds": 119.08 },
+    "WindowsPowerShell51": { "Edition": "Windows PowerShell 5.1.26100.9711", "Passed": 7, "Failed": 0, "Skipped": 0, "DurationSeconds": 118.61 },
+    "OptionalPlugins": { "TestRegistry": false, "TestResult": false },
+    "ScratchRoots": [
+      ".local/pester-mitec-dfm-real-archive-20261027",
+      ".local/pester-mitec-dfm-real-archive-winps51-20261027"
+    ]
+  },
+  "Coverage": [
+    "Rechecked the actual retained archive hash and all 18 member hashes",
+    "Staged the exact Delphi 11 nine-member runtime family from the publisher archive with repeat install and recovery",
+    "Staged the exact Delphi 12 nine-member runtime family from the publisher archive with repeat install and recovery",
+    "Verified no files from the other Delphi runtime family were staged",
+    "Verified managed-file removal, saved-state restore and preservation of an unrelated operator note"
+  ],
+  "Boundaries": {
+    "ExecutableLaunched": false,
+    "RuntimePackageLoadedOrRegistered": false,
+    "FormOrPEOpenedOrExtracted": false,
+    "PublisherNetworkAccess": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Deferred": [
+      "Windows 11 package lifecycle acceptance",
+      "Synthetic text/binary DFM and PE behavior acceptance",
+      "BPL loading/registration behavior and activation"
+    ],
+    "Blocker": "Get-VM -Name RIDE-Win11-Test remains unavailable at CIM before VM/checkpoint inspection."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Both pinned Delphi runtime families pass actual retained-archive staging/recovery in both PowerShell editions; Windows and product behavior remain open."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No whole legacy outcome closes before Windows and product behavior acceptance; actual archive validation improves package evidence only."
+  }
+}

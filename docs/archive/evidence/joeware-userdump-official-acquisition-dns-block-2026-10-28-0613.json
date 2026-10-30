@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:13:04Z",
+  "batch": "JoeWare UserDump official publisher acquisition retry",
+  "product": "userdump",
+  "attempt": {
+    "command": "tools/Download-JoeWareCollection.ps1 -Product userdump -DestinationDirectory .local/joeware-userdump-acquisition-20261028-0612",
+    "result": "Failed while requesting https://www.joeware.net/freetools/versions.txt: The remote name could not be resolved: www.joeware.net.",
+    "productPageRequested": false,
+    "downloadFormSubmitted": false,
+    "payloadAcquired": false
+  },
+  "cleanup": {
+    "createdDestinationWasEmpty": true,
+    "emptyDestinationRemoved": true,
+    "existingContentTouched": false
+  },
+  "safety": {
+    "archiveOrExecutableInspected": false,
+    "utilityExecuted": false,
+    "realAccountDataAccessed": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The publisher acquisition retry confirms the local name-resolution blocker occurs before the product page and download form."
+    ],
+    "deferred": [
+      "Exact UserDump archive bytes and member inventory remain unverified; retry official acquisition when local DNS access is available."
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; acquisition was blocked before receiving bytes and no legacy outcome closed."
+    }
+  }
+}

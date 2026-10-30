@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T05:30:26Z",
+  "batch": "JoeWare acquisition policy and Product tab completion",
+  "change": {
+    "script": "tools/Download-JoeWareCollection.ps1",
+    "version": "0.2.2",
+    "policyFile": "tools/joeware-acquisition-policy.json",
+    "behavior": [
+      "The default acquisition selection omits Defender-blocked AdFind.",
+      "Explicit AdFind selection is refused before publisher requests or destination creation.",
+      "Product tab completion reads the frozen 41-member inventory and the same acquisition policy used during execution, filters the entered prefix case-insensitively, and offers the 40 currently selectable products."
+    ]
+  },
+  "tests": [
+    {
+      "runtime": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "runtime": "Windows PowerShell 5.1.26100.9711",
+      "pester": "5.7.1",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "testBoundaries": {
+    "publisherRequests": 0,
+    "outputDirectoriesCreated": 0,
+    "payloadsAcquiredOrExecuted": false,
+    "windowsOrDefenderStateChanged": false
+  },
+  "acceptance": {
+    "windowsPackageLifecycle": "Deferred; latest recorded VM/controller access failed at CIM before inspection or dispatch.",
+    "adFind": "Excluded from acquisition and acceptance while Defender-blocked.",
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

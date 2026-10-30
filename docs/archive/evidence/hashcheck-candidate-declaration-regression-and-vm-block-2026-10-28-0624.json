@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:26:13Z",
+  "batch": "HashCheck candidate declaration regression and registered VM access",
+  "test": {
+    "file": "tests/ApplicationPackages.Tests.ps1",
+    "selection": "HashCheck Shell Extension Windows 11 candidate",
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "discovered": 132,
+    "selected": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "testRegistryPlugin": false,
+    "testResultPlugin": false,
+    "windowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "pester": "5.7.1",
+      "selected": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistryPlugin": false,
+      "testResultPlugin": false,
+      "executionPolicy": "Process-scoped Bypass"
+    },
+    "assertions": [
+      "Exact HashCheck 2.6.3 official release URL, asset name and SHA-256 pin",
+      "EXE installer type and /S argument",
+      "Machine scope and administrative requirement",
+      "Pending Windows 11 candidate with no supported target",
+      "ApplicationsBatch11 selects exactly HashCheck 2.6.3"
+    ],
+    "supersededHarnessFailures": [
+      "The first attempt expected version 0.18.0; the current Invoke-RideApplicationBatch script correctly reports 0.17.0. The test expectation was corrected.",
+      "The second attempt exposed a malformed escaped regex literal in the new test. The assertion was corrected to a single-quoted regex and the focused test passed.",
+      "The first Windows PowerShell 5.1 attempt could not load Pester format XML under the shell execution policy; the focused rerun passed with a process-only ExecutionPolicy Bypass."
+    ]
+  },
+  "vmAccess": {
+    "RIDE-Win11-Test": "Get-VM failed before inspection: Access to a CIM resource was not available to the client.",
+    "RIDE-Server2025-Test": "Get-VM failed before inspection: Access to a CIM resource was not available to the client."
+  },
+  "boundary": {
+    "installerExecuted": false,
+    "packageInstalledOrRemoved": false,
+    "vmOrCheckpointInspectedOrChanged": false,
+    "taskDispatched": false,
+    "windowsOrDefenderStateChanged": false,
+    "flaggedPasswordScanFileAccessed": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolvedLegacyOutcomes": [],
+    "partial": [
+      "HashCheck candidate metadata and prepared runner selection have focused local regression coverage."
+    ],
+    "deferred": [
+      "HashCheck Windows 11 install/repeat/uninstall/recovery and Explorer/intended-user behavior remain pending VM access."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; declaration tests and a CIM-denied recheck close no legacy outcome or Windows acceptance."
+    }
+  },
+  "relatedEvidence": [
+    "hashcheck-batch11-route-regression-and-cim-block-2026-10-27-1851.json",
+    "ride-vm-cim-access-recheck-2026-10-28-0623.json"
+  ]
+}

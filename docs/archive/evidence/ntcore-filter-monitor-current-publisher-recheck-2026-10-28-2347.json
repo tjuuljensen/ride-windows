@@ -1,0 +1,56 @@
+{
+  "recordedAtUtc": "2026-10-28T23:47:00Z",
+  "package": "NTCore Filter Monitor",
+  "publisherPages": [
+    {
+      "uri": "https://ntcore.com/filter-monitor/",
+      "observedVersion": "1.1.0",
+      "observedBehavior": [
+        "Publisher offers x86 and x64 variants.",
+        "Publisher only claims operation from Windows Vista RTM through Windows 7 RTM and disclaims confidence on later versions because the utility relies on system internals.",
+        "The product's driver is unsigned; publisher instructions require boot-time disabling of driver-signature enforcement to load it.",
+        "The tool lists kernel-mode filters and can unregister them."
+      ],
+      "downloadLink": "https://ntcore.com/files/FilterMon.zip"
+    },
+    {
+      "uri": "https://ntcore.com/filter-monitor-1-0-1/",
+      "observedPublisherHistory": "The 2009 product article documents callback/filter removal and cautions the tool had not been fully tested; the x64 version was tested on Windows 7 RTM."
+    },
+    {
+      "uri": "https://ntcore.com/page/5/",
+      "observedPublisherUpdate": "The October 21, 2009 update says version 1.1.0 added restoration for some unregistered Create Process, Thread and Load Image callbacks."
+    }
+  ],
+  "acquisition": {
+    "officialZipLinkResolved": true,
+    "attemptedRetrieval": "The official link click resolved to https://ntcore.com/files/FilterMon.zip but returned Cache miss before archive bytes.",
+    "archiveBytesRetrieved": false,
+    "hashOrMemberInventoryVerified": false
+  },
+  "disposition": {
+    "remainsInSelectedNtcoreCollectionReview": true,
+    "licenseIssueUsedAsMigrationGate": false,
+    "candidatePinned": false,
+    "windows11SupportClaimed": false,
+    "utilityOrDriverRun": false,
+    "legacyOutcomeClosed": false,
+    "technicalCompatibilityAndAcquisitionRemainOpen": true
+  },
+  "sideEffects": {
+    "installerOrDriverExecuted": false,
+    "vmOrWindowsStateAccessedOrChanged": false,
+    "defenderQueriedOrChanged": false,
+    "alertReportedPasswordScanFileAccessed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  },
+  "notes": "This source review records technical compatibility and retrieval facts. It does not retire or exclude Filter Monitor and does not introduce a licensing gate."
+}

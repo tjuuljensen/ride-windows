@@ -1,0 +1,26 @@
+{
+  "recordedAtUtc": "2026-10-28T23:48:09Z",
+  "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+  "probe": "Non-elevated, read-only Get-VM by exact registered VM name.",
+  "results": {
+    "RIDE-Win11-Test": "Failed before VM state retrieval: Access to a CIM resource was not available to the client.",
+    "RIDE-S25-Test": "Failed before VM state retrieval: Access to a CIM resource was not available to the client."
+  },
+  "checkpointStateQueried": false,
+  "guestRequestDispatched": false,
+  "stateChanged": false,
+  "elevationRequested": false,
+  "defenderQueriedOrChanged": false,
+  "disposition": "Windows 11 and Server 2025 native acceptance remain deferred until host CIM access is available; continue independent static and mocked work.",
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

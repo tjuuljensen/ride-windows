@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:27:00Z",
+  "package": "package.rufus",
+  "version": "4.15",
+  "artifactSource": "official Rufus 4.15 portable x64",
+  "artifactPath": ".local/b08-rufus/downloads/rufus/4.15/rufus-4.15p.exe",
+  "artifactSha256": "84c8a437f8af89257524478489e5c85f1edf25f761d299e2bcde46ac0afbe106",
+  "authenticode": {
+    "status": "Valid",
+    "signer": "CN=Akeo Consulting, O=Akeo Consulting, S=Donegal, C=IE, OID.2.5.4.15=Business Entity, OID.1.3.6.1.4.1.311.60.2.1.3=IE, SERIALNUMBER=407950"
+  },
+  "checks": {
+    "repeatInstall": "Passed",
+    "ownedFiles": 1,
+    "snapshotCapture": "Passed",
+    "uninstall": "Passed",
+    "exactSnapshotRestore": "Passed",
+    "finalUninstall": "Passed",
+    "utilityExecuted": false,
+    "usbDeviceAccessed": false
+  },
+  "acceptance": {
+    "localRealArtifactLifecycle": "Passed",
+    "candidateTarget": "Windows 11",
+    "supportedTargets": [],
+    "disposableVmAcceptance": "Deferred; Get-VM access denied at CIM before VM/checkpoint inspection",
+    "applicationAndHardwareAcceptance": "Deferred; no Rufus UI or USB media operation was performed",
+    "legacyOutcomesClosed": [],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

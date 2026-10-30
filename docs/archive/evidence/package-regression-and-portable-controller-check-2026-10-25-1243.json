@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-25T12:43:00Z",
+  "scope": "Current-source package regression and RIDE-Win11-Test portable acceptance readiness",
+  "environment": {
+    "host": "Windows",
+    "powershell": "7.6.5",
+    "pester": "5.7.1"
+  },
+  "validation": {
+    "applicationPackages": {
+      "passed": 124,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistryPlugin": "disabled",
+      "windowsIntegrationTag": "excluded"
+    },
+    "threadJobAndPSScriptToolsFocusedRegression": {
+      "passed": 5,
+      "failed": 0,
+      "notRun": 169,
+      "testRegistryPlugin": "disabled"
+    },
+    "repositoryValidation": {
+      "status": "Passed",
+      "operations": 415,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 277
+    }
+  },
+  "portableController": {
+    "configurationFound": true,
+    "vmName": "RIDE-Win11-Test",
+    "checkpointName": "RIDE-clean-test-base",
+    "capabilities": [
+      "GitHubPatGuestV1",
+      "FocusedPortableV1"
+    ],
+    "queuePending": 0,
+    "queueRunning": 0,
+    "cleanupBlocked": false,
+    "installedPortableAcceptanceModuleSha256": "C71345A166E1BED9122B92D38121C93106ADBB5A6A353415586B4CF2C509A425",
+    "currentPortableAcceptanceModuleSha256": "D5BAE840071D98E6668B84B5468ED1E22B0D609949E09F756BDB159C12CEDF05",
+    "installedVmRunnerMatchesCurrentSource": true,
+    "refreshRequiresElevation": true,
+    "requestSubmitted": false
+  },
+  "vmAccess": {
+    "RIDE-Win11-Test": "Get-VM denied by CIM before state/checkpoint inspection",
+    "RIDE-Srv2025Test": "Get-VM denied by CIM before state/checkpoint inspection"
+  },
+  "migrationOutcome": {
+    "legacyOutcomesResolved": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

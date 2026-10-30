@@ -1,0 +1,57 @@
+{
+  "recordedAtUtc": "2026-10-29T01:28:53Z",
+  "test": "tests/MiTeCHistoricalFileTools.Tests.ps1",
+  "result": {
+    "status": "passed_with_intentional_skips",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 2,
+    "powershell": "Windows PowerShell 5.1",
+    "pester": "5.7.1",
+    "testRegistryIntegration": "disabled",
+    "testResultIntegration": "disabled"
+  },
+  "packages": [
+    {"operationId": "package.mitec-windows-file-analyzer", "version": "2.10.0", "reviewStatus": "NeedsReview", "reviewOwner": "Unassigned"},
+    {"operationId": "package.mitec-icon-explorer", "version": "5.3.0", "reviewStatus": "NeedsReview", "reviewOwner": "Unassigned"}
+  ],
+  "scope": "Validated current catalog pins, selected members, pending targets and synthetic inert-ZIP repeat staging/removal/snapshot restore while preserving an unowned file. Both explicit retained archive variables were cleared, so the two actual-archive checks were intentionally skipped.",
+  "safety": {
+    "publisherArchivesRead": false,
+    "realArtifactsOrPathsScanned": false,
+    "productUtilitiesLaunched": false,
+    "personalOrForensicFilesOpened": false,
+    "networkAccessed": false,
+    "windowsOrDefenderConfigurationChanged": false,
+    "nirsoftOrPasswordScanSelected": false,
+    "vmOrGuestAcceptanceRun": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "remaining": [
+      "Retained archive/member hash checks when explicitly supplied",
+      "Windows 11 install/repeat/remove/recovery acceptance",
+      "Product behavior, report/output cleanup and handling of user files"
+    ]
+  },
+  "licenseAdministration": {
+    "migrationGate": false,
+    "reviewMarkers": "Version-specific NeedsReview/Unassigned entries exist for both packages; the local records explicitly say they do not block candidate migration/planning."
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

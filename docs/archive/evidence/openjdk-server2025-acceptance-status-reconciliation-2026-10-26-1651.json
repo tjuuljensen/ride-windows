@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T16:51:00Z",
+  "Batch": "OpenJDK Server 2025 acceptance status reconciliation",
+  "ReviewType": "Read-only evidence reconciliation; no test or guest run performed",
+  "PriorRun": {
+    "RunId": "8ec925d3611241c1ab00b3e107bf844b",
+    "Evidence": "applications-batch8-server2025-current-source-rerun-2026-10-25-0333.json",
+    "Status": "Passed",
+    "Target": "Windows Server 2025",
+    "Packages": [
+      { "Id": "package.microsoft-openjdk", "Version": "25.0.4.1", "Status": "Passed" },
+      { "Id": "package.microsoft-openjdk-21", "Version": "21.0.12.1", "Status": "Passed" },
+      { "Id": "package.microsoft-openjdk-17", "Version": "17.0.20.1", "Status": "Passed" },
+      { "Id": "package.microsoft-openjdk-11", "Version": "11.0.32.1", "Status": "Passed" }
+    ],
+    "Recovery": "Saved presence restored with the catalog-declared installer; exact previous-version recovery unavailable.",
+    "Checks": ["install", "runtime and compiler versions", "shared JAVA_HOME/PATH/.jar preservation", "repeat install", "uninstall", "repeat removal", "saved-presence recovery"]
+  },
+  "CurrentOpenItems": ["Windows 11 acceptance", "Exact previous-version recovery"],
+  "SysmonProfiles": "No profile was applied.",
+  "CurrentVmAccess": {
+    "Evidence": "ride-win11-test-cim-and-task-scheduler-access-recheck-2026-10-26-1647.json",
+    "Result": "Get-VM and Get-ScheduledTask failed at CIM; native schtasks failed with invalid network address before inspection or dispatch."
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Server 2025 lifecycle acceptance for four OpenJDK package versions."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Windows 11 acceptance", "Exact previous-version recovery"],
+    "Partial": ["OpenJDK legacy package outcomes remain open until remaining target and recovery acceptance is complete."],
+    "LegacyOutcomeClosed": false,
+    "EstimateRangesChanged": false,
+    "EstimateRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "StateChanges": {
+    "TestRunPerformed": false,
+    "InstallerRun": false,
+    "ProfileApplied": false,
+    "VmRequestSubmitted": false,
+    "WindowsStateChanged": false
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T02:15:03Z",
+  "Batch": "Windows Firewall Notifier full 531-member local synthetic lifecycle regression",
+  "Package": {
+    "OperationId": "package.windows-firewall-notifier",
+    "Version": "20250719-ac02df",
+    "PinnedArchiveMembers": 531,
+    "SyntheticFixture": "One-byte inert ZIP entries for every pinned catalog member; operator-owned file added to the installed destination."
+  },
+  "Environment": {
+    "OperatingSystem": "Windows host checkout",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryFixtureEnabled": false,
+    "TemporaryFiles": "Unique workspace-local .local/pester-wfn-package directory; removed by test cleanup"
+  },
+  "Test": {
+    "File": "tests/WfnPackage.Tests.ps1",
+    "Name": "repeats the complete 531-member snapshot and restores both prior package states",
+    "DiscoveredInFile": 3,
+    "Selected": 1,
+    "Passed": 1,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 2,
+    "DurationSeconds": 1189.19,
+    "Behavior": [
+      "Installed all 531 synthetic archive members and verified package health.",
+      "Repeated installation and verified health and all 531 owned members again.",
+      "Preserved an operator-owned file across package operations.",
+      "Removed package-owned files and restored the saved installed snapshot with all 531 members healthy.",
+      "Removed the package again, restored the captured prior-absence state, and retained the operator-owned file."
+    ]
+  },
+  "SideEffects": {
+    "WfnExecutableExecuted": false,
+    "PublisherInstallerExecuted": false,
+    "FirewallPolicyChanged": false,
+    "LiveRegistryChanged": false,
+    "DefenderStateChanged": false,
+    "VmOrWindowsStateChanged": false
+  },
+  "Acceptance": {
+    "LocalSyntheticFullMemberLifecycle": "Passed",
+    "Windows11Lifecycle": "Pending VM access",
+    "IntendedUserLogWrite": "Pending",
+    "FirewallPolicyUnchanged": "Pending Windows VM verification",
+    "ApplicationActivation": "Not run; separate runtime behavior"
+  },
+  "MigrationAccounting": {
+    "Resolved": ["The complete pinned-member local repeat/install/remove and installed/absent snapshot recovery path passes against inert synthetic files."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Windows 11 package lifecycle, intended-user log writing, and unchanged-firewall-policy acceptance require VM access."],
+    "Partial": ["No legacy package outcome closes; no WFN executable ran."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170",
+    "LicenseDisposition": "No licensing gate; the prior RIDE v2 specialist approval covers RIDE's direct Microsoft download-and-install workflow."
+  }
+}

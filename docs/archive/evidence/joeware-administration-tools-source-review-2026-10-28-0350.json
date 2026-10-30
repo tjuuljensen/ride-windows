@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T03:49:52Z",
+  "batch": "JoeWare UserDump, DNSSrvRec and ELDLLEx source-detail review",
+  "sources": [
+    {
+      "product": "UserDump",
+      "productPage": "https://www.joeware.net/freetools/tools/userdump/index.htm",
+      "productPageReaderAge": "8 months",
+      "productPageVersion": "1.01.00 - January 28, 2001",
+      "versionHistoryObservation": "The page also lists Version 2.02.00 - 01/28/2001 with the note 'Added banner'.",
+      "versionListObservation": "01.01.00, 2001.01.28, with publisher MD5/SHA-1 values.",
+      "behavior": "Enumerates user accounts on a specified NT-based machine and emits user ID, password age, expired, disabled, password-not-required, locked and no-expire fields as tab-delimited output.",
+      "platformsListedByPublisher": ["Windows NT", "Windows 2000", "Windows Server 2003", "Windows XP"],
+      "disposition": "Do not resolve the page's Current Version / Version History conflict by inference. Exact ZIP identity and inert archive-content review remain open; never inspect real account data."
+    },
+    {
+      "product": "DNSSrvRec",
+      "productPage": "https://joeware.net/freetools/tools/dnssrvrec/index.htm",
+      "productPageSearchSnapshotAge": "4.9 years",
+      "productPageObservation": "Version 1.00.00 - January 15, 2005; lists Windows 2000, Windows Server 2003 and Windows XP.",
+      "versionListObservation": "01.00.00, 2006.01.15, with publisher MD5/SHA-1 values.",
+      "usagePage": "https://joeware.net/freetools/tools/dnssrvrec/usage.htm",
+      "usagePageSnapshotAge": "13.2 years",
+      "usageBehavior": "Supports clear, replace, delete and add operations on DNS SRV records. Multiple actions are processed in clear/replace/delete/add order. Usage identifies AddSrvRec V01.00.00cpp, January 2006.",
+      "disposition": "Product-page year conflicts with the version-list date and usage build label. These are cached official observations, not exact-byte evidence; keep exact archive identity unresolved. Any functional test must use an isolated disposable AD/DNS lab and synthetic SRV records."
+    },
+    {
+      "product": "ELDLLEx",
+      "productPage": "https://www.joeware.net/freetools/tools/eldllex/index.htm",
+      "pageRequest": "The web reader returned Cache miss; no product-page content was re-established.",
+      "frozenInventoryObservation": "The 2026-10-17 inventory records page version 1.00.0 versus version-list 01.00.00 dated 2002.02.17; the version-list row has no MD5/SHA-1 values.",
+      "usagePage": "https://joeware.net/freetools/tools/eldllex/usage.htm",
+      "usagePageSnapshotAge": "13.2 years",
+      "usageBehavior": "ELDLLExInstall adds or removes an event source; the two-DLL design separates categories from messages and allows message IDs 1-99. Usage identifies ELDLLExInstall V01.00.00cpp, July 2004, and labels it freeware.",
+      "disposition": "Keep raw version/date observations separate. Exact archive members, required DLLs and installation/recovery behavior remain unverified; test registration and removal only in a disposable Windows target."
+    }
+  ],
+  "safety": {
+    "downloadFormsSubmitted": false,
+    "payloadsAcquiredExtractedOrRun": false,
+    "realAccountsDirectoryOrDnsAccessed": false,
+    "eventSourcesRegisteredOrRemoved": false,
+    "vmWindowsOrDefenderStateChanged": false,
+    "adFindIncluded": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "resolved": ["Official cached source facts for UserDump, DNSSrvRec and ELDLLEx behavior and their observed version/date fields."],
+    "retired": [],
+    "excluded": ["AdFind remains excluded while its user-reported Defender block is active."],
+    "partial": ["JoeWare collection source mapping; exact artifacts and lifecycle evidence remain incomplete."],
+    "deferred": ["Exact publisher archive identities, SHA-256 hashes and member inventories.", "Catalog lifecycle and exact recovery.", "Isolated functional acceptance for directory/DNS or event-source effects.", "JoeWare acquisition route after the existing publisher DNS blocker changes."],
+    "remaining": ["Exact publisher archive identities, SHA-256 hashes and member inventories", "Catalog lifecycle and exact recovery", "Isolated functional acceptance for directory/DNS or event-source effects", "JoeWare acquisition route after the existing publisher DNS blocker changes"],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; cached official documentation clarifies behavior and discrepancies but does not verify bytes or close outcomes."
+    }
+  }
+}

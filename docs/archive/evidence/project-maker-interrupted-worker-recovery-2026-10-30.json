@@ -1,0 +1,77 @@
+{
+    "SchemaVersion":  1,
+    "ReviewDate":  "2026-10-30",
+    "RunId":  "c029135dbae34c30b1e68a820fc8fd09",
+    "Status":  "Interrupted host-worker request recovered; Project Maker acceptance unresolved",
+    "Recovery":  {
+                     "SchemaVersion":  1,
+                     "RunId":  "c029135dbae34c30b1e68a820fc8fd09",
+                     "RecordedAtUtc":  "2026-10-30T10:20:50.2123885Z",
+                     "Source":  "Operator recovery after confirmed worker/child termination",
+                     "VMId":  "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+                     "CheckpointId":  "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+                     "VMState":  "Off",
+                     "CheckpointRestored":  true,
+                     "WorkerLockExclusive":  true,
+                     "ControllerProcessesAbsent":  true
+                 },
+    "ReconstructedResult":  {
+                                "SchemaVersion":  1,
+                                "RunId":  "c029135dbae34c30b1e68a820fc8fd09",
+                                "Source":  "Local",
+                                "UnitOnly":  false,
+                                "IntegrationSuite":  "ApplicationsBatch10",
+                                "Status":  "Failed",
+                                "StartedAtUtc":  null,
+                                "SubmittedAtUtc":  "2026-10-30T09:28:58.7981417Z",
+                                "FinishedAtUtc":  "2026-10-30T10:20:50.2123885Z",
+                                "Error":  "Operator stopped stalled host worker after client wait expired; no controller log or terminal test result was produced. This is not a completed Project Maker acceptance run.",
+                                "CleanupError":  null,
+                                "CollectionError":  null,
+                                "EvidenceExportError":  null,
+                                "Reconstructed":  true,
+                                "RecordedBy":  "Operator recovery helper 0.1.0",
+                                "RecoveryReceipt":  "operator-recovery.json"
+                            },
+    "OperatorFinalState":  {
+                               "PendingRequests":  0,
+                               "Source":  "User-pasted recovery helper output",
+                               "VMState":  "Off",
+                               "TaskState":  "Ready",
+                               "InterruptedRequestArchived":  true,
+                               "RecoveryBlockPresent":  false,
+                               "RunningRequests":  0
+                           },
+    "Findings":  [
+                     "User confirmed worker PID 20380 and its observed children stopped before recovery.",
+                     "No controller log or original terminal result was produced by this diagnostic request; no completed guest acceptance is established.",
+                     "The request was archived only after checkpoint restoration and persistence of an explicitly reconstructed failure record.",
+                     "The configured timeout covers launched controller execution, not every preparatory host operation. The interrupted host stage remains unidentified.",
+                     "The earlier Project Maker run reached integration after 432 passing tests and pinned acquisition, then timed out; its installer/removal stage remains unidentified. These are separate failures."
+                 ],
+    "Next":  "Do not automatically retry Project Maker. Retain its unresolved acceptance and address bounded host preparation/progress diagnostics before relying on another timed VM request. No retirement, exclusion or support promotion is implied.",
+    "Migration":  {
+                      "Components":  "19-24",
+                      "ExactTotal":  "126-180",
+                      "Retired":  0,
+                      "Reason":  "Controller recovery restores availability but closes no legacy feature/product outcome. Other partial/deferred scope is unchanged.",
+                      "FilesAndAssets":  "25-35",
+                      "Resolved":  0,
+                      "Partial":  "Project Maker unresolved; further runtime retries deferred",
+                      "Packages":  "37-52",
+                      "NewExclusions":  0,
+                      "RoundedTotal":  "125-180; about 155",
+                      "Maintenance":  "8-12",
+                      "Settings":  "37-57"
+                  },
+    "FileHashes":  [
+                       {
+                           "SHA256":  "C9F2F23727A88E49782A479A3E73ED0143892B0AA2D2E5D408401C072F6DA11D",
+                           "Path":  "operator-recovery.json"
+                       },
+                       {
+                           "SHA256":  "B53067CFFAECE46155796102EBD5663BD92756C708C7AEFCFDA04BC1AD0A26C1",
+                           "Path":  "result.json"
+                       }
+                   ]
+}

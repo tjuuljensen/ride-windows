@@ -1,0 +1,33 @@
+{
+  "recordedAtUtc": "2026-10-28T23:45:41Z",
+  "command": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File tools/validate.ps1 -Root .",
+  "result": "Passed",
+  "counts": {
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 301
+  },
+  "generatedOperationDocumentationCurrent": true,
+  "scope": "Read-only repository validation after the E08 candidate/test update.",
+  "sideEffects": {
+    "persistentExecutionPolicyChanged": false,
+    "elevationRequested": false,
+    "vmAccessed": false,
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

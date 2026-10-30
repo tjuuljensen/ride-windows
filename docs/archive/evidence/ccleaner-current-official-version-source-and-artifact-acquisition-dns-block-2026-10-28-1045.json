@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:45:54Z",
+  "batch": "CCleaner current publisher version and exact artifact source recheck",
+  "sources": {
+    "homepage": {
+      "uri": "https://www.ccleaner.com/download",
+      "statesVersion": "CCleaner v7.13"
+    },
+    "versionHistory": {
+      "uri": "https://www.ccleaner.com/ccleaner/version-history/",
+      "latestInstallerVersion": "7.13.1573",
+      "releaseDate": "2026-10-21",
+      "portableVersion": "6.41.11567",
+      "portableReleaseDate": "2026-06-23"
+    },
+    "buildsPage": {
+      "uri": "https://www.ccleaner.com/ccleaner/builds",
+      "statedVersion": "7.12.1526",
+      "notes": "Page identifies online/full installer links and a no-installer portable ZIP, but its latest label is behind the current version history."
+    },
+    "fullInstallerUri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_FULL/build_RELEASE",
+    "portableUri": "https://download.ccleaner.com/portable/ccsetup641.zip",
+    "buildsNotice": "The builds page says builds below are for system administrators and advanced users, and are not for distribution or mirroring."
+  },
+  "acquisition": {
+    "result": "blocked before HTTP response",
+    "deniedDns": [
+      "bits.avcdn.net",
+      "download.ccleaner.com"
+    ],
+    "downloadedFiles": [],
+    "bytesOrHashVerified": false,
+    "binaryMetadataOrSignatureVerified": false,
+    "reason": "Resolve-DnsName for both official payload hosts returned Access is denied. The web reader can identify their direct download URLs but does not return application/octet-stream or ZIP contents."
+  },
+  "licensing": {
+    "status": "Informational review note",
+    "interpretation": "Preserve the publisher builds-page restriction in the local license review when exact versioned candidates are prepared; it does not block source acquisition or RIDE direct download-and-install under the user direction.",
+    "storeEntryCreated": false,
+    "reason": "No exact artifact hash/version candidate has been added to the catalog."
+  },
+  "handling": {
+    "installerOrUtilityRun": false,
+    "fileDownloaded": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current publisher version history identifies CCleaner 7.13.1573 and separate portable 6.41.11567; official direct download routes are identified."
+    ],
+    "partial": [
+      "The builds page version label is stale at 7.12.1526, and exact versioned payload bytes, SHA-256 pins, signatures and file inventories have not been obtained."
+    ],
+    "deferred": [
+      "Acquire the exact full installer and portable ZIP through their official sources, verify byte pins/signers and inspect package scope before cataloging candidates. Recuva/Speccy/Defraggler artifact acquisition remains open."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source URLs and version history do not establish verified package artifacts or close a legacy outcome."
+    }
+  }
+}

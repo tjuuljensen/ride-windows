@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T23:13:29Z",
+  "batch": "B02 local user identity inventory current-source regression",
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "processExecutionPolicy": "Bypass; process only"
+  },
+  "testFile": "tests/LocalUserInventory.Tests.ps1",
+  "result": {
+    "discovered": 26,
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "coverage": [
+    "Expected machine/build/edition and native-process guards before provider access",
+    "SID-only account identity independent of display-name changes",
+    "Missing, nullable, false, empty, malformed, duplicate and bounded provider observations",
+    "Saved JSON schema and SID selection/completion without name-based replacement",
+    "Privacy boundary excluding account descriptions and password timestamps",
+    "WhatIf, exclusive output creation and racing-file preservation"
+  ],
+  "sideEffects": {
+    "localAccountsProviderQueried": false,
+    "registryOrCredentialStateQueried": false,
+    "successfulRegistryWrite": false,
+    "testDriveFilesOnly": true,
+    "vmOrCheckpointAccessed": false,
+    "defenderBlockedToolSelectedOrTouched": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": {
+    "resolved": "Current mocked/synthetic local-user identity inventory source contract passes local regression.",
+    "pending": [
+      "Native Microsoft.PowerShell.LocalAccounts provider behavior on supported Windows targets",
+      "Actual intended-account/session behavior and acceptance of observed local-user results"
+    ],
+    "legacyOutcomeClosed": false,
+    "supportedTargetAdded": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180; about 155",
+    "adjustment": "None; source regression does not close a legacy outcome or native acceptance."
+  }
+}

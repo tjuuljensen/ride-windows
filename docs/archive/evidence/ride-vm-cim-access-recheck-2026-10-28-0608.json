@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:08:29Z",
+  "batch": "RIDE disposable VM read-only access recheck",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "result": "Get-VM failed before returning VM state or identity.",
+      "error": "Access to a CIM resource was not available to the client.",
+      "checkpointInspected": false
+    },
+    {
+      "name": "RIDE-Server2025-Test",
+      "result": "Get-VM failed before returning VM state or identity.",
+      "error": "Access to a CIM resource was not available to the client.",
+      "checkpointInspected": false
+    }
+  ],
+  "taskDispatched": false,
+  "vmOrHostStateChanged": false,
+  "defenderQueriedOrChanged": false,
+  "elevationRequested": false,
+  "migrationOutcome": {
+    "resolved": [],
+    "deferred": [
+      "Native Windows 11 and Server 2025 acceptance remains blocked before VM inspection by host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the repeated access denial changes no verified migration outcome."
+    }
+  }
+}

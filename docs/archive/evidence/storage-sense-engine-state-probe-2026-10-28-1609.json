@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:09:04Z",
+  "batch": "Storage Sense machine-policy engine state semantics",
+  "checks": {
+    "powerShell7": {
+      "version": "7.6.5",
+      "method": "Direct invocation of current RIDE.Engine module functions with synthetic CurrentState records; no Pester.",
+      "result": "Passed candidate support guard; Enabled and Disabled exact DWORD state matching; WindowsDefault matches local override absence; absent override does not match Disabled.",
+      "registryAccess": false
+    },
+    "windowsPowerShell51": {
+      "version": "5.1",
+      "method": "Same direct synthetic-state check attempted without Pester.",
+      "result": "Module import blocked by AuthorizationManager before assertions; no execution-policy bypass attempted.",
+      "assertionsExecuted": false
+    }
+  },
+  "candidate": {
+    "id": "windows.storage-sense-global-policy",
+    "supportedTargets": [],
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "pendingAcceptance": true
+  },
+  "handling": {
+    "registryReadOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "passwordscanPathAccessed": false,
+    "elevationRequested": false
+  },
+  "remainingAcceptance": [
+    "Focused Pester suite could not run in either shell due local provider/AuthorizationManager issues.",
+    "Native Windows 11 UI enforcement, effective policy source, exact restore and cleanup boundary remain pending."
+  ],
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; synthetic engine-state checks add implementation evidence but close no legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "storage-sense-machine-policy-candidate-validation-2026-10-28-1556.json",
+    "storage-sense-focused-test-environment-block-2026-10-28-1559.json"
+  ]
+}

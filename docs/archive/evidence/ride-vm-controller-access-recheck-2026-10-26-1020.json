@@ -1,0 +1,39 @@
+{
+  "timestampUtc": "2026-10-26T10:20:25Z",
+  "purpose": "Read-only availability check before continuing authorized Windows acceptance batches",
+  "targets": [
+    {
+      "computerName": "RIDE-Win11-Test",
+      "getVmResult": "Blocked before VM or checkpoint inspection: Access to a CIM resource was not available to the client."
+    },
+    {
+      "computerName": "RIDE-Srv2025Test",
+      "getVmResult": "Blocked before VM or checkpoint inspection: Access to a CIM resource was not available to the client."
+    }
+  ],
+  "registeredControllerTask": {
+    "taskPath": "\\RIDE\\RIDEWin11Test",
+    "queryResult": "ERROR: The network address is invalid",
+    "dispatchOccurred": false
+  },
+  "sideEffects": {
+    "guestRequest": false,
+    "checkpointInspectedOrChanged": false,
+    "hostServiceChanged": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationPromptRequested": false
+  },
+  "acceptanceDisposition": "Keep native Windows package, setting, and component checks deferred; continue independent local/source work without fresh UAC.",
+  "sysinternalsDisposition": "The prior RIDE v2 license-specialist approval covers RIDE's direct Microsoft download-and-install workflow. No legal or licensing gate applies. Defender-blocked tools remain separate security exclusions.",
+  "estimateDisposition": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155",
+    "legacyOutcomesClosed": 0,
+    "reason": "The access check resolved no legacy outcome and changed no acceptance result."
+  }
+}

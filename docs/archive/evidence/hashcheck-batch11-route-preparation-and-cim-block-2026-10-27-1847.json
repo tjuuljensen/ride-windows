@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T18:47:41Z",
+  "batch": "HashCheck 2.6.3 focused Windows 11 acceptance route preparation",
+  "packageId": "package.hashcheck-shell-extension",
+  "packageVersion": "2.6.3",
+  "route": {
+    "migrationBatch": "ApplicationsBatch11",
+    "target": "Windows 11",
+    "exactSelection": [
+      "package.hashcheck-shell-extension"
+    ],
+    "controllerCapability": "ApplicationsBatch11HashCheckV1",
+    "checks": [
+      "pinned installer identity",
+      "install and repeat install",
+      "remove and repeat remove",
+      "saved install and removal recovery"
+    ],
+    "launchesApplication": false,
+    "invokesExplorer": false,
+    "dispatched": false,
+    "registeredCapabilityRefreshed": false
+  },
+  "validation": {
+    "pester": "5.7.1",
+    "powershell": "7.6.5",
+    "testFile": "tests/TestAutomation.Tests.ps1",
+    "passed": 143,
+    "failed": 1,
+    "skipped": 2,
+    "failure": "One unrelated ApplicationsBatch1User preview fixture hit a transient file-lock while rewriting tools/validate.ps1 in the generated TestDrive checkout; all Batch11 route, capability, dispatch and preview checks passed.",
+    "firstAttempt": "Default Windows TEMP denied generated evidence writes; rerun redirected TEMP/TMP to repository .local and cleared 64 such access failures.",
+    "repositoryValidation": "Passed: 438 operations, 8 groups, 5 profiles, 297 PowerShell files; generated operation documentation current."
+  },
+  "blocker": {
+    "vm": "Get-VM -Name RIDE-Win11-Test failed before inspection: CIM resource unavailable to client",
+    "controller": "Protected controller capability refresh requires a later elevated session",
+    "nextAction": "After VM CIM and controller access return, refresh capability and dispatch ApplicationsBatch11 using the existing clean checkpoint."
+  },
+  "safety": {
+    "installerExecuted": false,
+    "packageInstalled": false,
+    "vmStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "changed": false
+  },
+  "sysinternals": {
+    "disposition": "Prior RIDE v2 license-specialist approval covers RIDE direct download-and-install; no license gate applies.",
+    "technicalAcceptanceSeparate": true,
+    "defenderExclusionsSeparate": true
+  }
+}

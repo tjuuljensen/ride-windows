@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:15:07Z",
+  "batch": "Pending package catalog and license-review readiness audit",
+  "source": "Current catalog and user-local review store",
+  "catalog": {
+    "packageOperations": 115,
+    "pendingPackageOperations": 45,
+    "pendingWithPackageVersion": 45,
+    "pendingWithProductUri": 45,
+    "pendingWithLicenseAndLicenseUri": 45,
+    "pendingWithDownloadUriOrProvider": 45,
+    "pendingWithSha256OrImmutableSourcePin": 45
+  },
+  "licenseReviewStore": {
+    "location": "%LOCALAPPDATA%/RIDE/license-reviews.json",
+    "totalRecords": 60,
+    "pendingExactIdVersionPairsCovered": 45,
+    "pendingPairsMarkedNeedsReview": 45,
+    "pendingPairsMissing": 0,
+    "storeModified": false,
+    "reviewOwnerOrNotesExposed": false
+  },
+  "handling": {
+    "packageOrUtilityExecuted": false,
+    "defenderBlockedToolsSelectedOrRun": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": "Pending package source and license metadata are present and every pending package version has an informational NeedsReview marker. This completes catalog/review administration checks only; it does not establish payload validity, package lifecycle, Windows behavior, or legal approval. Review markers are not migration gates. Defender exclusions remain separate.",
+  "migrationOutcome": {
+    "resolved": [
+      "Current pending-package catalog completeness and exact user-local NeedsReview marker coverage verified."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Exact publisher payloads, managed install/remove/recovery, and Windows target acceptance remain tracked per package."
+    ],
+    "partial": [
+      "Catalog/review readiness does not close any legacy package outcome."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; catalog metadata and review markers are preparatory and do not count as migrated legacy outcomes."
+    }
+  },
+  "relatedEvidence": [
+    "package-review-marker-exact-pending-coverage-audit-2026-10-28-0812.json",
+    "package-provider-portable-full-cross-shell-regression-and-vm-block-2026-10-28-0801.json"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-25T05:19:00Z",
+  "scope": "Sysinternals package migration in RIDE",
+  "decision": "The prior RIDE v2 license-specialist approval governs RIDE's direct download-and-install workflow. RIDE downloads Sysinternals directly from Microsoft for installation on supported devices and does not transfer or publish it. The user confirms there are no legal issues using Sysinternals in RIDE.",
+  "migrationDisposition": "Proceed without a new license review, generalized redistribution analysis, or licensing gate.",
+  "separateExclusions": "Keep user-reported Defender-detected utilities excluded for security reasons; this does not change the settled licensing disposition.",
+  "technicalAcceptance": "Package lifecycle and Windows 11 staging acceptance evidence remains as recorded. Product behavior, activation, additional targets, and any remaining legacy grouping are tracked separately as technical work.",
+  "estimateImpact": {
+    "legacyOutcomesResolved": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

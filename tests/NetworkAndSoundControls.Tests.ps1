@@ -104,6 +104,64 @@ Describe 'Stable network-control recovery' {
     Should -Invoke Set-NetFirewallRule -ModuleName RIDE-NetworkControls -Times 1 -Exactly -ParameterFilter {$PolicyStore -eq 'PersistentStore' -and $Name -eq 'RemoteDesktop-UserMode-In-TCP' -and $Enabled -eq 'False'}
   }
 }
+Describe 'Independent OpenSSH Server firewall rule' {
+  BeforeEach {
+    InModuleScope RIDE-NetworkControls {
+      $script:OpenSshCapabilityState = 'Installed'
+      $script:OpenSshRulePresent = $true
+      $script:OpenSshRuleEnabled = 'False'
+      $script:OpenSshRulePort = '22'
+      Mock Get-WindowsCapability { [pscustomobject]@{ Name='OpenSSH.Server~~~~0.0.1.0'; State=$script:OpenSshCapabilityState } }
+      Mock Get-NetFirewallRule {
+        if (-not $script:OpenSshRulePresent) { return }
+        [pscustomobject]@{
+          Name='OpenSSH-Server-In-TCP'; Enabled=$script:OpenSshRuleEnabled; Direction='Inbound'; Action='Allow'
+          Profile='Any'; PolicyStoreSourceType='Local'; PolicyStoreSource='PersistentStore'
+        }
+      }
+      Mock Get-RideOpenSshFirewallPortFilter { [pscustomobject]@{ Protocol='TCP'; LocalPort=$script:OpenSshRulePort } }
+      Mock Set-NetFirewallRule { $script:OpenSshRuleEnabled=[string]$Enabled }
+    }
+    $script:OpenSshFirewallOperation = @{
+      Id='windows.openssh-server-firewall'; Kind='RemoteDesktopFirewall';
+      FirewallRuleNames=@('OpenSSH-Server-In-TCP'); RequiredCapabilityName='OpenSSH.Server~~~~0.0.1.0'
+      States=@{Disabled='False';Enabled='True'}
+    }
+  }
+  It 'captures, changes and restores only the exact local TCP/22 rule' {
+    $before=Get-RideNetworkControlState $script:OpenSshFirewallOperation
+    $before.Available | Should -BeTrue
+    $before.Entries.Count | Should -Be 1
+    $before.Entries[0].Id | Should -Be 'OpenSSH-Server-In-TCP'
+    $before.Entries[0].Value | Should -Be 'False'
+    Set-RideNetworkControlState $script:OpenSshFirewallOperation Enabled
+    InModuleScope RIDE-NetworkControls { $script:OpenSshRuleEnabled | Should -Be 'True' }
+    Restore-RideNetworkControlState $script:OpenSshFirewallOperation ($before | ConvertTo-Json -Depth 8 | ConvertFrom-Json)
+    InModuleScope RIDE-NetworkControls { $script:OpenSshRuleEnabled | Should -Be 'False' }
+    Should -Invoke Set-NetFirewallRule -ModuleName RIDE-NetworkControls -Times 1 -Exactly -ParameterFilter {$PolicyStore -eq 'PersistentStore' -and $Name -eq 'OpenSSH-Server-In-TCP' -and $Enabled -eq 'True'}
+    Should -Invoke Set-NetFirewallRule -ModuleName RIDE-NetworkControls -Times 1 -Exactly -ParameterFilter {$PolicyStore -eq 'PersistentStore' -and $Name -eq 'OpenSSH-Server-In-TCP' -and $Enabled -eq 'False'}
+  }
+  It 'does not inspect or mutate a rule when the Server capability is absent' {
+    InModuleScope RIDE-NetworkControls { $script:OpenSshCapabilityState='NotPresent' }
+    $state=Get-RideNetworkControlState $script:OpenSshFirewallOperation
+    $state.Available | Should -BeFalse
+    $state.Reason | Should -Match 'capability is not installed'
+    { Set-RideNetworkControlState $script:OpenSshFirewallOperation Enabled } | Should -Throw '*No available network controls*'
+    Should -Invoke Get-NetFirewallRule -ModuleName RIDE-NetworkControls -Times 0
+    Should -Invoke Set-NetFirewallRule -ModuleName RIDE-NetworkControls -Times 0
+  }
+  It 'refuses a missing rule and will not create it' {
+    InModuleScope RIDE-NetworkControls { $script:OpenSshRulePresent=$false }
+    (Get-RideNetworkControlState $script:OpenSshFirewallOperation).Available | Should -BeFalse
+    { Set-RideNetworkControlState $script:OpenSshFirewallOperation Enabled } | Should -Throw '*No available network controls*'
+    Should -Invoke Set-NetFirewallRule -ModuleName RIDE-NetworkControls -Times 0
+  }
+  It 'refuses a same-name rule with a different port before mutation' {
+    InModuleScope RIDE-NetworkControls { $script:OpenSshRulePort='2222' }
+    { Get-RideNetworkControlState $script:OpenSshFirewallOperation } | Should -Throw '*not limited to inbound TCP port 22*'
+    Should -Invoke Set-NetFirewallRule -ModuleName RIDE-NetworkControls -Times 0
+  }
+}
 Describe 'Coherent registered sound scheme' {
   BeforeEach {
     InModuleScope RIDE-SoundSchemes {

@@ -1,0 +1,132 @@
+{
+  "RecordedAtUtc": "2026-10-27T17:35:00Z",
+  "Batch": "NirSoft encrypted archive extraction and Defender-filtered lifecycle",
+  "SourceArchives": [
+    {
+      "File": "nirlauncher-referred.zip",
+      "Bytes": 41961437,
+      "Sha256": "6cfd973d0f2d34ec2fe5c7cfdcc0bdbcb56a8fad329fb4683f6446602769f1b2",
+      "CentralDirectoryEntries": 668,
+      "SelectedMembers": 658,
+      "ExcludedEntries": 10,
+      "UserReportedAlertBasenames": [
+        "chromecookiesview.exe",
+        "bulletspassview.exe",
+        "produkey.exe",
+        "wirelesskeyview.exe"
+      ],
+      "AdditionalDefenderPreventedPaths": [
+        "NirSoft/iehv.exe",
+        "NirSoft/lanipscanner.exe"
+      ],
+      "MemberHashesAvailable": false
+    },
+    {
+      "File": "x64tools.zip",
+      "Bytes": 2105172,
+      "Sha256": "305556bfa9796fd5320ffe4f87ccc66a1fca6dad5fed7d5653bc21ac5df2806b",
+      "CentralDirectoryEntries": 49,
+      "SelectedMembers": 47,
+      "ExcludedEntries": 2,
+      "ExcludedBasenames": [
+        "produkey.exe",
+        "wirelesskeyview.exe"
+      ],
+      "SelectedMemberHashesAvailable": 47
+    }
+  ],
+  "PublisherReferences": [
+    "https://www.nirsoft.net/launcher/downloads/",
+    "https://mail.nirsoft.net/x64_download_package.html"
+  ],
+  "Implementation": {
+    "Module": "modules/RIDE-PortablePackages.psm1",
+    "CatalogMetadata": "PortableArchivePassword is pinned per exact package operation; values are the publisher-published extraction passphrases and are not treated as private credentials.",
+    "Extraction": "Windows inbox tar.exe with exact catalog member arguments, bounded command batches, and the package passphrase. The handler verifies archive SHA-256, central-directory paths and sizes, rejects links/unsafe paths, and checks exact extracted file count/path/length before package ownership changes.",
+    "HostTarVersion": "bsdtar/libarchive 3.8.9",
+    "HostTarAuthenticode": "Valid; signer CN=Microsoft Windows"
+  },
+  "Validation": {
+    "FocusedTest": "tests/NirsoftCollectionPackages.Tests.ps1, filtered by RIDE_NIRSOFT_ARCHIVE_FILTER",
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Archive": "x64tools.zip",
+      "Pester": "5.7.1",
+      "Passed": 1,
+      "Failed": 0,
+      "DurationSeconds": 67.2,
+      "Lifecycle": "Actual-archive install, repeat install, removal, saved-state restore and operator-note preservation for exactly 47 selected members."
+    },
+    "WindowsPowerShell51": {
+      "Version": "5.1.26100.9711",
+      "Archive": "x64tools.zip",
+      "Pester": "5.7.1",
+      "Passed": 1,
+      "Failed": 0,
+      "DurationSeconds": 35.16,
+      "Lifecycle": "Actual-archive install, repeat install, removal, saved-state restore and operator-note preservation for exactly 47 selected members."
+    },
+    "NirLauncherAttempts": [
+      {
+        "Archive": "nirlauncher-referred.zip",
+        "PowerShell": "7.6.5",
+        "Pester": "5.7.1",
+        "Passed": 0,
+        "Failed": 1,
+        "DurationSeconds": 118.64,
+        "BlockedPath": "NirSoft/iehv.exe",
+        "Result": "Windows returned that the staged file contained a virus or potentially unwanted software; the module stopped and cleaned its temporary stage."
+      },
+      {
+        "Archive": "nirlauncher-referred.zip",
+        "PowerShell": "7.6.5",
+        "Pester": "5.7.1",
+        "Passed": 0,
+        "Failed": 1,
+        "DurationSeconds": 123.02,
+        "BlockedPath": "NirSoft/lanipscanner.exe",
+        "Result": "After excluding iehv.exe, Windows returned that the staged file contained a virus or potentially unwanted software; the module stopped and cleaned its temporary stage."
+      }
+    ],
+    "RepositoryValidation": "Passed after regenerating docs/OPERATIONS.md: 438 operations, 8 groups, 5 profiles, 297 PowerShell files."
+  },
+  "SafetyAndAcceptance": {
+    "UtilitiesLaunched": false,
+    "DefenderAlertEntriesSelectedForExtraction": false,
+    "NewlyBlockedPathsNowExcluded": [
+      "NirSoft/iehv.exe",
+      "NirSoft/lanipscanner.exe"
+    ],
+    "RIDEChangedDefenderSettingsOrAddedAllowRules": false,
+    "AutomaticDefenderDispositionInspected": false,
+    "NirLauncherPackageCommitOccurred": false,
+    "X64TestInstallLocation": "Pester TestDrive only; removed/restored by the focused lifecycle test.",
+    "VmAcceptance": "A fresh read-only Get-VM -Name RIDE-Win11-Test again failed before VM/checkpoint inspection: Access to a CIM resource was not available to the client.",
+    "RemainingAcceptance": [
+      "NirLauncher archive lifecycle after excluding the two newly Defender-prevented files, if no further Defender block occurs",
+      "Disposable Windows 11 lifecycle and target-support decision for both candidates",
+      "NirLauncher behavior and package/configuration coupling"
+    ]
+  },
+  "MigrationEstimate": {
+    "ResolvedLegacyOutcomes": [],
+    "PartialLegacyOutcomes": [
+      "InstallNirsoftLauncher / RemoveNirsoftLauncher",
+      "InstallNirsoftToolsX64 / RemoveNirsoftToolsX64"
+    ],
+    "DeferredOutcomes": [
+      "NirLauncher lifecycle and Windows acceptance",
+      "NirSoft x64 Windows acceptance and utility behavior"
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "127-181",
+      "RoundedTotal": "125-180/about 155"
+    },
+    "Reason": "X64 current-source file lifecycle passed locally, while NirLauncher staging stopped at new Defender prevention and both packages still lack disposable Windows target acceptance; no whole legacy outcome closed."
+  }
+}

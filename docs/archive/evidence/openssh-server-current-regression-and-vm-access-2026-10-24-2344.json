@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T23:44:00Z",
+  "Target": "RIDE-Win11-Test and RIDE-Srv2025Test",
+  "ReadOnlyVmAccessCheck": {
+    "Command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "Result": "Failed before VM or checkpoint inspection: Access to a CIM resource was not available to the client."
+  },
+  "FocusedPester": {
+    "Version": "5.7.1",
+    "TestRegistryEnabled": false,
+    "Files": [
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "Total": 18,
+    "Passed": 18,
+    "Failed": 0,
+    "Skipped": 0,
+    "Inconclusive": 0
+  },
+  "Disposition": {
+    "CandidateRegistered": false,
+    "SupportedTargets": [],
+    "CapabilityServicing": "Not performed",
+    "ServiceOrFirewallChanged": false,
+    "VmOrCheckpointAccessed": false,
+    "WindowsStateChanged": false,
+    "LegacyOutcomeClosed": false,
+    "Deferred": [
+      "Native OpenSSH Server service and firewall behavior",
+      "First-start host-key/configuration handling and recovery acceptance",
+      "Windows 11 and Windows Server 2025 target acceptance",
+      "Catalog and engine integration after acceptance"
+    ]
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "50-65",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "recordedAtUtc": "2026-10-28T16:27:14Z",
+  "kind": "OfficialZimmermanPublisherIndexCurrentVersionReconciliation",
+  "publisher": {
+    "url": "https://ericzimmerman.github.io/",
+    "pageCrawled": "2026-10-28",
+    "currentRecommendation": "Use -NetVersion 10; publisher lists it as recommended default",
+    "artifactHostRequestsMade": false
+  },
+  "selection": {
+    "acceptedLegacyMembers": 26,
+    "outsideSelection": [
+      "iisGeoLocate",
+      "TimeApp",
+      "XWFIM"
+    ],
+    "versionsMatchPinnedSourceMap": true,
+    "selectedVersions": [
+      {
+        "name": "AmcacheParser",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "AppCompatCacheParser",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "bstrings",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "EvtxECmd",
+        "version": "2026.10.2"
+      },
+      {
+        "name": "EZViewer",
+        "version": "2026.10.0"
+      },
+      {
+        "name": "Hasher",
+        "version": "2026.10.0"
+      },
+      {
+        "name": "JLECmd",
+        "version": "2026.10.5"
+      },
+      {
+        "name": "JumpList Explorer",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "LECmd",
+        "version": "2026.10.3"
+      },
+      {
+        "name": "MFTECmd",
+        "version": "2026.10.6"
+      },
+      {
+        "name": "MFTExplorer",
+        "version": "2026.10.0"
+      },
+      {
+        "name": "PECmd",
+        "version": "2026.10.3"
+      },
+      {
+        "name": "RBCmd",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "RecentFileCacheParser",
+        "version": "2026.10.2"
+      },
+      {
+        "name": "RECmd",
+        "version": "2026.10.2"
+      },
+      {
+        "name": "Registry Explorer",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "RLA",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "SBECmd",
+        "version": "2026.10.2"
+      },
+      {
+        "name": "SDB Explorer",
+        "version": "2026.10.0"
+      },
+      {
+        "name": "ShellBags Explorer",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "SQLECmd",
+        "version": "2026.10.3"
+      },
+      {
+        "name": "SrumECmd",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "SumECmd",
+        "version": "2026.10.1"
+      },
+      {
+        "name": "Timeline Explorer",
+        "version": "2026.10.0"
+      },
+      {
+        "name": "VSCMount",
+        "version": "2026.10.0"
+      },
+      {
+        "name": "WxTCmd",
+        "version": "2026.10.1"
+      }
+    ]
+  },
+  "resolved": [
+    "Current official publisher page still maps all 26 selected products to the existing pinned .NET 10 version map."
+  ],
+  "retired": [],
+  "excluded": [],
+  "deferred": [
+    "Exact 26 official ZIP bytes, SHA-256/signature evidence, retained member inventories and notices",
+    "Package implementation/lifecycle and disposable Windows acceptance",
+    "Hasher exact archive verification remains required even though the source map records the .NET 10 route"
+  ],
+  "partial": [
+    "Source/version mapping is current; artifact payloads remain unverified"
+  ],
+  "limitations": [
+    "Publisher index recheck is not artifact-byte or signature verification. No utilities were run. The artifact host was not retried after the previous local DNS failure."
+  ],
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "reason": "This reconciles current publisher versions only; exact payloads and lifecycle acceptance are still outstanding."
+  }
+}

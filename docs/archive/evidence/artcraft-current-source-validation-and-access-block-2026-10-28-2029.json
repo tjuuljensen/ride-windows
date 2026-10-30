@@ -1,0 +1,59 @@
+{
+  "batch": "Artcraft focused current-source validation and acceptance access recheck",
+  "timestampUtc": "2026-10-28T20:29:52Z",
+  "checkout": "Windows filesystem checkout at C:\\Users\\tjuuljensen\\git\\ride-windows",
+  "scope": [
+    "tests/ArtcraftPackages.Tests.ps1",
+    "tools/validate.ps1 -Root .",
+    "Get-VM -Name RIDE-Win11-Test"
+  ],
+  "results": {
+    "focusedTest": {
+      "status": "not-run",
+      "reason": "Pester 5.7.1 is unavailable in PowerShell 7.6.5 and Windows PowerShell 5.1 module paths; only Pester 3.4.0 was found.",
+      "assertionsRun": 0
+    },
+    "repositoryValidation": {
+      "status": "passed",
+      "operations": 447,
+      "groups": 8,
+      "profiles": 5,
+      "powerShellFiles": 301,
+      "generatedOperationDocumentation": "current"
+    },
+    "vm": {
+      "status": "blocked-before-state-read",
+      "error": "Access to a CIM resource was not available to the client.",
+      "guestRequestSubmitted": false
+    }
+  },
+  "sideEffects": {
+    "payloadDownloaded": false,
+    "installerExecuted": false,
+    "utilityExecuted": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "migration": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Artcraft current-source Pester regression until Pester 5.7.1 is available",
+      "Windows acceptance for cases requiring RIDE-Win11-Test access"
+    ],
+    "partial": [
+      "No Artcraft legacy outcome closed in this run."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

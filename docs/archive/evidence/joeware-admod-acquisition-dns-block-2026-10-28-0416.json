@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-28T04:16:42Z",
+  "batch": "JoeWare AdMod publisher acquisition retry",
+  "product": "AdMod",
+  "productVersion": "1.29.00",
+  "sourceReview": "Official product and usage pages were reviewed in the preceding source batch; the product remains a direct-download/install candidate. Usage information describes freeware and asks commercial product packagers to contact the publisher for licensing information. This is recorded as product guidance, not a migration gate.",
+  "acquisition": {
+    "script": "tools/Download-JoeWareCollection.ps1",
+    "command": "Download-JoeWareCollection.ps1 -Product AdMod -DestinationDirectory .local/joeware-admod-acquisition-20261028 -Confirm:$false",
+    "firstRequest": "https://www.joeware.net/freetools/versions.txt",
+    "result": "Failed before retrieving the version list: No such host is known.",
+    "productFormSubmitted": false,
+    "payloadBytesReceived": 0,
+    "extractionOrExecution": false,
+    "destinationWasEmptyBefore": true,
+    "filesWritten": 0
+  },
+  "disposition": "AdMod remains selected for migration. Retry exact publisher acquisition when JoeWare DNS resolves. AdFind remains independently excluded by the existing Defender policy; this AdMod request was not Defender-blocked.",
+  "safety": {
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; the repeat acquisition attempt closed no legacy outcome and left the same DNS prerequisite."
+  }
+}

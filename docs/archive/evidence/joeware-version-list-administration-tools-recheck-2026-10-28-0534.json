@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:34:36Z",
+  "batch": "JoeWare UserDump, DNSSrvRec and ELDLLEx version-list reconciliation",
+  "sources": {
+    "versionList": {
+      "uri": "https://www.joeware.net/freetools/versions.txt",
+      "updated": "2023.05.06",
+      "facts": {
+        "UserDump": {
+          "version": "01.01.00",
+          "date": "2001.01.28",
+          "md5": "a14ac214dd83ecf75c5032ba1098c416",
+          "sha1": "d263cd402c4d203c17aa0274c9082ddbac1240b3"
+        },
+        "DNSSrvRec": {
+          "version": "01.00.00",
+          "date": "2006.01.15",
+          "md5": "2d36802ffe70e3328e62dd3094123af2",
+          "sha1": "a25663bf9db368247aba79ef381830943932f1da"
+        },
+        "ELDLLEx": {
+          "version": "01.00.00",
+          "date": "2002.02.17",
+          "md5": null,
+          "sha1": null
+        }
+      },
+      "limitation": "Publisher MD5/SHA-1 rows do not identify or verify an acquired ZIP archive or its executable member bytes."
+    },
+    "UserDumpProductPage": {
+      "uri": "https://www.joeware.net/freetools/tools/userdump/index.htm",
+      "freshness": "The web reader returned an official cached page, crawled approximately eight months earlier.",
+      "facts": [
+        "Current Version says 1.01.00 dated 2001-01-28, matching the version-list digits/date after leading-zero normalization.",
+        "Version History lists 2.02.00 for the same date; this remains a source-page inconsistency.",
+        "The page describes enumerating user account status fields from an NT-based system and lists Windows NT, Windows 2000, Windows Server 2003 and Windows XP only. These are not RIDE support declarations."
+      ]
+    },
+    "JoeWareFreeToolsPage": {
+      "uri": "https://www.joeware.net/freetools/",
+      "freshness": "The web reader returned the publisher's official page crawled the previous day.",
+      "facts": [
+        "Describes DNSSrvRec as a command-line user utility to add/remove arbitrary DNS SRV records.",
+        "Describes ELDLLEx as two DLLs for customized event logging and message IDs below 200.",
+        "Its compatibility matrix contains historical Windows releases only and does not establish Windows 11 support."
+      ]
+    },
+    "productPageRecheck": {
+      "DNSSrvRec": "Official product page fetch returned a cache miss; no current page details were obtained.",
+      "ELDLLEx": "Official product page fetch returned a cache miss; no current page details were obtained."
+    }
+  },
+  "actions": {
+    "publisherDownloadFormSubmitted": false,
+    "payloadBytesAcquired": false,
+    "archiveOrMemberBytesInspected": false,
+    "payloadExtractedOrExecuted": false,
+    "defenderOrWindowsStateChanged": false,
+    "vmAccessedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The UserDump current-version field matches the version-list version/date; the remaining 2.02.00 history entry is retained as an inconsistency.",
+      "DNSSrvRec and ELDLLEx version-list rows and their digest availability are recorded for exact-archive comparison."
+    ],
+    "partial": [
+      "No exact archive, SHA-256, member identity or Windows 11 behavior was verified."
+    ],
+    "deferred": [
+      "Exact archive/member verification and lifecycle review for UserDump, DNSSrvRec and ELDLLEx.",
+      "Re-read DNSSrvRec and ELDLLEx product pages when the publisher page content is available to the reader."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "No exact package artifact or lifecycle outcome closed; estimates remain unchanged."
+    }
+  }
+}

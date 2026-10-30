@@ -1,0 +1,93 @@
+{
+  "RecordedAtUtc": "2026-10-27T18:35:00Z",
+  "Batch": "NirSoft Defender-filtered publisher archive retry",
+  "SourceArchive": {
+    "File": "nirlauncher-referred.zip",
+    "Bytes": 41961437,
+    "Sha256": "6cfd973d0f2d34ec2fe5c7cfdcc0bdbcb56a8fad329fb4683f6446602769f1b2",
+    "CentralDirectoryEntries": 668,
+    "SelectedMembers": 647,
+    "ExcludedEntries": 21,
+    "MemberHashesAvailable": false
+  },
+  "ExcludedExecutablePaths": [
+    "NirSoft/chromecookiesview.exe",
+    "NirSoft/x64/chromecookiesview.exe",
+    "NirSoft/bulletspassview.exe",
+    "NirSoft/x64/bulletspassview.exe",
+    "NirSoft/produkey.exe",
+    "NirSoft/x64/produkey.exe",
+    "NirSoft/wirelesskeyview.exe",
+    "NirSoft/x64/wirelesskeyview.exe",
+    "NirSoft/iehv.exe",
+    "NirSoft/lanipscanner.exe",
+    "NirSoft/lsasecretsdump.exe",
+    "NirSoft/x64/lsasecretsdump.exe",
+    "NirSoft/operapassview.exe",
+    "NirSoft/routerpassview.exe",
+    "NirSoft/netpass.exe",
+    "NirSoft/x64/netpass.exe",
+    "NirSoft/webbrowserbookmarksview.exe",
+    "NirSoft/browserautofillview.exe",
+    "NirSoft/x64/browserautofillview.exe",
+    "NirSoft/passwordscan.exe",
+    "NirSoft/x64/passwordscan.exe"
+  ],
+  "DefenderObservations": {
+    "PreviouslyReportedPreventionPaths": [
+      "NirSoft/iehv.exe",
+      "NirSoft/lanipscanner.exe",
+      "NirSoft/x64/passwordscan.exe"
+    ],
+    "LatestUserAlertPath": "C:/Users/tjuuljensen/git/ride-windows/.local/nirsoft-encrypted-launcher-filtered-pester-tmp/RIDE-Portable-dd1c11ff272241dab6884a3f14a78f50/NirSoft/x64/passwordscan.exe",
+    "Classification": "The user-reported Windows Defender block is recorded as an exclusion input. No independent threat or false-positive assessment was made."
+  },
+  "Validation": {
+    "FocusedTest": "tests/NirsoftCollectionPackages.Tests.ps1 filtered to the retained NirLauncher archive lifecycle",
+    "FilteredStaticPester": {
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "Test": "pins the NirLauncher publisher snapshot and omits all alerted or Defender-blocked tools",
+      "Passed": 1,
+      "Failed": 0,
+      "NotRun": 4,
+      "PesterTestRegistryAndTestResultPlugins": "Disabled for sandboxed local validation."
+    },
+    "Result": "Incomplete; the process produced no Pester result while the observed temporary tree showed no file-count or last-write progress. The process was stopped after bounded polling. Do not treat as pass or failure.",
+    "TemporaryTreeObservation": "648 files were present in a prior Pester TestDrive tree; no active RIDE-Portable stage appeared during the final inspection. No package commit was observed.",
+    "StaticSelectionExpectation": "647 selected of 668; 21 excluded archive entries"
+  },
+  "SafetyAndAcceptance": {
+    "UtilitiesLaunched": false,
+    "DefenderSettingsChangedOrAllowRulesAdded": false,
+    "QuarantineOrDefenderHistoryInspected": false,
+    "PackageCommitOccurred": false,
+    "VmAcceptance": "A fresh read-only Get-VM -Name RIDE-Win11-Test again failed at host CIM before VM or checkpoint inspection: Access to a CIM resource was not available to the client.",
+    "RemainingAcceptance": [
+      "NirLauncher actual publisher-archive lifecycle using the 647-entry filtered selection",
+      "Disposable Windows 11 lifecycle and target-support decision for both NirSoft candidates",
+      "NirLauncher behavior and package/configuration coupling"
+    ]
+  },
+  "MigrationEstimate": {
+    "ResolvedLegacyOutcomes": [],
+    "PartialLegacyOutcomes": [
+      "InstallNirsoftLauncher / RemoveNirsoftLauncher",
+      "InstallNirsoftToolsX64 / RemoveNirsoftToolsX64"
+    ],
+    "DeferredOutcomes": [
+      "NirLauncher publisher-archive lifecycle and Windows acceptance",
+      "NirSoft x64 Windows acceptance and utility behavior"
+    ],
+    "EstimateRangesUnchanged": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "127-181",
+      "RoundedTotal": "125-180/about 155"
+    },
+    "Reason": "The user-reported x64 PasswordScan block was excluded in the 647-member retry selection. The retry did not produce a result, no whole legacy outcome closed, and VM acceptance remains blocked before inspection by host CIM access."
+  }
+}

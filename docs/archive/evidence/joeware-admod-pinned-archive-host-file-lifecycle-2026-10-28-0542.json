@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:42:24Z",
+  "batch": "JoeWare AdMod pinned archive host-local file lifecycle",
+  "runtime": {
+    "powerShell": "7.6.5",
+    "execution": "Direct module-level file lifecycle in an isolated workspace path; not a VM acceptance run.",
+    "pester": "Not used; PowerShell 7 Pester 5 was unavailable in this session."
+  },
+  "artifact": {
+    "path": ".local/joeware-admod-ride-managed-cache/joeware-admod/1.29.00/AdMod.zip",
+    "version": "1.29.00",
+    "architecture": "x86",
+    "archiveBytes": 811771,
+    "archiveSha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+    "selectedMembers": ["AdMod.exe"],
+    "memberSha256": "86c922fc98c115ea21c2053739938234fd90ce626ed227b2c3c122c2484e4d79"
+  },
+  "checks": {
+    "cachedArchiveMatchedCatalogPin": true,
+    "capturedPriorAbsence": true,
+    "installedExactSelectedMember": true,
+    "stagedMemberMatchedPublisherHash": true,
+    "repeatInstallHealthy": true,
+    "capturedInstalledState": true,
+    "removedOwnedState": true,
+    "restoredExactInstalledBytesAndHealthyState": true,
+    "restoredOriginalAbsence": true,
+    "temporaryWorkspaceCleaned": true
+  },
+  "initialHarnessAttempt": {
+    "result": "Recovery health assertion failed.",
+    "setup": "The first attempt used a synthetic prior package version and digest, then replaced it with the catalog-pinned archive.",
+    "cause": "Not established. The first attempt did not emit post-restore diagnostics and must not be attributed to a product defect or dismissed as a fixture mismatch.",
+    "productCodeChanged": false,
+    "fixtureCleanupCompleted": true,
+    "countedAsAcceptance": false
+  },
+  "crossVersionRecoveryDiagnostic": {
+    "recordedAtUtc": "2026-10-28T05:46:11Z",
+    "result": "Passed in an isolated diagnostic rerun using a synthetic prior owned state and the pinned AdMod archive as the newer state.",
+    "priorVersionRestored": "prior-fixture-1.0",
+    "afterRestorePresent": true,
+    "afterRestoreHealthy": true,
+    "manifestStatus": "Installed",
+    "restoredActualSha256": "2b443c6e6d3c54d8a66a46692d2f9d42f7b4ed86b02be879b57b7cc90c1e5c97",
+    "restoredExpectedSha256": "2b443c6e6d3c54d8a66a46692d2f9d42f7b4ed86b02be879b57b7cc90c1e5c97",
+    "diagnosticWorkspaceCleaned": true,
+    "utilityExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "safety": {
+    "utilityExecuted": false,
+    "archiveExtractedOutsideIsolatedWorkspace": false,
+    "defenderBlockedPayloadSelectedOrStaged": false,
+    "defenderQueriedOrChanged": false,
+    "registryOrWindowsStateChanged": false,
+    "vmOrCheckpointAccessed": false,
+    "elevationRequested": false
+  },
+  "remainingBlockers": [
+    "Fresh publisher acquisition remains DNS-blocked at www.joeware.net.",
+    "AdMod is a machine-scope candidate; full engine-driven install/repeat/remove/saved-run recovery and Windows 11 behavior remain pending disposable VM access and required guest elevation."
+  ],
+  "migrationOutcome": {
+    "resolved": [
+      "The pinned cached AdMod archive passes actual-archive host-local portable member staging, repeat, removal, exact installed-state recovery and prior-absence recovery without executing the utility."
+    ],
+    "partial": [
+      "Host-local module file lifecycle does not establish the machine-scope RIDE engine path, guest ACL behavior, or Windows 11 acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; verification advanced but no legacy product outcome closed."
+    }
+  }
+}

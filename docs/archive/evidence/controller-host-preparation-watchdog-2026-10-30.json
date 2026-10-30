@@ -1,0 +1,95 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T10:48:10.4775322Z",
+  "Status": "SourcePrepared",
+  "Purpose": "Bound controller host preparation and recovery after interrupted request c029135dbae34c30b1e68a820fc8fd09",
+  "LocalValidation": {
+    "Environment": "Windows-native Windows PowerShell 5.1; inert process tests outside sandbox after sandboxed taskkill stalled",
+    "Watchdog": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 11,
+      "Passed": 11,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "Controller": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 158,
+      "Passed": 158,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "Repository": {
+      "Status": "Passed",
+      "PowerShellFiles": 312,
+      "Operations": 451,
+      "Profiles": 5,
+      "Groups": 8
+    }
+  },
+  "Budgets": {
+    "ExecutionGraceSeconds": 15,
+    "TaskkillSeconds": 10,
+    "PreparationSeconds": 300,
+    "MaximumRecoveryBeyondRequestSeconds": 240,
+    "RecoverySeconds": 180,
+    "ProcessExitSeconds": 5
+  },
+  "Files": [
+    {
+      "Path": "tests/integration/RIDE.TestAutomation.psm1",
+      "Sha256": "eb0dadebfb9420ba6ba3b995b56dbb28b58c69e1a1d3028757c06fc65bd25150"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTestTaskWorker.ps1",
+      "Sha256": "cacc121c6420bbe79d3b3872198cf87a9afa9cfc43700a58f1c308304362c943"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTestRequest.ps1",
+      "Sha256": "c45edd8880a971420a9b8c2f18388a98dc3638ad2c9f63d25afddf01e71cab2d"
+    },
+    {
+      "Path": "tests/integration/Register-RideVmTestTask.ps1",
+      "Sha256": "da6f339314157f015adbd7524d6f4982d4227849fe5af0f34d9ad7c73a44a399"
+    },
+    {
+      "Path": "tests/integration/Test-RideVmHostPreparation.ps1",
+      "Sha256": "7fb83095379913c7e6814ec12c06a4b59a2136e62711b0a28f847e26b01d1dab"
+    },
+    {
+      "Path": "tests/AutomationWatchdog.Tests.ps1",
+      "Sha256": "090ca07222c1ebb02f41c9483e3c53202ad9a3aa2ef26fface4b16586c2b2641"
+    },
+    {
+      "Path": "tests/TestAutomation.Tests.ps1",
+      "Sha256": "1fac341cce1c442f46994eb8c80b4b588d0d311263095c05c691d18444275c2c"
+    }
+  ],
+  "Runtime": {
+    "ProjectMakerAcceptance": "Unresolved; no retry performed",
+    "ControllerCertification": "NotValidated",
+    "HostProbe": "Pending",
+    "VmChanged": false,
+    "InstallerExecuted": false,
+    "ProtectedControllerRefreshed": false
+  },
+  "Next": "Run the bounded host-only probe in the elevated registered host account; inspect result, then refresh registration and verify capability/hashes before one focused runtime check.",
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "Components": "19-24",
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Rounded": "125-180",
+    "FilesAndAssets": "25-35",
+    "Exact": "126-180",
+    "Maintenance": "8-12"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "runId": "dcee70c938d14e7e90fdc1edad0c71cc",
+  "suite": "NTCoreAdditional",
+  "target": "Windows 11",
+  "build": "26300",
+  "status": "Passed",
+  "startedAtUtc": "2026-10-25T03:56:26.5273726Z",
+  "finishedAtUtc": "2026-10-25T04:02:57.1335171Z",
+  "expectedCases": 3,
+  "completedCases": 3,
+  "passedCases": 3,
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "payloadExecution": false,
+  "toolExecuted": false,
+  "functionalAcceptance": "Pending",
+  "runtimeAcceptance": "NotSelected",
+  "activationAcceptance": "Pending",
+  "controllerErrors": [],
+  "vm": "RIDE-Win11-Test",
+  "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "sourceContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+  "sourceCommit": "17f9cef121d9544ea7ef6b97429021040262040b",
+  "cases": [
+    {
+      "Id": "package.ntcore-driver-list",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "DriverList_x64.exe",
+          "Sha256": "de90b5c29c0c1438c728b98252ba7a9e4e26a06913c575e8c44faba36ea4babf",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        }
+      ],
+      "RunIds": [
+        "ddbacc2ac03c4e69b4f44923fbe70155",
+        "a55a3ec1367b41ff99f3c190a79a6705",
+        "a25d828e80484f24883d9bdd1925ecfa"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.ntcore-driver-list' failed. Run ID: a115180b986d4984bfc4f2f46cce5fb5. Saved state: package.ntcore-driver-list. Completed operations: <none>. Error: Portable destination collision: DriverList_x64.exe",
+      "ModifiedRefusal": "RIDE operation 'package.ntcore-driver-list' failed. Run ID: b4b27dddacf9468fa24b97cb84d1f6ef. Saved state: package.ntcore-driver-list. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.ntcore-driver-list",
+      "Variant": "portable-x86",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "DriverList_x86.exe",
+          "Sha256": "2daef3855fc3ab60a3f671ebbd52f493870a494486d57c4b99a112cdbd651e4f",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        }
+      ],
+      "RunIds": [
+        "d0b8ac83c874416ca1c8a74bae9fe11e",
+        "39c2a7fc609a4b81842c7f6a23a23bd9",
+        "5a60f56d790940f2afe48b2c6f46a881"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.ntcore-driver-list' failed. Run ID: c91447c4f94344c39c3ab9413380de2a. Saved state: package.ntcore-driver-list. Completed operations: <none>. Error: Portable destination collision: DriverList_x86.exe",
+      "ModifiedRefusal": "RIDE operation 'package.ntcore-driver-list' failed. Run ID: 60a31060840244fabbcc70072bafbfa4. Saved state: package.ntcore-driver-list. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.ntcore-rebelnet",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "RebelDotNET.exe",
+          "Sha256": "cc54efdf25852b677ed3cf73f4fb018a29c75103e611e306c0fe1a9f9468a665",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "RebelDotNET.h",
+          "Sha256": "f50c5bf92f24ada49711a3944acf00bc6d3034558c8c73183e9a35e25b0fd86a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "RunIds": [
+        "57e9207e1d3e4bad8a45d97b089f14f0",
+        "1814bdef5c5e42df8061a50aa3df63bb",
+        "40b3106782d54d7eb0993ed53cda4f34"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.ntcore-rebelnet' failed. Run ID: 3ce6d8129daa4f488bb50278a01dd48d. Saved state: package.ntcore-rebelnet. Completed operations: <none>. Error: Portable destination collision: RebelDotNET.exe",
+      "ModifiedRefusal": "RIDE operation 'package.ntcore-rebelnet' failed. Run ID: 81f57af160bb45c7888f8ab1d312cfa0. Saved state: package.ntcore-rebelnet. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "sourceEvidencePath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\dcee70c938d14e7e90fdc1edad0c71cc\\focused\\evidence"
+}

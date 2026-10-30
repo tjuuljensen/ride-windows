@@ -301,15 +301,21 @@ Describe 'MSI and scoped package lifecycle' {
       if ((Get-Item -LiteralPath $localRoot).Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Package evidence fixtures cannot use a reparse-point .local directory.' }
       $script:PackageEvidenceTestRoot = Join-Path $localRoot ('package-evidence-tests-' + [guid]::NewGuid().ToString('N'))
       $null = New-Item -ItemType Directory -Path $script:PackageEvidenceTestRoot
+      $script:PreviousProgramFiles = $env:ProgramFiles
+      $env:ProgramFiles = Join-Path $script:PackageEvidenceTestRoot 'Program Files'
     }
     AfterEach {
-      if ([IO.Directory]::Exists($script:PackageEvidenceTestRoot)) {
-        $resolvedRoot = [IO.Path]::GetFullPath((Resolve-Path -LiteralPath $script:PackageEvidenceTestRoot).Path)
-        $expectedParent = [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $PSScriptRoot) '.local'))
-        if (([IO.Path]::GetDirectoryName($resolvedRoot) -cne $expectedParent) -or
-            (Split-Path -Leaf $resolvedRoot) -notmatch '^package-evidence-tests-[0-9a-f]{32}$' -or
-            (([IO.File]::GetAttributes($resolvedRoot) -band [IO.FileAttributes]::ReparsePoint) -ne 0)) { throw 'Refusing to clean an unexpected package evidence fixture path.' }
-        Remove-Item -LiteralPath $resolvedRoot -Recurse -Force
+      try {
+        if ([IO.Directory]::Exists($script:PackageEvidenceTestRoot)) {
+          $resolvedRoot = [IO.Path]::GetFullPath((Resolve-Path -LiteralPath $script:PackageEvidenceTestRoot).Path)
+          $expectedParent = [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $PSScriptRoot) '.local'))
+          if (([IO.Path]::GetDirectoryName($resolvedRoot) -cne $expectedParent) -or
+              (Split-Path -Leaf $resolvedRoot) -notmatch '^package-evidence-tests-[0-9a-f]{32}$' -or
+              (([IO.File]::GetAttributes($resolvedRoot) -band [IO.FileAttributes]::ReparsePoint) -ne 0)) { throw 'Refusing to clean an unexpected package evidence fixture path.' }
+          Remove-Item -LiteralPath $resolvedRoot -Recurse -Force
+        }
+      } finally {
+        $env:ProgramFiles = $script:PreviousProgramFiles
       }
     }
     It 'rejects a retained artifact changed after acquisition before invoking an installer' {

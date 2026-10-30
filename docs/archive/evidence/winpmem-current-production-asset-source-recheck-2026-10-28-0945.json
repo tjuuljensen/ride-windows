@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:45:02Z",
+  "batch": "WinPmem current production-asset source recheck",
+  "source": "Official Velocidex/WinPmem release page, opened 2026-10-28",
+  "sourceUri": "https://github.com/Velocidex/WinPmem/releases",
+  "publisherFindings": {
+    "newestReleaseShown": "v4.1.dev1",
+    "newestReleaseStatus": "Pre-release",
+    "developmentDriver": "Publisher states this release uses a test-signed driver and requires enabling test signing plus rebooting for the documented test flow.",
+    "productionAsset": "go-winpmem_amd64_1.0-rc2_signed.exe",
+    "productionStatement": "The release page says to use this binary for production and distinguishes it from the test-signed development driver build.",
+    "releaseAssetList": "GitHub asset list did not render in the page response; the selected binary was not independently downloaded or rehashed."
+  },
+  "catalog": {
+    "operation": "package.winpmem",
+    "packageVersion": "1.0-rc2",
+    "downloadUri": "https://github.com/Velocidex/WinPmem/releases/download/v4.1.dev1/go-winpmem_amd64_1.0-rc2_signed.exe",
+    "expectedSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+    "scope": "Machine",
+    "requiresAdmin": true,
+    "supportedTargets": [],
+    "pendingAcceptance": true
+  },
+  "handling": {
+    "publisherPayloadDownloaded": false,
+    "catalogChanged": false,
+    "fileSignatureInspected": false,
+    "utilityLaunched": false,
+    "driverLoaded": false,
+    "memoryCaptured": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceAccess": {
+    "checkedAtUtc": "2026-10-28T09:45:46Z",
+    "GetVm": "Get-VM -Name RIDE-Win11-Test,RIDE-Server2025-Test failed before guest inspection: Access to a CIM resource was not available to the client.",
+    "PowerShellRemoting": "Get-PSSession reports Windows PowerShell remoting is unavailable or unsupported in this execution environment.",
+    "WinRMService": "Get-Service WinRM reports no service with that name in this execution environment.",
+    "guestOrCheckpointInspected": false,
+    "acceptanceTaskDispatched": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current publisher wording still distinguishes the catalog-pinned signed production binary from the newer test-signed pre-release driver build."
+    ],
+    "partial": [
+      "Catalog release source and prior publisher asset digest remain recorded; this page refresh did not retrieve or verify current artifact bytes."
+    ],
+    "deferred": [
+      "Acquire and verify the exact production asset, then complete disposable-Windows deployment-only lifecycle acceptance. Driver loading and memory capture require separate explicit acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source wording was refreshed, but no payload or Windows acceptance evidence was added."
+    }
+  },
+  "relatedEvidence": [
+    "winpmem-official-release-source-recheck-2026-10-25-1835.json"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:30:36Z",
+  "batch": "WinPmem focused runner regressions and host VM/controller access check",
+  "localRegression": {
+    "shell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "discoveredAcrossSelectedFiles": 198,
+    "selectedTests": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 186,
+    "cases": [
+      {
+        "file": "tests/PortableAcceptanceAutomation.Tests.ps1",
+        "selected": 2,
+        "passed": 2,
+        "details": "Exact pinned WinPmem file candidate selection and inert .exe payload allowance limited to that candidate."
+      },
+      {
+        "file": "tests/TestAutomation.Tests.ps1",
+        "selected": 10,
+        "passed": 10,
+        "details": "Mocked fixed-controller dispatch matrix; the WinPmem case passed and did not request RunAs."
+      }
+    ],
+    "initialDispatchAttempt": "Ten selected dispatch cases failed before assertions because the sandbox denied an atomic temporary-file write/rename. The successful rerun used a unique workspace-local process TEMP/TMP and cleaned it afterward."
+  },
+  "hostAccess": {
+    "vmQuery": "Get-VM for RIDE-Win11-Test and RIDE-Server2025-Test failed with 'Access to a CIM resource was not available to the client' before VM or checkpoint inspection.",
+    "registeredTaskQuery": "Get-ScheduledTask -TaskName RIDE* failed with the same CIM access denial before task inspection."
+  },
+  "handling": {
+    "payloadWasInertText": true,
+    "publisherBinaryDownloaded": false,
+    "executableOrDriverRun": false,
+    "controllerRequestSubmitted": false,
+    "vmCheckpointInspectedOrChanged": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false,
+    "persistentTempOrExecutionPolicyChanged": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current WinPmem selector/payload restrictions and mocked fixed-controller dispatch pass 12/12 focused cases."
+    ],
+    "partial": [
+      "Local runner contract is regression-tested; this does not prove protected-controller refresh, actual payload bytes or guest execution."
+    ],
+    "deferred": [
+      "Acquire and validate the pinned publisher binary, refresh the protected controller in a planned elevated session, then run the exact file-only batch on the existing disposable Windows 11 checkpoint."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; local contract regression closes no whole legacy package outcome."
+    }
+  },
+  "relatedEvidence": [
+    "winpmem-focused-file-acceptance-runner-preparation-2026-10-28-1008.json",
+    "winpmem-inert-single-file-handler-lifecycle-2026-10-28-1010.json"
+  ]
+}

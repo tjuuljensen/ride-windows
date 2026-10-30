@@ -1,0 +1,88 @@
+{
+  "recordedAtUtc": "2026-10-28T13:52:10Z",
+  "batch": "PSScriptTools and ThreadJob current source/dependency status reconciliation",
+  "evidenceReferences": [
+    "psscripttools-current-catalog-prerequisite-plan-readonly-2026-10-28-1038.json",
+    "psscripttools-threadjob-2.2.0-current-source-and-handler-lifecycle-2026-10-28-1041.json",
+    "psscripttools-threadjob-dependency-plan-and-removal-guard-probe-2026-10-28-1044.json",
+    "psscripttools-real-archive-current-source-lifecycle-and-controller-queue-block-2026-10-27-0804.json",
+    "ride-win11-test-vm-cim-access-preflight-2026-10-28-1345.json"
+  ],
+  "threadJobDependency": {
+    "operationId": "package.microsoft-powershell-threadjob",
+    "version": "2.2.0",
+    "archiveLength": 49678,
+    "sha256": "1678c5a5a5cf8ae65e127ecc77dfb7241513a61a1a398a4f79f44f12767108bc",
+    "catalogSha256Match": true,
+    "nuspecAndManifestVersionsAgree": true,
+    "fileCount": 10,
+    "signatureEntryPresentButNotCryptographicallyVerified": true,
+    "pesterTestsRunInThisReconciliation": false,
+    "portableHandlerLifecycle": {
+      "install": true,
+      "repeatInstall": true,
+      "exactOwnedFileHealth": true,
+      "uninstall": true,
+      "installedSnapshotRecovery": true,
+      "priorAbsenceRecovery": true,
+      "operatorSentinelPreserved": true
+    }
+  },
+  "dependentPackage": {
+    "operationId": "package.psscripttools",
+    "version": "3.2.0-549fa3e3d769",
+    "archiveSha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+    "archiveEvidence": "psscripttools-real-archive-current-source-lifecycle-and-controller-queue-block-2026-10-27-0804.json",
+    "localPesterLifecycle": {
+      "result": "passed",
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "fileCount": 360,
+      "upstreamModuleImported": false,
+      "upstreamCodeExecuted": false,
+      "recordedAtUtc": "2026-10-27T08:04:53Z"
+    },
+    "catalogInstallPlanOrdersDependencyFirst": true,
+    "removalGuardRefusesDependencyRemovalWhileDependentIsInstalled": true
+  },
+  "runtimeLimitations": [
+    "PSScriptTools was not imported or invoked and its DLL was not loaded.",
+    "Runtime behavior and ThreadJob command use remain unverified.",
+    "Pester 5 is unavailable in the current shell; the focused suite was not rerun.",
+    "Registered Windows controller package metadata remains stale, and RIDE-Win11-Test host CIM access failed before checkpoint inspection."
+  ],
+  "stateChanges": {
+    "installerExecuted": false,
+    "systemPackageInstalled": false,
+    "vmOrWindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "ThreadJob 2.2.0 exact-source identity and RIDE portable file lifecycle are verified.",
+      "The current package plan and dependent-removal guard are reconciled."
+    ],
+    "partial": [
+      "PSScriptTools file lifecycle and dependency planning are verified, but runtime, engine dispatch and target acceptance remain open."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "PSScriptTools runtime acceptance on Windows 11 and Server 2025.",
+      "Pester 5 regression, cryptographic package-signature verification and registered-controller rerun."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the reconciled dependency and file lifecycle evidence does not prove runtime compatibility or close a legacy outcome."
+    }
+  }
+}

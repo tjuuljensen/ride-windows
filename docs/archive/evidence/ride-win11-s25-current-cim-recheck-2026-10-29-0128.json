@@ -1,0 +1,31 @@
+{
+  "recordedAtUtc": "2026-10-29T01:28:58Z",
+  "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+  "probe": "Read-only Get-VM by registered VM names",
+  "result": "failed_before_state_retrieval",
+  "error": "Access to a CIM resource was not available to the client.",
+  "vmStateReturned": false,
+  "checkpointTaskOrQueueInspected": false,
+  "guestRequestDispatched": false,
+  "vmWindowsOrDefenderStateChanged": false,
+  "elevationRequested": false,
+  "blockedAcceptance": [
+    "Windows 11 package and setting lifecycle acceptance",
+    "Windows Server 2025 package and component lifecycle acceptance",
+    "Full UnitOnly guest regression and controller certification"
+  ],
+  "nextAction": "Retry the read-only VM/controller preflight after host CIM access is restored; do not infer VM readiness from local tests.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

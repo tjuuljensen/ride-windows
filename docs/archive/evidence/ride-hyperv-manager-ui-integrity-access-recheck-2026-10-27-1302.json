@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "HyperVManagerReadOnlyUiAccessRecheck",
+  "RecordedAtUtc": "2026-10-27T13:02:22Z",
+  "App": "Hyper-V Manager (mmc.exe)",
+  "Observation": {
+    "Screenshot": "Black/blank capture; no VM rows or state readable.",
+    "WindowReturned": true,
+    "Accessibility": "Limited: target window has higher Windows integrity than Computer Use helper",
+    "WindowTitle": "Hyper-V Manager"
+  },
+  "Actions": {
+    "VMSelected": false,
+    "CheckpointInspected": false,
+    "ElevationRequested": false,
+    "InputSent": false,
+    "WindowActivated": false,
+    "RequestDispatched": false
+  },
+  "Effects": {
+    "CheckpointChanged": false,
+    "HostChanged": false,
+    "DefenderChanged": false,
+    "WindowsChanged": false,
+    "VMChanged": false
+  },
+  "Result": "UI path did not expose VM/checkpoint status and did not bypass the host CIM denial.",
+  "Acceptance": {
+    "Status": "blocked",
+    "Blocker": "Host CIM denies Get-VM; Hyper-V Manager runs at higher integrity than Computer Use helper, and its captured contents were unreadable.",
+    "NextStep": "Resume read-only VM/task inspection when an authorized host access path is available; continue source/local batches meanwhile."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Deferred": [
+      "Native Windows 11/Server 2025 VM acceptance"
+    ],
+    "Excluded": [],
+    "Retired": [],
+    "EstimateReason": "Read-only UI access recheck confirms acceptance cannot proceed through the current UI path; no legacy outcome or range changed.",
+    "Estimates": {
+      "Rounded": "125-180/about 155",
+      "Packages": "38-53",
+      "Maintenance": "8-12",
+      "FilesAssets": "25-35",
+      "Settings": "37-57",
+      "Exact": "127-181",
+      "Components": "19-24"
+    }
+  }
+}

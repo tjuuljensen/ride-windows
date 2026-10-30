@@ -1,0 +1,35 @@
+{
+  "RecordedAtUtc": "2026-10-26T06:35:17Z",
+  "Scope": "Read-only registered VM and acceptance-task access recheck",
+  "Targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+  "GetVM": {
+    "Result": "Failed before VM or checkpoint inspection",
+    "Error": "Access to a CIM resource was not available to the client."
+  },
+  "RegisteredWindows11Task": {
+    "Task": "\\RIDE\\RIDEWin11Test",
+    "QueryResult": "ERROR: The network address is invalid."
+  },
+  "Effects": {
+    "GuestRequestSent": false,
+    "ElevationPromptRequested": false,
+    "VMOrCheckpointChanged": false,
+    "HostServiceChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "NativeAcceptance": "Deferred until host CIM and registered Task Scheduler access are restored.",
+    "IndependentSourceReview": "Continue where publisher data is accessible without VM execution.",
+    "LegacyOutcomesClosed": 0,
+    "EstimateChanged": false,
+    "EstimatedRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

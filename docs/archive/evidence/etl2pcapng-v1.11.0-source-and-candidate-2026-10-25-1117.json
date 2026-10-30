@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:17:00Z",
+  "package": {
+    "id": "package.etl2pcapng",
+    "version": "1.11.0",
+    "releasePage": "https://github.com/microsoft/etl2pcapng/releases",
+    "releaseUri": "https://github.com/microsoft/etl2pcapng/releases/download/v1.11.0/etl2pcapng.exe",
+    "releasePublishedAtUtc": "2023-10-25T22:49:16Z",
+    "tagCommit": "65e2a98feb029a63318de2d821d6444fd7e148c3",
+    "repositoryMainHasLaterUnreleasedChangelog": "1.12.0",
+    "peMachine": "0x8664",
+    "assetBytes": 163872,
+    "assetSha256": "C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043",
+    "authenticodeStatus": "Valid",
+    "authenticodeSigner": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "fileVersionResource": null,
+    "license": {
+      "spdx": "MIT",
+      "sourceUri": "https://raw.githubusercontent.com/microsoft/etl2pcapng/v1.11.0/LICENSE",
+      "sourceBytesSha256": "9906940F61B1F0B533FA7D99BAF55178B2808FBE113EA51DFBFAD8572CCD5F2B",
+      "trackedNoticePath": "catalog/notices/etl2pcapng-v1.11.0-license.txt",
+      "trackedNoticeSha256": "C2CFCCB812FE482101A8F04597DFC5A9991A6B2748266C47AC91B6A5AAE15383",
+      "trackedNoticeLineEndings": "LF-normalized text copy; copyright and permission contents retained"
+    }
+  },
+  "implementation": {
+    "portableLocalFiles": "New catalog field stages repository-contained, hash-pinned notice files as manifest-owned package files; the validator checks source path/hash and declared destination.",
+    "candidateTarget": "Windows 11",
+    "supportedTargets": [],
+    "pendingAcceptance": true
+  },
+  "validation": {
+    "focusedPesterFiles": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/Catalog.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "pesterVersion": "5.7.1",
+    "passed": 233,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 1,
+    "testRegistryPlugin": "disabled",
+    "testTemporaryFiles": "repository .local",
+    "repositoryValidation": "Passed: 415 operations, 8 groups, 5 profiles, 277 PowerShell files",
+    "operationDocumentation": "Current",
+    "gitDiffCheck": "Passed"
+  },
+  "acceptance": {
+    "packageLifecycle": "Synthetic/inert local notice-file and portable lifecycle tests passed; actual converter was not installed or run.",
+    "syntheticTraceConversion": "Deferred to Windows VM acceptance",
+    "vmAccess": "RIDE-Win11-Test read-only Get-VM was denied at CIM before inspection; see ride-win11-vm-access-recheck-2026-10-25-1102.json.",
+    "utilityExecuted": false,
+    "networkTraceAccessed": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

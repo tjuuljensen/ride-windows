@@ -1,0 +1,42 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T19:57:39.1392485Z",
+  "RunId": "d45d2619bd9c4ba1b7cc67c96e9d77f9",
+  "Controller": "RIDESrv2025Test",
+  "Target": "RIDE-S25-Test",
+  "Suite": "ApplicationsBatch8",
+  "Status": "Failed",
+  "Guest": {
+    "OS": "Windows Server 2025 Standard Evaluation",
+    "Build": "26100",
+    "PowerShell": "5.1.26100.33438"
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 352,
+    "Passed": 351,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "Scenarios": {
+    "Expected": 4,
+    "InstallerActions": "None",
+    "Failure": "Windows PowerShell 5.1 returned each application/octet-stream checksum body as a byte array. Casting that array to string produced decimal byte values, so the checksum parser rejected the response.",
+    "Correction": "Decode byte-array response content as UTF-8 before parsing; preserve the existing response-size, checksum, and exact-filename checks.",
+    "PackageIds": [
+      "microsoft-openjdk-25",
+      "microsoft-openjdk-21",
+      "microsoft-openjdk-17",
+      "microsoft-openjdk-11"
+    ]
+  },
+  "Controller": {
+    "CleanupError": null,
+    "CollectionError": null,
+    "BlockedMarkerPresent": false
+  },
+  "Disposition": "Pester passed and all four candidate packages reached checksum acquisition, but no MSI was downloaded or installed. No support was promoted and no legacy outcome closed; rerun with byte-array decoding.",
+  "Estimate": {
+    "LegacyOutcomesClosed": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "0171b830ce4f4aa3b38c3e92b11b6c4e",
+  "Suite": "ApplicationsBatch8",
+  "Target": "RIDESrv2025Test disposable Windows Server 2025 VM",
+  "Status": "Running",
+  "SubmittedAtUtc": "2026-10-24T20:57:14Z",
+  "TimeoutMinutes": 180,
+  "SourceSnapshotCopiedAtUtc": "2026-10-24T20:58:21Z",
+  "CodeUnderTest": "Whitespace-tolerant catalog detection and System.Diagnostics.Process capture of Java stdout, stderr and exit codes.",
+  "ControllerErrors": [],
+  "ResultAvailable": false,
+  "SupportPromoted": false,
+  "Acceptance": "Pending guest execution and complete lifecycle evidence"
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T07:43:14Z",
+  "batch": "Current direct Git ref retry for six selected ArsenalRecon candidates",
+  "repositories": [
+    {
+      "name": "ArsenalRecon/BackstageParser",
+      "branch": "master",
+      "immutableRevision": null,
+      "result": "git ls-remote failed before ref resolution: Could not resolve host github.com."
+    },
+    {
+      "name": "ArsenalRecon/CyberGateLogDecrypt",
+      "branch": "master",
+      "immutableRevision": null,
+      "result": "git ls-remote failed before ref resolution: Could not resolve host github.com."
+    },
+    {
+      "name": "ArsenalRecon/GmailURLDecoder",
+      "branch": "master",
+      "immutableRevision": null,
+      "result": "git ls-remote failed before ref resolution: Could not resolve host github.com."
+    },
+    {
+      "name": "ArsenalRecon/NetWireLogDecoder",
+      "branch": "master",
+      "immutableRevision": "d5d8d653f7f31656b47a993ed652cc353a86d78e",
+      "result": "Fresh git ls-remote failed before ref resolution: Could not resolve host github.com; retain the earlier exact release-to-commit mapping."
+    },
+    {
+      "name": "ArsenalRecon/SdbaParser",
+      "branch": "master",
+      "immutableRevision": null,
+      "result": "git ls-remote failed before ref resolution: Could not resolve host github.com."
+    },
+    {
+      "name": "ArsenalRecon/NetWireStackForensics",
+      "branch": "master",
+      "immutableRevision": null,
+      "result": "git ls-remote failed before ref resolution: Could not resolve host github.com."
+    }
+  ],
+  "method": "Sequential read-only git ls-remote against each official GitHub repository.",
+  "artifactsAcquired": false,
+  "archiveInspectionPerformed": false,
+  "toolExecuted": false,
+  "defenderOrWindowsStateChanged": false,
+  "migration": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Five immutable commit pins and all six exact artifacts; current DNS blocks direct Git lookup."
+    ],
+    "partial": [
+      "Selected ArsenalRecon source candidates; NwStacks sample/decrypted-payload exclusion remains unchanged."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

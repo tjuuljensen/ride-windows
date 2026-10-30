@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "run": "NTCore focused current-source package regression",
+  "timestampUtc": "2026-10-26T14:42:47Z",
+  "scope": {
+    "testFile": "tests/NtcorePackages.Tests.ps1",
+    "packages": [
+      "package.ntcore-pe-detective",
+      "package.ntcore-cff-explorer",
+      "package.ntcore-driver-list",
+      "package.ntcore-rebelnet",
+      "package.ntcore-wim-installer"
+    ],
+    "behaviors": [
+      "Exact source and selected content binding",
+      "Owned-file install, repeat, remove, and saved-run recovery",
+      "Modified-file preservation and collision refusal",
+      "WIM Installer selection of only the reviewed executable"
+    ]
+  },
+  "environment": {
+    "testShell": "PowerShell 7.6.5",
+    "compatibilityParser": "Windows PowerShell 5.1.26100.9711",
+    "compatibilityParseFiles": [
+      "modules/RIDE-PortablePackages.psm1",
+      "tests/NtcorePackages.Tests.ps1"
+    ],
+    "pesterVersion": "5.7.1",
+    "testRegistryPlugin": "Disabled",
+    "testResultOutput": "Disabled",
+    "temporaryDirectory": ".local/pester-ntcore-current-20261026"
+  },
+  "result": {
+    "status": "Passed",
+    "discovered": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 64.98
+  },
+  "supersededHarnessAttempts": [
+    {
+      "status": "FailedBeforeAssertions",
+      "reason": "Pester TestRegistry could not create its optional HKCU fixture under the restricted host token."
+    },
+    {
+      "status": "HarnessFailures",
+      "passed": 8,
+      "failed": 8,
+      "reason": "Portable manifest atomic moves were denied in the default sandbox temp directory. The successful rerun redirected TEMP and TMP to the workspace-local scratch directory."
+    }
+  ],
+  "safety": {
+    "installersOrUtilitiesExecuted": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false,
+    "vmOrCheckpointUsed": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": [],
+    "windowsAcceptance": "Deferred: registered VM/controller access is blocked before inspection or dispatch.",
+    "estimateChange": "None; package staging regression does not establish Windows behavior or close a legacy product outcome.",
+    "sysinternalsLicenseGate": false,
+    "defenderBlockedTools": "Remain separately excluded."
+  }
+}

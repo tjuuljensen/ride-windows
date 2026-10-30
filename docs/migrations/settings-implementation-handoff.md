@@ -1,5 +1,19 @@
 # Settings implementation handoff
 
+## Current status, 2026-10-28 04:10 UTC
+
+Use the [migration plan](../MIGRATION-PLAN.md#estimated-remaining-migration-work) for current cross-group estimates and [remaining-settings-plan.md](remaining-settings-plan.md) for active settings acceptance. Presentation review is complete at 279/279. Q01-Q31 are recorded; Q31/D09 closed the unidentified User .NET assemblies label as unsubstantiated bookkeeping, without an estimate deduction.
+
+Current-source `RemainingSettings.Tests.ps1` and `SixtySettings.Tests.ps1` passed **207/207** on PowerShell 7.6.5 and **207/207** on Windows PowerShell 5.1.26100.9711. The two suites cover 77 and 130 checks, respectively. `ProfileSettings.Tests.ps1` passed 37/37, presentation 14/14, and Catalog/ProfileValidation passed 95 runnable checks with one WindowsIntegration case excluded. The aggregate Windows 11 UnitOnly Pester result remains a historical failure of 3,313 passed, 14 failed and 7 skipped; focused suite passes do not replace a full rerun. No host settings changed.
+
+Latest read-only VM/controller access on 2026-10-27 failed before inspection or dispatch: `Get-VM` and `Get-ScheduledTask` failed at CIM, and Hyper-V Manager content was inaccessible to the lower-integrity helper. Native acceptance remains deferred; do not request a fresh UAC prompt. `RIDE.WinHttpProxyInventory`, `RIDE.WinHttpProxyPreparation` and the guarded lifecycle now pass 22/22 focused tests on both PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9711, with native commands mocked. They remain candidates without verified native observation, exact underlying literal recovery, an authorized setter or catalog integration. Direct parser/preparation checks passed 8/8 with synthetic input in PowerShell 7, while a Windows PowerShell 5.1 direct runner was blocked before module import by AuthorizationManager. A 2026-10-28 Pester rerun did not reach discovery: Pester 5.7.1 is missing from PowerShell 7 and Windows PowerShell 5.1 import failed AuthorizationManager validation. The prior 22/22 per-shell Pester result remains the last Pester pass. Direct synthetic parser/preparation/recovery checks subsequently passed 8/8 in PowerShell 7 only; they do not establish native output or exact registry recovery. See [direct synthetic evidence](../archive/evidence/winhttp-direct-synthetic-parser-recovery-checks-2026-10-28-0408.json). See the [Windows PowerShell authorization block](../archive/evidence/winhttp-winps51-authorization-block-2026-10-28-0410.json), the [runner attempt evidence](../archive/evidence/winhttp-current-runner-pester-unavailable-2026-10-28-0407.json), the [WinHTTP cross-shell regression and access evidence](../archive/evidence/winhttp-proxy-current-source-cross-shell-regression-and-access-2026-10-27-1648.json) and [latest VM UI access evidence](../archive/evidence/hyper-v-manager-read-only-ui-integrity-recheck-2026-10-27-1636.json).
+
+Current-source validation passes for **438 operations**, eight groups, five profiles and 297 PowerShell files. The catalog has 114 package operations, 22 Store apps, four standalone artifacts and 296 operations with setting-presentation metadata. All **44/44** packages marked PendingAcceptance have exact operation-ID/version records in the workspace-local review store; all are NeedsReview administrative markers, not planning or migration gates. Current estimates remain settings **37-57**, packages **38-53**, components **19-24**, files/assets **25-35**, maintenance **8-12** (exact **127-181**, rounded **125-180/about 155**). Sysinternals is settled for RIDE's direct Microsoft download-and-install workflow under the prior RIDE v2 license-specialist approval; the user's determination is that there are no legal issues and no further license review or redistribution analysis is a migration gate. Defender-blocked utilities remain separate security exclusions. See the [current catalog and package-marker audit](../archive/evidence/current-catalog-package-review-marker-audit-2026-10-27-1651.json), [Sysinternals disposition](../package-licensing.md#sysinternals-settled-ride-v2-approval), and [migration estimate](../MIGRATION-PLAN.md#estimated-remaining-migration-work).
+
+See the [current migration estimate and acceptance summary](../MIGRATION-PLAN.md#estimated-remaining-migration-work), [WinHTTP regression and access evidence](../archive/evidence/winhttp-proxy-current-source-cross-shell-regression-and-access-2026-10-27-1648.json), [current catalog and package-marker audit](../archive/evidence/current-catalog-package-review-marker-audit-2026-10-27-1651.json), [current VM UI access evidence](../archive/evidence/hyper-v-manager-read-only-ui-integrity-recheck-2026-10-27-1636.json), [current-source settings regression](../archive/evidence/settings-remaining-sixty-current-source-cross-shell-2026-10-26-1911.json), and [UnitOnly full-run triage](../archive/evidence/win11-unitonly-current-source-full-pester-failure-2026-10-26-1219.json).
+Decision and mapping details remain in the records below. Do not treat this
+handoff's 2026-10-11 queue snapshot as current execution order.
+
 Recorded: **2026-10-11**, before archiving the Windows-settings review chat.
 This is a resume point, not a declaration that migration or acceptance is complete.
 
@@ -12,12 +26,13 @@ This is a resume point, not a declaration that migration or acceptance is comple
 | [Migration plan](../MIGRATION-PLAN.md#estimated-remaining-migration-work) | Top-of-document progress overview by legacy outcome; refresh after every migration run |
 | [Setting presentation contract](../setting-presentation.md) | Implemented metadata/display contract and its compatibility and evidence limits |
 
-Resume implementation from these accepted designs. The remaining-settings table
-has accepted designs or retirement dispositions for 28 identified entries; its
-29th entry, User .NET assemblies, still lacks source identification. These rows
-are not counts of atomic settings or the entire migration backlog. Earlier
-accepted decisions in the post-migration review remain applicable too. Do not
-repeat approvals unless new evidence requires a material design change.
+Resume implementation from these accepted designs. At the 2026-10-11 design
+checkpoint, the remaining-settings table had accepted designs or retirement
+dispositions for 28 identified entries; Q31/D09 later closed the 29th entry,
+User .NET assemblies, as unsubstantiated bookkeeping. These rows are not counts
+of atomic settings or the entire migration backlog. Earlier accepted decisions
+in the post-migration review remain applicable too. Do not repeat approvals
+unless new evidence requires a material design change.
 
 ## Durable product decisions
 
@@ -48,9 +63,11 @@ The detailed accepted sections supersede this summary wherever more specific.
 Task Manager's legacy view selector and Computer Browser visibility have accepted
 retirement dispositions. Windows Update executable interception is also retired,
 but supported interruption-management replacement work remains partial and counted.
-Do not guess a replacement or silently close the unidentified .NET entry.
+R29/D09 closes the unidentified .NET bookkeeping label only; do not infer an
+assembly feature or numeric estimate deduction. Reopen it only if a source/use
+case is identified.
 
-## Implementation checkpoint and next work
+## Historical implementation checkpoint and next work, 2026-10-11
 
 The first increment implements shared presentation in discovery/search, setting
 and group-member details, profile previews and status, plus scalar registry

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T08:00:15Z",
+  "purpose": "Confirm settled Sysinternals license disposition and record focused local regression after package promotion.",
+  "licenseDisposition": {
+    "status": "Settled; not a migration blocker",
+    "basis": [
+      "The prior RIDE v2 license-specialist assessment approved the direct download-and-install workflow.",
+      "RIDE obtains Sysinternals from Microsoft for installation on supported devices and does not transfer or publish the tools.",
+      "The user confirms there are no legal issues using Sysinternals in RIDE and directs that license review must not block migration."
+    ],
+    "additionalLicenseGateRequired": false,
+    "defenderDetections": "Separate security exclusions; not a license disposition."
+  },
+  "validation": {
+    "environment": {
+      "platform": "Windows checkout",
+      "powershell": "7.6.5",
+      "pester": "5.7.1",
+      "pesterTestRegistry": "Disabled because sandbox policy denies its optional HKCU fixture."
+    },
+    "focusedPester": {
+      "files": [
+        "tests/AudioService.Tests.ps1",
+        "tests/LicenseReviews.Tests.ps1",
+        "tests/TestAutomation.Tests.ps1"
+      ],
+      "discovered": 167,
+      "passed": 165,
+      "failed": 0,
+      "skipped": 2
+    },
+    "catalogValidation": {
+      "status": "Passed",
+      "operations": 412,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 277
+    },
+    "sysinternalsPackageRegressionInFullRun": {
+      "productPackageSuite": "Passed; 224.07 seconds",
+      "wholeSuitePackage": "Passed; 589.78 seconds",
+      "execution": "Synthetic/local package fixtures only; no Sysinternals utility was executed."
+    },
+    "aggregatePester": "Interrupted before final summary because the aggregate includes multi-minute synthetic archive fixtures; do not treat it as an aggregate pass or failure count."
+  },
+  "migrationOutcomes": {
+    "resolved": [
+      "Sysinternals licensing disposition; no further licensing review is a prerequisite for package migration.",
+      "LicenseReviews test now classifies MiTeC UUID Generator with accepted Windows 11 staging candidates, consistent with its current catalog support."
+    ],
+    "retired": [],
+    "excluded": [
+      "Defender-detected individual utilities remain excluded for security reasons, independently of licensing."
+    ],
+    "deferred": [
+      "Runtime and Windows functional acceptance for Sysinternals utilities.",
+      "VM/checkpoint acceptance while host CIM access remains unavailable."
+    ],
+    "partial": [
+      "Package staging regression does not establish utility activation or per-tool functional behavior."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "accountsConfigurationFilesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155",
+      "changed": false
+    }
+  }
+}

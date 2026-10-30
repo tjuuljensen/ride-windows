@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "RideWin11TestReadOnlyVmAndTaskAccessRecheck",
+  "RecordedAtUtc": "2026-10-27T10:34:57Z",
+  "Target": "RIDE-Win11-Test",
+  "Checks": [
+    {
+      "Command": "Get-VM -Name 'RIDE-Win11-Test'",
+      "Result": "FailedBeforeInspection",
+      "ErrorType": "Microsoft.HyperV.PowerShell.VirtualizationException",
+      "Message": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Command": "Get-ScheduledTask | Where-Object TaskName -like '*Ride*'",
+      "Result": "FailedBeforeInspection",
+      "ErrorType": "System.Management.Automation.MethodInvocationException",
+      "Message": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "GuestInspected": false,
+  "CheckpointInspected": false,
+  "RegisteredTasksInspected": false,
+  "AcceptanceDispatched": false,
+  "HostOrGuestStateChanged": false,
+  "DefenderChanged": false,
+  "UacRequested": false,
+  "Blocker": "CIM access is unavailable to this shell for VM and scheduled-task queries; native acceptance cannot be inspected or dispatched.",
+  "Migration": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 / Windows Server 2025 acceptance for pending settings, packages and components"
+    ],
+    "Partial": [
+      "Source and mocked implementation work may continue"
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "This access recheck failed before target inspection and closed no legacy outcome."
+  }
+}

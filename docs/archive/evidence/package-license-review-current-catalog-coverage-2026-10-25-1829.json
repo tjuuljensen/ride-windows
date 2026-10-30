@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:29:00Z",
+  "Scope": "Exact-version local NeedsReview coverage for current pending package candidates",
+  "Method": "Filtered pending Package operations by the same bounded license-text indicators used in the previous audit, expanded explicit package and variant versions, and verified joined records through Manage-RideLicenseReviews.ps1 Get against the default user-local store.",
+  "Catalog": {
+    "PendingPackageOperations": 33,
+    "FlaggedPendingOperations": 16,
+    "RequiredExactVersions": 17
+  },
+  "ReviewStore": {
+    "StoreKind": "Default user-local RIDE license review store",
+    "ReviewOwner": "Unassigned",
+    "Status": "NeedsReview",
+    "AddedRecords": 17,
+    "VerifiedRecords": 17,
+    "MissingRecords": 0
+  },
+  "Findings": [
+    "All 17 exact version markers are present and readable through the RIDE review tool.",
+    "The markers are reminders for owner-specific review. They do not determine entitlement, authorize redistribution, or block package migration/planning.",
+    "Sysinternals is not included in the flagged set; its license disposition is settled under the prior RIDE v2 specialist approval for direct Microsoft download-and-install.",
+    "Defender-blocked tools remain separate security exclusions."
+  ],
+  "Limitations": [
+    "The text filter is a coverage aid, not exhaustive legal classification or legal advice.",
+    "The shared catalog and package metadata were not changed. No installer, utility, VM or Windows state changed.",
+    "No legacy outcome resolved, retired, excluded or changed disposition."
+  ],
+  "AcceptanceBlockers": [
+    "Current Get-VM access is denied by CIM before either registered VM or checkpoint can be inspected.",
+    "The preregistered RIDEWin11Test task query returns an invalid network address; no guest run was submitted."
+  ],
+  "MigrationAccounting": {
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

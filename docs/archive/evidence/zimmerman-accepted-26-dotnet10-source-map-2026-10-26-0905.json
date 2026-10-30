@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T09:05:00Z",
+  "publisherIndex": {
+    "repository": "EricZimmerman/ericzimmerman.github.io",
+    "path": "docs/index.md",
+    "commit": "f3947d47f72070c2b7695859d4f746a48aca2845",
+    "committerDateUtc": "2026-10-25T14:00:42Z",
+    "blobSha": "38d71093176767ec50922d6f70f4351914119e82",
+    "signatureVerified": false,
+    "productCount": 29,
+    "frameworkDefault": ".NET 10",
+    "publisherRecommendation": "Use -NetVersion 10; recommended default",
+    "selectedCollectionCount": 26,
+    "allAcceptedMembersPresent": true,
+    "outsideAcceptedSelection": [
+      "iisGeoLocate",
+      "TimeApp",
+      "XWFIM"
+    ]
+  },
+  "selectionRationale": "Select the publisher's recommended .NET 10 route for every accepted member. This resolves the prior Hasher framework hold using its current row, which lists no .NET 4.7.2 build and only a /net/ archive.",
+  "items": [
+    {
+      "name": "AmcacheParser",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/AmcacheParser.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "AppCompatCacheParser",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/AppCompatCacheParser.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.1",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/AppCompatCacheParser.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "bstrings",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/bstrings.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.1",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/bstrings.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "EvtxECmd",
+      "version": "2026.10.2",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/EvtxECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.2",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/EvtxECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "EZViewer",
+      "version": "2026.10.0",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/EZViewer.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "Hasher",
+      "version": "2026.10.0",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/hasher.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "JLECmd",
+      "version": "2026.10.5",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/JLECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.5",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/JLECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "JumpList Explorer",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/JumpListExplorer.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "LECmd",
+      "version": "2026.10.3",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/LECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.3",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/LECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "MFTECmd",
+      "version": "2026.10.6",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/MFTECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.6",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/MFTECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "MFTExplorer",
+      "version": "2026.10.0",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/MFTExplorer.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "PECmd",
+      "version": "2026.10.3",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/PECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.3",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/PECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "RBCmd",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/RBCmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.1",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/RBCmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "RecentFileCacheParser",
+      "version": "2026.10.2",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/RecentFileCacheParser.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.2",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/RecentFileCacheParser.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "RECmd",
+      "version": "2026.10.2",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/RECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.2",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/RECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "Registry Explorer",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/RegistryExplorer.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "RLA",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/rla.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.1",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/rla.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "SBECmd",
+      "version": "2026.10.2",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/SBECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.2",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/SBECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "SDB Explorer",
+      "version": "2026.10.0",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/SDBExplorer.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "ShellBags Explorer",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/ShellBagsExplorer.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "SQLECmd",
+      "version": "2026.10.3",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/SQLECmd.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "SrumECmd",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/SrumECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.1",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/SrumECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "SumECmd",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/SumECmd.zip",
+      "net472VariantAvailable": true,
+      "net472Version": "2026.10.1",
+      "net472DownloadUri": "https://download.ericzimmermanstools.com/SumECmd.zip",
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "Timeline Explorer",
+      "version": "2026.10.0",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/TimelineExplorer.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "VSCMount",
+      "version": "2026.10.0",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/VSCMount.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    },
+    {
+      "name": "WxTCmd",
+      "version": "2026.10.1",
+      "selectedFramework": ".NET 10",
+      "downloadUri": "https://download.ericzimmermanstools.com/net/WxTCmd.zip",
+      "net472VariantAvailable": false,
+      "net472Version": null,
+      "net472DownloadUri": null,
+      "versionMatches2026_10_25Map": true,
+      "artifactBytesAcquired": false
+    }
+  ],
+  "artifactStatus": {
+    "officialDownloadHost": "download.ericzimmermanstools.com",
+    "availability": "DNS failure before response on the latest per-artifact check; no ZIP bytes, digest, members or signatures available.",
+    "noExecutablesRun": true
+  },
+  "validation": {
+    "recordedAtUtc": "2026-10-26T09:07:13Z",
+    "repositoryValidator": {
+      "status": "Passed",
+      "operations": 416,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 279
+    },
+    "priorVersionMapComparison": "All 26 selected publisher versions match the 2026-10-25 map.",
+    "focusedDiffCheck": "Passed"
+  },
+  "migration": {
+    "resolved": [
+      "Current publisher version and .NET 10 route mapped for all 26 accepted collection members.",
+      "Hasher framework ambiguity resolved from its current publisher row."
+    ],
+    "partial": [
+      "All 26 package payloads remain unacquired and unverified; no catalog operations or package lifecycle were added."
+    ],
+    "deferred": [
+      "Acquire exact publisher ZIPs; verify hash/signature/notices/member contents/dependencies; implement selected member packages and lifecycle/acceptance checks.",
+      "Keep iisGeoLocate, TimeApp and XWFIM out of scope unless separately selected."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-28T17:46:55Z",
+  "batch": "steghide 0.5.1 official Windows archive route and DNS retry",
+  "product": "steghide",
+  "publisherPage": "https://steghide.sourceforge.net/download.php",
+  "publisherFinding": "The official download page still lists version 0.5.1 and links a Windows ZIP directly through SourceForge. The page says its last change was 2003-12-24.",
+  "version": "0.5.1",
+  "releaseDate": "2003-10-15",
+  "exactWindowsArchive": "https://sourceforge.net/projects/steghide/files/steghide/0.5.1/steghide-0.5.1-win32.zip/download?use_mirror=pilotfiber&download=",
+  "publisherDirectRoute": "https://prdownloads.sourceforge.net/steghide/steghide-0.5.1-win32.zip?download=",
+  "acquisitionAttempts": [
+    {
+      "method": "HEAD",
+      "host": "sourceforge.net",
+      "result": "No such host is known; failed before transfer."
+    },
+    {
+      "method": "HEAD",
+      "host": "prdownloads.sourceforge.net",
+      "result": "No such host is known; failed before transfer."
+    }
+  ],
+  "artifactState": {
+    "localBytes": false,
+    "localSha256": null,
+    "archiveMemberInventory": false,
+    "catalogCandidateAdded": false,
+    "toolExtractedOrRun": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false
+  },
+  "migrationDisposition": {
+    "selected": true,
+    "required": true,
+    "license": "GPL; exact-version NeedsReview/Unassigned local owner metadata remains administrative and does not gate technical migration.",
+    "technicalBlocker": "Exact publisher archive bytes and member inventory remain unavailable until DNS/source access succeeds; Windows 11 package lifecycle acceptance is also open.",
+    "resolvedLegacyOutcomes": [],
+    "estimateAdjustment": "None; this source retry closes no legacy package outcome."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

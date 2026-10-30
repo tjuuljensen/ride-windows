@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:07:01Z",
+  "batch": "WinHTTP candidate current-source focused regression attempt",
+  "results": {
+    "PowerShell7": {
+      "version": "7.6.5",
+      "pester5_7_1Available": false,
+      "result": "Stopped before test discovery; no assertions ran."
+    },
+    "WindowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "pester5_7_1ModuleFound": true,
+      "modulePath": "C:\\Users\\tjuuljensen\\OneDrive\\Dokumenter\\WindowsPowerShell\\Modules\\Pester\\5.7.1\\Pester.psd1",
+      "result": "Import failed with AuthorizationManager check failed before test discovery; no assertions ran."
+    }
+  },
+  "suitesIntended": [
+    "tests/WinHttpProxyInventory.Tests.ps1",
+    "tests/WinHttpProxyPreparation.Tests.ps1",
+    "tests/WinHttpProxyLifecycle.Tests.ps1"
+  ],
+  "lastSuccessfulRun": {
+    "dateUtc": "2026-10-27T16:48:00Z",
+    "evidence": "winhttp-proxy-current-source-cross-shell-regression-and-access-2026-10-27-1648.json",
+    "passedPerShell": 22,
+    "nativeProvidersMocked": true
+  },
+  "blocker": "Current-shell Pester availability/import prevents revalidating the candidate. Native observation/setter support and VM acceptance remain separate unresolved technical gates.",
+  "safety": {
+    "testAssertionsRan": false,
+    "nativeWinHttpCommandsInvoked": false,
+    "executionPolicyChanged": false,
+    "uacRequested": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no assertions or native state change occurred."
+  }
+}

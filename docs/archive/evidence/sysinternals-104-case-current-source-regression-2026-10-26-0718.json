@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T07:18:19Z",
+  "environment": {
+    "operatingSystem": "Windows",
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "tempRoot": "workspace-local .local directories"
+  },
+  "suites": [
+    {
+      "file": "tests/LicenseReviews.Tests.ps1",
+      "tests": 24,
+      "passed": 24,
+      "failed": 0,
+      "durationSeconds": 65.04,
+      "result": "Passed",
+      "coverage": "All ten RIDE v2-approved Sysinternals package install plans remain available without a license gate; NeedsReview markers are informational."
+    },
+    {
+      "file": "tests/SysinternalsSuitePackage.Tests.ps1",
+      "tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "durationSeconds": 313.64,
+      "result": "Passed",
+      "longSyntheticCasesSeconds": {
+        "repeat-remove-recovery-164-members": 200.77,
+        "collision-modified-file-preservation": 93.74
+      }
+    },
+    {
+      "file": "tests/SysinternalsProductPackages.Tests.ps1",
+      "tests": 72,
+      "passed": 72,
+      "failed": 0,
+      "durationSeconds": 121.78,
+      "result": "Passed",
+      "products": [
+        "Process Explorer",
+        "Autoruns",
+        "TCPView",
+        "Process Monitor",
+        "RAMMap",
+        "Disk2vhd",
+        "Sigcheck",
+        "Strings",
+        "Handle"
+      ]
+    }
+  ],
+  "aggregate": {
+    "tests": 104,
+    "passed": 104,
+    "failed": 0,
+    "skipped": 0,
+    "result": "Passed"
+  },
+  "executionBoundaries": {
+    "sysinternalsUtilitiesLaunched": false,
+    "installersRun": false,
+    "vmAccessAttempted": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false,
+    "freshUacRequested": false
+  },
+  "migrationDisposition": {
+    "sysinternalsLicenseGate": "None; prior RIDE v2 specialist approval and user decision settle direct Microsoft download-and-install use.",
+    "defenderBlockedTools": "Remain separately excluded for security reasons.",
+    "nativeAcceptance": "Deferred; VM/controller access remains blocked.",
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

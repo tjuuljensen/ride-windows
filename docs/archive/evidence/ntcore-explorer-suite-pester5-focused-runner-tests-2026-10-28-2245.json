@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:45:00Z",
+  "batch": "NTCore Explorer Suite focused acceptance route Pester regression",
+  "packageId": "package.ntcore-explorer-suite",
+  "integrationSuite": "ApplicationsBatch12",
+  "runtime": {
+    "shell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass for this test process only; no persistent policy setting changed",
+    "optionalPesterIntegrations": "TestRegistry and TestResult disabled"
+  },
+  "results": [
+    {
+      "suite": "NtcorePackages.Tests.ps1 focused acceptance route",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "TestAutomation.Tests.ps1 registered controller capability guard",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "TestAutomation.Tests.ps1 VM task forwarding",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "TestAutomation.Tests.ps1 guest suite dispatch mapping",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "summary": {
+    "passed": 42,
+    "failed": 0,
+    "skipped": 0,
+    "initialFilterAttempt": "One preliminary name filter matched no tests and ran none; corrected test-name scopes produced the results above."
+  },
+  "coverage": "Exact package allowlist and batch assertion; catalog ID equality; guest ApplicationsBatch12 dispatch; registered-capability guard; task client correlation/forwarding; guest dispatcher scenario routing. No guest lifecycle was run.",
+  "boundary": {
+    "vmQueried": false,
+    "queueRequestSubmitted": false,
+    "checkpointAccessed": false,
+    "installerRun": false,
+    "suiteUtilityRun": false,
+    "publisherNetwork": false,
+    "defenderQueriedOrChanged": false,
+    "reportedPasswordScanFileAccessed": false,
+    "windowsStateChanged": false,
+    "uacPrompt": false,
+    "persistentExecutionPolicyChanged": false
+  },
+  "blockers": [
+    "Native NTCore Explorer Suite lifecycle acceptance still requires controller capability refresh and restored host VM access.",
+    "Pester tests cover orchestration only; installed components, shortcuts, registered uninstaller, package repeat/remove/recovery remain unverified in Windows."
+  ],
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Focused runner orchestration and exact package/capability guards passed 42 Pester 5 cases."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Windows 11 package install/repeat/remove/recovery and component/uninstaller identity acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; orchestration tests do not close a package outcome."
+    }
+  }
+}

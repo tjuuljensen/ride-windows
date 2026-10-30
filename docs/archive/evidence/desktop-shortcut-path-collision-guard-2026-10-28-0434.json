@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:34:45Z",
+  "batch": "BitLocker wizard DesktopShortcut path collision guard",
+  "operationId": "windows.bitlocker-wizard-shortcut",
+  "change": {
+    "module": "modules/RIDE-DesktopShortcuts.psm1",
+    "version": "0.1.2",
+    "behavior": "Inspect shortcut-path attributes before COM access; treat missing file/directory paths as absent and refuse directory or reparse-point collisions.",
+    "regressionTest": "tests/DesktopShortcuts.Tests.ps1 covers missing paths, directory collisions and ordinary files without shortcut COM access."
+  },
+  "validation": {
+    "powershell7Parser": "Passed for module and test file",
+    "windowsPowerShell51Parser": "Passed for module and test file",
+    "syntheticPathChecks": {
+      "missingPath": "Absent",
+      "ordinaryFile": "Existing candidate",
+      "directoryCollision": "Refused",
+      "comAccessed": false
+    },
+    "pester": "Not run; current session does not provide an available Pester 5 runner.",
+    "windowsVm": "Deferred; read-only Get-VM failed before RIDE-Win11-Test or checkpoint inspection with CIM access unavailable."
+  },
+  "safety": {
+    "desktopEnumeratedOrChanged": false,
+    "shortcutComAccessed": false,
+    "bitlockerStateReadOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": ["Directory and reparse-point path collisions are rejected before shortcut COM access."],
+    "partial": ["DesktopShortcut lifecycle source guard is improved; ownership semantics and native lifecycle remain unverified."],
+    "deferred": ["Pester regression execution and disposable Windows 11 create, inspect, remove and recovery acceptance."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the path guard reduces a collision risk but does not close the legacy shortcut outcome or native acceptance."
+    }
+  }
+}

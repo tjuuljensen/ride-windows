@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:16:08Z",
+  "batch": "PSScriptTools runtime dependency and runner version cross-shell regression",
+  "testFile": "tests/PortableAcceptanceAutomation.Tests.ps1",
+  "powerShell7Run": {
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "discovered": 47,
+    "selected": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "TestRegistryPlugin": false,
+    "TestResultPlugin": false,
+    "covers": [
+      "Current version discovery for five acceptance runners, including PSScriptTools probe v0.1.5.",
+      "Parse the isolated runtime probe without executing it.",
+      "Import a synthetic ThreadJob 2.2.0 manifest by exact path for RequiredModules resolution.",
+      "Select the pinned ThreadJob prerequisite and all 360 reviewed PSScriptTools files.",
+      "Accept a .nupkg only for the pinned ThreadJob prerequisite."
+    ]
+  },
+  "windowsPowerShell51Run": {
+    "evidence": "psscripttools-runtime-dependency-current-winps51-pester-regression-2026-10-28-0603.json",
+    "pester": "5.7.1",
+    "selectedAcrossTwoFocusedRuns": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0
+  },
+  "safety": {
+    "upstreamPSScriptToolsImported": false,
+    "upstreamCodeExecuted": false,
+    "psModulePathChanged": false,
+    "registryChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": "Cross-shell synthetic harness and dependency-resolution regression only. Runtime behavior against the exact retained package archive and disposable Windows 11 acceptance remain pending.",
+  "migrationOutcome": {
+    "resolved": [
+      "PSScriptTools dependency-path and runner-version assertions pass 9/9 in both Windows PowerShell 5.1 and PowerShell 7.6.5."
+    ],
+    "partial": [
+      "No upstream source is executed, and no Windows guest runtime is exercised."
+    ],
+    "deferred": [
+      "Exact package dependency-present/missing runtime acceptance on RIDE-Win11-Test remains blocked before VM inspection by host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; cross-shell synthetic regression is now verified but guest runtime acceptance remains open."
+    }
+  }
+}

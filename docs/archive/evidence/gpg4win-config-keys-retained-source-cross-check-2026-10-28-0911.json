@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:10:55Z",
+  "batch": "Gpg4win 5.1.1 explicit installer configuration key source cross-check",
+  "packageId": "package.gpg4win",
+  "packageVersion": "5.1.1",
+  "sourceArchive": {
+    "uri": "https://files.gpg4win.org/gpg4win-5.1.1.tar.xz",
+    "sha256": "b486d80ae235dcc1aab72c276291a989bcc1ee947055565f5bae8842cfe8d907",
+    "inspectedSource": ".local/results/installed-next-samples/gpg-source-selected/inst-sections.nsi"
+  },
+  "catalogKeys": [
+    "inst_browser",
+    "inst_desktop",
+    "inst_gpgex",
+    "inst_gpgol",
+    "inst_gpgoljs",
+    "inst_gpgpass",
+    "inst_kleopatra",
+    "inst_okular",
+    "inst_paperkey",
+    "inst_start_menu"
+  ],
+  "publisherSourceKeys": [
+    "inst_browser",
+    "inst_desktop",
+    "inst_gpgex",
+    "inst_gpgol",
+    "inst_gpgoljs",
+    "inst_gpgpass",
+    "inst_kleopatra",
+    "inst_okular",
+    "inst_paperkey",
+    "inst_start_menu"
+  ],
+  "result": "All 10 catalog InstallerConfiguration keys are present in Gpg4win 5.1.1 inst-sections.nsi as config_fetch_bool keys; no unknown or omitted configuration key was found.",
+  "handling": {
+    "installerExecuted": false,
+    "productUtilityExecuted": false,
+    "windowsRegistryQueriedOrChanged": false,
+    "vmStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "assessment": "The explicit component/shortcut configuration names are recognized by the retained 5.1.1 source. This static key-name match does not prove the values produce the requested feature selection or explain the prior 0xC0000005.",
+  "migrationOutcome": {
+    "resolved": [
+      "Catalog configuration key names match every config_fetch_bool key in the inspected Gpg4win 5.1.1 source."
+    ],
+    "partial": [
+      "Current-user Gpg4win package candidate and mocked lifecycle remain partial."
+    ],
+    "deferred": [
+      "Verify component selection and behavior, diagnose the prior 0xC0000005, and complete install/repeat/remove/exact recovery on an accessible disposable Windows target."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; a static key-name match does not establish package runtime acceptance or close a legacy product outcome."
+    }
+  }
+}

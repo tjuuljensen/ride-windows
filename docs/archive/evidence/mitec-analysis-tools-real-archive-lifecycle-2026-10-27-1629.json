@@ -1,0 +1,81 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "MiTeCAnalysisToolsRealArchiveLifecycle",
+  "RecordedAtUtc": "2026-10-27T16:29:02Z",
+  "Packages": [
+    {
+      "Id": "package.mitec-exe-explorer",
+      "Version": "3.7.5",
+      "Archive": ".local/remaining-collections-20261017/EXE.zip",
+      "ArchiveLength": 12837437,
+      "ArchiveSha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78",
+      "Members": [
+        { "Path": "EXE.exe", "Length": 5931048, "Sha256": "d9deec06c474d8d3ec8a64a8cbc12e9c91fc94ed5871438f658c1fff44762746" },
+        { "Path": "EXE64.exe", "Length": 7588424, "Sha256": "25987ef9c3b6d0cb24e887de71120faf958c97d9bd63a323c355c332028649d9" }
+      ]
+    },
+    {
+      "Id": "package.mitec-hexedit",
+      "Version": "7.1.0",
+      "Archive": ".local/remaining-collections-20261017/HEXEdit.zip",
+      "ArchiveLength": 2100697,
+      "ArchiveSha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788",
+      "Members": [
+        { "Path": "HEXEdit.exe", "Length": 2222048, "Sha256": "cb782a9d85690487bc4138968f03c9c1e320b55347a76bfa3dc01eb6956144e7" }
+      ]
+    }
+  ],
+  "Validation": {
+    "Test": "tests/MiTeCAnalysisTools.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell7": { "Edition": "PowerShell 7.6.5", "Passed": 10, "Failed": 0, "Skipped": 0, "DurationSeconds": 33.66 },
+    "WindowsPowerShell51": { "Edition": "Windows PowerShell 5.1.26100.9711", "Passed": 10, "Failed": 0, "Skipped": 0, "DurationSeconds": 32.51 },
+    "OptionalPlugins": { "TestRegistry": false, "TestResult": false },
+    "ScratchRoots": [
+      ".local/pester-mitec-analysis-real-archives-20261027",
+      ".local/pester-mitec-analysis-real-archives-winps51-20261027"
+    ]
+  },
+  "Coverage": [
+    "Rechecked actual archive digests and exact selected-member length/hash values",
+    "Repeated offline staging of EXE Explorer x86/x64 files and HexEdit x86 file",
+    "Verified exact owned-file set, removal, saved-state restore and unrelated operator-note preservation"
+  ],
+  "Boundaries": {
+    "UtilitiesLaunched": false,
+    "SyntheticOrRealPEOpened": false,
+    "VirusTotalOrNetworkUsed": false,
+    "FileEditedComparedOrDumped": false,
+    "ProcessMemoryOrRawDiskAccessed": false,
+    "PublisherNetworkAccess": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Deferred": [
+      "Windows 11 package lifecycle acceptance",
+      "EXE Explorer synthetic PE/resource checks with isolated output",
+      "HexEdit disposable file edit/compare behavior and exact recovery"
+    ],
+    "Blocker": "Get-VM -Name RIDE-Win11-Test remains unavailable at CIM before VM/checkpoint inspection."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Both actual archives pass staging/recovery in both PowerShell editions; target and product behavior acceptance remain open."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No whole legacy outcome closes before native acceptance and separate product behavior tests; actual archive evidence adds confidence only."
+  }
+}

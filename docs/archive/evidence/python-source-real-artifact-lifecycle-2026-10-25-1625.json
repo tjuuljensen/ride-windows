@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T16:25:54Z",
+  "Scope": "Current-source real-artifact inert lifecycle for pinned Hex2text and ChromeSyncParser distributions",
+  "Packages": [
+    {
+      "Id": "package.hex2text",
+      "Revision": "9715c6c26824ef05039228f16e0c47620c52fe79",
+      "Archive": ".local/r13-python-source/hex2text-9715c6c26824ef05039228f16e0c47620c52fe79.zip",
+      "Sha256": "aa0083da094a3320db9a97eb22c499a420187c208ed92376a662243678f083c3",
+      "ArchiveFiles": 3,
+      "ManagedFiles": 3,
+      "Lifecycle": "Install, repeat, exact saved restore, unowned preservation, modified-source refusal and removal passed"
+    },
+    {
+      "Id": "package.chromeparser",
+      "Revision": "0f59c5702ffd03102c550ecc373ab4fefa6f810c",
+      "Archive": ".local/r13-python-source/ChromeSyncParser-0f59c5702ffd03102c550ecc373ab4fefa6f810c.zip",
+      "Sha256": "8dff59a48d3d6ab41cf8d39154a0e05cfda5df36a1b76180a70692762854da46",
+      "ArchiveFiles": 3,
+      "ManagedFiles": 3,
+      "Lifecycle": "Install, repeat, exact saved restore, unowned preservation, modified-source refusal and removal passed"
+    }
+  ],
+  "FocusedPester": {
+    "TestFile": "tests/SourceScriptPackages.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell": "7.6.5",
+    "Passed": 8,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistry": "Disabled"
+  },
+  "VmAccess": {
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Result": "BlockedBeforeInspection",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "VmOrCheckpointInspected": false
+  },
+  "Disposition": {
+    "LocalArtifactLifecycle": "Passed",
+    "LegacyPackageOutcomesClosed": 0,
+    "WindowsTargetPromoted": false,
+    "RuntimeAcceptance": "Pending",
+    "Hex2textWindowsConsoleBehavior": "Pending",
+    "ChromeSyncParserModernSchemaAndReadOnlySafety": "Pending",
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "Safety": {
+    "PythonExecuted": false,
+    "UpstreamSourceImported": false,
+    "ChromeProfileRead": false,
+    "EvidenceDatabaseRead": false,
+    "WindowsStateChanged": false,
+    "ScratchRemoved": true
+  }
+}

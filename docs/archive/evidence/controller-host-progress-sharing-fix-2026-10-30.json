@@ -1,0 +1,107 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T10:58:49.0752623Z",
+  "Status": "CorrectionPrepared",
+  "ModuleVersion": "1.17.1",
+  "FailedProbe": {
+    "RunId": "2f9f5afa7cb845759ee05365ba666393",
+    "Status": "Failed",
+    "VmChanged": false,
+    "Error": "The process cannot access the file 'C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\controller-probes\\2f9f5afa7cb845759ee05365ba666393\\host-phase.json' because it is being used by another process.",
+    "Evidence": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\controller-probes\\2f9f5afa7cb845759ee05365ba666393",
+    "StartedAtUtc": "2026-10-30T10:50:35.7342311Z",
+    "FinishedAtUtc": "2026-10-30T10:51:02.5093536Z"
+  },
+  "LastRetainedPhase": {
+    "RunId": "2f9f5afa7cb845759ee05365ba666393",
+    "Phase": "Preparation",
+    "Stage": "Check registered task is idle",
+    "RecordedAtUtc": "2026-10-30T10:51:01.7204179Z",
+    "PhaseStartedAtUtc": "2026-10-30T10:50:35.7169904Z",
+    "VmMayHaveChanged": false
+  },
+  "ProbeFiles": [
+    {
+      "Name": "host-phase.json",
+      "Bytes": 284,
+      "Sha256": "0689c392a9bd6c10b11f679b5a987d3cb675ef7926cd24ef9fe1707a12713040"
+    },
+    {
+      "Name": "host-progress.jsonl",
+      "Bytes": 938,
+      "Sha256": "63e003a00ccd895d606ac5cbf5c5d25196a1bb620cabacc205996301afcf8a38"
+    },
+    {
+      "Name": "host-worker-errors.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Name": "host-worker.log",
+      "Bytes": 96,
+      "Sha256": "e7ff4322f4e8b136a31c74c9d664702a2a067e914d28799fad77f29975167fdd"
+    },
+    {
+      "Name": "probe-result.json",
+      "Bytes": 574,
+      "Sha256": "f839751b78bf6106655017eb6a4b23f3650d16a2dbb5200cd5ddd262a9e81011"
+    }
+  ],
+  "Correction": "Serialize progress reads and writes under an exclusive sibling lock; each lock acquisition and sharing retry budget is one second; invalid evidence remains a failure.",
+  "Validation": {
+    "Watchdog": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 16,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "SupervisedStage": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 158,
+      "Passed": 1,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "RuntimeScope": "Temporary files and inert processes only; native concurrency/process checks outside sandbox. No VM or installer execution.",
+    "Repository": {
+      "Operations": 451,
+      "Status": "Passed",
+      "Profiles": 5,
+      "Groups": 8,
+      "PowerShellFiles": 312
+    }
+  },
+  "SourceFiles": [
+    {
+      "Path": "tests/integration/RIDE.TestAutomation.psm1",
+      "Sha256": "1f0e8325114e3c3402e9b71663ae9148a83858fdb2663dcc41c6a4763e86b8ec"
+    },
+    {
+      "Path": "tests/AutomationWatchdog.Tests.ps1",
+      "Sha256": "5dcd4ad3c1d63d633f7aa94136f08222ec1488949b57d26bd130c5f8a44ad64b"
+    }
+  ],
+  "RecoveryBlockPresentOnReadback": false,
+  "ProtectedControllerChanged": false,
+  "HostProbeRetry": "Pending",
+  "Next": "Repeat the five-minute host-only probe once in elevated P52 PowerShell, inspect result before registration or package retry.",
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "Rounded": "125-180",
+    "Settings": "37-57",
+    "Exact": "126-180",
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "FilesAndAssets": "25-35",
+    "Packages": "37-52"
+  }
+}

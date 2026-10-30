@@ -1,0 +1,83 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T07:14:00Z",
+  "Run": "OpenSSH Server capability candidate current-source regression and native VM access recheck",
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 429,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 294,
+    "GeneratedDocumentation": "Current"
+  },
+  "FocusedPester": [
+    {
+      "Shell": "PowerShell 7.6.5",
+      "Pester": "5.7.1",
+      "Suites": [
+        "OpenSshServerCapabilityLifecycle.Tests.ps1",
+        "OpenSshServerObservation.Tests.ps1",
+        "OpenSshServerLifecycle.Tests.ps1"
+      ],
+      "Passed": 30,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    {
+      "Shell": "Windows PowerShell 5.1.26100.9711",
+      "Pester": "5.7.1",
+      "Suites": [
+        "OpenSshServerCapabilityLifecycle.Tests.ps1",
+        "OpenSshServerObservation.Tests.ps1",
+        "OpenSshServerLifecycle.Tests.ps1"
+      ],
+      "Passed": 30,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistry": false,
+      "TestResult": false
+    }
+  ],
+  "VmAccess": {
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test",
+      "RIDE-S25-Test"
+    ],
+    "GetVmResult": "Access to a CIM resource was not available to the client before VM inspection",
+    "RegisteredTaskResult": "Access to a CIM resource was not available to the client before task inspection",
+    "GuestDispatch": false,
+    "ElevationRequested": false
+  },
+  "StateChanges": {
+    "Capability": false,
+    "Service": false,
+    "Firewall": false,
+    "ServerData": false,
+    "Vm": false,
+    "Checkpoint": false,
+    "HostService": false,
+    "Defender": false
+  },
+  "MigrationDisposition": {
+    "CandidateRegistered": false,
+    "SupportedTargets": [],
+    "NativeWindows11Acceptance": "Deferred: VM/controller access unavailable",
+    "NativeServer2025Acceptance": "Deferred: VM/controller access unavailable",
+    "PreExistingServerSurfaceRemoval": "Requires separate recovery design",
+    "LegacyOutcomeClosed": 0,
+    "EstimateChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "127-181",
+      "RoundedTotal": "125-180/about 155"
+    }
+  },
+  "Note": "The tests use mocked providers only. A preliminary invocation selected only the lifecycle and observation suites (19/19) because it named a nonexistent activation test path; the corrected run selected the three existing suites and passed all 30 tests in both shells."
+}

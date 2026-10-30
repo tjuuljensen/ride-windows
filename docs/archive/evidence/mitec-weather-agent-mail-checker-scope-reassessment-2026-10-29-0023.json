@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-29T00:23:11Z",
+  "batch": "MiTeC Weather Agent and Mail Checker full-collection scope reassessment",
+  "scope": {
+    "userDecision": "2026-10-27 full MiTeC collection selection; include products unless end-of-life or a reproducible material source/product error makes migration unsuitable; record temporary holds by product.",
+    "priorDisposition": "2026-10-22 drop/retirement wording is superseded for collection review by the later selection. Neither product is marked retired in this reassessment."
+  },
+  "weatherAgent": {
+    "productPage": "https://www.mitec.cz/wa.html",
+    "publisherPageObservation": "Current historical product page lists Windows 2000 through Windows 10 and free private/commercial use; no end-of-life statement found on the page.",
+    "retainedArtifact": {
+      "installer": ".local/remaining-collections-20261017/WA_Setup.exe",
+      "version": "3.6.0",
+      "sha256": "1817767092b85cf2bd843c29747eb8787277f3044962a1169eeff50668831c4e",
+      "extractedExecutable": "WeatherAgent.EXE 3.6.0.0",
+      "sourceEvidence": "docs/archive/evidence/mitec-weather-agent-endpoint-static-follow-up-2026-10-21.json"
+    },
+    "staticProductFinding": "The executable contains HTTP templates for OpenWeatherMap /data/2.5/find, /weather, /forecast and /forecast/daily. Each includes an APPID format placeholder and a location placeholder.",
+    "providerCurrentDocumentation": {
+      "apiCallUri": "https://openweathermap.org/api/current",
+      "observations": [
+        "The provider's current current-weather example uses HTTPS.",
+        "The provider marks appid as required and identifies it as the user's unique API key.",
+        "The provider says built-in city/ZIP/city-ID geocoding is deprecated and no longer receives bug fixes or updates."
+      ]
+    },
+    "inferenceAndLimits": "If Weather Agent uses its embedded HTTP request templates as written, the API key and selected location are sent in plaintext. Runtime request selection, redirects and key persistence were not tested; the source templates themselves are reproducible static evidence.",
+    "disposition": "Temporary product-security hold: exclude from the selectable v3 catalog until a publisher build uses HTTPS or an equivalent source correction is verified. Do not run with a real API key or personal location. This is a technical source/product issue, not a license decision or end-of-life finding."
+  },
+  "mailChecker": {
+    "productPage": "https://www.mitec.cz/mailchecker.html",
+    "termsPage": "https://www.mitec.cz/wp/support/",
+    "publisherPageObservations": [
+      "The publisher describes SSL email retrieval, including Gmail, SMTP send/reply, and message deletion.",
+      "The historical page lists Windows 2000 through Windows 7 and free private/commercial use; no end-of-life statement found on the page.",
+      "The current support EULA describes unregistered versions as freeware for non-commercial use."
+    ],
+    "retainedArtifact": {
+      "installer": ".local/remaining-collections-20261017/MAILCHECKER_Instal.exe",
+      "length": 2174711,
+      "sha256": "da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0",
+      "version": "7.2.0",
+      "sourceEvidence": "docs/archive/evidence/mitec-mail-checker-openssl-static-follow-up-2026-10-21.json"
+    },
+    "staticSecurityFinding": "The extracted package includes unsigned OpenSSL-identified 1.0.1e DLLs. The official OpenSSL page says the 1.0.1 branch has been unsupported since 2017 and documents vulnerabilities affecting pre-1.0.1g versions.",
+    "runtimeLimit": "The Mail Checker executable has no direct static import of these DLL names. Dynamic loading and actual TLS exposure are unverified; no application, DLL, account, network request, send, or delete action was run.",
+    "catalogDisposition": {
+      "id": "package.mitec-mail-checker",
+      "version": "7.2.0",
+      "candidateTargets": ["Windows 11"],
+      "supportedTargets": [],
+      "pendingAcceptance": true,
+      "securityGate": "Verify dependency use and TLS behavior only against a local synthetic mail sink; never use real credentials. Windows 11 is exploratory because the publisher page only lists support through Windows 7.",
+      "licenseReview": {
+        "status": "NeedsReview",
+        "owner": "Unassigned",
+        "migrationGate": false,
+        "store": ".local/license-reviews.json",
+        "backup": ".local/license-reviews-before-mail-checker-20261029.json",
+        "reviewCountAfterUpdate": 94
+      }
+    }
+  },
+  "validation": {
+    "catalogExport": "Passed; generated operation documentation current.",
+    "repositoryValidation": "Passed: 451 operations, 8 groups, 5 profiles and 305 PowerShell files.",
+    "testSourceParsing": "Passed for the Mail Checker and Paradox Data Editor Pester 5 test files.",
+    "retainedMailInstallerHash": "Passed; local file matches frozen static extraction evidence and candidate pin.",
+    "pesterExecution": "Not run: only Pester 3.4.0 is available; both focused suites are authored for Pester 5."
+  },
+  "sideEffects": {
+    "installerOrProductExecuted": false,
+    "openSslDllLoaded": false,
+    "mailAccountOrCredentialUsed": false,
+    "networkRequestMade": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomesClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "Weather Agent remains a temporary hold in the full-collection scope and Mail Checker is now a source-ready pending candidate; neither whole legacy outcome is closed, so both remain represented in the current unresolved package range."
+  }
+}

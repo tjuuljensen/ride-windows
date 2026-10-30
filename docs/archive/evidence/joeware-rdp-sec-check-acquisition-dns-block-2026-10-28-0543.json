@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:43:48Z",
+  "batch": "JoeWare rdp-sec-check publisher acquisition retry",
+  "sourceReview": {
+    "productPage": "https://joeware.net/freetools/tools/rdp-sec-check/index.htm",
+    "usagePage": "https://joeware.net/freetools/tools/rdp-sec-check/usage.htm",
+    "versionsList": "https://www.joeware.net/freetools/versions.txt",
+    "currentProductIdentity": "0.9-beta / JoeWare V02.00.00, dated 2014-11-17; usage page agrees.",
+    "olderVersionsListIdentity": "V01.00.00 dated 2011-02-11; its MD5/SHA-1 values are not attributable to V02.00.00 without archive inspection.",
+    "publisherNotice": "Publisher page says the ZIP includes GPLv2 Perl source and attributes the original tool to Portcullis Labs / Mark Lowe. RIDE is a download/install workflow; administrative license review is informational and does not gate migration."
+  },
+  "acquisition": {
+    "tool": "tools/Download-JoeWareCollection.ps1",
+    "selection": ["rdp-sec-check"],
+    "result": "Stopped while retrieving JoeWare versions.txt before the product page or download form was fetched.",
+    "error": "Invoke-WebRequest reported 'No such host is known.' A read-only Resolve-DnsName recheck for both joeware.net and www.joeware.net returned Access is denied, so this establishes a local resolver-access blocker, not an upstream publisher outage.",
+    "dnsRecheckAtUtc": "2026-10-28T05:46:51Z",
+    "dnsRecheck": {
+      "joeware.net": "Access is denied.",
+      "www.joeware.net": "Access is denied."
+    },
+    "productPageFetchedByScript": false,
+    "PublisherDownloadFormSubmitted": false,
+    "ArchiveDownloaded": false,
+    "DestinationCreatedEmptyThenRemoved": true,
+    "Destination": ".local/joeware-rdp-sec-check-acquisition-2026-10-28"
+  },
+  "safety": {
+    "archiveOrExecutableOpened": false,
+    "payloadExtractedOrExecuted": false,
+    "endpointContacted": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Official product and usage pages reconfirm the currently offered V02.00.00 / 0.9-beta identity."
+    ],
+    "partial": [
+      "The attempted acquisition was blocked at DNS before publisher download; archive identity remains unavailable."
+    ],
+    "deferred": [
+      "Acquire the V02.00.00 publisher ZIP, inspect inert file inventory and included source/notices, and reconcile it with the older V01.00.00 versions.txt digests before package registration."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; documentation reconfirmation and an unsuccessful acquisition close no legacy package outcome."
+    }
+  }
+}

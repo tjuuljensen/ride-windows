@@ -1,0 +1,30 @@
+{
+  "recordedAtUtc": "2026-10-28T14:30:03Z",
+  "suite": "tests/RemainingSettings.Tests.ps1",
+  "runtime": "Windows PowerShell 5.1.26100.9711",
+  "pesterVersion": "5.7.1",
+  "result": {
+    "passed": 77,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 350.09
+  },
+  "configuration": {
+    "testRegistry": "Disabled",
+    "tempRoot": "Unique workspace-local .local/pester-temp directory, process-scoped TEMP/TMP",
+    "stateRecords": "Pester TestDrive"
+  },
+  "initialAttempt": "The default system-temp attempt reached 41 passed and 36 failed when atomic manifest moves were denied by the temp isolation path. The suite was rerun with process-scoped TEMP/TMP in a unique writable workspace-local directory and passed 77/77.",
+  "scopeAndLimits": "Mocked repository regression only. No Windows settings, registry, VM, Defender, or external application state was changed. This run does not close a legacy migration outcome or establish native Windows behavior.",
+  "legacyOutcomesClosed": 0,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; regression confirms current code behavior but closes no legacy outcome."
+  }
+}

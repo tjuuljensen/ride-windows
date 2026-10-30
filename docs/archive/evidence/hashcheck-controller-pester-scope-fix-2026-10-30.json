@@ -1,0 +1,198 @@
+{
+    "SchemaVersion":  1,
+    "ReviewDate":  "2026-10-30",
+    "RunId":  "b3cf882824014db2982fcf8efdf67f3c",
+    "Result":  {
+                   "SchemaVersion":  1,
+                   "RunId":  "b3cf882824014db2982fcf8efdf67f3c",
+                   "Source":  "Local",
+                   "UnitOnly":  false,
+                   "IntegrationSuite":  "ApplicationsBatch11",
+                   "Status":  "Failed",
+                   "StartedAtUtc":  "2026-10-29T18:08:42.6111199Z",
+                   "FinishedAtUtc":  "2026-10-29T18:22:02.3003389Z",
+                   "Error":  "Test controller exited with code 1. See controller-errors.log.",
+                   "CleanupError":  null,
+                   "CollectionError":  null,
+                   "GuestGitHubAuthentication":  "Anonymous",
+                   "GitHubTestScenario":  "Acquire",
+                   "CredentialCleanupVerified":  null,
+                   "EvidenceExportError":  null
+               },
+    "Summary":  {
+                    "SchemaVersion":  1,
+                    "RunId":  "b3cf882824014db2982fcf8efdf67f3c",
+                    "Status":  "Failed",
+                    "ValidationPassed":  true,
+                    "IntegrationPassed":  false,
+                    "Pester":  {
+                                   "Version":  "5.7.1",
+                                   "Failed":  2,
+                                   "Result":  "Failed",
+                                   "Total":  432,
+                                   "Passed":  426
+                               },
+                    "Error":  "Pester did not pass: 2 failing test(s).",
+                    "StateCollectionError":  null,
+                    "Guest":  {
+                                  "SID":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                                  "Account":  "RIDE-WIN11-TEST\\admin",
+                                  "PowerShell":  "5.1.26100.9711",
+                                  "OS":  {
+                                             "Caption":  "Microsoft Windows 11 Enterprise Evaluation",
+                                             "Version":  "10.0.26300",
+                                             "BuildNumber":  "26300"
+                                         }
+                              },
+                    "GuestGitHubAuthentication":  "Anonymous",
+                    "GitHubTestScenario":  "Acquire",
+                    "CredentialCleanupVerified":  null,
+                    "PesterSelection":  "Application lifecycle, catalog, acquisition and controller regression"
+                },
+    "Worker":  {
+                   "RunId":  "b3cf882824014db2982fcf8efdf67f3c",
+                   "Context":  {
+                                   "Computer":  "RIDE-WIN11-TEST",
+                                   "SID":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                                   "User":  "RIDE-WIN11-TEST\\admin",
+                                   "SessionId":  1,
+                                   "UserInteractive":  true,
+                                   "Elevated":  true
+                               },
+                   "StartedAtUtc":  "2026-10-29T18:15:33.8435856Z",
+                   "Status":  "Failed",
+                   "Error":  "Pester did not pass: 2 failing test(s).",
+                   "FinishedAtUtc":  "2026-10-29T18:21:12.8408818Z"
+               },
+    "Task":  {
+                 "RunId":  "b3cf882824014db2982fcf8efdf67f3c",
+                 "TaskName":  "RIDE-InteractiveGuest-b3cf882824014db2982fcf8efdf67f3c",
+                 "ExpectedUserSid":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                 "ExpectedSessionId":  1,
+                 "LastTaskResult":  1,
+                 "TaskRemoved":  true,
+                 "Error":  "Interactive guest task exited 1; inspect worker evidence.",
+                 "CleanupError":  null
+             },
+    "HostEvidenceFiles":  [
+                              {
+                                  "Path":  "result.json",
+                                  "SHA256":  "D70B013D81B846DB46AE1ADA02A0B4E479B8B5BBCF8E50721C76B4459AB0E42B",
+                                  "Bytes":  622
+                              },
+                              {
+                                  "Path":  "controller-errors.log",
+                                  "SHA256":  "12A9738A6E963CA60AED18E046A2828579BE9B059190A1131DC9E82875ADFF7F",
+                                  "Bytes":  551
+                              },
+                              {
+                                  "Path":  "guest/summary.json",
+                                  "SHA256":  "F12FB51034E51A9BAAE17087E72B6E4FCDE1F3A9C4751AADA6E1E768ADA90448",
+                                  "Bytes":  1195
+                              },
+                              {
+                                  "Path":  "guest/interactive-task.json",
+                                  "SHA256":  "AD3247CB5F8F3543D4A527B2A1676E5F3FC7D772F0122D62E8411047F8BC9D14",
+                                  "Bytes":  398
+                              },
+                              {
+                                  "Path":  "guest/interactive-worker.json",
+                                  "SHA256":  "C5663B8823B8FD8030A634F750B670140963F3DFF501B554C823EB3D9FF96F80",
+                                  "Bytes":  603
+                              },
+                              {
+                                  "Path":  "guest/interactive-output.log",
+                                  "SHA256":  "566EFDBFB2EBB51595D290BA0AE43BB1988860494B1F871B757A4791B75F118B",
+                                  "Bytes":  6502
+                              },
+                              {
+                                  "Path":  "guest/pester.xml",
+                                  "SHA256":  "176925223763B88EE434EB15E4F32FF7F044B0475D1185C2BD6CB738B10545AB",
+                                  "Bytes":  156446
+                              }
+                          ],
+    "Diagnosis":  "Pester invoked inside coordinator module scope; both reported failures reproduced with prerequisite test retained",
+    "ModuleScopeReproduction":  {
+                                    "PowerShell":  "5.1.26100.9818",
+                                    "Pester":  "5.7.1",
+                                    "Result":  "Failed",
+                                    "Total":  231,
+                                    "Passed":  1,
+                                    "Failed":  2,
+                                    "Skipped":  0,
+                                    "Failures":  [
+                                                     {
+                                                         "Name":  "Package variant metadata and completion.completes variants for exported package commands without invoking handlers",
+                                                         "Error":  [
+                                                                       "Expected \u0027portable\u0027 to be found in collection @($null), but it was not found."
+                                                                   ]
+                                                     },
+                                                     {
+                                                         "Name":  "RIDE UWP privacy policy migration.captures, clears, and restores app-specific override values",
+                                                         "Error":  [
+                                                                       "Could not find Command Get-RideSettingState"
+                                                                   ]
+                                                     }
+                                                 ],
+                                    "ContainerErrors":  [
+
+                                                        ]
+                                },
+    "FixedProcessSelection":  {
+                                  "PowerShell":  "5.1.26100.9818",
+                                  "Pester":  "5.7.1",
+                                  "Result":  "Passed",
+                                  "Total":  231,
+                                  "Passed":  3,
+                                  "Failed":  0,
+                                  "Skipped":  0,
+                                  "Failures":  [
+
+                                               ],
+                                  "ContainerErrors":  [
+
+                                                      ]
+                              },
+    "InteractiveRegression":  {
+                                  "PowerShell":  "5.1.26100.9818",
+                                  "Pester":  "5.7.1",
+                                  "Result":  "Passed",
+                                  "Total":  16,
+                                  "Passed":  16,
+                                  "Failed":  0,
+                                  "Skipped":  0,
+                                  "Failures":  [
+
+                                               ],
+                                  "ContainerErrors":  [
+
+                                                      ]
+                              },
+    "SourceFiles":  [
+                        {
+                            "SHA256":  "29EA015C6E612E5E4B3864383A1CFBC031A735229AE803529AAC89D29F2AFEEF",
+                            "Path":  "tests/integration/RIDE.InteractiveGuestTests.psm1"
+                        },
+                        {
+                            "SHA256":  "22198FCC0180710A834BF0AF8A2A9939D3F93D811488616AFFA03C84DE2AB463",
+                            "Path":  "tests/InteractiveGuestTests.Tests.ps1"
+                        }
+                    ],
+    "ModuleVersion":  "0.1.1",
+    "ProtectedControllerRefreshRequired":  false,
+    "NativeRetry":  "Pending",
+    "Cleanup":  "Task removed; result reports no cleanup/collection error; queues empty and no recovery block. Current VM/task state requires elevated host confirmation because sandbox CIM reads were unavailable.",
+    "Migration":  {
+                      "Components":  "19-24",
+                      "ExactTotal":  "126-180",
+                      "Retired":  0,
+                      "FilesAndAssets":  "25-35",
+                      "Resolved":  0,
+                      "Partial":  "Maintained route stopped in regression before HashCheck installation; scope fix prepared",
+                      "Packages":  "37-52",
+                      "NewExclusions":  0,
+                      "RoundedTotal":  "125-180; about 155",
+                      "Maintenance":  "8-12",
+                      "Settings":  "37-57"
+                  }
+}

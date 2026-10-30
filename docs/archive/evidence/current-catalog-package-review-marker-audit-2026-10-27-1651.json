@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T16:51:00Z",
+  "Scope": "Current catalog and local package review-marker coverage",
+  "Catalog": {
+    "Operations": 438,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 297,
+    "SettingPresentationOperations": 296,
+    "PackageOperations": 114,
+    "PendingAcceptancePackages": 44,
+    "StoreApps": 22,
+    "StandaloneArtifacts": 4
+  },
+  "LocalReviewStore": {
+    "Records": 81,
+    "ExactOperationIdAndVersionMatchesForPendingPackages": 44,
+    "PendingPackageMatchStatuses": {
+      "NeedsReview": 44
+    },
+    "MissingExactMatches": 0,
+    "Interpretation": "Administrative owner/version markers only; not migration or planning gates."
+  },
+  "SysinternalsDisposition": {
+    "Status": "Settled",
+    "Basis": "Prior RIDE v2 license-specialist approval and user reaffirmation",
+    "Workflow": "RIDE downloads directly from Microsoft for ordinary computer deployment and install; it does not transfer or publish Sysinternals copies.",
+    "LegalOrLicenseMigrationGate": false,
+    "DefenderDetections": "Separate security exclusions."
+  },
+  "WinHttpRegression": {
+    "PowerShell7Passed": 22,
+    "PowerShell7Failed": 0,
+    "WindowsPowerShell51Passed": 22,
+    "WindowsPowerShell51Failed": 0,
+    "NativeCommandsMocked": true,
+    "CatalogIntegrated": false
+  },
+  "VmAcceptance": {
+    "Status": "Blocked before inspection",
+    "Reason": "Get-VM CIM access denied; Hyper-V Manager content inaccessible to lower-integrity helper."
+  },
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "127-181",
+    "Rounded": "125-180/about 155"
+  },
+  "LegacyOutcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "VM acceptance and native WinHTTP recovery"
+    ],
+    "Partial": [
+      "Mocked WinHTTP candidate regression only; no legacy outcome closed."
+    ]
+  },
+  "RelatedEvidence": [
+    "winhttp-proxy-current-source-cross-shell-regression-and-access-2026-10-27-1648.json",
+    "hyper-v-manager-read-only-ui-integrity-recheck-2026-10-27-1636.json",
+    "sysinternals-license-practical-administration-reaffirmation-2026-10-27-1505.json"
+  ]
+}

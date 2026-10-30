@@ -1,3 +1,370 @@
+## Remaining settings batch 2 native lifecycle pass, 2026-10-29 07:45 UTC
+
+Registered run `37649311827142d0b459e876824f175d` passed from 07:27:15 to 07:45:36 UTC (08:27-08:45 Europe/Copenhagen). Repository validation and all 398 focused Pester tests passed. Native batch 2 verified 18 operations across 43 named states, with zero failures and zero unavailable state variants. Preview, apply, repeated apply, restore preview and exact captured-state recovery passed. IntegrationPassed=true and final guest summary, transcript and Pester XML were collected. Cleanup, collection and export reported no errors. Queues are empty and no recovery block is present; elevated operator output confirms VM Off / Operating normally and controller task Ready for this request.
+
+The passed operations cover seven adapter bindings, SMB2 server protocol, Controlled Folder Access, NCSI policy, NetBIOS, Remote Desktop firewall and connection settings, registered sound scheme, three Edge settings, and active power scheme. `windows.smb1-server-protocol` was unavailable on this guest and is not accepted by this run. No instruction to install or enable SMB1 follows from this coverage gap. Actual network reachability, security enforcement, application/UI behavior and persistence after restart remain separate from the captured-state lifecycle assertions. Published support metadata is unchanged.
+
+Together, batches 1 and 2 passed 41 operation lifecycles across 107 named states, with six unavailable operations and no lifecycle failures. Each run passed the same selected 398-test regression set; do not count these as 796 distinct tests. The five unavailable Windows/Office task operations from batch 1 remain open. No whole legacy outcome is newly resolved or retired and no new exclusion is introduced. Keep feature/fixture acceptance partial or deferred; all five ranges remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12 (exact 126-180; rounded 125-180/about 155). Operation lifecycle counts are not legacy outcome counts. Next verify VM Off/task Ready, then select remaining feature/package acceptance from the existing ledgers. Full controller certification and Windows Server acceptance remain open.
+
+Evidence: [structured run record](../archive/evidence/windows-settings-remaining-batch2-pass-2026-10-29.json).
+
+## Remaining settings batch 1 native lifecycle pass, 2026-10-29 06:34 UTC
+
+Registered run `eb595b6052644422a19c45f8cf02d4ab` passed from 06:09:58 to 06:34:03 UTC (07:09-07:34 Europe/Copenhagen). Repository validation and all 398 focused Pester tests passed. Native batch 1 verified 23 operations across 64 named states, with zero failures or unavailable state variants. The runner checked preview, apply, repeated apply, restore preview and exact captured-state recovery. The guest summary records IntegrationPassed=true. Cleanup, collection and export reported no errors; the final guest transcript and Pester XML were collected. Queues are empty and no recovery block is present; elevated operator output confirms VM Off / Operating normally and controller task Ready for this request.
+
+Five operations were unavailable on this guest: `windows.task-compatibility-appraiser`, `windows.task-program-data-updater`, `application.office-task-click-to-run-monitor`, `application.office-task-telemetry-fallback-2016`, and `application.office-task-telemetry-logon-2016`. They are untested here, not successful lifecycle cases or retired outcomes. Preserve them for matching Windows/Office fixtures. The three BitLocker method policies, Click to Do policy, Storage Sense global policy and two desktop shortcut candidates passed their native lifecycle checks; this does not demonstrate actual encryption, effective feature behavior, or successful launch of shortcut targets. Published support metadata is unchanged.
+
+No whole legacy outcome is newly resolved or retired and no new exclusion is introduced. This is partial native acceptance, with unavailable fixtures and feature/UI/restart checks deferred. All five ranges remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12 (exact 126-180; rounded 125-180/about 155), because operation lifecycle counts cannot substitute for completed legacy outcomes. After verifying recovery, request SettingsRemainingBatch2 without UnitOnly through the registered controller; checkpoint recovery remains the outer boundary. Broader controller certification and Windows Server acceptance remain open.
+
+Evidence: [structured run record](../archive/evidence/windows-settings-remaining-batch1-pass-2026-10-29.json).
+
+## Experimental File Explorer F1 Help candidate source regression, 2026-10-29 02:51 UTC
+
+`F1Help.Tests.ps1` passed **7/7** in Windows PowerShell 5.1/Pester 5.7.1 with registry/result providers disabled. The tests cover the pending/unsupported candidate metadata, default-profile Blocked state, exact Win32/Win64 TypeLib values, `Blocked`/`WindowsDefault` mapping, complete two-value matching, handler writes and reverse-order restoration through mocks. No registry operation or profile application ran. The current evidence does not establish native F1 behavior, so keep the operation unsupported and pending Windows acceptance. Host CIM access remains unavailable for both registered test VMs; checkpoint state is unverified. No legacy outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/f1help-current-source-winps51-regression-and-vm-block-2026-10-29-0251.json).
+
+## Remaining settings current-source regression, 2026-10-29 02:48 UTC
+
+`RemainingSettings.Tests.ps1` passed **81/81** in Windows PowerShell 5.1/Pester 5.7.1 with registry/result providers disabled. Handlers were mocked, state fixtures used Pester `TestDrive`, and printed `What if` messages came from preview-only `ShouldProcess`; no registry or Windows state changed. `tools/validate.ps1` also passed for 451 operations, 8 groups, 5 profiles and 306 PowerShell files, with generated operation documentation current. This verifies source lifecycle/catalog behavior only; it closes no legacy setting outcome and does not establish native behavior. RIDE-Win11-Test/RIDE-S25-Test host CIM access is still unavailable, so checkpoint and guest acceptance remain deferred. Estimates remain Settings 37-57, Packages 37-52, Components 19-24, Files/assets 25-35, Maintenance 8-12 (exact 126-180; rounded 125-180/about 155). See [structured regression and blocker evidence](../archive/evidence/remaining-settings-current-source-winps51-regression-and-cim-block-2026-10-29-0248.json).
+
+## BitLocker Wizard and Power Options shortcut candidates added to remaining-settings runner, 2026-10-29 01:04 UTC
+
+Added `windows.bitlocker-wizard-shortcut` and `windows.power-options-shortcut` to `Invoke-RideRemainingSettings.ps1 -Batch 1`; batch 1 now selects 21 catalog operations plus seven pending candidates (28 total). The runner is configured to test current-user shortcut presence, absence and exact restore without launching either target. The candidates remain privately enabled only inside the guest runner, with published `SupportedTargets` empty. `DesktopShortcuts.Tests.ps1` passed 8/8 in Windows PowerShell 5.1/Pester 5.7.1 for metadata/path resolution only; repository validation passed. The current host still cannot read VM state at CIM, so no native desktop path or shortcut recovery acceptance occurred. No desktop, Windows or elevation state changed. See [structured evidence](../archive/evidence/remaining-settings-batch1-desktop-shortcut-candidates-2026-10-29-0104.json).
+
+## Storage Sense machine-policy candidate added to remaining-settings runner, 2026-10-29
+
+Added `windows.storage-sense-global-policy` to `Invoke-RideRemainingSettings.ps1 -Batch 1` and reconciled the live catalog count: 21 existing batch operations plus five pending candidates equals 26. The prior expected count of 23 did not match the current catalog and would refuse before acceptance. Before observing or changing the machine policy, the runner checks that Windows `EditionID` begins with a Microsoft-listed policy edition family: Professional, Enterprise, Education or IoTEnterprise. It exercises Enabled, Disabled and WindowsDefault in the private guest catalog and restores the original exact value/type/existence. It does not start cleanup or modify cleanup cadence, Downloads, Recycle Bin or cloud-file settings. `SupportedTargets` remains empty. The registry lifecycle is only one acceptance layer; effective policy, actual switch behavior, edition applicability and cleanup behavior remain separate. The current host CIM denial prevented target inspection and dispatch, so this is runner preparation, not Windows acceptance. No registry, VM, Defender or elevation state changed. See [structured runner evidence](../archive/evidence/storage-sense-policy-remaining-settings-batch1-runner-preparation-2026-10-29-0054.json).
+
+The current `tests/OptionalWindowsSettings.Tests.ps1` regression passed 365/365 under Windows PowerShell 5.1/Pester 5.7.1, with registry integrations disabled and mocked/TestDrive state. This includes Storage Sense candidate metadata and matching semantics, not native policy acceptance. See [structured regression evidence](../archive/evidence/storage-sense-optional-settings-current-winps51-regression-2026-10-29-0102.json).
+
+## E08 native template syntax-validation preparation, 2026-10-28 23:44 UTC
+
+The unregistered candidate is now version 0.4.0 and exposes a guarded read-only template-validation adapter. It recomputes and verifies the exact generated INF content/bytes before writing a bounded temporary file and requesting `secedit /validate`; no import/configure path is present. Focused Windows PowerShell 5.1/Pester 5.7.1 regression passed 20/20 with the native boundary mocked. No Secedit process ran. The adapter therefore has no native syntax result yet and establishes neither one-setting isolation nor exact rollback. Keep the candidate unregistered and SupportedTargets empty pending disposable-VM evidence for native validation, unrelated-field preservation, repeat apply, managed precedence and exact `Enabled`/`Disabled`/`NotDefined` restoration. No legacy outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/local-password-complexity-native-template-validation-current-source-regression-2026-10-28-2344.json).
+
+## Click to Do CSP source recheck and focused catalog regression, 2026-10-28 22:23 UTC
+
+Current Microsoft Learn documentation lists DisableClickToDo for Windows Insider Preview. The management page specifies Copilot+ PC or eligible Cloud PC hardware for visible feature behavior (40 TOPS NPU, 16 GB RAM, 8 logical processors and 256 GB storage). Repository validation passed for 447 operations, 8 groups, 5 profiles and 301 PowerShell files. The focused catalog assertion passed 1/1 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. The initial attempt failed before the test body when TestRegistry could not create HKCU\Software\Pester; no registry state changed. PowerShell 7.6.5 currently exposes Pester 3.4.0 only, so no PS7 Pester 5 result is claimed. This is catalog/source evidence only. No VM was inspected or changed; native Insider Preview policy behavior, eligible-hardware feature visibility, device-policy precedence and exact registry lifecycle acceptance remain pending. Keep SupportedTargets empty and the candidate out of default profiles. No legacy outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/click-to-do-csp-current-source-regression-and-acceptance-boundary-2026-10-28-2223.json) and current [WindowsAI Policy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableclicktodo) and [Manage Click to Do](https://learn.microsoft.com/en-us/windows/client-management/manage-click-to-do).
+
+## Click to Do candidate added to remaining-settings Batch 1 runner, 2026-10-28 21:40 UTC
+
+Updated `Invoke-RideRemainingSettings.ps1` to include `windows.click-to-do-policy` in its existing Batch 1 private Windows 11 candidate scope; the batch now has 23 operations. The runner checks that the catalog declares Windows 11 as a candidate target and temporarily enables that target only in the private guest catalog. Published `SupportedTargets` stays empty. `tools/validate.ps1 -Root .` passed for 447 operations, 8 groups, 5 profiles and 301 PowerShell files. `Catalog.Tests.ps1` passed 98 assertions in each PowerShell edition; the single WindowsIntegration-tagged registry test was excluded. Runner version output is 0.3.2 in PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9818 (process-only ExecutionPolicy Bypass). No candidate policy ran. A separate pre-existing UnitOnly request, RunId `8346c1d7660a4fb78e773ef3b57407b7`, remained in the controller running queue, so the updated batch was not submitted; its source snapshot predates this runner change. Queue and checkpoint acceptance remain deferred until that request is terminal. Click to Do's user toggle, eligible hardware, device-policy precedence and visible feature behavior remain separate acceptance. No legacy outcome closed; estimates unchanged. See [runner preparation and in-flight VM evidence](../archive/evidence/click-to-do-remaining-settings-batch1-runner-preparation-2026-10-28-2140.json).
+
+## E08 Microsoft Secedit apply and rollback source review, 2026-10-28 21:24 UTC
+
+Microsoft documents `/configure` as applying settings from a security database and describes `securitypolicy` as covering account policies, audit policies, security options and more. The `/import` reference instructs users to validate the import template and generate a rollback template before importing; `/generaterollback` overwrites existing rollback output. `/export` documents Local versus Merged policy selection. These references establish command applicability, but do not establish that a one-setting PasswordComplexity template changes only that field, how an isolated database represents current state, or exact recovery of `NotDefined` and managed policy. The E08 module remains unregistered and read-only; no Secedit process or policy change occurred. Native implementation and target support remain deferred pending disposable Windows proof of unrelated-field preservation, repeat apply, managed precedence and exact `Enabled`/`Disabled`/`NotDefined` recovery. No legacy outcome closed; estimates unchanged. See [structured source review evidence](../archive/evidence/local-password-complexity-secedit-apply-rollback-doc-review-2026-10-28-2124.json), [Microsoft configure reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-configure), [import reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-import), [rollback reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-generaterollback), and [export reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-export).
+
+## Remaining-settings current-source cross-shell regression and VM access recheck, 2026-10-28 21:10 UTC
+
+`tests/RemainingSettings.Tests.ps1` passed 81/81 in PowerShell 7.6.5/Pester 5.7.1 and 81/81 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. A stale exact-count assertion was adjusted from 38 to a minimum of 38 after current batch discovery returned 40 catalog entries; both fixed runs passed with no skips. TestRegistry/TestResult were disabled and system handlers were mocked. Repository validation passed for 447 operations, 8 groups, 5 profiles and 301 PowerShell files. Host CIM still denies `Get-VM -Name RIDE-Win11-Test` before state retrieval, so native apply/repeat/status/restore acceptance remains pending. No legacy outcome closed and estimates are unchanged. See [evidence](../archive/evidence/remaining-settings-cross-shell-growth-floor-regression-and-vm-block-2026-10-28-2110.json).
+
+## Final WinHTTP source-reconciliation validation, 2026-10-28 16:34 UTC
+
+The WinHTTP lifecycle module passed Windows PowerShell 5.1 parsing, and `tools/validate.ps1 -Root .` passed after all source and ledger updates for 447 operations, 8 groups, 5 profiles and 301 PowerShell files; generated operation documentation is current. Native `show/set advproxy`, exact recovery and target behavior remain unverified because the host lacks `show advproxy` and VM access failed before inspection. No legacy outcome closed; estimates unchanged. See [validation evidence](../archive/evidence/winhttp-repository-validation-after-source-reconciliation-2026-10-28-1634.json).
+
+## WinHTTP advanced-proxy command contract and implementation reconciliation, 2026-10-28 16:30 UTC
+
+Microsoft’s current `netsh winhttp` reference documents `set advproxy` with `settings-file`, machine/user scopes and the Proxy, ProxyBypass, AutoconfigUrl and AutoDetect fields. This matches the guarded machine-scope candidate already wired through catalog and engine planning, status, saved-run preparation, dispatch and conflict-checked restore. Prior focused mocked regressions passed; no native WinHTTP command ran. The local build 26300 reports `show advproxy` unavailable, and RIDE-Win11-Test is inaccessible before VM inspection. Keep SupportedTargets empty pending target command/readback, exact recovery and policy/consumer acceptance. No legacy outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/winhttp-advanced-proxy-source-implementation-reconciliation-2026-10-28-1630.json) and [Microsoft command reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winhttp).
+
+## Storage Sense machine-policy engine state probe, 2026-10-28 16:09 UTC
+
+Direct synthetic-state checks against the current RIDE.Engine module passed in PowerShell 7.6.5: the candidate remains unsupported pending acceptance; Enabled and Disabled match exact DWORD values; WindowsDefault matches absence of the local policy override; absence does not match Disabled. The check used synthetic state only and did not read or write the registry.
+
+The equivalent Windows PowerShell 5.1 attempt stopped at module import because AuthorizationManager denied the repository module; no bypass was attempted. Focused Pester assertions remain unverified in both shells. No VM, Defender or Windows state changed and no elevation was requested. Native UI/policy precedence/recovery and cleanup-boundary acceptance remain deferred. No legacy outcome closed; estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12 (exact 126-180; rounded 125-180/about 155). See [structured evidence](../archive/evidence/storage-sense-engine-state-probe-2026-10-28-1609.json).
+## Storage Sense focused test environment block, 2026-10-28 15:59 UTC
+
+A second isolated attempt targeted only the two Storage Sense machine-policy candidate assertions. Windows PowerShell 5.1 did not run them: Pester 5.7.1 format files were denied by AuthorizationManager during module import. No execution-policy bypass was attempted. The prior PowerShell 7 attempt returned no Pester result after a FileSystem InitializeDefaultDrives provider error. No assertion count is claimed. No registry, VM, Defender or Windows state changed, and no elevation was requested. The candidate remains unsupported pending native Windows 11 acceptance. No legacy outcome closed; estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12 (exact 126-180; rounded 125-180/about 155). See [structured retry evidence](../archive/evidence/storage-sense-focused-test-environment-block-2026-10-28-1559.json) and [candidate preparation evidence](../archive/evidence/storage-sense-machine-policy-candidate-validation-2026-10-28-1556.json).
+# Storage Sense machine enforcement policy candidate, 2026-10-28 15:56 UTC
+
+Added the separate advanced machine policy windows.storage-sense-global-policy for Microsoft AllowStorageSenseGlobal behavior. Enabled forces Storage Sense on and prevents users from disabling it; Disabled forces it off; WindowsDefault removes only this local override and hands behavior back to Windows/user settings, including possible activation under low-storage conditions. It does not configure cleanup choices or run cleanup. Exact registry recovery cannot restore deleted files. The existing current-user preference remains separate.
+
+The candidate has no SupportedTargets, lists Windows 11 only as a candidate target, and remains excluded from profiles. Microsoft lists Pro, Enterprise, Education and IoT Enterprise for the policy; Home and Server are outside this candidate. UI enforcement, effective policy precedence, exact restore and cleanup-boundary acceptance remain pending on a disposable Windows 11 VM. No registry, VM, Defender or Windows state was queried or changed.
+
+Catalog export passed and repository validation passed for 447 operations, 8 groups, 5 profiles and 301 PowerShell files. The focused OptionalWindowsSettings.Tests.ps1 invocation returned no Pester summary; PowerShell emitted a FileSystem InitializeDefaultDrives provider error, so assertion execution cannot be confirmed. No test count is claimed. No legacy outcome closed; estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12 (exact 126-180; rounded 125-180/about 155). See [structured evidence](../archive/evidence/storage-sense-machine-policy-candidate-validation-2026-10-28-1556.json), [Microsoft Storage Policy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-storage#allowstoragesenseglobal), and the [operator guide](../storage-sense.md).
+# E08 secedit command-contract source review, 2026-10-28 08:09 UTC
+
+Current Microsoft Learn pages confirm that `secedit /generaterollback` applies
+to Windows 11 and Windows Server 2025 and requires `/db`, `/cfg`, and `/rbk`.
+If the selected database has no associated template, `/cfg` is required; an
+existing rollback file is overwritten. `secedit /export` also applies to both
+targets, and `/mergedpolicy` explicitly merges domain and local policy. These
+command contracts do not prove that an isolated PasswordComplexity database
+can be initialized safely, that rollback restores `NotDefined`, or that
+unrelated fields and managed policy are preserved.
+
+E08 remains an inert, unregistered candidate. No secedit command or policy
+query ran and no target support changed. On disposable Windows 11 and Server
+2025, the acceptance path must determine database initialization and source
+scope, then prove apply/repeat, rollback-template contents, unrelated-field
+preservation, managed precedence, and exact Enabled/Disabled/NotDefined
+recovery before catalog integration. No legacy outcome closed; estimates
+remain settings 37-57, packages 38-53, components 19-24, files/assets 25-35,
+maintenance 8-12 (exact 127-181; rounded 125-180/about 155). See [structured
+source evidence](../archive/evidence/local-password-complexity-secedit-command-contract-current-review-2026-10-28-0809.json),
+[Microsoft rollback documentation](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-generaterollback)
+and [export documentation](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-export).
+
+# Local password-complexity candidate version and recovery-preparation regression, 2026-10-28 07:34 UTC
+
+Updated `RIDE.LocalPasswordComplexityCandidate.psm1` from version 0.1.0 to
+0.2.0 and added the existing explicit-value, conflict-checked recovery
+preparation function to its changelog. The preparation accepts only consistent
+explicit local Enabled/Disabled observations, refuses drift and undefined
+prior state, and keeps `ExactRecoveryVerified` and `ReadyForMutation` false.
+This metadata correction does not make the candidate registerable or authorize
+native execution.
+
+`LocalPasswordComplexityCandidate.Tests.ps1` passed **11/11** in Windows
+PowerShell 5.1.26100.9711/Pester 5.7.1 and **11/11** in PowerShell 7.6.5/Pester
+5.7.1. TestRegistry and TestResult were disabled. No `secedit`, policy query,
+registry, VM, Defender or Windows state was accessed or changed.
+
+E08 remains partial: exact `NotDefined` restore, secedit database isolation,
+unrelated-setting preservation, managed-policy precedence, durable snapshot
+ownership and native Windows 11/Server 2025 apply/restore acceptance remain
+unproven. No legacy outcome closed; estimates remain settings 37-57, packages
+38-53, components 19-24, files/assets 25-35, maintenance 8-12 (exact 127-181;
+rounded 125-180/about 155). See [structured evidence](../archive/evidence/local-password-complexity-recovery-preparation-cross-shell-regression-2026-10-28-0734.json),
+[candidate module](../../modules/RIDE.LocalPasswordComplexityCandidate.psm1),
+and [latest VM access evidence](../archive/evidence/client-component-current-source-cross-shell-regression-and-vm-access-2026-10-28-0731.json).
+
+## BitLocker current policy source and default-profile recheck, 2026-10-28 11:26 UTC
+
+Current Microsoft guidance confirms XTS-AES is recommended, with 128-bit versus
+256-bit key length selected according to device performance. If the policy is
+unset, new encryption defaults to XTS-AES 128-bit. The policy applies when
+encryption starts, does not restart encryption or change an existing encrypted
+volume, and does not apply to hardware-based encryption. The BitLocker CSP's
+device-scoped `EncryptionMethodByDriveType` requires all three drive-type values
+in one SyncML request; RIDE's three `RegistryValue` candidates write local Group
+Policy values only and do not configure CSP/MDM. The default profile continues
+to select XTS-AES 256-bit for all three drive types, per the accepted user
+decision. The operator guide now records the performance tradeoff, and
+`tools/Export-RideCatalog.ps1 -Check` confirms generated operation documentation
+is current. No catalog or profile changed. Native policy/readback and exact restore remain VM-blocked; no
+legacy outcome closed and estimates remain **37-57 / 37-52 / 19-24 / 25-35 /
+8-12**, exact **126-180**, rounded **125-180/about 155**. See [structured
+evidence](../archive/evidence/bitlocker-current-source-and-default-profile-recheck-2026-10-28-1126.json),
+[Microsoft BitLocker policy guidance](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength)
+and [BitLocker CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp#encryptionmethodbydrivetype).
+
+# Windows 11 BitLocker drive-type encryption method implementation, 2026-10-27 06:30 UTC
+
+This implementation run was recorded in
+`docs/archive/evidence/bitlocker-drive-method-policy-source-review-2026-10-27.json`.
+It closes no legacy outcome; the estimate is unchanged. Windows 11 target
+policy acceptance remains pending VM access.
+
+The user authorized multiple Windows 11 BitLocker encryption method choices,
+especially for default-security work. Current Microsoft policy guidance and the
+local VolumeEncryption.admx confirm separate EncryptionMethodWithXtsOs,
+EncryptionMethodWithXtsFdv and EncryptionMethodWithXtsRdv registry values,
+each with AES-CBC 128/256 and XTS-AES 128/256 choices. Added one focused
+RegistryValue operation per drive type and retained
+windows.bitlocker-encryption-method unchanged for its historical recovery
+identity. The default workstation profile now carries its former AES-CBC
+256-bit intent forward as XTS-AES 256-bit for all three future drive types.
+
+The focused catalog/planning suite passed **3/3**; repository validation passed
+for 429 operations, 8 groups, 5 profiles and 292 PowerShell files, and generated
+docs/OPERATIONS.md is current. No registry or drive state was read or changed
+by the tests.
+
+The setting suite checks catalog identities, state mapping, Windows 11 default,
+and planning for each choice. It does not inspect or write the registry. The
+Microsoft CSP's requirement to specify all three choices in one SyncML applies
+to CSP/MDM; RIDE writes independent local Group Policy values. No drive
+encryption, conversion, protector or recovery-key action occurs. Disposable
+Windows 11 policy precedence/behavior acceptance remains deferred. This adds
+modern operations but closes no legacy outcome; current estimate ranges remain
+settings **37-57**, packages **38-53**, components **19-24**, files/assets
+**25-35**, maintenance **8-12**, exact **127-181**, rounded **125-180/about
+155**. See [source and implementation evidence](../archive/evidence/bitlocker-drive-method-policy-source-review-2026-10-27.json).
+
+# Full current-source Pester regression, 2026-10-27 05:14 UTC
+
+The full local Pester run discovered 3,380 tests across 128 files and completed
+with **3,376 passed, 1 failed and 3 skipped**. The sole failure was
+`Catalog.Tests.ps1`'s direct registry security-descriptor case, denied by the
+sandbox before its intended assertions. `RemainingSettings.Tests.ps1`,
+`SixtySettings.Tests.ps1`, `OptionalWindowsSettings.Tests.ps1`, and the new
+password-complexity candidate suite passed. No setting behavior was run on
+Windows; current VM/task access again failed at CIM before inspection or
+dispatch, and no elevation occurred. No legacy setting outcome closed;
+estimates are unchanged. See [structured full-run and VM evidence](../archive/evidence/full-current-source-pester-regression-and-vm-access-2026-10-27-0514.json).
+
+# Local password-complexity rollback backend source follow-up, 2026-10-26 19:38 UTC
+
+Microsoft documents `secedit /generaterollback` for generating a rollback
+template from a supplied configuration and security database; `/configure`
+supports limiting application to `SECURITYPOLICY`. This gives E08 a plausible
+native rollback route to investigate. The documentation does not establish how
+to initialize the database for an isolated one-setting change, restore a
+previously `NotDefined` value, or distinguish local and managed effective
+policy. Keep the candidate unregistered until disposable Windows 11 and Server
+2025 tests prove apply, generated rollback, exact three-state restore and
+unrelated-setting preservation. See Microsoft's
+[`secedit /generaterollback`](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-generaterollback)
+and [`secedit /configure`](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-configure)
+references.
+
+# Local password complexity explicit recovery preparation, 2026-10-26 19:36 UTC
+
+Extended the inert E08 candidate with a conflict-checked recovery preparation
+path for supplied version-1 observations of explicit local values. It accepts
+only internally consistent `Enabled`/`Disabled` local observations, requires
+the current value to match the expected applied state, and prepares the captured
+prior explicit value. Already-matching values return a no-op without claiming
+ownership. `NotDefined`, `NotReported`, merged/effective observations, malformed
+records and drift are refused. The result still sets
+`ExactRecoveryVerified = false` and `ReadyForMutation = false`; this is not a
+setter, durable snapshot or proof that `secedit` can restore the prior state.
+
+`LocalPasswordComplexityCandidate.Tests.ps1` passed **11/11** on PowerShell
+7.6.5 and **11/11** on Windows PowerShell 5.1.26100.9711 with Pester 5.7.1.
+The latter used process-only `ExecutionPolicy Bypass` to load Pester; no
+persistent policy changed. Pester's unused TestRegistry and TestResult plugins
+were disabled. A read-only VM/task check again failed at CIM before inspection
+or dispatch; no guest request or elevation occurred. No local policy, registry,
+VM or Defender state changed. E08 remains partial: undefined-value removal,
+effective managed policy, durable recovery, guarded mutation and native Windows
+acceptance remain open. No legacy outcome closed; estimates are unchanged. See
+[structured evidence](../archive/evidence/local-password-complexity-explicit-recovery-preparation-2026-10-26-1936.json),
+[candidate module](../../modules/RIDE.LocalPasswordComplexityCandidate.psm1),
+and [E08 plan](remaining-settings-plan.md#current-implementation-and-validation).
+
+# Advanced WinHTTP configuration preparation implementation, 2026-10-26 19:31 UTC
+
+Added `RIDE.WinHttpProxyPreparation.psm1` for pure-data configuration and
+conflict-aware recovery preparation. It requires an explicit User/Machine scope
+matching the observation, composes the four documented `set advproxy` fields,
+preserves unselected reported values, rejects scope/field drift, verifies its
+changed-field metadata, and marks Machine scope as requiring elevation. Both
+apply and recovery outputs set `ReadyForMutation = false` and
+`ExactLiteralStateVerified = false`; omitted strings normalize to empty, so this
+does not claim exact restoration and does not authorize a setter.
+
+The combined inventory/preparation suites passed **15/15** on PowerShell 7.6.5
+and **15/15** on Windows PowerShell 5.1.26100.9711 with Pester 5.7.1. The tests
+used supplied data and mocked command/identity boundaries; TestRegistry and
+TestResult were disabled. Windows PowerShell used a process-only execution-policy
+bypass to load Pester; no persistent policy changed. No live netsh command or
+proxy write ran. The latest VM/task query at 19:26 UTC failed at CIM before
+inspection; no guest request or elevation was made. No legacy outcome closed
+and estimates remain unchanged. See [structured evidence](../archive/evidence/winhttp-proxy-preparation-current-source-regression-2026-10-26-1931.json),
+[operator guide](../user-proxy-inventory.md#advanced-winhttp-configuration-research-2026-10-26),
+and [current acceptance plan](remaining-settings-plan.md#current-implementation-and-validation).
+
+# Advanced WinHTTP proxy read-only inventory implementation, 2026-10-26 19:26 UTC
+
+Added `RIDE.WinHttpProxyInventory.psm1` and focused tests. The module parses the
+documented `netsh winhttp show advproxy` JSON output, validates required Boolean
+fields and optional string values, preserves missing versus empty optional
+strings, derives the reported User/Machine scope, and binds a live observation to
+the current computer and user SID. It explicitly reports `ExactLiteralStateVerified`
+as false: disabled or omitted proxy strings and underlying registry state are not
+proven by this command view. The observer is read-only; it does not save an
+observation or provide a setter/recovery path.
+
+The focused suite passed **7/7** on PowerShell 7.6.5 and **7/7** on Windows
+PowerShell 5.1.26100.9711 with Pester 5.7.1; tests used fixtures and mocked
+identity/command boundaries. TestRegistry and TestResult integrations were
+disabled. Windows PowerShell required a process-only execution-policy bypass to
+load the installed Pester module; no persistent policy changed. No live `netsh`
+query or proxy change occurred. Read-only `Get-VM` and registered-task queries
+for `RIDE-Win11-Test` failed again at 19:26 UTC before inspection with CIM access denied; no guest
+request or elevation was made. No legacy outcome closed, and the five estimate
+ranges remain unchanged. See [structured evidence](../archive/evidence/winhttp-proxy-inventory-current-source-regression-and-vm-access-2026-10-26-1924.json),
+[operator/API guide](../user-proxy-inventory.md#advanced-winhttp-configuration-research-2026-10-26),
+and [Microsoft command reference](https://learn.microsoft.com/en-us/windows/win32/winhttp/netsh-exe-commands).
+
+# Advanced WinHTTP proxy configuration source review, 2026-10-26 19:15 UTC
+
+Microsoft's current WinHTTP command reference documents `netsh winhttp set/show
+advproxy` with independent `user` and `machine` scopes and explicit JSON fields
+for proxy server, bypass list, PAC URL and automatic detection. The older
+`WinHttpSetDefaultProxyConfiguration` API is deprecated on Windows 8.1 and newer
+and does not support most proxy configurations or authentication. Use the
+documented advanced command interface as the implementation candidate; do not
+build on the deprecated setter. The accepted WinHTTP setting still needs a
+read-only parser/capture, per-scope privilege and identity checks, exact
+conflict-aware restore, ShouldProcess-gated writes, native output/readback
+handling, and disposable Windows consumer/GUI acceptance before catalog support.
+No command was run, no proxy state changed, and no legacy outcome closed. This
+source review changes no estimate. See the [operator/API plan](../user-proxy-inventory.md#advanced-winhttp-configuration-research-2026-10-26),
+[Microsoft command reference](https://learn.microsoft.com/en-us/windows/win32/winhttp/netsh-exe-commands),
+and [current proxy implementation/acceptance row](remaining-settings-plan.md#current-implementation-and-validation).
+
+## E07 WinHTTP advanced proxy current-source Windows PowerShell regression, 2026-10-28 19:52 UTC
+
+After the 2026-10-28 16:30 implementation/source reconciliation, `WinHttpProxyInventory.Tests.ps1`, `WinHttpProxyPreparation.Tests.ps1` and `WinHttpProxyLifecycle.Tests.ps1` passed 22/22 in Windows PowerShell 5.1/Pester 5.7.1. The tests use documented output and supplied observations; netsh, registry, network and WinHTTP calls were not made. The candidate remains unsupported with no catalog target pending native command availability, exact apply/readback/restore, effective policy, consumer and GUI acceptance. The latest host-CIM preflight at 19:50 UTC denied VM state access; no guest request occurred. No legacy setting outcome closed; estimates remain settings **37-57**, packages **37-52**, components **19-24**, files/assets **25-35**, maintenance **8-12**, exact **126-180**, rounded **125-180/about 155**. See [structured regression evidence](../archive/evidence/winhttp-proxy-current-source-postreconciliation-winps51-regression-2026-10-28-1952.json) and [current VM blocker evidence](../archive/evidence/b04-userproxy-inventory-preparation-lifecycle-winps51-and-vm-block-2026-10-28-1950.json).
+## B04 current UserProxy Windows PowerShell 5.1 regression and VM access, 2026-10-28 19:50 UTC
+
+The three current UserProxy inventory, preparation and lifecycle suites passed 103/103 in Windows PowerShell 5.1/Pester 5.7.1 with TestRegistry disabled. All WinINet and registry calls remained mocked; no proxy or Windows state was read or changed. A fresh read-only `Get-VM -Name RIDE-Win11-Test` query failed at host CIM before VM/checkpoint inspection, and no guest request was dispatched. Effective-policy coverage, PAC-consumer behavior, RAS/GUI behavior and native Windows apply/repeat/status/restore acceptance remain open; catalog `SupportedTargets` stays empty. No legacy outcome closed; estimates remain settings **37-57**, packages **37-52**, components **19-24**, files/assets **25-35**, maintenance **8-12**, exact **126-180**, rounded **125-180/about 155**. See [structured regression and VM evidence](../archive/evidence/b04-userproxy-inventory-preparation-lifecycle-winps51-and-vm-block-2026-10-28-1950.json).
+## B04 proxy current-source regression and VM access, 2026-10-26 16:27 UTC
+
+`UserProxyInventory.Tests.ps1`, `UserProxyPreparation.Tests.ps1`,
+`UserProxyLifecycle.Tests.ps1` and `Catalog.Tests.ps1` passed **190/190 runnable
+tests** under both PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9711 with
+Pester 5.7.1. One `WindowsIntegration` test was excluded in each run; the
+optional TestRegistry and TestResult plugins were disabled and scratch data was
+kept under `.local`. This covers current mocked WinINet boundaries, policy
+refusal, owned-field preparation/recovery, durable RunId lifecycle/compensation,
+and catalog/engine planning and saved-run routing. No WinINet setter ran.
+
+A fresh read-only `Get-VM -Name RIDE-Win11-Test` check failed at CIM before VM
+or checkpoint inspection. A follow-up `Get-ScheduledTask`/`Get-ScheduledTaskInfo`
+query for the registered `\\RIDE\\RIDEWin11Test` task failed at CIM as well;
+the task was not launched. No guest request, elevation prompt, or Windows state
+change occurred. Native Windows 11 apply/repeat/status/restore, effective
+policy, visible GUI behavior and controlled PAC-consumer acceptance remain
+deferred; catalog `SupportedTargets` stays empty. No legacy outcome closed;
+estimates remain settings **37-57**, packages **40-55**, components **19-24**,
+files/assets **25-35**, maintenance **8-12**, exact **129-183**, rounded
+**130-185/about 155**. See the [structured regression and VM evidence](../archive/evidence/b04-proxy-current-source-regression-and-vm-access-2026-10-26-1627.json).
+
+## B04 current engine integration documentation reconciliation, 2026-10-26 16:23 UTC
+
+The current catalog and engine show that `windows.proxy-auto-detect` is an
+engine-integrated `UserProxy` candidate. Apply passes the generated run ID to the
+proxy lifecycle before the setter; restore uses the saved run ID and the recorded
+machine/user/session identity. The lifecycle persists a create-new snapshot,
+checks fresh values and documented policy, verifies writes and records restore
+completion. The operator guide and active queue were corrected where they still
+described engine integration as missing or the lifecycle wrapper as future work.
+
+This documentation reconciliation does not change code, call the WinINet setter,
+or establish native behavior. `SupportedTargets` remains empty and
+`PendingAcceptance` true. Complete policy coverage, snapshot authenticity and
+cross-process limits, controlled PAC-consumer/visible UI behavior, and disposable
+Windows 11 apply/repeat/status/restore acceptance remain open. No legacy outcome
+closed; estimates remain settings **37-57**, packages **40-55**, components
+**19-24**, files/assets **25-35**, maintenance **8-12**, exact **129-183**,
+rounded **130-185/about 155**. See the [structured current-source
+reconciliation](../archive/evidence/b04-current-engine-integration-documentation-reconciliation-2026-10-26-1623.json).
+
+## B03 user-bin startup current-source regression and VM access, 2026-10-26 16:01 UTC
+
+`tests/UserBinProfile.Tests.ps1` passed **21/21** on PowerShell 7.6.5 and
+**21/21** on Windows PowerShell 5.1 with Pester 5.7.1. Both runs disabled the
+unused TestRegistry and TestResult plugins and kept temporary files under
+`.local`. Coverage includes both runtime candidates, normalized PATH matching,
+missing/inaccessible directory behavior, runtime/remote guards, completion,
+legacy writer refusal, repeat apply, concurrent-edit refusal, color-block
+coexistence and exact saved-profile recovery. The first invocation stopped
+before assertions because the sandbox denied Pester's optional HKCU TestRegistry
+fixture; the constrained reruns passed.
+
+Fresh read-only `Get-VM` and `Get-VMCheckpoint` checks for `RIDE-Win11-Test`
+remain denied at CIM, and the registered task query returns `ERROR: The network
+address is invalid`. The existing `UserBinPath` runner is prepared, but no guest
+request was dispatched and no elevation prompt or VM/host state change occurred.
+Disposable Windows 11 ConsoleHost startup acceptance remains pending, so no
+legacy outcome closes and estimates remain settings **37-57**, packages
+**40-55**, components **19-24**, files/assets **25-35**, maintenance **8-12**,
+exact **129-183**, rounded **130-185/about 155**. See [structured evidence](../archive/evidence/user-bin-current-source-regression-and-vm-access-2026-10-26-1601.json).
+
+## Intended-user identity guard current-source regression and VM access recheck, 2026-10-25 16:01 UTC
+
+The read-only host query for `RIDE-Win11-Test` and `RIDE-Srv2025Test` failed at CIM before VM or checkpoint inspection; no guest request was queued. `UserHandoff.Tests.ps1` and `ProfileAcceptanceAutomation.Tests.ps1` passed **35/35** on PowerShell 7 with Pester 5.7.1 and TestRegistry disabled. The regression covers the current desktop identity/session guard, user-only selection boundary, child preflight, foreign-user recovery rejection and acceptance-runner attestation. It does not establish mixed-scope application or another administrator's real desktop handoff. No Windows state, account, session or VM changed, and no legacy setting outcome closed. Estimates remain settings **37-57**, packages **40-55**, components **19-24**, files/assets **25-35**, maintenance **8-12**, exact **129-183**, rounded **130-185/about 155**. See [structured evidence](../archive/evidence/intended-user-identity-current-regression-and-vm-access-2026-10-25-1601.json).
 # Settings post-migration review
 
 Current disposable validation sequence, accepted lifecycle scopes and the owned
@@ -42,6 +409,10 @@ UI, preview, apply each declared choice separately, inspect supported/independen
 apps and shell surfaces, repeat, then restore captured state. Retain evidence and
 recover the pinned checkpoint. Denied Hyper-V access defers this session's native
 case; metadata/source validation does not substitute for it.
+
+This was the review queue as of 2026-10-17. It was completed later that day;
+the completion record below supersedes this next-step instruction and confirms
+279/279 presentations reviewed.
 
 Resolved: four presentation reviews only. No whole legacy outcome resolved,
 retired or excluded. Native feature outcomes remain partial/deferred. All five
@@ -1401,13 +1772,15 @@ The modern policy help describes fallback to older cipher-strength policies.
 Therefore neither ignore the old value nor promise that it enforces AES-CBC on
 Windows 11 without acceptance. Record ADMX version/build and test precedence.
 
-Propose the modern [Choose drive encryption method and cipher strength](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength)
-dialog as a future advanced control with independent drive-type choices in one
-policy presentation. Method changes concern future encryption, not conversion
-of existing drives. Retain the legacy ID/path/states and recovery separately;
-do not redirect it silently or label AES-CBC 128 as Use Windows default. Improve
-the catalog reference with an explicit legacy/fallback qualification rather
-than implying the modern page documents EncryptionMethod itself.
+The modern [Choose drive encryption method and cipher strength](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength)
+policy is implemented as three separately selectable operations, one per drive
+type, with four explicit algorithm/key-size values and a WindowsDefault unset
+state. Method changes concern future encryption, not conversion of existing
+drives. Retain the legacy ID/path/states and recovery separately; do not redirect
+it silently or label AES-CBC 128 as Windows default. The modern operations use
+the page as a behavior reference; the exact registry mapping was observed in
+the local VolumeEncryption.admx. See the
+[dated mapping evidence](../archive/evidence/bitlocker-drive-method-policy-source-review-2026-10-27.json).
 
 Make edition, account and technical prerequisites visible in show/plan/help.
 Microsoft's [BitLocker overview](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/#windows-edition-and-licensing-requirements)
@@ -5865,6 +6238,9 @@ prove a supported headless registry mapping. No host preference or policy was
 changed. This follow-up remains proposed, with automation and feature evidence
 pending; the feedback bundle stays partial and estimates unchanged.
 
+### Feedback frequency current Microsoft-source recheck, 2026-10-28
+
+Microsoft Support currently confirms the Windows 11 Diagnostics & feedback location and describes this control as adjusting how often Windows asks the user for feedback. Microsoft Learn section 18.16 separately says the setting affects user-generated feedback, not diagnostic and usage data, and lists five mappings for the two `HKCU\Software\Microsoft\Siuf\Rules` values. The Learn page labels both values `REG_DWORD`, although its daily (`864000000000`) and weekly (`6048000000000`) values exceed the unsigned DWORD maximum. This confirms a publisher-documentation inconsistency; it does not establish a corrected type or the current GUI payload. Do not add executable states or guess/coerce values. Preserve the paired snapshot/recovery design and verify current UI choices, value kinds, transitions, mixed/custom state and policy effects on a disposable target. The host CIM query failed before VM/checkpoint inspection, so no runner ran. No registry, task or Windows state changed; R04 remains partial and all estimates remain unchanged. See [structured source evidence](../archive/evidence/feedback-frequency-current-microsoft-source-recheck-2026-10-28-1232.json), [Microsoft Support guidance](https://support.microsoft.com/en-us/windows/privacy/diagnostics-feedback-and-privacy-in-windows) and [Microsoft Learn mapping](https://learn.microsoft.com/en-us/windows/privacy/manage-connections-from-windows-operating-system-components-to-microsoft-services).
 ### Accepted feedback-frequency refinement, 2026-10-11
 
 The user accepted one GUI-aligned current-user/no-admin Feedback frequency
@@ -9370,6 +9746,35 @@ environment refresh and effective-path behavior remain unverified. The operation
 empty `SupportedTargets` list prevents apply until acceptance adds a supported
 target.
 
+### BitLocker source review follow-up, 2026-10-26 12:22 UTC
+
+The source mapping and gates remain in place, but this audit found that the
+current enrollment handler covers only the TPM-only route. The accepted lifecycle
+also requires TPM+startup PIN selection, effective startup-authentication policy
+and alternate boot-route review, and boot/preboot evidence. The broad local FVE
+policy refusal is a fail-safe boundary, not completion of that policy review.
+Native recovery backup is documented as a manual step; it is not yet a guided
+RIDE backup workflow. These gaps keep the four outcomes partial and pending.
+
+The focused Pester suite still cannot run in this environment because only
+Pester 3.4.0 is installed. Corrected the typed-confirmation mock to normalize
+the volume drive-letter format. PowerShell parser checks and repository
+validation pass; the current-source UnitOnly VM task has no verified result for
+this handler. No BitLocker cmdlet was run against the host. Resolved outcomes:
+none; retired/excluded: none; deferred: accepted startup/PIN and policy behavior,
+native backup workflow, and Windows lifecycle/security acceptance. Estimates
+remain unchanged because these source checks do not establish Windows behavior.
+
+### BitLocker startup-choice source follow-up, 2026-10-26 12:29 UTC
+
+Enrollment now declares both accepted startup choices, TPM-only and
+TPM-plus-PIN. The PIN is prompted as a SecureString only after ShouldProcess
+approval and is passed only to the BitLocker cmdlet; WhatIf must not prompt. The
+catalog validator requires both choices, and focused tests cover preview and
+secret-free results. Managed/effective FVE policy interpretation, alternate
+normal boot routes, native existing-key backup and Windows boot/recovery evidence
+remain deferred. The workflow remains pending acceptance; no host state changed.
+
 Resolved: engine/catalog planning and saved-run recovery wiring, locally tested.
 Retired/excluded: none. Partial: persistent user PATH; disposable Windows 11
 apply, repeat, status, exact restore, process refresh and effective behavior
@@ -9760,3 +10165,807 @@ outcome closes and all five estimates remain **38-58 / 52-67 / 19-24 / 25-35 /
 8-12**, exact **142-196**, rounded **145-200/about 170**. See the [Terminal
 regression](../archive/evidence/terminal-jsonc-packaged-instance-writer-identity-2026-10-24-1252.json)
 and [catalog coverage evidence](../archive/evidence/sha256-certutil-setting-presentation-2026-10-24-1252.json).
+
+## SettingsRemainingBatch1 regression failure and SettingsRemainingBatch2 queue timeout, 2026-10-24 21:24 UTC
+
+`SettingsRemainingBatch1` request `b434c134bc8144e1ae4dcd7ad80ef403`
+finished Failed on Windows 11 Enterprise Evaluation build 26300. Catalog
+validation passed, but the guest's full-repository Pester gate failed 46 of
+3253 tests (3206 passed, 1 skipped), so no native setting scenario ran and no
+setting support or legacy outcome is accepted. Cleanup, result collection and
+evidence export reported no errors, and no recovery block is recorded.
+
+The regression failures span separate prerequisites and fixtures: Sysinternals
+tests still expect the nine Windows 11-supported independent products to be
+unsupported and pending; six MiTeC archive tests expect ignored `.local` ZIPs
+that were absent from the VM source snapshot; Phoenix Protector planning lacks
+its .NET Framework 3.5 prerequisite; GitHub credential tests reject the guest
+profile permissions; and two remaining-setting tests disagree with catalog
+target metadata. The Sysinternals licensing decision remains settled by the
+prior RIDE v2 specialist approval for direct download-and-install; those stale
+assertions are not a reason to defer its package migration. Defender-detected
+utilities remain excluded separately. See the [structured failure evidence]
+(../archive/evidence/settings-remaining-batch1-win11-pester-failure-2026-10-24-2113.json).
+
+Queued `SettingsRemainingBatch2` request
+`3f89f9225e324b22a6127318f62b86ca` timed out before guest execution. Its
+180-minute budget included about 176 minutes waiting behind Batch1, leaving
+about three minutes for controller startup; AutomatedLab was still waiting for
+the registered session. Cleanup and evidence collection reported no errors,
+with no guest result or recovery block. See the [queue timeout evidence]
+(../archive/evidence/settings-remaining-batch2-win11-queue-timeout-2026-10-24-2117.json).
+
+The serialized worker has since started ApplicationsBatch7 request
+`89f97d58ba1a493199f83654702c91ea`; ImageMagick request
+`33c4bbf57c9a43ac9219892f9eeacb02` remains pending behind it. Preserve that
+queue order. Next, correct the failed full-suite assertions and fixtures,
+re-run the focused Windows regression, then continue the already-authorized
+queue on the existing checkpoint. No estimate changes apply: all five ranges
+remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**, rounded
+**140-195/about 170**.
+
+## Settings regression repair and queue write denied, 2026-10-24 22:08 UTC
+
+Updated the remaining-settings tests to distinguish supported operations from
+Windows 11 candidates: the batch still covers all 38 operations in discovery,
+but mocked saved-run lifecycle coverage applies only to the 36 Windows 11
+supported settings. Candidate metadata and state planning remain checked; the
+two context-menu candidates require their explicit Windows 11 acceptance
+before the target gate is removed. The focused `RemainingSettings.Tests.ps1`
+suite passed **77/77** on Pester 5.7.1 with TestRegistry disabled. The MiTeC
+analysis-tool and mail/history tests now separate catalog pins from byte checks
+and mark only the local-archive byte recheck skipped when ignored ZIPs are
+absent from a VM snapshot. The current local checkout had those bytes and both
+focused suites passed in the combined 100/103 run; its three failures were the
+stale batch-count and two candidate lifecycle assertions fixed above.
+
+The registered task client was then used to retry `SettingsRemainingBatch1`
+with the existing checkpoint and no UAC prompt. Windows denied the write to
+`queue/pending`; no request was created and the VM task did not start. Do not
+retry through an elevated or alternate queue writer under this authorization.
+The settings batch remains blocked on the queue ACL. Local
+`GitHubAuthentication.Tests.ps1` passed **53/53** when Pester used a repository-
+local temp root, showing its earlier AppContainer temp-path failures do not
+justify weakening credential ACL checks. No Windows setting scenario ran, no
+legacy outcome closed, and all estimate ranges remain unchanged. See [queue
+write evidence](../archive/evidence/settings-remaining-batch1-retry-queue-write-denied-2026-10-24-2208.json).
+
+## B06 OpenSSH Client source-readiness and VM access recheck, 2026-10-25 00:31 UTC
+
+Microsoft's current Features on Demand reference identifies OpenSSH Client as
+the non-satellite capability `OpenSSH.Client~~~~0.0.1.0` and lists the
+architecture-specific `OpenSSH-Client-Package` CAB. The current DISM source
+precedence remains explicit source, configured Group Policy sources when
+content is missing, and Windows Update when permitted. `LimitAccess` blocks
+Windows Update/WSUS but does not establish exclusion of configured policy
+sources. A bounded search of `.local` found no matching CAB, Windows 11
+Languages and Optional Features media, or FOD source to validate. The read-only
+VM query failed at CIM before VM/checkpoint inspection. No DISM call, servicing
+policy change, or Windows mutation occurred. Keep the candidate unregistered
+and unsupported until exact matching media, payload/dependency completeness,
+source fallback, recovery, and Windows acceptance are demonstrated. No legacy
+outcome closes; all five estimate ranges remain unchanged. See [structured
+evidence](../archive/evidence/b06-openssh-client-media-requirements-and-vm-access-2026-10-25-0031.json),
+[Microsoft FOD inventory](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11),
+and [DISM source rules](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11).
+
+## Registry value-set ancestor-key restore regression, 2026-10-25 00:49 UTC
+
+The current `RIDE-RegistryValueSet` implementation captures existence for each
+declared registry-key ancestor. Restore removes only empty descendant keys that
+were absent at capture, and preserves occupied keys and unrelated values/subkeys.
+The focused `HashValueContextMenu.Tests.ps1`, broad `SixtySettings.Tests.ps1`,
+and `UpdateNotificationPolicy.Tests.ps1` suites completed successfully in the
+first combined Pester run. That run found 190 cases: 182 passed, 7 failed and 1
+skipped. All seven failures were in unrelated `CustomRegistryAuthoring.Tests.ps1`
+staging moves under the sandbox-protected AppData temp path. Rerunning that
+32-test suite with the temp root under `.local` passed **32/32**; across both
+runs, 189 unique cases passed, none failed, and one remained skipped.
+
+Repository validation passed for 411 operations, 8 groups, 5 profiles and 274
+PowerShell files. The read-only `Get-VM -Name RIDE-Win11-Test` check failed at
+CIM before VM/checkpoint inspection. No live registry, Certutil, VM, or Windows
+state was accessed or changed. Resolved: exact ancestor-key restoration behavior
+is covered by the selected setting and shared value-set regressions. Deferred:
+native hash-menu placement/quoting, Windows 11 lifecycle and exact recovery.
+No legacy outcome closes; estimates remain 37-57 / 50-65 / 19-24 / 25-35 /
+8-12, exact 139-193, rounded 140-195/about 170. See [structured evidence]
+(../archive/evidence/registry-valueset-ancestor-key-restore-regression-2026-10-25-0049.json).
+
+## SettingsRemainingBatch1 Windows 11 lifecycle acceptance, 2026-10-25 01:16 UTC
+
+The registered Windows 11 task completed request
+`b5b8e02f408642f78ba8cb53f68281b0` on Windows 11 Enterprise Evaluation build
+26300 with Windows PowerShell 5.1.26100.9444. Validation passed, selected Pester
+passed **343/343**, and integration passed. The batch completed **14 setting
+lifecycles**, checking **32 named states**. The Certutil and Hash Value
+context-menu candidate lifecycles both passed exact recovery after
+`Save-RideOperationSnapshot` was corrected to persist the value-set handler's
+captured registry ancestor-key existence. Five operations were unavailable in
+the guest: two Windows compatibility/Program Data scheduled tasks and three
+Office scheduled tasks. No lifecycle failed; cleanup, collection and evidence
+export reported no errors, and no recovery-block marker is present.
+
+This is Windows 11 lifecycle evidence for the selected operations. It does not
+establish context-menu placement, display, quoting or user-facing behavior, and
+the candidates remain pending broader feature acceptance. The Server 2025 task
+registration was refreshed but its corresponding settings batch has not run.
+No legacy setting outcome closes. All five estimate ranges remain **37-57 /
+50-65 / 19-24 / 25-35 / 8-12**, exact **139-193**, rounded **140-195/about
+170**. See [structured run evidence]
+(../archive/evidence/settings-remaining-batch1-win11-lifecycle-acceptance-2026-10-25-0116.json).
+
+## SettingsRemainingBatch2 Windows 11 lifecycle acceptance, 2026-10-25 01:39 UTC
+
+The registered Windows 11 task completed request
+`70f4c7c4d9ff40028155aa88521e88a9` on Windows 11 Enterprise Evaluation build
+26300 with Windows PowerShell 5.1.26100.9444. Validation passed, selected Pester
+passed **343/343**, and integration passed. The batch completed **18 setting
+lifecycles**, checking **43 named states**. The SMB1 Server protocol operation
+was unavailable because its driver was not present in the guest; the other operations passed
+their preview, desired-state, repeat-apply and exact saved-run restore checks.
+Cleanup, collection and evidence export reported no errors, and the recovery
+block marker is absent.
+
+All 38 operations across SettingsRemainingBatch1 and 2 declare Windows 11 as
+their sole supported target. The Server 2025 registration was refreshed, but
+these two Windows-only acceptance scripts correctly reject a Server guest, so
+no Server settings run is appropriate for this batch. The prior Batch2 queue
+timeout is superseded by this successful run. No legacy setting outcome closes;
+all five estimate ranges remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**,
+exact **139-193**, rounded **140-195/about 170**. See [structured run evidence]
+(../archive/evidence/settings-remaining-batch2-win11-lifecycle-acceptance-2026-10-25-0139.json).
+
+## Local regression and duplicate Batch2 submission follow-up, 2026-10-25 01:45 UTC
+
+The broad Windows-hosted Pester run discovered 3,270 tests across 121 files but
+was interrupted during `SixtySettings.Tests.ps1`; no aggregate is claimed. The
+separate focused hash-menu, sixty-setting, notification, and CustomRegistry
+results recorded above remain valid for their named suites. A later duplicate
+registered-client request for `SettingsRemainingBatch2` was denied while
+writing a queue temporary file, before request creation. The already completed
+registered Batch2 run at 01:39 UTC passed 343/343 guest Pester tests and 18/18
+lifecycle scenarios; that acceptance remains authoritative, so the denied
+duplicate request does not leave Batch2 pending. Direct host `Get-VM` access
+remains CIM-denied. No setting outcome closes; user-facing feature/UI acceptance
+remains open and all estimates remain **37-57 / 50-65 / 19-24 / 25-35 / 8-12**,
+exact **139-193**, rounded **140-195/about 170**. See [local follow-up
+evidence](../archive/evidence/local-full-pester-and-sysinternals-current-rerun-2026-10-25-0145.json)
+and [Batch2 acceptance](../archive/evidence/settings-remaining-batch2-win11-lifecycle-acceptance-2026-10-25-0139.json).
+
+## Experimental File Explorer F1 Help lifecycle candidate, 2026-10-25
+
+Implemented `windows.explorer-f1-help` as an experimental per-user
+`RegistryValueSet` candidate. `Blocked` writes empty unnamed string values to
+the legacy TypeLib `win32` and `win64` paths; `WindowsDefault` removes only
+those two overrides. The Microsoft reference documents F1 as a common
+application Help shortcut, not this registry mapping. The user confirmed on
+2026-10-25 that the RIDE v1 setting works as intended and directed that it be
+retained in the default profile; remove that selection only if acceptance shows
+the setting cannot be rolled back successfully. The default profile now selects
+`Blocked`. The v3 candidate remains `PendingAcceptance` with no supported target,
+so default-profile application is blocked until Windows 11 behavior and exact
+v3 removal/rollback are accepted.
+
+Added `Invoke-RideF1HelpAcceptance.ps1` for the prepared Lenovo T480. It enables
+the pending candidate in memory only, runs preview/idempotence checks, prompts
+for Explorer/Desktop and unrelated-application observations in each state, and
+restores both saved runs in reverse order. The report omits raw registry data.
+At the user's 2026-10-25 direction, the prepared physical T480 is the selected
+acceptance target for this behavior; a disposable VM is not a prerequisite for
+the requested T480 test.
+Focused mocked tests were added. PowerShell parser checks passed for the three
+maintained PowerShell files, and the generated operation reference passed its
+check. No Pester suite or live T480 test was run in this implementation turn.
+The TypeLib mapping's effectiveness,
+unrelated-consumer impact, refresh requirement and exact restore on the T480
+remain acceptance gates. No whole legacy outcome is closed or retired; the
+estimate ranges remain unchanged.
+
+## Read-only VM access recheck, 2026-10-25 05:12 UTC
+
+A current repository PowerShell session attempted `Get-VM` for
+`RIDE-Win11-Test` and `RIDE-Srv2025Test`. Hyper-V returned `Access to a CIM
+resource was not available to the client` before inspecting either VM or any
+checkpoint. No elevation was attempted, no acceptance run was queued, and no VM
+or Windows state changed. Keep the OpenSSH Client/Telnet and OpenSSH Server
+native acceptance scenarios deferred; continue independent source and local
+work. This recheck changes no setting/component disposition and no estimate.
+See [structured VM access evidence](../archive/evidence/ride-vm-access-recheck-2026-10-25-0512.json).
+
+## Remaining settings and F1Help local regression, 2026-10-25 09:17 UTC
+
+`tests/RemainingSettings.Tests.ps1` passed 82/82 and
+`tests/F1Help.Tests.ps1` passed 1/1 (83/83 combined) on PowerShell 7.6.5 with
+Pester 5.7.1. TestRegistry was disabled and the Pester temp root was
+`.local/pester-current`. The settings tests exercised `-WhatIf`; no Windows state
+was written. A read-only `Get-VM` recheck for RIDE-Win11-Test and
+RIDE-Srv2025Test was denied by CIM before VM/checkpoint inspection. Current-source
+local regression is resolved; visible F1 behavior, exact restoration and GUI,
+policy and target acceptance remain deferred. No legacy setting outcome closes.
+Estimates remain **37-57 / 40-55 / 19-24 / 25-35 / 8-12**, exact **129-183**,
+rounded **130-185/about 155**. See [structured evidence](../archive/evidence/remaining-settings-and-f1help-local-regression-2026-10-25-0917.json).
+
+## User-proxy engine lifecycle current-source regression, 2026-10-25 12:01 UTC
+
+Reconciled the E07/R02 active description with current source. The
+`windows.proxy-auto-detect` operation is connected to the engine's saved RunId;
+its lifecycle binds the intended machine/user/session, checks the documented
+proxy policy and current values, writes the durable snapshot before the WinINet
+setter, verifies readback, compensates detected failures, and tracks restore
+completion. The scope only changes the owned automatic-detection flag. PAC URL,
+manual proxy/bypass values, named RAS profiles and machine WinHTTP remain
+separate.
+
+`UserProxyInventory.Tests.ps1` and `UserProxyLifecycle.Tests.ps1` passed **64/64**
+on PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled after its default
+fixture was denied access to `HKCU\Software\Pester`. Native WinINet, policy and
+identity boundaries were mocked; no proxy state was queried or changed. A fresh
+read-only `Get-VM` check for RIDE-Win11-Test and RIDE-Srv2025Test was denied by CIM
+before VM/checkpoint inspection, so Windows acceptance remains deferred. Complete
+effective-policy coverage, visible UI effect and controlled PAC-consumer checks
+also remain open. No target support or full legacy outcome closes; estimates
+remain **37-57 / 40-55 / 19-24 / 25-35 / 8-12**, exact **129-183**, rounded
+**130-185/about 155**. See [structured evidence](../archive/evidence/proxy-engine-lifecycle-current-regression-and-vm-access-2026-10-25-1201.json)
+and the updated [operator/API guide](../user-proxy-inventory.md).
+
+## Windows passkey enterprise-policy current-source recheck, 2026-10-28 11:12 UTC
+
+The current Microsoft passkey page still describes enterprise consent policies
+as available in Windows Insider builds and targeted for general availability by
+the end of June 2026. The current Privacy Policy CSP still labels the
+device-scoped base policy, per-app ForceAllow/ForceDeny/UserInControl lists and
+enumeration policy Windows Insider Preview. Windows 11 24H2's user-facing
+per-app consent and Settings controls are documented separately; declining
+consent blocks registration and authentication for that application. The date
+target has passed, but stable-target policy support is not published. No catalog
+or profile changed; preserve per-app user choice and defer policy implementation
+until stable applicability and reversible semantics are documented. No legacy
+outcome closed; estimates remain **37-57 / 38-53 / 19-24 / 25-35 / 8-12**, exact
+**127-181**, rounded **125-180/about 155**. See [structured evidence]
+(../archive/evidence/windows-passkey-enterprise-policy-current-source-recheck-2026-10-28-1112.json),
+[Microsoft passkey support](https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys/),
+and [Privacy Policy CSP](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy).
+
+## Windows AI, passkey and presence policy source recheck, 2026-10-25 12:06 UTC
+
+Microsoft's current passkey support page confirms that Windows 11 24H2 exposes
+per-app passkey consent in Settings and that declining consent prevents that
+application from registering or authenticating passkeys. Its enterprise-policy
+general-availability target (end of June 2026) has passed, but the current
+Privacy Policy CSP still marks the base and per-app passkey policy nodes Insider
+Preview. The nodes are device-scope, and per-app entries use Store Package
+Family Names. The local build-26300 AppPrivacy template contains those entries;
+that is not target acceptance or evidence of release support.
+
+The same CSP lists human-presence policy from build 10.0.25000+ without naming a
+released Windows target. Microsoft's current Administrator protection feature
+page says the feature is available with KB5120998 on Windows 11 client editions
+and requires restart, while its elevation-prompt CSP remains Insider Preview.
+Smart App Control's Settings transition remains one-way outside Evaluation;
+the registry route is documented for testing and may compromise protection.
+Catalog and profiles are unchanged until these policy support/reversibility
+questions are resolved with a named target and acceptance contract. No legacy
+outcome closes; estimates remain **37-57 / 40-55 / 19-24 / 25-35 / 8-12**, exact
+**129-183**, rounded **130-185/about 155**. See [structured source evidence]
+(../archive/evidence/windows-ai-passkey-presence-policy-source-recheck-2026-10-25-1206.json).
+## B03 persistent user PATH checkpoint runner preparation, 2026-10-25 12:55 UTC
+
+Added a guarded Windows 11 guest runner for Q08's persistent current-user PATH
+lifecycle and added `PersistentUserPath` routing to the existing checkpoint-backed
+profile acceptance host runner. It checks preview/no-write, apply, repeat, the
+registry value kind, engine desired state, preservation of the current process PATH,
+the owned sentinel file, and exact saved-run restoration. Cleanup is restricted to
+the run-owned sentinel and an empty `bin` folder created by this runner. It does not
+broadcast an environment change or claim effective PATH behavior. Its preparation
+stage now requires an interactive native user context. The current host runner uses
+a noninteractive PowerShell Direct child, so it will refuse Q08 before registry
+writes; a reviewed interactive-session guest transport remains needed. The outer
+runner still restores the existing pinned checkpoint.
+
+The focused automation, user-path engine/preparation and profile tests passed
+**125/125** on PowerShell 7.6.5/Pester 5.7.1. Both changed runners parsed in
+PowerShell 7.6.5 and Windows PowerShell 5.1. Repository validation passed with
+**415 operations, 8 groups, 5 profiles and 278 PowerShell files**. No VM or host
+registry was touched. The registered VM inventory remains inaccessible at CIM
+before checkpoint inspection, and the installed protected controller's runner
+module hash differs from the current checkout. Refresh requires a future elevated
+host session; no request was queued. The current PowerShell Direct transport also
+cannot satisfy Q08's interactive user requirement. Windows 11 acceptance, effective
+PATH behavior and target support remain open, and the catalog's `SupportedTargets`
+stays empty.
+No legacy setting outcome closes; estimates remain **37-57 / 40-55 / 19-24 /
+25-35 / 8-12**, exact **129-183**, rounded **130-185/about 155**. See [structured
+evidence](../archive/evidence/q08-persistent-user-path-runner-preparation-2026-10-25-1255.json)
+and the [operator runbook](../../tests/integration/README.md#persistent-user-path-candidate).
+## B03 Q08 interactive user PATH acceptance worker preparation, 2026-10-25 13:06 UTC
+
+Updated the checkpoint-backed Q08 runner to use a short-lived Scheduled Task with
+`LogonType Interactive` and `RunLevel Limited` when coordinating through PowerShell
+Direct. The coordinator requires the PowerShell Direct credential to match the
+currently signed-in guest user, binds the worker to that SID, waits for correlated
+JSON evidence and removes only its uniquely named task in `finally`. The worker
+requires an interactive non-session-0 process and verifies the same SID before any
+PATH lifecycle writes. It retains the exact saved-run restore, sentinel ownership
+checks, and process-PATH/environment-broadcast limits.
+
+Focused acceptance, user-path engine/preparation and profile tests passed **125/125**
+on PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled. The host and guest
+runners parsed in Windows PowerShell 5.1. Repository validation passed **415
+operations, 8 groups, 5 profiles and 278 PowerShell files**. No VM, scheduled task,
+or registry was changed. `Get-VM` remains denied at CIM, and the registered
+protected controller still requires a later elevated refresh. Windows 11 lifecycle
+acceptance and effective PATH behavior remain deferred; `SupportedTargets` remains
+empty. No legacy outcome closes; all estimates are unchanged. See [structured
+evidence](../archive/evidence/q08-persistent-user-path-interactive-worker-preparation-2026-10-25-1306.json)
+and the [focused runbook](../../tests/integration/README.md#persistent-user-path-candidate).
+
+## Current catalog counts and disposable-VM access recheck, 2026-10-25 16:36 UTC
+
+The current catalog contains **415 operations**: 282 setting/control declarations, 103 packages (33 pending acceptance), 22 Store apps, four profile settings (three pending acceptance), and four standalone artifacts. Twenty-two setting/control declarations remain pending acceptance. Repository validation confirms eight groups, five profiles and 278 PowerShell files. The B01 presentation review remains complete at **279/279**; declaration and presentation counts do not close runtime outcomes.
+
+Read-only `Get-VM` checks for `RIDE-Win11-Test` and `RIDE-Srv2025Test` again failed at CIM before either VM or checkpoint could be inspected. Native Windows acceptance remains deferred. No Windows or Defender state changed, and no legacy outcome closed; estimates remain **37-57 / 40-55 / 19-24 / 25-35 / 8-12**, exact **129-183**, rounded **130-185/about 155**. See the [structured catalog and access evidence](../archive/evidence/current-catalog-count-and-vm-access-recheck-2026-10-25-1636.json).
+
+## F1 default-profile selection and acceptance regression, 2026-10-25 16:42 UTC
+
+Implemented the user's decision to select `windows.explorer-f1-help` as `Blocked` in `profiles/default.psd1`. The operation remains `PendingAcceptance` with no supported target; it is not treated as Windows 11 support. `F1Help.Tests.ps1` passed **7/7** with Pester 5.7.1 and TestRegistry disabled. The test confirms the default selection, target guard refusing profile application before mutation, both exact TypeLib values, state mapping, handler writes and captured-value restore order. The catalog description and presentation requirements now explain this state, and `docs/OPERATIONS.md` was regenerated.
+
+No profile or registry was applied. Windows 11 behavior, unrelated-application F1 behavior, and exact v3 restore remain unverified; acceptance is assigned to the prepared Lenovo T480. Host model and physical-target availability were not established, and this run did not use that machine. Both disposable VM checks remain blocked before inspection by CIM access denial. Default-profile application remains blocked until this candidate receives accepted target support. No legacy outcome closes; estimates remain **37-57 / 40-55 / 19-24 / 25-35 / 8-12**, exact **129-183**, rounded **130-185/about 155**. See the [structured F1 evidence](../archive/evidence/f1-default-profile-selection-and-acceptance-regression-2026-10-25-1642.json), [current catalog/access evidence](../archive/evidence/current-catalog-count-and-vm-access-recheck-2026-10-25-1636.json), and [user decision](decision-session-2026-10-17.md#ccleaner-variants-defraggler-retention-and-f1-default-profile-decision-2026-10-25).
+
+## Remaining settings and profile local regression, 2026-10-25 17:26 UTC
+
+`CatalogProfileValidation.Tests.ps1`, `RemainingSettings.Tests.ps1` and `ProfileAcceptanceAutomation.Tests.ps1` passed **94/94** with Pester 5.7.1 and TestRegistry disabled. The first run's 36 access-denied errors were caused by the sandbox denying `.NET File.Move` under the system-temp location used by Pester TestDrive; a direct probe reproduced the restriction there and succeeded in the writable checkout. With process-scoped `TEMP`/`TMP` rooted in the checkout, all tests passed. No product code change was needed, and no Windows settings or Defender state changed.
+
+No legacy setting outcome closes; estimates remain **37-57 / 40-55 / 19-24 / 25-35 / 8-12**, exact **129-183**, rounded **130-185/about 155**. Disposable VM acceptance remains blocked by the latest CIM access denial, before checkpoint inspection. See [structured regression evidence](../archive/evidence/remaining-settings-profile-regression-2026-10-25-1726.json) and [VM access evidence](../archive/evidence/current-catalog-count-and-vm-access-recheck-2026-10-25-1636.json).
+## R29/D09 active settings-ledger reconciliation, 2026-10-26 05:59 UTC
+
+The active [remaining settings decisions ledger](remaining-settings-decisions.md) still described User .NET assemblies as an open provenance issue, although the accepted Q31/D09 decision closes that unidentified label as unsubstantiated bookkeeping. The active row, queue summary and final walkthrough now match the decision: retain the bounded source audit and reopen only if an actual source or use case is identified. No assembly feature, migration or legacy outcome is claimed, and no estimate is deducted. See [structured reconciliation evidence](../archive/evidence/r29-d09-ledger-reconciliation-2026-10-26-0559.json).
+
+## BitLocker v2 lifecycle outcomes source mapping, 2026-10-26
+
+The requested legacy outcomes now have separate v3 catalog workflows and focused
+handler source:
+
+| Legacy selector | v3 operation | Workflow |
+| --- | --- | --- |
+| `EnableBitlocker` | `windows.bitlocker-enrollment` | Begin TPM-only OS-volume encryption only after exact-ID recovery backup confirmation; no legacy AES-CBC preset or skipped hardware test |
+| `DisableBitlocker` | `windows.bitlocker-decryption` | Explicit advanced decryption; never unset or saved-run restore |
+| `AddBitlockerRecoveryPswd` | `windows.bitlocker-add-recovery-password` | Add one selected-volume recovery password and present it only in a local dialog |
+| `DisplayBitlockerRecoveryPwd` | `windows.bitlocker-show-recovery-password` | Reveal one exact-ID RecoveryPassword protector locally; no array-position selection or ordinary output |
+
+The entry point reads operation IDs and encryption choices from the catalog.
+Inspection returns only nonsecret volume/protector metadata. Machine actions
+require elevation and explicit `ShouldProcess`; enrollment preflight requires a
+supported edition, a ready TPM, enabled Windows RE, no configured local FVE policy
+values, a fully decrypted OS volume and an exact recovery protector whose backup
+was verified off-device. A failed key presentation retains the newly created
+protector and reports partial completion. Decryption may remove all protectors and
+is non-restorable.
+
+All four catalog operations remain pending Windows 11 disposable-target
+acceptance, with no supported targets and no default-profile selections. The
+focused Pester 5 source tests were added but not run because this session has only
+Pester 3.4.0; source parsing and catalog validation passed; a separate synthetic mocked smoke check also confirmed secret-free observations, read-only WhatIf paths and the pending-target refusal.
+No key, protector, host encryption state or Windows configuration was accessed
+or changed. Resolved legacy outcomes: none; retired/excluded: none; source-level
+implementation is partial pending runtime/security acceptance. Estimates remain
+unchanged because source behavior is not yet accepted on a disposable Windows
+target.
+
+### BitLocker enrollment-choice validation, 2026-10-26 12:36 UTC
+
+Both accepted startup choices are present in catalog and handler source. The PIN
+is kept as a SecureString and preview does not prompt. The source module now uses
+RIDE's bounded catalog reader for its encryption/startup choices; direct choice
+validation passes. Parser checks, catalog export and repository validation pass.
+Three inline Pester 3 synthetic checks passed with all mutating BitLocker
+commands mocked. The committed Pester 5 suite and Windows acceptance remain
+unverified; effective policy/alternate boot analysis and guided existing-key
+backup are still deferred. No host BitLocker state was read or changed.
+
+### BitLocker startup-mode checks, 2026-10-26 12:38 UTC
+
+Both TPM-only and TPM-plus-PIN paths pass synthetic Pester 3 checks using mocked
+BitLocker cmdlets. TPM+PIN preview issues no prompt; confirmed PIN input is a
+SecureString passed only to the mocked enable command. TPM-only selects only the
+TPM protector and never prompts. The Pester 5 repository suite and disposable
+Windows acceptance remain outstanding. Effective managed-policy/alternate-boot
+review and guided backup of an existing recovery protector remain deferred.
+
+### BitLocker read-only startup-policy visibility, 2026-10-26 13:57 UTC
+
+The read-only state view now projects all protector IDs/types and only named FVE
+and PolicyManager startup-authentication values. It marks effective policy as
+unestablished and explains that registry snapshots do not prove which managed
+source wins. Synthetic Pester 3 checks cover the whitelist and secret-free volume
+projection; parser, exporter and repository validation pass. The normal backup
+handoff and effective policy/boot-route interpretation remain pending.
+### BitLocker existing-key backup handoff and catalog validation, 2026-10-26 14:02 UTC
+
+Added `windows.bitlocker-backup-recovery-password` as a separate staged operation for the accepted normal backup action. It requires an exact existing RecoveryPassword protector ID, opens the native BitLocker control panel only after `ShouldProcess`, and never exports or displays the key or reports a completed backup. The returned stage is explicitly unverified until the operator confirms the matching recovery record can be retrieved off-device. The four original v2 selectors remain independently mapped to their v3 lifecycle workflows.
+
+A direct mocked smoke check passed: `WhatIf` did not launch the native UI, and the explicit handoff returned `BackupVerified=false` with the exact ID. Parser checks, catalog export, and repository validation passed: 423 operations, 8 groups, 5 profiles, 284 PowerShell files. The focused Pester run could not initialize because the sandbox denies Pester 5.7.1's attempt to create `HKCU\Software\Pester`; this is an environment restriction, not a BitLocker assertion result. No host BitLocker state or key was read or changed. The read-only registry snapshot still does not establish effective managed policy, and alternate boot-route/security review plus disposable Windows acceptance remain required. Resolved legacy outcomes: none; retired/excluded: none; implementation remains partial pending acceptance; estimates unchanged.
+
+### BitLocker handler gate and recovery-dialog separation, 2026-10-26 14:14 UTC
+
+Closed a direct-call gap: each mutating or secret-revealing BitLocker handler checks the catalog workflow acceptance status and declared Windows target before volume inspection. Read-only status remains available. The recovery dialog now clears its secret textbox and disposes the form in `finally`; only Create offers the explicit off-device backup-confirmation button, while Show is reveal-and-close only.
+
+`tests/BitLockerWorkflows.Tests.ps1` passed 18/18 under Pester 5.7.1 with the unused TestRegistry fixture disabled. Coverage verifies each of the five action workflows blocks before `Get-BitLockerVolume` while the catalog remains pending, and distinguishes Create confirmation from ordinary Show. Focused parser checks, catalog export and repository validation passed: 423 operations, 8 groups, 5 profiles and 284 PowerShell files. No host BitLocker state or key was read or changed. Effective managed policy, alternate boot routes, exact backup-ID mapping, off-device retrieval/unlock, real boot behavior and disposable Windows acceptance remain incomplete. Resolved legacy outcomes: none; retired/excluded: none; implementation remains partial pending acceptance; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12, exact 129-183, rounded 130-185/about 155.
+### BitLocker policy and preview fail-closed checks, 2026-10-26 14:19 UTC
+
+Enrollment now refuses to start when effective startup-authentication policy and boot-route compatibility are unestablished, even if a catalog target were accidentally enabled. It also refuses ambiguous preexisting non-RecoveryPassword protector types rather than adding a competing route. Add, Backup and Show run `ShouldProcess` before reading the volume, so their preview paths do not capture the secret-bearing native BitLocker object. The explicit Show dialog has no backup-confirmation button; Create keeps that confirmation separate from reveal-only Show.
+
+The focused BitLocker suite passed 20/20 under Pester 5.7.1 with TestRegistry disabled. New tests cover unknown effective policy, alternate protector refusal, direct pending-gate bypass and no-volume-read previews. Parser checks, catalog export and validation passed: 423 operations, 8 groups, 5 profiles and 284 PowerShell files. No host BitLocker state or key was read or changed. The effective-policy evaluator remains unimplemented, so enrollment stays fail-closed. Alternate boot-route/policy provenance, backup ID match and retrieval/unlock, UI presentation and Windows 11 disposable-target behavior remain unaccepted. Resolved legacy outcomes: none; retired/excluded: none; implementation remains partial pending acceptance; estimates remain 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+### BitLocker focused validation and operator help, 2026-10-26 14:21 UTC
+
+The direct workflow help now lists existing-key backup, additional-key creation and selected-key reveal as distinct actions, matching the catalog and operator guide. The test file documents the passing Pester invocation with the unused TestRegistry fixture disabled.
+
+Final focused validation for this run: `tests/BitLockerWorkflows.Tests.ps1` passed 20/20 on Pester 5.7.1; PowerShell parser checks passed for the BitLocker module, catalog validation, engine, entry-point script, tests and `ride.ps1`; catalog export succeeded; repository validation passed for 423 operations, 8 groups, 5 profiles and 284 PowerShell files. This was source-level mocked validation only. No host BitLocker state or key was read or changed. Native GUI/secret-boundary behavior, effective policy and alternate route review, exact backup-ID mapping, retrieval/unlock, boot outcome and disposable Windows acceptance remain required. Resolved legacy outcomes: none; retired/excluded: none; implementation remains partial pending acceptance; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+### BitLocker failure and partial-completion regression, 2026-10-26 14:24 UTC
+
+Added focused checks for explicit decryption confirmation and failed recovery display after protector creation. A declined display leaves the new protector present and reports `BackupVerified = false` without returning the secret; a wrong decryption phrase invokes no decryption cmdlet. The BitLocker Pester suite passed 22/22 with TestRegistry disabled.
+
+Focused parser checks passed and repository validation passed for 423 operations, 8 groups, 5 profiles and 284 PowerShell files. A fresh read-only `Get-VM` check for `RIDE-Win11-Test` and `RIDE-Srv2025Test` again failed before inspection with CIM access unavailable; no VM action was attempted. No host BitLocker state or key was read or changed. Effective policy/alternate-route interpretation, exact backup mapping, retrieval/unlock, real boot behavior and disposable Windows acceptance remain pending. Resolved legacy outcomes: none; retired/excluded: none; implementation remains partial; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+### BitLocker destination-specific recovery handoff, 2026-10-26 14:30 UTC
+
+The existing-key backup handoff now requires a destination category from the operation catalog: file/USB, personal Microsoft account, or print. The operator guide distinguishes these native Control Panel paths from organization-managed Entra ID or AD DS backup workflows. The handoff records the selected category as operator intent, still reports `BackupVerified = false`, and requires the exact existing recovery-password protector ID. Invalid categories fail before volume inspection. Catalog validation rejects destination choices on unrelated workflows.
+
+The focused BitLocker Pester suite passed 23/23 with TestRegistry disabled. Focused parser checks, catalog export and repository validation passed: 423 operations, 8 groups, 5 profiles, and 284 PowerShell files. A read-only query for registered Windows test VMs could not proceed because CIM access is unavailable; no VM action occurred. No host BitLocker state or recovery key was read or changed. Effective managed policy, alternate boot routes, actual off-device retrieval/unlock, native UI/secret-boundary behavior, real boot/recovery and disposable Windows acceptance remain pending. Resolved legacy outcomes: none; retired/excluded: none; deferred acceptance remains; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+### BitLocker startup-policy observation coverage, 2026-10-26 14:35 UTC
+
+Expanded the read-only startup-policy snapshot to include the Microsoft CSP's preboot-PIN exception for InstantGo/HSTI-capable devices and preboot input policy for slates. The projection remains a whitelist of named values and continues to report `EffectivePolicyEstablished = false`; these observations do not establish GPO/MDM precedence, Network Unlock routes or actual boot behavior. Added synthetic coverage for both values and verified unrelated registry properties remain omitted.
+
+`tests/BitLockerWorkflows.Tests.ps1` passed 23/23 with TestRegistry disabled. PowerShell parser checks passed for five workflow-related files; repository validation passed for 423 operations, 8 groups, 5 profiles and 284 PowerShell files. A fresh read-only `Get-VM` check for RIDE-Win11-Test and RIDE-Srv2025Test again failed with CIM access unavailable; no VM action was attempted. No host BitLocker state or recovery key was read or changed. Enrollment, all workflow activation, policy/route interpretation and disposable Windows acceptance remain pending. Resolved legacy outcomes: none; retired/excluded: none; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+### BitLocker Network Unlock route labeling, 2026-10-26 14:41 UTC
+
+Read-only volume status now labels a `TpmCertificate` protector as a potential Network Unlock route. Enrollment explicitly preserves and refuses that protector until managed policy, certificate/WDS provisioning and actual boot behavior are reviewed. This is a cautious classification: Microsoft documents `TpmCertificate` (protector type 9) as the Network Unlock indicator, while the label does not assert the feature is provisioned or used. Added the Network Unlock reference to the enrollment catalog operation and operator guide.
+
+`tests/BitLockerWorkflows.Tests.ps1` passed 25/25 with TestRegistry disabled, including nonsecret status projection and enrollment refusal for this route. Catalog export succeeded; repository validation passed for 423 operations, 8 groups, 5 profiles and 284 PowerShell files; parser checks passed for five PowerShell files. A fresh read-only `Get-VM` query for RIDE-Win11-Test and RIDE-Srv2025Test again failed with CIM access unavailable; no VM action occurred. No host BitLocker state or recovery key was read or changed. Effective policy, recovery retrieval/unlock, native UI boundary, real boot and disposable Windows acceptance remain pending. Resolved legacy outcomes: none; retired/excluded: none; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+### BitLocker Windows PowerShell 5.1 compatibility validation, 2026-10-26 14:43 UTC
+
+Ran the mocked BitLocker workflow suite under Windows PowerShell 5.1.26100.9711 in addition to PowerShell 7.6.5. All 25 tests passed in both shells; the suite substitutes synthetic volume records and mocks BitLocker/TPM cmdlets, so it did not inspect or modify Windows protection state. This confirms the source-level tests parse and execute under both declared PowerShell families, but does not establish native dialog behavior, BitLocker cmdlet behavior, managed policy, target boot or recovery acceptance. A fresh read-only VM inspection at 14:41 UTC failed at CIM access; no VM action occurred. Resolved legacy outcomes: none; retired/excluded: none; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+### BitLocker create and backup workflow separation, 2026-10-26 14:50 UTC
+
+Removed backup attestation from the Add recovery-password dialog. `windows.bitlocker-add-recovery-password` now creates and presents one additional key, then returns only its protector ID, `BackupVerified = false`, and a next-step instruction. It cannot declare a destination or claim recovery readiness. The operator must use the distinct `windows.bitlocker-backup-recovery-password` action with the exact ID and an explicit destination, then verify retrieval from another device before enrollment. The Show dialog likewise remains reveal-and-close only. Catalog presentation and the recovery guide now describe this sequence.
+
+`tests/BitLockerWorkflows.Tests.ps1` passed 25/25 in Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5, with BitLocker/TPM commands mocked and TestRegistry disabled. Catalog export and repository validation passed: 423 operations, 8 groups, 5 profiles and 284 PowerShell files; parser checks passed for five workflow-related scripts. A fresh read-only VM query again failed at CIM access; no VM action occurred. No host BitLocker state or recovery key was accessed or changed. Native UI behavior, destination matching/retrieval, effective policy and real boot/recovery acceptance remain pending. Resolved legacy outcomes: none; retired/excluded: none; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+
+### BitLocker engine route assessment projection, 2026-10-26 14:57 UTC
+
+The RIDE engine now preserves each protector's `RouteAssessment` in its BitLocker value summary and `show` details, so a potential Network Unlock route remains visible in user-facing inspection. The projection continues to expose recovery protector IDs and never inspects or displays recovery passwords. Added isolated synthetic coverage for the user-facing `show` output.
+
+The mocked BitLocker workflow suite passed 25/25 and the separate engine projection test passed 1/1 with TestRegistry disabled under Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5. Parser checks passed for six PowerShell files; catalog export succeeded and repository validation passed for 423 operations, 8 groups, 5 profiles and 285 PowerShell files. A fresh read-only `Get-VM` query for RIDE-Win11-Test and RIDE-Srv2025Test again failed because CIM access is unavailable; no VM action occurred. No host BitLocker state or recovery key was read or changed. Managed policy, alternate boot routes, recovery retrieval, native UI behavior, real boot and disposable Windows acceptance remain pending. Resolved legacy outcomes: none; retired/excluded: none; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+
+### BitLocker workflow source audit and focused regression, 2026-10-26 15:03 UTC
+
+Re-audited the four requested v2 outcomes against their source functions, catalog mappings, focused handlers and recovery guide. Microsoft's Enable-BitLocker documentation confirms the OS-volume sequence represented here: create a recovery-password protector, back it up, verify recovery access, then enable encryption. RIDE's separate backup handoff deliberately returns `BackupVerified = false`; the operator must verify the exact ID and off-device retrieval. The four catalog operations remain source-ready and blocked from execution until disposable Windows acceptance; no host BitLocker state or recovery password was accessed.
+
+The mocked `tests/BitLockerWorkflows.Tests.ps1` suite passed 25/25 and `tests/BitLockerEngineProjection.Tests.ps1` passed 1/1 under Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5, with TestRegistry disabled. Catalog export succeeded; repository validation passed for 423 operations, 8 groups, 5 profiles and 285 PowerShell files; parser checks passed for six workflow/entry files; focused `git diff --check` passed. A read-only `Get-VM` query for RIDE-Win11-Test and RIDE-Srv2025Test failed at CIM access; no VM action occurred. Native BitLocker cmdlets/UI, exact backup mapping/retrieval, effective policy, boot/recovery and disposable Windows acceptance remain pending. Resolved legacy outcomes: none; retired/excluded: none; estimates unchanged at 37-57 / 40-55 / 19-24 / 25-35 / 8-12 (exact 129-183; rounded 130-185/about 155).
+
+## User decision: investigate multiple Windows 11 BitLocker encryption methods, 2026-10-27
+
+The user directed RIDE to investigate and implement multiple encryption-method
+choices on Windows 11, particularly in the context of improving default
+security settings. The [NinjaOne article](https://www.ninjaone.com/blog/change-the-bitlocker-drive-encryption-method/)
+is a user-supplied starting reference; confirm the current policy names,
+supported values, applicability, and defaults against Microsoft sources and
+Windows target evidence. The existing `windows.bitlocker-encryption-method`
+operation maps a legacy `EncryptionMethod` policy value and is not proven to be
+the modern Windows 11 OS-volume encryption policy. Preserve its stable ID while
+reviewing compatibility and the appropriate v3 representation. Distinguish
+policy for future encryption from conversion of an already encrypted volume.
+
+This is an accepted investigation/implementation direction, not evidence that a
+method is supported, recommended, or safe as a default. No BitLocker state,
+protector, key, or volume was inspected or changed. No legacy outcome closes;
+Windows 11 and any additional target acceptance remain required. Estimate ranges
+are unchanged.
+
+## WinHTTP incomplete-state preparation refusal and VM access recheck, 2026-10-27 07:31 UTC
+
+Updated `RIDE.WinHttpProxyPreparation` so a complete advanced-settings payload
+cannot be prepared when `show advproxy` omits `Proxy`, `ProxyBypass` or
+`AutoconfigUrl`. Recovery similarly refuses an incomplete current observation
+or snapshot. This avoids converting an unknown saved value into an empty string
+in a future full-settings write. The preparation remains in-memory only, does
+not authorize mutation, and does not establish that command output equals exact
+underlying registry state.
+
+The focused `WinHttpProxyPreparation.Tests.ps1` suite passed **9/9** under
+Windows PowerShell 5.1.26100.9711 and PowerShell 7.6.5/Pester 5.7.1 with
+TestRegistry and TestResult disabled in each shell. The initial default-plugin attempt failed before discovery because
+sandbox registry access denied Pester's optional fixture. A fresh read-only
+`Get-VM` and registered-task query for RIDE-Win11-Test again failed at CIM before
+inspection or dispatch. No netsh command, proxy mutation, guest request,
+elevation or Windows/VM state change occurred. Resolved: incomplete observations
+now fail closed in preparation and recovery. Retired/excluded: none. Deferred:
+exact per-scope capture/recovery, durable guarded native writes, catalog
+integration, and WinHTTP consumer/policy/UI acceptance on Windows. Partial: no
+legacy proxy outcome closes. Estimates remain **37-57 / 38-53 / 19-24 / 25-35 /
+8-12**, exact **127-181**, rounded **125-180/about 155**. Repository
+validation passed for 429 operations, 8 groups, 5 profiles and 294 PowerShell
+files. See [structured evidence](../archive/evidence/winhttp-proxy-preparation-incomplete-state-guard-and-vm-access-2026-10-27-0731.json).
+
+## WinHTTP guarded lifecycle candidate and VM access recheck, 2026-10-27 11:25 UTC
+
+Added a standalone lifecycle module for the documented `netsh winhttp set
+advproxy` settings-file interface. It requires an explicit User or Machine
+patch, checks the current machine/SID and captured scope, refuses reported-value
+drift, honors `ShouldProcess`, writes a protected per-scope durable snapshot
+before the setter, reads configuration back, records partial outcomes, and
+restores only while the observed current state still matches the saved run.
+The lifecycle uses a fixed `SystemRoot\System32\netsh.exe` path; machine scope
+requires an already elevated process. Recovery precision is explicitly
+`ReportedConfiguration`, not exact underlying registry or hidden disabled
+strings. The candidate is not catalog/engine integrated and no Windows target
+is declared.
+
+The inventory, preparation and lifecycle Pester suites passed **22/22** under
+PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9711, with TestRegistry and
+TestResult disabled. Mocks covered the identity, per-scope
+directory, observations and setter, including durable-snapshot-before-set,
+restore, identity mismatch, preparation drift, external drift refusal and
+`WhatIf`, and setter-launch failure with unchanged-state recovery. No native
+`netsh` call, proxy read or proxy change occurred. A fresh
+repository validation also passed for 432 operations, 8 groups, 5 profiles and
+296 PowerShell files. A fresh
+read-only RIDE-Win11-Test VM query and registered-task query again failed before
+inspection at CIM with “Access to a CIM resource was not available to the
+client.” No request was dispatched, no elevation prompt was requested, and no
+guest or host state changed. Host build 26300 still lacks the documented
+`netsh winhttp show advproxy` query. Effective policy, WinHTTP consumers, PAC
+behavior, RAS, GUI outcome, native write/readback and exact literal recovery
+remain open. Resolved, retired and excluded legacy outcomes: none. Deferred:
+catalog integration, supported-target decision and Windows 11/Server acceptance.
+Partial: standalone lifecycle and local mocked regression only. Estimates
+remain settings **37-57**, packages **38-53**, components **19-24**,
+files/assets **25-35**, maintenance **8-12**, exact **127-181**, rounded
+**125-180/about 155**. The unchanged ranges reflect no legacy outcome closure.
+See the [structured evidence](../archive/evidence/winhttp-proxy-durable-lifecycle-candidate-and-vm-block-2026-10-27-1120.json).
+
+## BitLocker future-encryption default, 2026-10-27
+
+The user selected **XTS-AES 256-bit** as RIDE's intended default for future
+encryption, with **XTS-AES 128-bit** retained as an explicit alternative where
+the verified Windows policy supports it. This decision preserves the boundary
+between a policy for future encryption and conversion of an already encrypted
+drive. It does not establish that the stable legacy
+`windows.bitlocker-encryption-method` operation maps to the applicable Windows
+11 policy. Verify Microsoft's policy mapping and each drive type's
+applicability, then keep the selected default pending applicable Windows
+acceptance. Until that work passes, do not change the catalog or profile
+default. No BitLocker state, protector, key, or volume was inspected or changed.
+## BitLocker future-encryption policy target status correction and regression, 2026-10-27 12:40 UTC
+
+The three new drive-type policies retain the four documented AES-CBC/XTS-AES
+choices and the default workstation profile's XTS-AES 256 future-encryption
+intent. Because disposable Windows policy acceptance remains pending, their
+catalog metadata now correctly has empty `SupportedTargets`, Windows 11 in
+`CandidateTargets`, and `PendingAcceptance = true`. The historical
+`windows.bitlocker-encryption-method` operation and its recovery identity remain
+unchanged. The focused policy suite passed **3/3** on PowerShell 7.6.5 and **3/3**
+on Windows PowerShell 5.1.26100.9711; the targeted legacy-selector catalog test
+passed **1/1**. A combined 98-test run had 97 passes and one unrelated direct
+registry security-descriptor test denied by the sandbox. Repository validation
+passed for **432 operations, 8 groups, 5 profiles and 296 PowerShell files**;
+generated operation documentation is current. Fresh VM inspection failed at
+CIM before inspection/dispatch, so native Windows 11 policy view, precedence
+and saved-state acceptance remain pending. No registry, drive, VM, Defender or
+elevation state changed; no legacy outcome or estimate changed. See the
+[structured evidence](../archive/evidence/bitlocker-policy-target-candidate-correction-and-acceptance-regression-2026-10-27-1240.json).
+
+## BitLocker target guard cross-shell regression, 2026-10-27 12:48 UTC
+
+The three modern BitLocker drive-type policy operations remain Windows 11 candidates with no supported targets pending native policy acceptance. Added an engine-level fail-closed regression: with the platform mocked as Windows 11, Invoke-RidePlan -WhatIf rejects all three XtsAes256 requests as unsupported before reaching the registry handler. The focused policy suite passed 4/4 in PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9711; the targeted legacy selector identity case passed 1/1. Repository validation passed for 432 operations, 8 groups, 5 profiles and 296 PowerShell files. A broader 98-test catalog/policy invocation had 97 passes and one unrelated sandbox denial reading a registry security descriptor. Generated operation documentation is current. Fresh VM access remains blocked before inspection by host CIM, so Group Policy precedence, native behavior and saved-state restoration remain pending. No Windows, drive, host or Defender state changed and no elevation was requested. No legacy outcome closed; estimates remain unchanged. See [structured evidence](../archive/evidence/bitlocker-policy-apply-guard-and-cross-shell-regression-2026-10-27-1246.json).
+## WinHTTP advanced proxy candidate cross-shell regression, 2026-10-27 16:48 UTC
+
+The current-source inventory, preparation and guarded-lifecycle suites passed
+**22/22** in PowerShell 7.6.5 and **22/22** in Windows PowerShell 5.1.26100.9711
+with Pester 5.7.1. The tests use mocked observation, identity, state-directory
+security and setter boundaries. They verify incomplete-state refusal, scope
+binding, durable pre-change records, `WhatIf`, and conflict-checked restore;
+they do not exercise native proxy behavior. No `netsh` observer/setter, registry
+read, proxy change, VM operation, Defender change or elevation occurred.
+
+The module remains a standalone, unregistered candidate with empty
+`SupportedTargets`. Native command availability/output, exact underlying state
+capture for omitted or disabled strings, user/machine Windows acceptance,
+effective policy, consumers and GUI behavior remain pending. The prior host
+check found `netsh winhttp show advproxy` unavailable; current VM/CIM and
+Hyper-V UI integrity access is also blocked. No legacy setting outcome closes;
+all five estimates remain unchanged. See [structured evidence](../archive/evidence/winhttp-proxy-current-source-cross-shell-regression-and-access-2026-10-27-1648.json),
+[candidate documentation](../user-proxy-inventory.md#advanced-winhttp-configuration-research-2026-10-26),
+and [VM/UI access evidence](../archive/evidence/hyper-v-manager-read-only-ui-integrity-recheck-2026-10-27-1636.json).
+
+## Power-plan desktop menu legacy-source follow-up, 2026-10-28 06:31 UTC
+
+Read-only inspection of legacy/v2/lib-windows.psm1:705-758 confirms that
+SetPwrSchemeDesktopMenu creates the Switch Power Plan shell subtree through
+merged HKCR, detects only four English plan names from powercfg /list, and
+writes direct powercfg.exe -setactive commands with captured GUIDs. Its paired
+RemovePwrSchemeDesktopMenu recursively deletes the entire named subtree without
+capturing or verifying prior ownership. This source does not establish intended
+user scope, and the direct commands bypass RIDE state capture/reporting.
+
+Do not port the legacy submenu or recursive removal as-is. The accepted initial
+v3 direction remains a separately owned intended-user convenience that opens
+native Power Options; its exact path, ownership/recovery contract and Windows
+UI acceptance are still pending. Existing-plan selection, owned-plan creation
+and physical power behavior remain separate outcomes. No registry, active plan,
+VM or Defender state was queried or changed; no elevation was requested. No
+legacy outcome closed; estimates remain settings 37-57, packages 38-53,
+components 19-24, files/assets 25-35, maintenance 8-12 (exact 127-181;
+rounded 125-180/about 155). See [structured source/access evidence](../archive/evidence/power-plan-menu-source-review-and-vm-block-2026-10-28-0631.json)
+and the [legacy implementation](../../legacy/v2/lib-windows.psm1).
+## Power Options current-user shortcut candidate implementation, 2026-10-28 06:37 UTC
+
+Added windows.power-options-shortcut as a pending DesktopShortcut operation for
+the accepted initial native Power Options handoff. It creates only
+Power Options.lnk on the current user's desktop, targeting System32 control.exe
+with /name Microsoft.PowerOptions. It is user-scoped, non-admin and exact-state
+recoverable; SupportedTargets remains empty, CandidateTargets is Windows 11,
+and it is not in a profile. The declared canonical command comes from Microsoft
+documentation, while the canonical-name page lists only through Windows 8.1;
+current Windows 11 launch and UI behavior therefore remain unproven.
+
+The desktop shortcut resolver/catalog suite passed 7/7 in PowerShell 7.6.5 and
+7/7 in Windows PowerShell 5.1.26100.9711/Pester 5.7.1. Repository validation
+passed for 441 operations, 8 groups, 5 profiles and 298 PowerShell files, and
+generated operation documentation is current. No COM, shortcut, Control Panel,
+registry, power plan or VM state was changed. Fresh Get-VM requests at 06:37
+failed for both registered test VMs before inspection at host CIM. Windows 11
+UI/launch, current-user session, shortcut lifecycle, exact restore and Server
+behavior remain open. No legacy outcome closed; estimates remain settings
+37-57, packages 38-53, components 19-24, files/assets 25-35, maintenance 8-12
+(exact 127-181; rounded 125-180/about 155). See [structured evidence](../archive/evidence/power-options-shortcut-candidate-cross-shell-regression-and-vm-block-2026-10-28-0637.json),
+[operation documentation](../OPERATIONS.md) and the
+[Power Options canonical launch reference](https://learn.microsoft.com/en-us/windows/win32/shell/executing-control-panel-items).
+
+## Photo Viewer Open with registration candidate, 2026-10-28 14:07 UTC
+
+Added pending user-scoped candidate windows.photo-viewer-openwith for the
+accepted advanced Open with registration choice. Microsoft documents both the
+Applications\photoviewer.dll\shell\open\DropTarget\Clsid registration and
+SupportedTypes subkeys; the candidate uses the documented CLSID and registers
+only BMP, GIF, JPG and PNG, corresponding to the four ProgIDs in the legacy
+association loop. The legacy comment also says TIFF, but the loop has no TIFF
+ProgID. This selected extension set is a migration candidate, not a verified
+claim of current Photo Viewer support.
+
+The candidate writes six explicitly owned values below the current user's
+HKCU\Software\Classes\Applications\photoviewer.dll registration, uses exact
+saved-state recovery and has no machine fallback, UserChoice write or
+component download. Windows 11 SupportedTypes visibility, component
+availability, invocation, extension coverage, managed precedence and exact
+native restore remain unaccepted. Selecting a default stays a separate user
+action in Settings.
+
+Repository validation passed for 446 operations, 8 groups, 5 profiles and 301
+PowerShell files; generated operation documentation is current. A focused
+Pester suite was added but not run: only Pester 3.4 is available, and a later
+PowerShell launch failed at the MXC E: volume before the requested script ran.
+No registry, Photo Viewer, VM, Defender or Windows state changed. No legacy
+outcome closed; estimates remain settings 37-57, packages 37-52,
+components 19-24, files/assets 25-35, maintenance 8-12 (exact 126-180;
+rounded 125-180/about 155). See [candidate definition](../OPERATIONS.md),
+[Microsoft application registration](https://learn.microsoft.com/en-us/windows/win32/shell/app-registration),
+[Default apps Settings handoff](https://learn.microsoft.com/en-us/windows/uwp/launch-resume/launch-default-apps-settings),
+and [focused test fixture](../../tests/PhotoViewerOpenWith.Tests.ps1).
+
+## Photo Viewer candidate cross-shell synthetic checks, 2026-10-28 14:11 UTC
+
+The candidate test fixture parses in PowerShell 7 and Windows PowerShell 5.1.
+Synthetic matching and plan assertions pass in both editions: complete
+registration matches, altered data is rejected, WindowsDefault removes all
+declared values, Unset selects WindowsDefault, and the candidate remains outside
+SupportedTargets. Repository validation passed for 446 operations, 8 groups,
+5 profiles and 301 PowerShell files; generated operation documentation is
+current. The Windows PowerShell probe used process-scoped ExecutionPolicy
+Bypass after AuthorizationManager blocked its default import; no persistent
+policy change or elevation occurred.
+
+Pester 5.7.1 is still unavailable, and no registry writes, Photo Viewer
+invocation or VM acceptance occurred. Component availability, modern/classic
+Open with visibility, exact supported extensions, managed behavior and
+saved-state restoration remain pending. No legacy outcome closed and estimates
+remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35,
+maintenance 8-12 (exact 126-180; rounded 125-180/about 155). See
+[follow-up evidence](../archive/evidence/photo-viewer-openwith-cross-shell-synthetic-and-validation-2026-10-28-1411.json).
+
+## RIDE-Win11-Test native acceptance access recheck, 2026-10-28 14:12 UTC
+
+A fresh read-only Get-VM request again failed before VM or checkpoint inspection
+because host CIM access was unavailable. No guest runner, task query or elevated
+action was dispatched. The Photo Viewer candidate remains unsupported; its
+native component, chooser behavior, file rendering, exact extension coverage
+and target-side recovery cannot be accepted from local synthetic tests. No
+estimate or legacy outcome changed. See [VM access evidence](../archive/evidence/ride-win11-test-cim-access-recheck-2026-10-28-1412.json).
+
+## Photo Viewer focused Pester regression, 2026-10-28 14:17 UTC
+
+The focused Photo Viewer candidate suite passed 3/3 in Windows PowerShell
+5.1.26100.9711 with Pester 5.7.1. Pester's default TestRegistry initialization
+first failed before test bodies because the sandbox denied HKCU registry writes;
+the successful retry disabled TestRegistry, which this synthetic suite does not
+use. A process-scoped ExecutionPolicy Bypass was used only to load the local
+repository modules after AuthorizationManager denied default import. No
+persistent policy or elevation was used. No registry, Photo Viewer, VM, or
+Defender state changed.
+
+The candidate remains unsupported pending disposable Windows 11 component,
+chooser, invocation, extension-coverage, managed-policy and saved-state
+acceptance. Host CIM still prevents current VM/checkpoint inspection. No
+legacy outcome closed; estimates remain unchanged. See [Pester evidence](../archive/evidence/photo-viewer-openwith-pester-winps51-2026-10-28-1417.json).
+
+## Remaining settings regression rerun, 2026-10-28 14:30 UTC
+
+`tests/RemainingSettings.Tests.ps1` passed **77/77** in Windows PowerShell
+5.1.26100.9711 with Pester 5.7.1, TestRegistry disabled, and process-scoped
+`TEMP`/`TMP` set to a unique workspace-local directory. The first default-temp
+attempt had 41 passes and 36 failures caused by denied atomic manifest moves in
+the Pester temp path; the workspace-local rerun passed all assertions. Tests
+used mocks and Pester TestDrive state. No Windows settings, registry, VM,
+Defender or external application state changed. No legacy outcome closed;
+estimates remain unchanged. See [structured evidence](../archive/evidence/remaining-settings-winps51-pester-workspace-temp-regression-2026-10-28-1430.json).
+## SettingsRemainingBatch1 pre-registered task attempt, 2026-10-28 14:48 UTC
+
+The protected RIDEWin11Test configuration matched the current checkout and
+submitting account, targeted the disposable `RIDE-Win11-Test`, pinned
+`RIDE-clean-test-base`, accepted `SettingsRemainingBatch1`, and had empty
+pending/running queues with no recovery block. The authorized request was
+submitted through the existing task without a UAC prompt. The controller
+failed immediately because host WinRM must already be running; its result says
+no services were started. No source snapshot, guest summary, VM start or
+checkpoint inspection occurred. Queue and recovery state remained clear. Host
+WinRM startup and the rerun are deferred to the later elevated session. No
+legacy outcome closed; estimates remain unchanged. See [structured evidence](../archive/evidence/ride-win11-settings-remaining-batch1-preregistered-winrm-block-2026-10-28-1448.json).
+
+## Power Options shortcut missing-target diagnostic correction, 2026-10-28 07:10 UTC
+
+`Set-RideDesktopShortcutState` previously reported that the BitLocker wizard was
+unavailable when either supported shortcut target was missing. The shared
+handler now reports that the declared desktop shortcut target is unavailable,
+which accurately covers both BitLocker and Power Options. The focused mocked
+missing-target case verifies that this refusal happens before COM creation.
+`DesktopShortcuts.Tests.ps1` passed 8/8 in PowerShell 7.6.5 and 8/8 in Windows
+PowerShell 5.1.26100.9711. The first discovery attempt required moving the
+module import from `BeforeAll` to `BeforeDiscovery`; the corrected suite passed.
+
+The user-current Power Options candidate remains pending Windows 11 desktop/UI,
+launch, repeat, removal and saved-state acceptance. A fresh exact-name read-only
+`Get-VM` query for `RIDE-Win11-Test` and `RIDE-Server2025-Test` failed before
+inspection at host CIM. No legacy outcome closed; all five estimate ranges and
+the rounded total remain unchanged. See [structured evidence](../archive/evidence/power-options-shortcut-missing-target-diagnostic-cross-shell-and-vm-block-2026-10-28-0710.json).
+
+## System Protection enabled-volume state API source review, 2026-10-28 16:14 UTC
+
+Microsoft documents the ComputerRestore cmdlets as client-only and directs operators to Rstrui.exe to find protection state per drive. The SystemRestore WMI class exposes enable/disable and restore-point methods but no documented per-volume protection-enabled property; SystemRestoreConfig fields describe schedule, restore-point lifetime and storage allocation. Do not infer protection from restore-point presence, a storage allowance or generic shadow-copy inventory. The accepted Windows 11 On/advanced-Off design remains source-reviewed only: automated state inspection, stable affected-volume capture, asynchronous completion, native GUI parity, history-loss semantics and bounded recovery remain open. No catalog/profile/handler or Windows state changed; no test or VM was run. No legacy outcome closed; estimates remain unchanged. See [source evidence](../archive/evidence/system-protection-enabled-volume-state-api-source-review-2026-10-28-1614.json).
+
+## Local password-complexity Secedit source recheck, 2026-10-28 18:47 UTC
+
+Current Microsoft Learn command documentation lists `secedit /export`, `/generaterollback`, `/configure`, `/import` and `/validate` for Windows 11 and Windows Server 2025. Export supports a local-policy export or the explicit `/mergedpolicy` option for combined domain/local policy; `/areas securitypolicy` selects the security-policy area and `/cfg` names the export file. Rollback generation requires database, input-template and rollback-template paths, and a repeated run overwrites an existing rollback file. Configure applies security settings to the current computer; validation checks template syntax, not exact runtime behavior. These documented commands make a focused disposable-target experiment concrete, but do not prove one-setting isolation, `NotDefined` restoration, effective-policy interpretation or exact rollback. No Secedit command, catalog operation, target-support change, VM or Windows state change occurred. No legacy outcome closed; estimates unchanged. See [structured source evidence](../archive/evidence/local-password-complexity-secedit-source-recheck-2026-10-28-1847.json), [export](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-export), [rollback](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-generaterollback), [configure](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-configure), and [validate](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-validate).
+
+## E08 read-only local password-complexity observation implementation, 2026-10-28 18:54 UTC
+
+The unregistered candidate module now exposes `Get-RideLocalPasswordComplexityObservation` for an explicit local or merged `secedit /export`. It bounds the export to 1 MiB, uses a unique workspace under the process temp root on a fixed local drive, rejects reparse-point ancestors/outputs, and removes only its named INF/log files. Local absence remains `NotDefined`; merged absence remains `NotReported`; neither is labeled effective. The only external command path is `/export`; no `/configure` or `/import` path was added. Pester passed 17/17 in PowerShell 7.6.5 and 17/17 in Windows PowerShell 5.1/Pester 5.7.1 with the process boundary mocked and registry/result plugins disabled; Windows PowerShell used a process-only execution-policy bypass, with no persistent policy change. `tools/validate.ps1 -Root .` also passed for 447 operations, 8 groups, 5 profiles and 301 PowerShell files. No Secedit process, VM, Windows or Defender state, elevation, catalog operation or target support was used. Native export output encoding/scope, one-setting isolation, managed precedence and exact Enabled/Disabled/NotDefined rollback remain pending Windows 11 and Server 2025 VM acceptance. No legacy outcome closed; estimates unchanged. See [structured implementation evidence](../archive/evidence/local-password-complexity-readonly-secedit-export-candidate-crossshell-2026-10-28-1854.json).
+## Remaining settings current-source regression and VM queue access block, 2026-10-28 22:08 UTC
+
+The current `RemainingSettings.Tests.ps1` passes 81/81 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1 and 81/81 in PowerShell 7.6.5/Pester 5.7.1. Handlers are mocked, saved state is isolated to TestDrive, and native registry/result plugins and WindowsIntegration tags are disabled. Updated `HashValueContextMenu.Tests.ps1` to retain a 19-operation regression floor instead of the stale exact count; the focused suite passes 11/11 in Windows PowerShell 5.1 and 10/11 in PowerShell 7 with its Windows PowerShell-specific case skipped.
+
+The prior UnitOnly VM request `8346c1d7660a4fb78e773ef3b57407b7` is now terminal Failed: 3,502/3,544 guest unit tests passed, with two count assertions failing against the expanded 40-setting and 21-operation batches. It did not apply the focused settings batch. A new `SettingsRemainingBatch1` request was blocked before queue submission when the pre-registered client received Access denied writing a temporary request under `queue/pending`; the directory ACL lists Modify for the signed-in account, so the effective-token cause remains unresolved. No candidate setting outcome closed; keep the 23-operation batch prepared and retry only after queue access is restored. VM state acceptance remains open. No estimate adjustment: settings 37-57; packages 37-52; components 19-24; files/assets 25-35; maintenance 8-12; exact total 126-180; rounded total 125-180/about 155. See [structured evidence](../archive/evidence/remaining-settings-current-source-cross-shell-and-vm-queue-access-block-2026-10-28-2208.json).
+
+## B02 audio endpoint inventory current-source regression, 2026-10-28 23:12 UTC
+
+	ests/AudioEndpointInventory.Tests.ps1 passed 21/21 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1, with Pester TestRegistry/TestResult integrations disabled. The initial default invocation failed before test bodies when Pester could not create its test registry key; no successful registry write occurred. The successful suite uses mocked account/session/Core Audio boundaries and synthetic observations, including exact opaque identity selection without granting mutation/recovery authority. Native Core Audio was not called; interop compilation alone passed. This verifies the current read-only source contract, not intended-user native behavior. Endpoint hardware/default roles and any separate future setter decision remain pending. No legacy outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/b02-audio-endpoint-current-source-winps51-regression-2026-10-28-2312.json).
+
+## B02 local user identity inventory current-source regression, 2026-10-28 23:13 UTC
+
+	ests/LocalUserInventory.Tests.ps1 passed 26/26 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with the optional Pester integrations disabled. Account, registry and credential providers were not queried; synthetic SIDs and data-only export/selection fixtures covered the identity boundary. Native LocalAccounts provider behavior and intended-account acceptance remain pending. No legacy outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/b02-local-user-identity-inventory-winps51-regression-2026-10-28-2313.json).
+
+
+## E08 Secedit import, rollback and isolation source recheck, 2026-10-28 23:40 UTC
+
+Microsoft Learn confirms secedit /import, /configure, /generaterollback and /validate apply to Windows 11 and Server 2025. Import requires a rollback template preparation step on the destination database and validation of the import file; securitypolicy covers local/domain policy including account policies. The docs describe command scope but do not prove that a one-setting PasswordComplexity INF preserves all unrelated policy fields, restores local NotDefined exactly, or remains effective under management. The current module stays inert/read-only, unregistered and without supported targets. The next acceptance must test isolated field preservation, explicit-state transitions, NotDefined rollback, local/merged management behavior and failure recovery on disposable Windows 11 and Server 2025 VMs. No Secedit command, policy, catalog, VM or Windows state was changed. No legacy setting outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/local-password-complexity-secedit-import-isolation-source-recheck-2026-10-28-2340.json), [Microsoft secedit /import](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-import), [secedit /configure](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-configure), and [secedit /generaterollback](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/secedit-generaterollback).
+# BitLocker drive-type cipher policy Server 2025 candidate targets, 2026-10-29 00:44 UTC
+
+Microsoft's current BitLocker configuration page lists Windows Server 2025 applicability for the Group Policy drive-type cipher setting and distinguishes it from CSP. It covers operating-system, fixed-data and removable-data drives; recommended XTS-AES; 128/256-bit key sizes; and the XTS-AES 128-bit default when the policy is unconfigured. Added Server 2025 as a candidate target for all three corresponding RIDE operations. `SupportedTargets` remains empty and `PendingAcceptance` remains true; the default profile's user-approved XTS-AES 256-bit selections do not establish native behavior. The focused test sources parsed, direct metadata assertions passed, and repository validation passed for 451 operations, 8 groups, 5 profiles and 305 PowerShell files. Pester 5 is unavailable in the current session, so the focused suite remains unrun. No registry, drive, protector or profile state changed. No legacy setting outcome closed; estimates unchanged. See [structured evidence](../archive/evidence/bitlocker-drive-type-policy-server2025-candidate-2026-10-29-0044.json) and [Microsoft's current BitLocker guidance](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength).

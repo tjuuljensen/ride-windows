@@ -1,0 +1,48 @@
+{
+  "recordedAtUtc": "2026-10-29T02:28:22Z",
+  "batch": "MiTeC Mail Checker retained installer pin recheck",
+  "package": {
+    "operationId": "package.mitec-mail-checker",
+    "version": "7.2.0",
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "licenseReview": {
+      "status": "NeedsReview",
+      "owner": "Unassigned",
+      "migrationGate": false
+    }
+  },
+  "artifact": {
+    "path": ".local/remaining-collections-20261017/MAILCHECKER_Instal.exe",
+    "length": 2174711,
+    "sha256": "da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0",
+    "catalogExpectedSha256": "da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0",
+    "matchesCatalogPin": true
+  },
+  "handling": {
+    "hashReadOnly": true,
+    "installerExecutedOrExtracted": false,
+    "applicationOrDllLoaded": false,
+    "accountOrCredentialUsed": false,
+    "networkRequestMade": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "resolved": ["The currently retained installer bytes match the declared candidate length and SHA-256 pin."],
+    "deferred": ["Windows install/remove/recovery, dynamic dependency loading, and synthetic-mail-sink behavior; VM guest port/CIM access remains unavailable."],
+    "legacyOutcomesClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; artifact identity confirmation closes no legacy package outcome."
+  }
+}

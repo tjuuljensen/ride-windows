@@ -40,7 +40,8 @@
   integration suite.
 
 .PARAMETER IntegrationSuite
-  ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests;
+  ApplicationsBatch1 selects the complete installed/portable application migration suite. Use ApplicationsBatch1Machine and ApplicationsBatch1User to run its machine and limited-user packages separately;
+  ApplicationsBatch2 selects the remaining installed/portable application migration tests;
   ApplicationsBatch3 selects both Docker Desktop installation variants.
   ApplicationsBatch3AllUsers selects only the elevated Docker Desktop variant.
   ApplicationsBatch4 selects the Slack and Discord current-user EXE candidates.
@@ -48,6 +49,10 @@
   ApplicationsBatch6 selects the twelve Artcraft machine-scope MSI applications on Windows 11.
   ApplicationsBatch7 selects only the current-user ArtCraft Launcher MSI on Windows 11; it does not launch the app.
   ApplicationsBatch8 selects four side-by-side Microsoft OpenJDK MSIs on Windows Server 2025.
+  ApplicationsBatch9 selects the MiTeC InfoBar 4.6.2 Windows 11 installer lifecycle; it does not launch the application.
+  ApplicationsBatch10 selects the MiTeC Project Maker 1.9.0 Windows 11 installer lifecycle; it does not launch the application.
+  ApplicationsBatch11 selects HashCheck through an elevated interactive guest task;
+  the intended guest admin must have exactly one signed-in desktop session.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
   Full (default) runs all integration scenarios. SettingsBatch40 runs the forty-setting
   registry migration suite without package downloads; SettingsBatch60 selects the sixty-setting suite; cannot be combined with UnitOnly.
@@ -103,8 +108,12 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.14.0
+  Version: 0.19.0
   Changelog:
+    0.19.0: Run HashCheck acceptance in the intended interactive guest session with single dispatch and retained cleanup evidence.
+    0.15.1: Pass the VM name explicitly when reconnecting for guest result export.
+    0.15.0: Forward separate ApplicationsBatch1 machine- and limited-user acceptance suites.
+    0.14.1: Reconnect an unavailable AutomatedLab session before collecting guest results.
     0.14.0: Forward Server 2025 Microsoft OpenJDK side-by-side acceptance.
     0.13.0: Forward the dedicated ArtCraft Launcher ApplicationsBatch7 suite.
     0.12.0: Forward the focused Slack and Discord package acceptance suite.
@@ -139,7 +148,7 @@ param(
   [string] $RepositoryPath,
   [string] $GuestRepositoryPath = 'C:\RIDE\ride-windows',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultDirectory,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -152,7 +161,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.13.0'
+$script:ScriptVersion = '0.19.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -164,6 +173,7 @@ if (-not $Transport) {
 
 $ErrorActionPreference = 'Stop'
 if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+if ($IntegrationSuite -eq 'ApplicationsBatch11' -and -not $ResultDirectory) { throw 'HashCheck interactive acceptance requires ResultDirectory for task, worker and suite evidence.' }
 if ($GuestGitHubAuthentication -eq 'PAT' -and ($UnitOnly -or $IntegrationSuite -ne 'GitHubAuthentication' -or -not $ResultDirectory -or -not $AuthenticationConfigurationPath)) { throw 'PAT requires the focused GitHubAuthentication suite, retained results and protected configuration.' }
 if ($GuestGitHubAuthentication -eq 'PAT') {
   $configurationFullPath = [IO.Path]::GetFullPath($AuthenticationConfigurationPath)
@@ -239,6 +249,16 @@ try {
     $previousGuestMarker = $env:RIDE_TEST_GUEST
     try {
       $env:RIDE_TEST_GUEST = '1'
+      if ($RunIntegration -and $SelectedSuite -eq 'ApplicationsBatch11') {
+        $interactiveRunner = Join-Path $GuestPath 'tests\integration\Invoke-RideInteractiveGuestTests.ps1'
+        if (-not (Test-Path -LiteralPath $interactiveRunner -PathType Leaf)) { throw 'The staged checkout lacks the HashCheck interactive guest runner; update the source before retrying.' }
+        $interactiveArguments = @('-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', $interactiveRunner,
+          '-GuestPath', $GuestPath, '-ResultsPath', $ResultsPath, '-RunId', $ResultRunId, '-ExpectedComputerName', $env:COMPUTERNAME)
+        & (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') @interactiveArguments
+        if ($LASTEXITCODE -ne 0) { throw "HashCheck interactive guest process failed with exit code $LASTEXITCODE." }
+        [pscustomobject]@{ RunId = $ResultRunId; Interactive = $true; Completed = $true }
+        return
+      }
       $arguments = @('-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', $guestRunner, '-GuestPath', $GuestPath)
       if ($ResultsPath) { $arguments += @('-ResultsPath', $ResultsPath, '-ResultRunId', $ResultRunId) }
       # File arguments do not reliably accept Boolean strings on Windows PowerShell 5.1.
@@ -288,7 +308,10 @@ try {
       $lease | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $ResultDirectory 'guest-authentication.json') -Encoding UTF8
       Invoke-Command -Session $leaseSession -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite, $GuestGitHubAuthentication, $lease.WindowsSid, $GitHubTestScenario) -ErrorAction Stop
     } else {
-      Invoke-LabCommand -ComputerName $VMName -ScriptBlock $remoteTest -ArgumentList @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite, $GuestGitHubAuthentication, '', $GitHubTestScenario) -PassThru
+      $labCommand = @{ ComputerName = $VMName; ScriptBlock = $remoteTest; ArgumentList = @($GuestRepositoryPath, [bool]$runIntegration, $guestResultsPath, $RunId, $IntegrationSuite, $GuestGitHubAuthentication, '', $GitHubTestScenario); PassThru = $true }
+      # AutomatedLab 5.61 can replay a no-output invocation. Never replay this task dispatch.
+      if ($IntegrationSuite -eq 'ApplicationsBatch11') { $labCommand.Retries = 1 }
+      Invoke-LabCommand @labCommand
     }
   }
   else {
@@ -314,11 +337,26 @@ finally {
   try {
     if ($leaseSession) { $null = Remove-RideVmGitHubLease $leaseSession $GuestRepositoryPath $RunId }
     if ($ResultDirectory) {
-      $exportSession = if ($resultSession) { $resultSession } else { $session }
+      if ($Transport -eq 'AutomatedLab') {
+        Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+        $candidateSession = if ($resultSession) { $resultSession } else { $null }
+        $reconnect = {
+          param([string] $ComputerName)
+          New-LabPSSession -ComputerName $ComputerName -Retries 20 -Interval 5 -ErrorAction Stop
+        }
+        $exportSession = Get-RideAutomationResultSession -Session $candidateSession -Reconnect $reconnect -ReconnectArgumentList @($VMName)
+      }
+      else {
+        $exportSession = $session
+      }
       if (-not $exportSession) { throw 'No guest session available to export results.' }
       Copy-Item -LiteralPath $guestResultsPath -Destination (Join-Path $ResultDirectory 'guest') -FromSession $exportSession -Recurse -Force -ErrorAction Stop
       $guestResult = Get-Content -LiteralPath (Join-Path $ResultDirectory 'guest\summary.json') -Raw | ConvertFrom-Json
       if ($guestResult.RunId -ne $RunId -or $guestResult.Status -ne 'Passed') { throw 'Guest results are mismatched or unsuccessful. Inspect exported summary.json.' }
+      if ($IntegrationSuite -eq 'ApplicationsBatch11') {
+        Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+        Assert-RideAutomationInteractiveEvidence -Path (Join-Path $ResultDirectory 'guest') -RunId $RunId
+      }
     }
   }
   finally {

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T12:15:00Z",
+  "batch": "OpenSSH Client and Server component candidate current-source regression",
+  "environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryFixtureEnabled": false,
+    "TemporaryRoot": ".local/pester-components-current-20261025"
+  },
+  "tests": {
+    "discovered": 85,
+    "passed": 85,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 17.39,
+    "suites": [
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "scope": "Mocked/local candidate inventory and lifecycle code only; no native component, service, firewall, VM, or Windows state was changed."
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-25T12:10:00Z",
+    "targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "result": "Get-VM was denied at CIM for both targets before VM state or checkpoint inspection."
+  },
+  "initialFixtureAttempt": "An initial Pester run failed before assertions because its default TestRegistry fixture could not create HKCU\\Software\\Pester in the sandbox. The rerun with that optional fixture disabled passed all 85 tests.",
+  "remainingAcceptance": [
+    "OpenSSH Client exact Features on Demand media and dependency completeness",
+    "Native Client capability apply/restore on supported disposable Windows targets",
+    "OpenSSH Server service and firewall behavior, first-start data handling, and recovery on Windows 11 and Server 2025",
+    "Physical F1 and target-specific component behavior"
+  ],
+  "migrationAccounting": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Windows guest acceptance for OpenSSH Client/Server and related component behavior"],
+    "partial": [],
+    "additionalLegacyOutcomeClosed": false,
+    "estimateRangesAfter": "37-57 / 40-55 / 19-24 / 25-35 / 8-12; exact 129-183; rounded 130-185/about 155",
+    "adjustment": "No range change: the run verified mocked source behavior and closed no legacy outcome."
+  }
+}

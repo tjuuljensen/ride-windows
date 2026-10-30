@@ -39,6 +39,21 @@ Describe 'Catalog-driven package prerequisite planning' {
       $plan[1].Reason | Should -BeNullOrEmpty
     }
 
+    It 'orders the catalog-declared PowerShell module prerequisite before PSScriptTools' {
+      Mock Get-RidePackagePrerequisiteStatus {
+        if ($Operation.Id -eq 'package.psscripttools') {
+          [pscustomobject]@{Satisfied=$false;Reason='package.psscripttools requires the healthy RIDE-managed PowerShell module package';Directory=$null}
+        } else { [pscustomobject]@{Satisfied=$true;Reason=$null;Directory=$null} }
+      }
+      $plan=@(Get-RideSingleOperationPlan -Id 'package.psscripttools' -Action Install)
+      @($plan.Operation.Id) | Should -Be @('package.microsoft-powershell-threadjob','package.psscripttools')
+      $plan[0].Reason | Should -Match 'Required by package.psscripttools: PowerShell module Microsoft.PowerShell.ThreadJob version 2.2.0 or later'
+      $plan[1].Reason | Should -BeNullOrEmpty
+      $toolsDirectory=(Get-RidePackageConfiguration -Scope Machine).ToolsDirectory
+      $plan[0].Operation.ResolvedToolsDirectory | Should -BeExactly $toolsDirectory
+      $plan[0].Operation.InstallDirectory | Should -BeExactly (Join-Path $toolsDirectory 'microsoft-powershell-threadjob')
+    }
+
     It 'keeps the declared runtime visible when the system DLL and version requirement are satisfied' {
       Mock Get-RidePackagePrerequisiteStatus { [pscustomobject]@{Satisfied=$true;Reason=$null;Directory=$null} } -ParameterFilter {$Operation.Id -eq 'package.imagemagick-portable-q16'}
       $plan=@(Get-RideSingleOperationPlan -Id 'package.imagemagick-portable-q16' -Action Install)
@@ -98,13 +113,21 @@ Describe 'Package prerequisite removal protection and ordering' {
       { Get-RidePlan -Profile $profile } | Should -Throw '*while dependent package ''package.imagemagick-portable-q16'' is installed*'
     }
 
+    It 'refuses to remove ThreadJob while an installed PSScriptTools package remains' {
+      Mock Get-RideInstalledPackage {
+        [pscustomobject]@{Present=($Operation.Id -eq 'package.psscripttools')}
+      }
+      $profile=@{SchemaVersion=1;Name='Remove ThreadJob';Operations=@(@{Id='package.microsoft-powershell-threadjob';State='Absent'})}
+      { Get-RidePlan -Profile $profile } | Should -Throw '*while dependent package ''package.psscripttools'' is installed*'
+    }
+
     It 'resolves portable install paths before inspecting prerequisite dependents' {
-      Mock Get-RidePackageConfiguration -ModuleName RIDE.PackageSelection { @{ToolsDirectory='C:\RIDE-Test-Tools';PackageVariantPreference=$null} }
+      $expectedToolsDirectory = (Get-RidePackageConfiguration -Scope Machine).ToolsDirectory
       $catalog=Get-RideCatalog
       $selection=@(Get-RidePackageDependencySelections -Catalog $catalog | Where-Object Id -eq 'package.imagemagick-portable-q16')
       $selection.Count | Should -Be 1
-      $selection[0].ResolvedToolsDirectory | Should -Be 'C:\RIDE-Test-Tools'
-      $selection[0].InstallDirectory | Should -Be 'C:\RIDE-Test-Tools\imagemagick-portable-q16'
+      $selection[0].ResolvedToolsDirectory | Should -Be $expectedToolsDirectory
+      $selection[0].InstallDirectory | Should -Be (Join-Path $expectedToolsDirectory 'imagemagick-portable-q16')
     }
 
     It 'removes selected dependents before their prerequisite even when selection order is reversed' {

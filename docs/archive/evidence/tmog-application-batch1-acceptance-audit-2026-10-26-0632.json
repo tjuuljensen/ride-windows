@@ -1,0 +1,46 @@
+{
+  "recordedAtUtc": "2026-10-26T06:32:49Z",
+  "subject": "TMOG Windows 11 package acceptance evidence audit",
+  "EarlierRun": {
+    "RunId": "cd4fcbdd21ed4b1081fcaede9c1e6075",
+    "Suite": "ApplicationsBatch1",
+    "Target": "RIDE-Win11-Test",
+    "StartedAtUtc": "2026-10-24T15:15:08Z",
+    "FinishedAtUtc": "2026-10-24T15:43:31Z",
+    "RunnerVersion": "0.14.2",
+    "PackageSummary": "package.tmog appears in PassedPackages; the aggregate run failed for Gpg4win and Phoenix Protector.",
+    "Evidence": "applications-batch1-win11-follow-up-2026-10-24-1543.json"
+  },
+  "CurrentRunner": {
+    "Path": "tests/integration/Invoke-RideApplicationBatch.ps1",
+    "Version": "0.15.3",
+    "AddedInVersion": "0.15.1",
+    "RequiredPackageChecks": [
+      "Vendor uninstall",
+      "Repeat removal idempotence",
+      "Saved removal recovery to presence",
+      "Saved install recovery to the original absent state",
+      "Synthetic LocalAppData user-data preservation"
+    ]
+  },
+  "Disposition": {
+    "PriorPassClosesCurrentLifecycle": false,
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "NextAcceptance": "Run ApplicationsBatch1 with current runner 0.15.3 on the registered Windows 11 VM; require a successful package row for TMOG and checkpoint/evidence recovery.",
+    "ScreensaverBehavior": "Not tested or claimed; launching TMOG.scr or selecting a screensaver is outside the package lifecycle.",
+    "LegacyOutcomesClosed": 0,
+    "EstimateChanged": false,
+    "EstimatedRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    },
+    "BlockingCondition": "Current host Get-VM/CIM inspection and registered Task Scheduler dispatch are denied/invalid; no guest request can be sent from this session."
+  }
+}

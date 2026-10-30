@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T06:03:03Z",
+  "Scope": "Read-only UDF archive listing of the registered Windows 11 setup ISO to identify Telnet optional-feature source files",
+  "Image": {
+    "Path": "Z:\\LabSources\\ISOs\\26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "SizeBytes": 8225329152,
+    "Mounted": false,
+    "Extracted": false
+  },
+  "Inspection": {
+    "Tool": "C:\\Program Files\\7-Zip\\7z.exe",
+    "Method": "Read-only archive listing of the ISO UDF tree; no archive extraction, mount, DISM or package servicing.",
+    "FullArchiveListingExitCode": 0,
+    "ListedEntries": 1072,
+    "TelnetNamedEntries": 0,
+    "SourcesSxsCabinetEntries": [
+      "Microsoft-Windows-InternetExplorer-Optional-Package~31bf3856ad364e35~amd64~en-US~.cab",
+      "microsoft-windows-internetexplorer-optional-package~31bf3856ad364e35~amd64~~.cab",
+      "microsoft-windows-netfx3-ondemand-package~31bf3856ad364e35~amd64~~.cab"
+    ],
+    "TelnetCabinetExtracted": false,
+    "DismGetPackageCalled": false
+  },
+  "ExternalGuidance": {
+    "Windows11FeaturesOnDemandMedia": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+    "Windows11AvailableFeaturesOnDemand": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11",
+    "RelevantFinding": "Microsoft describes Windows 11 FOD packages as CAB files on matching Languages and Optional Features media. The inspected artifact is the Windows setup ISO, not evidence of that separate FOD source. The docs reviewed do not identify TelnetClient's exact CAB or prove it is absent from all valid repositories."
+  },
+  "Finding": "The UDF listing is now available. This setup ISO contains no Telnet-named archive entry; sources\\sxs contains two Internet Explorer optional packages and one NetFx3 CAB. Do not use this media as proof of a Telnet LocalSource payload. A matching Windows 11 Languages and Optional Features ISO/repository and exact Telnet package identity remain required.",
+  "StateChanges": {
+    "Host": false,
+    "Windows": false,
+    "Vm": false,
+    "Checkpoint": false,
+    "Defender": false,
+    "ElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [
+      "UDF directory listing of the registered setup ISO; no Telnet-named entry exists in that media."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Identify and inspect a matching Windows 11 Languages and Optional Features source for the exact TelnetClient package identity and complete servicing repository requirements.",
+      "Validate Telnet LocalSource policy/network boundaries, payload recovery and Windows acceptance."
+    ],
+    "Partial": [
+      "Telnet LocalSource source identity remains unresolved; the inspected setup ISO does not satisfy that evidence gate."
+    ],
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

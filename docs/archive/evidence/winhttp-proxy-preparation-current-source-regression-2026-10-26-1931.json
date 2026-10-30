@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T19:31:45Z",
+  "batch": "B04 advanced WinHTTP inventory and configuration preparation",
+  "implementation": {
+    "inventoryModule": "modules/RIDE.WinHttpProxyInventory.psm1",
+    "inventoryTests": "tests/WinHttpProxyInventory.Tests.ps1",
+    "preparationModule": "modules/RIDE.WinHttpProxyPreparation.psm1",
+    "preparationTests": "tests/WinHttpProxyPreparation.Tests.ps1",
+    "preparationBehavior": [
+      "Requires explicit User or Machine scope matching the captured scope",
+      "Builds the four documented WinHTTP advanced settings fields",
+      "Preserves unselected reported settings in the JSON payload",
+      "Prepares recovery only when every current normalized field matches the requested state",
+      "Refuses scope or field conflicts and validates changed-field metadata",
+      "Marks Machine scope as requiring elevation and all preparations as unauthorized for mutation",
+      "Reports that omitted strings normalize to empty and exact literal restoration is not proven"
+    ],
+    "limitations": [
+      "No native netsh command was invoked",
+      "No setter, durable snapshot store, engine/catalog integration, or supported target is implemented",
+      "The normalized command view cannot recover hidden or omitted literal strings exactly",
+      "VM native behavior, connectivity, UI, policy, and consumer acceptance remain deferred"
+    ]
+  },
+  "tests": {
+    "pesterVersion": "5.7.1",
+    "focusedFiles": [
+      "tests/WinHttpProxyInventory.Tests.ps1",
+      "tests/WinHttpProxyPreparation.Tests.ps1"
+    ],
+    "powershell7": {"version":"7.6.5","passed":15,"failed":0,"skipped":0},
+    "windowsPowerShell": {
+      "version":"5.1.26100.9711",
+      "passed":15,
+      "failed":0,
+      "skipped":0,
+      "processExecutionPolicyBypass":true,
+      "persistentPolicyChanged":false
+    },
+    "testRegistryEnabled":false,
+    "testResultEnabled":false,
+    "liveNetshCalled":false,
+    "proxyStateChanged":false
+  },
+  "latestVmAccess": {
+    "checkedAtUtc":"2026-10-26T19:26:06Z",
+    "target":"RIDE-Win11-Test",
+    "vmAndTaskQueries":"CIM access denied before inspection",
+    "guestRequestDispatched":false,
+    "elevationRequested":false,
+    "vmOrWindowsStateChanged":false
+  },
+  "legacyOutcomesClosed":[],
+  "estimates": {
+    "settings":"37-57",
+    "packages":"40-55",
+    "components":"19-24",
+    "filesAndAssets":"25-35",
+    "maintenance":"8-12",
+    "exactTotal":"129-183",
+    "roundedTotal":"130-185/about 155",
+    "adjustment":"None; read-only and in-memory preparation do not close a legacy outcome."
+  }
+}

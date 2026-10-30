@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:17:17Z",
+  "batch": "Wireshark focused package regression and VM access recheck",
+  "localRegression": {
+    "testFile": "tests/WiresharkPackage.Tests.ps1",
+    "result": "Passed",
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "shell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "coverage": [
+      "Pending target/profile exclusion",
+      "Pinned MSI metadata and installer arguments",
+      "Exact-byte evidence and explicit PGP/runtime limitations",
+      "Mocked install, reboot-required, failed install, artifact drift and registered-product removal paths"
+    ]
+  },
+  "environment": {
+    "PowerShell7Pester5Available": false,
+    "PowerShell7Attempt": "Pester 5.7.1 was unavailable in the bundled PowerShell 7 runtime.",
+    "WindowsPowerShellInitialPesterAttempt": "Pester plugin initialization was denied access to HKCU\\Software\\Pester before test assertions; the successful rerun disabled TestRegistry and TestResult.",
+    "vmAccess": "Get-VM -Name RIDE-Win11-Test,RIDE-Server2025-Test failed with 'Access to a CIM resource was not available to the client' before either VM or checkpoint was inspected."
+  },
+  "handling": {
+    "installerExecuted": false,
+    "networkRequestedByTests": false,
+    "utilityOrDriverExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The focused current-source Wireshark package regression passes 8/8 in Windows PowerShell 5.1 with registry and result plugins disabled."
+    ],
+    "deferred": [
+      "Wireshark install, repeat, remove, saved-state recovery, existing-install transition, shared runtime, file-association and Windows 11/Server 2025 acceptance remain open pending VM access.",
+      "Publisher checksum PGP signature verification remains open."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; mocked current-source regression closes no legacy package outcome."
+    }
+  },
+  "relatedEvidence": [
+    "wireshark-retained-msi-current-digest-signature-check-2026-10-28-0952.json",
+    "wireshark-4.6.9-publisher-checksum-recheck-2026-10-28-0951.json",
+    "ride-win11-and-server2025-vm-access-recheck-2026-10-28-0724.json"
+  ]
+}

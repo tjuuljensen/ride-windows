@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-29T00:34:33Z",
+  "source": "https://www.mitec.cz/wp/msix/",
+  "product": "MiTeC System Information eXtra",
+  "publisherVersion": "16.0.0",
+  "publisherReleaseDate": "2026-04-26",
+  "publisherTargetClaim": "Windows XP-11 and Windows Server 2003-2025",
+  "publisherUseStatement": "Free to use for private, educational and non-commercial purposes",
+  "catalogChange": {
+    "operationId": "package.mitec-system-information",
+    "candidateTargetsBefore": ["Windows 11"],
+    "candidateTargetsAfter": ["Windows 11", "Windows Server 2025"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "reason": "Reflect the publisher's explicit Server 2025 support claim as a candidate target only; do not claim RIDE acceptance without disposable-VM lifecycle and report-data handling checks."
+  },
+  "acceptanceBoundary": "Test package staging/repeat/remove/recovery plus synthetic report field review, redaction and exact cleanup on disposable Windows 11 and Server 2025 VMs. Do not create or retain reports from the development host or real profiles.",
+  "verification": {
+    "exportRideCatalogCheck": "passed: generated operation documentation is current",
+    "repositoryValidation": "passed: 451 operations, 8 groups, 5 profiles, and 305 PowerShell files",
+    "testSourceParser": "passed: MiTeCSystemInformationTapiMonitor.Tests.ps1 parses without errors",
+    "candidateMetadataAssertion": "passed: Windows 11 and Server 2025 are candidates; supported targets remain empty and acceptance remains pending",
+    "pester": "not run: only Pester 3.4.0 is available in this PowerShell 7.6.5 session; the focused suite requires Pester 5",
+    "verifiedAtUtc": "2026-10-29T00:37:58Z",
+    "vmPreflight": "A read-only Get-VM call for RIDE-Win11-Test and RIDE-S25-Test failed before state retrieval with host CIM access denied; no checkpoint/task query or guest request occurred.",
+    "windowsOrDefenderStateChanged": false,
+    "productExecutableRun": false,
+    "hostReportCreated": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "Candidate-target metadata now reflects the publisher's Server 2025 claim; lifecycle acceptance and the legacy product outcome remain open."
+  }
+}

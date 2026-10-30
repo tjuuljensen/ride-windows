@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:46:00Z",
+  "scope": "Additional MiTeC candidate local lifecycle tests and exact-version review markers",
+  "tests": {
+    "runner": "PowerShell 7 / Pester 5.7.1",
+    "result": "Passed",
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "files": [
+      "tests/MiTeCHistoricalFileTools.Tests.ps1",
+      "tests/MiTeCAnalysisTools.Tests.ps1",
+      "tests/MiTecCertificateTools.Tests.ps1",
+      "tests/MiTecUuidGenerator.Tests.ps1"
+    ],
+    "testRegistryEnabled": false,
+    "temporaryRoot": ".local/pester-current"
+  },
+  "products": [
+    "MiTeC Windows File Analyzer 2.10.0",
+    "MiTeC Icon Explorer 5.3.0",
+    "MiTeC EXE Explorer 3.7.5",
+    "MiTeC HexEdit 7.1.0",
+    "MiTeC Certificate Generator 1.0.0",
+    "MiTeC Certificate Information 1.5.0",
+    "MiTeC UUID Generator 1.0.0"
+  ],
+  "checks": [
+    "candidate version/member selection and install planning while support remains pending",
+    "EXE Explorer and HexEdit retained archive and selected member hashes",
+    "inert repeat/remove/saved-state recovery and preservation of unowned or modified files"
+  ],
+  "licenseReview": {
+    "tool": "tools/Manage-RideLicenseReviews.ps1 Get",
+    "storePath": ".local/license-reviews.json",
+    "records": [
+      {
+        "id": "package.mitec-certificate-generator",
+        "reviewedVersion": "1.0.0",
+        "owner": "Unassigned",
+        "status": "NeedsReview"
+      },
+      {
+        "id": "package.mitec-certificate-information",
+        "reviewedVersion": "1.5.0",
+        "owner": "Unassigned",
+        "status": "NeedsReview"
+      },
+      {
+        "id": "package.mitec-exe-explorer",
+        "reviewedVersion": "3.7.5",
+        "owner": "Unassigned",
+        "status": "NeedsReview"
+      },
+      {
+        "id": "package.mitec-hexedit",
+        "reviewedVersion": "7.1.0",
+        "owner": "Unassigned",
+        "status": "NeedsReview"
+      },
+      {
+        "id": "package.mitec-icon-explorer",
+        "reviewedVersion": "5.3.0",
+        "owner": "Unassigned",
+        "status": "NeedsReview"
+      },
+      {
+        "id": "package.mitec-uuid-generator",
+        "reviewedVersion": "1.0.0",
+        "owner": "Unassigned",
+        "status": "NeedsReview"
+      },
+      {
+        "id": "package.mitec-windows-file-analyzer",
+        "reviewedVersion": "2.10.0",
+        "owner": "Unassigned",
+        "status": "NeedsReview"
+      }
+    ],
+    "result": "All 7 exact-version markers are NeedsReview with owner Unassigned; informational and non-blocking"
+  },
+  "vmAccess": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "result": "Denied before inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "stateChanged": false
+  },
+  "exclusions": "No product executable ran, no certificate or UUID was generated, no real file/process/disk was inspected or changed, and no VM/Windows state changed.",
+  "acceptance": "Local package/source regression only. Product behavior and Windows target acceptance remain open; no complete legacy outcome closes.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

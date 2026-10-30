@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-10-26T17:18:59Z",
+  "checks": [
+    {
+      "at": "2026-10-26T17:11:14Z",
+      "command": "Get-VM -Name 'RIDE-Win11-Test'",
+      "result": "CIM access denied before inspection",
+      "checkpointQuery": "not reached"
+    },
+    {
+      "at": "2026-10-26T17:17:51Z",
+      "command": "Get-VM -Name 'RIDE-S25-Test'",
+      "result": "CIM access denied before inspection",
+      "checkpointQuery": "not reached"
+    },
+    {
+      "at": "2026-10-26T17:18:59Z",
+      "command": "Get-ScheduledTask -TaskName 'RIDEWin11Test' -TaskPath '\\RIDE\\'",
+      "result": "CIM access denied"
+    },
+    {
+      "at": "2026-10-26T17:18:59Z",
+      "command": "schtasks.exe /Query /TN '\\RIDE\\RIDEWin11Test' /FO LIST /V",
+      "exitCode": 1,
+      "result": "ERROR: The network address is invalid."
+    }
+  ],
+  "actions": "Read-only access checks only; no task/guest dispatch, checkpoint, VM, host service, Defender, or elevation state changed.",
+  "disposition": "Windows 11 and Server 2025 VM acceptance remain deferred. Continue independent local/source work without fresh UAC.",
+  "migrationOutcome": "No legacy outcome closed; estimates unchanged."
+}

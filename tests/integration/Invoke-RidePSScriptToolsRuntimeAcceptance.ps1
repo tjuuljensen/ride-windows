@@ -4,11 +4,14 @@
 .DESCRIPTION
   Runs fresh Windows PowerShell 5.1 and PowerShell 7 child processes against the
   exact staged module. Import side effects are confined to a run-owned TEMP
-  directory. No dependencies are installed and no source is changed.
+  directory. The present-mode child imports the RIDE-managed ThreadJob manifest
+  by exact path; no dependency is installed or added to persistent PSModulePath.
 .PARAMETER ExpectedComputerName
   Exact guest computer name supplied by the checkpoint-backed runner.
 .PARAMETER ModulePath
   Full path to the staged PSScriptTools.psd1 manifest.
+.PARAMETER ThreadJobModulePath
+  Full path to the RIDE-managed Microsoft.PowerShell.ThreadJob package directory.
 .PARAMETER EvidencePath
   Fresh child-evidence directory under the correlated RIDE portable run.
 .PARAMETER DisposableVm
@@ -16,14 +19,16 @@
 .PARAMETER Mode
   Internal worker mode. Orchestrator is the only mode for normal invocation.
 .EXAMPLE
-  .\Invoke-RidePSScriptToolsRuntimeAcceptance.ps1 -ExpectedComputerName RIDE-Win11-Test -ModulePath C:\Tools\psscripttools\PSScriptTools-<revision>\PSScriptTools.psd1 -EvidencePath C:\RIDE\PortableAcceptance\<run-id>\evidence\psscripttools-runtime -DisposableVm
+  .\Invoke-RidePSScriptToolsRuntimeAcceptance.ps1 -ExpectedComputerName RIDE-Win11-Test -ModulePath C:\Tools\psscripttools\PSScriptTools-<revision>\PSScriptTools.psd1 -ThreadJobModulePath C:\Tools\microsoft-powershell-threadjob -EvidencePath C:\RIDE\PortableAcceptance\<run-id>\evidence\psscripttools-runtime -DisposableVm
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Prerequisites: Elevated disposable Windows 11 guest; exact staged PSScriptTools 3.2.0 source.
-  Effects: Starts the module's read-only CIM namespace job and writes its fixed-name file only under a unique TEMP directory.
+  Prerequisites: Elevated disposable Windows 11 guest; exact staged PSScriptTools 3.2.0 source and RIDE-managed ThreadJob 2.2.0.
+  Effects: Imports the staged ThreadJob module only in a child process; starts the module's read-only CIM namespace job and writes its fixed-name file only under a unique TEMP directory.
   Recovery: Child processes exit; the runner deletes only its verified file and empty run-owned TEMP directory.
-  Author: RIDE-Windows maintainers. Version: 0.1.3.
-  Changelog: 0.1.3: Capture child exit codes with a bounded .NET process wrapper.
+  Author: RIDE-Windows maintainers. Version: 0.1.5.
+  Changelog: 0.1.5: Import the staged ThreadJob manifest by exact path instead of treating its package directory as a PSModulePath root.
+    0.1.4: Supply the pinned RIDE-managed ThreadJob module only to present-mode children.
+    0.1.3: Capture child exit codes with a bounded .NET process wrapper.
     0.1.2: Retain child exception messages and exit codes for failed probes.
     0.1.1: Clean up only child-created jobs after every probe outcome.
     0.1.0: Add isolated dependency-present/missing runtime probes.
@@ -32,6 +37,7 @@
 param(
   [string]$ExpectedComputerName,
   [string]$ModulePath,
+  [string]$ThreadJobModulePath,
   [string]$EvidencePath,
   [switch]$DisposableVm,
   [ValidateSet('Orchestrator','Present','MissingDependency')][string]$Mode='Orchestrator',
@@ -39,7 +45,7 @@ param(
   [string]$ResultPath,
   [switch]$Version
 )
-if($Version){'0.1.3';return}
+if($Version){'0.1.5';return}
 $ErrorActionPreference='Stop'
 function Assert-RuntimeGuest {
   if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
@@ -58,6 +64,32 @@ function Test-ModulePath {
   $file=Get-Item -LiteralPath $resolved -Force
   if($file.PSIsContainer -or ($file.Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'Module manifest is not a regular file.'}
   $resolved
+}
+function Test-ThreadJobModulePath {
+  $resolved=[IO.Path]::GetFullPath($ThreadJobModulePath)
+  if([IO.Path]::GetFileName($resolved) -cne 'microsoft-powershell-threadjob'){
+    throw 'ThreadJobModulePath is not the catalog-declared RIDE package directory.'
+  }
+  $manifest=Join-Path $resolved 'Microsoft.PowerShell.ThreadJob.psd1'
+  $file=Get-Item -LiteralPath $manifest -Force -ErrorAction Stop
+  if($file.PSIsContainer -or ($file.Attributes -band [IO.FileAttributes]::ReparsePoint)){
+    throw 'ThreadJob module manifest is not a regular file.'
+  }
+  $moduleData=Import-PowerShellDataFile -LiteralPath $manifest -ErrorAction Stop
+  if([string]$moduleData.ModuleVersion -cne '2.2.0'){
+    throw 'ThreadJob module manifest version does not match the pinned prerequisite.'
+  }
+  $resolved
+}
+function Import-ThreadJobPackageModule([string]$PackageDirectory) {
+  $manifest=Join-Path $PackageDirectory 'Microsoft.PowerShell.ThreadJob.psd1'
+  $imported=@(Import-Module -Name $manifest -Force -PassThru -ErrorAction Stop)
+  $module=@($imported|Where-Object {$_.Name -ceq 'Microsoft.PowerShell.ThreadJob' -and $_.Version -eq [version]'2.2.0'})
+  if($module.Count -ne 1){throw 'The RIDE-managed ThreadJob package did not import as Microsoft.PowerShell.ThreadJob 2.2.0.'}
+  if(-not [IO.Path]::GetFullPath($module[0].Path).Equals([IO.Path]::GetFullPath($manifest),[StringComparison]::OrdinalIgnoreCase)){
+    throw 'ThreadJob 2.2.0 resolved from outside the RIDE-managed package directory.'
+  }
+  $module[0]
 }
 function Write-WorkerResult([object]$Value) {
   if([IO.File]::Exists($ResultPath) -or [IO.Directory]::Exists($ResultPath)){throw 'Worker result path already exists.'}
@@ -87,6 +119,7 @@ function Remove-EmptyProbeDirectory([string]$Path,[string]$ParentPath) {
 function Invoke-RuntimeWorker {
   Assert-RuntimeGuest
   $manifest=Test-ModulePath
+  $threadJobModule=if($Mode -eq 'Present'){Test-ThreadJobModulePath}else{$null}
   if(-not $TempPath -or -not $ResultPath){throw 'Worker paths are required.'}
   $temp=[IO.Path]::GetFullPath($TempPath)
   $result=[IO.Path]::GetFullPath($ResultPath)
@@ -108,7 +141,7 @@ function Invoke-RuntimeWorker {
     throw 'Run-owned TEMP directory is not a direct, non-reparse child.'
   }
   $env:TEMP=$temp;$env:TMP=$temp
-  $report=[ordered]@{Mode=$Mode;Edition=$PSVersionTable.PSEdition;PowerShellVersion=$PSVersionTable.PSVersion.ToString();Status='Failed';Imported=$false;RequiredModule='Microsoft.PowerShell.Threadjob';RequiredAssembly='System.Drawing';CimEnumerationJob='NotRun';CimNamespaceCount=0;CimFileIsolated=$false;DrawingFunction='NotRun';ThreadJobFunction='NotRun';ErrorClass=$null;ErrorMessage=$null}
+  $report=[ordered]@{Mode=$Mode;Edition=$PSVersionTable.PSEdition;PowerShellVersion=$PSVersionTable.PSVersion.ToString();Status='Failed';Imported=$false;RequiredModule='Microsoft.PowerShell.ThreadJob';RequiredModuleVersion='2.2.0';RequiredModulePath=$threadJobModule;RequiredModuleImported=$false;RequiredAssembly='System.Drawing';CimEnumerationJob='NotRun';CimNamespaceCount=0;CimFileIsolated=$false;DrawingFunction='NotRun';ThreadJobFunction='NotRun';ErrorClass=$null;ErrorMessage=$null}
   $baselineJobIds=@(Get-Job|ForEach-Object {[int]$_.Id})
   try {
     $cimFile=Join-Path $temp 'CimNamespaceList.txt'
@@ -124,6 +157,8 @@ function Invoke-RuntimeWorker {
       $report.Status='Passed';$report.ErrorClass='ExpectedMissingRequiredModule';$report.CimFileIsolated=$true
       Write-WorkerResult ([pscustomobject]$report);return 0
     }
+    $null=Import-ThreadJobPackageModule -PackageDirectory $threadJobModule
+    $report.RequiredModuleImported=$true
     $module=Import-Module -Name $manifest -Force -PassThru -ErrorAction Stop
     if($module.Version.ToString() -ne '3.2.0'){throw 'Imported module version does not match the pinned candidate.'}
     $report.Imported=$true
@@ -176,6 +211,7 @@ if($Mode -ne 'Orchestrator'){
 }
 Assert-RuntimeGuest
 $manifest=Test-ModulePath
+$threadJobModule=Test-ThreadJobModulePath
 $evidence=[IO.Path]::GetFullPath($EvidencePath)
 if($evidence -notmatch '^C:\\RIDE\\PortableAcceptance\\[0-9a-f]{32}\\evidence\\psscripttools-runtime$'){throw 'Invalid correlated runtime evidence directory.'}
 if(-not $PSCmdlet.ShouldProcess($ExpectedComputerName,'Run isolated PSScriptTools dependency acceptance')){return}
@@ -195,7 +231,7 @@ foreach($edition in @('Desktop','Core')){
     $null=[IO.Directory]::CreateDirectory($runRoot)
     $temp=Join-Path $runRoot 'temp'
     $resultPath=Join-Path $runRoot 'result.json'
-    $arguments=@('-NoLogo','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',(Quote-ProcessArgument $worker),'-ExpectedComputerName',(Quote-ProcessArgument $ExpectedComputerName),'-ModulePath',(Quote-ProcessArgument $manifest),'-EvidencePath',(Quote-ProcessArgument $evidence),'-DisposableVm','-Mode',$workerMode,'-TempPath',(Quote-ProcessArgument $temp),'-ResultPath',(Quote-ProcessArgument $resultPath)) -join ' '
+    $arguments=@('-NoLogo','-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',(Quote-ProcessArgument $worker),'-ExpectedComputerName',(Quote-ProcessArgument $ExpectedComputerName),'-ModulePath',(Quote-ProcessArgument $manifest),'-ThreadJobModulePath',(Quote-ProcessArgument $threadJobModule),'-EvidencePath',(Quote-ProcessArgument $evidence),'-DisposableVm','-Mode',$workerMode,'-TempPath',(Quote-ProcessArgument $temp),'-ResultPath',(Quote-ProcessArgument $resultPath)) -join ' '
     try{
       $startInfo=[Diagnostics.ProcessStartInfo]::new()
       $startInfo.FileName=$exe.Path;$startInfo.Arguments=$arguments;$startInfo.UseShellExecute=$false;$startInfo.CreateNoWindow=$true

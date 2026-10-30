@@ -1,0 +1,39 @@
+{
+  "EvidenceType": "JoeWare.SelectedReleaseMetadataRecheck",
+  "ObservedAtUtc": "2026-10-26T16:20:46Z",
+  "Sources": [
+    {
+      "Uri": "https://joeware.net/freetools/versions.txt",
+      "Observed": "The file header says Updated: 2023.05.06; its rows report AdFind 1.64.00 and AdMod 1.29.00, both dated 2026.06.08, with MD5/SHA-1 values. The header date should not be treated as a per-row update date."
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/admod/index.htm",
+      "Observed": "Current Version is 1.29.00, June 8, 2026. It describes AdMod as an Active Directory modification tool and documents security-descriptor and other write behavior."
+    },
+    {
+      "Uri": "https://blog.joeware.net/2026/07/11/6272/",
+      "Observed": "The publisher's July 11, 2026 release announcement identifies AdFind V01.64.00 and AdMod V01.29.00 as current."
+    },
+    {
+      "Uri": "https://blog.joeware.net/2026/08/09/6275/",
+      "Observed": "The publisher reported that an AdFind ZIP uploaded without a password caused download issues and said the correct password-protected ZIP had been uploaded."
+    }
+  ],
+  "Disposition": {
+    "AdMod": "Selected source metadata reconciles at 1.29.00; exact payload bytes, local SHA-256, archive members, package lifecycle and isolated behavior remain pending. The existing publisher/DNS acquisition blocker remains.",
+    "AdFind": "Version metadata reconciles at 1.64.00, but it remains excluded from acquisition and handling under the active Defender-blocked-tools instruction. No ZIP was acquired or inspected.",
+    "NoPayloadBytesReceived": true,
+    "NoUtilityExecuted": true,
+    "LegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

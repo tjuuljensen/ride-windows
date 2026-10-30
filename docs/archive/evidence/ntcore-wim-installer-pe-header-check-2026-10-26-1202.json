@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T12:02:21Z",
+  "batch": "NTCore WIM Installer static PE header check",
+  "operationId": "package.ntcore-wim-installer",
+  "packageVersion": "1.0.0.1",
+  "archivePath": ".local/remaining-collections-20261017/WIM_Installer.zip",
+  "archiveSha256": "071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264",
+  "member": {
+    "name": "WIM Installer.exe",
+    "bytes": 278528,
+    "sha256": "3b932d91a2189e10c0423db00759e31eda24c8c7f38e9d16268f54f8be6e2d23"
+  },
+  "peHeader": {
+    "signature": "PE32",
+    "machine": "0x014C",
+    "architecture": "x86",
+    "sectionCount": 4,
+    "certificateTableOffset": 0,
+    "certificateTableSize": 0,
+    "embeddedCertificateTablePresent": false,
+    "headerBoundsValid": true
+  },
+  "boundaries": {
+    "memberReadInMemory": true,
+    "executableRun": false,
+    "fileExtracted": false,
+    "wimOrDiskAccess": false,
+    "vmUsed": false,
+    "defenderTouched": false
+  },
+  "interpretation": "Static PE header confirms the previously recorded x86 architecture and absence of an embedded Authenticode certificate table. It does not establish Windows compatibility or runtime behavior.",
+  "migration": {
+    "legacyOutcomesClosed": [],
+    "pendingAcceptance": [
+      "Windows 11 package lifecycle",
+      "Synthetic WIM behavior on a disposable secondary virtual disk"
+    ],
+    "licenseReview": "NeedsReview/Unassigned remains informational and does not block package planning",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155",
+      "changed": false
+    }
+  }
+}

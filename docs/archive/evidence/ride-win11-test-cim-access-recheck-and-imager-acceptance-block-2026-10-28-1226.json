@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T12:26:48Z",
+  "batch": "RIDE-Win11-Test access and Raspberry Pi Imager acceptance blocker recheck",
+  "vmQuery": {
+    "target": "RIDE-Win11-Test",
+    "command": "Get-VM -Name RIDE-Win11-Test",
+    "result": "Access to a CIM resource was not available to the client.",
+    "checkpointInspected": false,
+    "runnerDispatched": false
+  },
+  "packageCandidate": {
+    "id": "package.raspberry-pi-imager",
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "blocker": "Cannot inspect the existing VM or checkpoint; Windows install/repeat/uninstall and checkpoint restoration acceptance was not run."
+  },
+  "observations": {
+    "installerDownloadedOrRun": false,
+    "imageWriterRun": false,
+    "vmStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "freshElevationRequested": false
+  },
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "resolved": ["Confirmed read-only host CIM access still blocks RIDE-Win11-Test inspection before checkpoint discovery."],
+    "partial": ["Raspberry Pi Imager v2.0.12 source-pinned Windows 11 candidate remains unsupported pending actual package lifecycle acceptance."],
+    "deferred": ["Run disposable Windows 11 install/repeat/uninstall, verify documented publisher effects, restore the existing checkpoint, and record package acceptance when VM access returns."],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:36:00Z",
+  "scope": "MiTeC JSON Viewer and XML Viewer local portable package lifecycle regression",
+  "testRun": {
+    "runner": "PowerShell 7 / Pester 5.7.1",
+    "file": "tests/MitecViewerPackages.Tests.ps1",
+    "result": "Passed",
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "variants": [
+      "mitec-json-viewer portable x64",
+      "mitec-json-viewer portable x86",
+      "mitec-xml-viewer portable x64",
+      "mitec-xml-viewer portable x86"
+    ],
+    "testRegistryEnabled": false,
+    "temporaryRoot": ".local/pester-current"
+  },
+  "fixture": "Inert synthetic ZIP members under Pester TestDrive; no publisher archive was acquired or used.",
+  "checks": [
+    "variant-specific executable selection",
+    "publisher license reference binding",
+    "repeat install/remove and saved-state restoration for synthetic license/configuration data",
+    "modified executable preservation",
+    "unowned executable refusal"
+  ],
+  "execution": "Neither viewer launched; no update check, network access, user data, VM or Windows state was used.",
+  "acceptance": "Local package lifecycle only. Real publisher bytes and Windows 11 target acceptance remain separate; no legacy feature outcome closed.",
+  "license": "This test confirms catalog license references without asserting owner-specific entitlement; license administration is not used to block package planning.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

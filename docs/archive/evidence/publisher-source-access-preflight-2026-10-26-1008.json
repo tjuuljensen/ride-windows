@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T10:08:52Z",
+  "batch": "Authorized publisher-source access preflight",
+  "method": "Windows PowerShell Resolve-DnsName A record, DnsOnly",
+  "hosts": [
+    {
+      "host": "github.com",
+      "status": "DeniedBeforeResolution",
+      "error": "Access is denied."
+    },
+    {
+      "host": "download.ericzimmermanstools.com",
+      "status": "DeniedBeforeResolution",
+      "error": "Access is denied."
+    },
+    {
+      "host": "sourceforge.net",
+      "status": "DeniedBeforeResolution",
+      "error": "Access is denied."
+    },
+    {
+      "host": "download.ccleaner.com",
+      "status": "DeniedBeforeResolution",
+      "error": "Access is denied."
+    }
+  ],
+  "results": {
+    "publisherBytesRequested": false,
+    "sourceOrArtifactAcquired": false,
+    "partialFilesCreated": false,
+    "installerOrUtilityExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "ArsenalRecon exact release artifacts whose acquisition host is GitHub",
+      "Zimmerman exact publisher product archives",
+      "ExifTool exact publisher artifact acquisition",
+      "CCleaner-family exact artifacts"
+    ],
+    "partial": [
+      "No package or whole legacy outcome closed; this preflight found the local DNS-resolution call itself denied before host resolution. Earlier direct requests separately recorded host DNS failures."
+    ],
+    "nextAction": "Resume the selected source batch when publisher-host resolution or an already authorized acquisition path is available; do not substitute unpinned files. Continue other independently available work without fresh UAC, excluding Defender-blocked tools."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-29T00:36:23Z",
+  "source": "https://www.mitec.cz/wp/mtapimon/",
+  "product": "MiTeC TAPI Monitor",
+  "publisherVersion": "1.2.0",
+  "publisherReleaseDate": "2025-07-25",
+  "publisherTargetClaim": "Windows XP-11 and Windows Server 2003-2025",
+  "publisherProductScope": "Enumerates and monitors TAPI lines, telephones, TSP providers and call activity; also provides call controls.",
+  "publisherLicenseInformation": "The page lists a lifetime single-user license priced at EUR 30.",
+  "catalogChange": {
+    "operationId": "package.mitec-tapi-monitor",
+    "candidateTargetsBefore": ["Windows 11"],
+    "candidateTargetsAfter": ["Windows 11", "Windows Server 2025"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "reason": "Reflect the publisher's explicit Server 2025 support claim as a candidate target only; no RIDE package lifecycle or simulated-provider acceptance has passed."
+  },
+  "acceptanceBoundary": "Test repeat staging, health, uninstall and exact restore; use only a simulated non-production TAPI provider with synthetic calls on disposable Windows 11 and Server 2025 VMs. Do not query or control real lines, providers, calls or call history.",
+  "verification": {
+    "testSourceParser": "passed: MiTeCSystemInformationTapiMonitor.Tests.ps1 parses without errors",
+    "candidateMetadataAssertion": "passed: both MiTeC candidates list Windows 11 and Server 2025; supported targets remain empty and acceptance remains pending",
+    "repositoryValidation": "passed: 451 operations, 8 groups, 5 profiles, and 305 PowerShell files",
+    "pester": "not run: only Pester 3.4.0 is available in this PowerShell 7.6.5 session; the focused suite requires Pester 5",
+    "verifiedAtUtc": "2026-10-29T00:37:58Z",
+    "vmPreflight": "The current turn's read-only Get-VM query failed before VM state retrieval with host CIM access denied; no checkpoint/task query or guest request occurred.",
+    "utilityOrProviderRun": false,
+    "realTelephonyDataAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "Candidate-target metadata now reflects the publisher claim; package lifecycle and simulated-provider acceptance remain open. The owner license-review record remains administrative and non-gating."
+  }
+}

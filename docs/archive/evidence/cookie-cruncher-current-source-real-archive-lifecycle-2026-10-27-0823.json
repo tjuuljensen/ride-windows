@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27 08:23 UTC",
+  "package": {
+    "id": "package.google-analytic-cookie-cruncher",
+    "version": "2.0.0.1",
+    "archive": ".local/acquisition-review/cookie-cruncher/Google-Analytic-Cookie-Cruncher_v_2_0_0_0_1.zip",
+    "archiveSha256": "5a27c94887b25cb159f8f3477cb3cf73658dbcd1f77acba5643a88a1127b3922",
+    "members": [
+      {
+        "name": "GA Cookie Cruncher.exe",
+        "length": 91136
+      },
+      {
+        "name": "License.txt",
+        "length": 373
+      },
+      {
+        "name": "System.Data.SQLite.dll",
+        "length": 984576
+      }
+    ]
+  },
+  "test": {
+    "file": "tests/CookieCruncherPackage.Tests.ps1",
+    "name": "stages and restores the retained real archive without launching Cookie Cruncher",
+    "runtime": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "scope": "Complete focused Cookie Cruncher package suite: exact pin, synthetic lifecycle and collision/drift guards, plus retained real-archive repeat install and snapshot recovery",
+    "guiExecuted": false,
+    "browserProfilesRead": false,
+    "cookieDataRead": false,
+    "sqliteLoaded": false
+  },
+  "repositoryValidation": {
+    "status": "Passed",
+    "command": "tools/validate.ps1",
+    "operations": 429,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 294
+  },
+  "licenseReview": {
+    "marker": "NeedsReview",
+    "owner": "Unassigned",
+    "bundledNotice": "Permits redistribution; retained with package files",
+    "migrationGate": false
+  },
+  "acceptance": {
+    "localRealArchiveLifecycle": "Passed",
+    "windows11Lifecycle": "Pending",
+    "runtimePrerequisite": "Pending",
+    "guiBehavior": "Pending",
+    "supportedTargets": [],
+    "legacyOutcomesClosed": []
+  },
+  "state": {
+    "vmChanged": false,
+    "windowsChanged": false,
+    "defenderChanged": false,
+    "uac": false
+  },
+  "estimate": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exact": "127-181",
+    "rounded": "125-180/about 155",
+    "changed": false
+  }
+}

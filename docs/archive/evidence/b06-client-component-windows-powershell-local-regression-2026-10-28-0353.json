@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "kind": "B06ClientComponentWindowsPowerShellCurrentSourceRegression",
+  "recordedAtUtc": "2026-10-28T03:53:23Z",
+  "files": [
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1",
+    "tests/ComponentInventory.Tests.ps1"
+  ],
+  "runtime": {
+    "edition": "Windows PowerShell",
+    "version": "5.1.26100.9711",
+    "pester": "5.7.1",
+    "temporaryRoot": ".local/pester-b06-winps51-current-20261028",
+    "testRegistryPlugin": false,
+    "testResultPlugin": false,
+    "total": 70,
+    "passed": 70,
+    "failed": 0,
+    "skipped": 0,
+    "result": "Passed",
+    "durationSeconds": 15.36
+  },
+  "coverage": [
+    "Online removal refusal for OpenSSH Client",
+    "LocalSource CAB identity/build validation guards",
+    "LocalSource removal and restoration from the matching CAB",
+    "Restore to a captured prior NotPresent state",
+    "CAB hash-change and wrong-build refusal",
+    "Telnet LocalSource refusal boundary",
+    "Mocked read-only component inventory output"
+  ],
+  "boundary": {
+    "nativeDismCalled": false,
+    "vmOrCheckpointUsed": false,
+    "windowsStateChanged": false,
+    "defenderChanged": false,
+    "elevationRequested": false,
+    "catalogOperationRegistered": false,
+    "supportedTargetsAdded": false
+  },
+  "remainingAcceptance": [
+    "Complete matching FoD source/media and servicing dependency proof.",
+    "Verify servicing policy source fallback and a genuinely offline network boundary.",
+    "Verify exact payload/version recovery on a disposable Windows target.",
+    "Run Windows 11 and declared Windows Server acceptance after VM/CIM access is restored."
+  ],
+  "migrationAccounting": {
+    "resolvedLegacyOutcomes": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["OpenSSH Client/Telnet native servicing acceptance, matching source/dependency proof and exact recovery."],
+    "partial": ["Current-source mocked component preparation, inventory and lifecycle regression."],
+    "estimateRangesUnchanged": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155"
+    },
+    "estimateAdjustment": "None; mocked/local regression closes no legacy outcome or native Windows acceptance."
+  }
+}

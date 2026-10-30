@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:24:00Z",
+  "package": "package.etl2pcapng",
+  "version": "1.11.0",
+  "artifactSha256": "C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043",
+  "candidateTarget": "Windows 11",
+  "supportedTargets": [],
+  "checks": {
+    "realPublisherArtifact": "Passed",
+    "repeatInstall": 2,
+    "ownedFiles": 2,
+    "authenticodeStatus": "Valid",
+    "signer": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "snapshotCapture": "Passed",
+    "uninstall": "Passed",
+    "exactSnapshotRestore": "Passed",
+    "restoredOwnedFiles": 2,
+    "finalUninstall": "Passed",
+    "utilityExecuted": false,
+    "networkTraceAccessed": false
+  },
+  "acceptance": {
+    "localArtifactLifecycle": "Passed",
+    "syntheticTraceConversion": "Deferred to Windows VM",
+    "vmLifecycleAcceptance": "Blocked: read-only Get-VM access denied at CIM before VM/checkpoint inspection",
+    "legacyOutcomesClosed": [],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -3,7 +3,10 @@
   Verify pinned source-script package notice requirements and file ownership.
 .DESCRIPTION
   Builds inert archives from the pending Hex2text and ChromeSyncParser declarations.
-  Does not run Python, upstream code or installers, or inspect browser/evidence data.
+  Optional retained-archive cases run only when their exact paths are supplied by
+  RIDE_HEX2TEXT_FIXTURE_ARCHIVE or RIDE_CHROMESYNCPARSER_FIXTURE_ARCHIVE. They
+  verify hashes and file lifecycle without running Python/upstream code/installers
+  or inspecting browser/evidence data.
 .EXAMPLE
   Invoke-Pester .\tests\SourceScriptPackages.Tests.ps1
 .INPUTS
@@ -76,5 +79,50 @@ Describe 'Pinned source package <Id>' -ForEach @(@{Id='package.hex2text'},@{Id='
     {Install-RidePortablePayload $Operation $Artifact} | Should -Throw '*modified*'
     Uninstall-RidePortablePayload $Operation -WarningAction SilentlyContinue
     [IO.File]::ReadAllText($source) | Should -BeExactly 'operator source edit'
+  }
+
+  It 'stages the retained pinned archive and restores only its declared source files without executing Python' {
+    $environmentVariable = switch ($Id) {
+      'package.hex2text' { 'RIDE_HEX2TEXT_FIXTURE_ARCHIVE' }
+      'package.chromeparser' { 'RIDE_CHROMESYNCPARSER_FIXTURE_ARCHIVE' }
+      default { throw "Unexpected source package: $Id" }
+    }
+    $archiveValue = [Environment]::GetEnvironmentVariable($environmentVariable)
+    if ([string]::IsNullOrWhiteSpace($archiveValue)) {
+      Set-ItResult -Skipped -Because "No explicit retained archive was supplied through $environmentVariable."
+      return
+    }
+    $archivePath = [IO.Path]::GetFullPath($archiveValue)
+    $archiveFile = Get-Item -LiteralPath $archivePath -Force -ErrorAction Stop
+    if ($archiveFile.PSIsContainer -or ($archiveFile.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+      throw 'Retained archive fixture must be a regular file.'
+    }
+    $sha = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    $sha | Should -BeExactly $Operation.ExpectedSha256.ToLowerInvariant()
+    $zip = [IO.Compression.ZipFile]::OpenRead($archivePath)
+    try {
+      $archiveMembers = @($zip.Entries | Where-Object { -not [string]::IsNullOrEmpty($_.Name) } | ForEach-Object FullName | Sort-Object)
+      $archiveMembers.Count | Should -Be $Operation.RequiredFiles.Count
+      [string]::Join("`n", $archiveMembers) | Should -BeExactly ([string]::Join("`n", @($Operation.RequiredFiles | Sort-Object)))
+    } finally { $zip.Dispose() }
+
+    $operation = $Operation.Clone()
+    $operation.ResolvedToolsDirectory = Join-Path $CaseRoot 'retained-archive'
+    $operation.InstallDirectory = Join-Path $operation.ResolvedToolsDirectory $operation.PackageId
+    $artifact = [pscustomobject]@{ Path = $archivePath; Sha256 = $sha; Version = $operation.PackageVersion }
+    Install-RidePortablePayload $operation $artifact -Offline
+    Install-RidePortablePayload $operation $artifact -Offline
+    $state = Get-RidePortableState $operation
+    $state.Healthy | Should -BeTrue
+    @($state.Files.RelativePath | Sort-Object) | Should -Be @($operation.RequiredFiles | Sort-Object)
+
+    $operatorNote = Join-Path $operation.InstallDirectory 'operator-note.txt'
+    [IO.File]::WriteAllText($operatorNote, 'preserve operator-owned data')
+    $snapshot = Save-RidePortableSnapshot $operation (Join-Path $CaseRoot 'retained-archive-backup')
+    Uninstall-RidePortablePayload $operation
+    [IO.File]::ReadAllText($operatorNote) | Should -BeExactly 'preserve operator-owned data'
+    Restore-RidePortableSnapshot $operation $snapshot
+    (Get-RidePortableState $operation).Healthy | Should -BeTrue
+    [IO.File]::ReadAllText($operatorNote) | Should -BeExactly 'preserve operator-owned data'
   }
 }

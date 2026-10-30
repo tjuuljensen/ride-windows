@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:54:31Z",
+  "batch": "Defraggler source follow-up and migration prerequisite recheck",
+  "readOnlyChecks": {
+    "vmTargets": {
+      "RIDE-Win11-Test": {
+        "result": "BlockedBeforeInspection",
+        "error": "Access to a CIM resource was not available to the client."
+      },
+      "RIDE-Server2025-Test": {
+        "result": "BlockedBeforeInspection",
+        "error": "Access to a CIM resource was not available to the client."
+      }
+    },
+    "pester": {
+      "availableVersions": ["3.4.0"],
+      "pester5Available": false,
+      "currentModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules\\Pester\\3.4.0\\Pester.psd1"
+    },
+    "defragglerLocalArtifactSearch": {
+      "root": ".local",
+      "patterns": ["defraggler", "dfsetup"],
+      "method": "PowerShell Get-ChildItem -Recurse -File -Force with case-insensitive filename filters",
+      "verifiedAtUtc": "2026-10-28T10:55:45Z",
+      "matches": []
+    }
+  },
+  "migrationHandling": {
+    "defenderBlockedPasswordScan": "x86 and x64 remain excluded; reported x64 temporary-stage path was absent at the metadata-only check; detection and creating-run provenance remain unknown.",
+    "defraggler": "Official publisher EOL and no-longer-distributed status is confirmed. Keep the user's selected legacy outcome open; no license gate added. No retained local artifact was found.",
+    "noElevationOrWindowsChanges": true,
+    "testsRun": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Defraggler publisher lifecycle status is established as end of life and discontinued distribution."
+    ],
+    "partial": [
+      "Fresh VM visibility and Pester availability checks reconfirm that Windows acceptance and Pester 5 regressions cannot run in the present environment."
+    ],
+    "deferred": [
+      "Windows 11 and Server 2025 VM acceptance remain blocked before inspection at host CIM. Pester 5 test suites remain deferred because only Pester 3.4.0 is discoverable. Defraggler selected legacy outcome remains open pending disposition or an authorized retained source."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; prerequisites are blocked and no additional legacy outcome closed."
+    }
+  },
+  "relatedEvidence": [
+    "nirsoft-passwordscan-defender-repeat-alert-2026-10-28-1048.json",
+    "ccleaner-defraggler-eol-confirmation-2026-10-28-1051.json",
+    "current-migration-repository-validation-pester-vm-access-2026-10-28-1036.json"
+  ]
+}

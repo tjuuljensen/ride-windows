@@ -1,0 +1,40 @@
+{
+  "recordedAtUtc": "2026-10-29T01:55:55Z",
+  "source": "Read-only host acceptance recheck",
+  "vmTargets": [
+    "RIDE-Win11-Test",
+    "RIDE-S25-Test"
+  ],
+  "checks": [
+    {
+      "command": "Get-VM",
+      "result": "Failed before returning VM state",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "existingRequest": {
+    "runId": "95bc76d3055f4f17964087ed15422295",
+    "queueState": "running",
+    "resultArtifactPresent": false,
+    "duplicateSubmitted": false,
+    "cancelledOrModified": false
+  },
+  "vmStateOrCheckpointRetrieved": false,
+  "guestRequestDispatched": false,
+  "windowsOrDefenderStateChanged": false,
+  "elevationRequested": false,
+  "disposition": "Keep the existing UnitOnly/Full request unresolved and do not submit a duplicate. Defer further native VM acceptance until host CIM access is available. Continue independent source and implementation work that does not touch Defender-blocked payloads.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

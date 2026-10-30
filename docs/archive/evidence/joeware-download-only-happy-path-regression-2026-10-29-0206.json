@@ -1,0 +1,60 @@
+{
+  "recordedAtUtc": "2026-10-29T02:07:48Z",
+  "testFile": "tests/Download-JoeWareCollection.Tests.ps1",
+  "shell": "Windows PowerShell 5.1.26100.9818",
+  "pesterVersion": "5.7.1",
+  "result": {
+    "total": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0
+  },
+  "configuration": {
+    "testRegistryPlugin": false,
+    "testResultPlugin": false,
+    "processExecutionPolicy": "Bypass",
+    "tempRoot": ".local"
+  },
+  "newHappyPathCoverage": {
+    "publisherCalls": 3,
+    "outboundPublisherRequests": 0,
+    "testSessionStateRestorationVerified": true,
+    "fixture": "Synthetic inert ZIP containing AdMod.exe text and a readme version string; the executable member was never run.",
+    "verified": [
+      "Mocked versions list and selected product page yield the pinned page version.",
+      "Mocked ZIP response is written to the new selected-product destination.",
+      "Final HTTPS response URI, SHA-256, member inventory and version observation are recorded in the manifest.",
+      "Temporary download file is removed after success.",
+      "No package is installed and no payload is executed."
+    ]
+  },
+  "existingCoverage": [
+    "Official HTTPS origin validation.",
+    "PowerShell 5.1/7 response URI shapes.",
+    "Network-free WhatIf behavior and no destination creation.",
+    "AdFind exclusion from default preview, explicit selection and tab completion."
+  ],
+  "handling": {
+    "realPublisherResponseUsed": false,
+    "archiveDownloaded": false,
+    "archiveExtracted": false,
+    "productExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "vmRequestCreated": false,
+    "elevationRequested": false
+  },
+  "disposition": "The downloader's successful observation path now has synthetic end-to-end coverage. This does not verify real JoeWare publisher acquisition, artifact identity, package lifecycle or Windows acceptance. The separate AdMod publisher acquisition remains DNS-blocked, so no JoeWare legacy outcome closes.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:38:53Z",
+  "batch": "PSScriptTools current-catalog prerequisite planning check",
+  "source": "Read-only RIDE.Engine Get-RideSingleOperationPlan call against current catalog",
+  "action": "Install plan only; no handler or state-changing command called",
+  "plan": [
+    {
+      "order": 1,
+      "operationId": "package.microsoft-powershell-threadjob",
+      "desiredState": "Present",
+      "reason": "Required by package.psscripttools: PowerShell module Microsoft.PowerShell.ThreadJob version 2.2.0 or later",
+      "variant": "portable",
+      "installDirectory": "C:\\Tools\\microsoft-powershell-threadjob"
+    },
+    {
+      "order": 2,
+      "operationId": "package.psscripttools",
+      "desiredState": "Present",
+      "reason": null,
+      "variant": "portable",
+      "installDirectory": "C:\\Tools\\psscripttools"
+    }
+  ],
+  "result": "The current package plan expands the catalog-declared PowerShell module prerequisite before PSScriptTools and carries the expected portable destinations.",
+  "handling": {
+    "packageInstalledOrRemoved": false,
+    "installerExecuted": false,
+    "networkUsed": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "limits": [
+    "This confirms current-catalog planning and ordering only. It does not verify ThreadJob module health/version on a managed target, package acquisition, install/remove/recovery, dependent-removal guard behavior, or Windows acceptance.",
+    "The focused ApplicationPackages Pester suite remains unrun in the current environment because Pester 5 is not discoverable."
+  ],
+  "migrationOutcome": {
+    "resolved": [
+      "PSScriptTools current catalog prerequisite is expanded first in the read-only install plan."
+    ],
+    "partial": [
+      "The package prerequisite plan is verified locally, but the Pester regression and actual managed-package lifecycle remain unverified."
+    ],
+    "deferred": [
+      "Pester 5 focused tests, managed target package lifecycle/recovery, ThreadJob health/version boundary, and dependent-removal acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; plan-only evidence does not close a package outcome."
+    }
+  }
+}

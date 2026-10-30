@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T21:40:45Z",
+  "batch": "Click to Do candidate added to remaining-settings Batch 1 acceptance runner",
+  "sourceChanges": {
+    "runner": "tests/integration/Invoke-RideRemainingSettings.ps1",
+    "runnerVersion": "0.3.2",
+    "batch1Operations": 23,
+    "change": "The runner now requires the catalog's windows.click-to-do-policy candidate to declare Windows 11 candidacy, then includes it in the existing private guest-catalog acceptance scope. Its general pending-candidate path temporarily enables only the guest's Windows 11 support for the run; published SupportedTargets remain empty."
+  },
+  "scope": [
+    "Exercise the current-user DisableClickToDo Blocked, Allowed and WindowsDefault policy states, repeat apply, preview and exact saved-run restoration on disposable Windows 11.",
+    "Do not infer Click to Do feature availability from the registry lifecycle; user toggle, eligible hardware, device-policy precedence and visible behavior remain separate acceptance."
+  ],
+  "validation": {
+    "repositoryValidator": {
+      "result": "Passed",
+      "operations": 447,
+      "groups": 8,
+      "profiles": 5,
+      "powerShellFiles": 301,
+      "generatedOperationDocumentation": "Current"
+    },
+    "catalogPester": {
+      "powerShell7": {
+        "version": "7.6.5",
+        "pester": "5.7.1",
+        "passed": 98,
+        "failed": 0,
+        "windowsIntegrationExcluded": 1
+      },
+      "windowsPowerShell": {
+        "version": "5.1.26100.9818",
+        "pester": "5.7.1",
+        "executionPolicy": "Process-only Bypass",
+        "passed": 98,
+        "failed": 0,
+        "windowsIntegrationExcluded": 1
+      }
+    },
+    "runnerVersionGuard": {
+      "powerShell7": "0.3.2",
+      "windowsPowerShell": "0.3.2",
+      "persistentExecutionPolicyChanged": false
+    }
+  },
+  "vm": {
+    "target": "RIDE-Win11-Test",
+    "hostGetVmQuery": "Access to a CIM resource was not available to the client.",
+    "existingRunId": "8346c1d7660a4fb78e773ef3b57407b7",
+    "capturedRunnerSHA256": "4F5958FB04BE7CC925166844C96F57064CA7CA5B2AE9AF0F59F6956568F7E9B0",
+    "currentRunnerSHA256": "E95B81A808D48D575CEF1C64725144FB711EFCFE899D327696EB0CAD76117A5D",
+    "existingRequest": {
+      "source": "Local",
+      "unitOnly": true,
+      "integrationSuite": "Full",
+      "submittedAtUtc": "2026-10-28T20:38:14.6241126Z",
+      "timeoutMinutes": 120
+    },
+    "controllerEvidenceAtReview": "The RunId remained in queue/running; controller.log showed a successful Hyper-V lab import, one completed PowerShell Direct activity and a second activity waiting for completion; controller-errors.log was empty.",
+    "newRequestSubmitted": false,
+    "candidateRunnerIncludedInExistingSnapshot": false
+  },
+  "handling": {
+    "clickToDoPolicyApplied": false,
+    "settingsStateChanged": false,
+    "defenderBlockedToolsAccessed": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Source-side Click to Do acceptance scope is prepared in the existing Batch 1 runner; runner version and repository validation passed."
+    ],
+    "partial": [
+      "Catalog cross-shell checks passed for the candidate; no native candidate lifecycle assertion ran in this batch."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Run the updated 23-operation SettingsRemainingBatch1 against the existing checkpoint after the active VM UnitOnly request reaches a terminal state and the controller queue is idle.",
+      "Keep Click to Do SupportedTargets empty until current-build applicability, device-policy precedence and visible behavior are reviewed separately."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; runner preparation and catalog regression close no legacy outcome."
+    }
+  }
+}

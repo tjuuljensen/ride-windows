@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T08:36:45Z",
+  "batch": "ArsenalRecon NetWire Log Decoder exact release artifact retry",
+  "publisher": {
+    "repository": "ArsenalRecon/NetWireLogDecoder",
+    "revision": "d5d8d653f7f31656b47a993ed652cc353a86d78e",
+    "release": "v1.0.0.1",
+    "asset": "NetWireLogDecoder_v1.0.0.1.zip",
+    "expectedPublisherSizeBytes": 1448704,
+    "uri": "https://github.com/ArsenalRecon/NetWireLogDecoder/releases/download/v1.0.0.1/NetWireLogDecoder_v1.0.0.1.zip"
+  },
+  "acquisition": {
+    "method": "Direct PowerShell Invoke-WebRequest HEAD to the exact official release URL; no alternate source used.",
+    "result": "failed_before_response",
+    "error": "No such host is known. (github.com:443)",
+    "bytesReceived": 0,
+    "partialFileCreated": false,
+    "sha256Computed": false,
+    "archiveMembersInspected": false,
+    "utilityExecuted": false
+  },
+  "scope": {
+    "vmRequested": false,
+    "windowsOrDefenderStateChanged": false,
+    "licenseGateAdded": false,
+    "legacyOutcomeClosed": false,
+    "decision": "Keep the selected product in package migration. Exact artifact review and local lifecycle remain pending; publisher download/install completion is not blocked by license review.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

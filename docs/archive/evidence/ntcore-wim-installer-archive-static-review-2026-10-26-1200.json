@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T12:00:05Z",
+  "batch": "NTCore WIM Installer retained archive static inventory",
+  "operationId": "package.ntcore-wim-installer",
+  "packageVersion": "1.0.0.1",
+  "source": {
+    "path": ".local/remaining-collections-20261017/WIM_Installer.zip",
+    "officialDownloadUri": "https://ntcore.com/files/WIM_Installer.zip",
+    "archiveBytes": 134174,
+    "archiveSha256": "071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264",
+    "matchesExistingCandidatePin": true
+  },
+  "archiveInventory": {
+    "memberCount": 1,
+    "uncompressedBytes": 278528,
+    "unsafePathCount": 0,
+    "duplicateNames": 0,
+    "members": [
+      {
+        "name": "WIM Installer.exe",
+        "bytes": 278528,
+        "sha256": "3b932d91a2189e10c0423db00759e31eda24c8c7f38e9d16268f54f8be6e2d23",
+        "matchesExistingMemberPin": true
+      }
+    ],
+    "noticeOrDocumentationFiles": []
+  },
+  "priorStaticMetadata": {
+    "architecture": "x86",
+    "fileVersion": "1.0.0.1",
+    "productVersion": "1.0.0.1",
+    "authenticode": "NotSigned",
+    "sourceEvidence": "ntcore-wim-installer-package-candidate-2026-10-26.json"
+  },
+  "licenseAdministration": {
+    "status": "NeedsReview",
+    "owner": "Unassigned",
+    "blocksPackagePlanning": false,
+    "noEmbeddedLicenseOrTermsFile": true
+  },
+  "boundaries": {
+    "executableRun": false,
+    "wimReadMountedOrApplied": false,
+    "diskOrPartitionAccessed": false,
+    "vmUsed": false,
+    "defenderTouched": false
+  },
+  "disposition": {
+    "resolved": [
+      "Reconfirmed exact retained archive and selected member digests",
+      "Completed a bounded archive path/member inventory and found no embedded documentation or license files"
+    ],
+    "deferred": [
+      "Windows 11 package install/remove/recovery acceptance",
+      "Synthetic WIM behavior using an isolated test image and disposable secondary virtual disk"
+    ],
+    "legacyOutcomesClosed": [],
+    "status": "Static inventory complete; package migration remains partial pending Windows acceptance."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155",
+    "changed": false
+  }
+}

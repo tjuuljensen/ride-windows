@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T19:17:41Z",
+  "product": "Windows Firewall Notifier (WFN)",
+  "selectedDistribution": {
+    "channel": "Nightlies / Unstable",
+    "build": "20250719-ac02df",
+    "assetName": "wfn-20250719-ac02df-x64-standalone.zip",
+    "selectionSource": "User decision recorded 2026-10-24"
+  },
+  "publisherSource": {
+    "releasePage": "https://github.com/wokhan/WFN/releases",
+    "tagUrl": "https://github.com/wokhan/WFN/releases/tag/nightlies",
+    "observedCommit": "ac02df2",
+    "observedFacts": [
+      "The Nightlies / Unstable release is marked pre-release and may contain unfinished or temporary changes.",
+      "The publisher describes x64 standalone builds for systems that should not require a separately installed .NET runtime.",
+      "The publisher source repository identifies the project license as GPL-3.0.",
+      "The publisher does not officially support Windows Server."
+    ]
+  },
+  "acquisitionAttempt": {
+    "method": "HTTP HEAD against the exact publisher release asset URL",
+    "url": "https://github.com/wokhan/WFN/releases/download/nightlies/wfn-20250719-ac02df-x64-standalone.zip",
+    "result": "Failed before HTTP response",
+    "error": "No such host is known. (github.com:443)",
+    "bytesReceived": 0,
+    "partialArtifactPresent": false
+  },
+  "remainingEvidence": [
+    "Exact downloaded bytes and SHA-256",
+    "Archive member inventory and retained notices",
+    "Windows 11 package file lifecycle and exact recovery",
+    "Windows Firewall policy capture and exact restoration before runtime behavior can be considered"
+  ],
+  "disposition": "Source identity is confirmed, but acquisition is blocked by local DNS resolution. Do not invent an archive digest, use a mirror, or declare package acceptance. Retry the exact publisher URL when DNS is available.",
+  "migrationImpact": "No implementation, legacy outcome, support target, or estimate changed. Estimates remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170."
+}

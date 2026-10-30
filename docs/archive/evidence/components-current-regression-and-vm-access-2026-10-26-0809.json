@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T08:11:27Z",
+  "windowsPowerShell51Parser": {
+    "filesParsed": 279,
+    "parseErrors": 0,
+    "scope": "Read-only syntax parse of repository PowerShell files, excluding .git, .vs and .local."
+  },
+  "componentRegression": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "suites": [
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1"
+    ],
+    "passed": 85,
+    "failed": 0,
+    "skipped": 0,
+    "testRegistryPlugin": "Disabled",
+    "testResultPlugin": "Disabled",
+    "scratchDirectory": ".local/pester-temp",
+    "scope": "Mocked inventory, preparation, transition, recovery and ShouldProcess tests; no DISM, Server Manager, Windows service, firewall, VM or guest operation was invoked."
+  },
+  "vmAccess": {
+    "targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "getVmResult": "Access to a CIM resource was not available to the client.",
+    "registeredTaskResult": "ERROR: The network address is invalid.",
+    "inspectionReached": false,
+    "guestRequestMade": false,
+    "elevationPrompted": false,
+    "hostVmWindowsOrDefenderChanged": false
+  },
+  "migration": {
+    "resolved": ["Current-source component unit regression for five suites passed 85/85."],
+    "deferred": ["Disposable Windows 11 and Server 2025 component acceptance", "Telnet matching Features on Demand media, exact source identity, dependency/recovery and source-precedence verification"],
+    "legacyOutcomesClosed": [],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

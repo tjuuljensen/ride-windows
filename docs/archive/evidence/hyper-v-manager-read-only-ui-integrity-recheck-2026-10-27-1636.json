@@ -1,0 +1,30 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T16:36:34Z",
+  "Scope": "Read-only attempt to inspect registered migration VMs through the existing Hyper-V Manager UI after host CIM access failed",
+  "VMQueries": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Result": "Get-VM failed before VM inspection: Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-Server2025-Test",
+      "Result": "Get-VM failed before VM inspection: Access to a CIM resource was not available to the client."
+    }
+  ],
+  "HyperVManager": {
+    "WindowObserved": true,
+    "UIHelperAccess": "Accessibility limited because the target window has higher Windows integrity than the Computer Use helper.",
+    "UsefulWindowContentReadable": false,
+    "ActivationAttempt": "Failed to activate captured window.",
+    "VMOrCheckpointDetails": "Unknown; not inspected"
+  },
+  "StateChanges": {
+    "VmStateChanged": false,
+    "CheckpointChanged": false,
+    "WindowsConfigurationChanged": false,
+    "DefenderChanged": false,
+    "ElevationRequested": false
+  },
+  "Disposition": "Windows acceptance and protected-controller dispatch remain deferred until existing VM access is available without a fresh elevation prompt. Unaffected local source review and test batches may continue."
+}

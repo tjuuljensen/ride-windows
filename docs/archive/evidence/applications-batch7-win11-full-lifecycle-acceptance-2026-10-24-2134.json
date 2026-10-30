@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "89f97d58ba1a493199f83654702c91ea",
+  "Suite": "ApplicationsBatch7",
+  "Target": "RIDE-Win11-Test",
+  "OS": "Windows 11 Enterprise Evaluation",
+  "Build": "26300",
+  "PowerShell": "5.1.26100.9444",
+  "Status": "Passed",
+  "StartedAtUtc": "2026-10-24T21:17:55.3571434Z",
+  "FinishedAtUtc": "2026-10-24T21:34:37.3603359Z",
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 360,
+    "Failed": 0,
+    "Skipped": 1,
+    "Total": 361,
+    "Selection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Integration": {
+    "PackageId": "package.artcraft-launcher",
+    "Version": "0.2.1",
+    "Scope": "User",
+    "Status": "Passed",
+    "Checks": [
+      "RIDEManagedInstall",
+      "PinnedPackageVersion",
+      "RepeatInstall",
+      "RemovalPreview",
+      "RIDERemoval",
+      "RepeatRemoval",
+      "SavedRemovalRecovery",
+      "SavedInstallRecovery",
+      "ProfilePreservation"
+    ],
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "LauncherStarted": false
+  },
+  "ValidationPassed": true,
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "LegacyOutcomeClosed": false,
+  "Disposition": "Windows 11 lifecycle acceptance supports promoting this separately selected v3 package on Windows 11. Windows Server support and launcher activation remain unverified. This package has no mapped v2 legacy selector, so legacy outcome estimates do not change.",
+  "Sources": [
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\89f97d58ba1a493199f83654702c91ea\\result.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\89f97d58ba1a493199f83654702c91ea\\guest\\summary.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\89f97d58ba1a493199f83654702c91ea\\guest\\applications-batch7.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\89f97d58ba1a493199f83654702c91ea\\guest\\pester.xml"
+  ]
+}

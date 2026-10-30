@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T17:03:00Z",
+  "scope": "Current catalog package review-marker coverage",
+  "source": {
+    "catalog_reader": "Get-RideCatalog from modules/RIDE.Engine.psm1",
+    "local_store": ".local/license-reviews.json"
+  },
+  "results": {
+    "catalog_operations": 447,
+    "pending_acceptance_packages": 49,
+    "pending_packages_with_exact_id_and_version_review_record": 49,
+    "pending_packages_missing_exact_review_record": 0,
+    "pending_packages_with_status_other_than_needsreview_or_reviewed": 0,
+    "local_review_records": 86,
+    "sysinternals_exact_versions_marked_reviewed": 10
+  },
+  "repository_validation": {
+    "status": "passed",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powershell_files": 301,
+    "operation_documentation_current": true
+  },
+  "disposition": "Local review markers are owner/version administration and do not block package planning or installation. Sysinternals remains settled for RIDE direct-download-and-install under the prior RIDE v2 specialist approval; Defender exclusions remain separate.",
+  "limitations": [
+    "This audit does not make a legal determination or establish rights beyond the user's prior RIDE v2 specialist approval and stated workflow.",
+    "It covers only package operations currently marked PendingAcceptance; unpinned publisher items without catalog IDs and versions are outside this version-keyed store audit."
+  ],
+  "safety": {
+    "review_store_modified": false,
+    "package_downloaded_or_executed": false,
+    "vm_or_windows_state_changed": false,
+    "defender_state_changed": false
+  },
+  "migration_outcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "partial_or_deferred": [
+      "Technical Windows lifecycle and product behavior remain separate from owner/version review status."
+    ],
+    "legacy_outcome_closed": false,
+    "estimate_adjustment": "None; review-marker coverage does not close a legacy feature or product outcome."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "files_and_assets": "25-35",
+    "maintenance": "8-12",
+    "exact_total": "126-180",
+    "rounded_total": "125-180; about 155 outcomes"
+  }
+}

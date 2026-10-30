@@ -1,0 +1,56 @@
+{
+  "recordedAtUtc": "2026-10-29T03:01:13Z",
+  "kind": "SysinternalsSuiteCurrentSourceRegressionAndCimBlock",
+  "test": {
+    "path": "tests/SysinternalsSuitePackage.Tests.ps1",
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "result": {
+      "discovered": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 136.16
+    },
+    "verified": [
+      "fixed package snapshot without mutable network discovery",
+      "changed bytes rejected before extraction",
+      "complete 164-member pinned set required before destination creation",
+      "repeat staging, managed-file removal, snapshot restoration and operator-data preservation",
+      "independently owned product files and modified executable collisions preserved"
+    ],
+    "syntheticArchiveMemberCount": 164
+  },
+  "scope": {
+    "archiveFixture": "Inert synthetic ZIP members",
+    "publisherArchiveOpened": false,
+    "payloadDownloaded": false,
+    "SysinternalsUtilitiesDriversOrInstallersRun": false,
+    "EulaInteractedWith": false,
+    "defenderStateReadOrChanged": false,
+    "defenderBlockedToolsSelectedOrTouched": false,
+    "windowsStateChanged": false,
+    "newNativeAcceptanceEstablished": false
+  },
+  "licenseDisposition": "The prior RIDE v2 license-specialist approval for RIDE's direct-download-and-install workflow remains settled; no licensing gate was reopened.",
+  "vmAccess": {
+    "lastReadOnlyCheckAtUtc": "2026-10-29T02:57:58Z",
+    "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "result": "Get-VM failed before state retrieval at host CIM for both targets.",
+    "checkpointState": "Unverified",
+    "acceptance": "No VM acceptance run"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T17:03:00Z",
+  "workstream": "B06 OpenSSH Client LocalSource guarded lifecycle",
+  "change": [
+    "Expose ConfiguredSourceFallback consistently in WhatIf and completed transition results.",
+    "Report NotInspected for a no-change path that does not validate the LocalSource.",
+    "Report NotRecorded for AlreadyRestored or legacy snapshots without the field.",
+    "Add focused mocked coverage that restore repeats the Group Policy fallback guard before native servicing."
+  ],
+  "validation": {
+    "windows_powershell_parser_module": "passed",
+    "windows_powershell_parser_focused_tests": "passed",
+    "git_diff_check_focused_files": "passed",
+    "pester_assertions": "not run; only Pester 3.4.0 is available in the current shell",
+    "native_servicing": "not run",
+    "vm_acceptance": "not run"
+  },
+  "safety": {
+    "registry_read_or_write": false,
+    "cab_or_package_payload_access": false,
+    "dism_invoked": false,
+    "vm_or_checkpoint_changed": false,
+    "defender_state_changed": false,
+    "defender_blocked_tools_touched": false
+  },
+  "migration_outcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred_or_partial": [
+      "B06 source completeness, dependencies, exact payload recovery, complete network isolation and Windows acceptance remain open.",
+      "Telnet LocalSource validation remains unimplemented."
+    ],
+    "legacy_outcome_closed": false,
+    "estimate_adjustment": "None; result reporting and mocked guard coverage do not establish native servicing behavior."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "files_and_assets": "25-35",
+    "maintenance": "8-12",
+    "exact_total": "126-180",
+    "rounded_total": "125-180; about 155 outcomes"
+  }
+}

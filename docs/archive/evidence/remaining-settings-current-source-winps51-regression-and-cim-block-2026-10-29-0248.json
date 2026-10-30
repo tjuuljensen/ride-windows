@@ -1,0 +1,54 @@
+{
+  "recordedAtUtc": "2026-10-29T02:48:58Z",
+  "kind": "RemainingSettingsCurrentSourceRegressionAndCimBlock",
+  "repository": "RIDE-Windows",
+  "validation": {
+    "tool": "tools/validate.ps1",
+    "environment": "Windows PowerShell 5.1",
+    "result": "Passed",
+    "operations": 451,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 306,
+    "generatedOperationDocumentation": "Current"
+  },
+  "test": {
+    "path": "tests/RemainingSettings.Tests.ps1",
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "systemHandlers": "Mocked",
+    "stateFixtures": "Pester TestDrive",
+    "result": {
+      "discovered": 81,
+      "passed": 81,
+      "failed": 0,
+      "skipped": 0
+    },
+    "observedWhatIfOutput": "Preview-only ShouldProcess messages; no actual system-state operation occurred."
+  },
+  "scope": {
+    "registryOrWindowsStateChanged": false,
+    "defenderStateReadOrChanged": false,
+    "vmRequestSubmitted": false,
+    "hostCimChanged": false,
+    "nativeWindowsAcceptance": "Not established"
+  },
+  "vmAccess": {
+    "names": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "lastResult": "The 02:35 UTC checks failed before VM state retrieval at host CIM. A later guest acceptance run was not attempted.",
+    "checkpointState": "Unverified"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

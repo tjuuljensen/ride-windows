@@ -1,0 +1,88 @@
+{
+  "recordedAtUtc": "2026-10-28T23:32:54Z",
+  "batch": "Offline bundle integrity and execution current-source regression with VM access blocker",
+  "suites": [
+    "tests/OfflineExecution.Tests.ps1",
+    "tests/OfflineBundle.Tests.ps1"
+  ],
+  "runtime": "Windows PowerShell 5.1.26100.9818",
+  "pester": "5.7.1",
+  "runs": [
+    {
+      "discovered": 81,
+      "passed": 80,
+      "failed": 1,
+      "skipped": 0,
+      "failure": "Offline portable manifest second-write replacement failed once in File.Replace with IOException: Unable to remove the file to be replaced.",
+      "sourceChangedBeforeRetry": false,
+      "generatedFixtureCleanup": "The test AfterEach removed its synthetic .local/offline-handler-tests-* directory; no retained fixture remained."
+    },
+    {
+      "discovered": 81,
+      "passed": 81,
+      "failed": 0,
+      "skipped": 0,
+      "repeat": "Same current source and focused suites; no code change between runs."
+    }
+  ],
+  "testConfiguration": {
+    "executionPolicy": "Process-only Bypass",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "publisherAcquisitionMockedToFail": true,
+    "AuthenticodeNetworkInspectionMockedToFail": true,
+    "InstallerBoundaryMocked": true
+  },
+  "scope": {
+    "realInstallerOrUtilityExecuted": false,
+    "networkOrPublisherRequestMade": false,
+    "windowsOrVmStateChanged": false,
+    "defenderChanged": false,
+    "nirsoftPasswordScanPathAccessed": false,
+    "nativeOfflineDeploymentAccepted": false,
+    "elevationRequested": false
+  },
+  "vmAccess": {
+    "recordedAtUtc": "2026-10-28T23:30:06Z",
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-S25-Test"
+    ],
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateOrCheckpointRetrieved": false,
+    "guestRequestDispatched": false
+  },
+  "migration": {
+    "resolved": [
+      "Current-source selected-bundle integrity and offline install/apply dispatch regression passed 81/81 on repeat after one transient manifest replacement failure."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Reviewed-bundle disconnected Windows acceptance, broader installer/dependency/servicing coverage and current target VM access."
+    ],
+    "partial": [
+      "No legacy outcome closed."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  },
+  "repositoryValidation": {
+    "recordedAtUtc": "2026-10-28T23:34:02Z",
+    "runtime": "Windows PowerShell 5.1.26100.9818",
+    "result": "Passed",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "PowerShellFiles": 301,
+    "generatedOperationDocumentationCurrent": true,
+    "readOnly": true
+  }
+}

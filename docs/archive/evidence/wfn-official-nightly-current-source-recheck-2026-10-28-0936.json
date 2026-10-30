@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:36:03Z",
+  "batch": "WFN official nightly release source freshness recheck",
+  "packageId": "package.windows-firewall-notifier",
+  "catalogVersion": "20250719-ac02df",
+  "catalogAsset": "wfn-20250719-ac02df-x64-standalone.zip",
+  "officialSource": {
+    "releasesUri": "https://github.com/wokhan/WFN/releases",
+    "readmeUri": "https://github.com/wokhan/WFN/blob/master/README.md",
+    "currentNightliesTagCommit": "ac02df2",
+    "nightliesListedAsMostRecentRelease": true,
+    "releaseAssetCount": 17,
+    "description": "Official Nightlies / Unstable release states it hosts automated builds as changes merge to main; the repository README describes Nightly as automatically built on PR merges."
+  },
+  "assessment": "The current official release listing still identifies the Nightlies tag at commit ac02df2, matching the catalog revision suffix ac02df. GitHub did not render the live asset list during this review, so no asset bytes, current byte digest, or member inventory were independently obtained. Existing retained archive identity evidence remains the byte-level record.",
+  "retainedArtifact": {
+    "path": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip",
+    "length": 118745388,
+    "sha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "matchesCatalogPin": true
+  },
+  "handling": {
+    "newPayloadDownloaded": false,
+    "payloadHashRecomputed": false,
+    "utilityExecuted": false,
+    "firewallChanged": false,
+    "defenderQueriedOrChanged": false,
+    "vmStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Official WFN Nightlies release metadata still aligns with the catalog commit suffix; retained pinned artifact passed actual file lifecycle cross-shell."
+    ],
+    "partial": [
+      "Current source metadata and local archive lifecycle are verified; live release asset bytes were not re-read."
+    ],
+    "deferred": [
+      "Disposable Windows 11 lifecycle, RIDE engine route and WFN runtime/firewall-notification behavior."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source freshness confirmation and module lifecycle do not prove native Windows behavior or close the legacy package outcome."
+    }
+  }
+}

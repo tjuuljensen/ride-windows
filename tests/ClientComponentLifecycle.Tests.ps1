@@ -40,6 +40,9 @@ Describe 'Guarded OpenSSH Client and Telnet Client lifecycle candidate' {
     }
     Mock Test-RideClientComponentPendingReboot -ModuleName RIDE.ClientComponentLifecycle {$false}
     Mock Get-RideClientComponentSourceArchitecture -ModuleName RIDE.ClientComponentLifecycle {$global:RideLifecycleArchitecture}
+    Mock Get-RideClientComponentSourceDriveType -ModuleName RIDE.ClientComponentLifecycle {[IO.DriveType]::Fixed}
+    Mock Test-RideClientComponentConfiguredSourceFallback -ModuleName RIDE.ClientComponentLifecycle {$false}
+    Mock Assert-RideClientComponentSourcePathHasNoReparsePoints -ModuleName RIDE.ClientComponentLifecycle {}
     Mock Get-RideClientComponentSourcePackageMetadata -ModuleName RIDE.ClientComponentLifecycle {
       [pscustomobject]@{PackageName="OpenSSH-Client-Package~31bf3856ad364e35~$global:RideLifecycleArchitecture~~10.0.$global:RideLifecyclePackageBuild.1"}
     }
@@ -113,12 +116,50 @@ Describe 'Guarded OpenSSH Client and Telnet Client lifecycle candidate' {
     $result=Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Present -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false
     $result.Status|Should -BeExactly Applied
     $result.SourceValidated|Should -BeTrue
+    $result.ConfiguredSourceFallback|Should -BeExactly InspectedAbsent
     $result.NetworkBoundaryVerified|Should -BeFalse
     $RideLifecycleNativeCalls|Should -Be 1
     $record=Get-Content -LiteralPath $result.SnapshotPath -Raw|ConvertFrom-Json
     $record.SourcePackageName|Should -BeExactly 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~10.0.26100.1'
     $record.SourceSha256|Should -Match '^[0-9a-f]{64}$'
     $record.SourceValidated|Should -BeTrue
+    $record.ConfiguredSourceFallback|Should -BeExactly 'InspectedAbsent'
+  }
+  It 'refuses a mapped network drive as an OpenSSH LocalSource before CAB metadata or servicing' {
+    $sourceRoot=Join-Path $TestDrive 'network-fod';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    [IO.File]::WriteAllBytes((Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'),[byte[]](1,2,3))
+    Mock Get-RideClientComponentSourceDriveType -ModuleName RIDE.ClientComponentLifecycle {[IO.DriveType]::Network}
+    {Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Present -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*mapped network drive*'
+    Should -Invoke Get-RideClientComponentSourcePackageMetadata -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    Should -Invoke Invoke-RideClientComponentNativeTransition -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    (Test-Path -LiteralPath $RideLifecycleStateDirectory)|Should -BeFalse
+  }
+  It 'refuses an alternate Group Policy LocalSourcePath before CAB metadata, snapshot or servicing' {
+    $sourceRoot=Join-Path $TestDrive 'policy-fallback';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    [IO.File]::WriteAllBytes((Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'),[byte[]](1,2,3))
+    Mock Test-RideClientComponentConfiguredSourceFallback -ModuleName RIDE.ClientComponentLifecycle {$true}
+    {Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Present -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*Group Policy LocalSourcePath fallback*'
+    Should -Invoke Get-RideClientComponentSourcePackageMetadata -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    Should -Invoke Invoke-RideClientComponentNativeTransition -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    (Test-Path -LiteralPath $RideLifecycleStateDirectory)|Should -BeFalse
+  }
+  It 'fails closed when the Group Policy LocalSourcePath cannot be inspected' {
+    $sourceRoot=Join-Path $TestDrive 'policy-read-failure';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    [IO.File]::WriteAllBytes((Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'),[byte[]](1,2,3))
+    Mock Test-RideClientComponentConfiguredSourceFallback -ModuleName RIDE.ClientComponentLifecycle {throw 'Unable to inspect the Group Policy LocalSourcePath fallback; refusing LocalSource servicing.'}
+    {Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Present -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*Unable to inspect the Group Policy LocalSourcePath fallback*'
+    Should -Invoke Get-RideClientComponentSourcePackageMetadata -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    Should -Invoke Invoke-RideClientComponentNativeTransition -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    (Test-Path -LiteralPath $RideLifecycleStateDirectory)|Should -BeFalse
+  }
+  It 'refuses a LocalSource path that traverses a reparse-point ancestor before CAB metadata or servicing' {
+    $sourceRoot=Join-Path $TestDrive 'reparse-ancestor-source';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    [IO.File]::WriteAllBytes((Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'),[byte[]](1,2,3))
+    Mock Assert-RideClientComponentSourcePathHasNoReparsePoints -ModuleName RIDE.ClientComponentLifecycle {throw 'LocalSource path traverses a reparse point.'}
+    {Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Present -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*traverses a reparse point*'
+    Should -Invoke Get-RideClientComponentSourcePackageMetadata -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    Should -Invoke Invoke-RideClientComponentNativeTransition -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    (Test-Path -LiteralPath $RideLifecycleStateDirectory)|Should -BeFalse
   }
   It 'refuses an OpenSSH LocalSource CAB for a different Windows build before state capture' {
     $sourceRoot=Join-Path $TestDrive 'wrong-build';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
@@ -148,8 +189,23 @@ Describe 'Guarded OpenSSH Client and Telnet Client lifecycle candidate' {
     [IO.File]::WriteAllText((Join-Path $RideLifecycleStateDirectory ($runId+'.json')),($record|ConvertTo-Json -Compress),[Text.UTF8Encoding]::new($false))
     $result=Restore-RideClientComponentTransition -RunId $runId -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false
     $result.Status|Should -BeExactly Restored
+    $result.ConfiguredSourceFallback|Should -BeExactly InspectedAbsent
     $RideLifecycleNativeCalls|Should -Be 1
     $RideLifecycleState|Should -BeExactly Installed
+  }
+  It 'rechecks Group Policy LocalSourcePath before restoring a saved LocalSource transition' {
+    $sourceRoot=Join-Path $TestDrive 'policy-restore-source';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    $cabPath=Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'
+    [IO.File]::WriteAllBytes($cabPath,[byte[]](1,2,3))
+    $runId='dddddddddddddddddddddddddddddddd'
+    New-Item -ItemType Directory -Path $RideLifecycleStateDirectory -Force|Out-Null
+    $record=[pscustomobject]@{SchemaVersion=1;Kind='ClientComponentState';ComputerName='TEST-VM';Build='26100';EditionId='Professional';UpdateBuildRevision=123;ProductType='WinNT';ProviderKind='Capability';Name=$RideLifecycleName;BeforeState='Installed';DesiredState='Absent';ExpectedState='NotPresent';SourceMode='LocalSource';SourcePath=$sourceRoot;SourceValidated=$true;ConfiguredSourceFallback='InspectedAbsent';SourceArchitecture='amd64';SourcePackageName='OpenSSH-Client-Package~31bf3856ad364e35~amd64~~10.0.26100.1';SourceSha256=(Get-FileHash -LiteralPath $cabPath -Algorithm SHA256).Hash.ToLowerInvariant();ExactPayloadRecoverySupported=$false}
+    [IO.File]::WriteAllText((Join-Path $RideLifecycleStateDirectory ($runId+'.json')),($record|ConvertTo-Json -Compress),[Text.UTF8Encoding]::new($false))
+    Mock Test-RideClientComponentConfiguredSourceFallback -ModuleName RIDE.ClientComponentLifecycle {$true}
+    {Restore-RideClientComponentTransition -RunId $runId -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*Group Policy LocalSourcePath fallback*'
+    Should -Invoke Invoke-RideClientComponentNativeTransition -ModuleName RIDE.ClientComponentLifecycle -Times 0
+    $RideLifecycleState|Should -BeExactly NotPresent
+    (Test-Path -LiteralPath (Join-Path $RideLifecycleStateDirectory ($runId+'.json')))|Should -BeTrue
   }
   It 'retains the saved OpenSSH state when its LocalSource CAB hash changed' {
     $sourceRoot=Join-Path $TestDrive 'changed-source';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
@@ -181,9 +237,52 @@ Describe 'Guarded OpenSSH Client and Telnet Client lifecycle candidate' {
   }
   It 'blocks removal until a matching recovery source can be validated' {
     $global:RideLifecycleState='Installed'
-    {Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Absent -SourceMode Online -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*matching recovery source is validated*'
+    {Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Absent -SourceMode Online -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*requires an explicit LocalSource*'
     $RideLifecycleNativeCalls|Should -Be 0
     (Test-Path -LiteralPath $RideLifecycleStateDirectory)|Should -BeFalse
+  }
+  It 'removes OpenSSH Client only with a validated CAB and restores the captured state from the same CAB' {
+    $sourceRoot=Join-Path $TestDrive 'remove-source';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    $cabPath=Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'
+    [IO.File]::WriteAllBytes($cabPath,[byte[]](1,2,3))
+    $global:RideLifecycleState='Installed'
+    $result=Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Absent -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false
+    $result.Status|Should -BeExactly Applied
+    $result.BeforeState|Should -BeExactly Installed
+    $result.AfterState|Should -BeExactly NotPresent
+    $result.SourceValidated|Should -BeTrue
+    $result.ExactPayloadRecoverySupported|Should -BeFalse
+    $record=Get-Content -LiteralPath $result.SnapshotPath -Raw|ConvertFrom-Json
+    $record.SourceMode|Should -BeExactly LocalSource
+    $record.SourceValidated|Should -BeTrue
+    $record.SourcePackageName|Should -BeExactly 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~10.0.26100.1'
+    $record.SourceSha256|Should -Be (Get-FileHash -LiteralPath $cabPath -Algorithm SHA256).Hash.ToLowerInvariant()
+
+    $restored=Restore-RideClientComponentTransition -RunId $result.RunId -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false
+    $restored.Status|Should -BeExactly Restored
+    $restored.State|Should -BeExactly Installed
+    $RideLifecycleNativeCalls|Should -Be 2
+  }
+  It 'restores a prior NotPresent state from the validated LocalSource CAB' {
+    $sourceRoot=Join-Path $TestDrive 'restore-not-present-source';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    [IO.File]::WriteAllBytes((Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'),[byte[]](7,8,9))
+    $result=Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Present -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false
+    $result.Status|Should -BeExactly Applied
+    $result.BeforeState|Should -BeExactly NotPresent
+    $restored=Restore-RideClientComponentTransition -RunId $result.RunId -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false
+    $restored.Status|Should -BeExactly Restored
+    $restored.State|Should -BeExactly NotPresent
+    $RideLifecycleNativeCalls|Should -Be 2
+  }
+  It 'blocks OpenSSH removal when the LocalSource CAB does not match the target build' {
+    $sourceRoot=Join-Path $TestDrive 'remove-wrong-build';New-Item -ItemType Directory -Path $sourceRoot|Out-Null
+    [IO.File]::WriteAllBytes((Join-Path $sourceRoot 'OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab'),[byte[]](1,2,3))
+    $global:RideLifecycleState='Installed'
+    $global:RideLifecyclePackageBuild='26000'
+    {Invoke-RideClientComponentTransition -Kind Capability -Name $RideLifecycleName -DesiredState Absent -SourceMode LocalSource -SourcePath $sourceRoot -ExpectedComputerName TEST-VM -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory $TestDrive -Confirm:$false}|Should -Throw '*does not match target build*'
+    $RideLifecycleNativeCalls|Should -Be 0
+    (Test-Path -LiteralPath $RideLifecycleStateDirectory)|Should -BeFalse
+    $RideLifecycleState|Should -BeExactly Installed
   }
   It 'blocks Telnet payload removal when restoring a payload-removed prior state without validation' {
     $global:RideLifecycleKind='OptionalFeature'

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T18:54:49Z",
+  "batch": "NTCore PE Detective, CFF Explorer and 4GB Patch",
+  "localArchiveLifecycle": {
+    "result": "Passed",
+    "runDirectory": ".local/ntcore-three-real-archive-lifecycle-20261026-1900z",
+    "packages": [
+      {
+        "id": "package.ntcore-pe-detective",
+        "version": "1.2.1.1",
+        "archive": ".local/collection-source-review-20261017/PE_Detective.zip",
+        "sha256": "821f4fa1df9d3a39e32f15183126e56af8dacf4690a8fd01bfac6d850ea36263",
+        "managedFiles": 7,
+        "requiredFiles": 7
+      },
+      {
+        "id": "package.ntcore-cff-explorer",
+        "version": "8.0.0.0",
+        "archive": ".local/collection-source-review-20261017/CFF_Explorer.zip",
+        "sha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96",
+        "managedFiles": 6,
+        "requiredFiles": 6
+      },
+      {
+        "id": "package.ntcore-4gb-patch",
+        "version": "1.0.0.1",
+        "archive": ".local/collection-source-review-20261017/4gb_patch.zip",
+        "sha256": "1e13c263dc55e85cf62e3e30c6b2ce936d4c7e16e3bba3e311a5a8bed4be16ca",
+        "managedFiles": 1,
+        "requiredFiles": 1,
+        "licenseReview": {
+          "reviewedVersion": "1.0.0.1",
+          "status": "NeedsReview",
+          "owner": "Unassigned",
+          "planningGate": false
+        }
+      }
+    ],
+    "checks": {
+      "installHealthy": true,
+      "repeatInstallHealthy": true,
+      "uninstallCompleted": true,
+      "presentSnapshotRestoreHealthy": true,
+      "priorAbsenceRestored": true,
+      "requiredFilesPresent": true,
+      "operatorContentPreserved": true
+    }
+  },
+  "focusedRegression": {
+    "testFile": "tests/NtcorePackages.Tests.ps1",
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  "scopeBoundaries": {
+    "executablesLaunched": false,
+    "defenderSettingsChanged": false,
+    "windowsStateChanged": false,
+    "defenderBlockedToolsIncluded": false,
+    "legacyOutcomeClosed": false,
+    "deferred": [
+      "Windows 11 package lifecycle acceptance",
+      "4GB Patch license owner review",
+      "Driver List report/privacy behavior",
+      "Rebel.NET synthetic-assembly behavior",
+      "complete dynamic NTCore collection enumeration"
+    ]
+  },
+  "estimateRanges": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

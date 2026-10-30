@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T17:47:25Z",
+  "packageId": "package.imagemagick-portable-q16",
+  "version": "7.1.2-34",
+  "artifact": {
+    "path": ".local/acquisition/imagemagick-7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+    "sha256": "52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1",
+    "requiredFiles": ["magick.exe"]
+  },
+  "runtime": {
+    "powershell": "7.6.5",
+    "mode": "Offline local artifact lifecycle using Windows inbox tar; no network request"
+  },
+  "result": {
+    "status": "Passed",
+    "managedFiles": 23,
+    "initialInstallHealthy": true,
+    "repeatInstallHealthy": true,
+    "uninstallRemovedOwnedFiles": true,
+    "presentSnapshotRestoredHealthy": true,
+    "priorAbsenceRestored": true,
+    "operatorContentPreserved": true
+  },
+  "boundaries": {
+    "ImageMagickExecutableRun": false,
+    "UserImageOpened": false,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointChanged": false,
+    "Windows11AcceptanceRepeated": false,
+    "WindowsTargetSupportChanged": false
+  },
+  "existingAcceptance": {
+    "windows11PackageAndSyntheticPng": "Previously accepted; see imagemagick-win11-v14-prerequisite-and-lifecycle-acceptance-2026-10-25-0228.json",
+    "server2025": "Not supported; prior reviewed-run target guard rejected Server 2025",
+    "activation": "Still pending"
+  },
+  "scratchRoot": ".local/imagemagick-real-archive-lifecycle-20261026-1745",
+  "migrationOutcome": {
+    "resolved": ["ImageMagick current-source real-archive local file lifecycle regression"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["ImageMagick activation remains unverified; Windows Server support remains excluded by the existing target guard"],
+    "deferred": ["ImageMagick activation and Windows Server 2025 support"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -50,27 +50,26 @@ Describe 'Local user/company license reviews' {
 
   It 'keeps NeedsReview records informational across pending package install planning' {
     foreach ($candidate in @(
-      @{ Id='package.phoenix-protector'; Version='1.7.1' },
-      @{ Id='package.ntcore-4gb-patch'; Version='1.0.0.1' },
-      @{ Id='package.mitec-uuid-generator'; Version='1.0.0' },
       @{ Id='package.mitec-sqlite-query'; Version='3.2.0' },
       @{ Id='package.mitec-system-information'; Version='16.0.0' },
       @{ Id='package.mitec-tapi-monitor'; Version='1.2.0' },
       @{ Id='package.mitec-windows-file-analyzer'; Version='2.10.0' },
       @{ Id='package.mitec-icon-explorer'; Version='5.3.0' },
       @{ Id='package.mitec-ole-com-explorer'; Version='1.4.0.0' },
+      @{ Id='package.mitec-infobar'; Version='4.6.2' },
+      @{ Id='package.mitec-project-maker'; Version='1.9.0' },
       @{ Id='package.mitec-windows-registry-recovery'; Version='3.1.3' },
       @{ Id='package.mitec-smbios-explorer'; Version='1.8.0' },
       @{ Id='package.mitec-dfm-editor'; Version='8.3.1.0' },
       @{ Id='package.mitec-dfm-editor'; Version='8.4.0.0' },
       @{ Id='package.mitec-exe-explorer'; Version='3.7.5' },
       @{ Id='package.mitec-hexedit'; Version='7.1.0' },
-      @{ Id='package.mitec-mail-viewer'; Version='2.5.1.0' },
-      @{ Id='package.mitec-email-history-browser'; Version='1.2.0' },
-      @{ Id='package.mitec-internet-history-browser'; Version='2.5.0' },
-      @{ Id='package.mitec-instant-messaging-history-browser'; Version='1.2.1' },
       @{ Id='package.tmog'; Version='1.0.1' },
-      @{ Id='package.wireshark'; Version='4.6.9' }
+      @{ Id='package.wireshark'; Version='4.6.9' },
+      @{ Id='package.rawcopy'; Version='1.0.0.22' },
+      @{ Id='package.ntcore-wim-installer'; Version='1.0.0.1' },
+      @{ Id='package.nirsoft-launcher'; Version='1.30.26' },
+      @{ Id='package.nirsoft-x64-tools'; Version='snapshot-2026-10-17' }
     )) {
       & $script:ReviewTool Set -Id $candidate.Id -ReviewedVersion $candidate.Version -ReviewOwner 'Company A' -LicenseReviewStatus NeedsReview -StorePath $script:store | Out-Null
       $review = @(& $script:ReviewTool Get -Id $candidate.Id -StorePath $script:store | Where-Object { $_.ReviewedVersion -ceq $candidate.Version })
@@ -87,14 +86,54 @@ Describe 'Local user/company license reviews' {
     }
   }
 
+  It 'keeps Windows 11 accepted package plans available while NeedsReview is informational' {
+    foreach ($candidate in @(
+      @{ Id='package.ntcore-driver-list'; Version='1.0.2.1' },
+      @{ Id='package.vcredist-v14-x64'; Version='14.51.36247.0' },
+      @{ Id='package.ntcore-rebelnet'; Version='1.6.0.1' },
+      @{ Id='package.mitec-uuid-generator'; Version='1.0.0' },
+      @{ Id='package.mitec-mail-viewer'; Version='2.5.1.0' },
+      @{ Id='package.mitec-email-history-browser'; Version='1.2.0' },
+      @{ Id='package.mitec-internet-history-browser'; Version='2.5.0' },
+      @{ Id='package.mitec-instant-messaging-history-browser'; Version='1.2.1' }
+    )) {
+      & $script:ReviewTool Set -Id $candidate.Id -ReviewedVersion $candidate.Version -ReviewOwner 'Company A' -LicenseReviewStatus NeedsReview -StorePath $script:store | Out-Null
+      $review = @(& $script:ReviewTool Get -Id $candidate.Id -StorePath $script:store | Where-Object { $_.ReviewedVersion -ceq $candidate.Version })
+      $review.Count | Should -Be 1
+      $review[0].LicenseReviewStatus | Should -BeExactly 'NeedsReview'
+
+      $plan = @(Get-RideSingleOperationPlan -Id $candidate.Id -Action Install)
+      $plan.Count | Should -Be 1
+      $plan[0].State | Should -BeExactly 'Present'
+      $plan[0].Operation.PendingAcceptance | Should -BeFalse
+      $plan[0].Operation.SupportedTargets | Should -Contain 'Windows 11'
+    }
+  }
+
+  It 'keeps the accepted NTCore 4GB package installable when its local review is NeedsReview' {
+    $id='package.ntcore-4gb-patch'
+    & $script:ReviewTool Set -Id $id -ReviewedVersion '1.0.0.1' -ReviewOwner 'Planning regression' -LicenseReviewStatus NeedsReview -StorePath $script:store | Out-Null
+    $review=& $script:ReviewTool Get -Id $id -StorePath $script:store
+    $review.LicenseReviewStatus|Should -BeExactly 'NeedsReview'
+    $plan=@(Get-RideSingleOperationPlan -Id $id -Action Install)
+    $plan.Count|Should -Be 1
+    $plan[0].State|Should -BeExactly 'Present'
+    $plan[0].Operation.PendingAcceptance|Should -BeFalse
+    $plan[0].Operation.SupportedTargets|Should -Contain 'Windows 11'
+  }
+
   It 'keeps every pending package install plan available when a local NeedsReview record exists' {
     $pendingPackages=@($script:ReviewCatalog.Operations|Where-Object {$_.Kind -ceq 'Package' -and $_.PendingAcceptance -ceq $true})
     $pendingPackages.Count|Should -BeGreaterThan 0
     foreach($operation in $pendingPackages){
-      & $script:ReviewTool Set -Id $operation.Id -ReviewedVersion $operation.PackageVersion -ReviewOwner 'Planning regression' -LicenseReviewStatus NeedsReview -StorePath $script:store | Out-Null
-      $review=& $script:ReviewTool Get -Id $operation.Id -StorePath $script:store
+      $operationStore=Join-Path $script:reviewTestRoot (($operation.Id -replace '[^a-zA-Z0-9.-]','_')+'.json')
+      & $script:ReviewTool Set -Id $operation.Id -ReviewedVersion $operation.PackageVersion -ReviewOwner 'Planning regression' -LicenseReviewStatus NeedsReview -StorePath $operationStore | Out-Null
+      $review=& $script:ReviewTool Get -Id $operation.Id -StorePath $operationStore
       $review.LicenseReviewStatus|Should -BeExactly 'NeedsReview'
       $review.ReviewedVersion|Should -BeExactly $operation.PackageVersion
+      if ($operation.PrerequisiteDotNetFramework35) {
+        Mock Test-RideDotNetFramework35Installed { $true } -ModuleName RIDE-Packages
+      }
       $plan=@(Get-RideSingleOperationPlan -Id $operation.Id -Action Install)
       @($plan|Where-Object {$_.Operation.Id -ceq $operation.Id}).Count|Should -Be 1
       @($plan|Where-Object {$_.Operation.Id -ceq $operation.Id})[0].State|Should -BeExactly 'Present'
@@ -102,7 +141,16 @@ Describe 'Local user/company license reviews' {
     }
   }
 
-  It 'keeps approved Sysinternals package <Id> install planning available while acceptance remains pending' -ForEach @(
+  It 'keeps Phoenix Protector technical prerequisites independent of local license reviews' {
+    $operation=@($script:ReviewCatalog.Operations|Where-Object Id -ceq 'package.phoenix-protector')[0]
+    & $script:ReviewTool Set -Id $operation.Id -ReviewedVersion $operation.PackageVersion -ReviewOwner 'Planning regression' -LicenseReviewStatus NeedsReview -StorePath $script:store | Out-Null
+    (& $script:ReviewTool Get -Id $operation.Id -StorePath $script:store).LicenseReviewStatus | Should -BeExactly 'NeedsReview'
+    $operation.PrerequisiteDotNetFramework35 | Should -BeTrue
+    Mock Test-RideDotNetFramework35Installed { $true } -ModuleName RIDE-Packages
+    { Get-RideSingleOperationPlan -Id $operation.Id -Action Install } | Should -Not -Throw
+  }
+
+  It 'keeps RIDE v2 approved Sysinternals package <Id> install planning available without a license gate' -ForEach @(
     @{ Id='package.sysinternals-suite' },
     @{ Id='package.sysinternals-process-explorer' },
     @{ Id='package.sysinternals-autoruns' },
@@ -114,11 +162,13 @@ Describe 'Local user/company license reviews' {
     @{ Id='package.sysinternals-strings' },
     @{ Id='package.sysinternals-handle' }
   ) {
+    $catalogOperation=@($script:ReviewCatalog.Operations|Where-Object Id -ceq $Id)[0]
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Install)
     $plan.Count | Should -Be 1
     $plan[0].Operation.Kind | Should -Be 'Package'
     $plan[0].State | Should -Be 'Present'
-    $plan[0].Operation.PendingAcceptance | Should -BeTrue
+    $plan[0].Operation.PendingAcceptance | Should -BeExactly $catalogOperation.PendingAcceptance
+    @($plan[0].Operation.SupportedTargets) | Should -Be @($catalogOperation.SupportedTargets)
   }
 
   It 'previews a review without creating a file, folder, or lock' {

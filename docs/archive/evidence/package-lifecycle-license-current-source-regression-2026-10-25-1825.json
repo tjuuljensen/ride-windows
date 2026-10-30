@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:25:00Z",
+  "Scope": "Current-source local package planning and owned-file lifecycle regression",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TemporaryRoot": ".local/pester-package-regression-20261025-1818"
+  },
+  "Suites": [
+    "tests/ApplicationPackages.Tests.ps1",
+    "tests/ArtcraftPackages.Tests.ps1",
+    "tests/MitecViewerPackages.Tests.ps1",
+    "tests/NtcorePackages.Tests.ps1",
+    "tests/SourceScriptPackages.Tests.ps1",
+    "tests/SysinternalsProductPackages.Tests.ps1",
+    "tests/PackageDependencyPlanning.Tests.ps1",
+    "tests/LicenseReviews.Tests.ps1"
+  ],
+  "Results": {
+    "Discovered": 275,
+    "Passed": 275,
+    "Failed": 0,
+    "Skipped": 0,
+    "DurationSeconds": 366.97
+  },
+  "Findings": [
+    "Current-source package planning and synthetic owned-file lifecycle assertions passed for all selected suites.",
+    "Package license NeedsReview markers remain informational and do not block planning.",
+    "Sysinternals remains free of a licensing migration gate under the prior RIDE v2 license-specialist approval and the user-confirmed direct Microsoft download-and-install scope; Defender-blocked tools remain separate security exclusions.",
+    "No package installer or utility executable ran. This local run does not establish Windows acceptance."
+  ],
+  "AcceptanceBlockers": [
+    "Get-VM for RIDE-Win11-Test and RIDE-Srv2025Test is denied at CIM before target/checkpoint inspection.",
+    "Task Scheduler query for the preregistered RIDEWin11Test task reports an invalid network address; task-scheduler COM access is unavailable."
+  ],
+  "StateChanges": {
+    "Host": false,
+    "Windows": false,
+    "Vm": false,
+    "Checkpoint": false,
+    "Defender": false,
+    "PackageInstalled": false,
+    "UtilityExecuted": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [],
+    "Deferred": [
+      "Windows lifecycle and target acceptance for pending package candidates, including reruns requiring current controller access."
+    ],
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

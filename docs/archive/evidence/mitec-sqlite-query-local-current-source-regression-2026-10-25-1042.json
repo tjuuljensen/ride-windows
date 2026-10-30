@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T10:42:00Z",
+  "package": "package.mitec-sqlite-query",
+  "archive": {
+    "path": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "matchesCatalogPin": true,
+    "expectedMembers": [
+      "SQLiteQuery.exe",
+      "sqlite3.dll",
+      "sqlite3.exe"
+    ],
+    "publisherProvenance": "Unresolved; exact retained bytes are pinned locally."
+  },
+  "pester": {
+    "version": "5.7.1",
+    "file": "tests/MiTeCSqliteQuery.Tests.ps1",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "testRegistryPlugin": "Disabled",
+    "temporaryRoot": ".local/pester-sqlitequery-20261025"
+  },
+  "scope": {
+    "inertFixtureLifecycle": true,
+    "applicationExecuted": false,
+    "databaseOpened": false,
+    "networkUsed": false,
+    "vmUsed": false,
+    "targetSupportChanged": false
+  },
+  "vmPreflight": {
+    "batch": "SQLiteQuery",
+    "pendingQueueFiles": 0,
+    "runningQueueFiles": 0,
+    "recoveryBlockMarker": false,
+    "scheduledTaskState": "Could not be checked; Get-ScheduledTask failed with CIM access denied.",
+    "submission": "Not attempted because current worker idle state could not be verified."
+  },
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

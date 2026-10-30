@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T06:46:31Z",
+  "Scope": "Recover guest result collection after an AutomatedLab remoting session becomes unavailable",
+  "PriorWindowsEvidence": {
+    "RunId": "d68b653e1d034f6a9c0e8d0b640553bb",
+    "Suite": "ApplicationsBatch3",
+    "Target": "Windows 11 build 26300",
+    "Status": "Failed",
+    "Observation": "The guest connection dropped during the Docker Desktop batch. AutomatedLab could not reconnect; evidence export then reused a session whose Availability was None and failed with SessionIsNotAvailable. No correlated guest summary was collected, so neither Docker variant is accepted by this run.",
+    "Cleanup": "The VM was Off, controller returned to Ready, and no cleanup block was recorded."
+  },
+  "Implementation": {
+    "Files": [
+      "tests/integration/RIDE.TestAutomation.psm1",
+      "tests/integration/Invoke-RideVmTest.ps1",
+      "tests/TestAutomation.Tests.ps1"
+    ],
+    "Behavior": "AutomatedLab result collection reuses an Opened/Available session, refuses to replace an Opened/Busy session, and removes/reconnects other stale sessions through the existing bounded New-LabPSSession path.",
+    "VersionChanges": {
+      "RIDE.TestAutomation.psm1": "1.5.0",
+      "Invoke-RideVmTest.ps1": "0.14.1"
+    }
+  },
+  "LocalValidation": {
+    "TargetedSessionRecoveryPester": {
+      "PesterVersion": "5.7.1",
+      "TestRegistry": "Disabled because sandbox access to HKCU\\Software\\Pester is denied",
+      "Passed": 3,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "FullTestAutomationPester": {
+      "PesterVersion": "5.7.1",
+      "TestRegistry": "Disabled because sandbox access to HKCU\\Software\\Pester is denied",
+      "TemporaryRoot": ".local/vm-session-regression-tmp",
+      "Passed": 122,
+      "Failed": 0,
+      "Skipped": 2,
+      "Discovered": 124
+    },
+    "PowerShellParser": "Passed for all three changed PowerShell files.",
+    "GitDiffCheck": "Passed.",
+    "LineEndings": "All changed tracked text files remain LF per repository attributes."
+  },
+  "OtherDeferredAcceptance": {
+    "ApplicationsBatch1RunId": "e32591497a8347ab836d0426c9b28bb3",
+    "ApplicationsBatch1StatusAtRecording": "Still in queue/running; no result.json; controller-errors.log is empty.",
+    "ApplicationsBatch1Source": "Predates Invoke-RideApplicationBatch.ps1 version 0.15.2 and cannot accept the all-package user-data preservation fixtures.",
+    "ApplicationsBatch3AllUsersRunId": "1256ae69b1a2470b8024f776f128eb41",
+    "ApplicationsBatch3AllUsersStatus": "TimedOut without a focused result; the all-users Docker lifecycle remains open.",
+    "PSScriptToolsRunId": "2c4c9348bbb541059ea9e38e7fb796cd",
+    "PSScriptToolsStatus": "Package file lifecycle passed, but Windows PowerShell 5.1 runtime import failed because Microsoft.PowerShell.ThreadJob was absent. Its missing-dependency negative guard passed. No dependency was installed and no product function executed.",
+    "ThreadJobDisposition": "Exact official Gallery package source/version 2.2.0 is identified, but package bytes and digest remain unavailable. See https://www.powershellgallery.com/packages/Microsoft.PowerShell.ThreadJob/2.2.0 and docs/archive/evidence/psscripttools-threadjob-browser-source-retry-2026-10-24-0341.json."
+  },
+  "MigrationDisposition": {
+    "Resolved": "Local controller regression for stale result-export sessions.",
+    "Partial": "No new Windows target acceptance or legacy outcome closes.",
+    "Deferred": "Rerun ApplicationsBatch3 and ApplicationsBatch3AllUsers on current source; complete current-source ApplicationsBatch1; verify and make available the pinned ThreadJob prerequisite before positive PSScriptTools runtime acceptance.",
+    "EstimateRangesChanged": false,
+    "CurrentOverviewRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

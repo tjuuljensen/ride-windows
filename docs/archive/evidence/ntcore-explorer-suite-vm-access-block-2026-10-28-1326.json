@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T13:26:01Z",
+  "event": "Read-only VM access recheck for NTCore Explorer Suite Windows 11 package acceptance.",
+  "candidateEvidence": "ntcore-explorer-suite-candidate-preparation-2026-10-28-1318.json",
+  "targetVm": "RIDE-Win11-Test",
+  "preflight": {
+    "command": "Get-VM -Name RIDE-Win11-Test",
+    "result": "Failed before returning VM or checkpoint data.",
+    "error": "Access to a CIM resource was not available to the client."
+  },
+  "disposition": "Do not dispatch the package acceptance runner until VM state and the existing checkpoint are readable. Keep package.ntcore-explorer-suite as a pinned Windows 11 candidate with no supported target.",
+  "observations": {
+    "checkpointInspected": false,
+    "runnerDispatched": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "blockers": [
+    "Host CIM access prevents inspection of RIDE-Win11-Test and its existing checkpoint.",
+    "Explorer Suite installed scope, shortcuts, uninstaller identity, repeat lifecycle and exact recovery remain unaccepted."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; the failed read-only preflight closes no migration outcome."
+  }
+}

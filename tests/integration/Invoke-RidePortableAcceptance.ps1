@@ -8,19 +8,28 @@
   its flag, backup collision and recovery behavior. No real target executable is
   opened or changed. SQLiteQuery is file-lifecycle only; it does not open a database
   or launch the application. ImageMagick reports its version and encodes/identifies
-  only a generated 1x1 PNG; it does not open user images. GUI or product activation is not claimed. Candidate support
+  only a generated 1x1 PNG; it does not open user images. NTCoreAdditional stages
+  Driver List x64/x86 and Rebel.NET without launching them. MiTeCMailHistoryViewers
+  checks only the four packages' file lifecycle and does not open user stores.
+  GUI or product activation is not claimed. Candidate support
   is enabled only in the guarded guest's in-memory test catalog.
 .PARAMETER ExpectedComputerName
   Exact guest name supplied by the host runner.
 .PARAMETER EvidencePath
   Fresh run evidence directory under C:\RIDE\PortableAcceptance\<run-id>.
 .PARAMETER Batch
-  MiTeCViewers, NTCore, AllReviewed, PSScriptTools, SQLiteQuery, MiTeCUtilityFiles,
-  SysinternalsSuite, SysinternalsProducts or ImageMagick. Defender-blocked collections
+  MiTeCViewers, MiTeCAnalysisTools, MiTeCSystemAndTelephony, NTCore, NTCoreAdditional, MiTeCMailHistoryViewers, AllReviewed,
+  PSScriptTools, SQLiteQuery, MiTeCUtilityFiles,
+  SysinternalsSuite, SysinternalsProducts, ImageMagick, RawCopy or WinPmem. Defender-blocked collections
   remain excluded. SysinternalsSuite checks the fixed 164-file snapshot lifecycle;
   SysinternalsProducts checks the nine independently pinned products' file lifecycle
   only and does not execute utilities or accept any EULA.
   NTCore/AllReviewed include synthetic-file 4GB Patch behavior checks.
+  RawCopy runs only against one generated 4096-byte NTFS fixture with TCP output,
+  filesystem-info output and raw-directory listing disabled; it never reads evidence.
+  WinPmem checks exact owned-file staging and recovery only; it does not execute
+  the acquisition program or load or unload its driver.
+  MiTeCSystemAndTelephony stages only the exact System Information eXtra and TAPI Monitor files; it does not create reports, inspect TAPI providers or make calls.
 .PARAMETER DisposableVm
   Required explicit guest attestation in addition to identity/model/elevation checks.
 .PARAMETER Version
@@ -34,10 +43,18 @@
 .NOTES
   Compatibility: Windows PowerShell 5.1 on a disposable Windows 11 x64 guest.
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
-  Effects: Guest-only RIDE cache, tools folders, saved state and source observations. The ImageMagick test installs the signed Microsoft runtime only when VCOMP140.DLL is absent.
+  Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.6.0.
-  Changelog: 0.6.0: Prepare the Microsoft v14 runtime in the disposable guest and record its evidence.
+  Author: RIDE-Windows maintainers. Version: 0.13.0.
+  Changelog: 0.13.0: Add an exact WinPmem file-staging-only batch.
+    0.12.0: Add System Information eXtra and TAPI Monitor lifecycle selection.
+    0.11.0: Add the MiTeC EXE Explorer and HexEdit lifecycle batch.
+    0.10.0: Run RawCopy only against its generated synthetic NTFS fixture.
+    0.9.0: Resolve guest package payloads from the staged bundle, not stripped host paths.
+    0.8.0: Add MiTeC mail/history viewer file-lifecycle-only acceptance.
+    0.7.0: Add file-lifecycle-only NTCore Driver List and Rebel.NET acceptance.
+    0.6.1: Select the requested package from prerequisite-expanded plans.
+    0.6.0: Prepare the Microsoft v14 runtime in the disposable guest and record its evidence.
     0.5.0: Add isolated ImageMagick Q16 synthetic PNG feature acceptance.
     0.4.0: Record NTCore functional rejection as failed and retain recovery evidence.
     0.3.0: Add exact Sysinternals Suite snapshot file-lifecycle selection.
@@ -52,9 +69,9 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ExpectedComputerName,[string]$EvidencePath,
-  [ValidateSet('MiTeCViewers','NTCore','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick')][string]$Batch='AllReviewed',
+  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.6.0';return}
+if($Version){'0.13.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}
@@ -143,14 +160,27 @@ foreach($case in $cases){
       $row.Checks+=@('MicrosoftV14RuntimePrerequisite')
     }
     $plan=@(Get-RideSingleOperationPlan -Id $case.Id -Action Install -Variant $case.Variant)
-    $op=$plan[0].Operation
+    $targetPlanItems=@($plan|Where-Object {$_.Operation.Id -ceq $case.Id})
+    if($targetPlanItems.Count -ne 1){throw "Expanded install plan does not contain exactly one target operation '$($case.Id)'."}
+    $op=$targetPlanItems[0].Operation
     Assert-True (-not (Get-RideCurrentState $op).Present) 'Expected original package absence.'
     $files=@($case.ExpectedFiles)
-    # Cache only the exact declared archive. Resolution remains the real provider path.
-    $cache=Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) ('RIDE/State/Cache/'+$op.PackageId+'/'+$op.PackageVersion)
-    $null=New-Item -ItemType Directory -Path $cache -Force
-    Copy-Item -LiteralPath (Join-Path (Join-Path $runRoot 'payloads') $op.AssetName) -Destination (Join-Path $cache $op.AssetName)
-    Assert-True ((Get-FileHash -LiteralPath (Join-Path $cache $op.AssetName)).Hash -ieq $op.ExpectedSha256) 'Cache digest mismatch.'
+    # Cache each exact package in the dependency-expanded plan; the guest uses no network fallback.
+    foreach($plannedPackage in @($plan|Where-Object {$_.Operation.Kind -eq 'Package' -and $_.State -eq 'Present'})){
+      $plannedOperation=$plannedPackage.Operation
+      $plannedPayload=@($payloads|Where-Object Id -ceq $plannedOperation.Id)
+      if($plannedPayload.Count -eq 0){
+        if(-not (Get-RideCurrentState $plannedOperation).Present){throw "No exact staged payload exists for planned prerequisite '$($plannedOperation.Id)'."}
+        continue
+      }
+      if($plannedPayload.Count -ne 1 -or $plannedPayload[0].FileName -cne $plannedOperation.AssetName -or $plannedPayload[0].Sha256 -cne $plannedOperation.ExpectedSha256){throw "Staged payload identity mismatch: $($plannedOperation.Id)"}
+      $cache=Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) ('RIDE/State/Cache/'+$plannedOperation.PackageId+'/'+$plannedOperation.PackageVersion)
+      $null=New-Item -ItemType Directory -Path $cache -Force
+      $cachedPayload=Join-Path $cache $plannedOperation.AssetName
+      $stagedPayload=Get-RidePortableAcceptanceStagedPayloadPath -RunRoot $runRoot -FileName $plannedOperation.AssetName
+      Copy-Item -LiteralPath $stagedPayload -Destination $cachedPayload
+      Assert-True ((Get-FileHash -LiteralPath $cachedPayload).Hash -ieq $plannedOperation.ExpectedSha256) "Cache digest mismatch: $($plannedOperation.Id)"
+    }
     $null=Invoke-RidePlan $plan -WhatIf -Confirm:$false
     Assert-True (-not (Get-RideCurrentState $op).Present) 'Install preview changed presence.'
     $installId=Saved-RunId @(Invoke-RidePlan $plan -Confirm:$false);$row.RunIds+=@($installId)
@@ -187,6 +217,30 @@ foreach($case in $cases){
       $row.FunctionalAcceptance='Passed';$row.FunctionalEvidence='imagemagick-functional/result.json'
       $row.Checks+=@('PinnedVersionAndQ16','SyntheticPngEncode','SyntheticPngIdentify')
     }
+    if($case.Id -eq 'package.rawcopy'){
+      $toolRecord=@($state.Manifest.Files|Where-Object RelativePath -match '(^|/)RawCopy64\.exe$')
+      if($toolRecord.Count -ne 1){throw 'Installed package manifest does not contain exactly one RawCopy64.exe.'}
+      $row.ToolExecuted=$true
+      $functionalRoot=Join-Path $evidence 'rawcopy-synthetic'
+      $null=New-Item -ItemType Directory -Path $functionalRoot
+      $functionalScript=Join-Path $PSScriptRoot 'Invoke-RideRawCopySyntheticAcceptance.ps1'
+      $row.FunctionalEvidence='rawcopy-synthetic/result.json'
+      $row.FunctionalAcceptance='Running'
+      try{
+        $functional=@(& $functionalScript -ExpectedComputerName $ExpectedComputerName `
+          -ExecutablePath (Join-Path $op.InstallDirectory ($toolRecord[0].RelativePath -replace '/','\')) `
+          -EvidencePath (Join-Path $functionalRoot 'result.json') -Confirm:$false)
+        if($functional.Count -ne 1 -or $functional[0].Status -ne 'Passed'){
+          $row.FunctionalAcceptance='Failed'
+          throw 'Synthetic NTFS file behavior acceptance did not pass.'
+        }
+        $row.FunctionalAcceptance='Passed'
+        $row.Checks+=@('PinnedExecutableDigest','SyntheticOnlyNtfsCopy','TcpOutputDisabled','SourceUnchanged','OutputHashMatch','FixtureCleanup')
+      }catch{
+        if($row.FunctionalAcceptance -eq 'Running'){$row.FunctionalAcceptance='Failed'}
+        throw
+      }
+    }
     if($case.Id -eq 'package.ntcore-4gb-patch'){
       $toolRecord=@($state.Manifest.Files|Where-Object RelativePath -ceq '4gb_patch.exe')
       if($toolRecord.Count -ne 1){throw 'Installed package manifest does not contain exactly one 4GB Patch executable.'}
@@ -212,11 +266,14 @@ foreach($case in $cases){
     if($case.Id -eq 'package.psscripttools'){
       $manifestRelative=@($files|Where-Object {$_ -match '^PSScriptTools-[0-9a-f]{40}/PSScriptTools\.psd1$'})
       if($manifestRelative.Count -ne 1){throw 'Installed PSScriptTools manifest selection is ambiguous.'}
+      $modulePrerequisite=@($plan|Where-Object {$_.Operation.Id -ceq $op.PrerequisitePackageId})
+      if($modulePrerequisite.Count -ne 1 -or -not (Get-RideCurrentState $modulePrerequisite[0].Operation).Present){throw 'The planned ThreadJob module prerequisite is not installed for runtime acceptance.'}
       $runtimeEvidence=Join-Path $evidence 'psscripttools-runtime'
       $runtimeScript=Join-Path $PSScriptRoot 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
       try{
         $runtime=@(& $runtimeScript -ExpectedComputerName $ExpectedComputerName `
           -ModulePath (Join-Path $op.InstallDirectory ($manifestRelative[0] -replace '/','\')) `
+          -ThreadJobModulePath $modulePrerequisite[0].Operation.InstallDirectory `
           -EvidencePath $runtimeEvidence -DisposableVm -Confirm:$false)
         if($runtime.Count -ne 1){throw 'Runtime acceptance did not return one summary.'}
         $row.RuntimeAcceptance=[string]$runtime[0].Status
@@ -305,6 +362,11 @@ if($Batch -eq 'ImageMagick'){
   $functionalRows=@($results|Where-Object Id -eq 'package.imagemagick-portable-q16')
   if($functionalRows.Count -eq 1 -and $functionalRows[0].FunctionalAcceptance -eq 'Passed' -and $summary.Passed -eq $cases.Count){$summary.FunctionalAcceptance='Passed'}
   elseif($functionalRows.Count -eq 1 -and ($functionalRows[0].ToolExecuted -or $functionalRows[0].PrerequisiteAcceptance -eq 'Failed')){$summary.FunctionalAcceptance='Failed'}
+}
+if($Batch -eq 'RawCopy'){
+  $functionalRows=@($results|Where-Object Id -eq 'package.rawcopy')
+  if($functionalRows.Count -eq 1 -and $functionalRows[0].FunctionalAcceptance -eq 'Passed' -and $summary.Passed -eq $cases.Count){$summary.FunctionalAcceptance='Passed'}
+  elseif($functionalRows.Count -eq 1 -and $functionalRows[0].ToolExecuted){$summary.FunctionalAcceptance='Failed'}
 }
 if($summary.Passed -eq $cases.Count){$summary.Status='Passed'}
 if($Batch -eq 'PSScriptTools' -and $summary.Status -eq 'Passed' -and $summary.RuntimeAcceptance -ne 'Passed'){

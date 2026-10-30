@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:12:09Z",
+  "batch": "Windows passkey enterprise-policy current-source recheck",
+  "sources": {
+    "windowsPasskeySupport": "https://learn.microsoft.com/en-us/windows/security/identity-protection/passkeys/",
+    "privacyPolicyCsp": "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-privacy"
+  },
+  "findings": {
+    "windowsClientBehavior": "The current Microsoft passkey page says Windows 11 version 24H2 prompts for per-application passkey privacy consent. Users can change individual application access in Settings; declining consent prevents registration and authentication for that application.",
+    "enterprisePolicyTarget": "The same page still says enterprise consent policies are currently available in Windows Insider builds and were targeted for general availability by the end of June 2026.",
+    "publishedPolicyCsp": "The current Privacy Policy CSP continues to mark LetAppsAccessPasskeys, its ForceAllowTheseApps, ForceDenyTheseApps and UserInControlOfTheseApps lists, and LetAppsAccessPasskeysEnumeration as Windows Insider Preview. These nodes are device-scoped; per-app lists accept Microsoft Store Package Family Names.",
+    "reconciliation": "The published general-availability target date has passed, but the current Microsoft policy page still describes the controls as Insider Preview. This review does not establish released-target support or behavior."
+  },
+  "decision": {
+    "catalogChanged": false,
+    "profilesChanged": false,
+    "implementation": "Keep the enterprise-policy candidate deferred. Do not infer stable registry/CSP support from the date target, host ADMX presence or the Windows 11 per-app consent UI. Preserve per-application user choice; do not substitute a global Boolean or default-deny policy.",
+    "nextEvidenceNeeded": [
+      "Microsoft publishes stable applicability for the base and per-app policy nodes on a named released Windows target.",
+      "Target acceptance establishes observed state, apply behavior, user-choice preservation and exact saved-state restore on that supported target."
+    ]
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Current primary-source review reconfirms the policy-support discrepancy and records the current user-visible per-app consent behavior."
+    ],
+    "deferred": [
+      "Enterprise-managed per-app passkey consent remains deferred pending published stable-target applicability and exact reversible policy semantics."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this new Windows-control review closes no legacy outcome."
+    }
+  }
+}

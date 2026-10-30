@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "0171b830ce4f4aa3b38c3e92b11b6c4e",
+  "Suite": "ApplicationsBatch8",
+  "Target": "Windows Server 2025 Standard Evaluation",
+  "Build": "26100",
+  "StartedAtUtc": "2026-10-24T20:57:19.0291092Z",
+  "FinishedAtUtc": "2026-10-24T21:09:36.6963308Z",
+  "Status": "Passed",
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 354,
+    "Failed": 0,
+    "Skipped": 1,
+    "Total": 355
+  },
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "Packages": [
+    {
+      "Id": "package.microsoft-openjdk",
+      "PackageId": "microsoft-openjdk-25",
+      "InstalledDisplayVersion": "25.0.4.101",
+      "JavaVersion": "25.0.4.1",
+      "JavacVersion": "25.0.4.1",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-25",
+      "PassedChecks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved"],
+      "SavedStateRecovery": true
+    },
+    {
+      "Id": "package.microsoft-openjdk-21",
+      "PackageId": "microsoft-openjdk-21",
+      "InstalledDisplayVersion": "21.0.12.101",
+      "JavaVersion": "21.0.12.1",
+      "JavacVersion": "21.0.12.1",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-21",
+      "PassedChecks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved"],
+      "SavedStateRecovery": true
+    },
+    {
+      "Id": "package.microsoft-openjdk-17",
+      "PackageId": "microsoft-openjdk-17",
+      "InstalledDisplayVersion": "17.0.20.101",
+      "JavaVersion": "17.0.20.1",
+      "JavacVersion": "17.0.20.1",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-17",
+      "PassedChecks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved"],
+      "SavedStateRecovery": true
+    },
+    {
+      "Id": "package.microsoft-openjdk-11",
+      "PackageId": "microsoft-openjdk-11",
+      "InstalledDisplayVersion": "11.0.32.101",
+      "JavaVersion": "11.0.32.1",
+      "JavacVersion": "11.0.32.1",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-11",
+      "PassedChecks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved"],
+      "SavedStateRecovery": true
+    }
+  ],
+  "RunStatus": "Passed",
+  "AcceptanceScope": "Initial install, repeat install, Java/Javac version, shared preference preservation and saved install-state recovery",
+  "RemovalLifecycleVerified": false,
+  "SupportDeclared": "None; Server 2025 and Windows 11 remain candidates pending removal lifecycle acceptance",
+  "CandidateTargets": ["Windows 11", "Windows Server 2025"],
+  "MigrationOutcomeClosed": false,
+  "Notes": "The runner captures Java and javac stdout/stderr and exit status using System.Diagnostics.Process. The MSI registration display name includes repeated whitespace after OpenJDK and is detected by the catalog pattern. Review of the runner after this successful partial run found that Batch8 did not perform uninstall; full lifecycle support is therefore pending."
+}

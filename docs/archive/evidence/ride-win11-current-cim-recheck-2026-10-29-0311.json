@@ -1,0 +1,25 @@
+{
+  "recordedAtUtc": "2026-10-29T03:11:11Z",
+  "target": "RIDE-Win11-Test",
+  "operation": "Read-only Get-VM and checkpoint preflight",
+  "result": "Blocked before VM state retrieval",
+  "error": "Access to a CIM resource was not available to the client.",
+  "checkpointState": "Not queried because Get-VM failed",
+  "vmRequestSubmitted": false,
+  "vmOrWindowsStateChanged": false,
+  "elevationRequested": false,
+  "passwordScanPathAccessed": false,
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

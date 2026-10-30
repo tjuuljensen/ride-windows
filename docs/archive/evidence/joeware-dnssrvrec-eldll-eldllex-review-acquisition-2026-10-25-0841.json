@@ -1,0 +1,84 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T08:41:23Z",
+  "Batch": "JoeWare DNSSrvRec, ELDLL and ELDLLEx source review plus exact-source acquisition retry",
+  "Scope": {
+    "FrozenMemberCount": 41,
+    "ProductsReviewed": ["DNSSrvRec", "ELDLL", "ELDLLEx"],
+    "AcquisitionProducts": ["ChangePw", "ClientTest", "CPAU"],
+    "AdFindAcceptance": "Excluded from selected acceptance batches; not selected or contacted in this source/acquisition run."
+  },
+  "Sources": [
+    {
+      "Uri": "https://joeware.net/freetools/tools/dnssrvrec/index.htm",
+      "Findings": [
+        "Publisher describes DNSSrvRec as a command-line tool to clear, replace, delete, or add DNS SRV records; page version 1.00.00 dated 2005-01-15.",
+        "Publisher page lists Windows 2000, Server 2003 and XP; it states no local security requirements and no source code availability."
+      ]
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/dnssrvrec/usage.htm",
+      "Finding": "Usage allows clear, replace, delete, and add SRV-record operations. Its banner reads AddSrvRec V01.00.00cpp, January 2006, differing from the product page's 2005 date and requiring artifact-level reconciliation before version assignment."
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/eldll/index.htm",
+      "Findings": [
+        "ELDLL supplies message/resource data for custom event-log descriptions and includes an installer EXE plus DLL; publisher page version 1.00.0 dated 2002-02-17.",
+        "Publisher says administrator rights are required to install/register; page platform list ends at Windows XP and says source code is unavailable."
+      ]
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/eldllex/index.htm",
+      "Findings": [
+        "ELDLLEx splits event categories and messages across two DLLs so lower message IDs can be used; publisher page identifies version 1.00.0 dated 2002-02-17.",
+        "Publisher says administrator rights are required to install/register; page platform list ends at Windows XP and source code is unavailable."
+      ]
+    },
+    {
+      "Uri": "https://joeware.net/freetools/tools/eldllex/usage.htm",
+      "Finding": "Usage includes an installer that adds/removes an event source and is headed ELDLLExInstall V01.00.00cpp, July 2004; it documents a use-as-you-wish freeware statement. This is a page/artifact date discrepancy, not a migration gate."
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/versions.txt",
+      "Findings": [
+        "DNSSrvRec 01.00.00 dated 2006-01-15; publisher MD5 2d36802ffe70e3328e62dd3094123af2 and SHA-1 a25663bf9db368247aba79ef381830943932f1da.",
+        "ELDLL 01.00.00 dated 2002-02-17; publisher MD5 8d944633393f50bb46f7780db06f4b87 and SHA-1 43241fffe9cfd2a1f22771a8ad75508461561011.",
+        "ELDLLEx 01.00.00 dated 2002-02-17; publisher provides no MD5 or SHA-1 values in this row."
+      ],
+      "DigestBoundary": "Publisher digest observations are not locally verified archive hashes."
+    }
+  ],
+  "AcquisitionAttempt": {
+    "Command": "tools/Download-JoeWareCollection.ps1 -Product ChangePw,ClientTest,CPAU -DestinationDirectory .local/joeware-source-review-20261025-0840 -Confirm:$false",
+    "Result": "Failed before versions.txt or any product page was fetched because the JoeWare hostname could not be resolved by the local shell.",
+    "DestinationItemsAtFailure": 0,
+    "GeneratedEmptyDestinationRemoved": true,
+    "FormSubmissionAttempted": false,
+    "FilesReceived": 0,
+    "ExtractionOrExecution": false
+  },
+  "Boundaries": {
+    "PayloadAcquired": false,
+    "PayloadExtractedOrExecuted": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "LicenseBlocker": false,
+    "Resolved": ["Product purpose, historical publisher-platform claims and date/version-list observations for DNSSrvRec, ELDLL and ELDLLEx."],
+    "Deferred": ["Exact archives, local SHA-256 and member inventories for these and previously reviewed JoeWare products.", "Resolve DNSSrvRec and ELDLLEx date/version identity against exact artifacts.", "Package lifecycle, exact recovery, synthetic behavior and Windows 11 acceptance."],
+    "Excluded": [],
+    "LegacyOutcomesClosed": 0
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155",
+    "Adjustment": "Unchanged; source review and a pre-transfer DNS failure establish neither artifact identity nor lifecycle/functional acceptance."
+  }
+}

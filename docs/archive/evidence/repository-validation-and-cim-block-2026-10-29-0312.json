@@ -1,0 +1,36 @@
+{
+  "recordedAtUtc": "2026-10-29T03:12:02Z",
+  "validation": {
+    "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/validate.ps1",
+    "status": "Passed",
+    "operations": 451,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 306,
+    "generatedCatalog": "Current"
+  },
+  "acceptance": {
+    "target": "RIDE-Win11-Test",
+    "status": "Blocked before VM state retrieval",
+    "reason": "Host CIM access denied the read-only Get-VM call; checkpoint was not queried.",
+    "vmOrWindowsStateChanged": false
+  },
+  "defender": {
+    "passwordScanX86AndX64RemainExcluded": true,
+    "alertedFileAccessed": false,
+    "defenderStateChanged": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

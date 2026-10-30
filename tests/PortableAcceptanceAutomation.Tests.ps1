@@ -22,7 +22,7 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.6.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.5.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.1.1'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.3'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.13.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.11.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.1.1'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.5'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
@@ -36,6 +36,18 @@ Describe 'Focused portable acceptance boundaries' {
       { & (Join-Path $script:Root 'Invoke-Ride4GbPatchFunctionalAcceptance.ps1') -DisposableVm -ExpectedComputerName $env:COMPUTERNAME -ToolPath 'Z:\blocked.exe' -ExpectedSha256 ('a'*64) -EvidencePath 'C:\RIDE\PortableAcceptance\00000000000000000000000000000000\evidence\4gb-patch-functional' } | Should -Throw '*no workstation integration*'
       { & (Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1') -DisposableVm -ExpectedComputerName $env:COMPUTERNAME } | Should -Throw '*no workstation integration*'
     }finally{$env:RIDE_INTEGRATION_VM=$previous}
+  }
+  It 'resolves a staged guest archive without relying on stripped host-path metadata' {
+    $runRoot=Join-Path $TestDrive 'guest-run'
+    $payloadDirectory=Join-Path $runRoot 'payloads'
+    $null=New-Item -ItemType Directory -Path $payloadDirectory -Force
+    $archive=Join-Path $payloadDirectory 'Autoruns.zip'
+    [IO.File]::WriteAllText($archive,'Inert staged archive fixture.')
+    $metadata=[pscustomobject]@{Id='package.sysinternals-autoruns';FileName='Autoruns.zip';Sha256='test'}
+    $metadata.PSObject.Properties.Name|Should -Not -Contain 'Path'
+    Get-RidePortableAcceptanceStagedPayloadPath -RunRoot $runRoot -FileName $metadata.FileName|Should -BeExactly $archive
+    {Get-RidePortableAcceptanceStagedPayloadPath -RunRoot $runRoot -FileName '..\outside.zip'}|Should -Throw '*plain file name*'
+    {Get-RidePortableAcceptanceStagedPayloadPath -RunRoot $runRoot -FileName 'Missing.zip'}|Should -Throw '*missing from the bundle*'
   }
   It 'builds a synthetic PE32 x86 fixture with the large-address-aware flag clear in memory' {
     $path=Join-Path $script:Root 'Invoke-Ride4GbPatchFunctionalAcceptance.ps1'
@@ -56,10 +68,44 @@ Describe 'Focused portable acceptance boundaries' {
     $tokens=$null;$parseErrors=$null
     $null=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
     @($parseErrors).Count|Should -Be 0
-    (Get-Content -LiteralPath $path -Raw)|Should -Match '\$env:TEMP'
-    (Get-Content -LiteralPath $path -Raw)|Should -Match '\$env:TMP'
-    (Get-Content -LiteralPath $path -Raw)|Should -Match 'MissingDependency'
-    (Get-Content -LiteralPath $path -Raw)|Should -Match 'CimNamespaceList\.txt'
+    $source=Get-Content -LiteralPath $path -Raw
+    $source|Should -Match '\$env:TEMP'
+    $source|Should -Match '\$env:TMP'
+    $source|Should -Match 'MissingDependency'
+    $source|Should -Match 'CimNamespaceList\.txt'
+    $source|Should -Match 'Import-ThreadJobPackageModule'
+    $source|Should -Not -Match '\$env:PSModulePath\s*=\s*\$threadJobModule'
+  }
+  It 'imports the staged ThreadJob manifest by exact path for module dependency resolution' {
+    $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    @($parseErrors).Count|Should -Be 0
+    $function=@($ast.FindAll({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Import-ThreadJobPackageModule'},$true))
+    $function.Count|Should -Be 1
+    . ([scriptblock]::Create($function[0].Extent.Text))
+    $root=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $moduleDirectory=Join-Path $root 'microsoft-powershell-threadjob'
+    $consumerDirectory=Join-Path $root 'consumer'
+    $null=New-Item -ItemType Directory -Path $moduleDirectory,$consumerDirectory -Force
+    $moduleManifest=Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psd1'
+    $consumerManifest=Join-Path $consumerDirectory 'PSScriptTools.psd1'
+    $required=@{ModuleName='Microsoft.PowerShell.ThreadJob';ModuleVersion='2.2.0'}
+    New-ModuleManifest -Path $moduleManifest -ModuleVersion '2.2.0' -Guid ([guid]::NewGuid())
+    New-ModuleManifest -Path $consumerManifest -ModuleVersion '3.2.0' -Guid ([guid]::NewGuid()) -RequiredModules $required
+    $modulePathBefore=$env:PSModulePath
+    $moduleFilesBefore=@(Get-Module -Name 'PSScriptTools','Microsoft.PowerShell.ThreadJob'|ForEach-Object {$_.Path})
+    try {
+      $module=Import-ThreadJobPackageModule -PackageDirectory $moduleDirectory
+      $module.Version|Should -Be ([version]'2.2.0')
+      $module.Path|Should -BeExactly $moduleManifest
+      $consumer=Import-Module -Name $consumerManifest -PassThru -ErrorAction Stop
+      $consumer.Version|Should -Be ([version]'3.2.0')
+      $env:PSModulePath|Should -BeExactly $modulePathBefore
+    } finally {
+      $newModules=@(Get-Module -Name 'PSScriptTools','Microsoft.PowerShell.ThreadJob'|Where-Object {$_.Path -and $_.Path -notin $moduleFilesBefore})
+      foreach($newModule in $newModules){Remove-Module -ModuleInfo $newModule -ErrorAction SilentlyContinue}
+    }
   }
   It 'cleans only probe-created jobs on every outcome' {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
@@ -103,13 +149,18 @@ Describe 'Focused portable acceptance boundaries' {
     (Test-Path -LiteralPath $outside)|Should -BeTrue
   }
   It 'selects <Count> reviewed architecture cases for <Batch>' -ForEach @(
-    @{Batch='AllReviewed';Count=7},@{Batch='MiTeCViewers';Count=4},@{Batch='NTCore';Count=3},@{Batch='SQLiteQuery';Count=1},@{Batch='MiTeCUtilityFiles';Count=3},@{Batch='SysinternalsSuite';Count=1},@{Batch='SysinternalsProducts';Count=9},@{Batch='ImageMagick';Count=1}
+    @{Batch='AllReviewed';Count=7},@{Batch='MiTeCViewers';Count=4},@{Batch='MiTeCAnalysisTools';Count=2},@{Batch='MiTeCSystemAndTelephony';Count=2},@{Batch='NTCore';Count=3},@{Batch='NTCoreAdditional';Count=3},@{Batch='MiTeCMailHistoryViewers';Count=4},@{Batch='SQLiteQuery';Count=1},@{Batch='MiTeCUtilityFiles';Count=3},@{Batch='SysinternalsSuite';Count=1},@{Batch='SysinternalsProducts';Count=9},@{Batch='ImageMagick';Count=1},@{Batch='RawCopy';Count=1},@{Batch='WinPmem';Count=1}
   ) {
     $cases=@(Get-RidePortableAcceptanceCases -Catalog (Import-RideCatalogData $script:CatalogPath) -Batch $Batch)
     $cases.Count|Should -Be $Count
-    @($cases|Where-Object Id -notin @('package.mitec-json-viewer','package.mitec-xml-viewer','package.ntcore-pe-detective','package.ntcore-cff-explorer','package.ntcore-4gb-patch','package.mitec-sqlite-query','package.mitec-uuid-generator','package.mitec-certificate-generator','package.mitec-certificate-information','package.sysinternals-suite','package.sysinternals-process-explorer','package.sysinternals-autoruns','package.sysinternals-tcpview','package.sysinternals-procmon','package.sysinternals-rammap','package.sysinternals-disk2vhd','package.sysinternals-sigcheck','package.sysinternals-strings','package.sysinternals-handle','package.imagemagick-portable-q16')).Count|Should -Be 0
-    if($Batch -eq 'ImageMagick'){
+    @($cases|Where-Object Id -notin @('package.mitec-json-viewer','package.mitec-xml-viewer','package.mitec-exe-explorer','package.mitec-hexedit','package.mitec-system-information','package.mitec-tapi-monitor','package.ntcore-pe-detective','package.ntcore-cff-explorer','package.ntcore-4gb-patch','package.ntcore-driver-list','package.ntcore-rebelnet','package.mitec-mail-viewer','package.mitec-email-history-browser','package.mitec-internet-history-browser','package.mitec-instant-messaging-history-browser','package.mitec-sqlite-query','package.mitec-uuid-generator','package.mitec-certificate-generator','package.mitec-certificate-information','package.sysinternals-suite','package.sysinternals-process-explorer','package.sysinternals-autoruns','package.sysinternals-tcpview','package.sysinternals-procmon','package.sysinternals-rammap','package.sysinternals-disk2vhd','package.sysinternals-sigcheck','package.sysinternals-strings','package.sysinternals-handle','package.imagemagick-portable-q16','package.rawcopy','package.winpmem')).Count|Should -Be 0
+    if($Batch -in @('ImageMagick','SysinternalsProducts','SysinternalsSuite','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCUtilityFiles')){
       @($cases|Where-Object {$_.Operation.SupportedTargets -notcontains 'Windows 11' -or $_.Operation.PendingAcceptance -ne $false}).Count|Should -Be 0
+    }elseif($Batch -eq 'AllReviewed'){
+      @($cases|Where-Object {
+        ($_.Id -in @('package.ntcore-pe-detective','package.ntcore-cff-explorer','package.ntcore-4gb-patch','package.ntcore-driver-list','package.ntcore-rebelnet','package.mitec-mail-viewer','package.mitec-email-history-browser','package.mitec-internet-history-browser','package.mitec-instant-messaging-history-browser','package.mitec-uuid-generator','package.mitec-certificate-generator','package.mitec-certificate-information') -and ($_.Operation.SupportedTargets -notcontains 'Windows 11' -or $_.Operation.PendingAcceptance -ne $false)) -or
+        ($_.Id -notin @('package.ntcore-pe-detective','package.ntcore-cff-explorer','package.ntcore-4gb-patch','package.ntcore-driver-list','package.ntcore-rebelnet','package.mitec-mail-viewer','package.mitec-email-history-browser','package.mitec-internet-history-browser','package.mitec-instant-messaging-history-browser','package.mitec-uuid-generator','package.mitec-certificate-generator','package.mitec-certificate-information') -and $_.Operation.PendingAcceptance -ne $true)
+      }).Count|Should -Be 0
     }else{
       @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $true}).Count|Should -Be 0
     }
@@ -119,12 +170,13 @@ Describe 'Focused portable acceptance boundaries' {
     $c.Operations=@($c.Operations|Where-Object Id -ne 'package.mitec-json-viewer')
     { Get-RidePortableAcceptanceCases $c }|Should -Throw '*exactly one*'
   }
-  It 'selects all 360 reviewed PSScriptTools files without selecting other packages' {
+  It 'selects the pinned ThreadJob prerequisite and all 360 reviewed PSScriptTools files' {
     $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch PSScriptTools)
-    $cases.Count|Should -Be 1
-    $cases[0].Id|Should -Be 'package.psscripttools'
-    $cases[0].ExpectedFiles.Count|Should -Be 360
-    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+    $cases.Count|Should -Be 2
+    @($cases.Id)|Should -Be @('package.microsoft-powershell-threadjob','package.psscripttools')
+    ($cases|Where-Object Id -eq 'package.psscripttools').ExpectedFiles.Count|Should -Be 360
+    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $true -or $_.Operation.CandidateTargets -notcontains 'Windows 11'}).Count|Should -Be 0
+    ($cases|Where-Object Id -eq 'package.psscripttools').Operation.PrerequisitePackageId|Should -Be 'package.microsoft-powershell-threadjob'
   }
   It 'selects only the pending SQLite Query file lifecycle candidate' {
     $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch SQLiteQuery)
@@ -134,12 +186,47 @@ Describe 'Focused portable acceptance boundaries' {
     $cases[0].Operation.PendingAcceptance|Should -BeTrue
     $cases[0].Operation.SupportedTargets.Count|Should -Be 0
   }
-  It 'selects only the pinned single-file UUID and certificate candidates without supporting them' {
+  It 'selects exact Driver List x64/x86 and Rebel.NET supported staging packages without launching them' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch NTCoreAdditional)
+    $cases.Count|Should -Be 3
+    @($cases|ForEach-Object { "$($_.Id)/$($_.Variant)" }|Sort-Object)|Should -Be @('package.ntcore-driver-list/portable','package.ntcore-driver-list/portable-x86','package.ntcore-rebelnet/portable')
+    ($cases|Where-Object {$_.Id -eq 'package.ntcore-driver-list' -and $_.Variant -eq 'portable'}).ExpectedFiles|Should -Be @('DriverList_x64.exe')
+    ($cases|Where-Object {$_.Id -eq 'package.ntcore-driver-list' -and $_.Variant -eq 'portable-x86'}).ExpectedFiles|Should -Be @('DriverList_x86.exe')
+    ($cases|Where-Object {$_.Id -eq 'package.ntcore-rebelnet'}).ExpectedFiles|Should -Be @('RebelDotNET.exe','RebelDotNET.h')
+    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $false -or $_.Operation.SupportedTargets -notcontains 'Windows 11'}).Count|Should -Be 0
+  }
+  It 'selects only the four retained MiTeC mail/history viewer packages without opening user stores' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch MiTeCMailHistoryViewers)
+    $cases.Count|Should -Be 4
+    @($cases.Id|Sort-Object)|Should -Be @('package.mitec-email-history-browser','package.mitec-instant-messaging-history-browser','package.mitec-internet-history-browser','package.mitec-mail-viewer')
+    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $false -or $_.Operation.SupportedTargets -notcontains 'Windows 11'}).Count|Should -Be 0
+    ($cases|Where-Object Id -eq 'package.mitec-mail-viewer').ExpectedFiles|Should -Contain 'MailView.exe'
+    ($cases|Where-Object Id -eq 'package.mitec-email-history-browser').ExpectedFiles|Should -Be @('EHB.exe')
+    ($cases|Where-Object Id -eq 'package.mitec-internet-history-browser').ExpectedFiles|Should -Be @('IHB.exe','IHB.dll')
+    ($cases|Where-Object Id -eq 'package.mitec-instant-messaging-history-browser').ExpectedFiles|Should -Be @('IMHB.exe','IMHB.dll')
+  }
+  It 'selects only the pinned UUID and certificate package lifecycle cases' {
     $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch MiTeCUtilityFiles)
     $cases.Count|Should -Be 3
     ($cases.Id|Sort-Object) | Should -Be @('package.mitec-certificate-generator','package.mitec-certificate-information','package.mitec-uuid-generator')
     @($cases|ForEach-Object { $_.ExpectedFiles[0] }|Sort-Object) | Should -Be @('CertInfo.exe','CG.exe','UUID.exe')
-    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $true -or $_.Operation.SupportedTargets.Count -ne 0}).Count|Should -Be 0
+    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $false -or $_.Operation.SupportedTargets -notcontains 'Windows 11'}).Count|Should -Be 0
+  }
+  It 'selects EXE Explorer and HexEdit as pending file-lifecycle candidates only' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch MiTeCAnalysisTools)
+    $cases.Count|Should -Be 2
+    @($cases|ForEach-Object { "$($_.Id)/$($_.Variant)" }|Sort-Object)|Should -Be @('package.mitec-exe-explorer/portable','package.mitec-hexedit/portable')
+    ($cases|Where-Object Id -eq 'package.mitec-exe-explorer').ExpectedFiles|Should -Be @('EXE.exe','EXE64.exe')
+    ($cases|Where-Object Id -eq 'package.mitec-hexedit').ExpectedFiles|Should -Be @('HEXEdit.exe')
+    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $true -or $_.Operation.CandidateTargets -notcontains 'Windows 11' -or $_.Operation.SupportedTargets.Count -ne 0}).Count|Should -Be 0
+  }
+  It 'selects System Information eXtra and TAPI Monitor for file lifecycle only' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch MiTeCSystemAndTelephony)
+    $cases.Count|Should -Be 2
+    @($cases|ForEach-Object { "$($_.Id)/$($_.Variant)" }|Sort-Object)|Should -Be @('package.mitec-system-information/portable','package.mitec-tapi-monitor/portable')
+    ($cases|Where-Object Id -eq 'package.mitec-system-information').ExpectedFiles|Should -Be @('MSIX.exe','GetSys.exe','MSIX64.exe','GetSys64.exe')
+    ($cases|Where-Object Id -eq 'package.mitec-tapi-monitor').ExpectedFiles|Should -Be @('TAPIMon.exe')
+    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $true -or $_.Operation.CandidateTargets -notcontains 'Windows 11' -or $_.Operation.SupportedTargets.Count -ne 0}).Count|Should -Be 0
   }
   It 'selects only the accepted pinned Caffeine package for offline execution' {
     $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch OfflineCaffeine)
@@ -154,14 +241,15 @@ Describe 'Focused portable acceptance boundaries' {
     $cases[0].ExpectedFiles.Count|Should -Be 164
     $cases[0].Operation.PackageVersion|Should -Be 'snapshot-20261017-e1e75de5'
     $cases[0].Operation.ExpectedSha256|Should -Be 'e1e75de5cdb12116b0a4eca83725dc7c7a1645266196025cbe5ca6c167161aed'
-    $cases[0].Operation.SupportedTargets.Count|Should -Be 0
-    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+    $cases[0].Operation.SupportedTargets|Should -Be @('Windows 11')
+    $cases[0].Operation.TargetDefaults.'Windows 11'.DefaultValue|Should -BeExactly 'Absent'
+    $cases[0].Operation.PendingAcceptance|Should -BeFalse
   }
   It 'selects only the nine pinned independent Sysinternals products and excludes Defender-blocked collections' {
     $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch SysinternalsProducts)
     $cases.Count|Should -Be 9
     ($cases.Id|Sort-Object)|Should -Be @('package.sysinternals-autoruns','package.sysinternals-disk2vhd','package.sysinternals-handle','package.sysinternals-process-explorer','package.sysinternals-procmon','package.sysinternals-rammap','package.sysinternals-sigcheck','package.sysinternals-strings','package.sysinternals-tcpview')
-    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $true -or $_.Operation.SupportedTargets.Count -ne 0 -or $_.Operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$' -or $_.ExpectedFiles -notcontains 'Eula.txt'}).Count|Should -Be 0
+    @($cases|Where-Object {$_.Operation.PendingAcceptance -ne $false -or $_.Operation.SupportedTargets -notcontains 'Windows 11' -or $_.Operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$' -or $_.ExpectedFiles -notcontains 'Eula.txt'}).Count|Should -Be 0
     @($cases|Where-Object Id -match '(?i)nirsoft|produkey|wirelesskeyview|bulletspassview').Count|Should -Be 0
   }
   It 'selects the pinned ImageMagick Q16 7z as a whole-archive candidate' {
@@ -172,12 +260,34 @@ Describe 'Focused portable acceptance boundaries' {
     $cases[0].Operation.AssetName|Should -Be 'ImageMagick-7.1.2-34-portable-Q16-x64.7z'
     $cases[0].ExpectedFiles|Should -Be @('magick.exe')
   }
+  It 'selects only the pinned RawCopy x64 package for synthetic NTFS acceptance' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch RawCopy)
+    $cases.Count|Should -Be 1
+    $cases[0].Id|Should -Be 'package.rawcopy'
+    $cases[0].Variant|Should -Be 'portable'
+    $cases[0].ExpectedFiles|Should -Be @('RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/RawCopy64.exe','RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/LICENSE.md','RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/readme.txt','RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/changelog.txt')
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+  }
   It 'refuses unsafe metadata for <Field>' -ForEach @(
     @{Field='ExpectedSha256';Value=''},@{Field='InstallerType';Value='Exe'},@{Field='AssetName';Value='../other.zip'},@{Field='DependsOn';Value=@('package.other')}
   ) {
     $c=Import-RideCatalogData $script:CatalogPath
     ($c.Operations|Where-Object Id -eq 'package.ntcore-pe-detective')[$Field]=$Value
     { Get-RidePortableAcceptanceCases $c }|Should -Throw '*Unreviewed*'
+  }
+  It 'selects only the pinned WinPmem file candidate and leaves support pending' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch WinPmem)
+    $cases.Count|Should -Be 1
+    $cases[0].Id|Should -BeExactly 'package.winpmem'
+    $cases[0].Variant|Should -BeExactly 'portable'
+    $cases[0].Operation.PortableFormat|Should -BeExactly 'File'
+    $cases[0].Operation.AssetName|Should -BeExactly 'go-winpmem_amd64_1.0-rc2_signed.exe'
+    $cases[0].Operation.PortableFileName|Should -BeExactly $cases[0].Operation.AssetName
+    $cases[0].ExpectedFiles|Should -Be @('go-winpmem_amd64_1.0-rc2_signed.exe')
+    $cases[0].Operation.CandidateTargets|Should -Contain 'Windows 11'
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
   }
   It 'checks archive pins and rejects extra IDs before reading their paths' {
     $c=Import-RideCatalogData $script:CatalogPath
@@ -211,5 +321,46 @@ Describe 'Focused portable acceptance boundaries' {
     $rows[0].Path=$zipFixture
     $rows|ConvertTo-Json|Set-Content -LiteralPath $manifest
     {Get-RidePortableAcceptancePayloads -Cases $cases -ManifestPath $manifest}|Should -Throw '*extension*'
+  }
+  It 'accepts a nupkg only for the pinned ThreadJob prerequisite' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch PSScriptTools | Where-Object Id -eq 'package.microsoft-powershell-threadjob')
+    $fixture=Join-Path $TestDrive 'threadjob.nupkg'
+    [IO.File]::WriteAllText($fixture,'Inert digest fixture, not a NuGet package.')
+    $cases[0].Operation.ExpectedSha256=(Get-FileHash -LiteralPath $fixture).Hash.ToLowerInvariant()
+    $manifest=Join-Path $TestDrive 'threadjob.json'
+    @(@{Id=$cases[0].Id;Path=$fixture})|ConvertTo-Json|Set-Content -LiteralPath $manifest
+    @(Get-RidePortableAcceptancePayloads -Cases $cases -ManifestPath $manifest).Count|Should -Be 1
+    $otherCases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch PSScriptTools | Where-Object Id -eq 'package.psscripttools')
+    @(@{Id='package.psscripttools';Path=$fixture})|ConvertTo-Json|Set-Content -LiteralPath $manifest
+    {Get-RidePortableAcceptancePayloads -Cases $otherCases -ManifestPath $manifest}|Should -Throw '*extension*'
+  }
+  It 'accepts an executable payload only for the exact WinPmem file lifecycle candidate' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch WinPmem)
+    $fixture=Join-Path $TestDrive 'winpmem-fixture.exe'
+    [IO.File]::WriteAllText($fixture,'Inert payload fixture; never launched.')
+    $cases[0].Operation.ExpectedSha256=(Get-FileHash -LiteralPath $fixture).Hash.ToLowerInvariant()
+    $manifest=Join-Path $TestDrive 'winpmem.json'
+    @(@{Id=$cases[0].Id;Path=$fixture})|ConvertTo-Json|Set-Content -LiteralPath $manifest
+    @(Get-RidePortableAcceptancePayloads -Cases $cases -ManifestPath $manifest).Count|Should -Be 1
+    $otherCases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch PSScriptTools|Where-Object Id -ceq 'package.psscripttools')
+    @(@{Id='package.psscripttools';Path=$fixture})|ConvertTo-Json|Set-Content -LiteralPath $manifest
+    {Get-RidePortableAcceptancePayloads -Cases $otherCases -ManifestPath $manifest}|Should -Throw '*extension*'
+  }
+  It 'keeps the RawCopy behavior runner pinned to its synthetic-only controls' {
+    $path=Join-Path $script:Root 'Invoke-RideRawCopySyntheticAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    @($parseErrors).Count|Should -Be 0
+    $parameters=@($ast.ParamBlock.Parameters|ForEach-Object {$_.Name.VariablePath.UserPath})
+    $parameters|Should -Be @('ExecutablePath','ExpectedComputerName','EvidencePath','TimeoutSeconds')
+    $source=Get-Content -LiteralPath $path -Raw
+    $source|Should -Match '619795AA357E1EB36FEBF45B398CCCCB289CB27B547814BFB422EFB3E8F98E3D'
+    $source|Should -Match "'/TcpSend:0'"
+    $source|Should -Match "'/RawDirMode:0'"
+    $source|Should -Match "'/WriteFSInfo:0'"
+    $source|Should -Match "Win32_ComputerSystem"
+    $source|Should -Match "requires a disposable virtual-machine guest"
+    $source|Should -Match 'userOrEvidenceDataRead=\$false'
+    $source|Should -Match 'windowsSupportPromoted=\$false'
   }
 }

@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T14:43:38.9487005Z",
+  "Status": "Prepared; full remote interactive RIDE lifecycle not yet executed",
+  "BaselineRecovery": "Operator confirmed exact checkpoint restore at 2026-10-29T14:36:15.2035270Z; VM Running, controller Disabled, 18 diagnostic files reverified",
+  "Source": {
+    "RunnerVersion": "0.19.2",
+    "ArchiveSHA256": "FF271AA58406DB91292242AE828190E24B91F71B4372B8373A1ED65A2CCF3AF3",
+    "RecordedRunId": "1f771b9f5d8841f1938497458f339c6b",
+    "Files": 1794,
+    "ManifestSHA256": "2E2CE5091A254970C1D63AD6F802E07BE2886D16B04FAAC352B4BA091E60B820"
+  },
+  "Helpers": {
+    "Command": "Invoke-HashCheckRemoteDiagnostic.ps1 -ExecutionMode InteractiveTask -RideLifecycle",
+    "Guest": "Invoke-HashCheckInteractiveGuest.ps1 0.2.0",
+    "Host": "Invoke-HashCheckRemoteDiagnostic.ps1 0.3.0"
+  },
+  "Validation": {
+    "Runtime": "Windows PowerShell 5.1",
+    "HostRejection": "Lifecycle launcher refused P52",
+    "HostInstallerExecuted": false,
+    "Parsers": "Both modified helpers passed",
+    "ActualSourceVerifier": "Verified all 1794 files and runner 0.19.2 against immutable recorded manifest"
+  },
+  "Boundaries": {
+    "TaskLimitMinutes": 30,
+    "Identity": "Pinned guest-admin SID, exact nonzero Explorer session and elevation checked",
+    "Controller": "Normal registered command unchanged",
+    "Dispatch": "Single attempt with exclusive claim and completion output",
+    "Evidence": "Source pin/verification, launcher/task records, complete result directory and saved state; hashes checked guest-to-host; expanded working source excluded"
+  },
+  "Next": "Run focused full RIDE lifecycle through interactive task on clean guest. Require summary Passed, IntegrationPassed, application Recovery, task result 0 and removal; export before checkpoint restoration.",
+  "Migration": {
+    "Maintenance": "8-12",
+    "RoundedTotal": "125-180; about 155",
+    "Partial": "Interactive installation verified; full remote lifecycle and feature acceptance pending",
+    "Packages": "37-52",
+    "Resolved": 0,
+    "FilesAndAssets": "25-35",
+    "Settings": "37-57",
+    "NewExclusions": 0,
+    "ExactTotal": "126-180",
+    "Retired": 0,
+    "Components": "19-24"
+  }
+}

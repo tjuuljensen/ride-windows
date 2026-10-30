@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T07:49:00Z",
+  "batch": "Official GitHub API resolution of selected ArsenalRecon source refs and release metadata",
+  "method": "Read-only GitHub REST API calls through the connected GitHub app; no clone, binary download, checkout, execution, VM request, or Windows change.",
+  "repositories": [
+    {
+      "name": "ArsenalRecon/BackstageParser",
+      "branch": "master",
+      "immutableRevision": "cf09c312d663428a2c02511f00f4683921014ddd",
+      "treeEntries": 3,
+      "licenseFile": "License.md",
+      "releaseAssets": [],
+      "sourceFiles": ["BackstageParser.py", "License.md", "README.md"]
+    },
+    {
+      "name": "ArsenalRecon/CyberGateLogDecrypt",
+      "branch": "master",
+      "immutableRevision": "6ac20b5603db69598a9d5095ba93c2dfeee8aeb4",
+      "treeEntries": 3,
+      "licenseFile": "License.md",
+      "releaseAssets": [],
+      "sourceFiles": ["CyberGateLogDecrypt.py", "License.md", "README.md"]
+    },
+    {
+      "name": "ArsenalRecon/GmailURLDecoder",
+      "branch": "master",
+      "immutableRevision": "2c20a431b2baafe675287230f7ab3f397fac6755",
+      "treeEntries": 3,
+      "licenseFile": "License.md",
+      "releaseAssets": [],
+      "sourceFiles": ["GmailURLDecoder.py", "License.md", "README.md"]
+    },
+    {
+      "name": "ArsenalRecon/NetWireLogDecoder",
+      "branch": "main",
+      "immutableRevision": "d5d8d653f7f31656b47a993ed652cc353a86d78e",
+      "treeEntries": 8,
+      "licenseFile": "License.md",
+      "releases": [{
+        "tag": "v1.0.0.1",
+        "asset": "NetWireLogDecoder_v1.0.0.1.zip",
+        "sizeBytes": 1448704,
+        "url": "https://github.com/ArsenalRecon/NetWireLogDecoder/releases/download/v1.0.0.1/NetWireLogDecoder_v1.0.0.1.zip"
+      }],
+      "notes": ["README instructs users to relax PowerShell execution policy; RIDE must not change execution policy."]
+    },
+    {
+      "name": "ArsenalRecon/SdbaParser",
+      "branch": "main",
+      "immutableRevision": "8dcf29a3545722c7ed8d6dc7272678cb025fc00a",
+      "treeEntries": 4,
+      "licenseFile": "License.md",
+      "releases": [{
+        "tag": "1.0.0.1",
+        "asset": "SdbaParser.zip",
+        "sizeBytes": 932944,
+        "url": "https://github.com/ArsenalRecon/SdbaParser/releases/download/1.0.0.1/SdbaParser.zip"
+      }],
+      "notes": ["README instructs users to temporarily enable Unrestricted execution policy; RIDE must not change execution policy."]
+    },
+    {
+      "name": "ArsenalRecon/NetWireStackForensics",
+      "branch": "main",
+      "immutableRevision": "d6c4068b9e898b3a3b7068531027b4a423f69ada",
+      "treeEntries": 72,
+      "licenseFile": "LICENSE.md",
+      "releases": [{
+        "tag": "v1.0.0.0",
+        "asset": "NwStacks_v1.0.0.0.zip",
+        "sizeBytes": 1008924,
+        "url": "https://github.com/ArsenalRecon/NetWireStackForensics/releases/download/v1.0.0.0/NwStacks_v1.0.0.0.zip"
+      }],
+      "notes": ["Repository tree includes sample snapshots, uploaded sample files, and decrypted payload data; do not package the repository tree wholesale. The release archive remains uninspected."]
+    }
+  ],
+  "commonLicenseFinding": "Each pinned repository exposes a publisher License.md or LICENSE.md identifying MIT terms. Package-specific exact version and owner review remains informational and is not a migration gate.",
+  "acquisition": {
+    "binaryArtifactsDownloaded": false,
+    "hashesComputed": false,
+    "archiveMembersInspected": false,
+    "toolsExecuted": false,
+    "legacyOutcomesClosed": []
+  },
+  "migration": {
+    "resolved": ["Immutable source refs for all six selected repositories", "Release tag, asset name, size, and URL metadata for the three repositories with published releases", "Publisher source trees, license-file paths, and notable execution-policy/sample-data cautions"],
+    "deferred": ["Exact artifact bytes, hashes, archive-member inventories, and package implementations", "Inert source/lifecycle checks and target acceptance"],
+    "excluded": ["NwStacks repository sample snapshots, uploaded sample files, and decrypted payload data from automatic package membership"],
+    "partial": ["All six source candidates; no package artifact or legacy outcome is complete"],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

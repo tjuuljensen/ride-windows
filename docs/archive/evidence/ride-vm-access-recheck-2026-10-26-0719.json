@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T07:19:07Z",
+  "readOnly": true,
+  "registeredTargets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "command": "Get-VM",
+      "status": "BlockedBeforeInspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-Srv2025Test",
+      "command": "Get-VM",
+      "status": "BlockedBeforeInspection",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "registeredTask": {
+    "name": "\\RIDE\\RIDEWin11Test",
+    "command": "schtasks.exe /Query",
+    "status": "Blocked",
+    "error": "The network address is invalid."
+  },
+  "sideEffects": {
+    "guestRequestSubmitted": false,
+    "vmInspected": false,
+    "checkpointInspected": false,
+    "vmOrCheckpointChanged": false,
+    "hostServiceChanged": false,
+    "defenderChanged": false,
+    "freshUacRequested": false
+  },
+  "disposition": "Keep Windows acceptance deferred; continue local/source work without fresh elevation."
+}

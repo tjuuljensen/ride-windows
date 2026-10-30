@@ -1,0 +1,124 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "BitLockerPolicyCandidateTargetCorrectionAndRegression",
+  "RecordedAtUtc": "2026-10-27T12:40:01Z",
+  "Decision": "Keep the three new future-encryption drive-type policies as Windows 11 candidates until disposable Windows policy acceptance passes; retain the existing XTS-AES 256 default-profile intent and historical operation identity.",
+  "Operations": [
+    {
+      "Id": "windows.bitlocker-encryption-method-os",
+      "ValueName": "EncryptionMethodWithXtsOs"
+    },
+    {
+      "Id": "windows.bitlocker-encryption-method-fixed-data",
+      "ValueName": "EncryptionMethodWithXtsFdv"
+    },
+    {
+      "Id": "windows.bitlocker-encryption-method-removable-data",
+      "ValueName": "EncryptionMethodWithXtsRdv"
+    }
+  ],
+  "CatalogTargetMetadata": {
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true
+  },
+  "Profile": {
+    "Id": "profiles/default.psd1",
+    "SelectedState": "XtsAes256",
+    "Effect": "Desired state for future encryption only; no current drive is encrypted or converted by profile loading or policy application planning."
+  },
+  "HistoricalOperation": {
+    "Id": "windows.bitlocker-encryption-method",
+    "ValueName": "EncryptionMethod",
+    "Change": "none"
+  },
+  "AuthoritativeReferences": [
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength",
+      "Finding": "Documents per-drive-type Group Policy choices and the default of XTS-AES 128-bit for new encryption when no policy is configured."
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp#encryptionmethodbydrivetype",
+      "Finding": "Documents AES-CBC 128/256 and XTS-AES 128/256 values 3, 4, 6 and 7. RIDE uses separate local Group Policy registry values rather than this CSP interface."
+    }
+  ],
+  "Tests": {
+    "FocusedPolicySuite": [
+      {
+        "Shell": "PowerShell 7.6.5",
+        "Pester": "5.7.1",
+        "Passed": 3,
+        "Failed": 0,
+        "Skipped": 0,
+        "Scratch": ".local/pester-bitlocker-method-policy-focused-20261027"
+      },
+      {
+        "Shell": "Windows PowerShell 5.1.26100.9711",
+        "Pester": "5.7.1",
+        "Passed": 3,
+        "Failed": 0,
+        "Skipped": 0,
+        "ExecutionPolicy": "Process-only Bypass",
+        "Scratch": ".local/pester-bitlocker-method-policy-winps51-20261027"
+      }
+    ],
+    "FocusedLegacyCatalogAssertion": {
+      "Shell": "PowerShell 7.6.5",
+      "Test": "keeps the legacy BitLocker selector distinct from split future-encryption choices",
+      "Passed": 1,
+      "Failed": 0,
+      "NotRun": 94
+    },
+    "CombinedCatalogRegression": {
+      "Discovered": 98,
+      "Passed": 97,
+      "Failed": 1,
+      "Skipped": 0,
+      "Failure": "Catalog.Tests.ps1 directly accesses registry security descriptors and was denied by the sandbox; this is unrelated to BitLocker and had been observed in the existing full-source run."
+    },
+    "RepositoryValidation": {
+      "Result": "passed",
+      "Operations": 432,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 296,
+      "GeneratedOperationDocumentationCurrent": true
+    }
+  },
+  "Diagnostics": [
+    "The first repository validation found docs/OPERATIONS.md stale after the catalog acceptance-metadata change; regenerated it with tools/Export-RideCatalog.ps1 and reran tools/validate.ps1 successfully.",
+    "The combined Catalog suite's one registry security-descriptor failure is sandbox access denial, not a BitLocker assertion failure; the targeted legacy-selector catalog case passed separately."
+  ],
+  "VMAccess": {
+    "Targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "Query": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "Result": "failed before inspection: Access to a CIM resource was not available to the client.",
+    "AcceptanceDispatch": "not attempted"
+  },
+  "Safety": {
+    "RegistryOrDriveStateChanged": false,
+    "VMStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "Deferred": "Disposable Windows 11 registry-policy view, precedence and saved-state behavior acceptance for the three future-encryption choices.",
+    "Blocker": "Host CIM access prevents VM inspection and acceptance dispatch."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Modern drive-type policy values and defaults remain implemented as candidates; native acceptance remains pending."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "Correcting the supported-target metadata adds no feature implementation and closes no legacy outcome; estimates remain unchanged."
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:51:00Z",
+  "batch": "RIDE repository static validation",
+  "command": "tools/validate.ps1 -Root <workspace root>",
+  "runtime": {
+    "shell": "Windows PowerShell 5.1.26100.9818",
+    "processExecutionPolicy": "Bypass for this process only; no persistent policy change"
+  },
+  "result": {
+    "status": "Passed",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 301,
+    "generatedOperationDocumentation": "Current"
+  },
+  "boundary": {
+    "installerRun": false,
+    "vmQueried": false,
+    "defenderQueriedOrChanged": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Current cross-shell static validation confirms catalog/profile/doc/script consistency; package/settings/components runtime acceptance remains separate."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Registered RIDE-Win11-Test acceptance remains blocked by host CIM/controller access and saved elevated refresh."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; validator does not close a legacy outcome."
+    }
+  }
+}

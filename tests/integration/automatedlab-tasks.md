@@ -16,6 +16,75 @@ not redirect the current Windows 11 lab until an agreed cutover.
 
 ## Controller workflow
 
+### Bounded host preparation
+
+Registration version 0.13.0 installs `HostPreparationWatchdogV1`, the supervised
+worker and its fixed `Invoke-RideVmTestRequest.ps1` child. Refresh an idle
+controller to activate this behavior; copying only guest source does not upgrade
+the protected worker. Registration does not mark the controller validated.
+
+The parent holds the exclusive worker lock and performs no Hyper-V or AutomatedLab
+calls. The child records `host-phase.json` and `host-progress.jsonl` before host
+validation, lab import, source copying and VM mutation. Preparation is limited to
+five minutes, or the remaining submitted request timeout if shorter. Execution
+uses the original request deadline, with 15 seconds to enter recovery. Recovery
+has three minutes and cannot extend beyond four minutes after that deadline.
+Process-tree termination itself has a ten-second limit plus a five-second exit
+check. These bounds assume the parent and local filesystem remain responsive;
+they do not protect against host shutdown or OS failure.
+
+A watchdog expiry writes a correlated terminal result with the last host stage.
+If progress confirms no VM mutation and process-tree termination succeeds, it
+does not require checkpoint recovery. Possible VM changes, invalid progress or
+unconfirmed termination create `runtime/blocked.json`. Preserve evidence and use
+the recovery procedure before another request; do not clear that file alone.
+The supervisor does not attempt another unbounded host recovery call. Inspect
+`host-worker.log`, `host-worker-errors.log`, and the two host progress files
+alongside the existing controller/guest evidence.
+
+Module 1.17.1 coordinates progress readers and the writer using
+`host-phase.json.lock`. Lock acquisition and sharing-error retries are each
+limited to one second. The empty lock file is retained normally; its presence
+does not indicate an active worker or a recovery block. An interrupted or invalid
+progress write remains a failure requiring conservative recovery handling.
+
+For a narrow preparation check, start from the repository root in elevated
+Windows PowerShell 5.1 under the registered host account. The VM must be Off,
+queues empty, task Ready or Disabled, and no recovery block present. WinRM and
+VMMS must already be running. Do not submit another request during this probe.
+
+```powershell
+.\tests\integration\Test-RideVmHostPreparation.ps1 `
+    -ConfigurationPath '<installed-controller-root>\configuration.json'
+```
+
+This five-minute probe checks host dependencies, lab/VM/checkpoint identity and
+source copying while holding the worker lock. It writes a unique directory under
+`.local/controller-probes` with `probe-result.json`, logs and a source manifest.
+It never boots or restores the VM and runs no tests or installers in the guest.
+On failure, inspect its last stage and logs before retrying. Unconfirmed probe
+termination blocks the controller until processes have been inspected. A passed
+probe needs no VM recovery. Registration's own administrative preflight is still
+synchronous; the probe is the bounded diagnostic to run before refreshing it.
+
+After a passed probe, refresh registration once and confirm the installed worker,
+request child and module hashes match the checkout and that the capability is
+present. Resume one already-planned focused acceptance request; do not add an
+unrelated full-suite or UnitOnly run. A local watchdog test or host-only probe
+does not close product acceptance or broader controller certification.
+
+### Guest execution
+
+HashCheck `ApplicationsBatch11` requires the refreshed
+`ApplicationsBatch11InteractiveV1` capability in addition to its original suite
+capability. Its guest administrator must have exactly one signed-in desktop
+after the pinned baseline starts. The controller uses a temporary elevated
+interactive guest task, verifies its identity and completion, and collects task
+cleanup evidence before checkpoint recovery. It does not configure automatic
+sign-in. See the [suite requirements](README.md) and
+[current acceptance ledger](../../docs/migrations/controller-certification.md)
+before refreshing the idle controller and submitting a run.
+
 The client submits a correlated request; the registered elevated worker runs it
 under an exclusive controller lock. The simplified flow below separates guest
 test results from final checkpoint recovery.
@@ -610,9 +679,12 @@ default-branch cutover remain separate.
 
 ## Configuration contract
 
-The finite integration selections include `ApplicationsBatch1` and
+The finite integration selections include `ApplicationsBatch1`, its
+`ApplicationsBatch1Machine` and `ApplicationsBatch1User` splits, and
 `ApplicationsBatch2`. The general client/VM runner and guest dispatcher share
-those suite selections. With the `FocusedPortableV1` capability, the task client
+those suite selections. The split selections require the registered
+`ApplicationsBatch1SplitV1` capability; the client refuses to queue them for an
+older controller. With the `FocusedPortableV1` capability, the task client
 also accepts `NTCore`, `PSScriptTools`, `OfflineCaffeine`, `SQLiteQuery` and
 `MiTeCUtilityFiles` and routes them
 through the protected portable runner, not the general guest dispatcher. The
@@ -764,12 +836,15 @@ The guest generates documentation, validates, runs Pester and runs the guarded
 integration suite. Results must identify the request and confirm every requested
 stage; a zero process exit code alone cannot produce success.
 
-Before restoring the checkpoint again, collect `guest/transcript.log`,
-`guest/pester.xml`, `guest/summary.json` and saved machine/user RIDE state.
-Installer caches are excluded. Failures and timeouts attempt additional partial
-collection with a separate 60-second bound. Unreachable guest evidence is
-reported as `CollectionError`, and reset still proceeds. The VM remains off on
-the clean checkpoint after each run.
+Before restoring the checkpoint again, collect `guest/progress.jsonl`,
+`guest/transcript.log`, `guest/pester.xml`, `guest/summary.json` and saved
+machine/user RIDE state. The append-only progress log records guest phase start,
+completion and failure so a timeout can identify the last stage even when the
+transcript is locked by the guest process. Installer caches are excluded.
+Failures and timeouts attempt additional partial collection with a separate
+60-second bound. Unreachable guest evidence is reported as `CollectionError`,
+and reset still proceeds. The VM remains off on the clean checkpoint after each
+run.
 
 Collector version 0.3.0 copies partial-evidence files independently. A locked or
 unreadable file is listed in `guest/collection-omissions.json`; other readable

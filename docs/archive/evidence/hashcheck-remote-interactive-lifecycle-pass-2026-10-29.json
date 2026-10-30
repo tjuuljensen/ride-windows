@@ -1,0 +1,337 @@
+{
+    "SchemaVersion":  1,
+    "RecordedAtUtc":  "2026-10-29T17:38:33.0974198Z",
+    "RunId":  "d43ef603fde042588104e3128f13e245",
+    "Status":  "Full RIDE lifecycle passed through remote-triggered interactive task",
+    "EvidenceSource":  "Exported summary, application, Pester XML, source verification, launcher/task and installer records independently inspected; all 24 files rehashed against guest manifest",
+    "Summary":  {
+                    "SchemaVersion":  1,
+                    "RunId":  "d43ef603fde042588104e3128f13e245",
+                    "Status":  "Passed",
+                    "ValidationPassed":  true,
+                    "IntegrationPassed":  true,
+                    "Pester":  {
+                                   "Version":  "5.7.1",
+                                   "Failed":  0,
+                                   "Result":  "Passed",
+                                   "Total":  426,
+                                   "Passed":  422
+                               },
+                    "Error":  null,
+                    "StateCollectionError":  null,
+                    "Guest":  {
+                                  "SID":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                                  "Account":  "RIDE-WIN11-TEST\\admin",
+                                  "PowerShell":  "5.1.26100.9711",
+                                  "OS":  {
+                                             "Caption":  "Microsoft Windows 11 Enterprise Evaluation",
+                                             "Version":  "10.0.26300",
+                                             "BuildNumber":  "26300"
+                                         }
+                              },
+                    "GuestGitHubAuthentication":  "Anonymous",
+                    "GitHubTestScenario":  "Acquire",
+                    "CredentialCleanupVerified":  null,
+                    "PesterSelection":  "Application lifecycle, catalog, acquisition and controller regression",
+                    "IntegrationSuite":  "ApplicationsBatch11"
+                },
+    "Application":  {
+                        "Id":  "package.hashcheck-shell-extension",
+                        "Variant":  "installed",
+                        "Target":  "Windows 11",
+                        "OS":  "Microsoft Windows 11 Enterprise Evaluation",
+                        "Build":  "26300",
+                        "InstallationType":  "Client",
+                        "Scope":  "Machine",
+                        "Provider":  "DirectHttps",
+                        "Applicability":  "Applicable to deployment lifecycle",
+                        "Status":  "Passed",
+                        "Version":  "2.6.3.0",
+                        "Error":  null,
+                        "Recovery":  true,
+                        "ProfilePreservation":  null,
+                        "UserDataPreservation":  null,
+                        "UserDataFixtures":  [
+
+                                             ],
+                        "RemovalRecoveryVersion":  "2.6.3.0",
+                        "Checks":  [
+                                       "RIDEManagedInstall",
+                                       "PinnedPackageVersion",
+                                       "RepeatInstall",
+                                       "RemovalPreview",
+                                       "RIDERemoval",
+                                       "RepeatRemoval",
+                                       "SavedRemovalRecovery",
+                                       "SavedInstallRecovery"
+                                   ],
+                        "RecoveryMode":  "Compensating presence recovery; previous-version recovery unavailable",
+                        "ExecutionSid":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                        "Elevated":  true,
+                        "LocalAppData":  "C:\\Users\\admin\\AppData\\Local"
+                    },
+    "Task":  {
+                 "TaskName":  "RIDE-HashCheckDiagnostic-d43ef603fde042588104e3128f13e245",
+                 "UserSID":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                 "ExpectedSessionId":  1,
+                 "LogonType":  "Interactive",
+                 "RunLevel":  "Highest",
+                 "LastTaskResult":  0,
+                 "Error":  null,
+                 "TaskRemoved":  true
+             },
+    "Launcher":  {
+                     "StartedAtUtc":  "2026-10-29T16:46:19.7150066Z",
+                     "ExpectedSessionId":  1,
+                     "Completed":  true,
+                     "Error":  null,
+                     "User":  "RIDE-WIN11-TEST\\admin",
+                     "SID":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                     "SessionId":  1,
+                     "UserInteractive":  true,
+                     "Elevated":  true,
+                     "Workload":  "ApplicationsBatch11",
+                     "SuiteStatus":  "Passed",
+                     "FinishedAtUtc":  "2026-10-29T16:54:10.1141317Z"
+                 },
+    "SourceVerification":  {
+                               "VerifiedAtUtc":  "2026-10-29T16:48:08.9823992Z",
+                               "VerifiedFiles":  1794,
+                               "RunnerVersion":  "0.19.2",
+                               "Source":  "C:\\RIDE\\Diagnostics\\HashCheckRemote-d43ef603fde042588104e3128f13e245\\ride-windows"
+                           },
+    "PesterXml":  {
+                      "Failed":  0,
+                      "Total":  426,
+                      "Skipped":  4,
+                      "Passed":  422,
+                      "Errors":  0
+                  },
+    "HostDirectory":  ".local/acceptance-input/hashcheck-remote-d43ef603fde042588104e3128f13e245",
+    "Files":  [
+                  {
+                      "Name":  "dispatch.claim",
+                      "Bytes":  0,
+                      "SHA256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "HashCheckSetup-v2.6.3.0.exe",
+                      "Bytes":  2157368,
+                      "SHA256":  "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "interactive-launcher.json",
+                      "Bytes":  445,
+                      "SHA256":  "8818A3947CBB547D9629AE738BD85BDDA08412D1A4BA9744373FC78E908C4E12",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "interactive-output.log",
+                      "Bytes":  7834,
+                      "SHA256":  "C7737E187EEE47910103963F2C592316103D22F1814A4B28709947C0060AC744",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "interactive-task.json",
+                      "Bytes":  322,
+                      "SHA256":  "E2428A8CD862A75561A03DBEAB656CE829D226969FD49974B059AAD05A7A4A3A",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "interactive-task.xml",
+                      "Bytes":  1666,
+                      "SHA256":  "06D039EB0AD84444F43B79F6E2162E4CF51687E786BBDCEAEF21C78580087B7B",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "Invoke-HashCheckInteractiveGuest.ps1",
+                      "Bytes":  6439,
+                      "SHA256":  "308F6335872CE72EB079528DB0777C42BDD7B8611770A918F244E5AE510779A9",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "Invoke-HashCheckRemoteGuest.ps1",
+                      "Bytes":  5478,
+                      "SHA256":  "6A484F29B69A355BE46845990E39E2C15F8971DBBA0B9CAA852E2D054E3BEEB6",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "source-files.json",
+                      "Bytes":  333205,
+                      "SHA256":  "2E2CE5091A254970C1D63AD6F802E07BE2886D16B04FAAC352B4BA091E60B820",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "source-pin.json",
+                      "Bytes":  365,
+                      "SHA256":  "B69F526BC247ADABF34790B4A1CB2EFABE76A560412DCC522AFF1DDEE5DC1CE6",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "source-verification.json",
+                      "Bytes":  230,
+                      "SHA256":  "A58C3E878522F1D18265372F878FB363B12C5869C346BBE99211107975758F06",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "source.zip",
+                      "Bytes":  5763841,
+                      "SHA256":  "FF271AA58406DB91292242AE828190E24B91F71B4372B8373A1ED65A2CCF3AF3",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\applications-batch11.json",
+                      "Bytes":  843,
+                      "SHA256":  "87060A1EFAA1CBC20E212CC66E8EB629F38726A82077BE8AFDF6131246E0D3CF",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\artifact-observations.json",
+                      "Bytes":  458364,
+                      "SHA256":  "080AD934BDC1CEB81038CB5CE6EB5E49456B87DEF4749F7378A4F2C1917FFFAE",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\hashcheck-install.log",
+                      "Bytes":  1670,
+                      "SHA256":  "806ABED76A938F3EEB7483CB1369E017041BA718E58DFD1A94D2759C8809848D",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\pester.xml",
+                      "Bytes":  153973,
+                      "SHA256":  "2B95D9DFED439F2C71C8E1D3CB8B665CBCBE516D0FC4C4A1737CF807A19B5F4E",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\progress.jsonl",
+                      "Bytes":  1417,
+                      "SHA256":  "3CAA09D27EF0DB719F5AC3ADFEC1AD9A9E906AA82D4C37BA1B6E2F5A82075889",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\summary.json",
+                      "Bytes":  1206,
+                      "SHA256":  "55B1F35DB9BE224BB165326304EF6579152680F76C980EB6F30563204DF5F9C9",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\transcript.log",
+                      "Bytes":  55673,
+                      "SHA256":  "693D1B5E957A716C4D177EE5D78230419D2B5199CCC655745B5701E062E503AD",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\state\\Machine\\3da5e423d1a64a21aa5289c8396fe7bb\\package.hashcheck-shell-extension.json",
+                      "Bytes":  3832,
+                      "SHA256":  "87A9770164471FE877EA7F75A71EF547E9FB380197055792F4EFC44F40849D36",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\state\\Machine\\3da5e423d1a64a21aa5289c8396fe7bb\\_manifest.json",
+                      "Bytes":  784,
+                      "SHA256":  "761E67564DD9DC11AC4C2DF28C7B4DC54457BE47850473B5D7F32258E2016C18",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\state\\Machine\\fb8734551a904118a82f74ba080f1c19\\package.hashcheck-shell-extension.json",
+                      "Bytes":  6989,
+                      "SHA256":  "8FA01CFC00D338CAAFF5BB86CED6F6216BE9C7199DA9963E6BC5295A39DEF30B",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\state\\Machine\\fb8734551a904118a82f74ba080f1c19\\_manifest.json",
+                      "Bytes":  785,
+                      "SHA256":  "6BF1FB349029E18411792E5BF33C3EDE5D1ADF05D8B93ABB18C594A2024BC485",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  },
+                  {
+                      "Name":  "results\\state\\Machine\\PackageSelections\\package.hashcheck-shell-extension.json",
+                      "Bytes":  3194,
+                      "SHA256":  "BE0CBC2693BD32514E1FDAC3E0F46E168F59F99EB8B4054F33A4B8A466ED49E6",
+                      "PSComputerName":  "RIDE-Win11-Test",
+                      "RunspaceId":  "7069775c-528d-440e-8613-f1e091431d79",
+                      "PSShowComputerName":  true
+                  }
+              ],
+    "IntegrationCompletedAtUtc":  "2026-10-29T16:54:10.0181859Z",
+    "Recovery":  {
+                     "RecordedAtUtc":  "2026-10-29T17:40:11.2362446Z",
+                     "RunId":  "d43ef603fde042588104e3128f13e245",
+                     "CheckpointId":  "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+                     "FinishAcceptance":  true,
+                     "VMState":  "Off",
+                     "TaskState":  "Ready",
+                     "VerifiedEvidenceFiles":  24
+                 },
+    "RecoveryHelperValidation":  "Windows PowerShell 5.1 parser passed and actual read-only preflight verified all 24 files, correlated Passed summary and task removal. No host VM mutation executed by validation.",
+    "Acceptance":  {
+                       "RemoteInteractiveLifecycle":  "Passed for recorded source snapshot and intended signed-in admin",
+                       "PublishedSupportChanged":  false,
+                       "NormalControllerIntegration":  "Source implemented and mocked regression passed; protected refresh and ordinary controller VM run pending",
+                       "ExplorerBehavior":  "Pending",
+                       "LoggedOutInstallation":  "Not supported by this interactive route",
+                       "HistoricalVersionRecovery":  "Compensating recovery of declared installer; arbitrary previous versions not guaranteed"
+                   },
+    "Migration":  {
+                      "NewExclusions":  0,
+                      "Resolved":  0,
+                      "RoundedTotal":  "125-180; about 155",
+                      "Settings":  "37-57",
+                      "Partial":  "Remote interactive RIDE lifecycle verified; normal controller integration and feature acceptance remain",
+                      "ExactTotal":  "126-180",
+                      "FilesAndAssets":  "25-35",
+                      "Components":  "19-24",
+                      "Maintenance":  "8-12",
+                      "Packages":  "37-52",
+                      "Retired":  0
+                  }
+}

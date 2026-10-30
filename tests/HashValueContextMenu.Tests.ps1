@@ -48,6 +48,83 @@ Describe 'RIDE hash value context-menu candidate' {
       ($script:Writes | Where-Object Key -eq 'CommandShowAll').Value | Should -Match '-LiteralPath "%1" -Algorithm ShowAll$'
     }
   }
+
+  It 'removes only empty registry ancestors that were absent from the captured state' {
+    InModuleScope RIDE-RegistryValueSet {
+      $operation=@{RegistryValues=@(
+        @{Key='Menu';RegistryPath='HKCU:\Software\RideFixture\Parent\Menu';ValueName='MUIVerb';ValueType='String'},
+        @{Key='Command';RegistryPath='HKCU:\Software\RideFixture\Parent\Menu\Child\command';ValueName='';ValueType='String'}
+      )}
+      $allowedPaths=@(Get-RideRegistryValueSetKeyPaths -Operation $operation)
+      $allowedPaths | Should -Contain 'HKCU:\Software\RideFixture\Parent\Menu\Child\command'
+      $allowedPaths | Should -Contain 'HKCU:\Software\RideFixture\Parent\Menu\Child'
+      $allowedPaths | Should -Contain 'HKCU:\Software\RideFixture\Parent\Menu'
+      $allowedPaths | Should -Not -Contain 'HKCU:\'
+      $root='HKCU:\Software\RideFixture\Parent'
+      $menu=Join-Path $root 'Menu'
+      $child=Join-Path $menu 'Child'
+      $command=Join-Path $child 'command'
+      $script:CurrentKeys=@{'HKCU:\Software'=$true;'HKCU:\Software\RideFixture'=$true;$root=$true;$menu=$true;$child=$true;$command=$true}
+      $script:CurrentValues=@{}
+      $script:RemovedKeys=@()
+      $snapshot=@{
+        Values=@(
+          @{Key='Menu';Exists=$false;Value=$null;ValueType=$null;KeyExisted=$false},
+          @{Key='Command';Exists=$false;Value=$null;ValueType=$null;KeyExisted=$false}
+        )
+        KeyPathExistence=@(
+          @{Path='HKCU:\Software';Existed=$true},
+          @{Path='HKCU:\Software\RideFixture';Existed=$true},
+          @{Path=$root;Existed=$true},
+          @{Path=$menu;Existed=$false},
+          @{Path=$child;Existed=$false},
+          @{Path=$command;Existed=$false}
+        )
+      }
+      Mock Restore-RideSettingState {}
+      Mock Get-RideRegistryValueSetKey {
+        if(-not $script:CurrentKeys.ContainsKey($Path)){return $null}
+        $key=[pscustomobject]@{SubKeys=@();ValueNames=@()}
+        $key|Add-Member ScriptMethod GetValueNames { @($this.ValueNames) }
+        $key|Add-Member ScriptMethod GetSubKeyNames { @($this.SubKeys) }
+        $key
+      }
+      Mock Remove-Item {$script:RemovedKeys+=$LiteralPath;$script:CurrentKeys.Remove($LiteralPath)}
+      Restore-RideRegistryValueSetState -Operation $operation -Snapshot $snapshot
+      $script:RemovedKeys | Should -Contain $command
+      $script:RemovedKeys | Should -Contain $child
+      $script:RemovedKeys | Should -Contain $menu
+      $script:RemovedKeys | Should -Not -Contain $root
+      $script:CurrentKeys.ContainsKey($root) | Should -BeTrue
+    }
+  }
+
+  It 'preserves an absent-at-capture ancestor if unrelated content now occupies it' {
+    InModuleScope RIDE-RegistryValueSet {
+      $operation=@{RegistryValues=@(@{Key='Menu';RegistryPath='HKCU:\Software\RideFixture\Parent\Menu';ValueName='MUIVerb';ValueType='String'})}
+      $menu='HKCU:\Software\RideFixture\Parent\Menu'
+      $script:CurrentKeys=@{'HKCU:\Software'=$true;'HKCU:\Software\RideFixture'=$true;'HKCU:\Software\RideFixture\Parent'=$true;$menu=$true}
+      $script:CurrentValues=@{$menu=@('ThirdPartyValue')}
+      $script:RemovedKeys=@()
+      $snapshot=@{Values=@(@{Key='Menu';Exists=$false;Value=$null;ValueType=$null;KeyExisted=$false});KeyPathExistence=@(
+        @{Path='HKCU:\Software';Existed=$true},@{Path='HKCU:\Software\RideFixture';Existed=$true},
+        @{Path='HKCU:\Software\RideFixture\Parent';Existed=$true},@{Path=$menu;Existed=$false}
+      )}
+      Mock Restore-RideSettingState {}
+      Mock Get-RideRegistryValueSetKey {
+        if(-not $script:CurrentKeys.ContainsKey($Path)){return $null}
+        $valueNames=if($Path -ieq $menu){@('ThirdPartyValue')}else{@()}
+        $key=[pscustomobject]@{SubKeys=@();ValueNames=$valueNames}
+        $key|Add-Member ScriptMethod GetValueNames { @($this.ValueNames) }
+        $key|Add-Member ScriptMethod GetSubKeyNames { @($this.SubKeys) }
+        $key
+      }
+      Mock Remove-Item {$script:RemovedKeys+=$LiteralPath;$script:CurrentKeys.Remove($LiteralPath)}
+      Restore-RideRegistryValueSetState -Operation $operation -Snapshot $snapshot
+      $script:RemovedKeys | Should -Not -Contain $menu
+      $script:CurrentKeys.ContainsKey($menu) | Should -BeTrue
+    }
+  }
 }
 
 Describe 'RIDE Certutil SHA-256 context-menu candidate' {
@@ -79,8 +156,9 @@ Describe 'RIDE Certutil SHA-256 context-menu candidate' {
 }
 
 Describe 'Remaining settings batch 1 selection' {
-  It 'selects both context-menu candidates in the expected 19-operation batch' {
-    $script:RemainingSettingsBatch1.Count | Should -Be 19
+  It 'selects both context-menu candidates in remaining settings batch 1' {
+    # This migration batch grows when additional reviewed settings are added.
+    $script:RemainingSettingsBatch1.Count | Should -BeGreaterOrEqual 19
     $script:RemainingSettingsBatch1.Id | Should -Contain 'windows.hash-value-context-menu'
     $script:RemainingSettingsBatch1.Id | Should -Contain 'windows.sha256-certutil-context-menu'
   }

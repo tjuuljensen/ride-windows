@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:55:01Z",
+  "batch": "OpenSSH Client and Telnet DISM source-order documentation review",
+  "sources": [
+    {
+      "uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/dism-capabilities-package-servicing-command-line-options",
+      "finding": "DISM checks explicit Source locations first, Group Policy-configured locations after an explicit source miss, and Windows Update only when LimitAccess is not specified."
+    },
+    {
+      "uri": "https://learn.microsoft.com/en-us/powershell/module/dism/add-windowscapability?view=windowsserver2025-ps",
+      "finding": "Add-WindowsCapability documents Source, LimitAccess, and policy-configured source behavior."
+    },
+    {
+      "uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11",
+      "finding": "OpenSSH Client is non-satellite and has an OpenSSH-Client-Package CAB on matching Windows 11 Languages and Optional Features media."
+    }
+  ],
+  "changes": [
+    "Clarified in docs/windows-component-inventory.md that NotInspected refers to the target computer effective policy, while the documented DISM fallback order is known.",
+    "Clarified that LimitAccess blocks Windows Update/WSUS lookup but does not disable Group Policy-configured source fallback.",
+    "No candidate code or catalog registration changed."
+  ],
+  "limits": {
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "localMediaOrDependenciesInspected": false,
+    "vmInspected": false,
+    "nativeDismExecuted": false,
+    "effectiveTargetPolicyRead": false,
+    "elevationRequested": false
+  },
+  "disposition": "Keep OpenSSH Client and Telnet source-only candidates unregistered and unsupported. The OpenSSH LocalSource outline cannot claim network isolation; actual target policy, media completeness, dependency coverage, exact recovery and native acceptance remain open.",
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "packages": "38-53",
+      "roundedTotal": "125-180/about 155",
+      "settings": "37-57",
+      "exactTotal": "127-181",
+      "adjustment": "No component outcome closed; ranges unchanged.",
+      "components": "19-24"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T20:11:53Z",
+  "RunId": "e0b7da88f3854430a5a98a1b53ccac88",
+  "Controller": "RIDESrv2025Test",
+  "Target": "RIDE-S25-Test",
+  "Suite": "ApplicationsBatch8",
+  "Status": "Failed",
+  "Guest": {
+    "OS": "Windows Server 2025 Standard Evaluation",
+    "Build": "26100",
+    "PowerShell": "5.1.26100.33438"
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 353,
+    "Passed": 352,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "Scenarios": {
+    "Expected": 4,
+    "Checks": "Publisher checksums parsed, MSI payloads were downloaded and installers were invoked.",
+    "Failure": "All four installer invocations completed, but RIDE did not detect the packages afterward.",
+    "Packages": [
+      "microsoft-openjdk-25",
+      "microsoft-openjdk-21",
+      "microsoft-openjdk-17",
+      "microsoft-openjdk-11"
+    ]
+  },
+  "Controller": {
+    "CleanupError": null,
+    "CollectionError": null,
+    "BlockedMarkerPresent": false
+  },
+  "Disposition": "The candidate target was exercised and checksum acquisition succeeded, but post-install presence detection failed for all four MSIs. The checkpoint recovery completed without a reported cleanup error. No support was promoted and no legacy outcome closed.",
+  "Estimate": {
+    "LegacyOutcomesClosed": 0
+  }
+}

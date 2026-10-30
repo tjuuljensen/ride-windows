@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T23:19:13Z",
+  "batch": "Repository static catalog, profile, parser and generated-documentation validation after current migration batches",
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "executionPolicy": "Bypass; process only"
+  },
+  "command": "powershell.exe -ExecutionPolicy Bypass -NoLogo -NoProfile -File .\\tools\\validate.ps1 -Root .",
+  "result": {
+    "passed": true,
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 301,
+    "generatedOperationDocumentation": "Current"
+  },
+  "sideEffects": {
+    "handlersInvoked": false,
+    "installersInvoked": false,
+    "vmOrCheckpointAccessed": false,
+    "windowsStateChanged": false,
+    "defenderStateQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180; about 155"
+    }
+  }
+}

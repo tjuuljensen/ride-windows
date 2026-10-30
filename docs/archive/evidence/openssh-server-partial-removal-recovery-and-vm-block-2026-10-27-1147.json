@@ -1,0 +1,92 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "OpenSshServerPartialRemovalRecoveryRegression",
+  "RecordedAtUtc": "2026-10-27T11:47:13Z",
+  "Repository": "RIDE-Windows",
+  "Changes": [
+    "Added a saved-run retry path for capability removal that already removed OpenSSH Server but failed while deleting its newly created, disabled TCP/22 rule.",
+    "The retry requires the completed removable install snapshot, matching target, absent capability and service, unchanged pre-install server data, and the exact saved disabled local firewall rule; it removes only that owned rule and verifies the captured absent state before writing the removal marker.",
+    "Added a refusal test proving that an operator-reenabled remaining TCP/22 rule is preserved and prevents partial-removal cleanup.",
+    "Factored durable removal-marker creation for the normal and recovered-removal paths."
+  ],
+  "Validation": {
+    "FocusedPowerShell7": {
+      "Pester": "5.7.1",
+      "Path": "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistryEnabled": false,
+      "TestResultEnabled": false,
+      "Scratch": ".local/pester-openssh-capability-recovery-20261027"
+    },
+    "FocusedWindowsPowerShell51": {
+      "Edition": "Windows PowerShell 5.1.26100.9711",
+      "Pester": "5.7.1",
+      "Path": "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "ExecutionPolicy": "Process-only Bypass",
+      "TestRegistryEnabled": false,
+      "TestResultEnabled": false,
+      "Scratch": ".local/pester-openssh-capability-recovery-20261027-winps51"
+    },
+    "CombinedPowerShell7": {
+      "Pester": "5.7.1",
+      "Paths": [
+        "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+        "tests/OpenSshServerObservation.Tests.ps1",
+        "tests/OpenSshServerLifecycle.Tests.ps1"
+      ],
+      "Passed": 34,
+      "Failed": 0,
+      "Skipped": 0,
+      "TestRegistryEnabled": false,
+      "TestResultEnabled": false,
+      "Scratch": ".local/pester-openssh-component-regression-20261027"
+    },
+    "RepositoryValidation": {
+      "Result": "passed",
+      "Operations": 432,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 296,
+      "GeneratedOperationDocumentationCurrent": true
+    },
+    "DiffCheck": "passed"
+  },
+  "VMAccess": {
+    "Target": "RIDE-Win11-Test",
+    "Query": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "Result": "failed before inspection: Access to a CIM resource was not available to the client.",
+    "AcceptanceDispatch": "not attempted",
+    "StateChange": "none; no VM/checkpoint, Windows capability, service, firewall, Defender, host service, or elevation state changed"
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "Candidates": ["Windows 11", "Windows Server 2025"],
+    "Deferred": [
+      "Native capability install/remove and owned partial-removal recovery on disposable Windows targets.",
+      "Native service, firewall, host-key/configuration preservation and target-specific behavior."
+    ],
+    "Blocker": "Current host CIM access prevents VM inspection and acceptance dispatch."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["OpenSSH Server capability candidate now has a guarded saved-run retry for a specific partial-removal state."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "Implementation and local regression progress close no legacy product/component outcome; all ranges remain unchanged.",
+    "SysinternalsDisposition": "Prior RIDE v2 license-specialist approval governs RIDE's direct download-and-install workflow; no license migration gate. Defender-blocked tools remain separate exclusions."
+  }
+}

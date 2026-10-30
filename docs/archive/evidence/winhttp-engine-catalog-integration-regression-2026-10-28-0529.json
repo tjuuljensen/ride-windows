@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:29:21Z",
+  "batch": "WinHTTP machine automatic-detection catalog and engine integration",
+  "implementation": [
+    "Registered windows.winhttp-automatic-proxy-detection as a machine-scope, elevation-requiring, Windows 11 candidate with no supported targets and explicit Enabled/Disabled values.",
+    "Added catalog invariants for the handler, scope, states, Microsoft documentation, and pending-acceptance boundary; profiles cannot select the pending candidate.",
+    "Connected read-only status, comparison, saved-run preparation, guarded lifecycle dispatch, and conflict-checked restore to the existing WinHTTP modules.",
+    "Regenerated docs/OPERATIONS.md and added focused engine/catalog coverage."
+  ],
+  "tests": {
+    "focusedCatalogPester": {
+      "shell": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "selected": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "optionalTestRegistry": false,
+      "optionalTestResult": false
+    },
+    "broaderCatalogPesterAttempt": {
+      "discovered": 96,
+      "completedResultsAvailable": false,
+      "observedFailures": [
+        "The pre-adjustment setting presentation count expected 292; the new WinHTTP setting increases the actual count to 293. The assertion was updated and the focused presentation test passed afterward.",
+        "Two Save-RidePackageArtifact fixture tests were denied filesystem access before assertions completed. No publisher payload was requested."
+      ],
+      "note": "The broad run was not repeated after fixing the count assertion; the two fixture access denials remain unverified."
+    }
+  },
+  "safety": {
+    "nativeWinHttpCommandInvoked": false,
+    "liveProxyStateQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderBlockedPayloadSelectedOrStaged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "persistentExecutionPolicyChanged": false
+  },
+  "acceptance": {
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "blockers": [
+      "Host build 26300 does not provide the candidate netsh winhttp show advproxy command.",
+      "RIDE-Win11-Test remains inaccessible before VM/checkpoint inspection because host CIM access is denied.",
+      "Native command capture/set/restore, effective policy and consumer behavior remain unverified.",
+      "The candidate only supports machine-scope configuration; a reported user-scope observation is refused."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "No legacy product or setting outcome was closed; estimates remain unchanged."
+    }
+  }
+}

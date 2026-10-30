@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T21:30:02Z",
+  "batch": "JoeWare AdMod current publisher source recheck",
+  "scope": {
+    "product": "AdMod",
+    "frozenJoeWareCollectionMembers": 41,
+    "adFind": "Remains excluded from acquisition and acceptance under the separate Defender-blocked-tools instruction. No AdFind artifact was requested or inspected."
+  },
+  "sources": [
+    {
+      "uri": "https://joeware.net/freetools/tools/admod/index.htm",
+      "observed": [
+        "The publisher's Current Version section identifies AdMod 1.29.00 dated June 8, 2026.",
+        "The publisher describes AdMod as a command-line Active Directory modification tool and lists Windows 7 / Server 2008 R2 or newer against AD, ADAM/ADLDS and other LDAP directories. This publisher statement is not RIDE target-support evidence.",
+        "The page documents fixes involving recursive tree deletion, DNS-record updates and password setting, and states that directory permissions govern modification access."
+      ]
+    },
+    {
+      "uri": "https://www.joeware.net/freetools/versions.txt",
+      "observed": [
+        "The AdMod row independently lists 1.29.00 dated 2026.06.08 with publisher MD5/SHA-1 values.",
+        "The file header says Updated: 2023.05.06; it is not a per-row update date and does not override the 2026 AdMod row."
+      ]
+    },
+    {
+      "uri": "https://joeware.net/freetools/tools/admod/usage.htm",
+      "observed": [
+        "The publisher documents add, modify, clear, rename, move, delete, undelete, password and security-descriptor operations.",
+        "The publisher warns that directory-modifying tools can be dangerous, recommends test-lab use, and documents a default object-count safety threshold that can be removed with -unsafe."
+      ]
+    }
+  ],
+  "acquisition": {
+    "downloadFormSubmitted": false,
+    "archiveBytesAcquired": false,
+    "localSha256Verified": false,
+    "memberInventoryVerified": false,
+    "note": "No network acquisition retry was made; the existing local publisher-DNS blocker remains the relevant transfer evidence."
+  },
+  "safetyAndAcceptance": {
+    "payloadExtractedOrExecuted": false,
+    "directoryEndpointContacted": false,
+    "windowsOrDefenderStateChanged": false,
+    "vmUsed": false,
+    "licenseGate": false,
+    "licenseAdministration": "If an exact AdMod catalog identity is later admitted, record the publisher's commercial-packager note as informational owner review; it does not block migration or install planning.",
+    "functionalAcceptance": "Only synthetic objects in a disposable AD/AD LDS lab; no real directory or destructive/recursive operation."
+  },
+  "migrationDisposition": {
+    "resolved": ["Current publisher version and product-purpose metadata reconfirmed."],
+    "partial": ["JoeWare collection source mapping; exact payloads and lifecycle remain unverified."],
+    "deferred": [
+      "AdMod exact ZIP bytes, SHA-256, member inventory and catalog-backed package lifecycle/recovery.",
+      "Synthetic directory-operation behavior in an isolated disposable AD/AD LDS lab.",
+      "AdFind acquisition and acceptance while its Defender block remains active."
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; current source metadata reconfirmation does not establish a payload, lifecycle or legacy-outcome closure."
+    }
+  }
+}

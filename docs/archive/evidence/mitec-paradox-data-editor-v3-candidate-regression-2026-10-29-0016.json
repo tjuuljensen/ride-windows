@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-29T00:16:08Z",
+  "batch": "MiTeC Paradox Data Editor package candidate and scope reconciliation",
+  "scopeDecision": {
+    "currentDecision": "The user's 2026-10-27 decision selects the full MiTeC publisher collection unless a product is end-of-life or a reproducible material source/product error makes migration unsuitable.",
+    "supersedes": "The earlier 2026-10-22 drop of Paradox Data Editor from v3 candidate scope.",
+    "installationBoundary": "This candidate retrieves and invokes the publisher installer. It does not mirror or redistribute the installer, and it is not selected by a default profile."
+  },
+  "publisher": {
+    "currentAppsPage": "https://www.mitec.cz/wp/apps/",
+    "productPage": "https://www.mitec.cz/wp/mpde/",
+    "historicalProductPage": "https://www.mitec.cz/pde.html",
+    "termsPage": "https://www.mitec.cz/wp/support/",
+    "downloadUri": "https://www.mitec.cz/wp/files/PDESetup.exe",
+    "version": "3.7.0",
+    "releaseDate": "2023-08-09",
+    "claimedTargets": ["Windows XP-11", "Windows Server 2003-2025"],
+    "behavior": "Paradox table viewer/editor using BDE, with password-protection removal, repair, conversion, import, export and BLOB viewing.",
+    "currentPageLicenseText": "Lifetime single-user license, EUR 30.",
+    "historicalPageLicenseText": "Free for private, educational and non-commercial purposes; purchase required for other use."
+  },
+  "retainedArtifact": {
+    "path": ".local/remaining-collections-20261017/PDESetup.exe",
+    "length": 6706624,
+    "sha256": "cc2fce64612324bd8f0318ec848da78bd5e9aca2a46ed269db343d635c89f045",
+    "digestSource": "Locally rehashed retained publisher artifact; matches the 2026-10-21 frozen static extraction evidence.",
+    "currentDownloadBytesReacquired": false,
+    "installerExecuted": false
+  },
+  "staticPayload": [
+    { "path": "app/PDE.exe", "version": "3.7.0.0", "architecture": "x86" },
+    { "path": "app/TUTIL32.DLL", "version": "5.0.0.38", "architecture": "x86" },
+    { "path": "tmp/BdeInst.dll", "version": "5.1.1.1", "architecture": "x86" },
+    { "path": "tmp/MiniReg.exe", "architecture": "x86" }
+  ],
+  "candidate": {
+    "catalogId": "package.mitec-paradox-data-editor",
+    "packageVersion": "3.7.0",
+    "installerType": "Exe",
+    "supportedTargets": [],
+    "candidateTargets": ["Windows 11", "Windows Server 2025"],
+    "pendingAcceptance": true,
+    "licenseReview": {
+      "status": "NeedsReview",
+      "owner": "Unassigned",
+      "migrationGate": false,
+      "store": ".local/license-reviews.json",
+      "backup": ".local/license-reviews-before-paradox-20261029.json",
+      "reviewCountAfterUpdate": 93
+    },
+    "generatorRun": "tools/Export-RideCatalog.ps1",
+    "repositoryValidation": "Passed: 450 operations, 8 groups, 5 profiles and 304 PowerShell files.",
+    "testSourceParser": "Passed.",
+    "directSourceAssertions": "Passed: catalog identity, package version, retained evidence digest, local artifact digest and pending target state.",
+    "pesterSuite": "Not run: the available Pester module is 3.4.0; the test is authored for Pester 5 and the attempted Pester 5 invocation could not be executed.",
+    "nativeAcceptance": "Deferred: no VM state was queried or changed during this batch."
+  },
+  "acceptanceGates": [
+    "Reacquire and verify current direct-download bytes.",
+    "Use disposable Windows 11 and Windows Server 2025 VMs to verify exact install, repeat, uninstall, saved-state recovery and non-owned data preservation.",
+    "Verify installer and uninstaller silent behavior, display-name matching, BDE registration/coexistence and exact recovery before target promotion.",
+    "Use synthetic Paradox data only; never open or modify a real user database."
+  ],
+  "sideEffects": {
+    "installerOrProductExecuted": false,
+    "bdeRegisteredOrRun": false,
+    "databaseOpenedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false,
+    "migrationEstimatesChanged": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "This is an individually selectable source-ready candidate; native install/removal/recovery and target acceptance remain open, so no whole legacy product outcome closes."
+  }
+}

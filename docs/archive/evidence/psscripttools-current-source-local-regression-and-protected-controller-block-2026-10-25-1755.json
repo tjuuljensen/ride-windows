@@ -1,0 +1,60 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T17:55:00Z",
+  "Scope": "PSScriptTools local package regression and Windows 11 acceptance blocker",
+  "LocalRegression": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Suites": [
+      "tests/PortableAcceptanceAutomation.Tests.ps1",
+      "tests/PSScriptToolsPackage.Tests.ps1"
+    ],
+    "Passed": 46,
+    "Failed": 0,
+    "Skipped": 0,
+    "FullMemberLifecycle": {
+      "PackageFiles": 360,
+      "DurationSeconds": 742.95,
+      "Result": "Passed"
+    },
+    "TestRegistryEnabled": false,
+    "TemporaryDataRoot": ".local (removed after run)",
+    "ScopeLimit": "Current-source local file lifecycle and recovery regression only; no upstream modules or utilities were imported or executed."
+  },
+  "WindowsAcceptance": {
+    "Target": "RIDE-Win11-Test",
+    "PriorRequestId": "ae3b91501efc46b4bdd9ee39a5e323b0",
+    "PriorRequestAtUtc": "2026-10-25T08:46:21Z",
+    "Result": "Failed before guest staging",
+    "ControllerError": "Unreviewed acceptance metadata: package.psscripttools / portable",
+    "ProtectedModuleSha256": "C71345A166E1BED9122B92D38121C93106ADBB5A6A353415586B4CF2C509A425",
+    "CurrentSourceModuleSha256": "D5BAE840071D98E6668B84B5468ED1E22B0D609949E09F756BDB159C12CEDF05",
+    "Notes": [
+      "Controller configuration advertises FocusedPortableV1, but its protected acceptance module predates current prerequisite metadata validation.",
+      "The VM and checkpoint were not inspected by the failed request; no guest summary or result files were produced.",
+      "Latest read-only Get-VM checks for RIDE-Win11-Test and RIDE-Srv2025Test failed at CIM before inspection.",
+      "No request was resubmitted because refreshing the protected controller requires a later elevated session, which is saved for later."
+    ],
+    "CurrentRequestQueues": "Pending and running queues were empty at the read-only check."
+  },
+  "SecurityAndLicenseDisposition": {
+    "DefenderBlockedItems": "Previously reported Defender-blocked tools remain excluded from acceptance selections.",
+    "SysinternalsLicense": "No licensing gate: direct Microsoft download-and-install workflow is covered by prior RIDE v2 license-specialist approval and the user reaffirmed clearance. This does not override any separate Defender exclusion."
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": [],
+    "EstimatesChanged": false,
+    "RemainingRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    },
+    "Deferred": [
+      "PSScriptTools Windows 11 package lifecycle and isolated runtime acceptance after protected controller refresh and VM access restoration."
+    ]
+  }
+}

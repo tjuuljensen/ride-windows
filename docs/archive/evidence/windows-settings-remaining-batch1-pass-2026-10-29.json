@@ -1,0 +1,141 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T07:25:40.7195274Z",
+  "RunId": "eb595b6052644422a19c45f8cf02d4ab",
+  "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\eb595b6052644422a19c45f8cf02d4ab",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "eb595b6052644422a19c45f8cf02d4ab",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "SettingsRemainingBatch1",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-29T06:09:58.0477574Z",
+    "FinishedAtUtc": "2026-10-29T06:34:03.2415389Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "GuestSummary": {
+    "SchemaVersion": 1,
+    "RunId": "eb595b6052644422a19c45f8cf02d4ab",
+    "Status": "Passed",
+    "ValidationPassed": true,
+    "IntegrationPassed": true,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 398,
+      "Passed": 398
+    },
+    "Error": null,
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression",
+    "IntegrationSuite": "SettingsRemainingBatch1"
+  },
+  "Native": {
+    "Summary": "Remaining-settings batch 1 finished: 23 passed; 64 named states; 5 unavailable operations; 0 unavailable variants; 0 failed. Feature/UI/restart acceptance remains separate.",
+    "UnavailableOperationIds": [
+      "windows.task-compatibility-appraiser",
+      "windows.task-program-data-updater",
+      "application.office-task-click-to-run-monitor",
+      "application.office-task-telemetry-fallback-2016",
+      "application.office-task-telemetry-logon-2016"
+    ],
+    "UnavailableVariants": 0,
+    "Failed": 0,
+    "NamedStates": 64,
+    "PassedOperationIds": [
+      "windows.diagnostic-data-policy",
+      "windows.feedback-notifications-policy",
+      "windows.sha256-certutil-context-menu",
+      "windows.hash-value-context-menu",
+      "windows.task-autochk-proxy",
+      "windows.task-ceip-consolidator",
+      "windows.task-usb-ceip",
+      "windows.task-disk-diagnostic-collector",
+      "windows.task-feedback-client",
+      "windows.task-feedback-scenario",
+      "windows.task-error-report-queue",
+      "windows.task-drive-optimization",
+      "windows.application-impact-telemetry",
+      "windows.application-inventory-policy",
+      "windows.start-most-used-policy",
+      "windows.secure-attention-logon",
+      "windows.bitlocker-encryption-method-os",
+      "windows.bitlocker-encryption-method-fixed-data",
+      "windows.bitlocker-encryption-method-removable-data",
+      "windows.click-to-do-policy",
+      "windows.storage-sense-global-policy",
+      "windows.bitlocker-wizard-shortcut",
+      "windows.power-options-shortcut"
+    ]
+  },
+  "SourceEvidence": [
+    {
+      "Path": "result.json",
+      "SHA256": "BFF55522488263D54A944CF9412B67920AA8A3F19B299E0A564E263CB6A3067A"
+    },
+    {
+      "Path": "guest/summary.json",
+      "SHA256": "B30EEABE98072F0E53A50D24944D45AF6A9B4122D09898E0D60DB86313369130"
+    },
+    {
+      "Path": "guest/pester.xml",
+      "SHA256": "64F0CBC0069B24381789C470BF8A2A71BAAFEACA032DEE8676A855AD1917BBFF"
+    },
+    {
+      "Path": "guest/transcript.log",
+      "SHA256": "44036D87031B354B1DCEC2BF264F62358BEC60332FF1656E844F9F71C35C1C37"
+    },
+    {
+      "Path": "source-files.json",
+      "SHA256": "5C414FDD33F9E93E97FF3CD39C395E64100F125F1D3685AF5D8E5BB18419D2AF"
+    }
+  ],
+  "PostRun": {
+    "Pending": 0,
+    "VMAndTaskState": "Elevated operator output confirms VM Off / Operating normally and controller task Ready after this run.",
+    "RecoveryBlockPresent": false,
+    "Running": 0
+  },
+  "Scope": {
+    "NotAccepted": "Five unavailable operations; feature/UI/restart outcomes; real BitLocker encryption; Click to Do and Storage Sense effective behavior; shortcut target launch; Windows Server; full controller certification.",
+    "PublishedSupportChanged": false,
+    "Next": "Verify VM Off/task Ready, then request SettingsRemainingBatch2 without UnitOnly.",
+    "Accepted": "Native preview, named-state apply, idempotence, restore preview and exact captured-state recovery for the 23 listed operations on this Windows 11 guest."
+  },
+  "Migration": {
+    "Reason": "Native operation counts are not legacy outcome counts; outstanding feature/fixture coverage prevents claiming whole legacy outcomes complete.",
+    "NewExclusions": 0,
+    "ResolvedLegacyOutcomes": 0,
+    "Packages": "37-52",
+    "Deferred": "Five unavailable operations need matching Windows/Office task fixtures; feature behavior and other batches remain open.",
+    "FilesAndAssets": "25-35",
+    "Components": "19-24",
+    "RoundedTotal": "125-180; about 155",
+    "Settings": "37-57",
+    "Partial": "23 native setting lifecycles verified; user-visible behavior remains separate.",
+    "RetiredLegacyOutcomes": 0,
+    "Maintenance": "8-12",
+    "ExactTotal": "126-180"
+  }
+}

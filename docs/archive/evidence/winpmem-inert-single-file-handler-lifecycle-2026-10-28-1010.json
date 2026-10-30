@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:10:55Z",
+  "batch": "WinPmem portable single-file handler lifecycle with inert fixture bytes",
+  "operation": "package.winpmem",
+  "method": "Direct calls to RIDE-PortablePackages.psm1 file-payload lifecycle functions in PowerShell 7.6.5, with a cloned operation whose install/tools roots were isolated under a unique .local scratch directory.",
+  "artifact": {
+    "name": "go-winpmem_amd64_1.0-rc2_signed.exe",
+    "source": "Synthetic inert text fixture, not the publisher binary",
+    "authenticodeInspection": "Skipped with the handler's explicit Offline switch",
+    "launched": false
+  },
+  "checks": {
+    "OriginalAbsenceSnapshot": "Passed",
+    "Install": "Passed",
+    "ExactOwnedSingleFileManifest": "Passed",
+    "RepeatInstall": "Passed",
+    "InstalledSnapshotCapture": "Passed",
+    "Uninstall": "Passed",
+    "InstalledSnapshotRestore": "Passed",
+    "SecondUninstall": "Passed",
+    "RestoreOriginalAbsence": "Passed",
+    "PreserveOperatorOwnedSentinel": "Passed",
+    "ScratchCleanup": "Passed"
+  },
+  "scopeLimits": {
+    "PesterRun": false,
+    "RIDEEngineRoute": false,
+    "PublisherBytesVerified": false,
+    "AuthenticodeVerified": false,
+    "ExecutableOrDriverRun": false,
+    "VmOrCheckpointQueried": false,
+    "WindowsOrDefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The actual portable file handler passes a single-file install, repeat, exact ownership, removal and saved-state recovery cycle using inert fixture bytes, including restore to prior absence and preservation of an unowned sentinel."
+    ],
+    "partial": [
+      "This validates handler behavior only; it does not validate the publisher binary, Authenticode, engine routing or a Windows guest."
+    ],
+    "deferred": [
+      "Acquire and locally verify the publisher binary; run the prepared WinPmem guest file-lifecycle batch after the registered controller refresh and VM access are available. Driver loading, cleanup, reboot and memory capture remain separate acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; synthetic handler lifecycle does not establish the exact package outcome or Windows acceptance."
+    }
+  }
+}

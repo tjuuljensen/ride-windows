@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T08:48:57Z",
+  "Scope": "Windows 11 PSScriptTools current-source acceptance request",
+  "Request": {
+    "RunId": "ae3b91501efc46b4bdd9ee39a5e323b0",
+    "IntegrationSuite": "PSScriptTools",
+    "Source": "Local",
+    "StartedAtUtc": "2026-10-25T08:46:21.1110636Z",
+    "FinishedAtUtc": "2026-10-25T08:47:43.8061796Z",
+    "Status": "Failed",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null
+  },
+  "ControllerError": "Unreviewed acceptance metadata: package.psscripttools / portable",
+  "ControllerEvidence": {
+    "InstalledPortableAcceptanceModuleSha256": "C71345A166E1BED9122B92D38121C93106ADBB5A6A353415586B4CF2C509A425",
+    "CurrentPortableAcceptanceModuleSha256": "9E438621D74CE62A3D5617543EA909ABE29862AEFDBE4BD665979CA2393BBD3F",
+    "CurrentSourceAcceptsThreadJobNupkgAndDeclaredPrerequisite": true,
+    "InstalledControllerConfigCapabilities": [
+      "GitHubPatGuestV1",
+      "FocusedPortableV1"
+    ],
+    "PSScriptToolsSuiteCapability": "FocusedPortableV1",
+    "InstalledConfigSatisfiesPSScriptToolsSuiteCapability": true,
+    "ApplicationsBatch1SplitCapabilityAlsoMissing": "ApplicationsBatch1SplitV1"
+  },
+  "GuestEvidence": {
+    "FocusedResultFiles": 0,
+    "GuestSummaryProduced": false,
+    "VmOrCheckpointInspected": false,
+    "VmStateConclusion": "Unknown"
+  },
+  "Interpretation": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Refresh the Windows 11 protected controller from current source",
+      "Rerun PSScriptTools prerequisite installation, removal/recovery and isolated runtime acceptance",
+      "All remaining Windows 11 and Server 2025 target-applicable suites"
+    ],
+    "MigrationEstimateChanged": false,
+    "NextAction": "Refresh both idle registered controllers in the existing elevated PowerShell session before resubmitting acceptance runs."
+  }
+}

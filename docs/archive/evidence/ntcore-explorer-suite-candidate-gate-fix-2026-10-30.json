@@ -1,0 +1,166 @@
+{
+    "SchemaVersion":  1,
+    "ReviewDate":  "2026-10-30",
+    "RunId":  "0e00f4de264540fe9449214b0f63ec82",
+    "Status":  "VM acceptance failed before installation; guest runner corrected; retry pending",
+    "Result":  {
+                   "SchemaVersion":  1,
+                   "RunId":  "0e00f4de264540fe9449214b0f63ec82",
+                   "Source":  "Local",
+                   "UnitOnly":  false,
+                   "IntegrationSuite":  "ApplicationsBatch12",
+                   "Status":  "Failed",
+                   "StartedAtUtc":  "2026-10-30T06:25:55.5688297Z",
+                   "FinishedAtUtc":  "2026-10-30T06:37:54.7593954Z",
+                   "Error":  "Test controller exited with code 1. See controller-errors.log.",
+                   "CleanupError":  null,
+                   "CollectionError":  null,
+                   "GuestGitHubAuthentication":  "Anonymous",
+                   "GitHubTestScenario":  "Acquire",
+                   "CredentialCleanupVerified":  null,
+                   "EvidenceExportError":  null
+               },
+    "Summary":  {
+                    "SchemaVersion":  1,
+                    "RunId":  "0e00f4de264540fe9449214b0f63ec82",
+                    "Status":  "Failed",
+                    "ValidationPassed":  true,
+                    "IntegrationPassed":  false,
+                    "Pester":  {
+                                   "Version":  "5.7.1",
+                                   "Failed":  0,
+                                   "Result":  "Passed",
+                                   "Total":  432,
+                                   "Passed":  428
+                               },
+                    "Error":  "Applications batch 12 has failed scenarios; see application evidence.",
+                    "StateCollectionError":  null,
+                    "Guest":  {
+                                  "SID":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                                  "Account":  "RIDE-WIN11-TEST\\admin",
+                                  "PowerShell":  "5.1.26100.9711",
+                                  "OS":  {
+                                             "Caption":  "Microsoft Windows 11 Enterprise Evaluation",
+                                             "Version":  "10.0.26300",
+                                             "BuildNumber":  "26300"
+                                         }
+                              },
+                    "GuestGitHubAuthentication":  "Anonymous",
+                    "GitHubTestScenario":  "Acquire",
+                    "CredentialCleanupVerified":  null,
+                    "PesterSelection":  "Application lifecycle, catalog, acquisition and controller regression"
+                },
+    "Application":  {
+                        "value":  [
+                                      {
+                                          "Id":  "package.ntcore-explorer-suite",
+                                          "Variant":  "installed",
+                                          "Target":  "Windows 11",
+                                          "OS":  "Microsoft Windows 11 Enterprise Evaluation",
+                                          "Build":  "26300",
+                                          "InstallationType":  "Client",
+                                          "Scope":  "Machine",
+                                          "Provider":  "DirectHttps",
+                                          "Applicability":  "Applicable to deployment lifecycle",
+                                          "Status":  "Failed",
+                                          "Version":  null,
+                                          "Error":  "\u0027package.ntcore-explorer-suite\u0027 does not support Windows 11. Supported: .",
+                                          "Recovery":  false,
+                                          "ProfilePreservation":  null,
+                                          "UserDataPreservation":  null,
+                                          "UserDataFixtures":  [
+
+                                                               ],
+                                          "RemovalRecoveryVersion":  null,
+                                          "Checks":  [
+
+                                                     ],
+                                          "RecoveryMode":  "Compensating presence recovery; previous-version recovery unavailable",
+                                          "ExecutionSid":  "S-1-5-21-3381495413-3650599264-2815280620-1000",
+                                          "Elevated":  true,
+                                          "LocalAppData":  "C:\\Users\\admin\\AppData\\Local"
+                                      }
+                                  ],
+                        "Count":  1
+                    },
+    "RootCause":  "Exact Batch 12 selection included Explorer Suite, but the guest-only candidate catalog preparation admitted only ApplicationsBatch* or OpenJDKCompatibility migration groups. Explorer Suite belongs to 2026-10-17-reviewed-collections, so the engine correctly refused its unpublished target support.",
+    "Correction":  "Runner 0.19.3 admits only the exact Explorer Suite candidate in Batch 12 on its declared target. Also includes Batch 12 in existing vendor remove/repeat/presence-recovery execution and check reporting. Production support metadata is unchanged.",
+    "LocalChecks":  [
+                        {
+                            "PowerShell":  "5.1.26100.9818",
+                            "Pester":  "5.7.1",
+                            "Result":  "Passed",
+                            "Total":  136,
+                            "Passed":  4,
+                            "Failed":  0,
+                            "Skipped":  0,
+                            "Failures":  [
+
+                                         ],
+                            "ContainerErrors":  [
+
+                                                ]
+                        },
+                        {
+                            "PowerShell":  "5.1.26100.9818",
+                            "Pester":  "5.7.1",
+                            "Result":  "Passed",
+                            "Total":  136,
+                            "Passed":  12,
+                            "Failed":  0,
+                            "Skipped":  0,
+                            "Failures":  [
+
+                                         ],
+                            "ContainerErrors":  [
+
+                                                ]
+                        }
+                    ],
+    "Validation":  "Passed: 451 operations, 8 groups, 5 profiles, 309 PowerShell files; generated documentation current",
+    "InstallerExecuted":  false,
+    "InstallerExecutionBasis":  "Application failed building its first installation plan; no lifecycle checks completed",
+    "Recovery":  "Controller result reports no cleanup, collection or evidence-export error. Live VM Off/task Ready must be checked by the operator before retry; not inferred from sandbox CIM.",
+    "Next":  "One ordinary Source Local ApplicationsBatch12 retry after Off/Ready preflight; no controller registration or separate UnitOnly run needed",
+    "Migration":  {
+                      "Components":  "19-24",
+                      "ExactTotal":  "126-180",
+                      "Retired":  0,
+                      "FilesAndAssets":  "25-35",
+                      "Resolved":  0,
+                      "Partial":  "Explorer Suite Windows 11 lifecycle still pending",
+                      "Packages":  "37-52",
+                      "NewExclusions":  0,
+                      "Rationale":  "Failed acceptance and local runner correction do not close a legacy product outcome; other deferred scope unchanged.",
+                      "RoundedTotal":  "125-180; about 155",
+                      "Maintenance":  "8-12",
+                      "Settings":  "37-57"
+                  },
+    "Files":  [
+                  {
+                      "Path":  "result.json",
+                      "Bytes":  622,
+                      "SHA256":  "7182553C061BEEB9E54C639242DC302349F31B5DF682B38ECA5700F5D0BC704F"
+                  },
+                  {
+                      "Path":  "controller-errors.log",
+                      "Bytes":  551,
+                      "SHA256":  "12A9738A6E963CA60AED18E046A2828579BE9B059190A1131DC9E82875ADFF7F"
+                  },
+                  {
+                      "Path":  "guest/summary.json",
+                      "Bytes":  1225,
+                      "SHA256":  "9BBDD35E80B58D7771AEBD520D7A5612DE464CC63895566C9A293EFDECE9D245"
+                  },
+                  {
+                      "Path":  "guest/applications-batch12.json",
+                      "Bytes":  759,
+                      "SHA256":  "DA163C835C17D632B28B692D2A9FD38F6D2F371895DD225C71691DBC92096DAF"
+                  },
+                  {
+                      "Path":  "guest/pester.xml",
+                      "Bytes":  155758,
+                      "SHA256":  "F108C0CD725197000B866B0AAA5EA39C4371A87300EAE4A6E0DD59465A88A280"
+                  }
+              ]
+}

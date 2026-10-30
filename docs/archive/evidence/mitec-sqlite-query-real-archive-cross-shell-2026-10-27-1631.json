@@ -1,0 +1,70 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "MiTeCSqliteQueryRealArchiveCrossShellLifecycle",
+  "RecordedAtUtc": "2026-10-27T16:31:14Z",
+  "Package": {
+    "Id": "package.mitec-sqlite-query",
+    "Version": "3.2.0",
+    "Archive": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "ArchiveLength": 3791645,
+    "ArchiveSha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "SelectedMembers": [
+      { "Path": "SQLiteQuery.exe", "Length": 2846168, "Sha256": "00bdc0c929a782563ecd3c3cf1d393405432bec9278ebbd7c19987b4d2ba0128" },
+      { "Path": "sqlite3.dll", "Length": 1071715, "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84" },
+      { "Path": "sqlite3.exe", "Length": 1064448, "Sha256": "01a6c2e43ecffadac3c3c7792c02604a87032d3a6d0f10bba8e7401b83ff3324" }
+    ],
+    "LicenseReview": { "Status": "NeedsReview", "Owner": "Unassigned", "MigrationGate": false }
+  },
+  "Validation": {
+    "Test": "tests/MiTeCSqliteQuery.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell7": { "Edition": "PowerShell 7.6.5", "Passed": 3, "Failed": 0, "Skipped": 0, "DurationSeconds": 18.79 },
+    "WindowsPowerShell51": { "Edition": "Windows PowerShell 5.1.26100.9711", "Passed": 3, "Failed": 0, "Skipped": 0, "DurationSeconds": 18.81 },
+    "OptionalPlugins": { "TestRegistry": false, "TestResult": false },
+    "ScratchRoots": [
+      ".local/pester-mitec-sqlite-retained-cross-shell-20261027",
+      ".local/pester-mitec-sqlite-retained-cross-shell-winps51-20261027"
+    ]
+  },
+  "Coverage": [
+    "Rechecked the retained archive pin",
+    "Repeated offline staging of the exact three-member package",
+    "Verified installed ownership, removal and saved-state recovery while preserving an operator note"
+  ],
+  "Boundaries": {
+    "UtilityLaunched": false,
+    "DatabaseOpenedOrModified": false,
+    "SqlExecuted": false,
+    "UserDataAccessed": false,
+    "PublisherNetworkAccess": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Deferred": [
+      "Windows 11 package lifecycle and activation",
+      "Synthetic disposable database read/write/export/history behavior",
+      "Bundled SQLite dependency provenance and upstream notice reconciliation"
+    ],
+    "Blocker": "Get-VM -Name RIDE-Win11-Test remains unavailable at CIM before VM/checkpoint inspection."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Pinned real archive lifecycle passes in both PowerShell editions; Windows and database behavior remain pending."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No complete legacy outcome closes before native and synthetic database acceptance; the cross-shell archive regression adds technical evidence only."
+  }
+}

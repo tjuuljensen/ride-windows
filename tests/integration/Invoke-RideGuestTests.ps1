@@ -6,7 +6,8 @@
   Internal guest entry point for Invoke-RideVmTest.ps1. Requires its VM-only
   environment marker, validates the staged checkout, runs Pester 5.7.1, and
   optionally runs the state-changing integration suite. Exports correlated
-  transcript, Pester results, summary and saved state when ResultsPath is supplied.
+  transcript, phase progress, Pester results, summary and saved state when
+  ResultsPath is supplied.
   A request-bound settings-validation.fixture.psd1 can explicitly select one
   setting instead of a named settings batch; Full/application suites refuse it.
 
@@ -18,10 +19,15 @@
 
 .PARAMETER IntegrationSuite
   ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests.
+  ApplicationsBatch1Machine and ApplicationsBatch1User split machine and limited-user packages.
   ApplicationsBatch4 selects the Slack and Discord current-user EXE lifecycle tests.
   ApplicationsBatch6 selects the twelve Artcraft machine-scope MSI applications.
   ApplicationsBatch7 selects the current-user ArtCraft Launcher MSI without launching it.
   ApplicationsBatch8 selects four side-by-side Microsoft OpenJDK packages on Server 2025.
+  ApplicationsBatch9 tests MiTeC InfoBar 4.6.2 install/remove/recovery on Windows 11 without launching the application.
+  ApplicationsBatch10 tests MiTeC Project Maker 1.9.0 install/remove/recovery on Windows 11 without launching the application.
+  ApplicationsBatch11 tests HashCheck 2.6.3 install/remove/recovery on Windows 11 without launching HashCheck.
+  ApplicationsBatch12 tests the pinned NTCore Explorer Suite installer lifecycle on Windows 11 without launching suite utilities.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
   Full (default) runs all integration scenarios. SettingsBatch40 runs only the
   forty-setting registry migration suite, without package downloads. SettingsBatch60 runs the sixty-setting suite.
@@ -60,8 +66,15 @@
   File/environment inputs: Staged checkout; RIDE_TEST_GUEST must be 1.
   Recovery: The host controller restores the clean disposable-VM checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.2.0
+  Version: 1.9.0
   Changelog:
+    1.9.0: Dispatch the exact-package NTCore Explorer Suite ApplicationsBatch12 lifecycle acceptance.
+    1.8.0: Dispatch focused HashCheck ApplicationsBatch11 lifecycle acceptance.
+    1.7.0: Dispatch MiTeC Project Maker ApplicationsBatch10 lifecycle acceptance.
+    1.6.0: Dispatch MiTeC InfoBar ApplicationsBatch9 lifecycle acceptance.
+    1.5.0: Persist phase start/completion markers so timeout evidence identifies the stalled guest stage.
+    1.4.0: Dispatch separate ApplicationsBatch1 machine- and limited-user acceptance suites.
+  1.3.0: Select focused catalog, lifecycle, registry value-set recovery, presentation and controller regressions for remaining-settings acceptance batches.
     1.2.0: Run package dependency planning regressions alongside each application acceptance batch.
     1.1.0: Add Server 2025 ApplicationsBatch8 and its pinned OpenJDK package checks.
     1.0.0: Select the ArtCraft Launcher ApplicationsBatch7 acceptance tests and runner.
@@ -89,7 +102,7 @@
 param(
   [string] $GuestPath,
   [switch] $Integration,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultsPath,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -97,7 +110,7 @@ param(
   [ValidatePattern('^[0-9a-f]{32}$')][string] $ResultRunId,
   [switch] $Version
 )
-$script:ScriptVersion = '1.0.0'
+$script:ScriptVersion = '1.9.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1') { throw 'Use the disposable-VM host runner; this entry point must not run on a developer workstation.' }
@@ -124,21 +137,51 @@ $summary.GuestGitHubAuthentication = $GuestGitHubAuthentication
 $summary.GitHubTestScenario = $GitHubTestScenario
 $summary.CredentialCleanupVerified = $null
 $transcribing = $false
+$progressPath = if ($ResultsPath) { Join-Path $ResultsPath 'progress.jsonl' } else { $null }
+function Write-RideGuestProgress {
+  param([Parameter(Mandatory)][string] $Phase, [Parameter(Mandatory)][ValidateSet('Started', 'Completed', 'Failed')][string] $State, [string] $Message)
+  if (-not $script:ProgressPath) { return }
+  $record = [ordered]@{
+    TimestampUtc = [datetime]::UtcNow.ToString('o')
+    Phase = $Phase
+    State = $State
+    Message = $Message
+  }
+  try {
+    Add-Content -LiteralPath $script:ProgressPath -Value ($record | ConvertTo-Json -Compress) -Encoding UTF8
+  }
+  catch {
+    Write-Warning ("Unable to persist guest progress for '{0}': {1}" -f $Phase, $_.Exception.Message)
+  }
+}
+$script:ProgressPath = $progressPath
+$activePhase = 'Guest initialization'
 try {
   if ($ResultsPath) {
     New-Item -ItemType Directory -Path $ResultsPath -Force | Out-Null
     Start-Transcript -LiteralPath (Join-Path $ResultsPath 'transcript.log') -Force | Out-Null
     $transcribing = $true
+    Write-RideGuestProgress -Phase $activePhase -State Started
     $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = [Security.Principal.WindowsPrincipal]::new($identity)
     if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Guest session is not elevated.' }
     $summary.Guest = @{ OS = (Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber); Account = $identity.Name; SID = $identity.User.Value; PowerShell = $PSVersionTable.PSVersion.ToString() }
+    Write-RideGuestProgress -Phase $activePhase -State Completed
   }
+  $activePhase = 'Pester import'
+  Write-RideGuestProgress -Phase $activePhase -State Started
   Import-Module Pester -RequiredVersion '5.7.1' -ErrorAction Stop
+  Write-RideGuestProgress -Phase $activePhase -State Completed
   $env:RIDE_TEST_EVIDENCE_PATH = $ResultsPath
   $env:RIDE_TEST_RUN_ID = $ResultRunId
+  $activePhase = 'Catalog export'
+  Write-RideGuestProgress -Phase $activePhase -State Started
   & .\tools\Export-RideCatalog.ps1
+  Write-RideGuestProgress -Phase $activePhase -State Completed
+  $activePhase = 'Repository validation'
+  Write-RideGuestProgress -Phase $activePhase -State Started
   & .\tools\validate.ps1
+  Write-RideGuestProgress -Phase $activePhase -State Completed
   $summary.ValidationPassed = $true
   $testPaths = if ($fixture) {
     $names = @('Catalog.Tests.ps1','SettingsFixtureData.Tests.ps1','CliShouldProcess.Tests.ps1')
@@ -154,12 +197,16 @@ try {
     @($names | ForEach-Object { Join-Path $GuestPath ('tests/'+$_) })
   } elseif ($IntegrationSuite -eq 'GitHubAuthentication') {
     @('.\tests\GitHubAuthentication.Tests.ps1', '.\tests\GitHubReleaseDiscovery.Tests.ps1', '.\tests\GitHubVmAuthentication.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\CliShouldProcess.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
+  } elseif ($IntegrationSuite -in @('SettingsRemainingBatch1', 'SettingsRemainingBatch2')) {
+    @('.\tests\Catalog.Tests.ps1', '.\tests\CliShouldProcess.Tests.ps1', '.\tests\HashValueContextMenu.Tests.ps1', '.\tests\RemainingSettings.Tests.ps1', '.\tests\SettingPresentation.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
   } elseif ($IntegrationSuite -like 'ApplicationsBatch*') {
     $selectedTests=@('.\tests\ApplicationPackages.Tests.ps1', '.\tests\ChatPackagePins.Tests.ps1', '.\tests\Catalog.Tests.ps1', '.\tests\PackageDependencyPlanning.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
     if($IntegrationSuite -in @('ApplicationsBatch6','ApplicationsBatch7')){$selectedTests+= '.\tests\ArtcraftPackages.Tests.ps1'}
     $selectedTests
   } else { @('.\tests') }
-  $summary['PesterSelection'] = if ($fixture) { 'Focused fixture contract, catalog, preview and selected handler regression' } elseif ($IntegrationSuite -like 'ApplicationsBatch*') { 'Application lifecycle, catalog, acquisition and controller regression' } else { 'Full repository regression' }
+  $summary['PesterSelection'] = if ($fixture) { 'Focused fixture contract, catalog, preview and selected handler regression' } elseif ($IntegrationSuite -in @('SettingsRemainingBatch1', 'SettingsRemainingBatch2')) { 'Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression' } elseif ($IntegrationSuite -like 'ApplicationsBatch*') { 'Application lifecycle, catalog, acquisition and controller regression' } else { 'Full repository regression' }
+  $activePhase = 'Pester'
+  Write-RideGuestProgress -Phase $activePhase -State Started -Message $summary.PesterSelection
   if ($ResultsPath) {
     $pesterConfiguration = New-PesterConfiguration
     $pesterConfiguration.Run.Path = $testPaths
@@ -177,7 +224,10 @@ try {
   $summary.Pester = @{ Total = $pesterResult.TotalCount; Passed = $pesterResult.PassedCount; Failed = $pesterResult.FailedCount; Result = [string]$pesterResult.Result; Version = '5.7.1' }
   if ($pesterResult.FailedCount -gt 0 -or ($ResultsPath -and ($pesterResult.Result -ne 'Passed' -or $pesterResult.TotalCount -lt 1))) { throw "Pester did not pass: $($pesterResult.FailedCount) failing test(s)." }
   Write-Output ("Pester passed: {0} test(s)." -f $pesterResult.PassedCount)
+  Write-RideGuestProgress -Phase $activePhase -State Completed -Message ("{0} tests passed." -f $pesterResult.PassedCount)
   if ($Integration) {
+    $activePhase = 'Windows integration'
+    Write-RideGuestProgress -Phase $activePhase -State Started -Message $IntegrationSuite
     $env:RIDE_INTEGRATION_VM = '1'
     if ($fixture) {
       $fixtureEvidence = Join-Path $ResultsPath 'settings-fixture.json'
@@ -196,6 +246,8 @@ try {
     elseif ($IntegrationSuite -eq 'SettingsRemainingBatch1') { & .\tests\integration\Invoke-RideRemainingSettings.ps1 -Batch 1 }
     elseif ($IntegrationSuite -eq 'SettingsRemainingBatch2') { & .\tests\integration\Invoke-RideRemainingSettings.ps1 -Batch 2 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch1') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 1 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch1Machine') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 1 -PackageScope Machine }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch1User') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 1 -PackageScope User }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch2') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 2 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch3') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 3 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch3AllUsers') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 3 -Variant all-users }
@@ -204,14 +256,23 @@ try {
     elseif ($IntegrationSuite -eq 'ApplicationsBatch6') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 6 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch7') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 7 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch8') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 8 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch9') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 9 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch10') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 10 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch11') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 11 }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch12') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 12 -PackageId package.ntcore-explorer-suite }
     else { & .\tests\integration\Invoke-RideVmSuite.ps1 }
     $summary['IntegrationSuite'] = $IntegrationSuite
     $summary.IntegrationPassed = $true
+    Write-RideGuestProgress -Phase $activePhase -State Completed -Message $IntegrationSuite
   }
   else { Write-Output 'VM integration suite skipped by -UnitOnly.' }
   $summary.Status = 'Passed'
 }
-catch { $summary.Error = $_.Exception.Message; throw }
+catch {
+  $summary.Error = $_.Exception.Message
+  Write-RideGuestProgress -Phase $activePhase -State Failed -Message $_.Exception.Message
+  throw
+}
 finally {
   if ($GuestGitHubAuthentication -eq 'PAT') {
     try {

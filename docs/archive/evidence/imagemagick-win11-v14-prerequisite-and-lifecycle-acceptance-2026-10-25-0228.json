@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "runId": "7211dd05d0284019b9c7ea7a1a7e3a32",
+  "suite": "ImageMagick",
+  "target": "Windows 11",
+  "build": "26300",
+  "status": "Passed",
+  "startedAtUtc": "2026-10-25T02:28:36Z",
+  "finishedAtUtc": "2026-10-25T02:38:07Z",
+  "expectedCases": 1,
+  "completedCases": 1,
+  "passedCases": 1,
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "payloadExecution": false,
+  "toolExecuted": true,
+  "prerequisiteAcceptance": "Passed",
+  "prerequisite": {
+    "installerUri": "https://aka.ms/vc14/vc_redist.x64.exe",
+    "installerSha256": "843068991daaa1f73ad9f6239bce4d0f6a07a51f18c37ea2a867e9beca71295c",
+    "installerSignerThumbprint": "1D77A9B9E8FE2075D9AD15123257FB90DB0DA4A1",
+    "installerExitCode": 0,
+    "runtimeFile": "System32/vcomp140.dll",
+    "runtimeFileVersion": "14.51.36247.0",
+    "runtimeSha256": "95d4ce4a6802d1e18b5e0e1722cc30ea72ca7e033f83828f05c0b7b993fe7cbf",
+    "runtimeSignerThumbprint": "2650247AC56048BC7928663C02733D25898A1D6E"
+  },
+  "imageMagick": {
+    "packageId": "package.imagemagick-portable-q16",
+    "version": "7.1.2-34",
+    "quantumDepth": "Q16",
+    "functionalAcceptance": "Passed",
+    "lifecycleRecovery": true,
+    "checks": ["whole-archive ownership", "license and notice presence", "publisher signature", "install preview/install/repeat", "synthetic PNG encode", "synthetic PNG identify", "remove/repeat/saved-run restore", "unowned and modified-file preservation", "collision refusal"],
+    "functionalEvidence": {
+      "syntheticFile": "synthetic-1x1.png",
+      "syntheticSha256": "b643fc84f349f9b4fa6c5ad3b90f788d67a0110e327d705173a56ed941a3361b",
+      "syntheticBytes": 295,
+      "identifyOutput": "PNG 1x1",
+      "createExitCode": 0,
+      "identifyExitCode": 0
+    }
+  },
+  "activationAcceptance": "Pending",
+  "vm": "RIDE-Win11-Test",
+  "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "sourceEvidence": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\7211dd05d0284019b9c7ea7a1a7e3a32\\focused\\evidence"
+}

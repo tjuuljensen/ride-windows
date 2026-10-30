@@ -1,0 +1,32 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T17:08:00Z",
+  "Batch": "HashCheck pending package catalog, license-plan and repository validation",
+  "Candidate": "package.hashcheck-shell-extension",
+  "Validation": {
+    "CatalogFocusedPester": {"Shell":"PowerShell 7.6.5","Passed":88,"Failed":0,"Skipped":0,"NotRun":1,"WindowsIntegrationExcluded":true},
+    "HashCheckCatalogCase": {"Passed":1,"Failed":0,"TotalSelected":1,"Checks":["pending acceptance", "no supported targets", "Windows 11 candidate", "machine/admin scope", "pinned version and SHA-256", "BSD-3-Clause references", "NSIS /S"]},
+    "LicenseReviewsWindowsPowerShell51": {"Shell":"Windows PowerShell 5.1.26100.9711","Pester":"5.7.1","Passed":24,"Failed":0,"Skipped":0},
+    "LicenseReviewsPowerShell7": {"Shell":"PowerShell 7.6.5","Pester":"5.7.1","Passed":23,"Failed":1,"Failure":"The local sandbox denied File.Replace in an existing license-review atomic-store fixture; failure occurred while replacing test JSON, unrelated to HashCheck metadata. The same suite passed in Windows PowerShell 5.1."},
+    "LicenseMarkerReadOnlyCheck": {"Status":"NeedsReview","Owner":"Unassigned","Version":"2.6.3","InstallPlan":"Available", "TargetSupport":"None"},
+    "CatalogValidation": {"Status":"Passed","Operations":424,"Groups":8,"Profiles":5,"PowerShellFiles":286},
+    "GeneratedOperationDocumentation": "Export-RideCatalog.ps1 -Check passed."
+  },
+  "VmAccess": {
+    "ObservedAtUtc": "2026-10-26T16:52:40Z",
+    "GetVM": "Denied before VM inspection at CIM.",
+    "GetScheduledTask": "Denied before task inspection at CIM.",
+    "RequestSubmitted": false
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Pending HashCheck catalog candidate, source digest and nonblocking license marker validated."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Exact installer/sidecar byte verification, Authenticode, install/remove/recovery, Explorer and intended-user sparse-package Windows 11 acceptance."],
+    "Partial": ["Optional candidate only; no legacy product outcome closes."],
+    "LegacyOutcomeClosed": false,
+    "RangesChanged": false,
+    "Ranges": {"Settings":"37-57","Packages":"40-55","Components":"19-24","FilesAndAssets":"25-35","Maintenance":"8-12","Exact":"129-183","Rounded":"130-185/about 155"}
+  },
+  "StateChanges": {"InstallerRun":false,"UtilityRun":false,"VmRequestSubmitted":false,"DefenderChanged":false,"FreshUacPromptRequested":false}
+}

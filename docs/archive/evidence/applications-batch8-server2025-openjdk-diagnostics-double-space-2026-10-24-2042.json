@@ -1,0 +1,62 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "e6507fc825cf421181bae2ebe754696a",
+  "Suite": "ApplicationsBatch8",
+  "Target": "Windows Server 2025 Standard Evaluation",
+  "Build": "26100",
+  "FinishedAtUtc": "2026-10-24T20:42:59Z",
+  "Status": "Failed",
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 354,
+    "Failed": 0,
+    "Skipped": 1,
+    "Total": 355
+  },
+  "IntegrationPassed": false,
+  "FailureCause": "Catalog DisplayNamePattern still expected one space immediately after OpenJDK. Microsoft MSI registrations contain two spaces there.",
+  "InstalledProducts": [
+    {
+      "Major": 25,
+      "DisplayName": "Microsoft Build of OpenJDK  25.0.4.1+1 (x64)",
+      "DisplayVersion": "25.0.4.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-25",
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "InstallerEventIds": [1042, 1033, 11707]
+    },
+    {
+      "Major": 21,
+      "DisplayName": "Microsoft Build of OpenJDK  21.0.12.1+1 (x64)",
+      "DisplayVersion": "21.0.12.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-21",
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "InstallerEventIds": [1042, 1033, 11707]
+    },
+    {
+      "Major": 17,
+      "DisplayName": "Microsoft Build of OpenJDK  17.0.20.1+1 (x64)",
+      "DisplayVersion": "17.0.20.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-17",
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "InstallerEventIds": [1042, 1033, 11707]
+    },
+    {
+      "Major": 11,
+      "DisplayName": "Microsoft Build of OpenJDK  11.0.32.1+1 (x64)",
+      "DisplayVersion": "11.0.32.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-11",
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "InstallerEventIds": [1042, 1033, 11707]
+    }
+  ],
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "SupportPromoted": false,
+  "Repair": "Catalog patterns now accept one or more spaces before the version (and before the optional Hotspot label). Regression coverage uses the exact double-spaced registered name.",
+  "NextAction": "Rerun ApplicationsBatch8 against the same clean Server 2025 checkpoint and review lifecycle, removal, recovery, JAVA_HOME, PATH and .jar preservation results."
+}

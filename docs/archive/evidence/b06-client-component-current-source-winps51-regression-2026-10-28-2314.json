@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T23:14:08Z",
+  "batch": "B06 OpenSSH Client and Telnet Client lifecycle current-source regression",
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "processExecutionPolicy": "Bypass; process only"
+  },
+  "testFile": "tests/ClientComponentLifecycle.Tests.ps1",
+  "result": {
+    "discovered": 26,
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "coverage": [
+    "Guarded OpenSSH Client and Telnet Client lifecycle candidate paths",
+    "Expected source identity, architecture, fixed-drive, local-source and reparse checks",
+    "Pending reboot refusal and mocked native transition boundary",
+    "WhatIf, saved prior state, restore and synthetic state-file lifecycle"
+  ],
+  "sideEffects": {
+    "dismOrWindowsCapabilityProviderCalled": false,
+    "nativeComponentStateChanged": false,
+    "stateFilesOutsidePesterTestDrive": false,
+    "vmOrCheckpointAccessed": false,
+    "defenderBlockedToolSelectedOrTouched": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": {
+    "resolved": "Current mocked component candidate lifecycle and source guard regression passes.",
+    "pending": [
+      "Disposable Windows 11 and declared Windows Server target acceptance",
+      "Native DISM/provider behavior, trusted source media and recovery after real transitions",
+      "Host VM/checkpoint/task access remains unavailable at CIM"
+    ],
+    "legacyOutcomeClosed": false,
+    "supportedTargetAdded": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180; about 155",
+    "adjustment": "None; mocked component regression does not close a legacy outcome or native target acceptance."
+  }
+}

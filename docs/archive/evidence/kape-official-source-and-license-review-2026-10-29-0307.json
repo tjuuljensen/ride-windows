@@ -1,0 +1,49 @@
+{
+  "recordedAtUtc": "2026-10-29T03:07:34Z",
+  "batch": "KAPE publisher source and related KapeFiles definition-source review",
+  "officialSources": {
+    "productPage": "https://www.kroll.com/en/services/cyber/reactive-services/kroll-artifact-parser-and-extractor-kape",
+    "license": "https://www.kroll.com/en/kape-license-agreement",
+    "usageFaq": "https://github.com/EricZimmerman/KapeDocs/blob/master/Pages/50-Frequently-asked-questions.md",
+    "definitionsRepository": "https://github.com/EricZimmerman/KapeFiles"
+  },
+  "findings": {
+    "krollDownloadPageRequiresFormAndExplicitEulaAgreement": true,
+    "publicDirectArtifactUrlObserved": false,
+    "eulaScopeSummary": "EULA grants a limited, nontransferable, nonsublicensable license to install and execute on a system/device the user owns or controls for internal business use; it restricts transfer, redistribution and modification.",
+    "publisherFaqCommercialUsageSummary": "As of 2026-01-01, KAPE is no longer available for third-party-network or paid-engagement commercial use; government, educational, research and internal-company use remain listed.",
+    "kapeFilesIsCommunityTargetsAndModulesRepository": true,
+    "kapeFilesLicenseAppliesToKapeBinary": false,
+    "upstreamSyncBehavior": "KapeFiles README documents Sync with GitHub in gkape.exe or kape.exe --sync; its FAQ says it does not provide an official method to download every module binary."
+  },
+  "acquisition": {
+    "previouslyApprovedPinnedKapeFilesCommit": "9d3ec9ccba83e15c9f2d496226e69145049d0187",
+    "snapshotPath": ".local/acquisition-review/KapeFiles-9d3ec9ccba83e15c9f2d496226e69145049d0187.zip",
+    "snapshotExistsBeforeAttempt": false,
+    "refreshAttempt": "git ls-remote https://github.com/EricZimmerman/KapeFiles.git HEAD refs/heads/master",
+    "refreshResult": "Failed before source response: Could not resolve host github.com.",
+    "snapshotAcquired": false,
+    "kapeExecutableOrDefinitionsDownloaded": false
+  },
+  "disposition": "Continue technical package preparation without a legal gate. Track KAPE for owner NeedsReview once a catalog package ID and exact version exist. Do not submit the publisher form, accept the EULA, supply personal data, create a Defender exclusion, or run KAPE. Retry the already-authorized pinned KapeFiles snapshot when GitHub DNS is available; obtain the Kroll artifact through its publisher-controlled flow for static identity, dependency and lifecycle review.",
+  "handling": {
+    "publisherFormSubmitted": false,
+    "licenseAccepted": false,
+    "defenderStateReadOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

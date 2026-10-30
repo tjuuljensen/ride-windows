@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T15:56:54Z",
+  "change": {
+    "script": "tools/Download-JoeWareCollection.ps1",
+    "version": "0.2.0",
+    "behavior": ["-WhatIf previews selected products before any publisher HTTP request and creates no destination directory.", "If destination creation is declined, the script returns before publisher requests."],
+    "test": "tests/Download-JoeWareCollection.Tests.ps1"
+  },
+  "tests": [
+    {"runtime":"PowerShell 7.6.5","pester":"5.7.1","passed":1,"failed":0,"skipped":0},
+    {"runtime":"Windows PowerShell 5.1.26100.9711","pester":"5.7.1","passed":1,"failed":0,"skipped":0}
+  ],
+  "assertions": "With AccExp and ATSN selected, the WhatIf invocation made zero Invoke-WebRequest calls and created no destination directory.",
+  "acquisitionRetry": {
+    "products": ["AccExp", "ATSN", "Auth"],
+    "command": "tools/Download-JoeWareCollection.ps1 -Product AccExp,ATSN,Auth -DestinationDirectory .local/joeware-source-review-20261024-1543 -Confirm:$false",
+    "result": "Failed before fetching the JoeWare version list: No such host is known.",
+    "formSubmitted": false,
+    "payloadBytesReceived": 0,
+    "destinationWasEmptyBefore": true,
+    "filesWritten": 0,
+    "extractionOrExecution": false,
+    "adFindSelected": false
+  },
+  "migrationEffect": "Downloader preview is now offline and side-effect free. Source acquisition and technical package acceptance remain deferred; no legacy outcome closed and estimates are unchanged.",
+  "estimates": {"settings":"37-57","packages":"40-55","components":"19-24","filesAndAssets":"25-35","maintenance":"8-12","exactTotal":"129-183","roundedTotal":"130-185/about 155"},
+  "sysinternalsDisposition": "Prior RIDE v2 specialist approval covers direct download/install with no licensing gate; Defender-blocked utilities remain separately excluded."
+}

@@ -1,0 +1,76 @@
+{
+  "recordedAtUtc": "2026-10-28T15:15:30Z",
+  "batch": "Package dependency and adoption/evidence regressions plus PSScriptTools local acceptance preparation.",
+  "runtime": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "pesterLoadedFrom": "Installed Pester manifest via ordinary Import-Module; no execution-policy change",
+    "configuration": {
+      "testRegistry": false,
+      "testResult": false
+    },
+    "temporaryRoots": "Unique workspace-local .local directories"
+  },
+  "results": {
+    "repositoryValidation": {
+      "status": "passed",
+      "operations": 446,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 301,
+      "generatedOperationDocumentationCurrent": true
+    },
+    "packageDependencyPlanning": {
+      "status": "passed",
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "testFile": "tests/PackageDependencyPlanning.Tests.ps1"
+    },
+    "packageAdoptionAndEvidence": {
+      "status": "passed",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0,
+      "testFiles": [
+        "tests/PackageAdoptionReview.Tests.ps1",
+        "tests/PackageEvidence.Tests.ps1"
+      ]
+    },
+    "packageEvidenceFixtureChange": {
+      "file": "tests/PackageEvidence.Tests.ps1",
+      "change": "MSI/scoped package lifecycle tests now set ProgramFiles beneath their per-test .local fixture root and restore the prior process value in AfterEach. This removes dependence on the current shell having ProgramFiles set.",
+      "reason": "Initial package evidence run had 52 passes and two failures before the intended assertions because this PowerShell 7 process had no ProgramFiles environment variable; the synthetic prerequisite path was null.",
+      "postChangeVerification": "Combined adoption/evidence rerun passed 54/54."
+    },
+    "psscripttools": {
+      "focusedCasesPassed": 6,
+      "focusedCasesSelected": 6,
+      "full360FileLifecycle": "Deferred: the full 7-test suite exceeded the 180-second child-process timeout; a separately selected 360-file case produced no result before the orchestration call timed out at 300 seconds. Subsequent process inspection found no test PowerShell process running.",
+      "metadataOnlyCase": "Passed 1/1 separately.",
+      "installerOrUpstreamCodeExecuted": false
+    }
+  },
+  "limitations": [
+    "The full PSScriptTools 360-file repeat/install/uninstall/snapshot-recovery case is unverified; no legacy package outcome closed.",
+    "Windows PowerShell 5.1 still cannot import Pester because AuthorizationManager rejects the module format files. PowerShell 7 has no automatic Pester discovery; loading the installed manifest by path works normally.",
+    "No VM or checkpoint was accessed."
+  ],
+  "observations": {
+    "installerOrUtilityRun": false,
+    "DefenderStateChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; package planner/evidence regressions and partial source-script coverage close no legacy migration outcome."
+  }
+}

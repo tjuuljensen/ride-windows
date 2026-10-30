@@ -10,11 +10,12 @@
   Inputs: LocalApplicationData/RIDE/Credentials/GitHub; no environment credentials.
   Recovery: Remove enrollment locally and revoke compromised credentials at GitHub.
   Owner: RIDE-Windows maintainers. Version: 0.1.0.
-  Changelog: 0.1.0: Explicit DPAPI credentials, bounded PAT discovery and guest leases.
+  Changelog: 0.2.0: Set and verify restricted ownership/ACLs on atomic credential files.
+    0.1.0: Explicit DPAPI credentials, bounded PAT discovery and guest leases.
 #>
 
 $ErrorActionPreference = 'Stop'
-$script:ModuleVersion = '0.1.0'
+$script:ModuleVersion = '0.2.0'
 $script:CredentialRootOverride = $null # Pester supplies an isolated TestDrive.
 $script:ReleaseCache = @{}
 $script:AccountBackoff = @{}
@@ -109,6 +110,23 @@ function Protect-RideGitHubRecord {
   }
 }
 
+function Set-RideGitHubCredentialFileAcl {
+  param([Parameter(Mandatory)][string] $Path)
+  $acl = [Security.AccessControl.FileSecurity]::new()
+  $acl.SetAccessRuleProtection($true, $false)
+  foreach ($sid in @((Get-RideGitHubWindowsSid), 'S-1-5-18')) {
+    $rule = [Security.AccessControl.FileSystemAccessRule]::new(
+      [Security.Principal.SecurityIdentifier]::new($sid),
+      [Security.AccessControl.FileSystemRights]::FullControl,
+      [Security.AccessControl.AccessControlType]::Allow
+    )
+    $acl.AddAccessRule($rule)
+  }
+  $acl.SetOwner([Security.Principal.SecurityIdentifier]::new((Get-RideGitHubWindowsSid)))
+  Set-Acl -LiteralPath $Path -AclObject $acl -ErrorAction Stop
+  Assert-RideGitHubPath $Path -CheckAcl
+}
+
 function Write-RideGitHubCredentialRecord {
   param([string] $Name, [Security.SecureString] $Token, [string] $AccountId, [datetime] $ExpiresAtUtc, [string] $Purpose, [string] $Revision = ([guid]::NewGuid().ToString('N')))
   $path = Get-RideGitHubCredentialPath $Name
@@ -120,8 +138,10 @@ function Write-RideGitHubCredentialRecord {
   $temp = $path + '.' + [guid]::NewGuid().ToString('N') + '.tmp'
   try {
     [IO.File]::WriteAllText($temp, ($outer | ConvertTo-Json -Compress), [Text.UTF8Encoding]::new($false))
+    Set-RideGitHubCredentialFileAcl -Path $temp
     if ([IO.File]::Exists($path)) { [IO.File]::Replace($temp, $path, [NullString]::Value) }
     else { [IO.File]::Move($temp, $path) }
+    Assert-RideGitHubPath $path -CheckAcl
   } finally { if (Test-Path -LiteralPath $temp) { Remove-Item -LiteralPath $temp -Force } }
   Reset-RideGitHubAuthenticationCache
 }

@@ -1,0 +1,50 @@
+{
+  "recordedAtUtc": "2026-10-29T02:52:18Z",
+  "kind": "BitLockerWorkflowsCurrentSourceRegressionAndCimBlock",
+  "test": {
+    "path": "tests/BitLockerWorkflows.Tests.ps1",
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "windowsBitLockerAndTpmCommands": "Mocked with synthetic volume and protector objects",
+    "result": {
+      "discovered": 25,
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0
+    },
+    "verified": [
+      "four legacy selectors map to separate pending workflows",
+      "default profile selects no BitLocker workflows",
+      "direct tool blocks action while acceptance is pending",
+      "recovery-password disclosure and encryption operations remain preview guarded",
+      "synthetic protector paths preserve secret-safe boundaries"
+    ]
+  },
+  "scope": {
+    "realRecoverySecretReadOrDisplayed": false,
+    "BitLockerStateReadOrChanged": false,
+    "TpmStateRead": false,
+    "WindowsOrDefenderStateChanged": false,
+    "nativeAcceptanceEstablished": false
+  },
+  "vmAccess": {
+    "lastReadOnlyCheckAtUtc": "2026-10-29T02:50:00Z",
+    "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "result": "Get-VM failed before state retrieval at host CIM for both targets.",
+    "checkpointState": "Unverified",
+    "nativeAcceptance": "Deferred"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

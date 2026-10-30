@@ -1,0 +1,49 @@
+{
+  "recordedAtUtc": "2026-10-28T23:49:00Z",
+  "package": "NTCore Vista4Experts",
+  "publisherPage": "https://ntcore.com/vista4experts/",
+  "publisherListedVersion": "1.2.0.1",
+  "publisherDescribedFunctions": [
+    "Security Center notifications",
+    "User Account Control prompts",
+    "Windows Defender automatic scans",
+    "Automatic updates",
+    "Internet Explorer search-provider default",
+    "Start-menu power-button action"
+  ],
+  "publisherSaysChangesCanBeReversed": true,
+  "publisherWarrantyText": "Provided without warranties; use is at the user's own risk.",
+  "compatibilityEvidence": "The product is explicitly named for Vista and the page discusses Windows Vista defaults, while also making a broad 'every platform' statement. No specific Windows 11 compatibility evidence was found; do not infer a supported target from that broad statement.",
+  "artifact": {
+    "officialDownloadUrl": "https://ntcore.com/files/Vista4Experts.zip",
+    "webReaderResult": "400 Unsupported content-type: application/zip; no archive bytes returned.",
+    "localDnsHeadCheck": "Failed before connection: No such host is known (ntcore.com:443).",
+    "archiveBytesRetrieved": false,
+    "hashOrMemberInventoryVerified": false
+  },
+  "licenseDisposition": "Publisher page calls the utility free software but the reviewed page does not provide a license grant or license text. Record license administration for review when an exact package candidate/version exists; it is not a migration gate.",
+  "migrationDisposition": {
+    "remainsSelectedForNtcoreReview": true,
+    "candidatePinned": false,
+    "catalogOperationAdded": false,
+    "windows11SupportClaimed": false,
+    "utilityRun": false,
+    "legacyOutcomeClosed": false
+  },
+  "sideEffects": {
+    "publisherArchiveDownloaded": false,
+    "installerOrUtilityExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "alertReportedPasswordScanFileAccessed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

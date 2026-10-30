@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T05:48:46Z",
+  "targets": [
+    "RIDE-Win11-Test",
+    "RIDE-Srv2025Test"
+  ],
+  "checks": {
+    "getVm": {
+      "command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+      "result": "Failed before VM or checkpoint inspection.",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    "scheduledTask": {
+      "command": "schtasks.exe /Query /TN \\RIDE\\RIDEWin11Test",
+      "result": "Query failed.",
+      "error": "ERROR: The network address is invalid."
+    }
+  },
+  "requestsSubmitted": false,
+  "elevationPromptOpened": false,
+  "vmOrCheckpointStateChanged": false,
+  "acceptanceStatus": "Native guest acceptance remains deferred."
+}

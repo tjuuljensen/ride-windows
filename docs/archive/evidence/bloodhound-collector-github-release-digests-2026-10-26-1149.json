@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T11:49:10Z",
+  "batch": "BloodHound CE selected collector release asset digest reconciliation",
+  "method": "Read-only GitHub REST release metadata fetched through the connected GitHub app. No ZIP or sidecar bytes were downloaded or executed.",
+  "backend": {
+    "product": "BloodHound Community Edition",
+    "version": "9.8.0",
+    "dockerfilePin": "v9.8.0",
+    "collectorVersions": ["SharpHound v2.17.0", "AzureHound v3.1.1"],
+    "compatibilityEvidence": "bloodhound-ce-9.8.0-collector-match-2026-10-23.json"
+  },
+  "releases": [
+    {
+      "repository": "SpecterOps/SharpHound",
+      "tag": "v2.17.0",
+      "releaseId": 401422644,
+      "tagOrReleaseImmutable": false,
+      "publishedAtUtc": "2026-10-01T23:10:38Z",
+      "apiUri": "https://api.github.com/repos/SpecterOps/SharpHound/releases/tags/v2.17.0",
+      "selectedAsset": {
+        "assetId": 604323346,
+        "name": "SharpHound_v2.17.0_windows_x86.zip",
+        "sizeBytes": 2540780,
+        "sha256": "09ef123ada22be00a6af4dbfa28f9aa357930205f88991374373d634609efb03",
+        "downloadUri": "https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip"
+      },
+      "checksumSidecar": {
+        "assetId": 604323345,
+        "name": "SharpHound_v2.17.0_windows_x86.zip.sha256",
+        "sizeBytes": 101,
+        "metadataSha256": "6c47569f04f378b5df0329bd6b6514896a79d01d3d8213ebdf9bda3638dd3040",
+        "downloadUri": "https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip.sha256"
+      }
+    },
+    {
+      "repository": "SpecterOps/AzureHound",
+      "tag": "v3.1.1",
+      "releaseId": 384817103,
+      "tagOrReleaseImmutable": false,
+      "publishedAtUtc": "2026-09-08T14:42:08Z",
+      "apiUri": "https://api.github.com/repos/SpecterOps/AzureHound/releases/tags/v3.1.1",
+      "selectedAsset": {
+        "assetId": 550683913,
+        "name": "AzureHound_v3.1.1_windows_amd64.zip",
+        "sizeBytes": 5025203,
+        "sha256": "6532c29e0bb2195656296bbb9b199ca51fa641b90d30633d3caf8882ff9fe4e4",
+        "downloadUri": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.1/AzureHound_v3.1.1_windows_amd64.zip"
+      },
+      "checksumSidecar": {
+        "assetId": 550683915,
+        "name": "AzureHound_v3.1.1_windows_amd64.zip.sha256",
+        "sizeBytes": 102,
+        "metadataSha256": "3c7356a440d8b8561dde325608d956d8e97709947d547ba153efb83ddda46258",
+        "downloadUri": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.1/AzureHound_v3.1.1_windows_amd64.zip.sha256"
+      }
+    }
+  ],
+  "interpretation": {
+    "resolved": [
+      "The CE 9.8.0-selected SharpHound and AzureHound release asset names, sizes, release asset IDs, and GitHub API SHA-256 metadata digests.",
+      "The same-release SHA-256 sidecar asset identities and their GitHub API metadata digests."
+    ],
+    "deferred": [
+      "Exact ZIP and sidecar bytes and independent digest verification.",
+      "Archive member and upstream notice inventory.",
+      "Owned package lifecycle/recovery, no-collection smoke checks, and Windows 11 acceptance."
+    ],
+    "excluded": [],
+    "legacyOutcomesClosed": [],
+    "licenseGate": false,
+    "note": "GitHub API digests are source metadata pins; they do not substitute for acquiring the selected ZIPs, checking the publisher sidecars, or inspecting archive contents. Backend/container deployment remains outside collector package scope."
+  },
+  "acquisitionPreflight": {
+    "observedAtUtc": "2026-10-26T11:49:10Z",
+    "method": "Direct read-only HEAD requests to the two exact publisher release asset URLs.",
+    "requests": [
+      {
+        "uri": "https://github.com/SpecterOps/SharpHound/releases/download/v2.17.0/SharpHound_v2.17.0_windows_x86.zip",
+        "result": "failed_before_response",
+        "error": "No such host is known. (github.com:443)",
+        "bytesReceived": 0,
+        "partialFileCreated": false
+      },
+      {
+        "uri": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.1/AzureHound_v3.1.1_windows_amd64.zip",
+        "result": "failed_before_response",
+        "error": "No such host is known. (github.com:443)",
+        "bytesReceived": 0,
+        "partialFileCreated": false
+      }
+    ]
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

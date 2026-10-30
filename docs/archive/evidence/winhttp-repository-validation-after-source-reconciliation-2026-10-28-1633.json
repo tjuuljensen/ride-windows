@@ -1,0 +1,50 @@
+{
+  "recordedAtUtc": "2026-10-28T16:33:05Z",
+  "batch": "WinHTTP source reconciliation post-documentation repository validation",
+  "validation": {
+    "command": "tools/validate.ps1 -Root .",
+    "result": "passed",
+    "operationDocumentation": "current",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 301,
+    "WinHttpLifecycleModuleParser": "passed Windows PowerShell 5.1",
+    "focusedDiffCheck": "passed for the other changed text files; docs/migrations/remaining-settings-plan.md was excluded because its existing worktree CRLF/index LF mismatch is preserved, not newly introduced or normalized."
+  },
+  "sourceAndImplementation": {
+    "officialReference": "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winhttp",
+    "candidateSetter": "netsh winhttp set advproxy settings-file",
+    "catalogEngineIntegration": "machine-scope WinHTTP candidate already wired",
+    "nativeCommandExecuted": false,
+    "hostBuild26300ReadCommand": "netsh winhttp show advproxy not found",
+    "targetVm": "RIDE-Win11-Test access failed before inspection at CIM at 16:25 UTC"
+  },
+  "sideEffects": {
+    "nativeMutation": false,
+    "vmMutation": false,
+    "defenderMutation": false
+  },
+  "migration": {
+    "resolved": [
+      "Repository validation current after WinHTTP source and documentation reconciliation"
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Native command availability, readback and recovery on target Windows versions",
+      "Effective policy, consumer behavior and disposable VM acceptance"
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "reason": "Static repository validation does not establish WinHTTP native behavior or close its legacy outcome; estimate ranges remain unchanged."
+  }
+}

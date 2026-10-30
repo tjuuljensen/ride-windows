@@ -1,0 +1,83 @@
+{
+  "RecordedAtUtc": "2026-10-25T05:12:00Z",
+  "Batch": "CCleaner family official source, edition, and owner-license review",
+  "Products": [
+    {
+      "Product": "CCleaner",
+      "ProductUri": "https://www.ccleaner.com/ccleaner/",
+      "VersionEvidence": "The official version history lists v7.13.1573 dated 2026-10-21. The official English and German builds pages retrieved for this review still label v7.12.1526 latest. The builds page's Portable link resolves to https://download.ccleaner.com/portable/ccsetup641.zip, while the official version history lists v6.41.11567 dated 2026-06-23.",
+      "EditionEvidence": "The current download page offers the Free and Professional editions. The builds page describes portable as a ZIP without an installer and says administrator/advanced builds are not for distribution or mirroring.",
+      "DownloadRoutes": {
+        "StandardFreeInstaller": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+        "Portable": "https://download.ccleaner.com/portable/ccsetup641.zip"
+      },
+      "RouteFinding": "The standard download route is a versionless current-release endpoint. The exact installer bytes were not retrieved. The portable route returns the older pinned filename and is not the current v7 artifact.",
+      "LicenseReview": "The 2026-01-27 EULA classifies CCleaner Free as a Consumer Solution for personal, noncommercial use and restricts resale or further distribution. RIDE's selected direct publisher-download/install workflow does not republish or transfer the payload. Record exact owner/version status NeedsReview when a package candidate exists; this is informational package administration, not a generalized redistribution blocker.",
+      "Disposition": "Keep installed and portable selections separate. Current installer/portable version mismatch and absent verified artifact bytes prevent pinning a package candidate."
+    },
+    {
+      "Product": "Defraggler",
+      "ProductUri": "https://www.ccleaner.com/defraggler/",
+      "VersionEvidence": "The official builds page still lists a standard installer. The publisher's 2026-09-11 End Of Life announcement says the last build shipped in August 2020 and the publisher will no longer distribute, sell, or support Defraggler.",
+      "DownloadRoutes": {
+        "StandardInstallerPage": "https://www.ccleaner.com/defraggler/builds"
+      },
+      "LicenseReview": "Owner-specific use review remains applicable if a retained exact product identity is established; no license finding overrides the user's selected product scope.",
+      "Disposition": "Keep the user's selection recorded. Do not acquire from the stale build link or add a new-download package until the official EOL/build-page conflict is resolved; no replacement source is authorized or inferred."
+    },
+    {
+      "Product": "Recuva",
+      "ProductUri": "https://www.ccleaner.com/recuva/",
+      "VersionEvidence": "Official release notes list v1.55.133 dated 2026-06-22. The official builds page lists a standard installer and no portable build.",
+      "DownloadRoutes": {
+        "StandardInstaller": "https://www.ccleaner.com/recuva/download/standard"
+      },
+      "RouteFinding": "The Free Download control resolves to the standard-download page; exact installer bytes and digest were not retrieved.",
+      "LicenseReview": "The publisher identifies Free and Professional editions as home-use only. Record exact owner/version status NeedsReview when a package candidate exists; this is informational and not an acquisition or install-plan gate by itself.",
+      "Disposition": "Keep installed/full selected; report portable unavailable rather than substituting an installer. Exact installer bytes remain unverified."
+    },
+    {
+      "Product": "Speccy",
+      "ProductUri": "https://www.ccleaner.com/speccy/",
+      "VersionEvidence": "Official release notes list v1.34.84 dated 2026-06-22. The official builds page lists a standard installer and no portable build.",
+      "DownloadRoutes": {
+        "StandardInstaller": "https://www.ccleaner.com/speccy/download/standard"
+      },
+      "RouteFinding": "The Free Download control resolves to the standard-download page; exact installer bytes and digest were not retrieved.",
+      "LicenseReview": "The publisher identifies Free and Professional editions as home-use only. Record exact owner/version status NeedsReview when a package candidate exists; this is informational and not an acquisition or install-plan gate by itself.",
+      "Disposition": "Keep installed/full selected; report portable unavailable rather than substituting an installer. Exact installer bytes remain unverified."
+    }
+  ],
+  "OfficialSources": [
+    "https://www.ccleaner.com/ccleaner/builds",
+    "https://www.ccleaner.com/ccleaner/version-history/",
+    "https://www.ccleaner.com/ccleaner/download",
+    "https://www.ccleaner.com/recuva/builds",
+    "https://www.ccleaner.com/recuva/download",
+    "https://www.ccleaner.com/speccy/builds",
+    "https://www.ccleaner.com/speccy/download",
+    "https://www.ccleaner.com/defraggler/builds",
+    "https://community.ccleaner.com/t/defraggler-end-of-life/166405",
+    "https://www.ccleaner.com/legal/end-user-license-agreement"
+  ],
+  "Scope": {
+    "PayloadBytesAcquired": false,
+    "InstallerOrUtilityExecuted": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "FreshUacRequested": false,
+    "CatalogCandidateAdded": false,
+    "LegacyOutcomeClosed": false
+  },
+  "MigrationEstimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "AccountsFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  },
+  "Disposition": "The source review narrows the exact version and distribution blockers but does not close a legacy outcome. Keep all four products separately selected, use NeedsReview for owner/version administration when catalog identities are added, and do not infer a Defraggler download or portable substitutes for Recuva or Speccy."
+}

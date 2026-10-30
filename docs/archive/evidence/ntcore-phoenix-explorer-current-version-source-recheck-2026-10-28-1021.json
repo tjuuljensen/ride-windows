@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:21:51Z",
+  "batch": "NTCore Phoenix Protector, Explorer Suite and CFF Explorer current version/source recheck",
+  "publisherPages": {
+    "phoenixProtector": {
+      "uri": "https://ntcore.com/phoenix-protector/",
+      "currentPageVersion": "1.8.0.1",
+      "downloadUri": "https://ntcore.com/files/Phoenix_Protector.msi",
+      "pageStatesFreeware": true,
+      "pageVersionMapping": null,
+      "catalogVersion": "1.7.1",
+      "catalogSha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+      "retainedMsiSha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+      "retainedMsiProductVersion": "1.7.1",
+      "containedExecutableVersion": "1.9.0.1",
+      "interpretation": "Retained MSI bytes still match the catalog pin. The publisher page version, MSI ProductVersion, and contained executable version remain distinct; the current page provides no version chronology or mapping. No current download bytes were obtained, so the fixed URL was not treated as proof of current artifact identity."
+    },
+    "explorerSuite": {
+      "uri": "https://ntcore.com/explorer-suite/",
+      "currentPageVersion": "III (18/11/2012)",
+      "downloadUri": "https://ntcore.com/files/ExplorerSuite.exe",
+      "publishedSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+      "retainedBytes": 3613174,
+      "retainedSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+      "installerInternalLabel": "Explorer Suite IV",
+      "interpretation": "The retained installer remains byte-identical to the publisher's currently linked download. The page label III and internal installer label IV remain unreconciled. No full-suite catalog package was added."
+    },
+    "cffExplorerStandaloneX86": {
+      "uri": "https://ntcore.com/explorer-suite/",
+      "downloadUri": "https://ntcore.com/files/CFF_Explorer.zip",
+      "publishedSha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96",
+      "catalogVersion": "8.0.0.0",
+      "catalogSha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96",
+      "retainedSha256": "8e72bcb9c6e83f188f4a259ad039ed3cc37cdf2c3ea12b00f0df8d8b67e96d96",
+      "interpretation": "The current official page's standalone x86 CFF Explorer hash matches both the catalog pin and retained archive bytes. This package remains the independently migrated CFF product, not the full Explorer Suite."
+    }
+  },
+  "licenseReviewMetadata": {
+    "phoenixProtector": {
+      "version": "1.7.1",
+      "status": "NeedsReview",
+      "owner": "Unassigned",
+      "migrationGate": false
+    },
+    "cffExplorerStandaloneX86": {
+      "version": "8.0.0.0",
+      "status": "NeedsReview",
+      "owner": "Unassigned",
+      "migrationGate": false
+    },
+    "source": ".local/license-reviews.json"
+  },
+  "handling": {
+    "fileHashesRead": true,
+    "publisherBinaryDownloaded": false,
+    "installerExecuted": false,
+    "utilityExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The current publisher Explorer Suite page hash matches the retained full installer.",
+      "The current official standalone CFF Explorer x86 download hash matches its catalog pin and retained archive."
+    ],
+    "partial": [
+      "Phoenix current page and retained artifact identities were rechecked, but the publisher page version 1.8.0.1 does not map to MSI ProductVersion 1.7.1 or the contained executable version 1.9.0.1.",
+      "Explorer Suite page label III and installer internal label IV remain unreconciled."
+    ],
+    "deferred": [
+      "Keep version identities distinct until the publisher provides a mapping; retain exact catalog pins.",
+      "Phoenix Windows acceptance remains open. The standalone CFF package remains independent of the full-suite artifact."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; current source identity checks close no additional whole legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "ntcore-phoenix-suite-version-license-follow-up-2026-10-17.json",
+    "phoenix-prerequisite-gate-current-source-cross-shell-2026-10-28-0900.json"
+  ]
+}

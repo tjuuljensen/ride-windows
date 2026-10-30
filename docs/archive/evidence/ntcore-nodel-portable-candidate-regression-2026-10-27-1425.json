@@ -1,0 +1,67 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T14:22:05Z",
+  "Scope": "Current-source NoDel stage-only package candidate and retained archive lifecycle",
+  "Package": {
+    "Id": "package.ntcore-nodel",
+    "PublisherListing": "https://ntcore.com/download/",
+    "DownloadUri": "https://ntcore.com/files/NoDel.zip",
+    "PublisherListedDate": "2005-05-04",
+    "CatalogVersionKey": "2005-05-04",
+    "VersionNote": "Publisher listing date key; binary file/product version is not verified.",
+    "Archive": "NoDel.zip",
+    "Length": 34624,
+    "Sha256": "b71b763dd54c5b6d67238d6f118c4ec3bfc531f14663ba59fc72655444ffd386",
+    "Architecture": "x86",
+    "SelectedMembers": [
+      "NoDel/Release/NoDel.exe",
+      "NoDel/Release/nodel.sys"
+    ],
+    "OtherArchiveContent": "Historical source/project files are excluded from package staging.",
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "PendingAcceptance": true
+  },
+  "FocusedTests": {
+    "TestFile": "tests/NtcoreUnpackerDynLogger.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell51": "5.1.26100.9711",
+    "PowerShell51Passed": 12,
+    "PowerShell51Failed": 0,
+    "PowerShell7": "7.6.5",
+    "PowerShell7Passed": 12,
+    "PowerShell7Failed": 0,
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Scratch": ".local/pester-ntcore-unpack-dynlogger",
+    "Verified": "Retained archive hash/inventory, exact selected GUI/driver files, repeat staging, uninstall, saved-state recovery, operator file preservation"
+  },
+  "LicenseReview": {
+    "Status": "NeedsReview",
+    "Owner": "Unassigned",
+    "MarkerVersion": "2005-05-04",
+    "MigrationGate": false
+  },
+  "Safety": {
+    "ExecutableRun": false,
+    "DriverLoaded": false,
+    "ServiceCreatedOrChanged": false,
+    "FileOperationInterceptionAttempted": false,
+    "SourceBuilt": false,
+    "DefenderBlockedToolsTouched": false,
+    "FreshUacPrompts": 0,
+    "VmAcceptanceRun": false,
+    "HostChanged": false
+  },
+  "Vm": {
+    "Query": "Get-VM -Name RIDE-Win11-Test",
+    "Result": "Failed before inspection: Access to a CIM resource was not available to the client.",
+    "CheckpointState": "Unknown; not inspected"
+  },
+  "LegacyOutcomes": {
+    "Closed": 0,
+    "EstimateRangesUnchanged": true
+  }
+}

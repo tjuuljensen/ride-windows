@@ -20,8 +20,12 @@
   Recovery: Saved machine-scope state restores the prior literal servicing state only
   when doing so does not remove a component payload without a validated recovery source.
   The snapshot does not retain payload bytes or version.
-  Version: 0.3.3.
-  Changelog: 0.3.3: Validate the exact non-satellite OpenSSH Client CAB identity, architecture and Windows build before LocalSource servicing and restore.
+  Version: 0.4.4.
+  Changelog: 0.4.4: Report Group Policy fallback inspection consistently in preview/apply/restore results and repeat the guard on restore.
+    0.4.3: Refuse OpenSSH LocalSource servicing when Group Policy configures an alternate LocalSourcePath, or when that policy cannot be inspected.
+    0.4.2: Reject LocalSource paths that traverse reparse-point ancestors; retain the mapped-drive guard and unverified DISM policy fallback.
+    0.4.0: Permit OpenSSH Client removal and absent-state restore only with a retained, build-matched LocalSource CAB revalidated before each transition.
+    0.3.3: Validate the exact non-satellite OpenSSH Client CAB identity, architecture and Windows build before LocalSource servicing and restore.
     Telnet LocalSource remains blocked until its optional-feature source is independently validated.
     0.3.2: Refuse LocalSource transitions and Present restores until servicing source validation exists.
     0.3.1: Block restore paths that would remove an unverified component payload.
@@ -90,9 +94,56 @@ function Get-RideClientComponentSourceArchitecture {
   }
 }
 
+function Get-RideClientComponentSourceDriveType {
+  param([Parameter(Mandatory)][string]$Path)
+  try {
+    $root=[IO.Path]::GetPathRoot([IO.Path]::GetFullPath($Path))
+    if($root -notmatch '^[A-Za-z]:\\$'){throw 'LocalSource path has no local drive root.'}
+    $drive=[IO.DriveInfo]::new($root)
+    if(-not $drive.IsReady){throw 'LocalSource drive is not ready.'}
+    $drive.DriveType
+  } catch {
+    throw "Unable to verify LocalSource drive type: $($_.Exception.Message)"
+  }
+}
+
+function Assert-RideClientComponentSourcePathHasNoReparsePoints {
+  param([Parameter(Mandatory)][string]$Path)
+  $fullPath=[IO.Path]::GetFullPath($Path)
+  $driveRoot=[IO.Path]::GetPathRoot($fullPath)
+  if($driveRoot -notmatch '^[A-Za-z]:\\$'){throw 'LocalSource path has no local drive root.'}
+  $currentPath=$driveRoot
+  $rootItem=Get-Item -LiteralPath $currentPath -Force -ErrorAction Stop
+  if($rootItem.Attributes -band [IO.FileAttributes]::ReparsePoint){throw 'LocalSource path traverses a reparse point.'}
+  $relativePath=$fullPath.Substring($driveRoot.Length).Trim('\')
+  if($relativePath.Length -eq 0){return}
+  foreach($segment in $relativePath.Split([char[]]@('\'),[StringSplitOptions]::RemoveEmptyEntries)){
+    $currentPath=Join-Path $currentPath $segment
+    $item=Get-Item -LiteralPath $currentPath -Force -ErrorAction Stop
+    if($item.Attributes -band [IO.FileAttributes]::ReparsePoint){throw 'LocalSource path traverses a reparse point.'}
+  }
+}
+
 function Get-RideClientComponentSourcePackageMetadata {
   param([Parameter(Mandatory)][string]$LiteralPath)
   & Dism\Get-WindowsPackage -PackagePath $LiteralPath -ErrorAction Stop
+}
+
+function Test-RideClientComponentConfiguredSourceFallback {
+  $baseKey=$null
+  $policyKey=$null
+  try {
+    $baseKey=[Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::LocalMachine,[Microsoft.Win32.RegistryView]::Default)
+    $policyKey=$baseKey.OpenSubKey('SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Servicing',$false)
+    if($null -eq $policyKey){return $false}
+    $value=$policyKey.GetValue('LocalSourcePath',$null,[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)
+    -not [string]::IsNullOrWhiteSpace([string]$value)
+  } catch {
+    throw 'Unable to inspect the Group Policy LocalSourcePath fallback; refusing LocalSource servicing.'
+  } finally {
+    if($null -ne $policyKey){$policyKey.Dispose()}
+    if($null -ne $baseKey){$baseKey.Dispose()}
+  }
 }
 
 function Test-RideClientComponentLocalSource {
@@ -101,9 +152,12 @@ function Test-RideClientComponentLocalSource {
   if($Kind -cne 'Capability' -or $Name -cne 'OpenSSH.Client~~~~0.0.1.0'){
     throw 'LocalSource validation is currently available only for the non-satellite OpenSSH Client capability; Telnet source validation is not implemented.'
   }
+  if(Test-RideClientComponentConfiguredSourceFallback){throw 'LocalSource servicing is blocked because Windows policy configures a Group Policy LocalSourcePath fallback.'}
   if(-not (Test-Path -LiteralPath $SourcePath -PathType Container)){throw 'LocalSource servicing source directory does not exist.'}
   $root=Get-Item -LiteralPath $SourcePath -Force
-  if($root.Attributes -band [IO.FileAttributes]::ReparsePoint){throw 'LocalSource root cannot be a reparse point.'}
+  Assert-RideClientComponentSourcePathHasNoReparsePoints -Path $root.FullName
+  $driveType=Get-RideClientComponentSourceDriveType -Path $root.FullName
+  if($driveType -eq [IO.DriveType]::Network){throw 'LocalSource cannot be on a mapped network drive.'}
   $architecture=Get-RideClientComponentSourceArchitecture
   $cabName="OpenSSH-Client-Package~31bf3856ad364e35~$architecture~~.cab"
   $cabPath=Join-Path $root.FullName $cabName
@@ -116,7 +170,7 @@ function Test-RideClientComponentLocalSource {
   if($metadata[0].PackageName -notmatch $identityPattern){throw 'OpenSSH Client CAB identity does not match the expected publisher package and architecture.'}
   if($Matches.Build -cne $ExpectedBuild){throw "OpenSSH Client CAB build '$($Matches.Build)' does not match target build '$ExpectedBuild'."}
   $hash=Get-FileHash -LiteralPath $cab.FullName -Algorithm SHA256 -ErrorAction Stop
-  [pscustomobject]@{Path=$root.FullName;CabPath=$cab.FullName;Architecture=$architecture;PackageName=$metadata[0].PackageName;Sha256=$hash.Hash.ToLowerInvariant();Validated=$true;NetworkBoundaryVerified=$false;ConfiguredSourceFallback='NotInspected'}
+  [pscustomobject]@{Path=$root.FullName;CabPath=$cab.FullName;DriveType=[string]$driveType;Architecture=$architecture;PackageName=$metadata[0].PackageName;Sha256=$hash.Hash.ToLowerInvariant();Validated=$true;NetworkBoundaryVerified=$false;ConfiguredSourceFallback='InspectedAbsent'}
 }
 
 function Invoke-RideClientComponentNativeTransition {
@@ -193,7 +247,10 @@ function Invoke-RideClientComponentTransition {
   .DESCRIPTION
     Requires fresh local identity/provider observations, refuses a pending reboot,
     captures the prior literal state before calling DISM, verifies post-state and never
-    initiates restart. Source and policy evidence remain attached to the saved run.
+    initiates restart. LocalSource checks Group Policy LocalSourcePath and fails closed
+    if the fallback is configured or cannot be inspected. The inspection result is
+    attached to saved run state and transition results; complete network isolation is
+    not established.
   .PARAMETER Kind
     Exact provider namespace, Capability or OptionalFeature.
   .PARAMETER Name
@@ -201,10 +258,11 @@ function Invoke-RideClientComponentTransition {
   .PARAMETER DesiredState
     Present or Absent for the one selected client component.
   .PARAMETER SourceMode
-    Explicit Online or LocalSource source mode; there is no default. LocalSource blocks
-    Windows Update lookup, while configured-source fallback remains uninspected.
+    Explicit Online or LocalSource source mode; there is no default. For LocalSource,
+    the lifecycle refuses a configured Group Policy LocalSourcePath and fails closed
+    if that policy cannot be inspected.
   .PARAMETER SourcePath
-    Existing local drive source for LocalSource install; Windows Update lookup is blocked but configured-source fallback is not inspected.
+    Existing local drive source for LocalSource install; Windows Update lookup is blocked, and configured Group Policy fallback is checked before servicing.
   .EXAMPLE
     Invoke-RideClientComponentTransition -Kind Capability -Name 'OpenSSH.Client~~~~0.0.1.0' -DesiredState Present -SourceMode Online -ExpectedComputerName $env:COMPUTERNAME -ExpectedBuild 26100 -ExpectedEditionId Professional -LogDirectory C:\Evidence -WhatIf
   .INPUTS
@@ -235,20 +293,20 @@ function Invoke-RideClientComponentTransition {
   $statePlanArguments=@{Inventory=$fresh.Inventory;Kind=$Kind;Name=$Name;DesiredState=$DesiredState;SourceMode=$SourceMode}
   if($PSBoundParameters.ContainsKey('SourcePath')){$statePlanArguments.SourcePath=$SourcePath}
   $statePlan=New-RideClientComponentPreparation @statePlanArguments
-  if($statePlan.Status -eq 'NoChangeObserved'){return [pscustomobject]@{Status='NoChange';Kind=$Kind;Name=$Name;State=$fresh.State;RunId=$null;RestartNeeded=$false;PostStateVerified=$true;ExactPayloadRecoverySupported=$false}}
+  if($statePlan.Status -eq 'NoChangeObserved'){return [pscustomobject]@{Status='NoChange';Kind=$Kind;Name=$Name;State=$fresh.State;ConfiguredSourceFallback='NotInspected';RunId=$null;RestartNeeded=$false;PostStateVerified=$true;ExactPayloadRecoverySupported=$false}}
   if($statePlan.Status -ne 'PreparedOutlineOnly'){throw "Component state preflight is $($statePlan.Status); refusing servicing."}
   $sourceValidation=$null
-  if($SourceMode -eq 'LocalSource' -and $DesiredState -eq 'Present'){$sourceValidation=Test-RideClientComponentLocalSource -Kind $Kind -Name $Name -SourcePath $plan.SourcePolicy.Path -ExpectedBuild $ExpectedBuild}
-  if($DesiredState -eq 'Absent'){throw 'Component removal is unavailable until a matching recovery source is validated; the current candidate cannot establish source identity or completeness.'}
+  if($SourceMode -eq 'LocalSource'){$sourceValidation=Test-RideClientComponentLocalSource -Kind $Kind -Name $Name -SourcePath $plan.SourcePolicy.Path -ExpectedBuild $ExpectedBuild}
+  if($DesiredState -eq 'Absent' -and $null -eq $sourceValidation){throw 'Component removal requires an explicit LocalSource with a validated matching recovery CAB; Online source mode cannot establish recovery media.'}
   if(Test-RideClientComponentPendingReboot){throw 'A Windows servicing restart is pending; complete it before component servicing.'}
-  if(-not $PSCmdlet.ShouldProcess("$ExpectedComputerName / $Kind / $Name","Set component state to $DesiredState")){return [pscustomobject]@{Status='WhatIf';Kind=$Kind;Name=$Name;State=$fresh.State;RunId=$null;RestartNeeded=$false;PostStateVerified=$false;ExactPayloadRecoverySupported=$false}}
-  $record=[pscustomobject]@{SchemaVersion=1;Kind='ClientComponentState';ComputerName=$fresh.Inventory.WindowsContext.ComputerName;Build=$fresh.Inventory.WindowsContext.Build;EditionId=$fresh.Inventory.WindowsContext.EditionId;UpdateBuildRevision=$fresh.Inventory.WindowsContext.UpdateBuildRevision;ProductType=$fresh.Inventory.WindowsContext.ProductType;ProviderKind=$Kind;Name=$Name;BeforeState=$fresh.State;DesiredState=$DesiredState;ExpectedState=(Get-RideClientComponentExpectedState $Kind $DesiredState $fresh.State);SourceMode=$SourceMode;SourcePath=$plan.SourcePolicy.Path;SourceValidated=($null -ne $sourceValidation);SourceArchitecture=if($sourceValidation){$sourceValidation.Architecture}else{$null};SourcePackageName=if($sourceValidation){$sourceValidation.PackageName}else{$null};SourceSha256=if($sourceValidation){$sourceValidation.Sha256}else{$null};CreatedAtUtc=[DateTime]::UtcNow.ToString('o');ExactPayloadRecoverySupported=$false}
+  if(-not $PSCmdlet.ShouldProcess("$ExpectedComputerName / $Kind / $Name","Set component state to $DesiredState")){return [pscustomobject]@{Status='WhatIf';Kind=$Kind;Name=$Name;State=$fresh.State;ConfiguredSourceFallback=if($sourceValidation){$sourceValidation.ConfiguredSourceFallback}else{'NotInspected'};RunId=$null;RestartNeeded=$false;PostStateVerified=$false;ExactPayloadRecoverySupported=$false}}
+  $record=[pscustomobject]@{SchemaVersion=1;Kind='ClientComponentState';ComputerName=$fresh.Inventory.WindowsContext.ComputerName;Build=$fresh.Inventory.WindowsContext.Build;EditionId=$fresh.Inventory.WindowsContext.EditionId;UpdateBuildRevision=$fresh.Inventory.WindowsContext.UpdateBuildRevision;ProductType=$fresh.Inventory.WindowsContext.ProductType;ProviderKind=$Kind;Name=$Name;BeforeState=$fresh.State;DesiredState=$DesiredState;ExpectedState=(Get-RideClientComponentExpectedState $Kind $DesiredState $fresh.State);SourceMode=$SourceMode;SourcePath=$plan.SourcePolicy.Path;SourceValidated=($null -ne $sourceValidation);ConfiguredSourceFallback=if($sourceValidation){$sourceValidation.ConfiguredSourceFallback}else{'NotInspected'};SourceArchitecture=if($sourceValidation){$sourceValidation.Architecture}else{$null};SourcePackageName=if($sourceValidation){$sourceValidation.PackageName}else{$null};SourceSha256=if($sourceValidation){$sourceValidation.Sha256}else{$null};CreatedAtUtc=[DateTime]::UtcNow.ToString('o');ExactPayloadRecoverySupported=$false}
   $saved=Save-RideClientComponentSnapshot $record
   try{$nativeResult=Invoke-RideClientComponentNativeTransition -Kind $Kind -Name $Name -DesiredState $DesiredState -SourceMode $SourceMode -SourcePath $plan.SourcePolicy.Path}
   catch{throw "DISM servicing failed after state snapshot $($saved.RunId); inspect the component and use Restore-RideClientComponentTransition if the literal state changed. $($_.Exception.Message)"}
   $after=Get-RideClientComponentFreshState -Kind $Kind -Name $Name -ExpectedComputerName $ExpectedComputerName -ExpectedBuild $ExpectedBuild -ExpectedEditionId $ExpectedEditionId -LogDirectory $LogDirectory
   $restart=$null;if($nativeResult -and $nativeResult.PSObject.Properties['RestartNeeded']){$restart=[bool]$nativeResult.RestartNeeded}
-  [pscustomobject]@{Status=if($after.State -ceq $record.ExpectedState){'Applied'}else{'AppliedPostStateMismatch'};Kind=$Kind;Name=$Name;BeforeState=$fresh.State;AfterState=$after.State;DesiredState=$DesiredState;RunId=$saved.RunId;SnapshotPath=$saved.Path;RestartNeeded=$restart;PostStateVerified=($after.State -ceq $record.ExpectedState);SourceMode=$SourceMode;SourceValidated=($null -ne $sourceValidation);NetworkBoundaryVerified=$false;ExactPayloadRecoverySupported=$false}
+  [pscustomobject]@{Status=if($after.State -ceq $record.ExpectedState){'Applied'}else{'AppliedPostStateMismatch'};Kind=$Kind;Name=$Name;BeforeState=$fresh.State;AfterState=$after.State;DesiredState=$DesiredState;RunId=$saved.RunId;SnapshotPath=$saved.Path;RestartNeeded=$restart;PostStateVerified=($after.State -ceq $record.ExpectedState);SourceMode=$SourceMode;SourceValidated=($null -ne $sourceValidation);ConfiguredSourceFallback=if($sourceValidation){$sourceValidation.ConfiguredSourceFallback}else{'NotInspected'};NetworkBoundaryVerified=$false;ExactPayloadRecoverySupported=$false}
 }
 
 function Restore-RideClientComponentTransition {
@@ -290,21 +348,23 @@ function Restore-RideClientComponentTransition {
   if(Test-RideClientComponentPendingReboot){throw 'A Windows servicing restart is pending; restore after it completes.'}
   $fresh=Get-RideClientComponentFreshState -Kind $record.ProviderKind -Name $record.Name -ExpectedComputerName $ExpectedComputerName -ExpectedBuild $ExpectedBuild -ExpectedEditionId $ExpectedEditionId -LogDirectory $LogDirectory
   if($fresh.Inventory.WindowsContext.UpdateBuildRevision -ne $record.UpdateBuildRevision -or $fresh.State -cne $record.ExpectedState){throw 'Client component target revision or literal state drifted; refusing automatic restore.'}
-  if($fresh.State -ceq $record.BeforeState){return [pscustomobject]@{Status='AlreadyRestored';Kind=$record.ProviderKind;Name=$record.Name;State=$fresh.State;RestartNeeded=$false;PostStateVerified=$true;ExactPayloadRecoverySupported=$false;RunId=$RunId}}
-  $restoreWouldRemoveUnverifiedPayload=($record.ProviderKind -ceq 'Capability' -and $record.BeforeState -ceq 'NotPresent') -or
+  if($fresh.State -ceq $record.BeforeState){return [pscustomobject]@{Status='AlreadyRestored';Kind=$record.ProviderKind;Name=$record.Name;State=$fresh.State;ConfiguredSourceFallback=if($record.ConfiguredSourceFallback){$record.ConfiguredSourceFallback}else{'NotRecorded'};RestartNeeded=$false;PostStateVerified=$true;ExactPayloadRecoverySupported=$false;RunId=$RunId}}
+  $restoreRemovesPayload=($record.ProviderKind -ceq 'Capability' -and $record.BeforeState -ceq 'NotPresent') -or
     ($record.ProviderKind -ceq 'OptionalFeature' -and $record.BeforeState -ceq 'DisabledWithPayloadRemoved')
-  if($restoreWouldRemoveUnverifiedPayload){throw 'Restore would remove or discard a component payload without a validated matching recovery source; the saved state was retained.'}
+  $openSshRecoverySourceValidated=$record.ProviderKind -ceq 'Capability' -and $record.Name -ceq 'OpenSSH.Client~~~~0.0.1.0' -and $record.SourceMode -ceq 'LocalSource' -and $record.SourceValidated -ceq $true
+  if($restoreRemovesPayload -and -not $openSshRecoverySourceValidated){throw 'Restore would remove or discard a component payload without a validated matching recovery source; the saved state was retained.'}
   $desired=if($record.BeforeState -in @('Installed','Enabled')){'Present'}else{'Absent'}
-  if($desired -eq 'Present' -and $record.SourceMode -ceq 'LocalSource'){
+  $sourceValidation=$null
+  if($record.SourceMode -ceq 'LocalSource'){
     if($record.SourceValidated -cne $true -or $record.SourcePackageName -isnot [string] -or $record.SourceSha256 -isnot [string]){throw 'Restore requires a validated matching LocalSource, but the saved record does not prove source identity or completeness; the saved state was retained.'}
     $sourceValidation=Test-RideClientComponentLocalSource -Kind $record.ProviderKind -Name $record.Name -SourcePath $record.SourcePath -ExpectedBuild $record.Build
     if($sourceValidation.PackageName -cne $record.SourcePackageName -or $sourceValidation.Sha256 -cne $record.SourceSha256 -or $sourceValidation.Architecture -cne $record.SourceArchitecture){throw 'Restore source CAB changed since the saved run; the saved state was retained.'}
   }
-  if(-not $PSCmdlet.ShouldProcess("$ExpectedComputerName / $($record.ProviderKind) / $($record.Name)",'Restore captured component state')){return [pscustomobject]@{Status='WhatIf';Kind=$record.ProviderKind;Name=$record.Name;State=$fresh.State;RestartNeeded=$false;PostStateVerified=$false;ExactPayloadRecoverySupported=$false;RunId=$RunId}}
+  if(-not $PSCmdlet.ShouldProcess("$ExpectedComputerName / $($record.ProviderKind) / $($record.Name)",'Restore captured component state')){return [pscustomobject]@{Status='WhatIf';Kind=$record.ProviderKind;Name=$record.Name;State=$fresh.State;ConfiguredSourceFallback=if($sourceValidation){$sourceValidation.ConfiguredSourceFallback}elseif($record.ConfiguredSourceFallback){$record.ConfiguredSourceFallback}else{'NotRecorded'};RestartNeeded=$false;PostStateVerified=$false;ExactPayloadRecoverySupported=$false;RunId=$RunId}}
   $result=Invoke-RideClientComponentNativeTransition -Kind $record.ProviderKind -Name $record.Name -DesiredState $desired -SourceMode $record.SourceMode -SourcePath $record.SourcePath -RestoreRemovedPayload:($record.BeforeState -ceq 'DisabledWithPayloadRemoved')
   $after=Get-RideClientComponentFreshState -Kind $record.ProviderKind -Name $record.Name -ExpectedComputerName $ExpectedComputerName -ExpectedBuild $ExpectedBuild -ExpectedEditionId $ExpectedEditionId -LogDirectory $LogDirectory
   $restart=$null;if($result -and $result.PSObject.Properties['RestartNeeded']){$restart=[bool]$result.RestartNeeded}
-  [pscustomobject]@{Status=if($after.State -ceq $record.BeforeState){'Restored'}else{'RestorePostStateMismatch'};Kind=$record.ProviderKind;Name=$record.Name;State=$after.State;RestartNeeded=$restart;PostStateVerified=($after.State -ceq $record.BeforeState);ExactPayloadRecoverySupported=$false;RunId=$RunId}
+  [pscustomobject]@{Status=if($after.State -ceq $record.BeforeState){'Restored'}else{'RestorePostStateMismatch'};Kind=$record.ProviderKind;Name=$record.Name;State=$after.State;RestartNeeded=$restart;PostStateVerified=($after.State -ceq $record.BeforeState);ConfiguredSourceFallback=if($sourceValidation){$sourceValidation.ConfiguredSourceFallback}elseif($record.ConfiguredSourceFallback){$record.ConfiguredSourceFallback}else{'NotRecorded'};ExactPayloadRecoverySupported=$false;RunId=$RunId}
 }
 
 Export-ModuleMember -Function Invoke-RideClientComponentTransition,Restore-RideClientComponentTransition

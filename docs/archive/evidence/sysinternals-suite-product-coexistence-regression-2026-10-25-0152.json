@@ -1,0 +1,39 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T01:52:01Z",
+  "Batch": "Sysinternals Suite and independently owned product folder coexistence",
+  "Runner": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryFixtureEnabled": false,
+    "TemporaryFiles": "Workspace-local .local paths"
+  },
+  "Test": {
+    "File": "tests/SysinternalsSuitePackage.Tests.ps1",
+    "Filter": "does not remove independently owned product files with matching names",
+    "DiscoveredInFile": 8,
+    "Selected": 1,
+    "Passed": 1,
+    "Failed": 0,
+    "NotRun": 7,
+    "Behavior": "The test resolves package.sysinternals-suite and package.sysinternals-process-explorer from the catalog, selects a member present in both packages, stages the Suite-owned copy, and verifies Suite removal removes only its copy while preserving the product-owned file."
+  },
+  "TestCorrection": "The first assertion incorrectly expected the Suite destination directory itself to disappear. Portable removal leaves an empty directory; the final regression checks that the Suite-owned member is absent and the shared product-owned member is unchanged.",
+  "SideEffects": {
+    "SysinternalsExecutableExecuted": false,
+    "InstallerExecuted": false,
+    "LiveRegistryChanged": false,
+    "DefenderStateChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "TemporaryPayloads": "Synthetic one-member ZIP and product fixture under .local"
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Symmetric Suite-to-product folder ownership preservation is covered by a focused synthetic regression; the reverse product-to-Suite direction remains covered by SysinternalsProductPackages.Tests.ps1."],
+    "Retired": [],
+    "Excluded": ["Defender-detected utilities remain excluded separately; no utility was executed."],
+    "Deferred": ["Whole-Suite Windows target support, actual utility behavior/activation and feature acceptance remain pending."],
+    "Partial": ["No Sysinternals legacy outcome closes."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170",
+    "LicenseDisposition": "Prior RIDE v2 specialist approval governs direct Microsoft download-and-install; no legal or generalized redistribution gate applies."
+  }
+}

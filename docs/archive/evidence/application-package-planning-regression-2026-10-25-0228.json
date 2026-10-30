@@ -1,0 +1,50 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T02:28:05Z",
+  "Batch": "Application package and dependency-planning local regression",
+  "Environment": {
+    "OperatingSystem": "Windows host checkout",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryFixtureEnabled": false,
+    "TemporaryFiles": "Workspace-local .local/pester-wfn-full-lifecycle-20261025/temp"
+  },
+  "Tests": {
+    "tests/ApplicationPackages.Tests.ps1": {
+      "Discovered": 84,
+      "Passed": 84,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 84.65
+    },
+    "tests/PackageDependencyPlanning.Tests.ps1": {
+      "Discovered": 42,
+      "Passed": 42,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 6.29
+    },
+    "Total": {
+      "Discovered": 126,
+      "Passed": 126,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 90.99
+    }
+  },
+  "SideEffects": {
+    "InstallerExecuted": false,
+    "PackageDownloaded": false,
+    "LiveRegistryChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Current-source package selection, portable lifecycle and dependency-planning unit regressions pass 126/126."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Native guest acceptance remains per the current package and component migration records."],
+    "Partial": ["No legacy outcome closes in this local regression."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

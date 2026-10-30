@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:48:21Z",
+  "batch": "RIDE-Win11-Test Hyper-V UI inventory and acceptance preflight",
+  "method": "Read-only inspection of the existing Hyper-V Manager window with Windows Computer Use. No VM action was issued.",
+  "observations": {
+    "hostLabel": "P52",
+    "rideWin11TestVisible": true,
+    "rideWin11TestState": "Off",
+    "targetVmSelected": false,
+    "visibleCheckpointTreeBelongsToSelectedVm": "RIDE-S25-Test",
+    "targetVmCheckpointAssociationVerified": false,
+    "hyperVManagerIntegrity": "Higher than the Computer Use helper; accessibility exposed only the window title and selection input did not change the selected VM."
+  },
+  "result": "The VM exists but is off. Its checkpoint configuration could not be inspected through the elevated Hyper-V Manager UI, and no test runner or guest operation could be dispatched.",
+  "handling": {
+    "vmStartedOrStopped": false,
+    "checkpointCreatedAppliedOrRestored": false,
+    "guestCommandDispatched": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Hyper-V Manager visibly lists RIDE-Win11-Test and shows it is Off."
+    ],
+    "partial": [
+      "The host UI did not allow target selection; the target checkpoint and current registration remain unverified."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "RIDE-Win11-Test acceptance pending usable VM/controller access, confirmation of the existing checkpoint, and a started guest."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the UI preflight closes no legacy outcome."
+    }
+  }
+}

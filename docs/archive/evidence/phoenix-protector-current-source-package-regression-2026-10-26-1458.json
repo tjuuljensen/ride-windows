@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T14:58:39Z",
+  "batch": "Phoenix Protector current-source package regression",
+  "suite": "tests/PhoenixPackage.Tests.ps1",
+  "results": [
+    {
+      "shell": "PowerShell 7.6.5",
+      "pesterVersion": "5.7.1",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 3.22,
+      "testRegistry": "Disabled",
+      "temporaryDirectory": ".local/pester-phoenix-current-20261026"
+    },
+    {
+      "shell": "Windows PowerShell 5.1.26100.9711",
+      "pesterVersion": "5.7.1",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 3.51,
+      "testRegistry": "Disabled",
+      "processExecutionPolicy": "Bypass; process only, no persistent policy change",
+      "temporaryDirectory": ".local/pester-phoenix-winps51-20261026"
+    }
+  ],
+  "coverage": {
+    "machineScopeAndQuietMsiArguments": "Passed; msiexec invocation was mocked.",
+    "publisherVersionAndSha256Pin": "Passed; version 1.7.1 and catalog SHA-256 were asserted.",
+    "targetSupport": "Remains pending; no supported Windows target declared.",
+    "netFramework35Precondition": "Passed; absent prerequisite blocks acquisition and MSI invocation; present prerequisite permits the mocked path.",
+    "licenseReview": "The local review store contains one exact-version 1.7.1 NeedsReview record. It is informational administration and does not gate package planning; no licensing gate added."
+  },
+  "safety": {
+    "msiAcquiredOrExecuted": false,
+    "installerProcessLaunched": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false,
+    "vmOrCheckpointUsed": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": [],
+    "windowsAcceptance": "Deferred by VM/controller access.",
+    "estimateChange": "None; package catalog/runtime/acceptance status is unchanged.",
+    "sysinternalsLegalStatus": "Settled under prior RIDE v2 specialist approval; separate from Phoenix owner review and Defender exclusions."
+  }
+}

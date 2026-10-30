@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:41:00Z",
+  "batch": "NTCore Explorer Suite focused runner validation follow-up",
+  "packageId": "package.ntcore-explorer-suite",
+  "integrationSuite": "ApplicationsBatch12",
+  "validation": {
+    "powerShell7": {
+      "version": "7.6.5",
+      "repositoryValidator": "Passed: 447 operations, 8 groups, 5 profiles, 301 PowerShell files; catalog documentation current.",
+      "allChangedScriptsParsed": true,
+      "versionGuards": [
+        "0.19.0",
+        "1.9.0",
+        "0.18.0",
+        "1.14.0",
+        "0.11.0"
+      ],
+      "exactPackageSelectorAndStaleControllerGuard": "Passed direct checks."
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9818",
+      "parserOnly": "All 8 changed PowerShell sources parsed without errors.",
+      "repositoryValidator": "Not run because script execution was blocked by AuthorizationManager.",
+      "pesterModule": "5.7.1 is installed, but Import-Module failed while loading Pester.Format.ps1xml with AuthorizationManager check failed."
+    },
+    "pester": "Not run in either shell: PowerShell 7 only exposes Pester 3.4.0; Windows PowerShell 5.1 Pester 5.7.1 module import was blocked. No execution-policy bypass was used."
+  },
+  "vm": {
+    "target": "RIDE-Win11-Test",
+    "queryOrDispatch": "Not attempted",
+    "blockers": [
+      "The existing controller does not advertise ApplicationsBatch12NtcoreExplorerSuiteV1; refresh requires a saved elevated step.",
+      "Host CIM access failures remain in the active VM blocker ledger."
+    ],
+    "checkpointAccessed": false,
+    "queueRequestSubmitted": false
+  },
+  "state": {
+    "installerRun": false,
+    "utilityRun": false,
+    "network": false,
+    "defenderAccessedOrChanged": false,
+    "alertedPasswordScanFileAccessed": false,
+    "windowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "outcome": {
+    "legacyOutcomeClosed": false,
+    "resolved": [],
+    "partial": [
+      "Exact-package acceptance route passes static and parser validation in PS7 and WinPS5; Pester and Windows lifecycle acceptance remain pending."
+    ],
+    "deferred": [
+      "ApplicationsBatch12 Windows acceptance pending controller capability refresh and usable VM access."
+    ],
+    "estimates": {
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "packages": "37-52",
+      "adjustment": "None; no legacy outcome closed.",
+      "filesAndAssets": "25-35",
+      "components": "19-24",
+      "settings": "37-57",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

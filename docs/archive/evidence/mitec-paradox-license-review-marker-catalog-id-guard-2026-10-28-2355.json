@@ -1,0 +1,35 @@
+{
+  "recordedAtUtc": "2026-10-28T23:55:12Z",
+  "requestedMarker": {
+    "id": "package.mitec-paradox-data-editor",
+    "reviewedVersion": "3.7.0",
+    "reviewOwner": "Unassigned",
+    "licenseReviewStatus": "NeedsReview"
+  },
+  "tool": "tools/Manage-RideLicenseReviews.ps1 Set",
+  "result": "Rejected before store write: Unknown package or artifact ID because the proposed package operation is not yet registered in the catalog.",
+  "workspaceStore": {
+    "path": ".local/license-reviews.json",
+    "recordCountBefore": 90,
+    "recordCountAfter": 90,
+    "proposedMarkerPresent": false,
+    "storeSha256": "7b9dd99a95c6109aaafabdfe741dfec234b96418899ea22dd2376096e317458f",
+    "backupPath": ".local/license-reviews-before-paradox-data-editor-20261028-2355.json",
+    "backupMatchesCurrentStore": true
+  },
+  "nextTechnicalPrerequisite": "Acquire the exact publisher installer and establish a valid catalog package ID/version and installer metadata. Then register the exact-version review marker with the existing tool.",
+  "migrationDisposition": {
+    "productRemainsSelected": true,
+    "licenseReviewIsMigrationGate": false,
+    "catalogOperationAdded": false,
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false
+  },
+  "sideEffects": {
+    "licenseReviewStoreChanged": false,
+    "backupCreatedAndHashVerified": true,
+    "installerDownloadedOrRun": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false
+  }
+}

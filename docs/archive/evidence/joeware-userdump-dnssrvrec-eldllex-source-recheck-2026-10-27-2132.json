@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T21:31:35Z",
+  "batch": "JoeWare UserDump, DNSSrvRec and ELDLLEx official-page source recheck",
+  "scope": ["UserDump", "DNSSrvRec", "ELDLLEx"],
+  "sources": [
+    {
+      "product": "UserDump",
+      "uri": "https://www.joeware.net/freetools/tools/userdump/index.htm",
+      "publisherPageFacts": [
+        "The page describes a command-line utility that enumerates users on a specified NT-based machine and outputs user ID, password age, expired, disabled, password-not-required, locked and no-expire fields in tab-delimited form.",
+        "The listed platforms are Windows NT, Windows 2000, Windows Server 2003 and Windows XP; these are publisher-listed legacy platforms, not RIDE support evidence.",
+        "The Current Version section says 1.01.00 dated January 28, 2001, while Version History lists 2.02.00 on that same date with the same 'Added banner' note. The publisher versions.txt row says 01.01.00 dated 2001.01.28 and lists MD5/SHA-1 observations. This internal page conflict remains unresolved; do not infer or pin archive version from the page alone."
+      ],
+      "webReaderSourceFreshness": "The source reader returned a cached official page; no local publisher request or download was made."
+    },
+    {
+      "product": "DNSSrvRec",
+      "uri": "https://www.joeware.net/freetools/tools/dnssrvrec/index.htm",
+      "webReaderResult": "Cache miss; no current page content or version change was established.",
+      "frozenInventoryObservation": "The 2026-10-17 reviewed inventory records page version 1.00.00 and versions.txt row 01.00.00 dated 2006.01.15; exact artifact identity remains open."
+    },
+    {
+      "product": "ELDLLEx",
+      "uri": "https://www.joeware.net/freetools/tools/eldllex/index.htm",
+      "webReaderResult": "Cache miss; no current page content or version change was established.",
+      "frozenInventoryObservation": "The 2026-10-17 reviewed inventory records product-page version 1.00.0 versus versions.txt 01.00.00 dated 2002.02.17; that list row has no MD5 or SHA-1, and exact artifact identity remains open."
+    }
+  ],
+  "safetyAndAcceptance": {
+    "downloadFormsSubmitted": false,
+    "payloadBytesAcquired": false,
+    "archivesExtractedOrExecuted": false,
+    "userOrDirectoryDataAccessed": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderChanged": false,
+    "adFind": "Not in this batch; remains excluded while Defender-blocked."
+  },
+  "disposition": {
+    "resolved": ["UserDump publisher page behavior and supported legacy platform statements are now available for source review."],
+    "partial": ["UserDump page/version-list conflict; exact current archive identity remains unknown."],
+    "deferred": ["AdMod, UserDump, DNSSrvRec and ELDLLEx exact archive bytes/hash/member inventory and catalog lifecycle.", "UserDump version conflict and ELDLLEx version-string formatting pending exact archive evidence.", "DNSSrvRec/ELDLLEx current-page reread after web-reader cache availability."],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; additional source detail does not establish an exact artifact, lifecycle or legacy-outcome closure."
+    }
+  }
+}

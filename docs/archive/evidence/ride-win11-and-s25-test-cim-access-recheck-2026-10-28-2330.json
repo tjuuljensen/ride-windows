@@ -1,0 +1,35 @@
+{
+  "recordedAtUtc": "2026-10-28T23:30:06Z",
+  "batch": "RIDE-Win11-Test and RIDE-S25-Test access recheck",
+  "command": "Get-VM -Name 'RIDE-Win11-Test','RIDE-S25-Test'",
+  "result": "Access to a CIM resource was not available to the client.",
+  "vmStateRetrieved": false,
+  "checkpointStateQueried": false,
+  "taskOrQueueStateQueried": false,
+  "guestRequestDispatched": false,
+  "elevationRequested": false,
+  "stateChanged": false,
+  "disposition": "Keep disposable Windows 11 and Server 2025 acceptance deferred until host CIM access is restored and the existing checkpoint/task readiness can be confirmed. Continue independent source implementation and mocked regression work.",
+  "migrationImpact": {
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "blockedAcceptance": [
+      "Windows 11 current-source candidate packages, settings and components",
+      "Windows Server 2025 declared-target components and settings"
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180; about 155"
+    }
+  },
+  "priorEvidence": [
+    "ride-win11-and-s25-test-current-cim-access-block-2026-10-28-2319.json",
+    "ride-win11-test-cim-access-recheck-2026-10-28-2256.json",
+    "ride-s25-test-cim-access-recheck-2026-10-28-2302.json"
+  ]
+}

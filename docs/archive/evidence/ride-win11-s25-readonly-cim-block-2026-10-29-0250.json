@@ -1,0 +1,35 @@
+{
+  "recordedAtUtc": "2026-10-29T02:50:00Z",
+  "kind": "RideWin11AndServer2025ReadOnlyCimAccessRecheck",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "state": "Unretrievable",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-S25-Test",
+      "state": "Unretrievable",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "checkpointsQueried": false,
+  "guestTasksQueried": false,
+  "vmRequestSubmitted": false,
+  "vmOrWindowsStateChanged": false,
+  "checkpointState": "Unverified",
+  "acceptance": "Deferred",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

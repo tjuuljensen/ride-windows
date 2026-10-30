@@ -1,0 +1,113 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "NirSoftFilteredPackageLifecycleRegression",
+  "RecordedAtUtc": "2026-10-27T12:20:07Z",
+  "Packages": [
+    {
+      "Id": "package.nirsoft-launcher",
+      "Version": "1.30.26",
+      "SelectedMembers": 660,
+      "LicenseReview": "NeedsReview/Unassigned",
+      "ReviewNote": "NK2Edit has a separate publisher-listed commercial license for company/business use; this owner/version review marker is informational and does not block package planning."
+    },
+    {
+      "Id": "package.nirsoft-x64-tools",
+      "Version": "snapshot-2026-10-17",
+      "SelectedMembers": 47,
+      "LicenseReview": "NeedsReview/Unassigned",
+      "ReviewNote": "Product-specific collection terms remain recorded for owner/version review; the marker does not block package planning."
+    }
+  ],
+  "DefenderExclusions": [
+    "NirSoft/chromecookiesview.exe",
+    "NirSoft/bulletspassview.exe",
+    "ProduKey.exe",
+    "WirelessKeyView.exe"
+  ],
+  "CurrentSourcePester": {
+    "Path": "tests/NirsoftCollectionPackages.Tests.ps1",
+    "PowerShell7": {
+      "Edition": "PowerShell 7.6.5",
+      "Pester": "5.7.1",
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "DurationSeconds": 1687.39,
+      "Scratch": ".local/pester-nirsoft-packages-current-20261027",
+      "Scope": "Filtered package metadata, catalog omission of the four alerted executables, synthetic owned-file install/repeat/remove/recovery, and no-block license planning. No publisher archive was accessed."
+    },
+    "WindowsPowerShell51": {
+      "Edition": "Windows PowerShell 5.1.26100.9711",
+      "Pester": "5.7.1",
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "DurationSeconds": 742.56,
+      "ExecutionPolicy": "Process-only Bypass",
+      "Scratch": ".local/pester-nirsoft-packages-current-20261027-winps51-run",
+      "Scope": "Filtered package metadata, catalog omission of the four alerted executables, synthetic owned-file install/repeat/remove/recovery, and no-block license planning. No publisher archive was accessed."
+    },
+    "FinalSourceSetupCheck": {
+      "Edition": "PowerShell 7.6.5",
+      "Passed": 3,
+      "Failed": 0,
+      "NotRun": 1,
+      "ReasonNotRun": "The long synthetic lifecycle case was excluded; the final explicit .NET compression assembly loads were validated with the three metadata/exclusion/license cases.",
+      "Result": "passed"
+    },
+    "Diagnostics": [
+      "The first Windows PowerShell 5.1 full-suite attempt failed because System.IO.Compression.FileSystem had not been explicitly loaded by the fixture.",
+      "The second attempt exposed a separate missing System.IO.Compression assembly for ZipArchiveMode; both assemblies are now explicitly loaded.",
+      "The final Windows PowerShell 5.1 suite passed 4/4. The full PowerShell 7 suite passed 4/4; a final-source focused rerun passed its three fast cases with the long lifecycle case not run."
+    ],
+    "DisabledOptionalPlugins": ["TestRegistry", "TestResult"]
+  },
+  "RepositoryValidation": {
+    "Result": "passed",
+    "Operations": 432,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 296,
+    "GeneratedOperationDocumentationCurrent": true
+  },
+  "VMAccess": {
+    "Targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "Query": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "Result": "failed before inspection: Access to a CIM resource was not available to the client.",
+    "AcceptanceDispatch": "not attempted"
+  },
+  "Safety": {
+    "DefenderAlertedExecutablesReadOrExtracted": false,
+    "NirSoftExecutableOrInstallerLaunched": false,
+    "PublisherNetworkAccess": false,
+    "DefenderStateChanged": false,
+    "VMOrWindowsStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "Deferred": [
+      "Windows 11 package lifecycle and exact saved-run acceptance for both filtered candidates.",
+      "Owner-specific administration for NK2Edit only if it is selected for company/business use requiring its commercial license; this does not block package migration or the other selected utilities."
+    ],
+    "Blocker": "Current host CIM access prevents VM inspection and acceptance dispatch."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Both filtered NirSoft collection package candidates pass current-source synthetic lifecycle regression; native target acceptance remains pending."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No legacy package outcome closes until native acceptance; local regression adds evidence only."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:48:00Z",
+  "batch": "Phoenix Protector pinned package regression",
+  "suite": "tests/PhoenixPackage.Tests.ps1",
+  "runtime": {
+    "shell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass for this test process only",
+    "testRegistry": "Disabled",
+    "testResult": "Disabled"
+  },
+  "result": {
+    "discovered": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "durationSeconds": 2.48
+  },
+  "assertions": [
+    "Machine scope, elevation metadata and ALLUSERS=1 quiet MSI arguments.",
+    "Exact catalog pin remains version 1.7.1 and SHA-256 15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369; Windows support remains pending.",
+    "Missing .NET Framework 3.5 prerequisite prevents acquisition and MSI invocation; present prerequisite permits the mocked package path.",
+    "Mocked msiexec call receives the catalog machine-wide arguments; no installer process launched."
+  ],
+  "versionDiscrepancy": "The current official product page lists 1.8.0.1; the retained/catalog MSI remains pinned to 1.7.1 and its contained executable reports 1.9.0.1. This test validates the existing exact pin and does not reconcile publisher page/MSI/executable version labels.",
+  "source": "https://ntcore.com/phoenix-protector/",
+  "licenseDisposition": "The exact-version NeedsReview record is administrative; no license gate added.",
+  "boundary": {
+    "msiAcquired": false,
+    "msiOpened": false,
+    "installerProcessLaunched": false,
+    "publisherNetwork": false,
+    "vmQueried": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertPathAccessed": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false,
+    "persistentExecutionPolicyChanged": false
+  },
+  "blocker": "Native Windows acceptance and exact current Phoenix MSI identity remain unresolved; existing host VM access block continues.",
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Pinned Phoenix package metadata and prerequisite/install command path passed mocked regression; current publisher/MSI/executable version identity remains partially reconciled."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Windows 11 Phoenix lifecycle acceptance and current publisher MSI byte/version recheck."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  }
+}

@@ -25,6 +25,7 @@
   Changelog: 2026-10-09: Cover twenty optional Windows settings and saved-run recovery,
     including inverted, multi-state and corrected user-policy mappings.
     Follow-up: Cover forty further independent settings and partial legacy replacements.
+    2026-10-28: Cover the separate Storage Sense machine-policy candidate.
 #>
 
 BeforeDiscovery {
@@ -96,6 +97,47 @@ BeforeAll {
   $script:RepositoryRoot = Split-Path -Parent $PSScriptRoot
   Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE.Engine.psm1') -Force
   $script:DefaultProfile = Get-RideProfile -Path (Join-Path $script:RepositoryRoot 'profiles/default.psd1')
+}
+
+Describe 'Storage Sense machine policy candidate metadata' {
+  It 'uses the documented machine policy and remains unsupported pending acceptance' {
+    $operation = Get-RideOperation -Id 'windows.storage-sense-global-policy'
+
+    $operation.Kind | Should -Be 'RegistryValue'
+    $operation.Handler | Should -Be 'RegistryValue'
+    $operation.Scope | Should -Be 'Machine'
+    $operation.RequiresAdmin | Should -BeTrue
+    $operation.SupportedTargets | Should -BeNullOrEmpty
+    $operation.CandidateTargets | Should -Be @('Windows 11')
+    $operation.PendingAcceptance | Should -BeTrue
+    $operation.RegistryPath | Should -Be 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense'
+    $operation.ValueName | Should -Be 'AllowStorageSenseGlobal'
+    $operation.ValueType | Should -Be 'DWord'
+    $operation.States.Enabled | Should -Be 1
+    $operation.States.Disabled | Should -Be 0
+    $operation.States.ContainsKey('WindowsDefault') | Should -BeTrue
+    $operation.States.WindowsDefault | Should -BeNullOrEmpty
+    $operation.BaselineState | Should -Be 'WindowsDefault'
+    $operation.Rollback | Should -Be 'Exact'
+    $operation.DocumentationUri | Should -Be 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-storage#allowstoragesenseglobal'
+    $operation.SettingPresentation.Behavior | Should -Be 'EnforcedPolicy'
+    @($script:DefaultProfile.Operations.Id) | Should -Not -Contain $operation.Id
+  }
+
+  It 'distinguishes explicit machine values from removal of the local override' {
+    InModuleScope RIDE.Engine {
+      $operation = Get-RideOperation -Id 'windows.storage-sense-global-policy'
+      foreach ($selection in @(@{ State = 'Enabled'; Value = 1 }, @{ State = 'Disabled'; Value = 0 })) {
+        $current = [pscustomobject]@{ Exists = $true; Value = $selection.Value; ValueType = 'DWord' }
+        Test-RideCurrentStateMatch -Operation $operation -State $selection.State -CurrentState $current | Should -BeTrue
+        Get-RideCurrentStateName -Operation $operation -CurrentState $current | Should -Be $selection.State
+        Test-RideCurrentStateMatch -Operation $operation -State 'WindowsDefault' -CurrentState $current | Should -BeFalse
+      }
+      $absent = [pscustomobject]@{ Exists = $false; Value = $null; ValueType = $null }
+      Test-RideCurrentStateMatch -Operation $operation -State 'WindowsDefault' -CurrentState $absent | Should -BeTrue
+      Test-RideCurrentStateMatch -Operation $operation -State 'Disabled' -CurrentState $absent | Should -BeFalse
+    }
+  }
 }
 
 Describe 'Optional Windows settings registry metadata' {

@@ -1,0 +1,88 @@
+{
+  "RecordedAtUtc": "2026-10-26T05:54:18Z",
+  "Scope": "Read-only current source identity recheck for six selected ArsenalRecon open-source candidates",
+  "Repositories": [
+    {
+      "Name": "ArsenalRecon/BackstageParser",
+      "RepositoryUrl": "https://github.com/ArsenalRecon/BackstageParser",
+      "ObservedDefaultBranch": "master",
+      "ImmutableRevision": null,
+      "ReviewNote": "Python parser for Office Backstage cache data."
+    },
+    {
+      "Name": "ArsenalRecon/CyberGateLogDecrypt",
+      "RepositoryUrl": "https://github.com/ArsenalRecon/CyberGateLogDecrypt",
+      "ObservedDefaultBranch": "master",
+      "ImmutableRevision": null,
+      "ReviewNote": "Python utility that decrypts CyberGate keylogger records and writes plaintext output."
+    },
+    {
+      "Name": "ArsenalRecon/GmailURLDecoder",
+      "RepositoryUrl": "https://github.com/ArsenalRecon/GmailURLDecoder",
+      "ObservedDefaultBranch": "master",
+      "ImmutableRevision": null,
+      "ReviewNote": "Python utility that extracts and decodes Gmail URLs from text or raw-message inputs."
+    },
+    {
+      "Name": "ArsenalRecon/NetWireLogDecoder",
+      "RepositoryUrl": "https://github.com/ArsenalRecon/NetWireLogDecoder",
+      "ObservedDefaultBranch": "master",
+      "LatestObservedRelease": "v1.0.0.1",
+      "ReleaseCommit": "d5d8d653f7f31656b47a993ed652cc353a86d78e",
+      "ImmutableRevision": "d5d8d653f7f31656b47a993ed652cc353a86d78e",
+      "ReviewNote": "Official release page links to the commit above and lists three assets; the immutable repository source revision is established, but assets, archive identity, and hashes were not retrieved."
+    },
+    {
+      "Name": "ArsenalRecon/SdbaParser",
+      "RepositoryUrl": "https://github.com/ArsenalRecon/SdbaParser",
+      "ObservedDefaultBranch": "main",
+      "ImmutableRevision": null,
+      "ReviewNote": "Repository includes AutoIt parser source and a PowerShell helper; do not change execution policy as part of automation."
+    },
+    {
+      "Name": "ArsenalRecon/NetWireStackForensics",
+      "RepositoryUrl": "https://github.com/ArsenalRecon/NetWireStackForensics",
+      "ObservedDefaultBranch": "main",
+      "ImmutableRevision": null,
+      "ReviewNote": "Repository includes proof-of-concept code and sample/decrypted data; do not bundle sample data automatically."
+    }
+  ],
+  "PublisherPageReview": "Read-only official GitHub repository and release pages were accessible through the browser source reader. Mutable branch names are observations, not package pins.",
+  "DirectRevisionLookup": {
+    "Command": "git ls-remote --refs <official repository URL> HEAD",
+    "RepositoriesAttempted": 6,
+    "RepositoriesFailedBeforeRefResolution": 6,
+    "Failure": "Could not resolve host: github.com"
+  },
+  "AcquisitionAndExecution": {
+    "RepositoryCheckout": false,
+    "ArchiveDownload": false,
+    "PayloadHashOrMemberInventory": false,
+    "ToolExecution": false,
+    "WindowsOrVmStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "LicenseDisposition": "No license gate applied. Existing publisher/source-license review remains informational for this migration batch.",
+  "MigrationAccounting": {
+    "Resolved": [
+      "NetWire Log Decoder v1.0.0.1 source commit d5d8d653f7f31656b47a993ed652cc353a86d78e, from its official release-page commit link."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Exact immutable revisions for five ArsenalRecon candidates and exact package artifacts/hashes for all six; direct GitHub metadata lookup failed at host DNS.",
+      "Review whether sample/decrypted data belongs in any package; default disposition remains exclude sample data from automatic bundling."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

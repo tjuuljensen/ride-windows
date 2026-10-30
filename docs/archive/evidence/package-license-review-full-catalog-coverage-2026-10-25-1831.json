@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:31:00Z",
+  "Scope": "Exact-version local license-review marker coverage across catalog package operations",
+  "Method": "Filtered current Package operations by the bounded license-text indicators used in prior administrative coverage checks, expanded explicit package and variant versions, excluded Sysinternals per the user-settled disposition, and verified marker records through Manage-RideLicenseReviews.ps1 Get against the default user-local store.",
+  "Catalog": {
+    "PackageOperations": 103,
+    "PendingPackageOperations": 33,
+    "TextFlaggedOperations": 41,
+    "PendingFlaggedOperations": 16,
+    "PendingExactVersions": 17
+  },
+  "Disposition": {
+    "SysinternalsOperationsExcluded": 10,
+    "NonSysinternalsOperationsMarked": 31,
+    "NonSysinternalsExactVersionsRequired": 31,
+    "VerifiedNeedsReviewUnassigned": 31,
+    "MissingMarkers": 0,
+    "AddedPendingMarkersInPriorAudit": 17,
+    "AddedOtherPackageMarkersThisAudit": 14
+  },
+  "Findings": [
+    "All 31 flagged non-Sysinternals exact package versions now have NeedsReview / Unassigned records in the default user-local RIDE review store.",
+    "The records are administrative reminders only. They do not determine entitlement or block package planning, installation or migration.",
+    "Sysinternals is deliberately excluded from the license review marker set under the user-confirmed RIDE v2 specialist approval for direct Microsoft download-and-install. No license or redistribution gate applies.",
+    "Defender-blocked tools remain separate security exclusions."
+  ],
+  "Limitations": [
+    "The bounded text filter is an administrative coverage aid, not exhaustive legal classification or legal advice.",
+    "No shared catalog or package metadata changed. No installer, utility, VM or Windows state changed.",
+    "No legacy outcome resolved, retired, excluded or changed disposition."
+  ],
+  "AcceptanceBlockers": [
+    "Get-VM access remains denied at CIM before either registered VM or checkpoint inspection.",
+    "The preregistered RIDEWin11Test task query returns an invalid network address; no guest run was submitted."
+  ],
+  "MigrationAccounting": {
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

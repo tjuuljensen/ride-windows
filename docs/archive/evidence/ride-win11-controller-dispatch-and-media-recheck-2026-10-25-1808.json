@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:08:00Z",
+  "Scope": "Read-only preregistered Windows 11 controller, dispatch and component source-media recheck",
+  "RegisteredController": {
+    "Name": "RIDEWin11Test",
+    "VmName": "RIDE-Win11-Test",
+    "Capabilities": [
+      "GitHubPatGuestV1",
+      "FocusedPortableV1"
+    ],
+    "Checkpoint": "Existing registered clean-test checkpoint"
+  },
+  "VmQueries": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Result": "Blocked before VM/checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Result": "Blocked before VM/checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "Dispatch": {
+    "PendingQueueItems": 0,
+    "RunningQueueItems": 0,
+    "BlockedRecoveryMarkerPresent": false,
+    "SchTasksQuery": "Failed: ERROR: The network address is invalid.",
+    "TaskSchedulerCom": "Failed: Access is denied (0x80070005).",
+    "AcceptanceRequestsSubmitted": 0,
+    "FreshElevationRequested": false
+  },
+  "SourceMedia": {
+    "RegisteredWindows11IsoAccessible": true,
+    "Path": "Z:\\LabSources\\ISOs\\26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+    "SizeBytes": 8225329152,
+    "MountedOrExtracted": false,
+    "ComponentCabFilesFoundInWorkspaceCache": 0,
+    "TelnetPackageIdentityEstablished": false
+  },
+  "StateChanges": {
+    "Vm": false,
+    "Checkpoint": false,
+    "Host": false,
+    "Windows": false,
+    "Defender": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [],
+    "Deferred": [
+      "Disposable-VM acceptance cannot be dispatched while both Hyper-V CIM and the registered task scheduler are inaccessible.",
+      "PSScriptTools controller refresh remains deferred until a later elevated session.",
+      "Telnet LocalSource validation remains blocked until the actual optional-feature package identity and matching media source are established."
+    ],
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

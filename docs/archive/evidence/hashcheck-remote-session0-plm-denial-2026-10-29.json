@@ -1,0 +1,155 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T13:34:33.4294035Z",
+  "RunId": "e4a26c18d81844c7a9cead4c09457b5c",
+  "EvidenceSource": "Exported guest diagnostic and AppX logs independently read; 13 retained files rehashed against guest manifest.",
+  "Diagnostic": {
+    "StartedAtUtc": "2026-10-29T13:28:44.5236453Z",
+    "Computer": "RIDE-WIN11-TEST",
+    "User": "RIDE-WIN11-TEST\\admin",
+    "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "Elevated": true,
+    "SessionId": 0,
+    "UserInteractive": false,
+    "PowerShell": "5.1.26100.9711",
+    "ExitCode": 2,
+    "TimedOut": false,
+    "Error": null,
+    "CollectionErrors": [],
+    "InstallerPID": 3612,
+    "FinishedAtUtc": "2026-10-29T13:29:00.7254751Z"
+  },
+  "HostDirectory": ".local/acceptance-input/hashcheck-remote-e4a26c18d81844c7a9cead4c09457b5c",
+  "Files": [
+    {
+      "Name": "child-errors.log",
+      "Bytes": 0,
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "child-output.log",
+      "Bytes": 0,
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "diagnostic.json",
+      "Bytes": 527,
+      "SHA256": "B8A27630F60DA42B610DB756F9FCF97A5B736452E45699720F41EC62DD96CC25",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "hashcheck-install.log",
+      "Bytes": 1961,
+      "SHA256": "2452184B5991DD4FC7F5C4A7B13A898473E1C85E50588065B0FE27406A23B6D4",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "HashCheckSetup-v2.6.3.0.exe",
+      "Bytes": 2157368,
+      "SHA256": "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Invoke-HashCheckRemoteGuest.ps1",
+      "Bytes": 5478,
+      "SHA256": "6A484F29B69A355BE46845990E39E2C15F8971DBBA0B9CAA852E2D054E3BEEB6",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppXDeploymentServer_Operational.json",
+      "Bytes": 5589,
+      "SHA256": "5CB2509CAB4ACDDFF8F75C9D31E1BBBD83CC551C1425E9C03F837FD498466988",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppXDeploymentServer_Operational.xml",
+      "Bytes": 13323,
+      "SHA256": "978E417DD21A6619B50DDEE60807302635BA76D3393107F03FE49D795F224BFE",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppxPackaging_Operational.json",
+      "Bytes": 3155,
+      "SHA256": "052A8546971BD9411D70FF254F79FAE3EA99CED2BFEFEC9745897440295EF0F2",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppxPackaging_Operational.xml",
+      "Bytes": 7433,
+      "SHA256": "BAC617159EEF492DCDC873C97B20142B13998BB32742C607ED4EAE1665C8B6C2",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "profile.json",
+      "Bytes": 175,
+      "SHA256": "5337B4D28EEA390ECF99DF3EDDE493CA51A31D0DECE7DC59AE0BAE82AECD15C5",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "sessions.txt",
+      "Bytes": 163,
+      "SHA256": "E51688A345A3F2DDE679BC3F5F726434D3B8836A197B69A474330D9E236C16C0",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "token.txt",
+      "Bytes": 5305,
+      "SHA256": "2743F9CD495BFDBDEF905CD72B02F96F09C78B3F2C77B2DA866ADC71F95B96F4",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "094c2675-38cf-4d8f-9deb-3ef4a97ef88b",
+      "PSShowComputerName": true
+    }
+  ],
+  "ActivityId": "8bb0d2dd-67a8-0003-5247-b18ba867dd01",
+  "DeploymentFinding": {
+    "Event605": "Failure in the PackagesInUseClosed state handler.",
+    "Event404": "AppX Deployment operation failed for IDRIX.HashCheck with 0x80070005.",
+    "Event718": "Failed to initialize PLM with error 0x80070005.",
+    "Native64RegistrationExit": 0,
+    "MsixSignature": "Valid"
+  },
+  "ConsoleSession": "quser reports admin active in console session 1 during diagnostic; remote child ran in session 0.",
+  "Profile": "Expected admin SID; profile loaded, Status=0, Special=false.",
+  "Interpretation": "Failure correlates with noninteractive Session 0 despite elevation and an active console session. Exact mechanism remains unproven; next compare remote-triggered execution in the intended interactive user session.",
+  "Recovery": "Completed at 2026-10-29T13:36:54.8174983Z per operator output and local recovery receipt: 13 evidence files reverified, exact checkpoint restored, clean guest Running and controller Disabled.",
+  "NextAcceptance": "Test a bounded temporary interactive-user task in guest; if successful, integrate an explicit execution-context requirement and repeat full RIDE lifecycle before declaring remote support.",
+  "Migration": {
+    "Partial": "Attended lifecycle passed; remote context diagnosis narrowed",
+    "Components": "19-24",
+    "Resolved": 0,
+    "ExactTotal": "126-180",
+    "Settings": "37-57",
+    "Maintenance": "8-12",
+    "NewExclusions": 0,
+    "Packages": "37-52",
+    "Retired": 0,
+    "RoundedTotal": "125-180; about 155",
+    "FilesAndAssets": "25-35"
+  }
+}

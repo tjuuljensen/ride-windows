@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T05:21:59Z",
+  "batch": "Telnet LocalSource official documentation boundary review",
+  "sources": [
+    {
+      "uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11",
+      "finding": "The current Available Features on Demand inventory did not identify Telnet or a Telnet package identity. This absence does not prove a package is unavailable; the page does not provide the source mapping needed for this candidate."
+    },
+    {
+      "uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+      "findings": [
+        "Windows 11 Features on Demand use matching Windows 11 Languages and Optional Features media.",
+        "Satellite Features on Demand require a well-formed repository with metadata; copying CAB files into a folder is not sufficient.",
+        "The general guidance does not establish that TelnetClient is a satellite feature or identify its exact package files."
+      ]
+    }
+  ],
+  "localInventoryReference": "The four registered LabSources setup ISOs and checked SoftwarePackages/OSUpdates roots were previously inventoried without finding Telnet media.",
+  "vmAccessRecheck": {
+    "observedAtUtc": "2026-10-27T05:21:29Z",
+    "readOnlyQueries": [
+      "Get-VM -Name RIDE-Win11-Test",
+      "Get-VM -Name RIDE-S25-Test",
+      "Get-ScheduledTask -TaskPath \\\"\\RIDE\\\" -TaskName RIDEWin11Test"
+    ],
+    "result": "Each query failed with Access to a CIM resource was not available to the client before VM/checkpoint inspection or task dispatch.",
+    "guestRequestOrStateChange": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "Resolved": ["Current Microsoft documentation does not provide the Telnet package identity or source layout required by the LocalSource candidate."],
+    "Deferred": ["Acquire matching optional-feature media; identify the target-specific Telnet package and dependencies; validate source completeness, policy source order, payload recovery and Windows acceptance."],
+    "NoCodeOrWindowsChange": true,
+    "LegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

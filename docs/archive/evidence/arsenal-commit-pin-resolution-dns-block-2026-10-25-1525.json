@@ -1,0 +1,35 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:25:52Z",
+  "Scope": "Immutable source revision lookup for selected Arsenal open-source package candidates",
+  "Repositories": [
+    "ArsenalRecon/BackstageParser",
+    "ArsenalRecon/CyberGateLogDecrypt",
+    "ArsenalRecon/GmailURLDecoder",
+    "ArsenalRecon/NetWireLogDecoder",
+    "ArsenalRecon/SdbaParser",
+    "ArsenalRecon/NetWireStackForensics"
+  ],
+  "Attempt": "Read-only git ls-remote against the official BackstageParser repository HEAD and master ref",
+  "Result": "Failed before repository metadata resolution: Could not resolve host: github.com",
+  "NoCommitPinRecorded": true,
+  "NoRepositoryCheckoutOrDownload": true,
+  "NoToolExecution": true,
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Immutable commit IDs and exact pinned source archives for all six selected open-source candidates; source host DNS failed."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-26T17:12:00Z",
+  "packageId": "package.hashcheck-shell-extension",
+  "publisher": "idrassi/HashCheck",
+  "version": "2.6.3",
+  "attempts": [
+    {
+      "url": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+      "method": "HEAD",
+      "result": "failed before response",
+      "error": "No such host is known. (github.com:443)"
+    },
+    {
+      "url": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe.sha256",
+      "method": "HEAD",
+      "result": "failed before response",
+      "error": "No such host is known. (github.com:443)"
+    }
+  ],
+  "payloadBytesReceived": 0,
+  "localFileCreated": false,
+  "installOrExecutionPerformed": false,
+  "migrationDisposition": "Keep the pending candidate and published API digest reference. Actual bytes, local digest comparison, Authenticode, reversible lifecycle and Windows acceptance remain deferred.",
+  "licenseDisposition": "BSD-3-Clause; no legal or license migration gate.",
+  "estimates": "Unchanged: settings 37-57, packages 40-55, components 19-24, files/assets 25-35, maintenance 8-12; exact 129-183; rounded 130-185/about 155."
+}

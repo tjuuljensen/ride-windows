@@ -1,0 +1,52 @@
+{
+  "recordedAtUtc": "2026-10-29T02:27:09Z",
+  "batch": "Existing RIDEWin11Test request terminal-result and guest access audit",
+  "request": {
+    "runId": "95bc76d3055f4f17964087ed15422295",
+    "source": "Local",
+    "unitOnly": true,
+    "integrationSuite": "Full",
+    "queueState": "finished",
+    "resultStatus": "Failed",
+    "resultError": "Test controller exited with code 1. See controller-errors.log.",
+    "cleanupError": null,
+    "collectionError": "Partial-evidence collection failed. See collection-errors.log.",
+    "controllerError": "New-LabPSSession could not create a session to RIDE-Win11-Test because the port was closed after 20 retries.",
+    "collectorError": "New-LabPSSession could not create a session to RIDE-Win11-Test because the port was closed after 1 retry.",
+    "guestTestsExecuted": null,
+    "guestTestOutcome": "Unknown: controller.log records guest command dispatch, but guest summary.json and pester.xml were not collected. The final error occurred during session reconnection for result export; it does not prove tests never started.",
+    "correlatedResultPresent": true
+  },
+  "accessChecks": {
+    "getVm": "Failed before returning state: Access to a CIM resource was not available to the client.",
+    "testWsman": "Identification request returned without error; this did not establish that remote commands were enabled.",
+    "invokeCommand": "Failed: Windows PowerShell remoting features are not enabled or supported on the guest.",
+    "tcp5985": false,
+    "scheduledTaskQuery": "Failed at CIM access.",
+    "runtimeBlockedFlagPresent": false,
+    "guestOrCheckpointStateVerified": false
+  },
+  "handling": {
+    "newVmRequestSubmitted": false,
+    "existingRequestCancelledOrModified": false,
+    "machineOrGuestStateChangedByThisAudit": false,
+    "defenderQueriedOrChanged": false,
+    "defenderBlockedPayloadReadOrExecuted": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "deferred": ["All guest acceptance suites requiring RIDE-Win11-Test until host CIM and a usable guest session are available; guest/checkpoint cleanup state is unverified."],
+    "nextAction": "Do not resubmit against the unverified guest/checkpoint state. Restore authorized VM inspection/session access before dispatching another batch.",
+    "legacyOutcomesClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; guest test completion is unverified and evidence collection failed, so no legacy outcome closed."
+  }
+}

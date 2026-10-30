@@ -1,0 +1,57 @@
+{
+  "RunDateUtc": "2026-10-25 04:11",
+  "Purpose": "Current-source repository validation and Pester regression",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "RepositoryPath": "Windows filesystem checkout"
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 411,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 274
+  },
+  "PesterStartupAttempt": {
+    "Discovered": 3282,
+    "Passed": 0,
+    "Failed": 3281,
+    "Skipped": 0,
+    "Result": "Failed before test bodies",
+    "Cause": "Pester TestRegistry setup attempted HKCU Software\\Pester and Windows denied registry access."
+  },
+  "FocusedLicenseReview": {
+    "File": "tests/LicenseReviews.Tests.ps1",
+    "Result": "Passed",
+    "Total": 23,
+    "Passed": 23,
+    "Failed": 0,
+    "TestRegistryEnabled": false
+  },
+  "FullPesterRetry": {
+    "Discovered": 3282,
+    "TestRegistryEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "FinalAggregate": null,
+    "Outcome": "No aggregate captured",
+    "Observation": "The run emitted interactive authoring prompts and sandbox temporary-file replacement warnings, continued for an extended period, then its process handle became unavailable without returning a Pester result."
+  },
+  "Scope": {
+    "RuntimeSourceChanged": false,
+    "LegacyOutcomeClosed": false,
+    "EstimatesChanged": false,
+    "DefenderBlockedToolsIncluded": false,
+    "FreshUacRequested": false
+  },
+  "MigrationEstimates": {
+    "Settings": "37-57",
+    "Packages": "46-61",
+    "Components": "19-24",
+    "AccountsFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "135-189",
+    "RoundedTotal": "135-190/about 160"
+  },
+  "Disposition": "Keep the broad Pester aggregate unverified. Repository validation and the isolated license-review result are valid, bounded evidence only."
+}

@@ -1,0 +1,70 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T08:38:42Z",
+  "Batch": "JoeWare ChangePw, ClientTest and CPAU publisher source review",
+  "Scope": {
+    "FrozenMemberCount": 41,
+    "ProductsReviewed": ["ChangePw", "ClientTest", "CPAU"],
+    "AdFindAcceptance": "Excluded from selected acceptance batches as previously directed; no AdFind source or payload action in this batch.",
+    "DownloadFormSubmitted": false
+  },
+  "Sources": [
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/changepw/index.htm",
+      "Findings": [
+        "Publisher describes ChangePw as a command-line password set/change utility; current page version 2.03.0, dated 2006-06-26.",
+        "Publisher lists historical support through Windows XP and administrator/account-operator permissions for setting passwords; changing requires the old password and applicable directory permission.",
+        "Source code is not available according to the publisher page."
+      ]
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/clienttest/index.htm",
+      "Findings": [
+        "Publisher describes ClientTest as a GUI TCP/IP socket communication tester; current page version 1.01.0, dated 2005-11-09.",
+        "Publisher lists historical support through Windows XP, no special security requirement, and no source code availability."
+      ]
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/cpau/index.htm",
+      "Findings": [
+        "Publisher describes CPAU as an alternate-security-context process launcher with optional job files containing encoded credentials and command lines; current page version 1.11.0, dated 2005-11-08.",
+        "Publisher explicitly says job-file encoding is obfuscation, not strong encryption; it also says CPAU will not run as LocalSystem.",
+        "The publisher page lists historical support for Windows 2000, Server 2003 and XP, and no source code availability."
+      ]
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/versions.txt",
+      "Findings": [
+        "ChangePw 02.03.00 dated 2006-06-26; publisher MD5 e7f36e96a2eb587dc13e170f4d2ecfed and SHA-1 078f89368ff6e1d1e20536b817ec4391131468b5.",
+        "ClientTest 01.01.00 dated 2005-11-09; publisher MD5 37dcbd53a07a1058cdbac6c995f2c587 and SHA-1 72f92b61c180b4f97033c8846a17ebd727589c8c.",
+        "CPAU 01.11.00 dated 2005-11-08; publisher MD5 7100f979b8516b8c1ae6ff858435626e and SHA-1 c6a596b10bc8fd05f8a13859fef8b2cf7a9360e7."
+      ],
+      "DigestBoundary": "Publisher MD5/SHA-1 observations are not locally verified archive hashes."
+    }
+  ],
+  "Boundaries": {
+    "PayloadAcquired": false,
+    "PayloadExtractedOrExecuted": false,
+    "EndpointContacted": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "LicenseBlocker": false,
+    "Resolved": ["Publisher product purpose, page versions, historical platform claims, and version-list digest observations for these three fixed-scope members."],
+    "Deferred": ["Exact publisher ZIP bytes, local SHA-256 and member inventories.", "Synthetic-only functional behavior and package lifecycle/recovery.", "Current Windows 11 target support; publisher platform claims are historical."],
+    "Excluded": [],
+    "LegacyOutcomesClosed": 0
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155",
+    "Adjustment": "Unchanged; source-page review did not establish exact artifact bytes, package lifecycle, or native behavior."
+  }
+}

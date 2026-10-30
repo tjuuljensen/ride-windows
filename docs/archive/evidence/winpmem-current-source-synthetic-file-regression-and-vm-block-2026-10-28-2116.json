@@ -1,0 +1,22 @@
+{
+  "recordedAtUtc": "2026-10-28T21:16:29Z",
+  "batch": "WinPmem deployment-only candidate current-source regression and VM access recheck",
+  "test": {
+    "path": "tests/WinPmemPackage.Tests.ps1",
+    "powerShell7": { "version": "7.6.5", "pester": "5.7.1", "total": 4, "passed": 4, "failed": 0, "skipped": 0 },
+    "windowsPowerShell": { "version": "5.1.26100.9818", "pester": "5.7.1", "total": 4, "passed": 4, "failed": 0, "skipped": 0, "executionPolicy": "Process-only Bypass" },
+    "plugins": { "TestRegistry": false, "TestResult": false },
+    "scope": "Catalog source pin/licensing boundary and one synthetic inert file staged and removed through the portable handler. The suite does not acquire or execute publisher bytes, load a driver, capture memory, or require elevation."
+  },
+  "vm": { "checkedAtUtc": "2026-10-28T21:16:29Z", "target": "RIDE-Win11-Test", "result": "Access to a CIM resource was not available to the client.", "stateRetrieved": false, "guestRequestSubmitted": false },
+  "sideEffects": { "syntheticTestDriveFileOnly": true, "publisherArtifactAcquired": false, "executableRun": false, "driverLoaded": false, "memoryCaptured": false, "networkRequest": false, "windowsChanged": false, "defenderChanged": false, "elevationRequested": false },
+  "migration": {
+    "resolved": [ "Current-source WinPmem deployment-only metadata and synthetic owned-file lifecycle regression passed in both PowerShell editions." ],
+    "retired": [], "excluded": [],
+    "deferred": [ "Exact publisher payload/signature verification and Windows package acceptance remain pending; driver loading and memory-capture behavior are outside deployment acceptance." ],
+    "partial": [ "No legacy package outcome closed; no supported target inferred." ],
+    "estimates": { "settings": "37-57", "packages": "37-52", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exactTotal": "126-180", "roundedTotal": "125-180/about 155" },
+    "estimateAdjustment": "No legacy outcome resolved or retired; all estimate ranges remain unchanged."
+  },
+  "licenseDisposition": "Apache license metadata is declared. License administration is informational and does not gate package planning; Sysinternals remains separately settled under prior RIDE v2 specialist approval."
+}

@@ -58,20 +58,33 @@ Use `-WhatIf:$false` to explicitly disable inherited preview for one invocation;
 
 | Command | Purpose |
 | --- | --- |
-| `list [view]` | Emit one consistent PowerShell object collection for catalog entries and profiles; views include `all`, `profiles`, `packages`, `windows`, `explorer`, `security`, `software`, `utilities`, `groups`, and `settings`. |
+| `list [view]` | Emit one consistent PowerShell object collection for catalog entries and profiles; views include `all`, `profiles`, `packages`, `components`, `windows`, `explorer`, `security`, `software`, `utilities`, `groups`, and `settings`. |
 | `search <query> [-Field <fields>] [-View <view>]` | Search catalog metadata using a case-insensitive literal phrase; return objects with the matching fields and values. |
 | `show <id>` | Show operation metadata and its current value; settings also show their baseline value. |
 | `plan -Profile <file>` | Display each selected operation's current value beside its desired profile value. |
 | `apply -Profile <file>` | Apply the profile's desired state and save prior state for changed operations. |
 | `download <catalog-id>` | Download the latest package or standalone artifact without installing/applying it; retain it by item and version and record its observed SHA-256. |
-| `install <package-id>` | Install one catalog package and save its prior state. |
+| `install <catalog-id>` | Install one supported catalog package or Windows component and save its prior state. |
 | `set <setting-id> -State <state>` | Set one catalog setting to a declared state and save its prior value. |
 | `unset <setting-id>` | Remove a setting value when the catalog declares an unset state, saving its prior value. |
-| `status [view]` | Show target-specific defaults and live state, optionally filtered by a view such as `packages`, `windows`, `explorer`, or `security`. |
+| `status [view]` | Show target-specific defaults and live state, optionally filtered by a view such as `packages`, `components`, `windows`, `explorer`, or `security`. |
 | `status [view] -Profile <file>` | Compare the selected operations' current values and states with the profile's desired values and states. |
-| `restore -RunId <id>` | Restore settings captured before a prior run. Package restoration may require reinstalling the current upstream version. |
-| `remove <package-id>` | Uninstall one catalog package and save its prior state. |
+| `restore -RunId <id>` | Restore settings captured before a prior run. Package restoration may require reinstalling the current upstream version; Windows component removal follows its ownership and recovery rules. |
+| `remove <catalog-id>` | Remove one supported catalog package or Windows component and save its prior state. |
 | `remove -Profile <file>` | Uninstall packages selected by a profile, in reverse group order. |
+| `prune-state [-StateScope User|Machine|Both] [-OlderThanDays <n>]` | Preview or remove completed recovery records older than the retention period (default scope User, age 365 days, minimum age 30 days); machine records require elevation. Failed, unfinished, invalid and linked run trees are retained. Use `-WhatIf` to review candidates first. |
+
+See the [run-state retention guide](docs/run-state-retention.md) for cleanup
+eligibility, preview, recovery effects, and the remaining ACL acceptance.
+
+If a multi-operation apply fails, its error reports the run ID and each saved,
+completed, failed and unfinished operation. Review the run manifest, restore the
+reported run ID, then reapply the same profile to continue from the captured
+baseline. Restore may require elevation for machine-scoped changes. Follow any
+restore warning: package presence may be recovered with the current upstream
+version when exact-version recovery is unavailable. Run manifests are stored as
+`_manifest.json` under `%LOCALAPPDATA%\RIDE\State\<run-id>` and, for machine
+scope, `%ProgramData%\RIDE\State\<run-id>`.
 
 Use `.\ride.ps1 search desktop-folder`, `.\ride.ps1 search 'File Explorer'`, or
 `.\ride.ps1 search ThisPCPolicy -Field ValueName -View explorer` to find operations.

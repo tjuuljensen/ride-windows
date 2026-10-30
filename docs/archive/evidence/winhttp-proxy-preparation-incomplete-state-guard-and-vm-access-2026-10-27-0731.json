@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T07:31:00Z",
+  "batch": "E07 WinHTTP preparation incomplete-state refusal and VM access recheck",
+  "implementation": {
+    "module": "modules/RIDE.WinHttpProxyPreparation.psm1",
+    "tests": "tests/WinHttpProxyPreparation.Tests.ps1",
+    "changes": [
+      "Reject preparation if Proxy, ProxyBypass or AutoconfigUrl is omitted by the captured observation.",
+      "Reject recovery if any current string field is omitted or the saved original observation marked a string as unreported.",
+      "Keep native mutation unauthorized and exact underlying registry state unverified."
+    ],
+    "reason": "The complete netsh set advproxy JSON payload requires all three strings; substituting an unknown omitted prior value with empty could overwrite existing configuration."
+  },
+  "tests": {
+    "pesterVersion": "5.7.1",
+    "runs": [
+      {
+        "shell": "Windows PowerShell 5.1.26100.9711",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "shell": "PowerShell 7.6.5",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "initialAttempt": "Default TestRegistry setup was denied by sandbox registry access before test discovery; the configured rerun completed all cases.",
+    "nativeNetshCalled": false,
+    "proxyStateChanged": false
+  },
+  "vmAccess": {
+    "target": "RIDE-Win11-Test",
+    "getVm": "Failed before inspection: Access to a CIM resource was not available to the client.",
+    "registeredTaskQuery": "Failed before inspection with the same CIM access denial.",
+    "dispatch": false,
+    "elevationRequested": false,
+    "guestOrHostStateChanged": false
+  },
+  "legacyOutcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Exact per-scope WinHTTP state capture and recovery",
+      "Guarded native write and durable RIDE state integration",
+      "WinHTTP Windows 11 and Windows Server acceptance, including policy, consumer and GUI behavior"
+    ],
+    "partial": [
+      "E07 WinHTTP preparation now fails closed on incomplete string observations; no legacy setting outcome is closed."
+    ]
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; preparation safety improved, but no legacy feature outcome closed."
+  }
+}

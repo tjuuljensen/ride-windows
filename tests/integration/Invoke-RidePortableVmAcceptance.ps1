@@ -13,13 +13,18 @@
 .PARAMETER OutputDirectory
   Existing caller-owned directory for a fresh correlated run directory.
 .PARAMETER Batch
-  MiTeCViewers, NTCore, AllReviewed, PSScriptTools, OfflineCaffeine, SQLiteQuery,
-  MiTeCUtilityFiles, SysinternalsSuite, SysinternalsProducts or ImageMagick. ImageMagick selects the exact
+  MiTeCViewers, MiTeCAnalysisTools, MiTeCSystemAndTelephony, NTCore, NTCoreAdditional, MiTeCMailHistoryViewers, AllReviewed, PSScriptTools, OfflineCaffeine, SQLiteQuery,
+  MiTeCUtilityFiles, SysinternalsSuite, SysinternalsProducts, ImageMagick, RawCopy or WinPmem. ImageMagick selects the exact
   pinned portable Q16 7z and runs only a synthetic 1x1 PNG encode/identify check.
   SysinternalsSuite is limited to the exact 164-file archive lifecycle.
   SysinternalsProducts checks only the nine fixed independent product archives;
   it does not launch tools, accept EULAs or include Defender-blocked collections.
-  NTCore stages three x86 packages and tests 4GB Patch only against a synthetic PE.
+  RawCopy selects one pinned x64 package and runs only the generated synthetic NTFS file check.
+  WinPmem stages and removes its exact pinned executable without launching it or loading its driver.
+  NTCore stages three pinned packages and tests 4GB Patch only against a synthetic PE.
+  NTCoreAdditional stages Driver List x64/x86 and Rebel.NET files without launching tools.
+  MiTeCMailHistoryViewers checks four pinned package file lifecycles without opening user stores.
+  MiTeCSystemAndTelephony checks pinned file staging only; report generation and live TAPI behavior remain outside this route.
   AllReviewed includes both viewer architectures and the fixed NTCore candidates.
   Additional batches are explicit.
 .PARAMETER TimeoutMinutes
@@ -40,8 +45,14 @@
   Prerequisites: Idle disposable controller and its existing guest credential.
   Effects: Only the pinned VM is reset, started, tested and reset to Off again.
   Recovery: Finally restores the pinned checkpoint even after guest failure.
-  Author: RIDE-Windows maintainers. Version: 0.5.0.
-  Changelog: 0.5.0: Add the pinned ImageMagick portable Q16 acceptance batch.
+  Author: RIDE-Windows maintainers. Version: 0.11.0.
+  Changelog: 0.11.0: Add an exact WinPmem file-staging-only batch.
+    0.10.0: Add the pinned System Information eXtra and TAPI Monitor batch.
+    0.9.0: Add the pinned MiTeC EXE Explorer and HexEdit lifecycle batch.
+    0.8.0: Add the pinned RawCopy synthetic-only acceptance batch.
+    0.7.0: Add the MiTeC mail/history viewer file-lifecycle batch.
+    0.6.0: Add the file-lifecycle-only NTCoreAdditional batch.
+    0.5.0: Add the pinned ImageMagick portable Q16 acceptance batch.
     0.4.0: Add the isolated Sysinternals Suite snapshot lifecycle batch.
     0.3.3: Add isolated MiTeC utility file-lifecycle acceptance.
     0.3.2: Add the file-lifecycle-only SQLiteQuery batch.
@@ -53,9 +64,9 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ConfigurationPath,[string]$ArtifactManifestPath,[string]$OutputDirectory,
-  [ValidateSet('MiTeCViewers','NTCore','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick')][string]$Batch='AllReviewed',
+  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')][string]$Batch='AllReviewed',
   [ValidateRange(1,60)][int]$TimeoutMinutes=20,[string]$ControllerRunId,[switch]$Version)
-if($Version){'0.5.0';return}
+if($Version){'0.11.0';return}
 $ErrorActionPreference='Stop'
 if(-not $ConfigurationPath -or (-not $ControllerRunId -and (-not $ArtifactManifestPath -or -not $OutputDirectory))){throw 'ConfigurationPath, ArtifactManifestPath and OutputDirectory are required for standalone execution.'}
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -64,7 +75,7 @@ $config=Read-RideAutomationConfiguration $ConfigurationPath
 $root=Split-Path -Parent ([IO.Path]::GetFullPath($ConfigurationPath))
 $repo=Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 if($ControllerRunId){
-  if($ControllerRunId -cnotmatch '^[a-f0-9]{32}$' -or $Batch -notin @('NTCore','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick') -or $ArtifactManifestPath -or $OutputDirectory){throw 'Invalid fixed controller invocation.'}
+  if($ControllerRunId -cnotmatch '^[a-f0-9]{32}$' -or $Batch -notin @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem') -or $ArtifactManifestPath -or $OutputDirectory){throw 'Invalid fixed controller invocation.'}
   $protectedRoot=Get-RideAutomationRoot $config.Name
   if($root -ine $protectedRoot -or [IO.Path]::GetFullPath($PSScriptRoot) -ine (Join-Path $protectedRoot 'bin') -or 'FocusedPortableV1' -notin @($config.Capabilities)){throw 'Focused acceptance requires the refreshed protected controller.'}
   $request=Get-Content -LiteralPath (Join-Path $root ('queue/running/'+$ControllerRunId+'.json')) -Raw|ConvertFrom-Json

@@ -1,0 +1,71 @@
+{
+  "recordedAtUtc": "2026-10-29T02:55:16Z",
+  "kind": "BitLockerEngineAndPolicyCurrentSourceRegressionAndCimBlock",
+  "validation": {
+    "tool": "tools/validate.ps1",
+    "environment": "Windows PowerShell 5.1",
+    "result": "Passed",
+    "operations": 451,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 306,
+    "generatedOperationDocumentation": "Current"
+  },
+  "tests": {
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "initialCombinedAttempt": {
+      "discovered": 6,
+      "passed": 5,
+      "failed": 1,
+      "failure": "Server 2025 guard test observed the host's Windows 11 platform because Get-RidePlatform was mocked in the caller scope instead of RIDE.Engine."
+    },
+    "repair": "Scope both target-platform mocks to RIDE.Engine.",
+    "isolatedPolicyRerun": {
+      "test": "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+      "passed": 5,
+      "failed": 0
+    },
+    "combinedRerun": {
+      "tests": [
+        "tests/BitLockerEngineProjection.Tests.ps1",
+        "tests/BitLockerEncryptionMethodPolicies.Tests.ps1"
+      ],
+      "passed": 6,
+      "failed": 0
+    },
+    "workflowSuite": {
+      "test": "tests/BitLockerWorkflows.Tests.ps1",
+      "passed": 25,
+      "failed": 0
+    }
+  },
+  "scope": {
+    "registryWritesPerformed": false,
+    "realBitLockerStateReadOrChanged": false,
+    "realRecoverySecretReadOrDisplayed": false,
+    "tpmStateRead": false,
+    "syntheticFixturesAndMocksOnly": true,
+    "nativeAcceptanceEstablished": false
+  },
+  "vmAccess": {
+    "lastReadOnlyCheckAtUtc": "2026-10-29T02:50:00Z",
+    "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "result": "Get-VM failed before state retrieval at host CIM for both targets.",
+    "checkpointState": "Unverified",
+    "nativeAcceptance": "Deferred"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

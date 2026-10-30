@@ -1,0 +1,72 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T16:39:00Z",
+  "Batch": "CCleaner family current official source and portable acquisition recheck",
+  "SourcePages": {
+    "CCleanerBuilds": "https://www.ccleaner.com/ccleaner/builds",
+    "CCleanerVersionHistory": "https://www.ccleaner.com/ccleaner/version-history",
+    "RecuvaBuilds": "https://www.ccleaner.com/recuva/builds",
+    "RecuvaVersionHistory": "https://www.ccleaner.com/recuva/version-history",
+    "SpeccyBuilds": "https://www.ccleaner.com/speccy/builds",
+    "SpeccyVersionHistory": "https://www.ccleaner.com/speccy/version-history",
+    "DefragglerPriorEvidence": "docs/archive/evidence/ccleaner-family-current-source-and-download-route-recheck-2026-10-25-1834.json"
+  },
+  "Findings": {
+    "CCleaner": {
+      "CurrentFullInstallerVersion": "7.13.1573",
+      "CurrentFullVersionDate": "2026-10-21",
+      "PortableRoute": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "PortableVersion": "6.41.11567",
+      "PortableVersionDate": "2026-06-23",
+      "PublisherPageNotice": "Builds below are for system admins and advanced users; they are not for distribution or mirroring.",
+      "ScopeDisposition": "RIDE's selected direct-download/install workflow remains in scope; do not host, mirror or bundle publisher builds. This observation adds no license gate."
+    },
+    "Recuva": {
+      "Version": "1.55.133",
+      "VersionDate": "2026-06-22",
+      "BuildPageOffers": "Standard installer only; no portable build listed."
+    },
+    "Speccy": {
+      "Version": "1.34.84",
+      "VersionDate": "2026-06-22",
+      "BuildPageOffers": "Standard installer only; no portable build listed."
+    },
+    "Defraggler": {
+      "Disposition": "Retain the user's selected outcome and prior 2026-09-11 publisher EOL finding; no current package source was acquired in this batch. See prior source evidence."
+    }
+  },
+  "Acquisition": {
+    "AttemptedUrl": "https://download.ccleaner.com/portable/ccsetup641.zip",
+    "Result": "Failed before response: DNS lookup returned No such host is known (download.ccleaner.com:443).",
+    "PayloadBytesReceived": 0,
+    "PartialFileCreated": false,
+    "HashComputed": false,
+    "ArchiveInspected": false,
+    "InstallerOrUtilityExecuted": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "Official version and download-route mapping refreshed for CCleaner, Recuva and Speccy; exact payload bytes, hashes, signatures and package lifecycle remain unverified."
+    ],
+    "Deferred": [
+      "All four selected products remain in scope; exact publisher artifacts and Windows 11 lifecycle acceptance remain open. CCleaner portable is the retained older 6.41.11567 build; Recuva and Speccy portable variants remain unavailable on the reviewed pages; Defraggler remains EOL."
+    ],
+    "EstimateRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    },
+    "LegacyOutcomeClosed": false
+  },
+  "VmAccess": {
+    "Attempted": false,
+    "Reason": "This source-only recheck did not require guest access."
+  }
+}

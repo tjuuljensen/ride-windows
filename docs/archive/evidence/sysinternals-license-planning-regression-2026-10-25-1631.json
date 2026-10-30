@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T16:31:57Z",
+  "Scope": "Current-source license review and package planning regression for the previously approved Sysinternals download-and-install workflow",
+  "FocusedPester": {
+    "TestFile": "tests/LicenseReviews.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell": "7.6.5",
+    "Passed": 24,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistry": "Disabled"
+  },
+  "SysinternalsPlanning": {
+    "Packages": [
+      "package.sysinternals-suite",
+      "package.sysinternals-process-explorer",
+      "package.sysinternals-autoruns",
+      "package.sysinternals-tcpview",
+      "package.sysinternals-procmon",
+      "package.sysinternals-rammap",
+      "package.sysinternals-disk2vhd",
+      "package.sysinternals-sigcheck",
+      "package.sysinternals-strings",
+      "package.sysinternals-handle"
+    ],
+    "InstallPlansAvailable": true,
+    "LicenseGate": false,
+    "Basis": "Prior RIDE v2 license-specialist approval for RIDE direct download from Microsoft and installation on supported devices; RIDE does not transfer or publish copies; user confirms no legal issues."
+  },
+  "DefenderDisposition": {
+    "SeparateFromLicenseReview": true,
+    "UserReportedAlertsRemainExcluded": [
+      "NirSoft/chromecookiesview.exe",
+      "NirSoft/bulletspassview.exe",
+      "ProduKey.exe",
+      "WirelessKeyView.exe",
+      "Downloads/PowerISO9-x64.exe"
+    ],
+    "NoThreatReclassificationOrFalsePositiveDetermination": true,
+    "NoDefenderStateChanged": true
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "Deferred": [
+      "Windows runtime acceptance for eligible Sysinternals package outcomes",
+      "Manual review of user-reported Defender alerts before those utilities re-enter selected batches"
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "Safety": {
+    "PackageOrUtilityExecuted": false,
+    "NetworkAccess": false,
+    "WindowsOrVmStateChanged": false
+  }
+}

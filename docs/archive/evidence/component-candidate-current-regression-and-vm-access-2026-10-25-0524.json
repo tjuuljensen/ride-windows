@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T05:24:00Z",
+  "scope": "OpenSSH Server observation and activation candidates, generic component inventory, and experimental F1 setting",
+  "localValidation": {
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryEnabled": false,
+    "windowsIntegrationExcluded": true,
+    "temporaryFiles": "Repository-local .local/pester-component-20261025/temp",
+    "suites": [
+      { "file": "tests/OpenSshServerLifecycle.Tests.ps1", "passed": 11, "failed": 0 },
+      { "file": "tests/OpenSshServerObservation.Tests.ps1", "passed": 7, "failed": 0 },
+      { "file": "tests/ComponentInventory.Tests.ps1", "passed": 19, "failed": 0 },
+      { "file": "tests/F1Help.Tests.ps1", "passed": 7, "failed": 0 }
+    ],
+    "total": { "passed": 44, "failed": 0, "skipped": 0, "notRun": 0 },
+    "windowsPowerShell51Parser": { "files": 7, "result": "Passed" }
+  },
+  "vmAccess": {
+    "command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+    "result": "Failed before VM or checkpoint inspection: Access to a CIM resource was not available to the client."
+  },
+  "scope": {
+    "candidateRegistered": false,
+    "vmUsed": false,
+    "windowsStateChanged": false,
+    "capabilityServicingPerformed": false,
+    "serviceOrFirewallChanged": false,
+    "freshUacRequested": false,
+    "defenderStateQueriedOrChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "deferredAcceptance": [
+    "Native OpenSSH Server service and exact existing firewall-rule behavior, first-start host-key/configuration handling and recovery on Windows 11 and Server 2025",
+    "OpenSSH Client matching Features on Demand media, servicing dependencies, policy-source boundaries and native recovery acceptance",
+    "Physical Lenovo Windows 11 F1 behavior, unrelated-application collateral behavior and exact user-state recovery"
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "accountsFiles": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

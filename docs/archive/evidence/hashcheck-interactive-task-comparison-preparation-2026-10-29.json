@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T13:44:15.8899098Z",
+  "Status": "Prepared; interactive task not yet executed",
+  "Baseline": "Operator-confirmed exact checkpoint restore at 13:36:54 UTC; VM Running, controller Disabled",
+  "Execution": "Host helper 0.2.0 InteractiveTask mode; remote registration of unique guest task, Interactive logon, Highest run level, pinned guest-admin SID and unique Explorer session",
+  "Bounds": "Diagnostic installer timeout 10 minutes; task execution limit 13 minutes; completion deadline 14 minutes; temporary task cleanup recorded",
+  "Comparison": "Installer diagnostic body byte-identical to Session 0 failure; pinned payload unchanged",
+  "Validation": {
+    "ParsedHelpers": 3,
+    "HostRejectionGuard": "Passed",
+    "GuestRuntime": "Not yet tested",
+    "PowerShell": "5.1.26100.9818",
+    "PayloadHash": "Matched",
+    "PayloadSignature": "Valid"
+  },
+  "Helpers": [
+    {
+      "Path": ".local/acceptance-input/Invoke-HashCheckRemoteDiagnostic.ps1",
+      "SHA256": "50B1D590D48240F3FC67A9A874B4EC6086C363846888F71999FF2111910AA00A"
+    },
+    {
+      "Path": ".local/acceptance-input/Invoke-HashCheckInteractiveGuest.ps1",
+      "SHA256": "5789EA35AA2389BD28712A2A34074391293661CF2F5CAF102E17BC47FC821800"
+    },
+    {
+      "Path": ".local/acceptance-input/Invoke-HashCheckRemoteGuest.ps1",
+      "SHA256": "6A484F29B69A355BE46845990E39E2C15F8971DBBA0B9CAA852E2D054E3BEEB6"
+    }
+  ],
+  "Acceptance": "Successful task dispatch does not establish installer success; require diagnostic ExitCode=0, expected user/session/elevation, no diagnostic error and confirmed task removal. Full RIDE lifecycle and user-visible feature acceptance remain separate.",
+  "Recovery": "Export and hash-check results, inspect any cleanup failure; restore pinned checkpoint after preserving evidence.",
+  "Migration": {
+    "Packages": "37-52",
+    "Settings": "37-57",
+    "RoundedTotal": "125-180; about 155",
+    "NewExclusions": 0,
+    "ExactTotal": "126-180",
+    "Maintenance": "8-12",
+    "Retired": 0,
+    "Partial": "Attended lifecycle passed; remote interactive task comparison pending",
+    "FilesAndAssets": "25-35",
+    "Components": "19-24",
+    "Resolved": 0
+  }
+}

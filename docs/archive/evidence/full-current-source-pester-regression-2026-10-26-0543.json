@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T05:43:03Z",
+  "run": {
+    "scope": "All Pester test files under tests, excluding the WindowsIntegration tag",
+    "discovered": 3325,
+    "passed": 3317,
+    "failed": 4,
+    "skipped": 3,
+    "inconclusive": 0,
+    "notRun": 1,
+    "durationSeconds": 39856.49,
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "temporaryRoot": ".local/pester-full-current-source-20261025-1837"
+  },
+  "failures": {
+    "suites": [
+      "tests/Libraries.Tests.ps1",
+      "tests/LibraryAuthoring.Tests.ps1"
+    ],
+    "count": 4,
+    "cause": "Isolated test checkouts omitted catalog/notices although current catalog validation requires the ETL2PCAPNG local license notice.",
+    "repair": "Both isolated-checkout fixtures now copy catalog/notices.",
+    "focusedRerun": {
+      "suites": [
+        "tests/Libraries.Tests.ps1",
+        "tests/LibraryAuthoring.Tests.ps1"
+      ],
+      "discovered": 69,
+      "passed": 69,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0,
+      "notRun": 0,
+      "durationSeconds": 212.1
+    }
+  },
+  "notablePassingCoverage": {
+    "wfnPackageSuite": "Passed; full synthetic 531-member lifecycle and recovery completed with inert one-byte ZIP entries.",
+    "sysinternalsProducts": "Passed; no utility executed.",
+    "settingsAndComponents": "No failures reported in local suites; this does not establish Windows behavior."
+  },
+  "validation": {
+    "repositoryValidation": "Passed: 415 operations, 8 groups, 5 profiles, 278 PowerShell files.",
+    "diffCheck": "Passed for current changes when excluding the pre-existing modified testResults.xml; its retained CRLF XML is reported by git diff --check as trailing whitespace.",
+    "vmAcceptance": "Not run; existing VM/CIM and Task Scheduler access blockers remain.",
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  },
+  "safety": {
+    "installersExecuted": false,
+    "packageUtilitiesExecuted": false,
+    "windowsOrVmStateChanged": false,
+    "defenderStateChanged": false,
+    "focusedWfnRerun": "A separate focused WFN Pester run was interrupted after the full run's WFN suite passed; no result is claimed. Its unique generated fixture directory was verified under .local/pester-wfn-package and removed."
+  }
+}

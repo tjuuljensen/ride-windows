@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T18:35:00Z",
+  "Scope": "Current official WinPmem production-asset and runtime-boundary source recheck",
+  "Sources": {
+    "Release": "https://github.com/Velocidex/WinPmem/releases/tag/v4.1.dev1",
+    "Assets": "https://github.com/Velocidex/WinPmem/releases/expanded_assets/v4.1.dev1",
+    "Readme": "https://github.com/Velocidex/WinPmem/blob/master/README.md"
+  },
+  "PublisherFindings": {
+    "ReleaseTag": "v4.1.dev1",
+    "ReleaseStatus": "Pre-release",
+    "ReleaseCommit": "57f829b",
+    "ReleaseCommitSignature": "GitHub verified signature",
+    "TestSignedDriver": "Publisher says the development driver is test-signed and test signing plus reboot are required",
+    "ProductionUseAsset": "go-winpmem_amd64_1.0-rc2_signed.exe",
+    "AssetSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+    "License": "Apache-2.0",
+    "ReadmeBoundary": "Standalone executable automatically loads its driver and is a physical-memory acquisition tool."
+  },
+  "Catalog": {
+    "Operation": "package.winpmem",
+    "PackageVersion": "1.0-rc2",
+    "Scope": "Deployment-only portable file staging",
+    "SupportedTargets": [],
+    "PendingAcceptance": true
+  },
+  "Acquisition": {
+    "AttemptedViaOfficialReleaseAsset": true,
+    "Result": "Source reader redirected to a release-assets URL with a signed token expired 2026-09-10; tool rejected the redirected URL as unsafe/non-retryable.",
+    "BytesReceived": 0,
+    "PartialFilePresent": false,
+    "AuthenticodeInspected": false
+  },
+  "Disposition": {
+    "CatalogChanged": false,
+    "UtilityExecuted": false,
+    "DriverLoaded": false,
+    "MemoryCaptured": false,
+    "WindowsChanged": false,
+    "VmChanged": false,
+    "DefenderChanged": false,
+    "LicenseGateAdded": false,
+    "LegacyOutcomeResolved": false,
+    "EstimateChanged": false
+  },
+  "Deferred": [
+    "Acquire the exact official production asset and verify its local hash and Authenticode signer.",
+    "Disposable Windows acceptance for the deployment-only file lifecycle.",
+    "Separate explicit runtime/driver-load and memory-capture acceptance; do not infer these from file staging."
+  ],
+  "MigrationAccounting": {
+    "Resolved": [
+      "Current official release metadata reaffirms the production asset identity/hash, Apache-2.0 source, and separation from the test-signed driver build."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "WinPmem candidate source review refreshed; payload acquisition and Windows acceptance remain open."
+    ],
+    "Deferred": [
+      "Official asset bytes, local signature verification and Windows lifecycle/runtime acceptance."
+    ],
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

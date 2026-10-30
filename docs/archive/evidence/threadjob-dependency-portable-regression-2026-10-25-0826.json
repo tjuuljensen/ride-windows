@@ -1,0 +1,22 @@
+{
+  "recordedAtUtc": "2026-10-25T08:26:00Z",
+  "scope": "ThreadJob prerequisite planning and portable acceptance automation regression",
+  "validation": {
+    "packageDependencyPlanningPester": { "result": "passed", "passed": 11, "failed": 0, "skipped": 0, "testRegistryPluginEnabled": false },
+    "portableAcceptanceAutomationPester": { "result": "passed", "passed": 38, "failed": 0, "skipped": 0, "testRegistryPluginEnabled": false },
+    "temporaryDirectory": ".local test scratch directories",
+    "diffCheck": "passed in the preceding focused regression"
+  },
+  "boundary": "Local synthetic automation and dependency-planning checks only. No VM/checkpoint, installer, package utility, Windows state, or network access occurred.",
+  "sysinternalsDisposition": "The prior RIDE v2 license-specialist approval governs RIDE's direct Microsoft download-and-install workflow. RIDE does not transfer or publish Sysinternals; the user confirms no legal issue applies. Licensing is not a migration gate. Defender-detected utilities remain excluded separately for security reasons.",
+  "legacyOutcome": "No legacy outcome closed.",
+  "estimates": {
+    "settings": "37-57", "packages": "40-55", "components": "19-24", "accountsConfigurationFiles": "25-35", "maintenance": "8-12",
+    "exactTotal": "129-183", "roundedTotal": "130-185/about 155",
+    "changeReason": "The local regressions confirm prerequisite and automation planning but do not complete Windows lifecycle or runtime acceptance."
+  },
+  "remaining": [
+    "Run RIDE-managed ThreadJob install/remove/recovery and isolated PSScriptTools runtime acceptance on Windows 11.",
+    "Host CIM denies read-only access to the registered VM/checkpoint targets; no UAC prompt was requested."
+  ]
+}

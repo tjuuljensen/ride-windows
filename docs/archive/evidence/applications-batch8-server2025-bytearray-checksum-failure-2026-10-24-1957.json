@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T19:57:39Z",
+  "runId": "d45d2619bd9c4ba1b7cc67c96e9d77f9",
+  "controller": "RIDESrv2025Test",
+  "target": "RIDE-S25-Test",
+  "checkpoint": "RIDE-clean-test-base",
+  "suite": "ApplicationsBatch8",
+  "run": {
+    "source": "Local",
+    "startedAtUtc": "2026-10-24T19:43:28.8278392Z",
+    "finishedAtUtc": "2026-10-24T19:57:39.1392485Z",
+    "status": "Failed",
+    "controllerError": "Test controller exited with code 1 because the correlated guest summary reported failed scenarios.",
+    "cleanupError": null,
+    "collectionError": null,
+    "evidenceExportError": null,
+    "runtimeBlockedMarkerPresent": false
+  },
+  "guest": {
+    "os": "Windows Server 2025 Standard Evaluation",
+    "build": "26100",
+    "powershell": "5.1.26100.33438",
+    "pester": {
+      "version": "5.7.1",
+      "total": 352,
+      "passed": 351,
+      "failed": 0,
+      "skipped": 1
+    },
+    "validationPassed": true,
+    "integrationPassed": false
+  },
+  "packageRows": [
+    {
+      "id": "package.microsoft-openjdk",
+      "version": "25.0.4.1",
+      "status": "Failed",
+      "originallyPresent": false,
+      "completedOperations": [],
+      "installerInvoked": false,
+      "failure": "Sidecar Content was a byte array returned for application/octet-stream; converting it directly to string emitted decimal byte values, so the SHA-256 record parser rejected the response."
+    },
+    {
+      "id": "package.microsoft-openjdk-21",
+      "version": "21.0.12.1",
+      "status": "Failed",
+      "originallyPresent": false,
+      "completedOperations": [],
+      "installerInvoked": false,
+      "failure": "Sidecar Content was a byte array returned for application/octet-stream; converting it directly to string emitted decimal byte values, so the SHA-256 record parser rejected the response."
+    },
+    {
+      "id": "package.microsoft-openjdk-17",
+      "version": "17.0.20.1",
+      "status": "Failed",
+      "originallyPresent": false,
+      "completedOperations": [],
+      "installerInvoked": false,
+      "failure": "Sidecar Content was a byte array returned for application/octet-stream; converting it directly to string emitted decimal byte values, so the SHA-256 record parser rejected the response."
+    },
+    {
+      "id": "package.microsoft-openjdk-11",
+      "version": "11.0.32.1",
+      "status": "Failed",
+      "originallyPresent": false,
+      "completedOperations": [],
+      "installerInvoked": false,
+      "failure": "Sidecar Content was a byte array returned for application/octet-stream; converting it directly to string emitted decimal byte values, so the SHA-256 record parser rejected the response."
+    }
+  ],
+  "repair": {
+    "module": "modules/RIDE-Packages.psm1",
+    "change": "Bound Content length as bytes and decode byte-array responses as UTF-8 before validating the checksum record; retain string handling for text responses.",
+    "test": {
+      "file": "tests/ApplicationPackages.Tests.ps1",
+      "focus": "Microsoft OpenJDK pinned checksum provider",
+      "powershell": "7.6.5",
+      "pester": "5.7.1",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistry": "Disabled"
+    },
+    "windowsPowerShell51Validation": "Passed: 410 operations, 8 groups, 5 profiles, 273 PowerShell files; generated operations documentation current."
+  },
+  "followUp": {
+    "runId": "e0b7da88f3854430a5a98a1b53ccac88",
+    "statusAtRecordedAtUtc": "Running",
+    "purpose": "Re-run ApplicationsBatch8 with the UTF-8 byte-array checksum response decoder on the same registered Server controller and checkpoint.",
+    "sourceSnapshotMatchesWorktree": true
+  },
+  "migrationImpact": "No complete legacy outcome closed. Keep production Windows Server 2025 support unset until the repaired full four-package lifecycle and recovery batch passes. Estimates unchanged: 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170."
+}

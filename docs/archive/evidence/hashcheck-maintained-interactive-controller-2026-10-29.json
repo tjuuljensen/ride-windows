@@ -1,0 +1,118 @@
+{
+    "SchemaVersion":  1,
+    "RecordedAtUtc":  "2026-10-29T17:56:45.983012Z",
+    "Status":  "Protected controller refreshed; ordinary ApplicationsBatch11 runtime acceptance pending",
+    "PreviousDiagnosticRunId":  "d43ef603fde042588104e3128f13e245",
+    "Recovery":  {
+                     "RecordedAtUtc":  "2026-10-29T17:40:11.2362446Z",
+                     "RunId":  "d43ef603fde042588104e3128f13e245",
+                     "CheckpointId":  "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+                     "FinishAcceptance":  true,
+                     "VMState":  "Off",
+                     "TaskState":  "Ready",
+                     "VerifiedEvidenceFiles":  24
+                 },
+    "RetainedEvidenceReverified":  24,
+    "Capability":  "ApplicationsBatch11InteractiveV1",
+    "Scope":  "ApplicationsBatch11 only; exact signed-in guest administrator SID and desktop; no Session 0 fallback",
+    "InteractiveTests":  {
+                             "PowerShell":  "5.1.26100.9818",
+                             "Pester":  "5.7.1",
+                             "Result":  "Passed",
+                             "Total":  14,
+                             "Passed":  14,
+                             "Failed":  0,
+                             "Skipped":  0,
+                             "Failures":  [
+
+                                          ],
+                             "ContainerErrors":  [
+
+                                                 ]
+                         },
+    "ControllerTests":  {
+                            "PowerShell":  "5.1.26100.9818",
+                            "Pester":  "5.7.1",
+                            "Result":  "Passed",
+                            "Total":  157,
+                            "Passed":  157,
+                            "Failed":  0,
+                            "Skipped":  0,
+                            "Failures":  [
+
+                                         ],
+                            "ContainerErrors":  [
+
+                                                ]
+                        },
+    "Parser":  {
+                   "PowerShell":  "5.1.26100.9818",
+                   "Files":  8,
+                   "Status":  "Passed"
+               },
+    "SourceFiles":  [
+                        {
+                            "Path":  "tests/integration/RIDE.InteractiveGuestTests.psm1",
+                            "SHA256":  "EEFBC9DB0A92A2925C7DE0CB08D56237559CCAD68F9ACFB2BC5027042E17FDEE"
+                        },
+                        {
+                            "Path":  "tests/integration/Invoke-RideInteractiveGuestTests.ps1",
+                            "SHA256":  "3F7870F5938D336C69C5E4EC9095622615A8C7BACB9C47325A4297E5BC058D38"
+                        },
+                        {
+                            "Path":  "tests/integration/Invoke-RideVmTest.ps1",
+                            "SHA256":  "7BB4AE7A9E3277AE5229309EBE1B31CF3F9B672592B233FF65D513AD55336B1C"
+                        },
+                        {
+                            "Path":  "tests/integration/RIDE.TestAutomation.psm1",
+                            "SHA256":  "E308EA2AFF5B17BF677C06F891ACB0B06645B6E24497179898BC62E33E0E249C"
+                        },
+                        {
+                            "Path":  "tests/integration/Register-RideVmTestTask.ps1",
+                            "SHA256":  "144EAE7527BF1A73E8FFF0A17E8BE50F6DBB152122D5FA03A48D1698A172311E"
+                        },
+                        {
+                            "Path":  "tests/integration/Invoke-RideVmTestTask.ps1",
+                            "SHA256":  "8C54DD5C100B406F4ED800D11DC8726079DFFF807B25E77183764F9864A29B32"
+                        },
+                        {
+                            "Path":  "tests/InteractiveGuestTests.Tests.ps1",
+                            "SHA256":  "92D7D4B422D86E5E9401CD5A977982F81917FFA613CCD6012432DE665BD3DAFD"
+                        },
+                        {
+                            "Path":  "tests/TestAutomation.Tests.ps1",
+                            "SHA256":  "F8EC47AA175147F65AF1C77724992A96F30A23D6185784796B4B1F55F7835D09"
+                        }
+                    ],
+    "Runtime":  {
+                    "ProtectedControllerRefreshed":  true,
+                    "OrdinaryApplicationsBatch11":  "Run b3cf882824014db2982fcf8efdf67f3c failed in Pester before installation; process-scope fix prepared, retry pending (2026-10-30 review)",
+                    "ExplorerBehavior":  "Pending",
+                    "PublishedSupportChanged":  false,
+                    "FullControllerCertification":  "Pending"
+                },
+    "Migration":  {
+                      "Resolved":  0,
+                      "Retired":  0,
+                      "NewExclusions":  0,
+                      "Partial":  "Verified diagnostic lifecycle and completed recovery; maintained route prepared",
+                      "Settings":  "37-57",
+                      "Packages":  "37-52",
+                      "Components":  "19-24",
+                      "FilesAndAssets":  "25-35",
+                      "Maintenance":  "8-12",
+                      "ExactTotal":  "126-180",
+                      "RoundedTotal":  "125-180; about 155"
+                  },
+    "ControllerRefresh":  {
+                              "OperatorLocalTime":  "2026-10-29T19:03:25+01:00",
+                              "CapabilityVerified":  true,
+                              "ProtectedCopiesMatching":  [
+                                                              "Invoke-RideVmTest.ps1",
+                                                              "RIDE.TestAutomation.psm1",
+                                                              "Invoke-RideVmTestTask.ps1"
+                                                          ],
+                              "CheckpointId":  "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+                              "ValidationStatus":  "NotValidated"
+                          }
+}

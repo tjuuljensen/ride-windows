@@ -1,0 +1,46 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:23:42Z",
+  "Scope": "Current-source component inventory, preparation and lifecycle synthetic regression",
+  "Tests": {
+    "PesterVersion": "5.7.1",
+    "TestFiles": [
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1"
+    ],
+    "Discovered": 67,
+    "Passed": 67,
+    "Failed": 0,
+    "Skipped": 0,
+    "DurationSeconds": 10.68,
+    "TestRegistryEnabled": false,
+    "Fixture": "Process-local TEMP and TMP pointed to a fresh workspace-local .local/test-temp directory; that test directory was removed after the passing run.",
+    "Coverage": "Saved component inventory, read-only provider boundaries, completion, preview, capability and optional-feature preparation, guarded apply/restore lifecycle with mocked providers and synthetic state."
+  },
+  "NativeAcceptance": {
+    "Performed": false,
+    "Reason": "Disposable VM access remains blocked at CIM before VM/checkpoint inspection; the component tests are mocked and synthetic.",
+    "NativeDismCalled": false,
+    "ServerManagerCalled": false,
+    "WindowsStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Native DISM/Server Manager inventory, component availability, install/remove lifecycle and exact recovery on disposable Windows 11 and Server targets."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "RunId": "abedaa9209d74bf1b639fde2e3ce8596",
+  "Batch": "ApplicationsBatch8",
+  "StatusAtRecordedAt": "Running",
+  "RecordedAtUtc": "2026-10-24T19:36:00Z",
+  "SubmittedAtUtc": "2026-10-24T19:25:32.5234908Z",
+  "Source": "Local",
+  "TimeoutMinutes": 180,
+  "VMName": "RIDE-S25-Test",
+  "Checkpoint": "RIDE-clean-test-base",
+  "ExpectedTarget": "Windows Server 2025",
+  "Packages": [
+    "package.microsoft-openjdk",
+    "package.microsoft-openjdk-21",
+    "package.microsoft-openjdk-17",
+    "package.microsoft-openjdk-11"
+  ],
+  "RunnerSourceSnapshot": {
+    "Sha256": "F15B25FD5D2D66CF1B0C5B443A9E4DA184CB2FF47B1C748AA40F1FB81BFD0C59",
+    "MatchesCurrentLocalSource": true,
+    "TestOnlyCandidateTargetOverlay": "The runner adds target support in the guest's in-memory catalog context only. The repository catalog remains unsupported until acceptance passes."
+  },
+  "ControllerObservation": {
+    "LastLogTimestampUtc": "2026-10-24T19:29:21Z",
+    "LastActivity": "AutomatedLab guest command waiting for completion",
+    "ResultJsonPresentAtObservation": false,
+    "RuntimeBlockedMarkerPresent": false,
+    "CleanupError": null,
+    "CollectionError": null
+  },
+  "Disposition": "Await the correlated request result. Do not submit a duplicate or promote Server support before full lifecycle, recovery, and preservation checks pass.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateImpact": "No legacy outcome has closed. Estimates remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170."
+}

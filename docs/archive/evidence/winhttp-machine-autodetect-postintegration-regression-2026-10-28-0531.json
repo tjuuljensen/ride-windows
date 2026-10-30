@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:33:28Z",
+  "batch": "WinHTTP machine automatic-detection post-integration regression",
+  "tests": {
+    "catalogAndEngine": {
+      "shell": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "discovered": 99,
+      "selected": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "optionalTestRegistry": false,
+      "optionalTestResult": false,
+      "coverage": [
+        "Candidate target gate rejects before native WinHTTP observation.",
+        "Read-only engine state reports machine AutoDetect and refuses user-scope state.",
+        "Saved-run snapshot binds machine and user identity and records recovery preparation.",
+        "Engine apply dispatch shares the saved run ID with the WinHTTP durable lifecycle handler.",
+        "Catalog operation presentation and metadata are structurally valid."
+      ]
+    },
+    "catalogAndEngineWindowsPowerShell51": {
+      "shell": "Windows PowerShell 5.1.26100.9711",
+      "pester": "5.7.1",
+      "processExecutionPolicy": "Bypass for this child process only",
+      "discovered": 99,
+      "selected": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "optionalTestRegistry": false,
+      "optionalTestResult": false
+    },
+    "candidateInventoryPreparationLifecycle": {
+      "WindowsPowerShell51": {
+        "version": "5.1.26100.9711",
+        "pester": "5.7.1",
+        "discovered": 22,
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0,
+        "processExecutionPolicy": "Bypass for this child process only"
+      },
+      "PowerShell7": {
+        "version": "7.6.5",
+        "pester": "5.7.1",
+        "discovered": 22,
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0
+      },
+      "optionalTestRegistry": false,
+      "optionalTestResult": false,
+      "nativeCommandAndState": "Mocked command boundaries and synthetic observations only"
+    },
+    "generatedOperationDocumentation": "tools/Export-RideCatalog.ps1 -Check confirmed docs/OPERATIONS.md is current.",
+    "repositoryValidation": {
+      "command": "tools/validate.ps1 -Root .",
+      "status": "Passed",
+      "operations": 440,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 298
+    }
+  },
+  "safety": {
+    "nativeWinHttpCommandInvoked": false,
+    "liveProxyStateQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderBlockedPayloadSelectedOrStaged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "persistentExecutionPolicyChanged": false
+  },
+  "acceptance": {
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "blockers": [
+      "Host build 26300 does not provide the candidate netsh winhttp show advproxy command.",
+      "RIDE-Win11-Test remains inaccessible before VM/checkpoint inspection because host CIM access is denied.",
+      "Native command capture/set/restore, effective policy and consumer behavior remain unverified.",
+      "Machine-only candidate refuses a WinHTTP observation that reports user scope."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "No legacy outcome closed; estimates remain unchanged."
+    }
+  }
+}

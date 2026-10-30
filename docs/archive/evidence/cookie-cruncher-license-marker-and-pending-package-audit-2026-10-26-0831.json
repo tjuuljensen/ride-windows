@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T08:31:35Z",
+  "store": {
+    "path": ".local/license-reviews.json",
+    "recordsBefore": 70,
+    "recordsAfter": 71,
+    "needsReviewAfter": 61,
+    "reviewedAfter": 10
+  },
+  "addedRecord": {
+    "id": "package.google-analytic-cookie-cruncher",
+    "reviewedVersion": "2.0.0.1",
+    "reviewOwner": "Unassigned",
+    "licenseReviewStatus": "NeedsReview",
+    "reason": "Retain the bundled publisher freeware and redistribution notice; record intended owner/deployment scope when assigned.",
+    "migrationGate": false
+  },
+  "pendingPackageAudit": {
+    "catalogPendingPackageOperations": 34,
+    "exactCatalogVersionMarkers": 34,
+    "missingExactCatalogVersionMarkers": 0,
+    "unexpectedStatuses": 0,
+    "sysinternalsGate": false,
+    "method": "Joined each currently pending Package operation's exact PackageVersion to the explicit workspace-local review store. The audit concerns administrative markers, not entitlement or legal classification."
+  },
+  "scope": {
+    "packageOrUtilityExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false,
+    "migrationEstimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

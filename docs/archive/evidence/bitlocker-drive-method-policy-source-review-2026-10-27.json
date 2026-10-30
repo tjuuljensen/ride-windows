@@ -1,0 +1,65 @@
+{
+  "RecordedAtUtc": "2026-10-27T06:30:00Z",
+  "Decision": "Implement three independent Windows 11 local Group Policy registry settings for future BitLocker encryption: operating-system, fixed-data and removable-data drives. Retain the historical EncryptionMethod operation unchanged.",
+  "MicrosoftReferences": [
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength",
+      "Use": "Documents Group Policy choice of algorithm/cipher strength separately for OS, fixed-data and removable-data drives; says an unconfigured policy defaults new encryption to XTS-AES 128-bit; policy takes effect when encryption starts."
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp#encryptionmethodbydrivetype",
+      "Use": "Documents the four supported values 3/4/6/7 and the separate CSP requirement to provide all three drive-type selections together in SyncML. RIDE does not use this CSP; it writes one local Group Policy registry value per selected operation."
+    }
+  ],
+  "LocalPolicyDefinitionObservation": {
+    "File": "C:\\Windows\\PolicyDefinitions\\VolumeEncryption.admx",
+    "Length": 75006,
+    "Sha256": "3F207AC665325809008DE2339C150D81256636D6D5BEE5A192B16207371C0F10",
+    "SupportedOnReference": "windows:SUPPORTED_Windows_10_0",
+    "RegistryPath": "SOFTWARE\\Policies\\Microsoft\\FVE",
+    "Policies": [
+      { "ValueName": "EncryptionMethodWithXtsOs", "DriveType": "operating-system" },
+      { "ValueName": "EncryptionMethodWithXtsFdv", "DriveType": "fixed data" },
+      { "ValueName": "EncryptionMethodWithXtsRdv", "DriveType": "removable data" }
+    ],
+    "Values": {
+      "3": "AES-CBC 128-bit",
+      "4": "AES-CBC 256-bit",
+      "6": "XTS-AES 128-bit",
+      "7": "XTS-AES 256-bit"
+    },
+    "Boundary": "This is a read-only observation of the current host policy-definition file plus Microsoft documentation. It is not disposable Windows target acceptance and does not prove policy precedence or actual volume conversion behavior."
+  },
+  "CatalogOperations": [
+    "windows.bitlocker-encryption-method-os",
+    "windows.bitlocker-encryption-method-fixed-data",
+    "windows.bitlocker-encryption-method-removable-data"
+  ],
+  "DefaultProfile": {
+    "PreviousIntent": "AES-CBC 256-bit from the retained legacy selector.",
+    "CurrentIntent": "XTS-AES 256-bit for OS, fixed-data and removable-data drive policies.",
+    "Scope": "Future encryption only. This declarative profile change did not run on the host."
+  },
+  "Validation": {
+    "TestFile": "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+    "Pester": "5.7.1",
+    "Discovered": 3,
+    "Passed": 3,
+    "Failed": 0,
+    "Skipped": 0,
+    "RepositoryValidation": "Passed: 429 operations, 8 groups, 5 profiles and 292 PowerShell files; docs/OPERATIONS.md generated and current."
+  },
+  "LifecycleBoundary": "Registry set/restore changes only the selected policy value. It does not encrypt/decrypt a volume, alter protectors or recover keys. Tests exercised read-only catalog planning only. Windows 11 policy-view/precedence acceptance remains pending VM access.",
+  "ResolvedLegacyOutcomes": [],
+  "EstimateAdjustment": "None; modern policy operations implement a newly authorized setting direction but close no legacy outcome.",
+  "CurrentRanges": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155"
+  }
+}
+

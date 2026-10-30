@@ -19,6 +19,7 @@ BeforeAll {
   $script:Catalog=Import-RideCatalogData (Join-Path $RepositoryRoot 'catalog/operations.psd1')
   $script:Evidence=Get-Content (Join-Path $RepositoryRoot 'docs/archive/evidence/mitec-interbase-query-candidate-preparation-2026-10-23-1632.json') -Raw | ConvertFrom-Json
   $script:FixtureRoot=Join-Path $RepositoryRoot '.local/pester-mitec-interbase-query'
+  Add-Type -AssemblyName System.IO.Compression.FileSystem
   Add-Type -AssemblyName System.IO.Compression
 }
 Describe 'MiTeC Interbase Query portable candidate' {
@@ -96,6 +97,53 @@ Describe 'MiTeC Interbase Query portable candidate' {
       Restore-RidePortableSnapshot $operation $snapshot
       (Get-RidePortableState $operation).Healthy|Should -BeTrue
       [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'user-note.txt'))|Should -BeExactly 'preserve'
+    }
+  }
+
+  It 'stages the exact retained publisher archive for both variants and restores only managed files' {
+    $archivePath=$env:RIDE_MITEC_INTERBASE_QUERY_FIXTURE_ARCHIVE
+    if([string]::IsNullOrWhiteSpace($archivePath)){
+      Set-ItResult -Skipped -Because 'No explicit retained IBQ.zip archive was supplied.'
+      return
+    }
+    $archivePath=[IO.Path]::GetFullPath($archivePath)
+    Test-Path -LiteralPath $archivePath -PathType Leaf|Should -BeTrue
+    (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $Evidence.ArchiveSha256
+    $zip=[IO.Compression.ZipFile]::OpenRead($archivePath)
+    try {
+      foreach($variant in @('x64','x86')){
+        $record=$Evidence.Variants.$variant
+        $entries=@($zip.Entries|Where-Object FullName -CEQ $record.Executable)
+        $entries.Count|Should -Be 1
+        $entries[0].Length|Should -Be $record.Length
+        $stream=$entries[0].Open();$sha=[Security.Cryptography.SHA256]::Create()
+        try {$digest=([BitConverter]::ToString($sha.ComputeHash($stream))).Replace('-','').ToLowerInvariant()}
+        finally {$sha.Dispose();$stream.Dispose()}
+        $digest|Should -BeExactly $record.Sha256
+        foreach($member in $record.SelectedMembers){@($zip.Entries|Where-Object FullName -CEQ $member).Count|Should -Be 1}
+      }
+    } finally {$zip.Dispose()}
+
+    foreach($variant in @('x64','x86')){
+      $base=($Catalog.Operations|Where-Object Id -eq 'package.mitec-interbase-query').Clone()
+      $operation=Resolve-RidePackageSelection -Operation $base -Variant $variant -MetadataOnly
+      $operation.ResolvedToolsDirectory=Join-Path $Root "real-$variant"
+      $operation.InstallDirectory=Join-Path $operation.ResolvedToolsDirectory $operation.PackageId
+      $null=New-Item -ItemType Directory -Path $operation.ResolvedToolsDirectory -Force
+      $artifact=[pscustomobject]@{Path=$archivePath;Sha256=$Evidence.ArchiveSha256;Version='9.5.0'}
+      Install-RidePortablePayload $operation $artifact -Offline
+      Install-RidePortablePayload $operation $artifact -Offline
+      $state=Get-RidePortableState $operation
+      $state.Healthy|Should -BeTrue
+      (@($state.Files.RelativePath|Sort-Object) -join '|')|Should -BeExactly ((@($Evidence.Variants.$variant.SelectedMembers|Sort-Object)) -join '|')
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory $Evidence.Variants.$variant.Executable) -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $Evidence.Variants.$variant.Sha256
+
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $Root "real-backup-$variant")
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'),'preserve')
+      Uninstall-RidePortablePayload $operation
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy|Should -BeTrue
+      [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'))|Should -BeExactly 'preserve'
     }
   }
 }

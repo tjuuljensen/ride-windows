@@ -1,0 +1,107 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T14:40:30Z",
+  "Scope": "Pinned MiTeC Project Maker 1.9.0 package candidate and local license-review planning regression; installer and application payloads were not executed.",
+  "Candidate": {
+    "Id": "package.mitec-project-maker",
+    "PackageVersion": "1.9.0",
+    "DownloadUri": "https://www.mitec.cz/wp/files/PMInstall.exe",
+    "InstallerSha256": "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "SupportedTargets": [],
+    "InstallerType": "Exe",
+    "PendingAcceptance": true
+  },
+  "RetainedStaticPayload": [
+    {
+      "Path": "app/ProjectMaker.exe",
+      "Length": 4163544,
+      "Sha256": "27227645e9034de09deda22c574d5d6e4254aa72a17b2f0c37b5929c0045ad7a",
+      "Architecture": "x86",
+      "FileVersion": "1.9.0.0"
+    },
+    {
+      "Path": "app/ProjectMaker64.exe",
+      "Length": 5548616,
+      "Sha256": "bebeccf4de08e71ee9043acbb90d1aed89d1a22e33762c31b4ad99198083d920",
+      "Architecture": "x64",
+      "FileVersion": "1.9.0.0"
+    },
+    {
+      "Path": "app/ProjectMaker.chm",
+      "Length": 578007,
+      "Sha256": "26384546d2a0f2dbeb459efdf12ff80b142c99593f706ac2ae06b1d38e23c38d"
+    }
+  ],
+  "LicenseAdministration": {
+    "ReviewOwner": "Unassigned",
+    "LicenseReviewStatus": "NeedsReview",
+    "ReviewVersion": "1.9.0",
+    "MigrationGate": false,
+    "Note": "Publisher lists trial and paid tiers. The owner/version marker records administrative follow-up only; RIDE obtains directly from the publisher for installation and does not distribute a bundled copy. No entitlement conclusion is inferred."
+  },
+  "Validation": {
+    "CatalogExport": "passed",
+    "RepositoryValidation": "passed",
+    "CatalogOperations": 437,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 297,
+    "LicenseReviewPester": [
+      {
+        "Shell": "PowerShell 7.6.5",
+        "Pester": "5.7.1",
+        "Passed": 24,
+        "Failed": 0,
+        "Skipped": 0,
+        "TestRegistryAndTestResultPlugins": "disabled"
+      },
+      {
+        "Shell": "Windows PowerShell 5.1",
+        "Pester": "5.7.1",
+        "Passed": 24,
+        "Failed": 0,
+        "Skipped": 0,
+        "TestRegistryAndTestResultPlugins": "disabled"
+      }
+    ],
+    "PendingPackageReviewCoverage": {
+      "Operations": 43,
+      "ExactVersionSelections": 52,
+      "NeedsReviewMatched": 52,
+      "MissingOrDuplicate": 0
+    }
+  },
+  "Acceptance": {
+    "Windows11": "Deferred: read-only Get-VM -Name RIDE-Win11-Test failed with CIM access denied before VM or checkpoint inspection. No VM test was dispatched.",
+    "Required": [
+      "Verify installer scope, installed registration, dependencies and UI on disposable Windows 11.",
+      "Verify silent install/uninstall, repeat, saved-run recovery and collisions in the disposable VM.",
+      "If testing build behavior, use a synthetic Delphi project/output, bounded actions and a disposable signing key only."
+    ]
+  },
+  "Effects": {
+    "InstallerOrPayloadExecuted": false,
+    "WindowsChanged": false,
+    "VmChanged": false,
+    "DefenderChanged": false,
+    "FreshUacPrompts": 0,
+    "DefenderBlockedToolsTouched": false
+  },
+  "Migration": {
+    "WholeLegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "EstimateRanges": [
+      "37-57",
+      "38-53",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Note": "Candidate source, version and package metadata are prepared, but Windows install/use/recovery acceptance is incomplete; no legacy product outcome is counted closed."
+  }
+}

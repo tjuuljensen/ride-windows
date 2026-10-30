@@ -1,0 +1,40 @@
+{
+  "runAtUtc": "2026-10-28T14:57:28Z",
+  "scope": "Current repository static validation plus an attempted local PSScriptTools package regression.",
+  "validation": {
+    "command": "pwsh.exe -NoLogo -NoProfile -NonInteractive -File tools/validate.ps1 -Root .",
+    "result": "passed",
+    "operations": 446,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 301,
+    "generatedOperationDocumentationCurrent": true
+  },
+  "pesterAttempt": {
+    "testFile": "tests/PSScriptToolsPackage.Tests.ps1",
+    "result": "blocked-before-tests",
+    "windowsPowerShell": "5.1.26100.9711",
+    "pesterVersion": "5.7.1",
+    "failure": "Import-Module Pester failed while loading Pester.Format.ps1xml and PesterConfiguration.Format.ps1xml because AuthorizationManager check failed; no assertions ran.",
+    "powerShell7": "7.6.5",
+    "pesterDiscoverable": false,
+    "disposition": "Do not bypass the script policy or retry under the same blocked environment. Defer this Pester regression to a session where Pester can be loaded normally."
+  },
+  "observations": {
+    "installerOrUtilityRun": false,
+    "windowsOrDefenderStateChanged": false,
+    "vmOrCheckpointAccessed": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; validation closes no migration outcome and the local regression was blocked before tests."
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "MiTeCTaskManagerDeluxeRealArchiveLifecycle",
+  "RecordedAtUtc": "2026-10-27T16:23:08Z",
+  "Package": {
+    "Id": "package.mitec-task-manager-deluxe",
+    "Version": "5.1.1",
+    "Archive": ".local/remaining-collections-20261017/TMX.zip",
+    "ArchiveLength": 16119724,
+    "ArchiveSha256": "3dd111519325ecf18ed9202649c4f8740a2c195382cd4337fc701056d2234f3b",
+    "Variants": {
+      "x64": {
+        "SelectedMembers": [
+          { "Path": "TMX64.exe", "Length": 6212176, "Sha256": "932f56d8b32f5e8ac0533622702de8cf622a58aa59821a24afc60798f56928a3" },
+          { "Path": "DeskExp64.exe", "Length": 3871824, "Sha256": "d72a929b59ac463e9f78b35425faebfb85309a0691462f94e941cec7fefcd800" }
+        ]
+      },
+      "x86": {
+        "SelectedMembers": [
+          { "Path": "TMX.exe", "Length": 4417216, "Sha256": "85e820f08ebf3692a3b3144e10083fe3144be24bf1c6bb0ef1db410f412d9213" },
+          { "Path": "DeskExp.exe", "Length": 2737680, "Sha256": "b958eaccfa78bb80a2b59fdfc9da484cefab4bd62eef3938a61e9e1665507bb0" }
+        ]
+      }
+    }
+  },
+  "Validation": {
+    "Test": "tests/MiTeCTaskManagerDeluxe.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell7": { "Edition": "PowerShell 7.6.5", "Passed": 3, "Failed": 0, "Skipped": 0, "DurationSeconds": 55.12 },
+    "WindowsPowerShell51": { "Edition": "Windows PowerShell 5.1.26100.9711", "Passed": 3, "Failed": 0, "Skipped": 0, "DurationSeconds": 55.42 },
+    "OptionalPlugins": { "TestRegistry": false, "TestResult": false },
+    "ScratchRoots": [
+      ".local/pester-mitec-tmx-real-archive-20261027",
+      ".local/pester-mitec-tmx-real-archive-winps51-20261027"
+    ]
+  },
+  "Coverage": [
+    "Rechecked retained archive SHA-256 and all four selected member lengths and hashes",
+    "Staged x64 and x86 executable pairs separately with repeat install",
+    "Verified only the selected architecture pair was managed and staged state was healthy",
+    "Saved state, removed owned files, restored snapshots and preserved unrelated operator notes"
+  ],
+  "Boundaries": {
+    "UtilitiesLaunched": false,
+    "LiveProcessServiceAccountOrSessionDataQueried": false,
+    "ProcessOrServiceChanged": false,
+    "MinidumpCreated": false,
+    "SensitiveDataExported": false,
+    "VirusTotalQueried": false,
+    "PublisherNetworkAccess": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Deferred": [
+      "Windows 11 package lifecycle acceptance",
+      "Read-only UI checks using synthetic process fixtures",
+      "Persistence, update/network behavior, sensitive-data handling and activation"
+    ],
+    "Blocker": "Get-VM -Name RIDE-Win11-Test returned CIM access unavailable before VM/checkpoint inspection."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Exact real-archive x86/x64 staging/recovery passes in both PowerShell editions; native target and product behavior remain open."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "This batch resolves no whole legacy outcome before Windows acceptance and behavior review; local file-lifecycle evidence adds confidence only."
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:23:42Z",
+  "batch": "Registered disposable VM access recheck",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "result": "Get-VM failed before returning VM state or identity.",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-Server2025-Test",
+      "result": "Get-VM failed before returning VM state or identity.",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "actions": {
+    "checkpointInspected": false,
+    "taskEnumeratedOrDispatched": false,
+    "vmOrGuestStateChanged": false,
+    "hostWindowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolvedLegacyOutcomes": [],
+    "partial": [
+      "Read-only VM access was rechecked; host CIM access still blocks inspection before dispatch."
+    ],
+    "deferred": [
+      "Windows 11 and Server 2025 native acceptance, including prepared package and settings batches."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; VM access failed before any target inspection or acceptance and closes no legacy outcome."
+    }
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T12:12:51.040311Z",
+  "EvidenceSource": "Operator output and exported guest summary, lifecycle JSON, Pester XML, progress and installer log independently inspected on P52; local retained files hashed.",
+  "RunId": "1f771b9f5d8841f1938497458f339c6b",
+  "Execution": "Elevated signed-in guest console",
+  "Computer": "RIDE-WIN11-TEST",
+  "RunnerVersion": "0.19.2",
+  "VerifiedSourceFiles": 1794,
+  "IntegrationSuite": "ApplicationsBatch11",
+  "Status": "Passed",
+  "ValidationPassed": true,
+  "IntegrationPassed": true,
+  "Pester": {
+    "Version": "5.7.1",
+    "Failed": 0,
+    "Skipped": 4,
+    "Total": 426,
+    "Passed": 422
+  },
+  "Package": {
+    "InstalledVersion": "2.6.3.0",
+    "Lifecycle": "Passed; exported application evidence confirms all eight checks and Recovery=true.",
+    "Id": "package.hashcheck-shell-extension",
+    "RecoveryLimitation": "Runner warned that prior-version recovery reinstalls the catalog declared installer; arbitrary historical versions are not guaranteed."
+  },
+  "Error": null,
+  "StateCollectionError": null,
+  "RawEvidenceExport": "Copied to host and inspected; hashes recorded. Guest-to-host hash comparison was not performed.",
+  "CheckpointRecovery": "Completed per operator output: exact checkpoint restored, VM Off / Operating normally and controller Ready after re-enabling.",
+  "Remaining": [
+    "Remote installer Add-AppxPackage 0x80070005 failure",
+    "Explorer and intended-user behavior",
+    "Full controller certification"
+  ],
+  "PublishedSupportChanged": false,
+  "Migration": {
+    "Components": "19-24",
+    "ExactTotal": "126-180",
+    "Retired": 0,
+    "FilesAndAssets": "25-35",
+    "Resolved": 0,
+    "Partial": "Attended RIDE lifecycle passed; remote route and feature acceptance remain open",
+    "Packages": "37-52",
+    "NewExclusions": 0,
+    "RoundedTotal": "125-180; about 155",
+    "Maintenance": "8-12",
+    "Settings": "37-57"
+  },
+  "Export": {
+    "VerifiedAtUtc": "2026-10-29T12:15:21.5554018Z",
+    "HostDirectory": ".local/acceptance-input/hashcheck-results-1f771b9f5d8841f1938497458f339c6b",
+    "Files": [
+      {
+        "Path": "applications-batch11.json",
+        "Bytes": 843,
+        "SHA256": "87060A1EFAA1CBC20E212CC66E8EB629F38726A82077BE8AFDF6131246E0D3CF"
+      },
+      {
+        "Path": "artifact-observations.json",
+        "Bytes": 458364,
+        "SHA256": "95A04E76CF8E14FAFCE77D55BDFA6E0313ADFFB9C2615229F81B17BA286912E7"
+      },
+      {
+        "Path": "hashcheck-install.log",
+        "Bytes": 1622,
+        "SHA256": "24AC4DF67E6086BA8B502889EC45D4D4B7EA647EDFB310A37135BCD122C68F0C"
+      },
+      {
+        "Path": "pester.xml",
+        "Bytes": 153802,
+        "SHA256": "643D7033044A56199BC91D82F1FE1ECE29ACE397B930B6FE170A626837FCE1A3"
+      },
+      {
+        "Path": "progress.jsonl",
+        "Bytes": 1417,
+        "SHA256": "426A35CFC893FA3C73F4A689E8975014BE202EF8BCD59BC538690CDCD2727623"
+      },
+      {
+        "Path": "summary.json",
+        "Bytes": 1206,
+        "SHA256": "E1633A1075F39535E7BCE14F297FA27560174A975DFA10BA3EE8A0932F0CEF5B"
+      },
+      {
+        "Path": "transcript.log",
+        "Bytes": 57662,
+        "SHA256": "1E30476DAEAFAC180B3BF0A20F6144E9446F1DAAF8E5A7A71E11BE6969A10B81"
+      },
+      {
+        "Path": "state/Machine/76f6b7b4a5e04f878abd5a1ce14832d4/package.hashcheck-shell-extension.json",
+        "Bytes": 6964,
+        "SHA256": "798D869E074B0A9F4958188A7C3E3065E556516F5ACCE8DD4CD7E93E72D6B950"
+      },
+      {
+        "Path": "state/Machine/76f6b7b4a5e04f878abd5a1ce14832d4/_manifest.json",
+        "Bytes": 785,
+        "SHA256": "BA2058B7D1F20D18DDEDB40385EBF6C05950FA84118D797D8E79F97A74FEBED9"
+      },
+      {
+        "Path": "state/Machine/cd8555b4e866469089f2095fa54a5c0a/package.hashcheck-shell-extension.json",
+        "Bytes": 3807,
+        "SHA256": "23AE79EE0C193EE01FAAD6A6A1152786E2F71857FAEAD4B0CD91CDE4603162B5"
+      },
+      {
+        "Path": "state/Machine/cd8555b4e866469089f2095fa54a5c0a/_manifest.json",
+        "Bytes": 784,
+        "SHA256": "1467B450C59188B213537F9DDAC4A2EC2075262A2C596464FE982F898783B4E6"
+      },
+      {
+        "Path": "state/Machine/PackageSelections/package.hashcheck-shell-extension.json",
+        "Bytes": 3169,
+        "SHA256": "12B444CD85C7096B2EA4C181B042B21AEAFBE7698A88D4410D5501E7A663DD59"
+      }
+    ],
+    "ApplicationResult": {
+      "Id": "package.hashcheck-shell-extension",
+      "Variant": "installed",
+      "Target": "Windows 11",
+      "OS": "Microsoft Windows 11 Enterprise Evaluation",
+      "Build": "26300",
+      "InstallationType": "Client",
+      "Scope": "Machine",
+      "Provider": "DirectHttps",
+      "Applicability": "Applicable to deployment lifecycle",
+      "Status": "Passed",
+      "Version": "2.6.3.0",
+      "Error": null,
+      "Recovery": true,
+      "ProfilePreservation": null,
+      "UserDataPreservation": null,
+      "UserDataFixtures": [],
+      "RemovalRecoveryVersion": "2.6.3.0",
+      "Checks": [
+        "RIDEManagedInstall",
+        "PinnedPackageVersion",
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+      "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Elevated": true,
+      "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+    },
+    "GuestSummary": {
+      "SchemaVersion": 1,
+      "RunId": "1f771b9f5d8841f1938497458f339c6b",
+      "Status": "Passed",
+      "ValidationPassed": true,
+      "IntegrationPassed": true,
+      "Pester": {
+        "Version": "5.7.1",
+        "Failed": 0,
+        "Result": "Passed",
+        "Total": 426,
+        "Passed": 422
+      },
+      "Error": null,
+      "StateCollectionError": null,
+      "Guest": {
+        "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+        "Account": "RIDE-WIN11-TEST\\admin",
+        "PowerShell": "5.1.26100.9711",
+        "OS": {
+          "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+          "Version": "10.0.26300",
+          "BuildNumber": "26300"
+        }
+      },
+      "GuestGitHubAuthentication": "Anonymous",
+      "GitHubTestScenario": "Acquire",
+      "CredentialCleanupVerified": null,
+      "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression",
+      "IntegrationSuite": "ApplicationsBatch11"
+    },
+    "IntegrationCompletedAtUtc": "2026-10-29T10:30:40.8788169Z",
+    "InstallerLog": "Valid MSIX signature; sparse registration/provisioning and 32/64-bit regsvr32 exit 0."
+  },
+  "RecoveryConfirmation": {
+    "RecordedAtUtc": "2026-10-29T12:26:10.2735952Z",
+    "Source": "Operator-pasted elevated P52 command output",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "PreRestoreTask": "Disabled",
+    "PreRestorePendingRequests": 0,
+    "PreRestoreRunningRequests": 0,
+    "PreRestoreRecoveryBlock": false,
+    "FinalVMState": "Off",
+    "FinalVMStatus": "Operating normally",
+    "FinalTaskState": "Ready"
+  }
+}

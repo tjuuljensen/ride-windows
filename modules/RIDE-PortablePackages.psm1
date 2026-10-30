@@ -8,12 +8,14 @@
   Engine-internal writers require engine ShouldProcess and snapshot capture.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Prerequisites: Local filesystem, ZIP APIs, Windows inbox tar for 7z archives,
-  resolved package metadata.
+  Prerequisites: Local filesystem, ZIP APIs, Windows inbox tar for 7z and
+  publisher-password-protected ZIP archives, resolved package metadata.
   Recovery: Versioned file snapshots; missing backups stop restore before writes.
   Failed manifest commits retain staged evidence for review, never automatic adoption.
-  Owner: RIDE-Windows maintainers. Version: 0.7.0.
-  Changelog: 0.7.0: Support explicitly declared copies of staged portable files.
+  Owner: RIDE-Windows maintainers. Version: 0.9.0.
+  Changelog: 0.9.0: Extract exact selected members from publisher-password-protected ZIPs with signed Windows inbox tar.
+    0.8.0: Stage hash-pinned repository notice files as owned package files.
+    0.7.0: Support explicitly declared copies of staged portable files.
     0.6.0: Batch ownership journaling for large portable packages and add
     bounded Windows inbox tar support for validated 7z archives.
     0.5.0: Support pinned exact ZIP member selection before product writes.
@@ -24,6 +26,7 @@
 #>
 
 $ErrorActionPreference = 'Stop'
+$script:PortableRepositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 
 function Assert-RidePortablePath {
   param([string] $Path)
@@ -153,6 +156,89 @@ function Invoke-RidePortableTar {
     if ($lines.Count -and $lines[$lines.Count - 1] -eq '') { $lines = @($lines | Select-Object -First ($lines.Count - 1)) }
     $lines
   } finally { $process.Dispose() }
+}
+
+function Invoke-RidePortableEncryptedZipBatch {
+  param(
+    [Parameter(Mandatory)][string]$Tar,
+    [Parameter(Mandatory)][string]$ArchivePath,
+    [Parameter(Mandatory)][string]$Destination,
+    [Parameter(Mandatory)][string]$Password,
+    [Parameter(Mandatory)][string[]]$Members
+  )
+  $quotedArchive = '"' + $ArchivePath + '"'
+  $quotedDestination = '"' + $Destination + '"'
+  $arguments = '-xf ' + $quotedArchive + ' -C ' + $quotedDestination + ' --passphrase "' + $Password + '" ' + ($Members -join ' ')
+  $startInfo = [Diagnostics.ProcessStartInfo]::new()
+  $startInfo.FileName = $Tar
+  $startInfo.Arguments = $arguments
+  $startInfo.WorkingDirectory = (Split-Path -Parent $Tar)
+  $startInfo.UseShellExecute = $false
+  $startInfo.CreateNoWindow = $true
+  $startInfo.RedirectStandardOutput = $true
+  $startInfo.RedirectStandardError = $true
+  $process = [Diagnostics.Process]::new()
+  $process.StartInfo = $startInfo
+  try {
+    if (-not $process.Start()) { throw 'Windows inbox tar.exe did not start.' }
+    $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+    $stderrTask = $process.StandardError.ReadToEndAsync()
+    if (-not $process.WaitForExit(300000)) {
+      $process.Kill()
+      $process.WaitForExit()
+      throw 'Windows inbox tar.exe exceeded the five-minute encrypted ZIP extraction limit.'
+    }
+    $stdout = $stdoutTask.Result
+    $stderr = $stderrTask.Result
+    if ($stdout.Length -gt 1048576 -or $stderr.Length -gt 1048576) { throw 'Windows inbox tar.exe produced excessive encrypted ZIP extraction output.' }
+    if ($process.ExitCode -ne 0 -or $stderr) {
+      $detail = ($stderr -replace '[\r\n]+',' ').Trim()
+      if ($detail.Length -gt 500) { $detail = $detail.Substring(0, 500) }
+      throw "Windows inbox tar.exe failed to extract selected encrypted ZIP members (exit $($process.ExitCode)): $detail"
+    }
+  } finally { $process.Dispose() }
+}
+
+function Expand-RidePortableEncryptedZip {
+  param(
+    [Parameter(Mandatory)][string]$ArchivePath,
+    [Parameter(Mandatory)][string]$Destination,
+    [Parameter(Mandatory)][string]$Password,
+    [Parameter(Mandatory)][hashtable]$ExpectedFiles,
+    [switch]$Offline
+  )
+  if ($Password -notmatch '^[A-Za-z0-9!$._-]{1,64}$' -or -not $ExpectedFiles.Count) { throw 'Encrypted portable ZIP metadata is invalid.' }
+  $tar = Join-Path $env:SystemRoot 'System32\tar.exe'
+  if (-not (Test-Path -LiteralPath $tar -PathType Leaf)) { throw 'Windows inbox tar.exe is unavailable for encrypted ZIP extraction.' }
+  if (-not $Offline) {
+    $signature = Get-AuthenticodeSignature -LiteralPath $tar -ErrorAction Stop
+    if ([string]$signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch '^CN=Microsoft Windows(?:,|$)') { throw 'Windows inbox tar.exe does not have a valid Microsoft Windows signature.' }
+  }
+  $baseLength = ('-xf "' + $ArchivePath + '" -C "' + $Destination + '" --passphrase "' + $Password + '"').Length
+  $batch = [Collections.Generic.List[string]]::new()
+  $argumentLength = $baseLength
+  foreach ($name in $ExpectedFiles.Keys) {
+    if ($name -match '[\[\]*?]|(^|/)-|["\x00-\x1f]' -or $name.Length -gt 240) { throw 'Encrypted ZIP selection contains an unsupported tar pattern.' }
+    $null = Get-RidePortableMemberPath $Destination ([string]$name)
+    $quotedName = '"' + [string]$name + '"'
+    if ($argumentLength + $quotedName.Length + 1 -gt 24000 -and $batch.Count) {
+      Invoke-RidePortableEncryptedZipBatch -Tar $tar -ArchivePath $ArchivePath -Destination $Destination -Password $Password -Members $batch.ToArray()
+      $batch.Clear()
+      $argumentLength = $baseLength
+    }
+    [void]$batch.Add($quotedName)
+    $argumentLength += $quotedName.Length + 1
+  }
+  if ($batch.Count) { Invoke-RidePortableEncryptedZipBatch -Tar $tar -ArchivePath $ArchivePath -Destination $Destination -Password $Password -Members $batch.ToArray() }
+
+  $actualItems = @(Get-ChildItem -LiteralPath $Destination -Recurse -Force)
+  if (@($actualItems | Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint }).Count) { throw 'Encrypted ZIP extraction produced a link or reparse point.' }
+  $actualFiles = @($actualItems | Where-Object { -not $_.PSIsContainer })
+  if ($actualFiles.Count -ne $ExpectedFiles.Count) { throw 'Encrypted ZIP extraction differs from the exact selected member count.' }
+  foreach ($file in $actualFiles) {
+    $relativePath = $file.FullName.Substring($Destination.Length + 1).Replace('\','/')
+    if (-not $ExpectedFiles.ContainsKey($relativePath) -or $file.Length -ne [long]$ExpectedFiles[$relativePath]) { throw 'Encrypted ZIP extraction differs from the exact selected member inventory.' }
+  }
 }
 
 function Expand-RidePortableSevenZip {
@@ -297,6 +383,7 @@ function Install-RidePortablePayload {
       if ($archive.Entries.Count -gt 10000) { throw 'Portable archive exceeds 10000 members.' }
       $total = [long]0
       $seen = @{}
+      $selectedLengths = @{}
       foreach ($entry in $archive.Entries) {
         $name = $entry.FullName.TrimEnd('/')
         $path = Get-RidePortableMemberPath $stage $name
@@ -308,12 +395,19 @@ function Install-RidePortablePayload {
         if ($null -ne $selected) {
           if ($entry.FullName.EndsWith('/') -or -not $selected.ContainsKey($name)) { continue }
           $selected[$name] = $true
+          $selectedLengths[$name] = [long]$entry.Length
+          if ($Operation.ContainsKey('PortableArchivePassword')) { continue }
         }
         if ($entry.FullName.EndsWith('/')) { New-Item -ItemType Directory -Path $path -Force | Out-Null; continue }
         New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force | Out-Null
         [IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $path)
       }
       if ($null -ne $selected -and @($selected.Keys | Where-Object { -not $selected[$_] }).Count) { throw 'Portable archive is missing a selected file.' }
+      if ($Operation.ContainsKey('PortableArchivePassword')) {
+        $archive.Dispose()
+        $archive = $null
+        Expand-RidePortableEncryptedZip -ArchivePath $Artifact.Path -Destination $stage -Password ([string]$Operation.PortableArchivePassword) -ExpectedFiles $selectedLengths -Offline:$Offline
+      }
     } elseif ($Operation.PortableFormat -eq 'SevenZip') {
       if ($null -ne $selected) { throw 'Exact PortableMembers selection is supported only for ZIP archives.' }
       Expand-RidePortableSevenZip -ArchivePath $Artifact.Path -Destination $stage -Offline:$Offline
@@ -345,6 +439,36 @@ function Install-RidePortablePayload {
         $copyDestinations[$destinationRelative] = $true
         New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
         Copy-Item -LiteralPath $source -Destination $destination -ErrorAction Stop
+      }
+    }
+    if ($Operation.ContainsKey('PortableLocalFiles')) {
+      if ($Operation.PortableLocalFiles -isnot [array] -or $Operation.PortableLocalFiles.Count -lt 1 -or $Operation.PortableLocalFiles.Count -gt 64) {
+        throw 'PortableLocalFiles requires a bounded declared file list.'
+      }
+      $repositoryRoot = $script:PortableRepositoryRoot
+      $repositoryPrefix = $repositoryRoot.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
+      $localDestinations = @{}
+      foreach ($localFile in $Operation.PortableLocalFiles) {
+        if ($localFile -isnot [hashtable] -or @($localFile.Keys | Where-Object { $_ -notin @('Source','Destination','Sha256') }).Count -or
+            @('Source','Destination','Sha256' | Where-Object { -not $localFile.ContainsKey($_) }).Count) { throw 'PortableLocalFiles entries require only Source, Destination, and Sha256.' }
+        $sourceRelative = [string]$localFile.Source
+        $destinationRelative = [string]$localFile.Destination
+        if ($sourceRelative -notmatch '^[A-Za-z0-9.][A-Za-z0-9._/-]{0,255}$' -or $sourceRelative.Contains('//') -or
+            @($sourceRelative.Split('/') | Where-Object { $_ -in @('.', '..') }).Count -or
+            $destinationRelative -notin @($Operation.RequiredFiles) -or $localFile.Sha256 -notmatch '^[a-fA-F0-9]{64}$' -or
+            $localDestinations.ContainsKey($destinationRelative)) { throw 'PortableLocalFiles contains an unsafe, duplicate, or undeclared file.' }
+        $sourcePath = Join-Path $repositoryRoot ($sourceRelative.Replace('/', [IO.Path]::DirectorySeparatorChar))
+        if (-not (Test-Path -LiteralPath $sourcePath -PathType Leaf)) { throw 'PortableLocalFiles source is missing or unreadable.' }
+        $resolvedSource = (Resolve-Path -LiteralPath $sourcePath -ErrorAction Stop).Path
+        Assert-RidePortablePath -Path $resolvedSource
+        if (-not $resolvedSource.StartsWith($repositoryPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+            (Get-FileHash -LiteralPath $resolvedSource -Algorithm SHA256).Hash -ine $localFile.Sha256) { throw 'PortableLocalFiles source is outside the repository or its SHA-256 changed.' }
+        $destinationPath = Get-RidePortableMemberPath $stage $destinationRelative
+        if (Test-Path -LiteralPath $destinationPath) { throw 'PortableLocalFiles destination collides with an extracted file.' }
+        New-Item -ItemType Directory -Path (Split-Path -Parent $destinationPath) -Force | Out-Null
+        Copy-Item -LiteralPath $resolvedSource -Destination $destinationPath -ErrorAction Stop
+        if ((Get-FileHash -LiteralPath $destinationPath -Algorithm SHA256).Hash -ine $localFile.Sha256) { throw 'PortableLocalFiles copy changed its SHA-256.' }
+        $localDestinations[$destinationRelative] = $true
       }
     }
     foreach ($requiredTemplate in $Operation.RequiredFiles) {
@@ -477,6 +601,8 @@ function Restore-RidePortableSnapshot {
   param([hashtable] $Operation, $Snapshot, [switch] $ValidateOnly)
   if ($Snapshot.SnapshotVersion -ne 1 -or $Snapshot.InstallLocation -ne $Operation.InstallDirectory) { throw 'Portable snapshot contract mismatch.' }
   $state = Get-RidePortableState $Operation
+  $currentFilesByPath = @{}
+  foreach ($currentFile in $state.Files) { $currentFilesByPath[$currentFile.RelativePath] = $currentFile }
   foreach ($file in $Snapshot.Files | Where-Object { -not $_.Missing }) {
     $source = Get-RidePortableMemberPath $Snapshot.BackupDirectory $file.RelativePath
     if (-not (Test-Path -LiteralPath $source -PathType Leaf) -or (Get-FileHash -LiteralPath $source).Hash -ne $file.ActualSha256) { throw "Portable recovery bytes are unavailable: $($file.RelativePath)" }
@@ -484,9 +610,9 @@ function Restore-RidePortableSnapshot {
     if (Test-Path -LiteralPath $dest) {
       if (-not (Test-Path -LiteralPath $dest -PathType Leaf)) { throw 'Portable recovery destination is not a file.' }
       $hash = (Get-FileHash -LiteralPath $dest).Hash
-      $current = @($state.Files | Where-Object RelativePath -eq $file.RelativePath)
-      if (-not $current.Count -and -not ($file.Modified -and $hash -eq $file.ActualSha256)) { throw 'Portable recovery destination contains unowned content.' }
-      if ($hash -ne $file.ActualSha256 -and ($current.Count -ne 1 -or $current[0].Modified)) { throw 'Portable recovery would overwrite modified or unowned content.' }
+      $current = $currentFilesByPath[$file.RelativePath]
+      if (-not $current -and -not ($file.Modified -and $hash -eq $file.ActualSha256)) { throw 'Portable recovery destination contains unowned content.' }
+      if ($hash -ne $file.ActualSha256 -and (-not $current -or $current.Modified)) { throw 'Portable recovery would overwrite modified or unowned content.' }
     }
   }
   if ($ValidateOnly) { return }

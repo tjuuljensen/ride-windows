@@ -1,0 +1,53 @@
+{
+  "observedAtUtc": "2026-10-28T12:37:07Z",
+  "method": "Read-only screenshot from the already-running Hyper-V Manager desktop window; direct PowerShell Get-VM and Get-ScheduledTask queries were also attempted.",
+  "hyperVHostVisible": "P52",
+  "virtualMachines": [
+    {
+      "name": "RIDE-S25-Test",
+      "state": "Off"
+    },
+    {
+      "name": "RIDE-Store-W11",
+      "state": "Off"
+    },
+    {
+      "name": "RIDE-Win11-Test",
+      "state": "Off"
+    },
+    {
+      "name": "Windows 11 Pro",
+      "state": "Off"
+    }
+  ],
+  "checkpointObservation": {
+    "name": "RIDE-clean-test-base",
+    "visibleForSelectedVm": "RIDE-S25-Test",
+    "RIDEWin11TestCheckpointConfirmed": false
+  },
+  "accessLimits": {
+    "getVm": "Access to a CIM resource was not available to the client.",
+    "getScheduledTask": "Access to a CIM resource was not available to the client.",
+    "hyperVManagerAccessibility": "Higher Windows integrity than the Computer Use helper; only screenshot access was available.",
+    "testVmSelectionConfirmed": false
+  },
+  "disposition": "Do not dispatch acceptance. RIDE-Win11-Test is visibly stopped, and the displayed checkpoint is not associated with that VM in this observation. Obtain readable target checkpoint/controller state before starting or running a package batch; continue independent local source and implementation work.",
+  "observations": {
+    "vmStateChanged": false,
+    "checkpointChanged": false,
+    "runnerDispatched": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; the VM inventory adds access evidence but no accepted legacy outcome."
+  }
+}

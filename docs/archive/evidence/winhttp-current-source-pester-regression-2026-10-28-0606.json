@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:06:23Z",
+  "batch": "Advanced WinHTTP current-source inventory, preparation and lifecycle regression",
+  "runtime": {
+    "powerShell": "7.6.5",
+    "edition": "Core",
+    "pester": "5.7.1",
+    "testFiles": [
+      "tests/WinHttpProxyInventory.Tests.ps1",
+      "tests/WinHttpProxyPreparation.Tests.ps1",
+      "tests/WinHttpProxyLifecycle.Tests.ps1"
+    ],
+    "discovered": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "TestRegistryPlugin": false,
+    "TestResultPlugin": false
+  },
+  "coverage": [
+    "Parse fixed-observer JSON and reject malformed, incomplete or oversized values.",
+    "Bind read-only observation to current identity using a mocked observer command.",
+    "Prepare explicit user/machine scopes without issuing native commands.",
+    "Preserve omitted prior values and validate conflict-aware recovery snapshots.",
+    "Write recovery state before a mocked mutation, reject identity/value drift, and keep previews read-only."
+  ],
+  "safety": {
+    "netshOrNativeWinHttpCommandsCalled": false,
+    "windowsProxyConfigurationReadOrChanged": false,
+    "registryChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": "Focused current-source Pester regression only. Native Windows WinHTTP observer/setter acceptance and disposable VM apply/restore remain deferred.",
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source WinHTTP inventory, preparation and guarded-lifecycle regression passed 22/22 in PowerShell 7.6.5/Pester 5.7.1."
+    ],
+    "partial": [
+      "The tests mock native WinHTTP commands and do not establish behavior on an actual Windows target."
+    ],
+    "deferred": [
+      "RIDE-Win11-Test and Server 2025 native acceptance remain blocked before VM inspection by host CIM access; current-source Windows PowerShell 5.1 rerun is also open."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; current-source mocked regression is verified, but native acceptance and whole legacy reconciliation remain open."
+    }
+  }
+}

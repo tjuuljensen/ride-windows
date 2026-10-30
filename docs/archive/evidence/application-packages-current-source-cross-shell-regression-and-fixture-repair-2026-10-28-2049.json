@@ -1,0 +1,89 @@
+{
+  "recordedAtUtc": "2026-10-28T20:49:29Z",
+  "batch": "ApplicationPackages current-source cross-shell regression and fixture repair",
+  "suite": {
+    "path": "tests/ApplicationPackages.Tests.ps1",
+    "sha256": "055c2838f2e54df3391453b016bfcddead6d3cb1ef7286ca1fa1796ee40dd06d",
+    "discovered": 132,
+    "powerShell7": {
+      "version": "7.6.5",
+      "pester": "5.7.1",
+      "passed": 129,
+      "failed": 0,
+      "skipped": 3
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9818",
+      "pester": "5.7.1",
+      "passed": 129,
+      "failed": 0,
+      "skipped": 3,
+      "executionPolicy": "Process-only Bypass"
+    }
+  },
+  "initialFailure": {
+    "shells": [
+      "PowerShell 7.6.5",
+      "Windows PowerShell 5.1.26100.9818"
+    ],
+    "test": "Managed portable lifecycle: stages a hash-pinned repository notice as owned content with the executable",
+    "cause": "The test derived the repository root from the isolated current directory; the handler correctly resolves declared local files under the module repository root.",
+    "repair": "Use the module repository root and retain the notice fixture in the per-test case directory, which is removed by AfterEach."
+  },
+  "skippedTests": [
+    "RawCopy retained archive lifecycle: no retained archive fixture supplied.",
+    "ETL2PCAPNG retained executable lifecycle: no retained executable fixture supplied.",
+    "JoeWare AdMod retained archive lifecycle: no retained archive fixture supplied."
+  ],
+  "validation": {
+    "repositoryValidator": "Passed",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 301,
+    "generatedOperationDocumentation": "current"
+  },
+  "boundaries": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "WindowsIntegrationTagsExcluded": true,
+    "InstallersExecuted": false,
+    "NetworkRequestsMade": false,
+    "RegistryChanged": false,
+    "WindowsChanged": false,
+    "DefenderChanged": false,
+    "ElevationRequested": false,
+    "FixtureDirectoriesAfterRun": "Empty; generated per-test directories cleaned"
+  },
+  "vm": {
+    "checkedAtUtc": "2026-10-28T20:41:59Z",
+    "target": "RIDE-Win11-Test",
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateRetrieved": false,
+    "guestRequestSubmitted": false
+  },
+  "migration": {
+    "resolved": [
+      "Fixed portable local-notice test fixture to resolve its source beneath the module repository root.",
+      "ApplicationPackages cross-shell current-source regression passed with zero failures."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Three retained-artifact lifecycle cases for RawCopy, ETL2PCAPNG and AdMod.",
+      "Windows package/functional acceptance requiring VM access."
+    ],
+    "partial": [
+      "No legacy outcome closed."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

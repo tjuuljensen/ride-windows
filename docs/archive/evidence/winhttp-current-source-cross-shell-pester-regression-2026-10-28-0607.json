@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:07:07Z",
+  "batch": "Advanced WinHTTP current-source cross-shell regression",
+  "testFiles": [
+    "tests/WinHttpProxyInventory.Tests.ps1",
+    "tests/WinHttpProxyPreparation.Tests.ps1",
+    "tests/WinHttpProxyLifecycle.Tests.ps1"
+  ],
+  "runtimeResults": [
+    {
+      "powerShell": "7.6.5",
+      "edition": "Core",
+      "pester": "5.7.1",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "runAtUtc": "2026-10-28T06:06:23Z"
+    },
+    {
+      "powerShell": "5.1.26100.9711",
+      "edition": "Desktop",
+      "pester": "5.7.1",
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "runAtUtc": "2026-10-28T06:07:07Z",
+      "executionPolicy": "Process-only Bypass to import Pester; persistent policy unchanged."
+    }
+  ],
+  "testRegistryPlugin": false,
+  "testResultPlugin": false,
+  "safety": {
+    "netshOrNativeWinHttpCommandsCalled": false,
+    "windowsProxyConfigurationReadOrChanged": false,
+    "registryChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": "Cross-shell current-source mocked regression only. Native WinHTTP observer/setter acceptance and disposable VM apply/restore remain deferred.",
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source WinHTTP inventory, preparation and guarded lifecycle tests pass 22/22 in both Windows PowerShell 5.1 and PowerShell 7.6.5."
+    ],
+    "partial": [
+      "All native WinHTTP command interactions are mocked; this is not Windows runtime acceptance."
+    ],
+    "deferred": [
+      "RIDE-Win11-Test and Server 2025 native WinHTTP acceptance remain blocked before VM inspection by host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; cross-shell regression is verified, but native acceptance and whole legacy reconciliation remain open."
+    }
+  }
+}

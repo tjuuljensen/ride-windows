@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T13:31:57Z",
+  "batch": "NTCore Vista4Experts and AntiMida direct-download route recheck",
+  "vista4experts": {
+    "uri": "https://ntcore.com/files/Vista4Experts.zip",
+    "headRequests": [
+      {
+        "host": "ntcore.com",
+        "status": 200,
+        "contentType": "application/zip",
+        "contentLength": 295338,
+        "lastModified": "2020-10-17T15:15:14Z",
+        "etag": "\"481aa-5b1df59199dd1\""
+      },
+      {
+        "host": "www.ntcore.com",
+        "status": 200,
+        "contentType": "application/zip",
+        "contentLength": 295338,
+        "lastModified": "2020-10-17T15:15:14Z",
+        "etag": "\"481aa-5b1df59199dd1\""
+      }
+    ],
+    "getRequests": [
+      "curl.exe against ntcore.com and www.ntcore.com both failed DNS resolution (curl exit 6).",
+      "Invoke-WebRequest against ntcore.com failed with No such host is known."
+    ],
+    "archivePresentLocally": false
+  },
+  "antimida": {
+    "uri": "https://ntcore.com/files/antimida_1.0.zip",
+    "head": {
+      "status": 200,
+      "contentType": "application/zip",
+      "contentLength": 272481,
+      "lastModified": "2020-10-17T15:14:54Z",
+      "etag": "\"42861-5b1df57eb1040\""
+    },
+    "getRequest": "The web retrieval tool returned Cache miss; no shell GET was attempted.",
+    "archivePresentLocally": false
+  },
+  "outcome": "Official HEAD metadata is available for both current download routes, but no ZIP bytes or cryptographic digest were retrieved. Neither package can yet receive a hash-pinned catalog candidate. Keep both products selected for migration preparation; this is an acquisition blocker, not a legal exclusion.",
+  "handling": {
+    "ArchiveBytesRetrieved": false,
+    "PartialFilesRetained": false,
+    "UtilitiesExecuted": false,
+    "DriverLoaded": false,
+    "DefenderBlockedFilesTouched": false,
+    "VmOrWindowsStateChanged": false,
+    "ElevationRequested": false
+  },
+  "blockers": [
+    "Vista4Experts GET requests failed DNS resolution after successful HEAD metadata requests.",
+    "The AntiMida ZIP remains unavailable through the web reader; its shell GET has not been attempted.",
+    "Exact archive bytes, SHA-256 and member inventories remain required before pinned package candidates can be added."
+  ],
+  "legacyOutcomesClosed": 0,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; HEAD metadata does not establish artifact identity or close either product migration outcome."
+  }
+}

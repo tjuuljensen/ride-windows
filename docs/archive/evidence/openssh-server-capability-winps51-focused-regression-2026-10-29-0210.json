@@ -1,0 +1,52 @@
+{
+  "recordedAtUtc": "2026-10-29T02:10:01Z",
+  "testFile": "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+  "component": "OpenSSH Server capability install/remove lifecycle candidate",
+  "shell": "Windows PowerShell 5.1.26100.9818",
+  "pesterVersion": "5.7.1",
+  "result": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  "configuration": {
+    "testRegistryPlugin": false,
+    "testResultPlugin": false,
+    "processExecutionPolicy": "Bypass",
+    "tempRoot": ".local"
+  },
+  "coverage": [
+    "Capability installation uses the exact Server capability identity and leaves sshd stopped.",
+    "New TCP/22 firewall rule remains disabled, and pre-existing rules are preserved.",
+    "Install and remove use captured RIDE run IDs and refuse unsafe state drift.",
+    "ShouldProcess previews do not persist snapshots or invoke servicing/firewall providers.",
+    "Explicit LocalSource mode passes the configured source with Windows Update fallback disabled.",
+    "Partial-removal recovery removes only the exact disabled rule owned by the completed run."
+  ],
+  "handling": {
+    "capabilityProviderMocked": true,
+    "serviceAndFirewallProvidersMocked": true,
+    "adminAndRebootChecksMocked": true,
+    "dismOrWindowsCapabilityInvoked": false,
+    "sshdStarted": false,
+    "port22Opened": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": "Current-source component lifecycle regression passes in Windows PowerShell 5.1. This does not establish Windows 11 or Server 2025 native servicing behavior; the candidate remains unsupported pending disposable-VM acceptance.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

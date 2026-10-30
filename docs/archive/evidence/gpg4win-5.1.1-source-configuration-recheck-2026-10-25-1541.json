@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T15:41:00Z",
+  "topic": "Gpg4win 5.1.1 selected-component source recheck",
+  "packageId": "package.gpg4win",
+  "pinnedVersion": "5.1.1",
+  "scope": "Static inspection of retained publisher source snippets and the current package configuration; no installer or utility execution.",
+  "observations": [
+    {
+      "source": "inst-sections.nsi",
+      "finding": "CalcDefaults calls g4wihelp::config_fetch_bool for selected component flags including inst_kleopatra, inst_okular, inst_gpgpass, inst_gpgoljs, inst_gpgol, inst_gpgex and inst_paperkey. This is the same configuration lookup path implicated by the previously reviewed upstream 5.1.1 report."
+    },
+    {
+      "source": "installer.nsi and inst-sections.nsi",
+      "finding": "The installer parses /MINIMAL=, and the minimal branch explicitly unselects Kleopatra. That mode does not satisfy RIDE's approved GnuPG command-line plus Kleopatra package selection."
+    },
+    {
+      "source": "catalog/operations.psd1",
+      "finding": "The package uses /S /CurrentUser with a generated /C configuration that selects Kleopatra and disables other optional integrations."
+    }
+  ],
+  "assessment": {
+    "PriorWindows11Result": "The 5.1.1 installer exited 0xC0000005; the guest evidence does not identify the failing module or prove that the configuration defect caused the crash.",
+    "Workaround": "No source-backed workaround was established. /MINIMAL=1 is rejected because it unselects Kleopatra.",
+    "Disposition": "Keep the package candidate and selected user scope unchanged. Do not repeat the same 5.1.1 component configuration as an expected pass. Revisit after a publisher fix or a separately documented and independently tested workaround.",
+    "LicenseBlocker": false,
+    "LicenseDisposition": "The prior RIDE v2 license-specialist approval covers RIDE's direct Microsoft download-and-install workflow. RIDE does not transfer or publish Sysinternals; Sysinternals has no legal migration blocker. This Gpg4win technical finding is unrelated to Sysinternals licensing.",
+    "DefenderDisposition": "Defender-blocked tools remain separate security exclusions."
+  },
+  "safety": {
+    "InstallerExecuted": false,
+    "PackageUtilityExecuted": false,
+    "WindowsStateChanged": false,
+    "VmAccessed": false,
+    "DefenderStateChanged": false
+  },
+  "migrationAccounting": {
+    "resolved": 0,
+    "retired": 0,
+    "excluded": 0,
+    "deferred": ["Gpg4win 5.1.1 user-scope install, recovery and crash diagnosis"],
+    "partial": ["Gpg4win remains an unaccepted package candidate; the exact legacy outcome remains open"],
+    "estimatesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

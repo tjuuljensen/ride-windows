@@ -25,8 +25,8 @@ BeforeAll {
   Add-Type -AssemblyName System.IO.Compression
 }
 Describe 'MiTeC historical portable candidate <Id>' -ForEach @(
-  @{Id='package.mitec-windows-file-analyzer';Product='Windows File Analyzer';Version='2.10.0';Members=@('WFA.exe');Uri='https://www.mitec.cz/wfa.html';Download='https://www.mitec.cz/Downloads/WFA.zip'},
-  @{Id='package.mitec-icon-explorer';Product='Icon Explorer';Version='5.3.0';Members=@('IconExplorer.exe');Uri='https://www.mitec.cz/iconex.html';Download='https://www.mitec.cz/Downloads/IconExplorer.zip'}
+  @{Id='package.mitec-windows-file-analyzer';Product='Windows File Analyzer';Version='2.10.0';Members=@('WFA.exe');Uri='https://www.mitec.cz/wfa.html';Download='https://www.mitec.cz/Downloads/WFA.zip';ArchiveEnvironment='RIDE_MITEC_WFA_FIXTURE_ARCHIVE'},
+  @{Id='package.mitec-icon-explorer';Product='Icon Explorer';Version='5.3.0';Members=@('IconExplorer.exe');Uri='https://www.mitec.cz/iconex.html';Download='https://www.mitec.cz/Downloads/IconExplorer.zip';ArchiveEnvironment='RIDE_MITEC_ICON_EXPLORER_FIXTURE_ARCHIVE'}
 ) {
   BeforeEach {
     $script:CaseRoot=Join-Path $FixtureRoot ([guid]::NewGuid().ToString('N'))
@@ -91,5 +91,46 @@ Describe 'MiTeC historical portable candidate <Id>' -ForEach @(
     Restore-RidePortableSnapshot $operation $snapshot
     (Get-RidePortableState $operation).Healthy|Should -BeTrue
     [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'user-note.txt'))|Should -BeExactly 'preserve'
+  }
+  It 'stages the exact retained publisher archive and restores only managed files' {
+    $archivePath=[Environment]::GetEnvironmentVariable($ArchiveEnvironment)
+    if([string]::IsNullOrWhiteSpace($archivePath)){
+      Set-ItResult -Skipped -Because "No explicit retained archive was supplied through $ArchiveEnvironment."
+      return
+    }
+    $archivePath=[IO.Path]::GetFullPath($archivePath)
+    Test-Path -LiteralPath $archivePath -PathType Leaf|Should -BeTrue
+    $row=$Evidence.PinnedArtifacts|Where-Object Product -eq $Product
+    (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $row.Sha256
+    $zip=[IO.Compression.ZipFile]::OpenRead($archivePath)
+    try {
+      $selected=@($zip.Entries|Where-Object FullName -CEQ $Members[0])
+      $selected.Count|Should -Be 1
+      $selected[0].Length|Should -Be $row.Member.Length
+      $stream=$selected[0].Open()
+      $sha=[Security.Cryptography.SHA256]::Create()
+      try {$memberHash=([BitConverter]::ToString($sha.ComputeHash($stream))).Replace('-','').ToLowerInvariant()}
+      finally {$sha.Dispose();$stream.Dispose()}
+      $memberHash|Should -BeExactly $row.Member.Sha256
+    } finally {$zip.Dispose()}
+
+    $operation=($Catalog.Operations|Where-Object Id -eq $Id).Clone()
+    $operation.SelectedVariant='portable'
+    $operation.ResolvedToolsDirectory=$CaseRoot
+    $operation.InstallDirectory=Join-Path $CaseRoot $operation.PackageId
+    $artifact=[pscustomobject]@{Path=$archivePath;Sha256=$row.Sha256;Version=$Version}
+    Install-RidePortablePayload $operation $artifact -Offline
+    Install-RidePortablePayload $operation $artifact -Offline
+    $state=Get-RidePortableState $operation
+    $state.Healthy|Should -BeTrue
+    @($state.Files.RelativePath)|Should -Be $Members
+    (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory $Members[0]) -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $row.Member.Sha256
+
+    $snapshot=Save-RidePortableSnapshot $operation (Join-Path $CaseRoot 'backup')
+    [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'),'preserve')
+    Uninstall-RidePortablePayload $operation
+    Restore-RidePortableSnapshot $operation $snapshot
+    (Get-RidePortableState $operation).Healthy|Should -BeTrue
+    [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'))|Should -BeExactly 'preserve'
   }
 }

@@ -1,0 +1,9 @@
+{
+  "SchemaVersion": 1,
+  "DefenderBlockedProducts": [
+    {
+      "Name": "AdFind",
+      "Reason": "User-directed Defender exclusion; do not acquire or accept until the block is cleared by a later decision."
+    }
+  ]
+}

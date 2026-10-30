@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-29T01:10:40.1308793Z",
+  "result": {
+    "SchemaVersion": 1,
+    "RunId": "8346c1d7660a4fb78e773ef3b57407b7",
+    "Source": "Local",
+    "UnitOnly": true,
+    "IntegrationSuite": "Full",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-10-28T20:38:21.8566618Z",
+    "FinishedAtUtc": "2026-10-28T21:56:44.6838352Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "summary": {
+    "SchemaVersion": 1,
+    "RunId": "8346c1d7660a4fb78e773ef3b57407b7",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 2,
+      "Result": "Failed",
+      "Total": 3544,
+      "Passed": 3502
+    },
+    "Error": "Pester did not pass: 2 failing test(s).",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9444",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Full repository regression"
+  },
+  "guestSkipped": 40,
+  "pending": 0,
+  "running": 0,
+  "recoveryBlock": false,
+  "failures": [
+    "HashValueContextMenu.Tests.ps1 expected batch 1 size 19; actual 21.",
+    "RemainingSettings.Tests.ps1 expected combined batch size 38; actual 40."
+  ],
+  "correction": "Existing checkout changes replace fixed counts with minimum sizes while retaining required membership, uniqueness and collision checks. No operational/test source edits in this follow-up.",
+  "validation": {
+    "notSelectedPerEdition": 90,
+    "powerShell7": {
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 92,
+      "Passed": 2,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "controllerWindowsPowerShell": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 151,
+      "Passed": 151,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "windowsPowerShell": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 92,
+      "Passed": 2,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    }
+  },
+  "sourceComparison": [
+    {
+      "path": "tests/HashValueContextMenu.Tests.ps1",
+      "stagedSha256": "2807E30AF287338C2B5E89142E53A00CD8FD04C54A587AC8F301F6C9A8CCB841",
+      "currentSha256": "62016DD4ED4ED6A78FB2C67C380B0AFCA09F6BCB2A99E9F297DB8D52E3731914"
+    },
+    {
+      "path": "tests/RemainingSettings.Tests.ps1",
+      "stagedSha256": "8DC865375C535007FEBDE9587F4D3232418000880769ED5E8AA58CDFB0AB61C8",
+      "currentSha256": "30CDEBD9046F9DE2578B62FA9D78D0BD07202CB0EDF2A925A282002A332DD01F"
+    }
+  ],
+  "staleProtectedFiles": [
+    "Invoke-RideVmTest.ps1",
+    "Invoke-RideVmTestTask.ps1",
+    "RIDE.TestAutomation.psm1"
+  ],
+  "boundaries": {
+    "fullGuestRerun": "Pending",
+    "defenderChanged": false,
+    "publisherPayloadAcquiredOrExecuted": false,
+    "featureAcceptance": "Pending",
+    "vmDispatched": false,
+    "controllerStatus": "NotValidated",
+    "checkpointChanged": false
+  },
+  "migration": {
+    "partial": "Two existing count corrections and current controller verified locally",
+    "resolved": 0,
+    "ranges": {
+      "settings": "37-57",
+      "exact": "126-180",
+      "packages": "37-52",
+      "maintenance": "8-12",
+      "components": "19-24",
+      "rounded": "125-180/about 155",
+      "filesAndAssets": "25-35"
+    },
+    "reason": "No legacy outcome closes from local regression verification.",
+    "excluded": 0,
+    "deferred": "Full guest pass and native acceptance",
+    "retired": 0
+  }
+}

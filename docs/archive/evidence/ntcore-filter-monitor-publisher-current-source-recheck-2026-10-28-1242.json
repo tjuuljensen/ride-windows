@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-28T12:42:40Z",
+  "batch": "NTCore Filter Monitor current publisher-source recheck",
+  "sources": [
+    {
+      "uri": "https://ntcore.com/download/",
+      "finding": "The current official NTCore Download page still lists Filter Monitor among its utilities."
+    },
+    {
+      "uri": "https://ntcore.com/filter-monitor/",
+      "finding": "The product page lists version 1.1.0, says x86/x64, claims Windows support from Vista RTM through Windows 7 RTM and disclaims guarantees for future Windows because it relies on system internals. It says the driver is unsigned and requires booting with driver-signature enforcement disabled."
+    },
+    {
+      "uri": "https://ntcore.com/files/FilterMon.zip",
+      "finding": "The official product-page Download link resolves to this ZIP URL. The web source reader returned Cache miss; archive bytes and members were not retrieved in this review."
+    }
+  ],
+  "scopeDisposition": "Keep Filter Monitor in the selected publisher-list migration review; do not classify it as end-of-life or a license exclusion. Its publisher-documented OS limit and unsigned-driver boot requirement are explicit compatibility gates. No Windows 11 support or execution is claimed. Exact archive/member identity is needed for a pinned package staging candidate; if prepared, owner/version license review remains informational, not a migration gate.",
+  "observations": {
+    "archiveRetrieved": false,
+    "archiveMembersInspected": false,
+    "catalogChanged": false,
+    "utilityExecuted": false,
+    "driverChanged": false,
+    "signatureEnforcementChanged": false,
+    "defenderChanged": false,
+    "vmChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; current-source recheck records a compatibility gate and closes no product or aggregate legacy outcome."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:00:32Z",
+  "batch": "Phoenix Protector shared .NET Framework prerequisite gate regression",
+  "package": {
+    "id": "package.phoenix-protector",
+    "version": "1.7.1",
+    "catalogPin": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+    "prerequisite": "Windows .NET Framework 3.5 shared feature, which supplies the CLR 2.0 layer required by the pinned MSI launch condition",
+    "catalogPrerequisiteGate": true
+  },
+  "test": {
+    "path": "tests/PhoenixPackage.Tests.ps1",
+    "pesterVersion": "5.7.1",
+    "powerShell7": {
+      "version": "7.6.5",
+      "discovered": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0,
+      "durationSeconds": 2.12
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9711",
+      "discovered": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0,
+      "durationSeconds": 2.24
+    },
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "assertionScope": [
+      "Exact publisher pin and machine-wide quiet MSI declarations",
+      "When the shared .NET Framework 3.5 prerequisite is absent, fail before artifact acquisition or MSI invocation",
+      "When the prerequisite is reported present, route the pinned candidate to a mocked msiexec invocation with catalog arguments"
+    ],
+    "workspaceLocalTemporaryRootsCleaned": true
+  },
+  "handling": {
+    "msiAcquired": false,
+    "msiExecuted": false,
+    "dismOrWindowsFeatureServicingInvoked": false,
+    "sharedDotNetFeatureQueriedOnHost": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "previousWindows11MsiFailure": "Exit 1603; installer log reported VSDFrameworkVersion=2.0.50727 and a .NET Framework 2.0 launch condition.",
+    "currentTargetFeatureAvailabilityVerified": false,
+    "vmAccess": "Blocked before inspection at host CIM for RIDE-Win11-Test and RIDE-Server2025-Test.",
+    "requiredNextEvidence": "Use a disposable target where the shared prerequisite is already enabled or explicitly prepare it under the separately authorized elevated servicing workflow; then verify install/repeat/remove/recovery. Do not count the shared feature as Phoenix-owned removal state."
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source prerequisite gate blocks artifact acquisition and MSI invocation when .NET Framework 3.5 is absent; it permits only the mocked MSI path when present."
+    ],
+    "retired": [],
+    "excluded": [],
+    "partial": [
+      "Local mock regression does not establish feature availability, offline servicing behavior, MSI installation, or recovery on Windows."
+    ],
+    "deferred": [
+      "Windows 11 package acceptance, prerequisite-enabled install/repeat/remove/exact recovery, and diagnosis of the original target failure."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the current-source gate is verified but no package runtime outcome closes."
+    }
+  },
+  "licenseDisposition": "The exact-version Phoenix review marker is informational and not a migration gate.",
+  "relatedEvidence": [
+    "phoenix-protector-current-source-package-regression-2026-10-26-1458.json",
+    "applications-batch1-win11-follow-up-2026-10-24-1543.json"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:50:23Z",
+  "batch": "Wireshark stable release and MSI source recheck",
+  "sources": {
+    "downloadPage": "https://www.wireshark.org/download.html",
+    "windowsX64AllVersions": "https://www.wireshark.org/download/win64/all-versions/"
+  },
+  "publisherFindings": {
+    "currentStable": "4.6.9",
+    "currentOldStable": "4.4.19",
+    "currentDevelopment": "5.0.0rc1",
+    "pinnedX64MsiListed": "Wireshark-4.6.9-x64.msi"
+  },
+  "catalog": {
+    "operation": "package.wireshark",
+    "packageVersion": "4.6.9",
+    "downloadUri": "https://www.wireshark.org/download/win64/all-versions/Wireshark-4.6.9-x64.msi",
+    "expectedSha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "scope": "Machine",
+    "requiresAdmin": true,
+    "supportedTargets": [],
+    "pendingAcceptance": true
+  },
+  "handling": {
+    "publisherPayloadDownloaded": false,
+    "catalogChanged": false,
+    "installerExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The catalog's 4.6.9 pin still matches the publisher's current stable release and listed x64 MSI."
+    ],
+    "partial": [
+      "The current official source recheck confirms version and MSI naming only; exact payload bytes/signature and package lifecycle remain separate evidence."
+    ],
+    "deferred": [
+      "Verify the pinned MSI and complete Windows 11 install, repeat, remove, saved-state recovery and reporting acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; current stable-source confirmation adds no completed package lifecycle outcome."
+    }
+  },
+  "relatedEvidence": [
+    "wireshark-4.6.9-msi-database-inspection-2026-10-25-1548.json"
+  ]
+}

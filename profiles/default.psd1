@@ -28,7 +28,9 @@
     @{ Id = 'windows.dotnet-strong-crypto-32bit'; State = 'Enabled' }
     @{ Id = 'windows.f8-boot-menu-policy'; State = 'Legacy' }
     @{ Id = 'windows.dep-boot-policy'; State = 'OptOut' }
-    @{ Id = 'windows.bitlocker-encryption-method'; State = 'AesCbc256' }
+    @{ Id = 'windows.bitlocker-encryption-method-os'; State = 'XtsAes256' }
+    @{ Id = 'windows.bitlocker-encryption-method-fixed-data'; State = 'XtsAes256' }
+    @{ Id = 'windows.bitlocker-encryption-method-removable-data'; State = 'XtsAes256' }
     @{ Id = 'windows.current-network-category'; State = 'Private' }
     @{ Id = 'windows.remote-assistance-policy'; State = 'Disabled' }
     @{ Id = 'windows.microsoft-product-updates'; State = 'Enabled' }
@@ -69,6 +71,7 @@
     @{ Id = 'windows.explorer-recent-shortcuts'; State = 'Hidden' }
     @{ Id = 'windows.explorer-frequent-shortcuts'; State = 'Hidden' }
     @{ Id = 'windows.explorer-start-location'; State = 'ThisPC' }
+    @{ Id = 'windows.explorer-f1-help'; State = 'Blocked' }
     @{ Id = 'windows.music-folder-this-pc'; State = 'Hidden' }
     @{ Id = 'windows.videos-folder-this-pc'; State = 'Hidden' }
     @{ Id = 'windows.3d-objects-folder-this-pc'; State = 'Hidden' }

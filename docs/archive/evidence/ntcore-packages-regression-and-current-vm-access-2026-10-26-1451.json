@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T14:51:23Z",
+  "scope": "Read-only acceptance access check following the NTCore package staging regression",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "check": "Get-VM and Get-VMCheckpoint",
+      "result": "Failed before inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-S25-Test",
+      "check": "Get-VM",
+      "result": "Failed before inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDEWin11Test",
+      "check": "schtasks.exe /Query /TN \\\"\\\\RIDE\\\\RIDEWin11Test\\\" /FO LIST",
+      "result": "Failed before dispatch",
+      "error": "ERROR: The network address is invalid."
+    }
+  ],
+  "stateChanges": {
+    "requestDispatched": false,
+    "guestInspected": false,
+    "checkpointChanged": false,
+    "hostServiceChanged": false,
+    "defenderChanged": false,
+    "elevationPromptRequested": false
+  },
+  "disposition": "Defer Windows 11 package and synthetic WIM acceptance until registered VM/controller access is restored; continue independent local/source work.",
+  "estimateEffect": "None; no legacy outcome closed. Keep current ranges 37-57 / 40-55 / 19-24 / 25-35 / 8-12, exact 129-183, rounded 130-185/about 155."
+}

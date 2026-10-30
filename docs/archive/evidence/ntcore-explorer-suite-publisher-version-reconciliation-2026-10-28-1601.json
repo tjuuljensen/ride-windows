@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:01:57Z",
+  "batch": "NTCore Explorer Suite publisher version reconciliation",
+  "source": "Current official NTCore Explorer Suite product page and retained-artifact review",
+  "publisherSource": {
+    "productUri": "https://ntcore.com/explorer-suite/",
+    "currentVersion": "III",
+    "currentVersionDate": "2012-11-18",
+    "downloadUri": "https://ntcore.com/files/ExplorerSuite.exe",
+    "sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+    "releaseArticleUri": "https://ntcore.com/explorer-suite-iii-cff-explorer-vii/",
+    "releaseArticleTitle": "Explorer Suite III (CFF Explorer VII)"
+  },
+  "retainedArtifact": {
+    "path": ".local/remaining-collections-20261017/ExplorerSuite.exe",
+    "length": 3613174,
+    "sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+    "sha256MatchesCurrentPublisherArtifact": true,
+    "embeddedInstallerLabel": "IV",
+    "authenticodeStatus": "NotSigned"
+  },
+  "versionDecision": {
+    "catalogVersion": "III-2012-11-18",
+    "basis": "The current publisher product page labels Explorer Suite III dated 2012-11-18 and publishes the exact SHA-256 that matches the retained installer.",
+    "embeddedInstallerLabel": "IV",
+    "interpretation": "Keep the embedded IV string as installer-internal metadata. It does not override the publisher release identity for the exact-hash artifact and is not evidence of a distinct publisher release."
+  },
+  "migrationStatus": {
+    "supportedTargets": [],
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "pendingAcceptance": true,
+    "licenseReviewMarker": "NeedsReview/Unassigned is administrative and does not block migration.",
+    "remainingAcceptance": [
+      "Windows 11 install, repeat, remove and saved-state recovery on the existing disposable checkpoint.",
+      "Confirm installed components, shortcut scope, uninstaller registration and exact recovery."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; publisher version identity is reconciled, but package lifecycle acceptance remains incomplete."
+    }
+  },
+  "execution": {
+    "installerExecuted": false,
+    "utilitiesExecuted": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  }
+}

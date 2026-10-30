@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-29T01:02:10Z",
+  "batch": "Remaining optional Windows setting current-source regression",
+  "test": "tests/OptionalWindowsSettings.Tests.ps1",
+  "result": {
+    "status": "passed",
+    "passed": 365,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "durationSeconds": 378.53,
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "executionPolicy": "Process-only Bypass; persistent policy unchanged"
+  },
+  "storageSenseCoverage": [
+    "Candidate metadata, supported-target refusal, candidate target and machine-scope requirements.",
+    "Enabled and Disabled explicit-value matching, WindowsDefault absence matching, and separation of baseline removal from explicit Disabled."
+  ],
+  "sideEffects": {
+    "registryReadsAndWrites": "mocked by suite; generated state remains in Pester TestDrive",
+    "realRegistryOrWindowsStateChanged": false,
+    "storageSenseCleanupRequested": false,
+    "vmOrDefenderChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": 0
+  },
+  "limits": "This local suite does not test the prepared 26-operation guest runner, native Windows policy behavior, effective Group Policy precedence, GUI switch behavior, cleanup behavior or VM target support.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "The suite verifies mocked registry lifecycle and metadata only; no Windows acceptance or legacy outcome closed."
+  }
+}

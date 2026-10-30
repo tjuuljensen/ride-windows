@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T18:04:59Z",
+  "batch": "Windows PowerShell 5.1 current-source component, BitLocker and F1 regression",
+  "runtime": {
+    "powershell": "5.1.26100.9711",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass",
+    "persistentExecutionPolicyChanged": false,
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "tempDirectory": ".local/pester-crossshell-ps51-20261028-1801"
+  },
+  "testFiles": [
+    "tests/ComponentInventory.Tests.ps1",
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1",
+    "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+    "tests/OpenSshServerLifecycle.Tests.ps1",
+    "tests/OpenSshServerObservation.Tests.ps1",
+    "tests/BitLockerWorkflows.Tests.ps1",
+    "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+    "tests/F1Help.Tests.ps1"
+  ],
+  "result": {
+    "discovered": 145,
+    "passed": 145,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "durationSeconds": 85.24
+  },
+  "coverageBoundary": {
+    "nativeServicingAndWindowsProvidersInvoked": false,
+    "registryCallsMocked": true,
+    "bitLockerAndTpmCallsMockedOrSynthetic": true,
+    "realVmOrCheckpointAccessed": false,
+    "defenderBlockedToolsSelectedOrTouched": false,
+    "defenderOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false,
+    "nativeWindowsAcceptance": "Pending; target checkpoint membership and guest task readiness remain unconfirmed."
+  },
+  "relatedEvidence": [
+    "component-current-source-pester-regression-ps7-2026-10-28-1751.json",
+    "settings-current-source-pester-regression-ps7-2026-10-28-1800.json"
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; current-source cross-shell local regressions close no legacy outcomes."
+  }
+}

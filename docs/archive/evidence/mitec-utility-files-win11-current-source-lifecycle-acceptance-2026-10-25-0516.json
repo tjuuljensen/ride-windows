@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "runId": "6e9431712b22448784285678cf6ae694",
+  "suite": "MiTeCUtilityFiles",
+  "target": "Windows 11",
+  "build": "26300",
+  "status": "Passed",
+  "startedAtUtc": "2026-10-25T04:51:25.1819270Z",
+  "finishedAtUtc": "2026-10-25T05:16:17.8907889Z",
+  "expectedCases": 3,
+  "completedCases": 3,
+  "passedCases": 3,
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "payloadExecution": false,
+  "toolExecuted": false,
+  "functionalAcceptance": "Pending",
+  "runtimeAcceptance": "NotSelected",
+  "activationAcceptance": "Pending",
+  "controllerErrors": [],
+  "vm": "RIDE-Win11-Test",
+  "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "sourceContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+  "sourceCommit": "17f9cef121d9544ea7ef6b97429021040262040b",
+  "sourceManifestHashesVerifiedAgainstWorkingTreeAtReviewTimeBeforePromotionEdits": {
+    "catalog/operations.psd1": "010EA7E6F03B8FE673C4A1365902EA73E1D67E7326E3005BC6104FCCBF784857",
+    "docs/application-packages.md": "9ACA91A575DA281E4D1CB76278E651F3E37B4C03706C99283A4CE53A02BD51F0",
+    "tests/integration/Invoke-RidePortableAcceptance.ps1": "82C12182ADC8D7B2519243B18F0053D4872EF93E4761BAA37A4C1EF24255E4BF",
+    "tests/integration/RIDE.PortableAcceptance.psm1": "C71345A166E1BED9122B92D38121C93106ADBB5A6A353415586B4CF2C509A425",
+    "tests/MiTecUuidGenerator.Tests.ps1": "44683F4F34D6A2EA416929B93815DAEA044CFB8CE7AB017487D3C58F65044418",
+    "tests/MiTecCertificateTools.Tests.ps1": "91E1C8F77C21B085200305BFBD97CD1087DADA965B526BC4A27CD843737464F7"
+  },
+  "cases": [
+    {
+      "Id": "package.mitec-uuid-generator",
+      "Status": "Passed",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ]
+    },
+    {
+      "Id": "package.mitec-certificate-generator",
+      "Status": "Passed",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ]
+    },
+    {
+      "Id": "package.mitec-certificate-information",
+      "Status": "Passed",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ]
+    }
+  ],
+  "localFollowUp": {
+    "repositoryValidation": "Passed: 412 operations, 8 groups, 5 profiles and 277 PowerShell files",
+    "focusedPester": "Passed: 43/43 across MiTecUuidGenerator.Tests.ps1, MiTecCertificateTools.Tests.ps1 and PortableAcceptanceAutomation.Tests.ps1; TestRegistry plugin disabled because sandbox HKCU access is denied",
+    "broaderCatalogPester": "123 passed, 3 failed, 0 skipped across the four-file attempt; the three Catalog.Tests failures were unrelated sandbox registry or temporary-path access denials. The three focused MiTeC/acceptance suites were rerun separately and passed 43/43."
+  },
+  "privacyAndSecurityBoundary": "The utility executables were not run. No UUID, device identifier, key, certificate, store, or user file was read or created. The suite did not query Defender history; manually review any Defender alert before use.",
+  "evidencePath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\6e9431712b22448784285678cf6ae694"
+}

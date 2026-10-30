@@ -1,0 +1,70 @@
+{
+  "recordedAtUtc": "2026-10-28T20:35:28Z",
+  "batch": "Legacy feedback selector component traceability and R04 mapping review",
+  "legacySource": {
+    "file": "legacy/v2/lib-windows.psm1",
+    "DisableFeedback": [
+      "writes NumberOfSIUFInPeriod REG_DWORD 0",
+      "writes DoNotShowFeedbackNotifications REG_DWORD 1",
+      "disables DmClient and DmClientOnScenarioDownload"
+    ],
+    "EnableFeedback": [
+      "removes NumberOfSIUFInPeriod and DoNotShowFeedbackNotifications",
+      "enables DmClient and DmClientOnScenarioDownload"
+    ],
+    "PeriodInNanoSeconds": "Neither selector writes this value."
+  },
+  "catalogChange": {
+    "operation": "windows.feedback-notifications-policy",
+    "addedMigrationBatch": "2026-10-10-remaining-settings-1",
+    "legacySelectors": [
+      "DisableFeedback",
+      "EnableFeedback"
+    ],
+    "taskOperationsAlreadyTagged": [
+      "windows.task-feedback-client",
+      "windows.task-feedback-scenario"
+    ]
+  },
+  "R04": "Partial overlap: the legacy selector writes the SIUF count member but leaves the period untouched. Microsoft Learn labels both SIUF values REG_DWORD while daily/weekly period values exceed DWORD range. Do not invent current-build value kinds or complete-state claims.",
+  "validation": {
+    "catalogExport": "Generated docs/OPERATIONS.md",
+    "repositoryValidation": "Passed",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 301,
+    "focusedPester": "Not run; Pester 5.7.1 unavailable",
+    "vm": "Get-VM denied at host CIM before state retrieval; no guest dispatch"
+  },
+  "sideEffects": {
+    "registryRead": false,
+    "registryChanged": false,
+    "taskChanged": false,
+    "vmChanged": false,
+    "defenderChanged": false,
+    "elevationRequested": false
+  },
+  "migration": {
+    "resolved": [
+      "Added existing legacy selector metadata to the feedback-notification policy operation."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "R04 GUI, value kind, managed precedence and paired recovery acceptance"
+    ],
+    "partial": [
+      "Full DisableFeedback bundle remains open pending exact SIUF mapping and Windows acceptance."
+    ],
+    "estimates": [
+      "37-57",
+      "37-52",
+      "19-24",
+      "25-35",
+      "8-12",
+      "126-180 exact",
+      "125-180/about 155 rounded"
+    ]
+  }
+}

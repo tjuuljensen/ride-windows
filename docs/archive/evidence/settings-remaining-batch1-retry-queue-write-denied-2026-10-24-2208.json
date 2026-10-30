@@ -1,0 +1,37 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T22:08:40Z",
+  "Suite": "SettingsRemainingBatch1",
+  "Target": "RIDE-Win11-Test",
+  "Configuration": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\configuration.json",
+  "Client": "tests/integration/Invoke-RideVmTestTask.ps1",
+  "RequestId": "5710baa7028f4676b5f107ff21c884a1",
+  "Status": "NotQueued",
+  "Failure": "Access denied writing the request JSON temporary file under C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\queue\\pending.",
+  "QueuePendingCountAfterAttempt": 0,
+  "TaskStarted": false,
+  "VMChanged": false,
+  "ElevationPromptRequested": false,
+  "IndependentLocalChecks": {
+    "RemainingSettings.Tests.ps1": {
+      "PesterVersion": "5.7.1",
+      "TestRegistryEnabled": false,
+      "Passed": 77,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "GitHubAuthentication.Tests.ps1": {
+      "PesterVersion": "5.7.1",
+      "TestRegistryEnabled": false,
+      "TempRoot": ".local/pester-workspace-temp",
+      "Passed": 53,
+      "Failed": 0,
+      "Skipped": 0
+    }
+  },
+  "MigrationDisposition": {
+    "WindowsAcceptance": "Not run; no queue item was created.",
+    "LegacyOutcomeClosed": false,
+    "EstimateChanged": false
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:02:00Z",
+  "target": "RIDE-Win11-Test",
+  "operation": "Read-only Get-VM and checkpoint inventory attempt",
+  "result": "Blocked before VM state or checkpoint inspection",
+  "errorType": "Microsoft.HyperV.PowerShell.VirtualizationException",
+  "error": "Access to a CIM resource was not available to the client.",
+  "vmStateChanged": false,
+  "checkpointStateChanged": false,
+  "freshElevationRequested": false,
+  "deferred": [
+    "RawCopy Windows 11 package lifecycle and synthetic behavior acceptance",
+    "Other registered Windows VM acceptance scenarios"
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "39-54",
+    "components": "19-24",
+    "accountsConfigurationAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "128-182",
+    "roundedTotal": "130-185/about 155"
+  }
+}

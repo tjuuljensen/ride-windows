@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T12:19:18Z",
+  "batch": "Raspberry Pi Imager v2.0.12 package candidate source review",
+  "sources": {
+    "product": "https://www.raspberrypi.com/software/",
+    "release": "https://github.com/raspberrypi/rpi-imager/releases/tag/v2.0.12",
+    "installerSource": "https://github.com/raspberrypi/rpi-imager/blob/v2.0.12/src/windows/rpi-imager.iss.in",
+    "license": "https://github.com/raspberrypi/rpi-imager/blob/v2.0.12/license.txt",
+    "installerTypeCrossCheck": "https://github.com/microsoft/winget-pkgs/blob/master/manifests/r/RaspberryPiFoundation/RaspberryPiImager/2.0.8/RaspberryPiFoundation.RaspberryPiImager.installer.yaml"
+  },
+  "publisherRelease": {
+    "version": "2.0.12",
+    "asset": "imager-v2.0.12.exe",
+    "architecture": "x64",
+    "reportedSize": "21.3 MB",
+    "publishedSha256": "98bff90afe23339d0768915f6f68d35ac254740ec1eac2082ebeaa9ba41bc8e3",
+    "localArtifactAcquiredOrChecked": false
+  },
+  "installerSourceReview": {
+    "installerFramework": "Inno Setup",
+    "minimumWindowsVersion": "Windows 10 build 15063",
+    "privilegesRequired": "admin",
+    "defaultInstallDirectory": "%ProgramFiles%/Raspberry Pi Ltd/Imager",
+    "installEffects": [
+      "Installs application files and registers a Start menu shortcut.",
+      "Registers image/archive and Raspberry Pi Imager manifest file associations in machine registry hives.",
+      "Stages rpiboot-winusb.inf with pnputil /add-driver /install, which may apply the driver to currently connected devices.",
+      "Can terminate a running rpi-imager.exe after an interactive confirmation during setup; silent-mode launch is skipped."
+    ],
+    "upgradeEffects": [
+      "Setup detects and removes earlier Inno/NSIS registrations and performs legacy file/registry cleanup before completing the new install."
+    ],
+    "uninstallEffects": [
+      "Enumerates the Windows driver store for rpiboot-winusb.inf and deletes the matching published OEM driver package with pnputil /delete-driver /uninstall.",
+      "Deletes the current user's cached OS image when the HKCU lastFileName value identifies a file named lastdownload.cache.",
+      "Deletes the current user's imagecustomization registry subtree, which contains saved Wi-Fi credentials, Linux account password hashes, and SSH keys.",
+      "Intentionally preserves other current-user settings such as window position, language, telemetry choice and last path."
+    ]
+  },
+  "catalogCandidate": {
+    "id": "package.raspberry-pi-imager",
+    "pendingAcceptance": true,
+    "supportedTargets": [],
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "scope": "Machine",
+    "requiresAdmin": true,
+    "installerArguments": "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART",
+    "rollback": "Compensating",
+    "license": "Apache License 2.0 for main source, with separate third-party component licenses and upstream notices",
+    "localLicenseReview": {
+      "version": "2.0.12",
+      "owner": "Unassigned",
+      "status": "NeedsReview",
+      "statusMeaning": "Owner/version administration only; not a legal finding or a package migration gate."
+    }
+  },
+  "blockers": [
+    "RIDE package lifecycle does not currently preserve or restore the user's cached image and imagecustomization registry data that the publisher uninstaller deletes.",
+    "RIDE package lifecycle does not currently verify ownership or recover the rpiboot WinUSB driver affected by install, upgrade and uninstall.",
+    "No local installer bytes, Authenticode result or actual package lifecycle acceptance is available.",
+    "Pester 5 and disposable VM acceptance remain unavailable in the current shell/controller state."
+  ],
+  "observations": {
+    "installerDownloaded": false,
+    "installerOpenedOrExecuted": false,
+    "imageWriterLaunched": false,
+    "removableMediaWritten": false,
+    "driverOrWindowsStateChanged": false,
+    "vmStateChanged": false,
+    "freshElevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Pinned the v2.0.12 Windows x64 candidate identity and publisher-reported SHA-256 in catalog metadata.",
+      "Recorded exact installer driver, registry and current-user uninstall effects from the version-tagged publisher installer source.",
+      "Recorded an exact-version local NeedsReview/Unassigned owner marker for the candidate."
+    ],
+    "partial": [
+      "Catalog and generated operation documentation now declare the Windows 11 candidate, but it remains unsupported pending data and driver recovery design and actual acceptance."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Do not activate install, uninstall or restore support until user-data preservation and WinUSB driver ownership/recovery are implemented and verified.",
+      "Defer publisher-byte verification, Pester 5 tests, and Windows 11 disposable-VM lifecycle and recovery acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; Raspberry Pi Imager is new v3 scope, not a resolved legacy outcome."
+    }
+  },
+  "validation": {
+    "catalogExport": "Generated docs/OPERATIONS.md.",
+    "repositoryValidation": "Passed: 442 operations, 8 groups, 5 profiles, 300 PowerShell files.",
+    "windowsPowerShell51Parser": "The focused Pester source parsed with zero syntax errors.",
+    "candidateSelectionSmoke": "Catalog load and metadata-only package selection retained PendingAcceptance=true.",
+    "pesterAvailable": "Only Pester 3.4.0; the new Pester 5 suite was not run.",
+    "finalExportCheck": "tools/Export-RideCatalog.ps1 -Check passed at 2026-10-28 12:19 UTC; operation documentation current.",
+    "finalRepositoryValidation": "tools/validate.ps1 -Root . passed at 2026-10-28 12:19 UTC: 442 operations, 8 groups, 5 profiles, 300 PowerShell files."
+  }
+}

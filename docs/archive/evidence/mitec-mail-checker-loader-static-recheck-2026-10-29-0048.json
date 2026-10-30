@@ -1,0 +1,52 @@
+{
+  "recordedAtUtc": "2026-10-29T00:48:42Z",
+  "batch": "MiTeC Mail Checker static loader and license-gate recheck",
+  "product": {
+    "operationId": "package.mitec-mail-checker",
+    "version": "7.2.0",
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "defaultProfileSelected": false
+  },
+  "artifact": {
+    "path": ".local/installer-static-20261017/payload-MAILCHECKER_Instal.exe/app/MAILCHECKER.EXE",
+    "length": 1222656,
+    "sha256": "9104f5e92ba0cb0333cc5312fd6e97b944d9ee2da91771b99e19e47ba9d5167f",
+    "matchesPreviouslyRecordedStaticExtraction": true
+  },
+  "readOnlyAsciiStringScan": {
+    "matchingStrings": ["GetProcAddress", "InternetOpenW", "LoadLibraryA", "URLDownloadToFileW", "wininet.dll"],
+    "interpretation": "The image contains strings for dynamic module/symbol lookup and WinINet APIs. A printable-string scan does not establish whether each string is an import or data, prove control flow, identify a loaded module, or show that the bundled OpenSSL DLLs are used. The earlier PE import review found no direct OpenSSL DLL import, and its name scan found no bundled OpenSSL DLL names in the executable.",
+    "nextTechnicalAcceptance": "Use only a disposable Windows target and a local synthetic mail sink; inspect module loads and TLS behavior with synthetic credentials/messages. Verify no outbound provider request, real account, send or delete action occurs."
+  },
+  "licenseAdministration": {
+    "storePath": ".local/license-reviews.json",
+    "reviewedVersion": "7.2.0",
+    "status": "NeedsReview",
+    "owner": "Unassigned",
+    "distributionNotes": "Reconcile historical product page commercial-use wording with the current support EULA for unregistered versions. This local administrative review is non-gating for direct publisher download-and-install migration.",
+    "migrationGate": false
+  },
+  "disposition": "Keep the existing optional pending package candidate. The loader strings strengthen the reason to inspect runtime behavior but do not prove the bundled library is used. Keep Windows support and lifecycle pending until the isolated technical acceptance. License administration remains in the local review store and is not a migration gate.",
+  "sideEffects": {
+    "applicationOrDllExecuted": false,
+    "moduleLoaded": false,
+    "networkRequestMade": false,
+    "credentialOrMessageUsed": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "Static loader identifiers do not establish actual module use or lifecycle acceptance, so no legacy package outcome closes."
+  }
+}

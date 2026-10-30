@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T13:37:37Z",
+  "batch": "NTCore Vista4Experts exact-source GET retry",
+  "officialUri": "https://ntcore.com/files/Vista4Experts.zip",
+  "readOnlyEndpointObservation": {
+    "headStatus": 200,
+    "contentType": "application/zip",
+    "contentLength": 295338,
+    "lastModified": "2020-10-17T15:15:14Z",
+    "etag": "\"481aa-5b1df59199dd1\"",
+    "resolvedRemoteIp": "172.104.252.30"
+  },
+  "retrievalAttempts": [
+    {
+      "method": "Resolve-DnsName ntcore.com -Type A",
+      "result": "Failed",
+      "error": "Access is denied."
+    },
+    {
+      "method": "curl.exe --resolve ntcore.com:443:172.104.252.30 --location --fail",
+      "result": "Failed",
+      "exitCode": 7,
+      "error": "Could not connect to server."
+    }
+  ],
+  "localArchivePresent": false,
+  "disposition": "Keep Vista4Experts selected for package migration preparation. The current publisher endpoint advertises a 295338-byte ZIP, but no ZIP bytes or digest are available, so no hash-pinned catalog candidate can be created yet. This is a retrieval blocker, not a license exclusion.",
+  "handling": {
+    "ArchiveBytesRetrieved": false,
+    "PartialFileRetained": false,
+    "UtilityExecuted": false,
+    "DefenderStateChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "ElevationRequested": false
+  },
+  "legacyOutcomesClosed": 0,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; HEAD metadata and an IP-pinned connection attempt do not establish artifact bytes or close the package outcome."
+  }
+}

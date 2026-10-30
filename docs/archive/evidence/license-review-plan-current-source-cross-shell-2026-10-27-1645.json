@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T16:45:18Z",
+  "Scope": "Current-source license review planning regression for pending packages and prior-v2-approved Sysinternals packages",
+  "Test": "tests/LicenseReviews.Tests.ps1",
+  "Pester": "5.7.1",
+  "PowerShell7": {
+    "Version": "7.6.5",
+    "Passed": 24,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "TemporaryRoot": ".local/pester-license-review-20261027"
+  },
+  "WindowsPowerShell51": {
+    "Version": "5.1.26100.9711",
+    "ExecutionPolicy": "Process-only Bypass for loading Pester; no persistent policy change",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "FullRun": { "Passed": 23, "Failed": 1, "Skipped": 0 },
+    "TransientFailure": "A synthetic review-store File.Replace call failed in the broad NeedsReview planning test before a focused rerun.",
+    "FocusedRerun": { "Filter": "keeps NeedsReview records informational across pending package install planning", "Passed": 1, "Failed": 0 },
+    "TemporaryRoot": ".local/pester-license-review-winps51-20261027"
+  },
+  "Coverage": {
+    "PendingPackagePlansRemainAvailableWithNeedsReview": "Passed in PowerShell 7; passed on the Windows PowerShell 5.1 focused rerun after the transient store failure.",
+    "Sysinternals": {
+      "ApprovedSelections": 10,
+      "PlanCasesPassedInPowerShell7": 10,
+      "PlanCasesPassedInWindowsPowerShell51": 10,
+      "LicenseMigrationGate": false,
+      "Disposition": "Prior RIDE v2 license-specialist approval covers RIDE's direct download-and-install workflow. No legal or licensing review gates migration."
+    }
+  },
+  "Boundaries": {
+    "PackageInstalled": false,
+    "UtilityExecuted": false,
+    "PublisherNetworkAccess": false,
+    "VmStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "LegacyOutcomesClosed": [],
+    "EstimateRangesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    }
+  },
+  "VmAccess": "Get-VM failed at CIM before inspection; Hyper-V Manager remained inaccessible to the lower-integrity UI helper. See hyper-v-manager-read-only-ui-integrity-recheck-2026-10-27-1636.json.",
+  "SysinternalsDecision": "sysinternals-license-practical-administration-reaffirmation-2026-10-27-1554.json"
+}

@@ -1,0 +1,235 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-29T14:12:38.8238705Z",
+  "RunId": "5f2fb83f1eec4c0399ba3da4abb46791",
+  "EvidenceSource": "Exported guest evidence independently inspected; all 18 files rehashed against guest manifest",
+  "Diagnostic": {
+    "StartedAtUtc": "2026-10-29T14:05:59.9098978Z",
+    "Computer": "RIDE-WIN11-TEST",
+    "User": "RIDE-WIN11-TEST\\admin",
+    "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "Elevated": true,
+    "SessionId": 1,
+    "UserInteractive": true,
+    "PowerShell": "5.1.26100.9711",
+    "ExitCode": 0,
+    "TimedOut": false,
+    "Error": null,
+    "CollectionErrors": [],
+    "InstallerPID": 6860,
+    "FinishedAtUtc": "2026-10-29T14:06:29.5693152Z"
+  },
+  "Task": {
+    "TaskName": "RIDE-HashCheckDiagnostic-5f2fb83f1eec4c0399ba3da4abb46791",
+    "UserSID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "ExpectedSessionId": 1,
+    "LogonType": "Interactive",
+    "RunLevel": "Highest",
+    "LastTaskResult": 1,
+    "Error": "Interactive task exited 1; inspect launcher logs.",
+    "TaskRemoved": true
+  },
+  "LastLauncher": {
+    "StartedAtUtc": "2026-10-29T14:06:54.3297358Z",
+    "ExpectedSessionId": 1,
+    "Completed": false,
+    "Error": "Diagnostic already ran.",
+    "User": "RIDE-WIN11-TEST\\admin",
+    "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "SessionId": 1,
+    "UserInteractive": true,
+    "Elevated": true,
+    "FinishedAtUtc": "2026-10-29T14:06:55.4478917Z"
+  },
+  "Appx": {
+    "Name": "IDRIX.HashCheck",
+    "Version": "2.6.3.0",
+    "PackageFullName": "IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw",
+    "Status": 0,
+    "PackageUserInformation": [
+      {
+        "UserSecurityId": {
+          "Sid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+          "Username": "admin"
+        },
+        "InstallState": "Installed"
+      }
+    ]
+  },
+  "HostDirectory": ".local/acceptance-input/hashcheck-remote-5f2fb83f1eec4c0399ba3da4abb46791",
+  "Files": [
+    {
+      "Name": "appx-after.json",
+      "Bytes": 705,
+      "SHA256": "7F17B302224A337FE9BE091CFBEE871F33CA2F2638512DD3069A76E9EAFECA6E",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "diagnostic.json",
+      "Bytes": 526,
+      "SHA256": "FB21295C0B3A93E7193F09D3E0E6CBA30E0F2ADBB642A5A1C5E76D5DC83C4C56",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "hashcheck-install.log",
+      "Bytes": 1654,
+      "SHA256": "4AA220053D085436D246F1998AD74C20CEE280D0AD654E9EF8898FE490035868",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "HashCheckSetup-v2.6.3.0.exe",
+      "Bytes": 2157368,
+      "SHA256": "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "interactive-error.log",
+      "Bytes": 462,
+      "SHA256": "F5A431CF6DA5AAC6D65D7940D0E9D8BC1FEE7E7A4DED2AED77902CAAE65D8D00",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "interactive-launcher.json",
+      "Bytes": 395,
+      "SHA256": "69BB2BA7A5856C34E6B1118B91DECEC54F12ADAC3929C0A107310F7B7A3570B8",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "interactive-output.log",
+      "Bytes": 0,
+      "SHA256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "interactive-task.json",
+      "Bytes": 369,
+      "SHA256": "CF98F984D0BB5A34AC3FF97B4A2DDBCD7CF6B7E4238CDCA9B95D7AF11208619E",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "interactive-task.xml",
+      "Bytes": 1651,
+      "SHA256": "7BBC55C3E0673687F36AC7149389234AB2C64D3ED4BD0597A9707B179D6FE33A",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Invoke-HashCheckInteractiveGuest.ps1",
+      "Bytes": 2426,
+      "SHA256": "5789EA35AA2389BD28712A2A34074391293661CF2F5CAF102E17BC47FC821800",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Invoke-HashCheckRemoteGuest.ps1",
+      "Bytes": 5478,
+      "SHA256": "6A484F29B69A355BE46845990E39E2C15F8971DBBA0B9CAA852E2D054E3BEEB6",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppXDeploymentServer_Operational.json",
+      "Bytes": 17540,
+      "SHA256": "AD11083106677534550C487F8503912347B73C0B5F8299F43EC493F6A67235A4",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppXDeploymentServer_Operational.xml",
+      "Bytes": 41943,
+      "SHA256": "8824E431D661124246D975FCD46F4FB7452C928599948E74E0CAE8602BF617B8",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppxPackaging_Operational.json",
+      "Bytes": 5224,
+      "SHA256": "D61926266D700A7EBAFFF67F474AFF1BCA49001E1D1862AC2B64C490ACD738EC",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "Microsoft-Windows-AppxPackaging_Operational.xml",
+      "Bytes": 11609,
+      "SHA256": "D776EBB30DD29937D1844CA0F35FB10BC4B85901768336AB5F9240DB3B3620A4",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "profile.json",
+      "Bytes": 175,
+      "SHA256": "5337B4D28EEA390ECF99DF3EDDE493CA51A31D0DECE7DC59AE0BAE82AECD15C5",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "sessions.txt",
+      "Bytes": 163,
+      "SHA256": "173D02C88486921FF6DE85349BF7E651D81FCC3C454B823A3588BB4F092DD47B",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    },
+    {
+      "Name": "token.txt",
+      "Bytes": 5645,
+      "SHA256": "651F5B27A0F9AD8333BF214054E04642528B3DF41EB3736F790975F1283C361A",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "7266b1fe-2ef0-432d-b7f5-809990f7d948",
+      "PSShowComputerName": true
+    }
+  ],
+  "Interpretation": "Interactive Session 1 installation passed with same diagnostic body and payload that failed in Session 0. Orchestration is not accepted: no-output scriptblock was replayed by AutomatedLab, and second invocation refused already-run diagnostic.",
+  "Replay": {
+    "FirstLauncherRecordOverwritten": true,
+    "SecondInstallerBlocked": true,
+    "TemporaryTaskRemoved": true,
+    "SecondLauncherStartedUtc": "2026-10-29T14:06:54.3297358Z",
+    "FirstInstallerFinishedUtc": "2026-10-29T14:06:29.5693152Z",
+    "Source": "Installed AutomatedLabWorker 5.61.0 Invoke-LWCommand retry loop removes completed sessions by output RunspaceId; no output leaves session eligible for retry"
+  },
+  "Fix": {
+    "HostHelper": "0.2.1: -Retries 1, atomic dispatch.claim and explicit completion output",
+    "LocalValidation": "Windows PowerShell 5.1: actual installed retry loop with mocked commands reproduced three no-output dispatches at Retries=3, one at Retries=1, and one when output identifies completion. Exclusive claim duplicate rejection passed. Three helper parsers passed.",
+    "InteractiveLauncher": "0.1.1: refuse to overwrite prior launcher/diagnostic evidence",
+    "RuntimeRetest": "Completed by 0f917eb5f99f40699db5435b843a6df3: one dispatch, installer exit 0, task result 0 and task removed."
+  },
+  "Recovery": "Operator confirmed 5f2fb83f1eec4c0399ba3da4abb46791 recovery at 2026-10-29T14:28:45.8378366Z, 18 files verified; guest Running/controller Disabled",
+  "Migration": {
+    "Components": "19-24",
+    "Retired": 0,
+    "Maintenance": "8-12",
+    "Packages": "37-52",
+    "Partial": "Interactive install passed; complete remote orchestration and lifecycle acceptance pending",
+    "Resolved": 0,
+    "FilesAndAssets": "25-35",
+    "ExactTotal": "126-180",
+    "NewExclusions": 0,
+    "Settings": "37-57",
+    "RoundedTotal": "125-180; about 155"
+  }
+}

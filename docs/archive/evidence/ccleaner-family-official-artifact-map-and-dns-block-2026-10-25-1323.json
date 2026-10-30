@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T13:23:26Z",
+  "batch": "CCleaner-family official artifact map and acquisition retry",
+  "officialPageReview": {
+    "products": [
+      {
+        "productUri": "https://www.ccleaner.com/ccleaner/builds",
+        "full": {
+          "onlineUri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+          "releaseDate": "2026-10-21",
+          "version": "7.13.1573",
+          "offlineUri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_FULL/build_RELEASE",
+          "urlPinsVersion": false
+        },
+        "portable": {
+          "userAcceptedOlderPortableVersion": true,
+          "releaseDate": "2026-06-23",
+          "version": "6.41.11567",
+          "uri": "https://download.ccleaner.com/portable/ccsetup641.zip",
+          "urlPinsVersion": true
+        },
+        "versionHistoryUri": "https://www.ccleaner.com/ccleaner/version-history",
+        "publisherPageNote": "The builds page labels advanced builds as not for distribution or mirroring; record the note, while the selected RIDE workflow is direct publisher download and install.",
+        "product": "CCleaner"
+      },
+      {
+        "productUri": "https://www.ccleaner.com/recuva/builds",
+        "version": "1.55.133",
+        "publisherOffersPortable": false,
+        "installerUri": "https://download.ccleaner.com/rcsetup155.exe",
+        "versionHistoryUri": "https://www.ccleaner.com/recuva/version-history",
+        "releaseDate": "2026-06-22",
+        "product": "Recuva"
+      },
+      {
+        "productUri": "https://www.ccleaner.com/speccy/builds",
+        "version": "1.34.84",
+        "publisherOffersPortable": false,
+        "installerUri": "https://download.ccleaner.com/spsetup134.exe",
+        "versionHistoryUri": "https://www.ccleaner.com/speccy/version-history",
+        "releaseDate": "2026-06-22",
+        "product": "Speccy"
+      },
+      {
+        "userRetainedProductScope": true,
+        "publisherEolDate": "2026-09-11",
+        "product": "Defraggler",
+        "eolUri": "https://community.ccleaner.com/t/defraggler-end-of-life/166405",
+        "productUri": "https://www.ccleaner.com/defraggler",
+        "currentPublisherDownloadFound": false,
+        "publisherSaysNoLongerDistributed": true,
+        "lastBuildDate": "2020-08"
+      }
+    ],
+    "reviewedAtUtc": "2026-10-25T13:23:26Z"
+  },
+  "acquisition": {
+    "partialFilesRemaining": 0,
+    "localDirectory": ".local/source-acquisition/ccleaner-family-20261025-1321",
+    "files": [
+      {
+        "error": "No such host is known",
+        "name": "CCleaner full 7.13.1573",
+        "host": "bits.avcdn.net"
+      },
+      {
+        "error": "No such host is known",
+        "name": "CCleaner portable 6.41.11567",
+        "host": "download.ccleaner.com"
+      },
+      {
+        "error": "No such host is known",
+        "name": "Recuva 1.55.133",
+        "host": "download.ccleaner.com"
+      },
+      {
+        "error": "No such host is known",
+        "name": "Speccy 1.34.84",
+        "host": "download.ccleaner.com"
+      }
+    ],
+    "attemptedAtUtc": "2026-10-25T13:23:26Z",
+    "status": "Blocked before transfer"
+  },
+  "licenseAdministration": {
+    "eulaUri": "https://www.ccleaner.com/legal/end-user-license-agreement",
+    "reviewOwner": "Unassigned",
+    "disposition": "Add exact owner/version NeedsReview records when package IDs are registered. Review markers are administrative and do not block package planning under the user instruction; no entitlement or redistribution approval is inferred.",
+    "eulaVersion": "1.16 revised 2026-01-27"
+  },
+  "migration": {
+    "legacyOutcomesResolved": 0,
+    "defenderChanged": false,
+    "deferred": [
+      "Verify acquired full/portable bytes, signatures, hashes and package members",
+      "Register catalog candidates and owner/version review markers after exact package identities are established",
+      "Complete package lifecycle and Windows acceptance",
+      "Recuva/Speccy portable choices are unavailable from their current publisher pages and must be reported without substitution",
+      "Defraggler remains selected but has no current publisher distribution source"
+    ],
+    "vmUsed": false,
+    "catalogChanged": false,
+    "installerExecuted": false
+  },
+  "estimateImpact": {
+    "filesAndAssets": "25-35",
+    "rangesChanged": false,
+    "roundedTotal": "130-185/about 155",
+    "exactTotal": "129-183",
+    "settings": "37-57",
+    "maintenance": "8-12",
+    "packages": "40-55",
+    "components": "19-24"
+  }
+}

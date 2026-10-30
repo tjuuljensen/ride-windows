@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:53:41Z",
+  "batch": "JoeWare AdMod offline package-handler route and VM access recheck",
+  "runtime": {
+    "testFile": "tests/JoeWareAdModEngineRoute.Tests.ps1",
+    "pester": "5.7.1",
+    "powerShell7": {
+      "version": "7.6.5",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "executionPolicy": "Process-scoped Bypass"
+    },
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "verifies": "The real Install-RidePackage route hands a verified offline artifact to the real Install-RidePortablePayload handler, stages only AdMod.exe from an inert synthetic ZIP, and bypasses Save-RidePackageArtifact."
+  },
+  "initialAttempt": {
+    "result": "Failed before test acceptance",
+    "cause": "Pester default TestDrive denied the atomic package-manifest move.",
+    "handler": "Preserved staged evidence on failure as designed.",
+    "preservedArtifact": "The first-attempt inert staging evidence remains in the Pester sandbox temp path; it was not inspected or cleaned.",
+    "correction": "Re-ran from a unique checkout-local .local/application-package-tests directory and directed TEMP/TMP into that fixture. The corrected test passed in both editions."
+  },
+  "repositoryValidation": {
+    "operationDocumentation": "Current",
+    "result": "Passed",
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 299
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-28T06:53:41Z",
+    "RIDE_Win11_Test": "Get-VM failed before inspection: Access to a CIM resource was not available to the client.",
+    "RIDE_Server2025_Test": "Get-VM failed before inspection: Access to a CIM resource was not available to the client.",
+    "checkpointsInspected": false,
+    "taskDispatched": false
+  },
+  "safety": {
+    "realAdModArchiveRead": false,
+    "AdModExecuted": false,
+    "publisherNetworkRequested": false,
+    "SaveRidePackageArtifactMocked": true,
+    "adminContextMocked": true,
+    "WindowsChanged": false,
+    "VMChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source local coverage now exercises the offline machine-package handler route through the actual portable staging handler with inert data."
+    ],
+    "partial": [
+      "This synthetic offline route does not establish the live JoeWare publisher-form acquisition, guest ACL behavior or Windows target acceptance."
+    ],
+    "deferred": [
+      "AdMod Windows 11 lifecycle acceptance remains blocked before VM inspection at host CIM."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; local handler-route coverage does not close the legacy product outcome or prove target behavior."
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "RecordedAtUtc": "2026-10-27T05:16:14Z",
+  "Subject": "Sysinternals practical license administration reaffirmed",
+  "UserDirection": "The prior RIDE v2 license-specialist assessment approved Sysinternals for RIDE's download-and-install workflow. RIDE obtains the tools from Microsoft for deployment and does not transfer or publish Sysinternals. The user confirms there are no legal issues using Sysinternals in RIDE and directs that strict or generalized redistribution reasoning must not block package migration.",
+  "Disposition": {
+    "LicenseBlocker": false,
+    "AdditionalLegalReviewRequired": false,
+    "GeneralizedRedistributionReviewAsMigrationGate": false,
+    "PackageMigrationMayProceed": true
+  },
+  "SeparateSecurityDisposition": "Defender-blocked tools remain excluded independently of licensing.",
+  "MigrationEvidence": "Existing Sysinternals lifecycle and package-plan evidence remains applicable; Windows acceptance blockers are technical and separate from licensing.",
+  "EstimateEffect": "No legacy outcome closed and no migration estimate changed."
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:10:23Z",
+  "batch": "JoeWare UserDump, DNSSrvRec and ELDLLEx publisher-page version reconciliation",
+  "sourceMethod": "Read-only review of official publisher page snapshots and the official versions.txt. No download form was submitted and no payload was acquired.",
+  "observations": [
+    {
+      "product": "UserDump",
+      "productPage": "https://www.joeware.net/freetools/tools/userdump/index.htm",
+      "currentVersionSection": "Version 1.01.00 - January 28, 2001",
+      "versionHistory": [
+        "Version 1.00.00 - April 13, 2000 - Original",
+        "Version 2.02.00 - January 28, 2001 - Added banner"
+      ],
+      "versionList": {
+        "version": "01.01.00",
+        "date": "2001.01.28",
+        "md5": "a14ac214dd83ecf75c5032ba1098c416",
+        "sha1": "d263cd402c4d203c17aa0274c9082ddbac1240b3"
+      },
+      "disposition": "Current Version and version list agree; the page history conflicts on the version for the same date. Keep all observations, do not infer archive identity."
+    },
+    {
+      "product": "DNSSrvRec",
+      "productPage": "https://joeware.net/freetools/tools/dnssrvrec/index.htm",
+      "currentVersionSection": "Version 1.00.00 - January 15, 2005",
+      "versionList": {
+        "version": "01.00.00",
+        "date": "2006.01.15",
+        "md5": "2d36802ffe70e3328e62dd3094123af2",
+        "sha1": "a25663bf9db368247aba79ef381830943932f1da"
+      },
+      "usagePage": "https://joeware.net/freetools/tools/dnssrvrec/usage.htm",
+      "usageVersion": "AddSrvRec V01.00.00cpp Joe Richards January 2006",
+      "disposition": "The one-year difference is visible across official product, digest-list and usage pages. Preserve it; hashes listed there identify an executable, not the ZIP bytes."
+    },
+    {
+      "product": "ELDLLEx",
+      "productPage": "https://www.joeware.net/freetools/tools/eldllex/index.htm",
+      "currentVersionSection": "Version 1.00.0 - February 17, 2002",
+      "versionHistory": "Version 1.00.00 - July 1, 2004 - Original",
+      "versionList": {
+        "version": "01.00.00",
+        "date": "2002.02.17",
+        "md5": null,
+        "sha1": null
+      },
+      "usagePage": "https://joeware.net/freetools/tools/eldllex/usage.htm",
+      "usageVersion": "ELDLLExInstall V01.00.00cpp Joe Richards July 2004",
+      "disposition": "Current Version and version-list date agree modulo numeric formatting, but page history and usage identify July 2004. Preserve both observations; no exact archive identity is established."
+    }
+  ],
+  "safety": {
+    "downloadFormsSubmitted": false,
+    "archiveOrExecutableAcquired": false,
+    "accountOrDnsCommandRun": false,
+    "eventSourceRegisteredOrRemoved": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current publisher snapshots provide more precise version-history observations for all three tools."
+    ],
+    "partial": [
+      "Exact archive identities, payload hashes and member inventories remain unavailable."
+    ],
+    "deferred": [
+      "Acquire and inspect exact official archives if the publisher route becomes available; do not execute utilities or access real account, DNS or event-log data."
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; official page reconciliation improves source evidence without verifying bytes or closing legacy outcomes."
+    }
+  },
+  "officialSources": [
+    "https://www.joeware.net/freetools/tools/userdump/index.htm",
+    "https://joeware.net/freetools/tools/dnssrvrec/index.htm",
+    "https://joeware.net/freetools/tools/dnssrvrec/usage.htm",
+    "https://www.joeware.net/freetools/tools/eldllex/index.htm",
+    "https://joeware.net/freetools/tools/eldllex/usage.htm",
+    "https://www.joeware.net/freetools/versions.txt"
+  ]
+}

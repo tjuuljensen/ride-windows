@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T09:59:02Z",
+  "audit": "Exact-version NeedsReview coverage for every Package marked PendingAcceptance",
+  "store": ".local/license-reviews.json",
+  "storeRecordCount": 72,
+  "pendingPackageCount": 35,
+  "matchedPendingPackageCount": 35,
+  "missingOrWrongStatusCount": 0,
+  "newRecord": {
+    "id": "package.ntcore-wim-installer",
+    "reviewedVersion": "1.0.0.1",
+    "reviewOwner": "Unassigned",
+    "status": "NeedsReview",
+    "blocksPackagePlanning": false,
+    "distributionNotes": "No product-specific terms identified on the official publisher listing or retained archive. Informational exact-version review reminder only; staging candidate; no WIM image behavior acceptance."
+  },
+  "migration": {
+    "packagePlanningBlocked": false,
+    "packageExecuted": false,
+    "legacyOutcomeClosed": false,
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

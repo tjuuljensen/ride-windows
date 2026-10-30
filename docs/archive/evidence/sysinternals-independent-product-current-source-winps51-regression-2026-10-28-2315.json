@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T23:15:40Z",
+  "batch": "Independent Sysinternals product package current-source regression",
+  "products": [
+    "process-explorer",
+    "autoruns",
+    "tcpview",
+    "procmon",
+    "rammap",
+    "disk2vhd",
+    "sigcheck",
+    "strings",
+    "handle"
+  ],
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "processExecutionPolicy": "Bypass; process only"
+  },
+  "testFile": "tests/SysinternalsProductPackages.Tests.ps1",
+  "result": {
+    "discovered": 72,
+    "passed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "durationSeconds": 60.01
+  },
+  "coverage": [
+    "Independent product operation metadata tied to retained publisher-source review and exact member lists",
+    "Pinned version and archive source behavior without mutable network discovery",
+    "Inert synthetic ZIP file staging, repeat, remove and saved-state recovery",
+    "Product launch boundary mocked to throw if called",
+    "Authenticode and network boundaries mocked"
+  ],
+  "disposition": {
+    "license": "Prior RIDE v2 license-specialist approval and user clarification govern normal direct Microsoft download-and-install. RIDE does not transfer or publish Sysinternals; licensing is not a migration gate.",
+    "defender": "No Defender-blocked tool was selected or touched. Defender exclusions remain separate and unchanged.",
+    "technicalAcceptance": "This is source/inert-fixture regression only. It does not establish new native Windows acceptance or close a whole legacy outcome."
+  },
+  "sideEffects": {
+    "realNetworkRequest": false,
+    "productExecutableOrDriverLaunched": false,
+    "eulaInteraction": false,
+    "startupOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "vmOrCheckpointAccessed": false,
+    "elevationRequested": false
+  },
+  "migrationImpact": {
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180; about 155"
+    },
+    "remaining": [
+      "Native activation and remaining package lifecycle acceptance according to the existing migration ledger",
+      "Keep separately Defender-blocked products excluded from selection and acceptance"
+    ]
+  }
+}

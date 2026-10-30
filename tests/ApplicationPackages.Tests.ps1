@@ -1,6 +1,7 @@
 BeforeDiscovery {
   $root = Split-Path -Parent $PSScriptRoot
   Import-Module (Join-Path $root 'modules/RIDE.PackageSelection.psm1') -Force
+  Import-Module (Join-Path $root 'modules/RIDE-Packages.psm1') -Force
   Import-Module (Join-Path $root 'modules/RIDE-PortablePackages.psm1') -Force
   Import-Module (Join-Path $root 'modules/RIDE.PublisherSources.psm1') -Force
   Import-Module (Join-Path $root 'modules/RIDE.Engine.psm1') -Force
@@ -10,8 +11,33 @@ BeforeDiscovery {
 
 BeforeAll {
   $root = Split-Path -Parent $PSScriptRoot
-  Import-Module (Join-Path $root 'modules/RIDE.CatalogData.psm1') -Force
-  Import-Module (Join-Path $root 'modules/RIDE.CatalogValidation.psm1') -Force
+  $global:RideApplicationPackageTestRoot = $root
+  function global:Invoke-RideTestCatalogImport {
+    [CmdletBinding()]
+    param([Parameter(Mandatory, Position = 0)][string]$Path)
+    $modulePath = Join-Path $global:RideApplicationPackageTestRoot 'modules/RIDE.CatalogData.psm1'
+    $module = Import-Module -Name $modulePath -Force -PassThru
+    & $module {
+      param($CatalogPath)
+      Import-RideCatalogData -Path $CatalogPath
+    } $Path
+  }
+  function global:Invoke-RideTestCatalogValidation {
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][object]$Catalog)
+    $modulePath = Join-Path $global:RideApplicationPackageTestRoot 'modules/RIDE.CatalogValidation.psm1'
+    $module = Import-Module -Name $modulePath -Force -PassThru
+    & $module {
+      param($CatalogData)
+      Get-RideCatalogValidationErrors -Catalog $CatalogData
+    } $Catalog
+  }
+}
+
+AfterAll {
+  Remove-Item -LiteralPath Function:\global:Invoke-RideTestCatalogImport -ErrorAction SilentlyContinue
+  Remove-Item -LiteralPath Function:\global:Invoke-RideTestCatalogValidation -ErrorAction SilentlyContinue
+  Remove-Variable -Name RideApplicationPackageTestRoot -Scope Global -ErrorAction SilentlyContinue
 }
 
 Describe 'Package variant selection' {
@@ -97,6 +123,49 @@ Describe 'Managed portable lifecycle' {
       (Get-RidePortableState $operation).Present | Should -BeFalse
       { Install-RidePortablePayload $operation $artifact } | Should -Throw '*collision*'
       Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe') | Should -Be 'user bytes'
+    }
+    It 'stages only the selected RawCopy x64 executable and notices with exact recovery' {
+      Add-Type -AssemblyName System.IO.Compression
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      $root='RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/'
+      $members=@("${root}RawCopy64.exe","${root}LICENSE.md","${root}readme.txt","${root}changelog.txt")
+      $zipPath=Join-Path $caseRoot 'rawcopy-inert.zip'
+      $zip=[IO.Compression.ZipFile]::Open($zipPath,[IO.Compression.ZipArchiveMode]::Create)
+      try {
+        foreach($name in $members+"${root}RawCopy.exe","${root}RawCopy.au3") {
+          $writer=[IO.StreamWriter]::new($zip.CreateEntry($name).Open());try{$writer.Write("inert $name")}finally{$writer.Dispose()}
+        }
+      } finally { $zip.Dispose() }
+      $operation.PortableFormat='Zip';$operation.RequiredFiles=$members;$operation.PortableMembers=$members
+      $operation.ExpectedSha256=(Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+      $artifact.Path=$zipPath;$artifact.Sha256=$operation.ExpectedSha256;$artifact.Version='1.0.0.22'
+
+      Install-RidePortablePayload $operation $artifact
+      $state=Get-RidePortableState $operation
+      $state.Healthy | Should -BeTrue
+      $state.Files.Count | Should -Be 4
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory "${root}RawCopy64.exe") | Should -BeTrue
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory "${root}RawCopy.exe") | Should -BeFalse
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory "${root}RawCopy.au3") | Should -BeFalse
+      $snapshot=Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'rawcopy-backup')
+      Uninstall-RidePortablePayload $operation
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+    }
+    It 'stages a hash-pinned repository notice as owned content with the executable' {
+      $noticeSource=Join-Path $caseRoot 'upstream-license.txt'
+      [IO.File]::WriteAllText($noticeSource,'MIT notice fixture')
+      $repositoryRoot=$script:PortableRepositoryRoot
+      $sourceRelative=$noticeSource.Substring($repositoryRoot.Length+1).Replace('\','/')
+      $noticeHash=(Get-FileHash -LiteralPath $noticeSource -Algorithm SHA256).Hash
+      $operation.PortableFormat='File';$operation.PortableFileName='app.exe';$operation.RequiredFiles=@('app.exe','LICENSE.txt')
+      $operation.PortableLocalFiles=@(@{Source=$sourceRelative;Destination='LICENSE.txt';Sha256=$noticeHash})
+      Install-RidePortablePayload $operation $artifact
+      (Get-RidePortableState $operation).Files.Count | Should -Be 2
+      Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'LICENSE.txt') -Raw | Should -Be 'MIT notice fixture'
+      Uninstall-RidePortablePayload $operation
+      (Get-RidePortableState $operation).Present | Should -BeFalse
     }
     It 'installs, detects, repeats and removes only owned content' {
       Install-RidePortablePayload $operation $artifact
@@ -375,6 +444,130 @@ Describe 'Managed portable lifecycle' {
       Restore-RidePortableSnapshot $operation $snapshot
       Get-Content -LiteralPath (Join-Path $operation.InstallDirectory 'app.exe') | Should -Be 'version one'
       (Get-RidePortableState $operation).DisplayVersion | Should -Be '1.0'
+    }
+  }
+}
+
+Describe 'RawCopy retained publisher archive lifecycle' {
+  BeforeAll {
+    $script:RawCopyRepositoryRoot = Split-Path -Parent $PSScriptRoot
+    Import-Module (Join-Path $RawCopyRepositoryRoot 'modules/RIDE.CatalogData.psm1') -Force
+    Import-Module (Join-Path $RawCopyRepositoryRoot 'modules/RIDE-PortablePackages.psm1') -Force
+    $script:RawCopyCatalog = Invoke-RideTestCatalogImport (Join-Path $RawCopyRepositoryRoot 'catalog/operations.psd1')
+    $script:RawCopyFixtureBase = Join-Path $RawCopyRepositoryRoot '.local/rawcopy-current-source-real-archive'
+  }
+
+  It 'stages only the pinned x64 executable and notices and restores saved state' {
+    if ([string]::IsNullOrWhiteSpace($env:RIDE_RAWCOPY_FIXTURE_ARCHIVE)) {
+      Set-ItResult -Skipped -Because 'No explicit retained RawCopy archive fixture was supplied.'
+      return
+    }
+    $archivePath = [IO.Path]::GetFullPath($env:RIDE_RAWCOPY_FIXTURE_ARCHIVE)
+    $archive = Get-Item -LiteralPath $archivePath -Force -ErrorAction Stop
+    if ($archive.PSIsContainer -or ($archive.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+      throw 'Retained RawCopy archive fixture must be a regular file.'
+    }
+    $operation = ($RawCopyCatalog.Operations | Where-Object Id -eq 'package.rawcopy').Clone()
+    $sha = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    $sha | Should -BeExactly $operation.ExpectedSha256.ToLowerInvariant()
+
+    $runRoot = Join-Path $RawCopyFixtureBase ([guid]::NewGuid().ToString('N'))
+    $null = New-Item -ItemType Directory -Path $runRoot -Force
+    try {
+      $operation.SelectedVariant = 'portable'
+      $operation.ResolvedToolsDirectory = $runRoot
+      $operation.InstallDirectory = Join-Path $runRoot $operation.PackageId
+      $artifact = [pscustomobject]@{ Path = $archivePath; Sha256 = $sha; Version = $operation.PackageVersion }
+
+      Install-RidePortablePayload $operation $artifact -Offline
+      Install-RidePortablePayload $operation $artifact -Offline
+      $state = Get-RidePortableState $operation
+      $state.Healthy | Should -BeTrue
+      $state.Files.Count | Should -Be 4
+      $root = 'RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c'
+      @($state.Files.RelativePath | Sort-Object) | Should -Be @(
+        "$root/changelog.txt", "$root/LICENSE.md", "$root/RawCopy64.exe", "$root/readme.txt"
+      )
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory "$root/RawCopy32.exe") | Should -BeFalse
+      Test-Path -LiteralPath (Join-Path $operation.InstallDirectory "$root/RawCopy.au3") | Should -BeFalse
+
+      $snapshot = Save-RidePortableSnapshot $operation (Join-Path $runRoot 'backup')
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'), 'preserve')
+      Uninstall-RidePortablePayload $operation
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+      [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'operator-note.txt')) | Should -BeExactly 'preserve'
+    }
+    finally {
+      $resolved = [IO.Path]::GetFullPath($runRoot).TrimEnd('\','/')
+      $base = [IO.Path]::GetFullPath($RawCopyFixtureBase).TrimEnd('\','/')
+      if ([IO.Path]::GetDirectoryName($resolved) -ine $base -or (Split-Path -Leaf $resolved) -notmatch '^[a-f0-9]{32}$') {
+        throw 'Refusing RawCopy archive fixture cleanup outside its unique workspace-local directory.'
+      }
+      if (Test-Path -LiteralPath $resolved -PathType Container) { Remove-Item -LiteralPath $resolved -Recurse -Force }
+    }
+  }
+}
+
+Describe 'ETL2PCAPNG retained publisher executable lifecycle' {
+  BeforeAll {
+    $script:Etl2PcapngRepositoryRoot = Split-Path -Parent $PSScriptRoot
+    Import-Module (Join-Path $Etl2PcapngRepositoryRoot 'modules/RIDE.CatalogData.psm1') -Force
+    Import-Module (Join-Path $Etl2PcapngRepositoryRoot 'modules/RIDE-PortablePackages.psm1') -Force
+    $script:Etl2PcapngCatalog = Invoke-RideTestCatalogImport (Join-Path $Etl2PcapngRepositoryRoot 'catalog/operations.psd1')
+    $script:Etl2PcapngFixtureBase = Join-Path $Etl2PcapngRepositoryRoot '.local/etl2pcapng-current-source-real-artifact'
+  }
+
+  It 'stages only the pinned executable and notice and restores saved state' {
+    if ([string]::IsNullOrWhiteSpace($env:RIDE_ETL2PCAPNG_FIXTURE_EXECUTABLE)) {
+      Set-ItResult -Skipped -Because 'No explicit retained ETL2PCAPNG executable fixture was supplied.'
+      return
+    }
+    $executablePath = [IO.Path]::GetFullPath($env:RIDE_ETL2PCAPNG_FIXTURE_EXECUTABLE)
+    $executable = Get-Item -LiteralPath $executablePath -Force -ErrorAction Stop
+    if ($executable.PSIsContainer -or ($executable.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+      throw 'Retained ETL2PCAPNG executable fixture must be a regular file.'
+    }
+    $operation = ($Etl2PcapngCatalog.Operations | Where-Object Id -ceq 'package.etl2pcapng').Clone()
+    $sha = (Get-FileHash -LiteralPath $executablePath -Algorithm SHA256).Hash.ToLowerInvariant()
+    $sha | Should -BeExactly $operation.ExpectedSha256.ToLowerInvariant()
+
+    $runRoot = Join-Path $Etl2PcapngFixtureBase ([guid]::NewGuid().ToString('N'))
+    $null = New-Item -ItemType Directory -Path $runRoot -Force
+    Push-Location $Etl2PcapngRepositoryRoot
+    try {
+      $operation.SelectedVariant = 'portable'
+      $operation.ResolvedToolsDirectory = $runRoot
+      $operation.InstallDirectory = Join-Path $runRoot $operation.PackageId
+      $artifact = [pscustomobject]@{ Path = $executablePath; Sha256 = $sha; Version = $operation.PackageVersion }
+
+      Install-RidePortablePayload $operation $artifact -Offline
+      Install-RidePortablePayload $operation $artifact -Offline
+      $state = Get-RidePortableState $operation
+      $state.Healthy | Should -BeTrue
+      $state.Files.Count | Should -Be 2
+      @($state.Files.RelativePath) | Should -Contain 'LICENSE.txt'
+      @($state.Files.RelativePath) | Should -Contain 'etl2pcapng.exe'
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory 'etl2pcapng.exe') -Algorithm SHA256).Hash.ToLowerInvariant() | Should -BeExactly $sha
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory 'LICENSE.txt') -Algorithm SHA256).Hash.ToLowerInvariant() | Should -BeExactly $operation.PortableLocalFiles[0].Sha256.ToLowerInvariant()
+
+      $snapshot = Save-RidePortableSnapshot $operation (Join-Path $runRoot 'backup')
+      [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'), 'preserve')
+      Uninstall-RidePortablePayload $operation
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+      Restore-RidePortableSnapshot $operation $snapshot
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+      [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'operator-note.txt')) | Should -BeExactly 'preserve'
+    }
+    finally {
+      Pop-Location
+      $resolved = [IO.Path]::GetFullPath($runRoot).TrimEnd('\','/')
+      $base = [IO.Path]::GetFullPath($Etl2PcapngFixtureBase).TrimEnd('\','/')
+      if ([IO.Path]::GetDirectoryName($resolved) -ine $base -or (Split-Path -Leaf $resolved) -notmatch '^[a-f0-9]{32}$') {
+        throw 'Refusing ETL2PCAPNG fixture cleanup outside its unique workspace-local directory.'
+      }
+      if (Test-Path -LiteralPath $resolved -PathType Container) { Remove-Item -LiteralPath $resolved -Recurse -Force }
     }
   }
 }
@@ -680,6 +873,38 @@ Describe 'Saved selection access by scope' {
   }
 }
 
+Describe 'RIDE-managed PowerShell module prerequisites' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $script:moduleToolsDirectory=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+      $moduleDirectory=Join-Path $script:moduleToolsDirectory 'microsoft-powershell-threadjob'
+      $null=New-Item -ItemType Directory -Path $moduleDirectory -Force
+      Set-Content -LiteralPath (Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psd1') -Value "@{ ModuleVersion = '2.2.0' }" -Encoding ascii
+      Mock Get-RidePackageConfiguration { @{ToolsDirectory=$script:moduleToolsDirectory} }
+      Mock Get-RidePortableState { [pscustomobject]@{Present=$true;Healthy=$true} }
+      $script:moduleConsumer=@{Id='package.psscripttools';PrerequisitePowerShellModuleName='Microsoft.PowerShell.ThreadJob';PrerequisiteModuleDirectory='microsoft-powershell-threadjob';PrerequisitePowerShellModuleMinimumVersion='2.2.0'}
+    }
+    It 'accepts only a healthy RIDE-owned module package at or above the catalog version' {
+      $status=Get-RidePackagePrerequisiteStatus -Operation $script:moduleConsumer
+      $status.Satisfied|Should -BeTrue
+      $status.Directory|Should -Be (Join-Path $script:moduleToolsDirectory 'microsoft-powershell-threadjob')
+    }
+    It 'rejects a managed package whose module manifest is below the required version' {
+      $manifest=Join-Path (Join-Path $script:moduleToolsDirectory 'microsoft-powershell-threadjob') 'Microsoft.PowerShell.ThreadJob.psd1'
+      Set-Content -LiteralPath $manifest -Value "@{ ModuleVersion = '2.1.0' }" -Encoding ascii
+      $status=Get-RidePackagePrerequisiteStatus -Operation $script:moduleConsumer
+      $status.Satisfied|Should -BeFalse
+      $status.Reason|Should -Match 'version 2.2.0 or later'
+    }
+    It 'rejects a module directory without a healthy RIDE ownership manifest' {
+      Mock Get-RidePortableState { [pscustomobject]@{Present=$true;Healthy=$false} }
+      $status=Get-RidePackagePrerequisiteStatus -Operation $script:moduleConsumer
+      $status.Satisfied|Should -BeFalse
+      $status.Reason|Should -Match 'healthy RIDE-managed PowerShell module package'
+    }
+  }
+}
+
 Describe 'Microsoft OpenJDK pinned checksum provider' {
   InModuleScope RIDE-Packages {
     BeforeEach {
@@ -700,6 +925,20 @@ Describe 'Microsoft OpenJDK pinned checksum provider' {
       $artifact.ChecksumUris | Should -Contain $operation.ExpectedSha256Uri
       Should -Invoke Invoke-WebRequest -Exactly 1 -ParameterFilter {$Uri -ceq $operation.ExpectedSha256Uri}
     }
+    It 'accepts a UTF-8 byte-order mark before the publisher checksum record' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=([string][char]0xFEFF+(('a'*64)+'  '+$fileName))} }
+      $artifact=Resolve-RidePackageArtifact -Operation $operation
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('a'*64))
+    }
+    It 'decodes the publisher checksum returned as UTF-8 bytes' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=[Text.Encoding]::UTF8.GetBytes(('b'*64)+"`n");Headers=@{'Content-Type'='application/octet-stream'}} }
+      $artifact=Resolve-RidePackageArtifact -Operation $operation
+      $artifact.ProviderDigest | Should -Be ('sha256:'+('b'*64))
+    }
+    It 'includes a bounded response sample when the publisher checksum format is unexpected' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content='<!DOCTYPE html><title>Unexpected response</title>'} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*content type*=*sample=*Unexpected response*'
+    }
     It 'rejects a checksum record naming a different file' {
       Mock Invoke-WebRequest { [pscustomobject]@{Content=(('a'*64)+'  microsoft-jdk-21.0.12.1-windows-arm64.msi')} }
       {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*different file*'
@@ -708,6 +947,183 @@ Describe 'Microsoft OpenJDK pinned checksum provider' {
       $operation.DownloadUri=$downloadUri.Replace('21.0.12.1','21.0.12.0')
       {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact pinned versioned x64 MSI*'
       Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+  }
+}
+
+Describe 'JoeWare AdMod publisher-form package provider' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $operation = @{
+        PackageId = 'joeware-admod'; AcquisitionProduct = 'admod'
+        ProductUri = 'https://www.joeware.net/freetools/tools/admod/index.htm'
+        DownloadUri = 'https://www.joeware.net/freetools/tools/admod/index.htm'
+        PackageVersion = '1.29.00'; AssetName = 'AdMod.zip'; InstallerType = 'Portable'
+        PortableFormat = 'Zip'; Architecture = 'x86'
+        ExpectedSha256 = '45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235'
+        PortableMembers = @('AdMod.exe'); RequiredFiles = @('AdMod.exe')
+        DownloadProvider = 'JoeWareAdModForm'
+      }
+      Mock Invoke-WebRequest { throw 'Artifact resolution must not submit the publisher form.' }
+    }
+    It 'resolves the pinned official product form and archive digest without a request' {
+      $artifact = Resolve-RidePackageArtifact -Operation $operation
+      $artifact.Version | Should -BeExactly '1.29.00'
+      $artifact.Architecture | Should -BeExactly 'x86'
+      $artifact.FileName | Should -BeExactly 'AdMod.zip'
+      $artifact.Uri | Should -BeExactly $operation.ProductUri
+      $artifact.ProviderDigest | Should -BeExactly ('sha256:' + $operation.ExpectedSha256)
+      $artifact.ChecksumUris | Should -Contain 'https://www.joeware.net/freetools/versions.txt'
+      Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+    It 'refuses a different product page before any publisher request' {
+      $operation.DownloadUri = 'https://example.invalid/admod.zip'
+      { Resolve-RidePackageArtifact -Operation $operation } | Should -Throw '*pinned AdMod publisher page*'
+      Should -Invoke Invoke-WebRequest -Exactly 0
+    }
+  }
+}
+
+Describe 'JoeWare AdMod catalog declaration' {
+  It 'keeps its exact publisher form, archive pin, architecture and pending target acceptance' {
+    $catalogPath = Join-Path $root 'catalog/operations.psd1'
+    $catalog = Invoke-RideTestCatalogImport -Path $catalogPath
+    $operation = @($catalog.Operations | Where-Object Id -ceq 'package.joeware-admod')
+    $operation.Count | Should -Be 1
+    $operation[0].DownloadProvider | Should -BeExactly 'JoeWareAdModForm'
+    $operation[0].PackageVersion | Should -BeExactly '1.29.00'
+    $operation[0].ExpectedSha256 | Should -BeExactly '45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235'
+    $operation[0].PortableMembers | Should -Be @('AdMod.exe')
+    $operation[0].SupportedTargets | Should -BeNullOrEmpty
+    $operation[0].CandidateTargets | Should -Contain 'Windows 11'
+    $operation[0].PendingAcceptance | Should -BeTrue
+    @(Invoke-RideTestCatalogValidation -Catalog $catalog) | Should -BeNullOrEmpty
+  }
+}
+
+Describe 'JoeWare AdMod retained archive file lifecycle' {
+  BeforeAll {
+    $script:JoeWareAdModRoot = Split-Path -Parent $PSScriptRoot
+    Import-Module (Join-Path $JoeWareAdModRoot 'modules/RIDE.Engine.psm1') -Force
+    Import-Module (Join-Path $JoeWareAdModRoot 'modules/RIDE-PortablePackages.psm1') -Force
+    $script:JoeWareAdModCatalog = Get-RideCatalog
+  }
+
+  It 'stages only the pinned member and restores installed, prior-version and absent states without launching it' {
+    $fixturePath = $env:RIDE_JOEWARE_ADMOD_FIXTURE
+    if ([string]::IsNullOrWhiteSpace($fixturePath)) {
+      Set-ItResult -Skipped -Because 'Set RIDE_JOEWARE_ADMOD_FIXTURE to the retained publisher AdMod.zip to enable actual-archive lifecycle checks.'
+      return
+    }
+    $archive = Get-Item -LiteralPath $fixturePath -Force -ErrorAction Stop
+    if ($archive.PSIsContainer -or ($archive.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+      throw 'The retained AdMod fixture must be a regular file.'
+    }
+
+    $operation = ($script:JoeWareAdModCatalog.Operations | Where-Object Id -CEQ 'package.joeware-admod' | Select-Object -First 1).Clone()
+    if (-not $operation -or $operation.ExpectedSha256 -cne '45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235') {
+      throw 'The AdMod catalog candidate does not match the reviewed archive pin.'
+    }
+    (Get-FileHash -LiteralPath $archive.FullName -Algorithm SHA256).Hash.ToLowerInvariant() | Should -BeExactly $operation.ExpectedSha256
+
+    $fixtureBase = [IO.Path]::GetFullPath((Join-Path $script:JoeWareAdModRoot '.local/application-package-tests'))
+    $null = New-Item -ItemType Directory -Path $fixtureBase -Force
+    $caseName = 'joeware-admod-' + [guid]::NewGuid().ToString('N')
+    $caseRoot = [IO.Path]::GetFullPath((Join-Path $fixtureBase $caseName))
+    if (Test-Path -LiteralPath $caseRoot) { throw 'Unique AdMod lifecycle fixture already exists.' }
+    $null = New-Item -ItemType Directory -Path $caseRoot
+    $tempRoot = Join-Path $caseRoot 'temp'
+    New-Item -ItemType Directory -Path $tempRoot -Force | Out-Null
+    $previousTemp = $env:TEMP
+    $previousTmp = $env:TMP
+    $casePassed = $false
+    try {
+      $env:TEMP = $tempRoot
+      $env:TMP = $tempRoot
+      $operation['ResolvedToolsDirectory'] = Join-Path $caseRoot 'tools'
+      $operation['InstallDirectory'] = Join-Path $operation['ResolvedToolsDirectory'] $operation.PackageId
+      $operation['SelectedVariant'] = 'portable'
+      $absentSnapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'absent-snapshot')
+      $absentSnapshot.Present | Should -BeFalse
+
+      Add-Type -AssemblyName System.IO.Compression
+      Add-Type -AssemblyName System.IO.Compression.FileSystem
+      $priorArchive = Join-Path $caseRoot 'prior-state.zip'
+      $zip = [IO.Compression.ZipFile]::Open($priorArchive, [IO.Compression.ZipArchiveMode]::Create)
+      try {
+        $writer = [IO.StreamWriter]::new($zip.CreateEntry('AdMod.exe').Open())
+        try { $writer.Write('inert previous managed version') } finally { $writer.Dispose() }
+      } finally { $zip.Dispose() }
+      $priorHash = (Get-FileHash -LiteralPath $priorArchive -Algorithm SHA256).Hash.ToLowerInvariant()
+      $operation.ExpectedSha256 = $priorHash
+      $priorArtifact = [pscustomobject]@{ Path = $priorArchive; Sha256 = $priorHash; Version = 'prior-state-fixture' }
+      Install-RidePortablePayload $operation $priorArtifact -Offline
+      $priorState = Get-RidePortableState $operation
+      $priorState.Healthy | Should -BeTrue
+      $priorSnapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'prior-snapshot')
+
+      $operation.ExpectedSha256 = '45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235'
+      $artifact = [pscustomobject]@{ Path = $archive.FullName; Sha256 = $operation.ExpectedSha256; Version = '1.29.00' }
+      Install-RidePortablePayload $operation $artifact -Offline
+      $installed = Get-RidePortableState $operation
+      $installed.Healthy | Should -BeTrue
+      $installed.Files.Count | Should -Be 1
+      $installed.Files[0].RelativePath | Should -BeExactly 'AdMod.exe'
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory 'AdMod.exe') -Algorithm SHA256).Hash.ToLowerInvariant() | Should -BeExactly '86c922fc98c115ea21c2053739938234fd90ce626ed227b2c3c122c2484e4d79'
+      Install-RidePortablePayload $operation $artifact -Offline
+      (Get-RidePortableState $operation).Healthy | Should -BeTrue
+      $currentSnapshot = Save-RidePortableSnapshot $operation (Join-Path $caseRoot 'current-snapshot')
+
+      Uninstall-RidePortablePayload $operation
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+      Restore-RidePortableSnapshot $operation $currentSnapshot
+      $restoredCurrent = Get-RidePortableState $operation
+      $restoredCurrent.Healthy | Should -BeTrue
+      $restoredCurrent.DisplayVersion | Should -BeExactly '1.29.00'
+
+      Uninstall-RidePortablePayload $operation
+      Restore-RidePortableSnapshot $operation $priorSnapshot
+      $restoredPrior = Get-RidePortableState $operation
+      $restoredPrior.Healthy | Should -BeTrue
+      $restoredPrior.DisplayVersion | Should -BeExactly 'prior-state-fixture'
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory 'AdMod.exe') -Algorithm SHA256).Hash.ToLowerInvariant() | Should -BeExactly $priorState.Files[0].Sha256
+
+      Uninstall-RidePortablePayload $operation
+      Restore-RidePortableSnapshot $operation $absentSnapshot
+      (Get-RidePortableState $operation).Present | Should -BeFalse
+      $casePassed = $true
+    } finally {
+      $env:TEMP = $previousTemp
+      $env:TMP = $previousTmp
+      if ($casePassed) {
+        $expectedPrefix = $fixtureBase.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
+        if (-not $caseRoot.StartsWith($expectedPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+            (Split-Path -Leaf $caseRoot) -cne $caseName -or $caseName -notmatch '^joeware-admod-[0-9a-f]{32}$') {
+          throw 'Refusing to clean AdMod lifecycle fixture outside its unique workspace root.'
+        }
+        Remove-Item -LiteralPath $caseRoot -Recurse -Force
+      }
+    }
+  }
+}
+
+Describe 'Microsoft OpenJDK registered presence detection' {
+  InModuleScope RIDE-Packages {
+    BeforeEach {
+      $operation=@{Id='package.microsoft-openjdk-21';PackageId='microsoft-openjdk-21';Name='Microsoft Build of OpenJDK 21 (x64)';Scope='Machine';InstallerType='Msi';DisplayNamePattern='^Microsoft Build of OpenJDK\s+(?:with Hotspot\s+)?21(?:[.\s]|$)'}
+      Mock Resolve-RidePackageSelection { $Operation }
+      Mock Get-ItemProperty { @() }
+    }
+    It 'detects the versioned uninstall name emitted by the pinned MSI' {
+      Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Microsoft Build of OpenJDK  21.0.12.1+1 (x64)';DisplayVersion='21.0.12.101';UninstallString='msiexec /x {TEST}'} } -ParameterFilter { $Path -like 'HKLM:*' }
+      $installed=Get-RideInstalledPackage -Operation $operation
+      $installed.Present | Should -BeTrue
+      $installed.DisplayName | Should -BeExactly 'Microsoft Build of OpenJDK  21.0.12.1+1 (x64)'
+      $installed.DisplayVersion | Should -BeExactly '21.0.12.101'
+    }
+    It 'does not confuse another major version with OpenJDK 21' {
+      Mock Get-ItemProperty { [pscustomobject]@{DisplayName='Microsoft Build of OpenJDK 210.0.1 (x64)';DisplayVersion='210.0.1'} } -ParameterFilter { $Path -like 'HKLM:*' }
+      (Get-RideInstalledPackage -Operation $operation).Present | Should -BeFalse
     }
   }
 }
@@ -745,7 +1161,7 @@ Describe 'Sysmon Modular pinned download-only profile artifacts' {
     }
   }
   It 'declares the three upstream profiles as download-only Sysmon 15.21 choices' {
-    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
     $profiles=@($catalog.Operations|Where-Object {$_.MigrationBatch -eq 'SysmonModularProfiles'}|Sort-Object AssetName)
     $profiles.Count | Should -Be 3
     $profiles.AssetName | Should -Contain 'sysmonconfig.xml'
@@ -756,7 +1172,7 @@ Describe 'Sysmon Modular pinned download-only profile artifacts' {
       $profile.TargetSysmonVersion | Should -BeExactly '15.21'
       $profile.ReleaseTag | Should -BeExactly 'configs-a45dedb13a43'
     }
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -BeNullOrEmpty
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -BeNullOrEmpty
   }
 }
 
@@ -815,7 +1231,7 @@ Describe 'Pinned GitHub release packages' {
   }
   It 'accepts a portable package pinned to an exact GitHub release and checksum sidecar' {
     $root=Split-Path -Parent $PSScriptRoot
-    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
     $operation=$catalog.Operations|Where-Object Id -eq 'package.sysinternals-suite'|Select-Object -First 1
     $operation.DownloadProvider='GitHubReleaseApi'
     $operation.Repository='SpecterOps/SharpHound'
@@ -827,21 +1243,21 @@ Describe 'Pinned GitHub release packages' {
     $operation.AssetPattern='^SharpHound_v2\.17\.0_windows_x86\.zip$'
     $operation.Architecture='x86'
     $operation.ProductUri='https://github.com/SpecterOps/SharpHound'
-    (Get-RideCatalogValidationErrors -Catalog $catalog) | Should -BeNullOrEmpty
+    (Invoke-RideTestCatalogValidation -Catalog $catalog) | Should -BeNullOrEmpty
   }
   It 'rejects GitHub tag and sidecar metadata that drift from the pinned release' {
     $root=Split-Path -Parent $PSScriptRoot
-    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
     $operation=$catalog.Operations|Where-Object Id -eq 'package.sysinternals-suite'|Select-Object -First 1
     $operation.DownloadProvider='GitHubReleaseApi';$operation.Repository='SpecterOps/SharpHound';$operation.ReleaseTag='v2.17.0';$operation.PackageVersion='2.17.0'
     $operation.DownloadUri='https://api.github.com/repos/SpecterOps/SharpHound/releases/tags/v2.17.0'
     $operation.AssetName='SharpHound_v2.17.0_windows_x86.zip';$operation.ChecksumAssetName='SharpHound_v2.17.0_windows_x86.zip.sha256'
     $operation.AssetPattern='^SharpHound_v2\.17\.0_windows_x86\.zip$';$operation.Architecture='x86';$operation.ProductUri='https://github.com/SpecterOps/SharpHound'
     $operation.ChecksumAssetName='other.zip.sha256'
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Pinned GitHub release package requires'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'Pinned GitHub release package requires'
     $operation.ChecksumAssetName='SharpHound_v2.17.0_windows_x86.zip.sha256'
     $operation.DownloadUri+='?token=not-allowed'
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'without credentials, non-default ports, query or fragment'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'without credentials, non-default ports, query or fragment'
   }
 }
 
@@ -944,10 +1360,18 @@ Describe 'Current-user MSI product registration without ARP' {
 
   It 'rejects unsafe MSI install-directory metadata' {
     $root=Split-Path -Parent $PSScriptRoot
-    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
     $operation=$catalog.Operations | Where-Object Id -eq 'package.artcraft-launcher'
     $operation.MsiInstallDirectory='../outside'
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'MSI product-code detection requires'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'MSI product-code detection requires'
+  }
+
+  It 'records ArtCraft Launcher Windows 11 lifecycle acceptance and keeps Server support undeclared' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $operation=@((Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')).Operations | Where-Object Id -ceq 'package.artcraft-launcher')[0]
+    @($operation.SupportedTargets) | Should -Be @('Windows 11')
+    $operation.PendingAcceptance | Should -BeFalse
+    $operation.CandidateTargets | Should -BeNullOrEmpty
   }
 }
 
@@ -973,42 +1397,51 @@ Describe 'Package variant metadata and completion' {
   }
   It 'rejects a missing variant default and identity overrides in catalog validation' {
     $root=Split-Path -Parent $PSScriptRoot
-    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
     $package=$catalog.Operations | Where-Object Id -eq 'package.sharex'
     $package.DefaultVariant='missing'
-    $errors=@(Get-RideCatalogValidationErrors -Catalog $catalog)
+    $errors=@(Invoke-RideTestCatalogValidation -Catalog $catalog)
     ($errors -join ' ') | Should -Match 'variants/default'
     $package.DefaultVariant='installed';$package.Variants.portable.Id='package.changed'
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'override identity'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'override identity'
   }
   It 'rejects unsupported uninstaller formats' {
-    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
     $package=$catalog.Operations | Where-Object Id -eq 'package.firefox'
     $package.UninstallerType='Script'
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Unsupported uninstaller type'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'Unsupported uninstaller type'
   }
   It 'accepts neutral portable archives without accepting unspecified installer architectures' {
-    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
     $portable=$catalog.Operations | Where-Object Id -eq 'package.dejsonlz4'
     $portable.Architecture='neutral'
-    @(Get-RideCatalogValidationErrors -Catalog $catalog).Count | Should -Be 0
+    @(Invoke-RideTestCatalogValidation -Catalog $catalog).Count | Should -Be 0
     $installer=$catalog.Operations | Where-Object Id -eq 'package.vscode'
     $installer.Architecture='neutral'
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Invalid package architecture: package.vscode'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'Invalid package architecture: package.vscode'
+  }
+  It 'accepts a NuGet package as a ZIP-format portable asset and enforces its format' {
+    $catalog=Invoke-RideTestCatalogImport (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $package=$catalog.Operations | Where-Object Id -eq 'package.microsoft-powershell-threadjob'
+    $package.AssetName | Should -BeExactly 'Microsoft.PowerShell.ThreadJob.2.2.0.nupkg'
+    $package.PortableFormat | Should -BeExactly 'Zip'
+    @(Invoke-RideTestCatalogValidation -Catalog $catalog).Count | Should -Be 0
+    $package.AssetName='Microsoft.PowerShell.ThreadJob.2.2.0.exe'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'Direct HTTPS packages require.*package.microsoft-powershell-threadjob'
   }
   It 'allows pending package candidates only without a support declaration' {
     $root=Split-Path -Parent $PSScriptRoot
-    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
     $package=$catalog.Operations | Where-Object Id -eq 'package.vscode'
     $package.PendingAcceptance=$true;$package.SupportedTargets=@();$package.CandidateTargets=@('Windows 11')
-    @(Get-RideCatalogValidationErrors -Catalog $catalog).Count | Should -Be 0
+    @(Invoke-RideTestCatalogValidation -Catalog $catalog).Count | Should -Be 0
     $package.SupportedTargets=@('Windows 11')
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'Pending acceptance requires'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'Pending acceptance requires'
     $package.SupportedTargets=@();$package.CandidateTargets=@('Windows 10')
-    (@(Get-RideCatalogValidationErrors -Catalog $catalog) -join ' ') | Should -Match 'explicit candidate targets'
+    (@(Invoke-RideTestCatalogValidation -Catalog $catalog) -join ' ') | Should -Match 'explicit candidate targets'
   }
   It 'pins Microsoft OpenJDK LTS MSIs side-by-side without changing shared Java defaults' {
-    $catalog=Import-RideCatalogData (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path (Split-Path -Parent $PSScriptRoot) 'catalog/operations.psd1')
     $packages=@($catalog.Operations|Where-Object {$_.DownloadProvider -eq 'MicrosoftOpenJdk'}|Sort-Object PackageVersion -Descending)
     $packages.Count | Should -Be 4
     $packages.PackageVersion | Should -Contain '25.0.4.1'
@@ -1016,32 +1449,62 @@ Describe 'Package variant metadata and completion' {
     $packages.PackageVersion | Should -Contain '17.0.20.1'
     $packages.PackageVersion | Should -Contain '11.0.32.1'
     foreach($package in $packages){
-      $package.PendingAcceptance | Should -BeTrue
-      $package.SupportedTargets | Should -BeNullOrEmpty
+      $package.PendingAcceptance | Should -BeFalse
+      $package.SupportedTargets | Should -Contain 'Windows Server 2025'
+      $package.CandidateTargets | Should -Not -Contain 'Windows Server 2025'
       $major=[regex]::Match($package.PackageVersion,'^\d+').Value
-      $package.CandidateTargets | Should -Contain 'Windows Server 2025'
+      $package.CandidateTargets | Should -Contain 'Windows 11'
+      $package.TargetDefaults.'Windows Server 2025'.DefaultValue | Should -BeExactly 'Absent'
+      $package.TargetDefaults.'Windows Server 2025'.EffectiveDefault | Should -Match 'clean Windows Server 2025 Standard Evaluation test image'
       $package.MigrationBatch | Should -BeExactly 'OpenJDKCompatibility'
+      [regex]::IsMatch('Microsoft Build of OpenJDK with Hotspot '+$major+'.0.0.0 (x64)',$package.DisplayNamePattern) | Should -BeTrue
+      [regex]::IsMatch('Microsoft Build of OpenJDK  '+$major+'.0.0.0+1 (x64)',$package.DisplayNamePattern) | Should -BeTrue
+      [regex]::IsMatch('Microsoft Build of OpenJDK '+$major+' (x64)',$package.DisplayNamePattern) | Should -BeTrue
       $package.InstallDirectory | Should -BeExactly "C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-$major"
+      $package.InstallerArguments | Should -Match '^ALLUSERS=1\s'
       $package.InstallerArguments | Should -Match 'ADDLOCAL=FeatureMain'
       $package.InstallerArguments | Should -Not -Match 'FeatureEnvironment|FeatureJarFileRunWith|FeatureJavaHome|INSTALLLEVEL'
       $package.InstallerArguments | Should -Match "jdk-$([regex]::Match($package.PackageVersion,'^\d+').Value)"
     }
-    @(Get-RideCatalogValidationErrors -Catalog $catalog).Count | Should -Be 0
+    @(Invoke-RideTestCatalogValidation -Catalog $catalog).Count | Should -Be 0
   }
 
   It 'selects all four OpenJDK package IDs in the Server 2025 acceptance batch' {
-    $runner=Get-Content (Join-Path (Split-Path -Parent $PSScriptRoot) 'tests/integration/Invoke-RideApplicationBatch.ps1') -Raw
+    $runnerPath=Join-Path (Split-Path -Parent $PSScriptRoot) 'tests/integration/Invoke-RideApplicationBatch.ps1'
+    $runner=Get-Content $runnerPath -Raw
+    @(& $runnerPath -Version) | Should -Be @('0.19.4')
     $runner | Should -Match 'microsoft-openjdk-25.*microsoft-openjdk-21.*microsoft-openjdk-17.*microsoft-openjdk-11'
     $runner | Should -Match '\$actualIds=@\(\$scenarios \| ForEach-Object \{\$_.Selected.PackageId\} \| Sort-Object\)'
+    $runner | Should -Match '\$package\.MigrationBatch -eq ''OpenJDKCompatibility'''
+    $runner | Should -Match '\$catalogVariant\.MigrationBatch -eq ''OpenJDKCompatibility'''
+    $runner | Should -Match '\$Batch -in @\(6,7,8,9,10,11,12\)'
+    $runner | Should -Match 'OpenJDK uninstall left its managed runtime or compiler executable behind'
+  }
+  It 'pins Project Maker to its Windows 11 ApplicationsBatch10 lifecycle route' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
+    $package=$catalog.Operations | Where-Object Id -ceq 'package.mitec-project-maker'
+    $package.PackageVersion | Should -BeExactly '1.9.0'
+    $package.ExpectedSha256 | Should -BeExactly 'ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419'
+    $package.MigrationBatch | Should -BeExactly 'ApplicationsBatch10'
+    $package.CandidateTargets | Should -Contain 'Windows 11'
+    $package.SupportedTargets | Should -Be @()
+    $package.PendingAcceptance | Should -BeTrue
+    $runnerPath=Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'
+    $runner=Get-Content $runnerPath -Raw
+    @(& $runnerPath -Version) | Should -Be @('0.19.4')
+    $runner | Should -Match "ApplicationsBatch10 must select exactly MiTeC Project Maker 1\.9\.0"
+    $runner | Should -Match 'ApplicationsBatch10 is limited to Windows 11'
   }
 }
 
-Describe 'NTCore Driver List and Rebel.NET package candidates' {
+Describe 'NTCore Driver List and Rebel.NET Windows 11 staging support' {
   BeforeAll {
     $root=Split-Path -Parent $PSScriptRoot
-    $catalog=Import-RideCatalogData (Join-Path $root 'catalog/operations.psd1')
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
     $script:DriverList=$catalog.Operations|Where-Object Id -ceq 'package.ntcore-driver-list'
     $script:RebelNet=$catalog.Operations|Where-Object Id -ceq 'package.ntcore-rebelnet'
+    $script:Acceptance=Get-Content (Join-Path $root 'docs/archive/evidence/ntcore-additional-win11-lifecycle-acceptance-2026-10-25-0402.json') -Raw|ConvertFrom-Json
   }
   It 'pins the verified Driver List release and exposes only verified x64 and x86 members' {
     $DriverList.PackageVersion|Should -BeExactly '1.0.2.1'
@@ -1049,8 +1512,12 @@ Describe 'NTCore Driver List and Rebel.NET package candidates' {
     $DriverList.RequiredFiles|Should -Be @('DriverList_x64.exe')
     $DriverList.Variants['portable-x86'].RequiredFiles|Should -Be @('DriverList_x86.exe')
     $DriverList.PortableMembers -join ','|Should -Not -Match 'IA64'
-    $DriverList.PendingAcceptance|Should -BeTrue
-    $DriverList.SupportedTargets|Should -BeNullOrEmpty
+    $DriverList.PendingAcceptance|Should -BeFalse
+    $DriverList.SupportedTargets|Should -Contain 'Windows 11'
+    $DriverList.CandidateTargets|Should -BeNullOrEmpty
+    $cases=@($Acceptance.cases|Where-Object Id -CEQ $DriverList.Id)
+    $cases.Count|Should -Be 2
+    @($cases|Where-Object {$_.Status -cne 'Passed' -or -not $_.LifecycleRecovery -or $_.ToolExecuted}).Count|Should -Be 0
   }
   It 'pins Rebel.NET and states the synthetic-assembly acceptance boundary' {
     $RebelNet.PackageVersion|Should -BeExactly '1.6.0.1'
@@ -1058,8 +1525,22 @@ Describe 'NTCore Driver List and Rebel.NET package candidates' {
     $RebelNet.RequiredFiles|Should -Contain 'RebelDotNET.exe'
     $RebelNet.RequiredFiles|Should -Contain 'RebelDotNET.h'
     $RebelNet.AcceptanceNotes|Should -Match 'owned synthetic \.NET assembly'
-    $RebelNet.PendingAcceptance|Should -BeTrue
-    $RebelNet.SupportedTargets|Should -BeNullOrEmpty
+    $RebelNet.PendingAcceptance|Should -BeFalse
+    $RebelNet.SupportedTargets|Should -Contain 'Windows 11'
+    $RebelNet.CandidateTargets|Should -BeNullOrEmpty
+    $case=@($Acceptance.cases|Where-Object Id -CEQ $RebelNet.Id)[0]
+    $case.Status|Should -BeExactly 'Passed'
+    $case.LifecycleRecovery|Should -BeTrue
+    $case.ToolExecuted|Should -BeFalse
+  }
+  It 'keeps feature-use and activation pending outside package staging support' {
+    $Acceptance.status|Should -BeExactly 'Passed'
+    $Acceptance.payloadExecution|Should -BeFalse
+    $Acceptance.toolExecuted|Should -BeFalse
+    $Acceptance.functionalAcceptance|Should -BeExactly 'Pending'
+    $Acceptance.activationAcceptance|Should -BeExactly 'Pending'
+    $Acceptance.cleanup|Should -BeExactly 'ResetAndOff'
+    $Acceptance.controllerErrors.Count|Should -Be 0
   }
   It 'keeps license review data outside the shared catalog while preserving package planning' {
     foreach($operation in @($DriverList,$RebelNet)){
@@ -1068,5 +1549,155 @@ Describe 'NTCore Driver List and Rebel.NET package candidates' {
       $operation.LicenseReviewedAt|Should -BeNullOrEmpty
       $operation.LicenseUri|Should -Match '^https://ntcore\.com/'
     }
+  }
+}
+
+Describe 'Application timeout diagnostics' {
+  It 'retains both machine and limited-user stage records without an open log handle' {
+    $root = Split-Path -Parent $PSScriptRoot
+    $ast = [Management.Automation.Language.Parser]::ParseFile(
+      (Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'), [ref]$null, [ref]$null)
+    $definition = $ast.Find({param($node)
+      $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Write-RideApplicationProgress'
+    }, $true)
+    . ([scriptblock]::Create($definition.Extent.Text))
+    $prior = $env:RIDE_TEST_EVIDENCE_PATH
+    try {
+      $env:RIDE_TEST_EVIDENCE_PATH = $TestDrive
+      foreach ($limited in @($false, $true)) {
+        $UnelevatedChild = $limited
+        Write-RideApplicationProgress -PackageId 'package.mitec-project-maker' -Stage 'Install package'
+        Write-RideApplicationProgress -PackageId 'package.mitec-project-maker' -Stage 'Run vendor uninstaller'
+        $name = if ($limited) { 'application-user-progress.jsonl' } else { 'application-progress.jsonl' }
+        $path = Join-Path $TestDrive $name
+        $records = @(Get-Content -LiteralPath $path | ForEach-Object { $_ | ConvertFrom-Json })
+        $records.Stage | Should -Be @('Install package','Run vendor uninstaller')
+        $records[0].PackageId | Should -Be 'package.mitec-project-maker'
+        $stream = [IO.File]::Open($path, 'Open', 'Read', 'None')
+        $stream.Dispose()
+      }
+      $env:RIDE_TEST_EVIDENCE_PATH = $null
+      { Write-RideApplicationProgress -PackageId 'package.mitec-project-maker' -Stage 'No evidence directory' } | Should -Not -Throw
+    } finally { $env:RIDE_TEST_EVIDENCE_PATH = $prior }
+  }
+
+  It 'adds the Project Maker log while preserving all existing silent installer switches' {
+    $root = Split-Path -Parent $PSScriptRoot
+    $ast = [Management.Automation.Language.Parser]::ParseFile(
+      (Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'), [ref]$null, [ref]$null)
+    $branch = $ast.Find({param($node)
+      $node -is [Management.Automation.Language.IfStatementAst] -and
+      $node.Clauses[0].Item1.Extent.Text -like "*scenario.Id -eq 'package.mitec-project-maker'*"
+    }, $true)
+    $branch | Should -Not -BeNullOrEmpty
+    $scenario = @{ Id = 'package.mitec-project-maker' }
+    $operation = @{ InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-' }
+    $prior = $env:RIDE_TEST_EVIDENCE_PATH
+    try {
+      $env:RIDE_TEST_EVIDENCE_PATH = $TestDrive
+      . ([scriptblock]::Create($branch.Extent.Text))
+      $operation.InstallerArguments | Should -BeExactly ('/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG="' + (Join-Path $TestDrive 'project-maker-install.log') + '"')
+    } finally { $env:RIDE_TEST_EVIDENCE_PATH = $prior }
+  }
+}
+
+Describe 'Explorer Suite guarded candidate acceptance' {
+  It 'executes vendor removal, repeat removal and presence recovery for Batch 12' {
+    $root = Split-Path -Parent $PSScriptRoot
+    $ast = [Management.Automation.Language.Parser]::ParseFile(
+      (Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'), [ref]$null, [ref]$null)
+    $branch = @($ast.FindAll({ param($node)
+      $node -is [Management.Automation.Language.IfStatementAst] -and
+      $node.Clauses[0].Item1.Extent.Text -like '$userDataFixtures.Count -or $profileFixture*'
+    }, $true))
+    $branch.Count | Should -Be 1
+    $Batch = 12
+    $userDataFixtures = @()
+    $profileFixture = $null
+    $scenario = @{ Id = 'package.ntcore-explorer-suite'; Variant = 'installed' }
+    $scenarioResult = @{ Checks = @() }
+    $plan = @(@{ Operation = @{ Id = $scenario.Id } })
+    $script:explorerPlanCalls = 0
+    $script:explorerRecoveryCalls = 0
+    function Get-RideSingleOperationPlan { param($Id, $Action, $Variant)
+      $Action | Should -Be 'Remove'
+      @{ Operation = @{ Id = $Id } }
+    }
+    function Invoke-RidePlan { param($Plan, [switch]$WhatIf, [switch]$Confirm)
+      $script:explorerPlanCalls++
+      if ($WhatIf) { return }
+      if ($script:explorerPlanCalls -eq 3) { return 'No changes were needed; no state record was created.' }
+      'synthetic-removal-run'
+    }
+    function Get-SavedRunId { param($Output) $Output | Should -Be 'synthetic-removal-run'; $Output }
+    function Test-RideDesiredState { param($Operation, $State) $true }
+    function Get-RideCurrentState { param($Operation) @{ Present = $false; DisplayVersion = 'observed-version' } }
+    function Write-RideApplicationProgress { param($PackageId, $Stage) }
+    function Restore-RideRun { param($RunId, [switch]$Confirm)
+      $RunId | Should -Be 'synthetic-removal-run'
+      $script:explorerRecoveryCalls++
+    }
+    . ([scriptblock]::Create($branch[0].Extent.Text))
+    $script:explorerPlanCalls | Should -Be 3
+    $script:explorerRecoveryCalls | Should -Be 1
+    $scenarioResult.Checks | Should -Be @('RemovalPreview','RIDERemoval','RepeatRemoval','SavedRemovalRecovery')
+    $scenarioResult.RemovalRecoveryVersion | Should -Be 'observed-version'
+  }
+
+  It 'admits only the declared Explorer Suite target for Batch <Batch> on <Target>' -ForEach @(
+    @{ Batch = 12; Target = 'Windows 11'; Expected = $true }
+    @{ Batch = 11; Target = 'Windows 11'; Expected = $false }
+    @{ Batch = 12; Target = 'Windows Server 2025'; Expected = $false }
+  ) {
+    $root = Split-Path -Parent $PSScriptRoot
+    $catalogPath = Join-Path $root 'catalog/operations.psd1'
+    $testCatalog = Invoke-RideTestCatalogImport $catalogPath
+    $beforeHash = (Get-FileHash -LiteralPath $catalogPath).Hash
+    $runnerPath = Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'
+    $parseErrors = $null
+    $ast = [Management.Automation.Language.Parser]::ParseFile($runnerPath, [ref]$null, [ref]$parseErrors)
+    $parseErrors | Should -BeNullOrEmpty
+    # Execute the actual in-memory catalog preparation, without running the
+    # VM entry point, querying Windows state or invoking an installer.
+    $preparation = @($ast.FindAll({ param($node)
+      $node -is [Management.Automation.Language.ForEachStatementAst] -and
+      $node.Condition.Extent.Text -match '^\$testCatalog\.Operations'
+    }, $true))
+    $preparation.Count | Should -Be 1
+    . ([scriptblock]::Create($preparation[0].Extent.Text))
+    $candidate = $testCatalog.Operations | Where-Object Id -eq 'package.ntcore-explorer-suite'
+    ($candidate.SupportedTargets -contains $Target) | Should -Be $Expected
+    $candidate.PendingAcceptance | Should -Be (-not $Expected)
+    $unrelated = $testCatalog.Operations | Where-Object Id -eq 'package.ntcore-virtualreg-manager'
+    $unrelated | Should -Not -BeNullOrEmpty
+    $unrelated.PendingAcceptance | Should -BeTrue
+    $unchanged = (Invoke-RideTestCatalogImport $catalogPath).Operations | Where-Object Id -eq $candidate.Id
+    $unchanged.PendingAcceptance | Should -BeTrue
+    $unchanged.SupportedTargets | Should -BeNullOrEmpty
+    (Get-FileHash -LiteralPath $catalogPath).Hash | Should -BeExactly $beforeHash
+  }
+}
+
+Describe 'HashCheck Shell Extension Windows 11 acceptance' {
+  It 'pins the accepted installer and limits support to the tested Windows 11 workflow' {
+    $root=Split-Path -Parent $PSScriptRoot
+    $catalog=Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
+    $package=@($catalog.Operations|Where-Object Id -ceq 'package.hashcheck-shell-extension')[0]
+    $package.PackageVersion|Should -BeExactly '2.6.3'
+    $package.DownloadUri|Should -BeExactly 'https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe'
+    $package.AssetName|Should -BeExactly 'HashCheckSetup-v2.6.3.0.exe'
+    $package.ExpectedSha256|Should -BeExactly 'cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa'
+    $package.InstallerType|Should -BeExactly 'Exe'
+    $package.InstallerArguments|Should -BeExactly '/S'
+    $package.Scope|Should -BeExactly 'Machine'
+    $package.RequiresAdmin|Should -BeTrue
+    $package.CandidateTargets|Should -BeNullOrEmpty
+    $package.SupportedTargets|Should -Be @('Windows 11')
+    $package.PendingAcceptance|Should -BeFalse
+    $package.LicenseReviewStatus|Should -BeNullOrEmpty
+    $runnerPath=Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'
+    $runner=Get-Content -LiteralPath $runnerPath -Raw
+    @(& $runnerPath -Version)|Should -Be @('0.19.4')
+    $runner|Should -Match 'ApplicationsBatch11 must select exactly HashCheck Shell Extension 2\.6\.3'
   }
 }

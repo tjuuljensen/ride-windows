@@ -10,15 +10,48 @@ This runbook is intended for an advanced first-time contributor setting up a dis
 
 The VM is for integration tests that change Windows state. Routine validation and mocked Pester tests remain available through the repository's GitHub Actions workflow and do not require a VM.
 
+For a controller that stalls before guest execution, use the
+[bounded host-preparation probe](automatedlab-tasks.md#bounded-host-preparation).
+It checks dependencies, lab identity and source copying within five minutes,
+without starting or restoring the VM. Refresh protected registration after the
+probe passes to activate the independent request watchdog.
+
 ## What this pilot covers
+
+### Persistent user PATH candidate
+
+`Invoke-RideProfileVmAcceptance.ps1 -Scenario PersistentUserPath` runs the
+guarded Q08 lifecycle case on the existing registered Windows 11 disposable VM
+and its configured checkpoint. In an attended host session, use the existing
+controller configuration, guest administrator credential and a new output
+directory. The guest case creates only a unique sentinel file and, if needed, an
+empty `bin` directory under the current user's profile; it checks preview,
+apply, repeat, registry value kind, exact saved-run restore and preservation of
+the current process PATH. The outer runner captures evidence and restores the
+pinned checkpoint.
+
+This candidate has no published target support yet. Do not run it on a workstation.
+The Q08 handler requires a native interactive user process. The host runner uses
+PowerShell Direct to start a short-lived scheduled task with `RunLevel Limited` in
+the same account's existing interactive session, verifies that worker SID against
+the PowerShell Direct identity, collects its result, and removes only that task. A
+different signed-in guest account is refused. This transport has only been prepared
+and locally validated; no VM run is claimed. The current run is also deferred
+because host `Get-VM` access is denied at CIM and the registered protected
+controller does not contain the current runner module; controller refresh requires
+a future elevated host session. Save the native run for that attended session. The
+Q08 case does not request a guest UAC change or broadcast an environment change,
+and makes no claim that existing processes see the new PATH. Effective PATH
+behavior and Windows acceptance remain separate review items. Preserve the existing
+user-bin startup scenario as a separate setting.
 
 ### Focused reviewed portable packages
 
 `Invoke-RidePortableVmAcceptance.ps1` is the focused Windows 11 runner for
-MiTeC JSON/XML Viewer, NTCore PE Detective/CFF Explorer, and the 4GB Patch
-portable candidate. `AllReviewed` selects seven file-lifecycle cases: both viewer
-architectures and three x86 NTCore packages. `MiTeCViewers` and `NTCore` select
-four and three cases respectively. The NTCore suite runs 4GB Patch only against
+MiTeC JSON/XML Viewer and the reviewed NTCore portable candidates. `AllReviewed`
+selects seven file-lifecycle cases: both viewer architectures and PE Detective,
+CFF Explorer, and 4GB Patch. `MiTeCViewers` and `NTCore` select four and three
+cases respectively. The NTCore suite runs 4GB Patch only against
 a generated, non-runnable x86 PE in its correlated guest evidence folder. It
 checks the large-address-aware flag, exact original backup, refusal of a
 pre-existing backup by the guarded RIDE launcher, guarded patching and exact
@@ -26,6 +59,23 @@ synthetic-file recovery; no real executable is opened. Direct use of the
 upstream utility is unsafe when its `.Backup` path is occupied. The older
 `ApplicationsBatch1`/`ApplicationsBatch2` selectors do not include these candidates.
 No NirSoft or other Defender-blocked collection member is selected.
+
+`NTCoreAdditional` selects Driver List x64/x86 and Rebel.NET as three pinned file-
+lifecycle cases. It verifies member ownership, repeat install/remove, saved-state
+recovery and preservation of unrelated files. It does not launch Driver List, read
+loaded-driver inventory, create a report, open an assembly or invoke Rebel.NET
+rebuilding. Its exact retained archives are listed in
+`.local/acceptance-input/NTCoreAdditional.json`; functional tests remain separately
+scoped to sensitive or synthetic data.
+
+`MiTeCMailHistoryViewers` selects the pinned MiTeC Mail Viewer, E-mail History
+Browser, Internet History Browser and Instant Messaging History Browser. It
+checks package file staging, repeat, removal, saved-state recovery and preservation
+of unrelated files. It does not launch the viewers or open user mail, browser
+history or messaging stores. The retained archives are listed in
+`.local/acceptance-input/MiTeCMailHistoryViewers.json`; synthetic-store behavior
+checks remain a separate acceptance step, and all four package targets remain
+unsupported until acceptance is complete.
 
 `SysinternalsSuite` is an explicit one-package batch for the pinned 2026-10-17
 164-member snapshot. It checks portable file staging, repeat, removal, saved-run
@@ -44,6 +94,48 @@ is `.local/acceptance-input/SysinternalsProducts.json`, containing exactly one
 `Id`/`Path` row per selected package. The protected controller must advertise
 `FocusedPortableV1` before a run can be submitted; source preparation alone does
 not imply that VM acceptance has been submitted or passed.
+
+`RawCopy` runs the pinned RawCopy 1.0.0.22 package lifecycle, then invokes
+`Invoke-RideRawCopySyntheticAcceptance.ps1` from the guest snapshot. Its exact
+host archive is `.local/acceptance-input/RawCopy.json`. The guest creates one
+4096-byte fixture on NTFS and requires the copied output hash to match. TCP
+sending, metadata output and raw-directory listing are disabled; the runner has
+no source-file parameter and does not inspect user or evidence data. A passing
+run removes only the unique fixture and output; a failure retains its files and
+JSON evidence. Submit through the existing registered task so no per-run UAC
+prompt is needed:
+
+```powershell
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite RawCopy -TimeoutMinutes 60
+```
+
+`WinPmem` is a separate fixed single-file package batch. It will verify only
+RIDE's exact executable-file ownership, install/repeat/remove and saved-state
+recovery. It never launches the executable or loads, unloads or tests the
+kernel driver; driver behavior and memory capture are distinct acceptance work.
+The host manifest must be `.local/acceptance-input/WinPmem.json` and contain
+exactly one `Id`/`Path` row for `package.winpmem`. This checkout has no retained
+asset yet, and the registered protected controller needs a one-time elevated
+refresh to accept the new `WinPmem` selection. Defer submission until both are
+ready; the target package remains unsupported until lifecycle evidence is
+reviewed and support is explicitly promoted.
+
+After the official executable has been acquired and hash-checked into the local
+review cache, create the one-row manifest using its literal local path, refresh
+the existing controller during the next planned elevated session, then submit:
+
+```powershell
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite WinPmem -TimeoutMinutes 60
+```
+
+The guest runner requires an Off disposable Windows 11 VM and its registered
+checkpoint. It captures install/repeat/remove and exact saved-state recovery,
+then restores the checkpoint. It does not load the WinPmem driver or create a
+memory image.
+
+Local runner contract checks now pass: exact selector/inert-payload cases 2/2 and mocked fixed-controller dispatch matrix 10/10 in Windows PowerShell 5.1/Pester 5.7.1. These checks do not refresh the protected controller or establish guest behavior. See [latest regression and host-access evidence](../../docs/archive/evidence/winpmem-runner-current-source-regression-and-vm-cim-block-2026-10-28-1030.json). The batch does not change Defender or promote catalog support by itself. Keep
+Windows 11 support pending until the correlated package lifecycle, synthetic
+behavior evidence, and checkpoint recovery all pass review.
 
 `ImageMagick` is an explicit one-package Windows 11 batch for the pinned portable
 Q16 7.1.2-34 archive. It checks whole-archive ownership, the executable signature,
@@ -96,8 +188,8 @@ or distribution approval. Inspect `network-before.json`, `network-after.json`,
 `bundle-manifest.json`, scenarios and the host recovery result. Broader installer,
 servicing, dependency and interruption acceptance remains separate.
 
-For repeated `NTCore`, `PSScriptTools`, `OfflineCaffeine`, `SQLiteQuery`,
-`MiTeCUtilityFiles`, `SysinternalsSuite` and `ImageMagick` batches, prefer the
+For repeated `NTCore`, `NTCoreAdditional`, `MiTeCMailHistoryViewers`, `MiTeCAnalysisTools`, `MiTeCSystemAndTelephony`, `PSScriptTools`, `OfflineCaffeine`, `SQLiteQuery`,
+`MiTeCUtilityFiles`, `SysinternalsSuite`, `ImageMagick` and `RawCopy` batches, prefer the
 registered task instead of launching this standalone host runner with `RunAs`
 each time. NTCore includes the 4GB Patch candidate's file lifecycle and its
 bounded synthetic-PE functional check.
@@ -122,7 +214,12 @@ Place the one-package retained-archive manifests at
 nine `Id`/`Path` rows; the other manifests contain one package unless the
 paragraph below specifies a three-package batch. The three-package selections use
 `.local/acceptance-input/NTCore.json` and
-`.local/acceptance-input/MiTeCUtilityFiles.json`. All use the `Id`/`Path` format
+`.local/acceptance-input/NTCoreAdditional.json`,
+`.local/acceptance-input/MiTeCMailHistoryViewers.json`,
+`.local/acceptance-input/MiTeCUtilityFiles.json`, and
+`.local/acceptance-input/MiTeCAnalysisTools.json`, and
+`.local/acceptance-input/MiTeCSystemAndTelephony.json`. `MiTeCMailHistoryViewers.json`
+contains four `Id`/`Path` rows. All use the `Id`/`Path` format
 below.
 Requests accept no caller-supplied script or payload path. The protected runner
 reads only the selected manifest and verifies its exact catalog identity/hash;
@@ -137,6 +234,10 @@ signed-in account, submit and wait for each result:
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite SysinternalsSuite -TimeoutMinutes 60
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite SysinternalsProducts -TimeoutMinutes 90
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ImageMagick -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite NTCoreAdditional -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite MiTeCMailHistoryViewers -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite MiTeCAnalysisTools -TimeoutMinutes 60
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite MiTeCSystemAndTelephony -TimeoutMinutes 60
 ```
 
 `SQLiteQuery` is deliberately limited to the package file lifecycle and recovery:
@@ -153,6 +254,25 @@ and Certificate Information executables and checks managed-file repeat/remove
 and saved-state recovery. It does not query identifiers, generate or inspect
 certificates, open user files or add a trust-store item. All three candidates
 remain unsupported and have version-specific local `NeedsReview` license records.
+
+`MiTeCAnalysisTools` stages MiTeC EXE Explorer 3.7.5 and HexEdit 7.1.0 from
+their exact retained archives. It checks repeat install/remove, saved-state
+recovery and preservation of unrelated or modified files. It does not launch
+either utility, inspect real executables or disks, use VirusTotal/API/network
+features, or test process-memory or raw-disk editing. Both packages remain
+unsupported pending Windows 11 lifecycle and the separate synthetic-file
+feature checks. The controller must be refreshed to advertise
+`MiTeCAnalysisToolsV1` before submitting this batch.
+
+`MiTeCSystemAndTelephony` stages MiTeC System Information eXtra 16.0.0 and
+TAPI Monitor 1.2.0 from the exact retained archives. It checks repeat
+install/remove, saved-state recovery and preservation of unrelated or modified
+files. It does not create or retain system reports, access system inventory,
+enumerate or configure TAPI providers, inspect calls, or launch either utility.
+Both packages remain unsupported pending Windows 11 lifecycle acceptance.
+Report-field/redaction review and simulated-provider behavior remain separate
+acceptance work. The controller must be refreshed to advertise
+`MiTeCSystemAndTelephonyV1` before submitting this batch.
 
 The worker serializes both requests, runs the protected host child without UAC,
 and retains timeout/process termination and checkpoint recovery. Focused results
@@ -229,6 +349,14 @@ variant. `ApplicationsBatch3` selects both Docker Desktop variants;
 `ApplicationsBatch3AllUsers` isolates the elevated system-wide variant on the
 pinned Windows 11 controller. These suites run guest
 validation/Pester before preview, install/repeat, remove and saved-run recovery.
+Every ApplicationsBatch1 package receives synthetic user data in its documented
+profile/configuration location or a user-selected Documents location. The batch
+checks its exact bytes after install, the vendor uninstaller, and saved-state
+recovery. Browser profiles, chat/mail profiles, VS Code settings/extensions,
+Autopsy settings/case data, Wireshark preferences, GnuPG configuration, and
+TMOG data are covered. No utility or application is launched to create data;
+the fixtures contain no credentials, keys, certificates, messages, or real case
+content. The TMOG scenario does not enter a license key or launch TMOG.
 `ApplicationsBatch4` selects the Slack and Discord current-user EXE candidates,
 checks their pinned source evidence, and exercises their install/remove lifecycle
 on the disposable Windows 11 guest. Its Pester selection includes the focused
@@ -268,8 +396,79 @@ owner's physical-machine RIDE review after the Hyper-V guest attempts proved
 inconclusive. Driver/OEM tools require matching guests. See the
 [application ledger](../../docs/migrations/application-migration-review.md).
 
+`ApplicationsBatch9` selects only MiTeC InfoBar 4.6.2 on Windows 11. It checks
+the pinned installer version, repeat install, removal, repeat removal and saved
+install/removal recovery. It does not launch InfoBar, configure startup behavior,
+or access a weather location, API key, RSS feed, or personal data. Startup and
+network behavior remain separate acceptance work. The task client requires the
+registered controller capability `ApplicationsBatch9InfoBarV1`; refresh the
+controller before queuing the suite. That refresh is deferred, so this preparation
+does not dispatch a task or install the package.
+
+`ApplicationsBatch10` selects only MiTeC Project Maker 1.9.0 on Windows 11. It
+checks the pinned installer version, repeat install, removal, repeat removal and
+saved install/removal recovery. It does not launch Project Maker, open a project,
+invoke a compiler, run before/after actions, patch versions, sign, or protect a
+binary. Those feature checks require a separate synthetic Delphi project and
+disposable signing key. The task client requires the registered controller
+capability `ApplicationsBatch10ProjectMakerV1`; refresh only if that capability
+is absent. Native acceptance remains pending. Runner 0.19.4 records machine
+lifecycle stages in `application-progress.jsonl` and adds the documented Inno
+Setup [`/LOG` switch](https://jrsoftware.org/ishelp/topic_setupcmdline.htm) to
+retain `project-maker-install.log`. The limited-user path retains its existing
+`application-user-progress.jsonl` name. Partial collection can retain closed
+progress records when an active transcript is locked; the installer log may also
+be unavailable if locked. Recovery installation can overwrite the installer log.
+After the 2026-10-30 timeout, use one diagnostic request with `-TimeoutMinutes 20`,
+then inspect evidence before any further retry. The timeout bounds controller
+execution; evidence collection and checkpoint cleanup follow it.
+
+`ApplicationsBatch11` selects only HashCheck Shell Extension 2.6.3 on Windows 11. It checks installer identity, install/repeat, removal/repeat and saved install/removal recovery; it does not launch HashCheck or invoke Explorer. The request requires both registered controller capabilities `ApplicationsBatch11HashCheckV1` and `ApplicationsBatch11InteractiveV1`. The runner directs the publisher's `/LOG=` output to `hashcheck-install.log` in the collected guest result directory, including on installation failure. Inspect this log and `applications-batch11.json` before retrying a failed installation; later install/recovery attempts in the same run can overwrite the publisher log. See the [application migration ledger](../../docs/migrations/application-migration-review.md) for dated acceptance results.
+
+HashCheck release 2.6.3 registers installed version 2.6.3.0; acceptance checks that
+exact four-part version while retaining the release/download pin. Its Windows 11
+sparse-package registration requires the tested interactive execution context.
+The controller selects exactly one desktop belonging to its guest administrator,
+then runs the suite through a temporary `Interactive` / `Highest` task. The worker
+checks the machine, SID, session and elevation before running. An absent or
+ambiguous desktop fails the request; there is no Session 0 fallback. The runner
+does not configure automatic sign-in or store a password in the task. The worker
+launches the suite in a fresh Windows PowerShell process in that same session;
+this keeps Pester command discovery and mocks outside the coordinator module's
+scope. A failed child process or suite summary fails acceptance.
+
+Refresh the idle protected controller using `Register-RideVmTestTask.ps1` and its
+existing configuration before queuing this suite. Use current Local or CI source
+containing both interactive guest files. The pinned disposable baseline must
+provide the intended signed-in administrator desktop after startup. The temporary
+task has a 30-minute limit and is removed after completion or failure; the host
+collects evidence and restores its pinned checkpoint. Task cleanup errors fail
+the run. Direct `Invoke-RideVmTest.ps1` calls also require `ResultDirectory`.
+
+Inspect `interactive-request.json`, `interactive-task.xml`, `interactive-task.json`,
+`interactive-worker.json` and `interactive-output.log` beside the existing suite
+summary and Pester evidence. Require matching run IDs, a passed worker, task exit
+code zero, task removal and successful host recovery. Duplicate dispatch is
+refused before executing the suite again. Logged-out installation, Explorer
+behavior and full controller certification remain separate acceptance gates;
+never run this state-changing suite on the development host.
+
+`ApplicationsBatch12` selects only `package.ntcore-explorer-suite` on Windows 11. It checks the retained publisher installer identity, install/repeat, removal/repeat and saved install/removal recovery; it does not launch any suite utility or open target files. The request requires the registered controller capability `ApplicationsBatch12NtcoreExplorerSuiteV1`. The exact-version license marker is administrative and does not gate migration. Check the configured capability before submitting; refresh only if it is absent. Runner 0.19.3 admits the exact pending candidate in the guarded guest catalog and includes vendor removal/repeat/recovery. Production support remains pending until Windows acceptance passes.
+
+ApplicationsBatch1 can be split into `ApplicationsBatch1Machine` and
+`ApplicationsBatch1User`. Use the split suites when accepting it: the machine
+suite covers the nine machine-scoped packages, while the user suite covers
+Thunderbird and Gpg4win in a temporary standard account. The user worker has a
+60-minute execution limit and retains a JSON-lines stage log if it times out.
+The task client submits these split suites only when the registered controller
+advertises `ApplicationsBatch1SplitV1`; refresh an idle controller before
+queuing them.
+The unsplit `ApplicationsBatch1` suite remains available for a single combined
+run.
+
 ```powershell
-.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch1 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch1Machine -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch1User -TimeoutMinutes 90
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDESrv2025Test\configuration.json' -IntegrationSuite ApplicationsBatch2 -TimeoutMinutes 90
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch3 -TimeoutMinutes 90
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch3AllUsers -TimeoutMinutes 90
@@ -278,6 +477,10 @@ inconclusive. Driver/OEM tools require matching guests. See the
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch6 -TimeoutMinutes 90
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch7 -TimeoutMinutes 90
 .\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDESrv2025Test\configuration.json' -IntegrationSuite ApplicationsBatch8 -TimeoutMinutes 180
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch9 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch10 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch11 -TimeoutMinutes 90
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json' -IntegrationSuite ApplicationsBatch12 -TimeoutMinutes 90
 ```
 
 Verify the actual Server VM ID, edition and checkpoint; the example
@@ -286,13 +489,26 @@ correlated `applications-batch1.json` or `applications-batch2.json`, acquisition
 observations, saved state and checkpoint cleanup results. Refresh protected
 controller files only while the registered task and its children are idle.
 
-The remaining-settings session has two package-free selections:
-`SettingsRemainingBatch1` covers 19 task, policy and Explorer registry operations, and
-`SettingsRemainingBatch2` covers 19 network, Defender, power, sound and Edge
-operations. Each runs validation and guest Pester, then preview, every available
-state, repeat apply and exact saved-run restore. Missing resources and missing
+The remaining-settings session has two package-free selections.
+`SettingsRemainingBatch1` covers 21 task, policy and Explorer operations, three
+pending BitLocker drive-type method policies, the pending current-user Click
+to Do policy candidate, the pending Storage Sense machine-policy candidate, and
+the pending BitLocker Wizard and Power Options current-user shortcuts (28 total).
+The Storage Sense candidate runs only on a Windows policy edition listed by
+Microsoft; its acceptance tests the local override lifecycle and exact restore
+without requesting cleanup. The shortcut scenarios only create/remove their
+links and never launch the targets. `SettingsRemainingBatch2` covers 19 network,
+Defender, power, sound and Edge operations. Each runs validation and guest
+Pester, then preview, every available state, repeat apply and exact saved-run
+restore. Missing resources and missing
 power-scheme variants are reported separately. Task definitions, network peers,
 sign-in, sound playback and browser behavior require additional acceptance.
+The BitLocker cases verify only future-encryption policy registry lifecycles;
+they do not encrypt or convert a volume. The Click to Do case tests only the
+per-user `DisableClickToDo` policy value and exact saved-state recovery. It does
+not test the separate user-facing toggle, Copilot+ hardware requirements,
+device-policy precedence, or visible feature behavior. The published candidates
+remain unsupported until the VM evidence is reviewed.
 See the [decision ledger](../../docs/migrations/remaining-settings-decisions.md).
 
 The sixty-setting session has a package-free suite selected with

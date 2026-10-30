@@ -1,0 +1,44 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "telnetclient-official-optional-feature-identity-current-review-2026-10-27-0748",
+  "RecordedAtUtc": "2026-10-27T07:48:30Z",
+  "Repository": "ride-windows",
+  "Scope": "Official Microsoft source check for the deferred Telnet Client component identity and servicing source boundary.",
+  "Sources": [
+    {
+      "Uri": "https://learn.microsoft.com/en-us/powershell/dsc/reference/resources/microsoft/windows/optionalfeaturelist/examples/get-optional-feature?view=dsc-3.0",
+      "Finding": "Microsoft's optional-feature example uses TelnetClient and documents NotPresent and Installed observation states."
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/available-features-on-demand-non-language-fod?view=windows-11",
+      "Finding": "The current non-language Features on Demand list does not identify Telnet Client as a capability or name a matching CAB/package."
+    },
+    {
+      "Uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+      "Finding": "Microsoft says Windows 11 Languages and Optional Features media should match the target image version; satellite packages require a well-formed repository."
+    }
+  ],
+  "Resolved": [
+    "The Windows feature identity remains the exact optional-feature name TelnetClient.",
+    "Telnet Client is not established as a Windows capability by the reviewed sources."
+  ],
+  "Unresolved": [
+    "Matching TelnetClient package/CAB identity and source-media layout.",
+    "Target build, architecture and language match; complete dependencies; policy source precedence; exact recovery; native Windows acceptance."
+  ],
+  "Disposition": "Keep LocalSource blocked pending exact source identity and completeness. This source review authorizes no servicing or runtime change.",
+  "VmAccess": "Not checked in this source review; latest VM/task evidence remains CIM-blocked before inspection or dispatch.",
+  "WindowsStateChanged": false,
+  "DefenderStateChanged": false,
+  "LegacyOutcomeClosed": false,
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Adjustment": "None; the optional-feature identity is confirmed, but no source or acceptance blocker is resolved."
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "ReviewedAtUtc": "2026-10-26T12:15:00Z",
+  "Source": ".local/license-reviews.json",
+  "Filter": "package.sysinternals-*",
+  "TotalRecords": 10,
+  "ReviewedRecords": 10,
+  "NeedsReviewRecords": 0,
+  "OtherStatusRecords": 0,
+  "Records": [
+    {
+      "Id": "package.sysinternals-autoruns",
+      "ReviewedVersion": "14.3",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-disk2vhd",
+      "ReviewedVersion": "2.02",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-handle",
+      "ReviewedVersion": "5.0",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-process-explorer",
+      "ReviewedVersion": "17.2",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-procmon",
+      "ReviewedVersion": "4.12",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-rammap",
+      "ReviewedVersion": "1.63",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-sigcheck",
+      "ReviewedVersion": "2.93",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-strings",
+      "ReviewedVersion": "2.54",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-suite",
+      "ReviewedVersion": "snapshot-20261017-e1e75de5",
+      "LicenseReviewStatus": "Reviewed"
+    },
+    {
+      "Id": "package.sysinternals-tcpview",
+      "ReviewedVersion": "4.19",
+      "LicenseReviewStatus": "Reviewed"
+    }
+  ],
+  "Disposition": "All Sysinternals package records are Reviewed under the prior RIDE v2 specialist approval. User confirms RIDE downloads from Microsoft and installs for supported users, without transferring or publishing Sysinternals. Do not apply generalized redistribution reasoning or reopen licensing as a migration gate.",
+  "DefenderDisposition": "Defender-blocked utilities remain separate security exclusions.",
+  "LegacyOutcomeClosed": false,
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

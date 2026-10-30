@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:51:20Z",
+  "batch": "NTCore full Explorer Suite candidate current catalog recheck",
+  "source": "Current Get-RideCatalog output plus retained candidate evidence",
+  "catalog": {
+    "ntcorePackageOperationCount": 13,
+    "fullExplorerSuite": {
+      "id": "package.ntcore-explorer-suite",
+      "version": "III-2012-11-18",
+      "expectedSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+      "candidateTargets": [
+        "Windows 11"
+      ],
+      "supportedTargets": [],
+      "pendingAcceptance": true,
+      "separateFrom": "package.ntcore-cff-explorer"
+    },
+    "remainingUnpinnedProductGaps": [
+      "Filter Monitor",
+      "Vista4Experts",
+      "AntiMida 1.0"
+    ]
+  },
+  "retainedCandidateEvidence": "ntcore-explorer-suite-candidate-preparation-2026-10-28-1318.json",
+  "interpretation": "The full Explorer Suite is already a separate pinned candidate, not merely the CFF Explorer candidate. Its Windows lifecycle/support is still unaccepted. The three named publisher products remain unpinned pending exact artifact acquisition/member review.",
+  "handling": {
+    "publisherDownloadedOrContactedThisRecheck": false,
+    "installerOrUtilityExecuted": false,
+    "retainedArtifactAccessed": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Corrected the ledger distinction between the existing separate full-suite candidate and the still-unpinned NTCore products."
+    ],
+    "partial": [
+      "The full-suite candidate still lacks Windows 11 lifecycle acceptance and has no supported target."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Full Explorer Suite install/repeat/remove/exact recovery and user/machine scope acceptance.",
+      "Exact artifact acquisition/member review for Filter Monitor, Vista4Experts and AntiMida 1.0."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the catalog audit closed no legacy package outcome."
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "recordedAtUtc": "2026-10-29T02:51:17Z",
+  "kind": "F1HelpCurrentSourceRegressionAndVmBlock",
+  "test": {
+    "path": "tests/F1Help.Tests.ps1",
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "result": {
+      "discovered": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    },
+    "verified": [
+      "per-user Windows 11 candidate remains unsupported and pending acceptance",
+      "default profile blocks the operation and other profiles omit it",
+      "only the declared Win32/Win64 unnamed TypeLib string values are used",
+      "Blocked maps to empty string overrides and WindowsDefault maps to removal",
+      "complete state matching requires both architecture registrations",
+      "focused handler writes both values and restores captured values in reverse order"
+    ]
+  },
+  "scope": {
+    "registryWritesPerformed": false,
+    "windowsStateChanged": false,
+    "nativeF1BehaviorVerified": false,
+    "profileApplicationPerformed": false
+  },
+  "vmAccess": {
+    "lastReadOnlyCheckAtUtc": "2026-10-29T02:50:00Z",
+    "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "result": "Get-VM failed before state retrieval at host CIM for both targets.",
+    "checkpointState": "Unverified",
+    "nativeAcceptance": "Deferred"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:47:00Z",
+  "batch": "NTCore package full current-source regression with retained fixture directory",
+  "suite": "tests/NtcorePackages.Tests.ps1",
+  "fixtureDirectory": ".local/source-review-batches2-20261017",
+  "runtime": {
+    "shell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass for this test process only; no persistent policy setting",
+    "testRegistry": "Disabled",
+    "testResult": "Disabled"
+  },
+  "result": {
+    "discovered": 23,
+    "passed": 23,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "durationSeconds": 22.25
+  },
+  "coverage": "Retained ScreenWriter MSI digest check now ran and passed; retained-source and synthetic selected package lifecycle checks, including the focused NTCore Explorer Suite candidate route, all passed. The suite does not install or run utilities.",
+  "boundary": {
+    "workspaceFixtureResolvedWithinRepo": true,
+    "windowsInstallerStarted": false,
+    "upstreamUtilityExecuted": false,
+    "publisherNetwork": false,
+    "vmQueried": false,
+    "queueRequestSubmitted": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertPathAccessed": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false,
+    "persistentExecutionPolicyChanged": false
+  },
+  "blockers": [
+    "Native Explorer Suite lifecycle acceptance still requires the registered controller capability refresh and restored host VM access. This local suite proves package selection and file lifecycle code only."
+  ],
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "NTCore package suite now passes 23/23 with the reviewed retained fixture directory; native Windows acceptance remains pending."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "NTCore Explorer Suite Windows 11 install/repeat/remove/recovery and installed component/uninstaller identity acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; package-unit regression does not establish Windows acceptance."
+    }
+  },
+  "relatedEvidence": [
+    "ntcore-packages-full-current-source-regression-with-screenwriter-skip-2026-10-28-2246.json",
+    "ntcore-explorer-suite-pester5-focused-runner-tests-2026-10-28-2245.json"
+  ]
+}

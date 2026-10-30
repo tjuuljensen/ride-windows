@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:08:13Z",
+  "batch": "WinPmem focused file-lifecycle VM acceptance runner preparation",
+  "operation": "package.winpmem",
+  "runnerSelection": {
+    "batch": "WinPmem",
+    "selectedCases": ["package.winpmem/portable"],
+    "payloadFormat": "One exact publisher-pinned .exe file",
+    "lifecycle": [
+      "Install preview",
+      "Install",
+      "Repeat install",
+      "Exact owned-file verification",
+      "Remove preview",
+      "Remove",
+      "Repeat remove",
+      "Saved install/removal recovery"
+    ],
+    "ExecutableLaunched": false,
+    "DriverLoadedOrUnloaded": false,
+    "MemoryCaptured": false,
+    "AllReviewedIncludesWinPmem": false
+  },
+  "implementation": {
+    "helperVersion": "1.6.0",
+    "guestRunnerVersion": "0.13.0",
+    "hostRunnerVersion": "0.11.0",
+    "taskClientVersion": "1.13.0",
+    "controllerModuleVersion": "1.14.0",
+    "exactExeManifestAllowlist": true,
+    "unrelatedPackageExePayloadRejected": true,
+    "catalogSupportedTargetsChanged": false,
+    "controllerRegistrationChanged": false
+  },
+  "localValidation": {
+    "manualSelectionAndPayloadAssertions": "Passed; inert fixture .exe accepted only for package.winpmem and rejected for PSScriptTools",
+    "ChangedPowerShellFilesParsed": 7,
+    "RepositoryValidation": {
+      "status": "Passed",
+      "operations": 441,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 299
+    },
+    "GeneratedOperationDocumentation": "Current",
+    "Pester5Available": false,
+    "PesterVersionAvailable": "3.4.0",
+    "FocusedPesterTestsRun": false
+  },
+  "acceptanceBlockers": {
+    "PublisherAssetRetainedLocally": false,
+    "RegisteredControllerNeedsOneTimeElevatedRefresh": true,
+    "Windows11VmInspection": "Blocked before inspection: Get-VM denied access to a CIM resource",
+    "Server2025VmInspection": "Blocked before inspection: Get-VM denied access to a CIM resource",
+    "CheckpointInspected": false
+  },
+  "sideEffects": {
+    "UtilityOrInstallerRun": false,
+    "DriverServiceOrBootConfigurationChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "A fixed one-package exact-file lifecycle batch is prepared for the WinPmem candidate; the existing package handler supports single-file ownership and saved-state recovery."
+    ],
+    "retired": [],
+    "excluded": [],
+    "partial": [
+      "Local selection/payload assertions, parser checks, repository validation and generated-doc checks pass, but the Pester suite and VM lifecycle have not run."
+    ],
+    "deferred": [
+      "Acquire and locally verify the publisher binary; refresh the registered protected controller during the next planned elevated session; run the file lifecycle on the existing Windows 11 checkpoint and Server 2025 only if separately selected. Driver loading, cleanup, reboot and memory capture remain separate acceptance work."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; runner preparation does not verify deployed lifecycle or close the legacy package outcome."
+    }
+  }
+}

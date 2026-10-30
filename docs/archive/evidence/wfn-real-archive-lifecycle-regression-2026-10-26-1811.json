@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T18:11:00Z",
+  "packageId": "package.windows-firewall-notifier",
+  "version": "20250719-ac02df",
+  "artifact": {
+    "path": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip",
+    "sha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "archiveBytes": 118745388,
+    "archiveFileMembers": 531,
+    "selectedMembers": 531,
+    "selectedUncompressedBytes": 265089178,
+    "requiredFiles": ["WFN.exe", "LICENSE.txt", "Resources/IPDatabase/LICENSE.txt"]
+  },
+  "licenseAdministration": {
+    "reviewedVersion": "20250719-ac02df",
+    "status": "NeedsReview",
+    "owner": "Unassigned",
+    "location": ".local/license-reviews.json",
+    "effect": "Informational owner/version administration; package planning and migration remain available."
+  },
+  "runtime": {
+    "powershell": "7.6.5",
+    "mode": "Offline local selected-member lifecycle from the retained archive"
+  },
+  "result": {
+    "status": "Passed",
+    "ownedFiles": 531,
+    "requiredFilesPresent": true,
+    "allManagedHashesMatch": true,
+    "repeatInstallHealthy": true,
+    "uninstallRemovedOwnedFiles": true,
+    "presentSnapshotRestoredHealthy": true,
+    "priorAbsenceRestored": true,
+    "operatorContentPreserved": true
+  },
+  "focusedRegression": {
+    "suite": "tests/WfnPackage.Tests.ps1",
+    "recordedAtUtc": "2026-10-26T18:23:46Z",
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistry": "Disabled",
+    "testResult": "Disabled",
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 689.97,
+    "result": "Passed"
+  },
+  "harnessCorrection": {
+    "initialAttempt": "Stopped after successful install because a local assertion incorrectly compared 531 owned members with the three catalog RequiredFiles checks.",
+    "verifiedState": "The package manifest and read-only state both reported 531 healthy owned files; all three RequiredFiles were present.",
+    "correctedContinuation": "Used PortableMembers (531) for owned-file count and checked RequiredFiles presence separately; complete lifecycle and both recovery paths passed."
+  },
+  "boundaries": {
+    "WFNExecutableRun": false,
+    "UserFirewallOrOtherWindowsStateChanged": false,
+    "VmOrCheckpointChanged": false,
+    "TargetSupportPromoted": false
+  },
+  "scratchRoot": ".local/wfn-real-archive-lifecycle-20261026-1750",
+  "migrationOutcome": {
+    "resolved": ["WFN pinned 531-member real-archive local file lifecycle regression"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["WFN remains pending Windows 11 lifecycle and firewall-notification behavior acceptance"],
+    "deferred": ["Windows 11 install/repeat/remove/recovery acceptance", "Firewall notification and settings-preservation behavior"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

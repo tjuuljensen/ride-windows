@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T12:00:18Z",
+  "batch": "Migration static validation and pre-registered VM task access recheck",
+  "validation": {
+    "command": "tools/validate.ps1 -Root .",
+    "result": "Passed: 441 operations, 8 groups, 5 profiles, 299 PowerShell files; operation documentation is current.",
+    "pesterSuiteRun": false
+  },
+  "acceptanceAccess": {
+    "vm": {
+      "command": "Get-VM -Name RIDE-Win11-Test",
+      "result": "Failed before inspection: Access to a CIM resource was not available to the client."
+    },
+    "scheduledTaskApi": {
+      "command": "Get-ScheduledTask enumeration",
+      "result": "Failed before inspection with the same host CIM access denial."
+    },
+    "scheduledTaskCli": {
+      "command": "schtasks.exe /Query /TN \"\\RIDE\\RIDE-Win11-Test\" /FO LIST /V",
+      "result": "ERROR: The network address is invalid."
+    },
+    "taskActionInspected": false,
+    "acceptanceDispatched": false,
+    "availablePester": "3.4.0 only; required Pester 5 suites cannot run in this shell."
+  },
+  "handling": {
+    "elevationRequested": false,
+    "vmOrWindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "installerOrPackageHandlerRun": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current repository static validation and generated operation documentation pass."
+    ],
+    "partial": [
+      "The RIDE-Win11-Test task remains uninspectable through Hyper-V CIM and Task Scheduler APIs; the CLI query fails with a network-address error before action details or dispatch."
+    ],
+    "deferred": [
+      "Windows 11 and Server acceptance, checkpoint verification and pre-registered task dispatch remain deferred until host VM/task access is available."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; static validation and access preflight close no legacy migration outcome."
+    }
+  }
+}

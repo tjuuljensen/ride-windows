@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T13:06:00Z",
+  "batch": "Q08 persistent user PATH interactive worker preparation",
+  "result": "Runner prepared; VM acceptance deferred",
+  "operationId": "windows.user-bin-persistent-path",
+  "target": "Windows 11 disposable VM",
+  "interactiveWorker": {
+    "scheduledTaskLogonType": "Interactive",
+    "runLevel": "Limited",
+    "requiresSameSignedInAccountAsPowerShellDirect": true,
+    "bindsWorkerSidToCoordinator": true,
+    "removesOnlyUniqueRunnerTask": true,
+    "workerRequiresSessionIdNonZero": true,
+    "registryLifecycleUsesSavedRunRestore": true,
+    "processPathExpectedToChange": false,
+    "environmentBroadcastPerformed": false,
+    "effectivePathClaimed": false
+  },
+  "validation": {
+    "focusedPester": "125/125 passed; TestRegistry disabled",
+    "powershell7Parser": "passed",
+    "windowsPowerShell51Parser": "passed",
+    "repositoryValidator": {
+      "operations": 415,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 278
+    },
+    "gitDiffCheck": "passed"
+  },
+  "runtime": {
+    "vmUsed": false,
+    "guestTaskCreated": false,
+    "hostRegistryChanged": false,
+    "guestRegistryChanged": false,
+    "guestRequestSubmitted": false,
+    "vmAccess": "Get-VM denied at CIM before VM/checkpoint inspection",
+    "protectedController": "Installed runner-module hash differs from current checkout; refresh requires later elevated host session",
+    "nextStep": "After VM access returns, refresh the registered controller while idle in an attended elevated host session, then run against the existing checkpoint. The guest PowerShell Direct account must match the signed-in guest user. Review collected evidence before any target-support decision."
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "supportedTargets": [],
+    "estimatesChanged": false,
+    "remainingRanges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

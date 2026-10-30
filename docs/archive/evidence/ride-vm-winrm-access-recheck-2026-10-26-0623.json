@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T06:23:36Z",
+  "scope": "Read-only registered VM access and previously authorized WinRM start attempt",
+  "checks": [
+    {
+      "command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+      "checkedAtUtc": "2026-10-26T06:19:03Z",
+      "result": "FailedBeforeVmOrCheckpointInspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "command": "schtasks.exe /Query /TN \\\\RIDE\\\\RIDEWin11Test /FO LIST /V",
+      "checkedOn": "2026-10-26",
+      "result": "FailedBeforeTaskDetails",
+      "error": "ERROR: The network address is invalid."
+    },
+    {
+      "command": "Start-Service -Name WinRM",
+      "checkedOn": "2026-10-26",
+      "result": "FailedWithoutChangingState",
+      "errorType": "Microsoft.PowerShell.Commands.ServiceCommandException",
+      "error": "Cannot find any service with service name 'WinRM'."
+    },
+    {
+      "command": "sc.exe query WinRM; sc.exe query vmms; sc.exe query vmcompute",
+      "checkedOn": "2026-10-26",
+      "result": "ServiceStateUnavailable",
+      "error": "[SC] EnumQueryServicesStatus:OpenService FAILED 5: Access is denied."
+    }
+  ],
+  "acceptance": {
+    "requestSubmitted": false,
+    "guestOrCheckpointInspected": false,
+    "hostOrGuestStateChanged": false,
+    "elevationPromptRequested": false,
+    "defenderStateChanged": false
+  },
+  "disposition": "WinRM/Hyper-V service availability could not be established from the current session, and the start attempt found no addressable WinRM service. Do not claim the service was started. Keep VM acceptance deferred and save host service setup for a later authorized elevated session.",
+  "migrationAccounting": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["VM acceptance requiring Hyper-V/CIM or the registered task; host WinRM/Hyper-V service setup requires an elevated session."],
+    "partial": [],
+    "estimatesChanged": false,
+    "groupRanges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

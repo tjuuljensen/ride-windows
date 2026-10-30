@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27 08:18 UTC",
+  "scope": "B06 OpenSSH Client/Telnet servicing-source recheck and registered VM access",
+  "search": {
+    "root": "Z:\\LabSources",
+    "patterns": [
+      "OpenSSH-Client-Package*.cab",
+      "*Languages*Optional*",
+      "*Features*On*Demand*",
+      "*FOD*"
+    ],
+    "method": "Recursive read-only filename search with Get-ChildItem -File -Recurse -Force",
+    "matches": [],
+    "errors": [],
+    "topLevelSourceInventory": {
+      "isoCount": 4,
+      "osUpdatesEntries": [
+        "README.md"
+      ],
+      "softwarePackagesEntries": [
+        "README.md"
+      ]
+    }
+  },
+  "vmAccess": {
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "result": "Get-VM and task inspection denied at CIM before inspection",
+    "schtasks": "ERROR: The network address is invalid",
+    "dispatchAttempted": false,
+    "freshUac": false
+  },
+  "disposition": {
+    "openSshClient": "No matching CAB/FOD source found; source identity, dependencies, recovery and native acceptance remain pending",
+    "telnetClient": "No package/media identity found; LocalSource remains blocked; dependencies, recovery and native acceptance remain pending",
+    "openSshServer": "Independent of FoD source search; catalog integration and native acceptance remain open",
+    "legacyOutcomesClosed": 0,
+    "defenderBlockedToolsExcluded": true
+  },
+  "estimate": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exact": "127-181",
+    "rounded": "125-180/about 155",
+    "changed": false
+  },
+  "stateChanged": false
+}

@@ -1,0 +1,191 @@
+{
+    "SchemaVersion":  1,
+    "ReviewDate":  "2026-10-30",
+    "Status":  "Completed: Explorer acceptance, evidence export and checkpoint recovery",
+    "OperatorPrecondition":  {
+                                 "VMStatus":  "Operating normally",
+                                 "RecoveryBlock":  "Operator checked absent",
+                                 "ControllerTask":  "Disabled",
+                                 "Queues":  "Operator checked empty",
+                                 "VMState":  "Running"
+                             },
+    "Helper":  ".local/acceptance-input/Stage-HashCheckFeatureAcceptance.ps1",
+    "Validation":  {
+                       "PowerShell":  "5.1.26100.9818",
+                       "Parser":  "Passed",
+                       "FixtureFiles":  6,
+                       "PositiveVector":  "abc",
+                       "TamperedVector":  "abd",
+                       "ManifestFormat":  "ASCII, SHA256 *relative-filename, CRLF",
+                       "Checks":  "Known SHA-256 vector, tampered mismatch, creation fixture, exact manifest bytes, duplicate refusal",
+                       "Status":  "Passed",
+                       "VmTouched":  false,
+                       "InstallerExecuted":  false,
+                       "HelperSHA256":  "EA3396076FAC0DFCFA57855A70B2FAB4DB1012DE72870B83ED802A334D160EFF"
+                   },
+    "PublisherReadme":  {
+                            "Scope":  "Explorer manifest verification, result copying, SHA256 creation and separate checksum creation documented",
+                            "GitBlobSha":  "8fa088a7bb40c54960f96625c8f3fcc8e0ab4262",
+                            "Access":  "Connected GitHub fetch_file",
+                            "Url":  "https://github.com/idrassi/HashCheck/blob/v2.6.3/README.md"
+                        },
+    "ExpectedTransferredFiles":  7,
+    "InstallerExecuted":  true,
+    "FeatureAcceptance":  "Three operator-reported Explorer checks passed; exported installation and generated manifest independently validated; recovery complete",
+    "Recovery":  {
+                     "RecordedAtUtc":  "2026-10-30T06:05:05.7652536Z",
+                     "RunId":  "4b1d874246f44009b360753c6a64ad78",
+                     "CheckpointId":  "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+                     "VMState":  "Off",
+                     "TaskState":  "Ready",
+                     "VerifiedEvidenceFiles":  10
+                 },
+    "Migration":  {
+                      "FilesAndAssets":  "25-35",
+                      "Resolved":  0,
+                      "Partial":  "None for the scoped HashCheck Windows 11 addition; other deferred work unchanged",
+                      "NewExclusions":  0,
+                      "Maintenance":  "8-12",
+                      "Components":  "19-24",
+                      "Packages":  "37-52",
+                      "ExactTotal":  "126-180",
+                      "Retired":  0,
+                      "Settings":  "37-57",
+                      "RoundedTotal":  "125-180; about 155",
+                      "RequestedV3AdditionsCompleted":  1
+                  },
+    "Staging":  {
+                    "RunId":  "4b1d874246f44009b360753c6a64ad78",
+                    "GuestDirectory":  "C:\\RIDE\\ManualAcceptance\\HashCheckFeature-4b1d874246f44009b360753c6a64ad78",
+                    "HostDirectory":  ".local/acceptance-input/hashcheck-feature-4b1d874246f44009b360753c6a64ad78",
+                    "VerifiedFiles":  7,
+                    "Verification":  "Guest transfer hashes match staged manifest; retained host files independently rehashed",
+                    "InstallerSignature":  "Valid",
+                    "InstallerExecuted":  false
+                },
+    "ConsoleInstallation":  {
+                                "EvidenceSource":  "User console output corroborated by exported feature-install-result.json and feature-install.log; guest/host hashes matched and host files independently rehashed",
+                                "Computer":  "RIDE-WIN11-TEST",
+                                "User":  "RIDE-WIN11-TEST\\admin",
+                                "SessionId":  1,
+                                "ExitCode":  0,
+                                "Native64RegistrationExitCode":  0,
+                                "Native32RegistrationExitCode":  0,
+                                "SparseRegistrationExitCode":  0,
+                                "SparseProvisioning":  "Completed",
+                                "MsixSignature":  "Valid",
+                                "Package":  "IDRIX.HashCheck_2.6.3.0_neutral__hd6jbvhf8esfw",
+                                "GuestLog":  "C:\\RIDE\\ManualAcceptance\\HashCheckFeature-4b1d874246f44009b360753c6a64ad78\\feature-install.log"
+                            },
+    "ExplorerMatch":  {
+                          "Source":  "User-pasted HashCheck results after instructed Explorer double-click",
+                          "Manifest":  "Match/sample.sha256",
+                          "Match":  1,
+                          "Mismatch":  0,
+                          "Unreadable":  0,
+                          "Remaining":  0,
+                          "File":  "sample.txt",
+                          "Status":  "MATCH",
+                          "ExpectedSha256":  "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+                          "ActualSha256":  "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+                          "GuestEvidenceExport":  "Fixture and installation files exported; UI result remains explicitly operator-reported"
+                      },
+    "ExplorerTampered":  {
+                             "Source":  "User-pasted HashCheck results after instructed Explorer double-click",
+                             "Manifest":  "Tampered/sample.sha256",
+                             "Match":  0,
+                             "Mismatch":  1,
+                             "Unreadable":  0,
+                             "Remaining":  0,
+                             "File":  "sample.txt",
+                             "Status":  "MISMATCH",
+                             "ExpectedSha256":  "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+                             "ActualSha256":  "a52d159f262b2c6ddb724a61840befc36eb30c88877a4030b65cbe86298449c9",
+                             "ComparedWithPreparedFixture":  true,
+                             "GuestEvidenceExport":  "Fixture and installation files exported; UI result remains explicitly operator-reported"
+                         },
+    "ExplorerCreation":  {
+                             "Source":  "User-pasted filename and Get-Content after instructed Explorer Create Separate Checksum Files action",
+                             "Manifest":  "Create/sample.txt.sha256",
+                             "ManifestLine":  "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad *sample.txt",
+                             "MatchesIndependentExpectedSha256":  true,
+                             "GuestEvidenceExport":  "Generated manifest exported, hash-checked against guest and independently checked against expected SHA-256"
+                         },
+    "ExportHelper":  {
+                         "Path":  ".local/acceptance-input/Export-HashCheckFeatureAcceptance.ps1",
+                         "Version":  "0.1.0",
+                         "Syntax":  "Parsed and version entry point loaded under Windows PowerShell 5.1",
+                         "Executed":  true,
+                         "SHA256":  "7DCFC9CA8F9922183E0C81C61CCB9754066F504938175B1E19F32A30B0DB5932"
+                     },
+    "ExportResult":  {
+                         "RunId":  "4b1d874246f44009b360753c6a64ad78",
+                         "RecordedAtUtc":  "2026-10-30T06:00:56.1644994Z",
+                         "ExportDirectory":  "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\acceptance-input\\hashcheck-feature-4b1d874246f44009b360753c6a64ad78\\exported-guest",
+                         "VerifiedFiles":  10,
+                         "InstallerExitCode":  0,
+                         "CreatedManifestMatches":  true,
+                         "ReportedExplorerChecks":  3,
+                         "Recovery":  "Pending; VM running and controller disabled"
+                     },
+    "ExportedFileHashes":  [
+                               {
+                                   "Path":  "feature-install-result.json",
+                                   "Bytes":  247,
+                                   "SHA256":  "69075D54E453C2D5695269EC0530785DAAEFEAE3AF64B6BA8094D0837DE3B59B"
+                               },
+                               {
+                                   "Path":  "feature-install.log",
+                                   "Bytes":  1673,
+                                   "SHA256":  "1B44337939D1E104DD6179BC4D4BADA994263656CB4F87BB0D6AF54528F323B0"
+                               },
+                               {
+                                   "Path":  "fixture-expectations.json",
+                                   "Bytes":  512,
+                                   "SHA256":  "FD4982CCC3185317BA71558B5101714A003082C45EC0DB1A9878891F49C9755D"
+                               },
+                               {
+                                   "Path":  "HashCheckSetup-v2.6.3.0.exe",
+                                   "Bytes":  2157368,
+                                   "SHA256":  "CD890774839177B234A1165FD459DDEB830274EF7D81B289DDB70D43AE5983FA"
+                               },
+                               {
+                                   "Path":  "Create\\sample.txt",
+                                   "Bytes":  3,
+                                   "SHA256":  "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD"
+                               },
+                               {
+                                   "Path":  "Create\\sample.txt.sha256",
+                                   "Bytes":  78,
+                                   "SHA256":  "93ADA5C9E8B556C8A473A3785674B6CC405C42CE8F29D54ED8E85F3553BFEE62"
+                               },
+                               {
+                                   "Path":  "Match\\sample.sha256",
+                                   "Bytes":  78,
+                                   "SHA256":  "93ADA5C9E8B556C8A473A3785674B6CC405C42CE8F29D54ED8E85F3553BFEE62"
+                               },
+                               {
+                                   "Path":  "Match\\sample.txt",
+                                   "Bytes":  3,
+                                   "SHA256":  "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD"
+                               },
+                               {
+                                   "Path":  "Tampered\\sample.sha256",
+                                   "Bytes":  78,
+                                   "SHA256":  "93ADA5C9E8B556C8A473A3785674B6CC405C42CE8F29D54ED8E85F3553BFEE62"
+                               },
+                               {
+                                   "Path":  "Tampered\\sample.txt",
+                                   "Bytes":  3,
+                                   "SHA256":  "A52D159F262B2C6DDB724A61840BEFC36EB30C88877A4030B65CBE86298449C9"
+                               }
+                           ],
+    "RecoveryPreflight":  {
+                              "PowerShell":  "5.1.26100.9818",
+                              "Parser":  "Passed",
+                              "ActualReadOnlyPreflight":  "Passed",
+                              "VerifiedEvidenceFiles":  10,
+                              "VmMutationExecuted":  false,
+                              "HelperSHA256":  "D3B315CD4AB6DB592B070C979CCFF0E20E407F693FDFD2264F613CB3975EA560"
+                          }
+}

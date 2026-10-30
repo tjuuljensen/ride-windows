@@ -1,0 +1,23 @@
+{
+  "recordedAtUtc": "2026-10-28T21:15:37Z",
+  "batch": "RegRipper current-source synthetic archive lifecycle cross-shell regression",
+  "test": {
+    "path": "tests/RegRipperPackage.Tests.ps1",
+    "powerShell7": { "version": "7.6.5", "pester": "5.7.1", "total": 4, "passed": 4, "failed": 0, "skipped": 0 },
+    "windowsPowerShell": { "version": "5.1.26100.9818", "pester": "5.7.1", "total": 4, "passed": 4, "failed": 0, "skipped": 0, "executionPolicy": "Process-only Bypass" },
+    "plugins": { "TestRegistry": false, "TestResult": false },
+    "scope": "Inert ZIP fixtures built from catalog declarations. Coverage includes rejecting an incomplete payload, repeat staging/removal/recovery, preserving operator plugins/reports and modified bundled files, and refusing recovery before writes when backup bytes are absent. No upstream binary/script/plugin, registry hive or forensic evidence data was run or opened."
+  },
+  "sideEffects": { "testDriveFixturesOnly": true, "upstreamPayloadAcquired": false, "upstreamCodeExecuted": false, "forensicDataRead": false, "installerExecuted": false, "networkRequest": false, "vmRequest": false, "windowsChanged": false, "defenderChanged": false, "elevationRequested": false },
+  "migration": {
+    "resolved": [ "Current-source RegRipper local owned-file lifecycle regression passed in both PowerShell editions." ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [ "Windows lifecycle and target acceptance; synthetic-hive parser behavior and exact publisher artifact verification remain separate." ],
+    "partial": [ "No legacy package outcome closed; local inert-fixture success does not establish Windows support." ],
+    "estimates": { "settings": "37-57", "packages": "37-52", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exactTotal": "126-180", "roundedTotal": "125-180/about 155" },
+    "estimateAdjustment": "No legacy outcome resolved or retired; all estimate ranges remain unchanged.",
+    "blockers": [ "Latest RIDE-Win11-Test Get-VM query in this work turn failed at host CIM before state retrieval; native acceptance remains deferred." ]
+  },
+  "licenseDisposition": "Project license notices are retained. License review administration is not a technical migration gate; Sysinternals remains settled under prior RIDE v2 specialist approval, with Defender-blocked tools kept separate."
+}

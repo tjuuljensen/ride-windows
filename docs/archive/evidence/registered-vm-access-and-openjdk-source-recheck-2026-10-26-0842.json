@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T08:42:25Z",
+  "checks": {
+    "virtualMachines": {
+      "command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+      "result": "blocked_before_inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    "registeredAcceptanceTask": {
+      "command": "schtasks.exe /Query /TN \\RIDE\\RIDEWin11Test",
+      "result": "failed_before_dispatch",
+      "exitCode": 1,
+      "error": "ERROR: The network address is invalid."
+    },
+    "microsoftOpenJdkChecksumSidecar": {
+      "uri": "https://aka.ms/download-jdk/microsoft-jdk-25.0.4.1-windows-x64.msi.sha256sum.txt",
+      "result": "dns_failure_before_response",
+      "error": "No such host is known. (aka.ms:443)"
+    }
+  },
+  "effects": {
+    "guestRequestSubmitted": false,
+    "vmOrCheckpointInspected": false,
+    "vmOrCheckpointChanged": false,
+    "hostServiceChanged": false,
+    "windowsOrDefenderStateChanged": false,
+    "packageArtifactDownloaded": false,
+    "elevationPrompt": false
+  },
+  "migration": {
+    "nativeAcceptance": "Deferred until existing VM/controller access is available.",
+    "openJdkCandidates": "Remain unsupported; no checksum or MSI bytes were obtained.",
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

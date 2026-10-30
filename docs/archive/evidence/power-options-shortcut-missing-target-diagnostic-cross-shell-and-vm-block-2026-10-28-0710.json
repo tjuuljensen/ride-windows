@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T07:10:28Z",
+  "batch": "Power Options shortcut missing-target diagnostic correction and VM recheck",
+  "change": {
+    "module": "modules/RIDE-DesktopShortcuts.psm1",
+    "moduleVersion": "0.1.3",
+    "correction": "When a declared shortcut target is absent, use a product-neutral diagnostic instead of the BitLocker-specific message for both BitLocker and Power Options operations.",
+    "test": "tests/DesktopShortcuts.Tests.ps1"
+  },
+  "localRegression": {
+    "pester": "5.7.1",
+    "powerShell7": { "version": "7.6.5", "passed": 8, "failed": 0, "skipped": 0 },
+    "windowsPowerShell51": { "version": "5.1.26100.9711", "passed": 8, "failed": 0, "skipped": 0 },
+    "plugins": { "TestRegistry": false, "TestResult": false },
+    "newCoverage": "A mocked Power Options missing-target path raises the product-neutral diagnostic before WScript.Shell COM creation.",
+    "initialDiscoveryFailure": "The first Pester attempt found the seven existing tests but could not resolve InModuleScope because the module was imported in BeforeAll. Importing it in BeforeDiscovery corrected discovery; all eight cases then passed in both shells."
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-28T07:10:28Z",
+    "RIDE-Win11-Test": "Get-VM denied before inspection: Access to a CIM resource was not available to the client.",
+    "RIDE-Server2025-Test": "Get-VM denied before inspection: Access to a CIM resource was not available to the client.",
+    "checkpointsInspected": false,
+    "taskDispatched": false,
+    "elevationRequested": false
+  },
+  "safety": {
+    "WScriptShellComInvoked": false,
+    "desktopShortcutCreatedOrRemoved": false,
+    "controlExeLaunched": false,
+    "powerPlanQueriedOrChanged": false,
+    "registryQueriedOrChanged": false,
+    "windowsStateChanged": false
+  },
+  "migrationOutcome": {
+    "resolved": ["The pending Power Options shortcut candidate no longer reports an unrelated BitLocker failure when its declared target is missing."],
+    "partial": ["The candidate remains a pending Windows 11 implementation and has not passed actual desktop, launch, repeat, removal or saved-state restore acceptance."],
+    "deferred": ["Windows 11 UI and exact lifecycle acceptance remain blocked before VM inspection by host CIM access."],
+    "retired": [],
+    "excluded": [],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; correcting an error diagnostic adds no legacy outcome and does not replace Windows acceptance."
+    }
+  },
+  "relatedEvidence": ["power-options-shortcut-candidate-cross-shell-regression-and-vm-block-2026-10-28-0637.json"]
+}

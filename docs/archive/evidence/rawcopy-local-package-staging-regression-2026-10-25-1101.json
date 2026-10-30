@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:01:00Z",
+  "package": {
+    "id": "package.rawcopy",
+    "version": "1.0.0.22",
+    "catalogArchiveSha256": "F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF",
+    "selectedMembers": [
+      "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/RawCopy64.exe",
+      "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/LICENSE.md",
+      "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/readme.txt",
+      "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/changelog.txt"
+    ],
+    "excludedMembers": [
+      "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/RawCopy.exe",
+      "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c/RawCopy.au3"
+    ]
+  },
+  "validation": {
+    "focusedPester": {
+      "files": [
+        "tests/ApplicationPackages.Tests.ps1",
+        "tests/Catalog.Tests.ps1",
+        "tests/LicenseReviews.Tests.ps1"
+      ],
+      "passed": 231,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 1,
+      "pesterVersion": "5.7.1",
+      "testRegistryPlugin": "disabled",
+      "temporaryFiles": "repository .local"
+    },
+    "rawcopyLifecycleFixture": "synthetic inert ZIP; install/state check/snapshot/uninstall/restore passed; actual utility bytes were not extracted or executed",
+    "repositoryValidation": "Passed: 414 operations, 8 groups, 5 profiles, 277 PowerShell files",
+    "gitDiffCheck": "Passed"
+  },
+  "acceptance": {
+    "candidateTarget": "Windows 11",
+    "supportedTargets": [],
+    "pending": true,
+    "vmAcceptance": "Deferred: read-only VM/checkpoint access is denied at CIM before inspection.",
+    "utilityExecuted": false,
+    "evidenceOrSystemDataAccessed": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

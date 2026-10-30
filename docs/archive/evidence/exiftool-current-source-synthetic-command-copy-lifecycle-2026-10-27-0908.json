@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T09:08:00Z",
+  "package": {
+    "id": "package.exiftool",
+    "version": "13.59",
+    "candidateTarget": "Windows 11",
+    "supportedTargets": [],
+    "sourceArchiveStatus": "Unavailable locally; prior official SourceForge acquisition attempt failed before transfer because sourceforge.net did not resolve.",
+    "syntheticTest": {
+      "file": "tests/ApplicationPackages.Tests.ps1",
+      "case": "creates an owned portable command copy and restores both upstream files exactly",
+      "result": "Passed",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 124,
+      "testDurationSeconds": 8.67,
+      "totalRunDurationSeconds": 13.9,
+      "powershell": "7.6.5",
+      "pester": "5.7.1",
+      "checks": [
+        "Creates exiftool.exe as an owned copy of exiftool(-k).exe.",
+        "Retains the upstream launcher and license notice.",
+        "Captures, uninstalls and restores the exact owned files."
+      ],
+      "disabledOptionalPlugins": [
+        "TestRegistry"
+      ],
+      "initialHarnessAttempt": "Failed before test bodies because Pester could not create its optional HKCU TestRegistry key; no assertions ran in that attempt."
+    }
+  },
+  "safety": {
+    "exifToolExecuted": false,
+    "realArchiveUsed": false,
+    "originalMediaAccessedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "blockers": {
+    "exactPublisherArchiveHashAndMemberReview": "Pending official archive acquisition.",
+    "windows11LifecycleAndBehavior": "Pending disposable VM acceptance.",
+    "syntheticMediaBehavior": "Pending.",
+    "latestVmPreflight": {
+      "checkedAtUtc": "2026-10-27T09:04:00Z",
+      "targetQueries": "Get-VM denied at CIM for RIDE-Win11-Test and RIDE-S25-Test before checkpoint inspection.",
+      "taskQueries": "Get-ScheduledTask denied at CIM; schtasks /Query returned The network address is invalid.",
+      "dispatch": false,
+      "elevationRequested": false
+    }
+  },
+  "acceptance": {
+    "legacyOutcomeClosed": false,
+    "estimateChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "127-181",
+      "rounded": "125-180/about 155"
+    }
+  }
+}

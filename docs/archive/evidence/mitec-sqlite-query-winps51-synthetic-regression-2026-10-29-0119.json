@@ -1,0 +1,57 @@
+{
+  "recordedAtUtc": "2026-10-29T01:19:37Z",
+  "test": "tests/MiTeCSqliteQuery.Tests.ps1",
+  "result": {
+    "status": "passed_with_intentional_skip",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 1,
+    "powershell": "Windows PowerShell 5.1",
+    "pester": "5.7.1",
+    "testRegistryIntegration": "disabled",
+    "testResultIntegration": "disabled"
+  },
+  "package": {
+    "operationId": "package.mitec-sqlite-query",
+    "version": "3.2.0",
+    "licenseReviewStatus": "NeedsReview",
+    "reviewOwner": "Unassigned",
+    "reviewStore": ".local/license-reviews.json",
+    "migrationDisposition": "Keep the technical migration work moving; the exact-version rights marker is administrative follow-up, not a technical migration gate."
+  },
+  "scope": "Validated the catalog pin, selected three-member inventory, pending acceptance and caution text; exercised synthetic inert-ZIP repeat staging, selected-member enforcement, removal, snapshot restore and preservation of an unowned file. The retained-archive test was intentionally skipped by clearing its explicit fixture environment variable.",
+  "safety": {
+    "retainedPublisherArchiveRead": false,
+    "sqliteQueryOrSqliteExecutablesLaunched": false,
+    "databaseOpened": false,
+    "personalOrProductionDataAccessed": false,
+    "networkAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "nirsoftOrPasswordScanSelected": false,
+    "vmOrGuestAcceptanceRun": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "remaining": [
+      "Verify current retained publisher archive and exact-member provenance when explicitly authorized and safely available",
+      "Windows target install/repeat/remove/recovery acceptance",
+      "SQLite query behavior using disposable synthetic databases only",
+      "Resolve the unassigned exact-version license review separately from technical migration"
+    ]
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

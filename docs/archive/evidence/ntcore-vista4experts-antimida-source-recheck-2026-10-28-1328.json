@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T13:28:32Z",
+  "batch": "NTCore Vista4Experts and AntiMida current publisher-source recheck",
+  "selectionDecision": "The full publisher-listed NTCore collection remains selected for migration preparation under the 2026-10-27 decision. Prior page-only or excluded dispositions are not package-migration exclusions. License review is not a technical migration gate.",
+  "products": {
+    "vista4experts": {
+      "productUri": "https://ntcore.com/vista4experts/",
+      "currentPageVersion": "1.2.0.1",
+      "downloadUri": "https://ntcore.com/files/Vista4Experts.zip",
+      "currentPublisherClaims": [
+        "The utility changes UAC, automatic Windows Defender scanning, automatic updates and other Vista settings.",
+        "Changes can be enabled, discarded or reversed, but the publisher page provides no per-setting state mapping or recovery details.",
+        "The publisher says the product is freeware and claims it works on every platform, without a current Windows support matrix."
+      ],
+      "artifactRetrieval": "The official page's current download link returned Cache miss through the web retrieval tool. No ZIP bytes or digest were received.",
+      "disposition": "Remain selected for package migration preparation. Do not treat the tool's broad setting behavior as migrated RIDE operations; obtain and statically inventory the exact package and map any desired setting behavior individually before making runtime claims."
+    },
+    "antimida": {
+      "productUri": "https://ntcore.com/files/antimida_1.0.htm",
+      "publisherListingDate": "2005-04-10",
+      "downloadUri": "https://ntcore.com/files/antimida_1.0.zip",
+      "currentPublisherClaims": [
+        "The publisher listing says the ZIP contains project files and a compiled executable.",
+        "The article describes a user-mode DLL injected into a selected process and a companion kernel driver used for process-memory and protected-process operations.",
+        "The article calls the project experimental and warns that its system-internal techniques would become obsolete."
+      ],
+      "artifactRetrieval": "The official ZIP route returned Cache miss through the web retrieval tool. No archive bytes, digest or member inventory were received.",
+      "disposition": "Remain selected for package migration preparation. Do not run or build the utility or driver. Acquire the exact official artifact and complete a member-level static scope review before preparing a pinned package candidate."
+    }
+  },
+  "handling": {
+    "PublisherPagesRead": true,
+    "ArtifactBytesRetrieved": false,
+    "ArtifactExecuted": false,
+    "DriverLoaded": false,
+    "DefenderBlockedFilesAccessed": false,
+    "VmOrWindowsStateChanged": false,
+    "ElevationRequested": false
+  },
+  "blockers": [
+    "Exact Vista4Experts and AntiMida archive bytes and digests remain unavailable from this retrieval attempt; neither can yet be pinned in catalog metadata.",
+    "Vista4Experts has no per-setting effect or restore mapping in the current publisher page.",
+    "AntiMida package scope, built output inventory and dependency set remain unverified until the archive is acquired and statically inspected.",
+    "Windows acceptance remains separately blocked by host CIM access to RIDE-Win11-Test."
+  ],
+  "legacyOutcomesClosed": 0,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; current page evidence does not identify exact package bytes or close either legacy package outcome."
+  }
+}

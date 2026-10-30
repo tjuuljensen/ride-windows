@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-10-28T18:16:31Z",
+  "batch": "RIDE-Win11-Test read-only VM access recheck",
+  "source": "Windows PowerShell Get-VM",
+  "targetVm": "RIDE-Win11-Test",
+  "result": "Failed before VM state retrieval",
+  "error": "Access to a CIM resource was not available to the client.",
+  "handling": {
+    "checkpointQueriedOrChanged": false,
+    "guestTaskQueriedOrDispatched": false,
+    "vmStartedStoppedOrReverted": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "relatedEvidence": {
+    "lastVisibleVmState": "RIDE-Win11-Test was shown Running in Hyper-V Manager at 2026-10-28T17:43:49Z.",
+    "checkpointState": "Unconfirmed; the visible RIDE-clean-test-base checkpoint was for selected RIDE-S25-Test.",
+    "lastReadOnlyUiEvidence": "ride-win11-test-hyperv-running-checkpoint-unconfirmed-2026-10-28-1743.json"
+  },
+  "blockers": [
+    "Host CIM access prevents current VM/checkpoint inspection.",
+    "Confirm the target VM checkpoint membership and guest task readiness before dispatching the authorized acceptance batch."
+  ],
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Current host CIM blocker reconfirmed before VM state retrieval."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Windows 11 VM acceptance pending read-only checkpoint and task readiness confirmation."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this access preflight closed no legacy outcome."
+    }
+  }
+}

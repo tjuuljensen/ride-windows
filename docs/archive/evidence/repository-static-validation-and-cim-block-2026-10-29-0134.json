@@ -1,0 +1,45 @@
+{
+  "recordedAtUtc": "2026-10-29T01:34:53Z",
+  "source": "Current-checkout static validation and fresh read-only VM preflight",
+  "repository": {
+    "checkoutType": "Windows filesystem checkout",
+    "command": "tools/validate.ps1",
+    "result": "passed",
+    "operations": 451,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 305,
+    "generatedCatalogDocumentation": "current",
+    "focusedPesterRun": false,
+    "pesterAvailability": "Only Pester 3.4.0 is installed/visible in Windows PowerShell 5.1 and bundled PowerShell 7; these repository suites require Pester 5."
+  },
+  "vmPreflight": {
+    "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "command": "Get-VM",
+    "result": "failed before returning VM state",
+    "error": "Access to a CIM resource was not available to the client.",
+    "checkpointTaskQueueQueried": false,
+    "guestDispatched": false
+  },
+  "sideEffects": {
+    "handlersOrInstallersInvoked": false,
+    "focusedPesterTestsRun": false,
+    "passwordScanOrOtherDefenderBlockedToolSelectedStagedOrRun": false,
+    "defenderQueriedOrChanged": false,
+    "vmWindowsOrElevationStateChanged": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "resolvedRetiredExcludedOrDeferredOutcomes": [],
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

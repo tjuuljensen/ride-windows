@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T07:41:31Z",
+  "scope": "Google Analytic Cookie Cruncher exact official source ref and package acquisition retry",
+  "source": {
+    "repository": "https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher",
+    "branch": "master",
+    "immutableRevision": "b384f8610475b7a04a3b4f48e98c8a82d3b771a6",
+    "refCommand": "git ls-remote https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher.git",
+    "refCommandExitCode": 0,
+    "refOutput": [
+      "b384f8610475b7a04a3b4f48e98c8a82d3b771a6 HEAD",
+      "b384f8610475b7a04a3b4f48e98c8a82d3b771a6 refs/heads/master"
+    ],
+    "officialRepositoryPageObservations": [
+      "Public repository page lists Google-Analytic-Cookie-Cruncher_v_2_0_0_0_1.zip on master.",
+      "No published GitHub releases are listed."
+    ]
+  },
+  "acquisition": {
+    "immutableArchiveUri": "https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher/archive/b384f8610475b7a04a3b4f48e98c8a82d3b771a6.zip",
+    "curlResult": "Failed before transfer: Could not resolve host github.com; no partial archive was created.",
+    "gitCloneResult": "Failed before transfer: Could not resolve host github.com.",
+    "payloadBytes": false,
+    "sha256": null,
+    "inventory": null,
+    "noticesAndLicense": "Uninspected; record owner/version license review locally after exact package identity is established. License review is not an independent migration gate.",
+    "runtime": "Uninspected; no code executed."
+  },
+  "migration": {
+    "resolved": [
+      "Immutable official master revision."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Exact source archive and embedded versioned ZIP acquisition, hash/member/notices inventory, runtime review and package lifecycle."
+    ],
+    "partial": [
+      "Google Analytic Cookie Cruncher source candidate."
+    ],
+    "windowsAcceptance": "VM/CIM access remains denied before inspection; no guest request submitted.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  },
+  "sideEffects": {
+    "packageOrUtilityExecuted": false,
+    "guestRequested": false,
+    "uacPromptRequested": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderChanged": false
+  }
+}

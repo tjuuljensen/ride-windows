@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:47:00Z",
+  "scope": "MiTeC SQLite Query and Structured Storage Viewer local package regression",
+  "testRun": {
+    "runner": "PowerShell 7 / Pester 5.7.1",
+    "files": [
+      "tests/MiTeCSqliteQuery.Tests.ps1",
+      "tests/MiTeCSSView.Tests.ps1"
+    ],
+    "result": "Passed",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "testRegistryEnabled": false,
+    "temporaryRoot": ".local/pester-current"
+  },
+  "coverage": [
+    "catalog pins and review references",
+    "SQLite Query stages only the three selected inert members and restores owned files",
+    "SSView stages only SSView.exe; codec, source, sample and unrelated members are excluded",
+    "repeat/remove/snapshot restore and user-data preservation with inert fixtures"
+  ],
+  "licenseReviews": [
+    {
+      "id": "package.mitec-sqlite-query",
+      "version": "3.2.0",
+      "owner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-ssview",
+      "version": "4.1.2",
+      "owner": "Unassigned",
+      "status": "NeedsReview"
+    }
+  ],
+  "licenseDisposition": "Both exact-version markers are NeedsReview/Unassigned in the local review store. They do not block package planning or migration and do not assert entitlement.",
+  "exclusions": "No utility ran, no database opened, no user data or SSView sample was read, no codec loaded, and no VM/Windows state changed.",
+  "acceptance": "Local package lifecycle only. SQLite provenance/database behavior and SSView structured-storage behavior, activation and Windows target acceptance remain pending.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

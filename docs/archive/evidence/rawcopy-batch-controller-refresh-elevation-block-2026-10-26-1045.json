@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T10:45:33Z",
+  "scope": "RawCopy fixed portable VM acceptance batch preparation and controller readiness",
+  "package": "package.rawcopy",
+  "packageVersion": "1.0.0.22",
+  "archive": {
+    "path": ".local/acquisition/rawcopy-1.0.0.22/RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+    "sha256": "F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF",
+    "expectedSha256": "F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF"
+  },
+  "executableSha256": "619795AA357E1EB36FEBF45B398CCCCB289CB27B547814BFB422EFB3E8F98E3D",
+  "batch": {
+    "name": "RawCopy",
+    "selectedPackages": [
+      "package.rawcopy"
+    ],
+    "selectedArchiveCount": 1,
+    "selectedMemberCount": 4,
+    "syntheticFixtureBytes": 4096,
+    "syntheticFileSystem": "NTFS",
+    "tcpSendEnabled": false,
+    "rawDirectoryListingEnabled": false,
+    "filesystemInfoOutputEnabled": false,
+    "computerIdentityGuard": "Requires Win32_ComputerSystem.Model to identify a virtual machine",
+    "userOrEvidenceDataRead": false
+  },
+  "preflight": {
+    "powershellParser": "Passed: repository validation parsed all 280 PowerShell files with zero syntax errors",
+    "catalogSelection": "Passed: exactly one candidate package and four retained members",
+    "payloadValidation": "Passed: one exact pinned official ZIP, SHA-256 verified",
+    "registeredRunnerDryRun": "Passed: WhatIf selected RIDE-Win11-Test and the configured checkpoint recovery path",
+    "requestContractValidation": "Passed: Assert-RideAutomationRequest accepted RawCopy, FocusedPortableV1 capability guard accepted it, and the task-client ValidateSet includes RawCopy",
+    "repositoryValidation": "Passed after final runner guard change: generated docs current; 417 operations, 8 groups, 5 profiles, 280 PowerShell files",
+    "pester": "Not run: only Pester 3.4.0 is available in the current PowerShell 7.6.5 session; repository suites require Pester 5 syntax"
+  },
+  "controller": {
+    "task": "RIDEWin11Test",
+    "taskState": "Ready",
+    "taskLastResult": 0,
+    "vm": "RIDE-Win11-Test",
+    "vmState": "Off",
+    "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "checkpointName": "RIDE-clean-test-base",
+    "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+    "pendingQueue": 0,
+    "runningQueue": 0,
+    "recoveryBlock": false,
+    "capabilities": [
+      "GitHubPatGuestV1",
+      "FocusedPortableV1"
+    ],
+    "validationStatus": "NotValidated"
+  },
+  "controllerRefresh": {
+    "attempted": true,
+    "result": "Blocked before controller mutation",
+    "reason": "Register-RideVmTestTask.ps1 exited at its administrator preflight: Run registration/removal in elevated PowerShell.",
+    "windowsElevationPromptRequested": false,
+    "taskOrVmChanged": false,
+    "protectedFilesChanged": false,
+    "requiredForRun": "Refresh the protected controller from an already elevated host session when available; no per-run UAC prompt is needed.",
+    "installedSourceDrift": [
+      "RIDE.TestAutomation.psm1",
+      "Invoke-RidePortableVmAcceptance.ps1",
+      "RIDE.PortableAcceptance.psm1",
+      "Invoke-RideVmTestTask.ps1"
+    ]
+  },
+  "sourceSha256": {
+    "tests/integration/Invoke-RidePortableAcceptance.ps1": "03885DB805EBD7857C367A6E322B2538B764A6FBEFF6980C5F1BBE27AF1190CC",
+    "tests/integration/Invoke-RideRawCopySyntheticAcceptance.ps1": "333508B2BC55E02851B693EE13FF46C74DD90ECEA2F528E7290F6399B7CF9E54",
+    "tests/integration/Invoke-RidePortableVmAcceptance.ps1": "08EDFA814B0574CA3440454069B8D67C21714CD92F76A2B556C5B5AEA8ED682E",
+    "tests/integration/Invoke-RideVmTestTask.ps1": "93FA9D6206A1D8FE03810A0E2E10F2C9B66CCCF4ECE559D661CD5C73DE88C937",
+    "tests/integration/RIDE.PortableAcceptance.psm1": "CF8A02E5B66067D2B9919B8F553AE819C8206FEA20C70B440B3881A67E2FCF0A",
+    "tests/integration/RIDE.TestAutomation.psm1": "966EE24A7D7F98FBCAAE5E7EE62A2FEC6993E3080860CA7F07EB7D7DBF615728",
+    "tests/PortableAcceptanceAutomation.Tests.ps1": "2DF8D0A2A2AEBF4E3478EFF1691057A13DCA69CBB57D4E7E8A0771B783EF03BF",
+    "tests/TestAutomation.Tests.ps1": "D0132002FC46A28DFBF7F56C47E90FA2405C4F0A70A19C16B09C778EA2599844",
+    "tests/integration/README.md": "C0C76483E84D616DBE62A39C41CD85EAA525062CFDFA85B5DBFF34A5B697A389"
+  },
+  "defenderBlockedToolsTouched": false,
+  "vmAcceptanceRun": "Not run: protected controller refresh could not be performed in this non-elevated session",
+  "legacyOutcomesClosed": [],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "accountsConfigurationAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

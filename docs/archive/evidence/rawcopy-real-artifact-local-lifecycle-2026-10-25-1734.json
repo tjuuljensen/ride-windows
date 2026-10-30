@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T17:34:00Z",
+  "Batch": "RawCopy 1.0.0.22 retained-archive local staging and recovery",
+  "Package": {
+    "Id": "package.rawcopy",
+    "Version": "1.0.0.22",
+    "UpstreamCommit": "0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c",
+    "Artifact": "RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+    "Bytes": 880497,
+    "Sha256": "F5DAF2C74A4B5A29DBD188E36F003535AB39AA80A5F86A564725A5A1642841DF",
+    "MatchesCatalogPin": true,
+    "LicenseReview": "NeedsReview is informational owner/version administration and did not gate planning or local lifecycle."
+  },
+  "Lifecycle": {
+    "CurrentPortableHandler": "RIDE-PortablePackages",
+    "SelectedFiles": [
+      "RawCopy64.exe",
+      "LICENSE.md",
+      "readme.txt",
+      "changelog.txt"
+    ],
+    "InitialAbsentSnapshot": "Restored",
+    "Install": "Passed",
+    "RepeatInstall": "Passed",
+    "InstalledSnapshot": "Restored with all four selected file hashes",
+    "Remove": "Passed",
+    "OperatorOwnedFilePreserved": true,
+    "PriorAbsenceRestored": true,
+    "ScratchRemoved": true
+  },
+  "Boundaries": {
+    "UtilityExecuted": false,
+    "EvidenceOrDiskDataAccessed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false,
+    "VmUsed": false,
+    "FreshUacRequested": false
+  },
+  "Acceptance": {
+    "LocalRealArtifactStagingAndRecovery": "Passed",
+    "Windows11Lifecycle": "Pending",
+    "GuardedSyntheticNtfsBehavior": "Pending",
+    "VmAccess": "Latest read-only checks failed at CIM before VM/checkpoint inspection; see current-catalog-count-and-vm-access-recheck-2026-10-25-1636.json"
+  },
+  "Migration": {
+    "Resolved": [
+      "Current portable handler staged only four catalog-selected members from the exact retained archive, repeated safely, removed owned files, restored installed and absent snapshots, and preserved operator content."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 package acceptance and guarded synthetic NTFS behavior."
+    ],
+    "Partial": [
+      "No whole legacy product outcome closes; local package file lifecycle is evidenced."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155",
+      "Changed": false
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "recordedAtUtc": "2026-10-28T20:43:22Z",
+  "batch": "Gpg4win current-source cross-shell regression and VM access blocker",
+  "suite": "tests/Gpg4winPackage.Tests.ps1",
+  "runs": [
+    {
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "Total": 12,
+      "Passed": 12,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Total": 12,
+      "Passed": 12,
+      "Failed": 0,
+      "Skipped": 0,
+      "ExecutionPolicy": "Process-only Bypass"
+    }
+  ],
+  "boundaries": {
+    "WindowsIntegrationTagsExcluded": true,
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "InstallerMocked": true,
+    "RealGpg4winInstallerExecuted": false,
+    "RealKeyMaterialRead": false,
+    "NetworkRequested": false,
+    "RegistryChanged": false,
+    "WindowsChanged": false,
+    "DefenderChanged": false,
+    "ElevationRequested": false,
+    "SyntheticTestDriveCleaned": true
+  },
+  "vm": {
+    "checkedAtUtc": "2026-10-28T20:41:59Z",
+    "target": "RIDE-Win11-Test",
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateRetrieved": false,
+    "acceptanceDispatched": false
+  },
+  "disposition": "Current-source package metadata, mocked installer boundary and synthetic user-data preservation regressions pass in both PowerShell editions. Gpg4win remains a pending Windows 11 candidate with no supported target until non-elevated guest lifecycle/recovery acceptance.",
+  "migration": {
+    "resolved": [
+      "Cross-shell source-level Gpg4win package regression."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Non-elevated Windows 11 install/repeat/remove/saved-run recovery and disconnected acceptance"
+    ],
+    "partial": [
+      "No legacy outcome closed."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

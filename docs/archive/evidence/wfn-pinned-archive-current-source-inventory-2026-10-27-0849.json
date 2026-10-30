@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-27",
+  "timeUtc": "08:49",
+  "packageId": "windows-firewall-notifier",
+  "packageVersion": "20250719-ac02df",
+  "archive": {
+    "path": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip",
+    "lengthBytes": 118745388,
+    "sha256": "B7ECEA5A7C1CAC4DBB845522AFCF49BBB7D7EFA01D3A8266033D11CA88678378",
+    "catalogMemberCount": 531,
+    "observedMemberCount": 531,
+    "completeMemberInventoryMatched": true
+  },
+  "checks": {
+    "focusedPester": {
+      "file": "tests/WfnPackage.Tests.ps1",
+      "test": "matches the retained real archive to the pinned complete inventory without launching WFN",
+      "result": "passed",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 1.64,
+      "powershell": "7.6.5",
+      "pester": "5.7.1",
+      "optionalTestRegistryAndResultPlugins": "disabled"
+    },
+    "repositoryValidation": {
+      "result": "passed",
+      "operations": 429,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 294,
+      "generatedOperationDocumentationCurrent": true
+    },
+    "fullSyntheticLifecycleRerun": {
+      "result": "interrupted-no-result",
+      "note": "A full four-case local Pester rerun was stopped after the synthetic 531-member lifecycle exceeded the bounded interactive run window. No pass or failure is claimed from this invocation; the current-source synthetic lifecycle is therefore unverified here.",
+      "workspace": ".local/pester-wfn-current-source"
+    },
+    "priorRealArchiveLifecycle": {
+      "result": "passed",
+      "evidence": "wfn-nightly-real-artifact-local-lifecycle-2026-10-25-1153.json",
+      "note": "Historical local evidence records repeat install, ownership verification of all 531 files, snapshot capture, uninstall, exact restore and final removal without launching WFN or changing firewall configuration."
+    }
+  },
+  "safety": {
+    "wfnExecuted": false,
+    "installerExecuted": false,
+    "firewallConfigurationChanged": false,
+    "defenderStateChanged": false,
+    "vmOrGuestTouched": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "windows11RuntimeAndLifecycle": "deferred",
+    "blocker": "Latest read-only VM and registered-task inspection on 2026-10-27 08:18 UTC failed before inspection or dispatch; native acceptance remains unavailable.",
+    "licenseAdministration": "not a migration gate; Sysinternals remains settled separately under the prior RIDE v2 license-specialist approval.",
+    "legacyOutcomeClosed": false,
+    "estimateChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

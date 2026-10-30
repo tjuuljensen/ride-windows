@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T20:19:34Z",
+  "RunId": "05b88a9e29fa4f9d867962759c2c3a82",
+  "Controller": "RIDESrv2025Test",
+  "Target": "RIDE-S25-Test",
+  "Checkpoint": "RIDE-clean-test-base",
+  "Queue": {
+    "State": "running",
+    "PendingCount": 0,
+    "ResultAvailable": false,
+    "RecoveryBlocked": false
+  },
+  "LiveProgress": {
+    "Evidence": "The registered controller log advanced at 2026-10-24T20:19:11Z and records a guest PowerShell activity executing on RIDE-S25-Test, with the controller waiting for its completion.",
+    "ControllerErrorLogLength": 0,
+    "ProcessAndHyperVState": "The current non-elevated host session cannot query CIM resources; the recent controller log provides the live execution evidence."
+  },
+  "SnapshotMatchesCurrentSource": {
+    "modules/RIDE-Packages.psm1": true,
+    "catalog/operations.psd1": true,
+    "tests/ApplicationPackages.Tests.ps1": true,
+    "tests/integration/Invoke-RideApplicationBatch.ps1": true
+  },
+  "Acceptance": "Pending; no package support is promoted.",
+  "Estimate": {
+    "Ranges": [
+      "37-57",
+      "50-65",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "recordedAtUtc": "2026-10-29T02:23:46Z",
+  "batch": "MiTeC Mail Checker source regression and VM access recheck",
+  "package": {
+    "operationId": "package.mitec-mail-checker",
+    "version": "7.2.0",
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "licenseReview": {
+      "status": "NeedsReview",
+      "owner": "Unassigned",
+      "migrationGate": false
+    }
+  },
+  "verification": {
+    "testFile": "tests/MiTeCMailChecker.Tests.ps1",
+    "windowsPowerShell": "5.1",
+    "pester": "5.7.1",
+    "testsDiscovered": 2,
+    "passed": 2,
+    "failed": 0,
+    "scope": "Catalog/source metadata and static dependency evidence only; no installer, executable, DLL, account, network, send or delete action.",
+    "getVm": "Get-VM -Name RIDE-Win11-Test failed before returning VM state: Access to a CIM resource was not available to the client.",
+    "existingRequestStateRechecked": false,
+    "newVmRequestSubmitted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderOrPayloadTouched": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Mail Checker Windows lifecycle, dependency-load and local synthetic-mail-sink acceptance until VM access is available."],
+    "partial": ["Current source regression reconfirms exact candidate metadata, pending target state and non-gating license administration."],
+    "legacyOutcomesClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; source-only regression closes no legacy package outcome."
+  }
+}

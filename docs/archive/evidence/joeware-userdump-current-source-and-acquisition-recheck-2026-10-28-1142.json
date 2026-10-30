@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:42:08Z",
+  "batch": "JoeWare UserDump current publisher source and acquisition recheck",
+  "publisher": {
+    "productPage": "https://www.joeware.net/freetools/tools/userdump/index.htm",
+    "versionList": "https://joeware.net/freetools/versions.txt",
+    "downloadFormAction": "https://www.joeware.net/downloads/dl2.php",
+    "formDownloadName": "UserDump.zip",
+    "emailRequired": false,
+    "currentVersionField": "1.01.00 - January 28, 2001",
+    "versionListRow": {"version":"01.01.00","date":"2001.01.28","md5":"a14ac214dd83ecf75c5032ba1098c416","sha1":"d263cd402c4d203c17aa0274c9082ddbac1240b3"},
+    "versionHistoryConflict": "The same product page lists 2.02.00 on 2001-01-28 as the banner update.",
+    "productPagePlatforms": ["Windows NT","Windows 2000","Windows Server 2003","Windows XP"]
+  },
+  "acquisitionAttempt": {
+    "tool": "tools/Download-JoeWareCollection.ps1 -Product UserDump",
+    "result": "Failed before page form submission or archive download: No such host is known for the JoeWare versions-list request.",
+    "payloadDownloaded": false,
+    "payloadExtractedOrExecuted": false,
+    "temporaryDestination": "An empty destination created by the tool was verified empty and removed.",
+    "emailSubmitted": false
+  },
+  "disposition": "The page/current-version field and publisher digest list agree on 1.01.00, but the version-history entry conflicts. The digest list supplies executable MD5/SHA-1 only; no exact archive bytes or SHA-256 are verified. Keep UserDump out of catalog admission until the publisher ZIP is acquired and its inert members and version identity are reviewed. This is a source/identity blocker, not a license gate.",
+  "migrationOutcome": {"legacyOutcomesClosed":[],"packageEstimate":"37-52","exactTotal":"126-180","roundedTotal":"125-180/about 155","estimateAdjustment":"None; no artifact was acquired and no legacy outcome closed."}
+}

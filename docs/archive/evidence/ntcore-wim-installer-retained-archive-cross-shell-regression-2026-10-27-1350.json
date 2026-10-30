@@ -1,0 +1,73 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "NtcoreWimInstallerRetainedArchiveCrossShellRegression",
+  "RecordedAtUtc": "2026-10-27T13:50:09Z",
+  "Package": {
+    "Id": "package.ntcore-wim-installer",
+    "Version": "1.0.0.1",
+    "Archive": ".local/remaining-collections-20261017/WIM_Installer.zip",
+    "ArchiveSha256": "071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264",
+    "SelectedMember": "WIM Installer.exe",
+    "SelectedMemberSha256": "3b932d91a2189e10c0423db00759e31eda24c8c7f38e9d16268f54f8be6e2d23"
+  },
+  "Test": {
+    "Path": "tests/NtcorePackages.Tests.ps1",
+    "Filter": "NTCore WIM Installer staging candidate",
+    "Pester": "5.7.1",
+    "PowerShell7": {
+      "Edition": "PowerShell 7.6.5",
+      "Passed": 2,
+      "Failed": 0,
+      "Skipped": 0,
+      "Evidence": "ntcore-wim-installer-retained-archive-staging-regression-2026-10-27-1304.json"
+    },
+    "WindowsPowerShell51": {
+      "Edition": "Windows PowerShell 5.1.26100.9711",
+      "Passed": 2,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 4.67,
+      "ProcessExecutionPolicy": "Bypass",
+      "DisabledOptionalPlugins": ["TestRegistry", "TestResult"],
+      "Scratch": ".local/pester-ntcore-wim-winps51-20261027"
+    }
+  },
+  "Coverage": [
+    "Verified the retained archive still matches the catalog and static-review SHA-256",
+    "Verified the selected member digest and one-file payload",
+    "Repeated offline staging in an isolated test directory, saved a snapshot, uninstalled, restored, and preserved an operator note"
+  ],
+  "Boundaries": {
+    "ExecutableLaunched": false,
+    "WimReadMountedOrApplied": false,
+    "DiskOrPartitionAccessed": false,
+    "PublisherNetworkAccess": false,
+    "VMOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "Deferred": [
+      "Native Windows 11 package lifecycle acceptance",
+      "Any product WIM or disk behavior acceptance"
+    ],
+    "Blocker": "Host CIM access previously prevented RIDE-Win11-Test inspection and acceptance dispatch."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Partial": [
+      "Exact retained archive staging and saved-state recovery pass in PowerShell 7 and Windows PowerShell 5.1; native Windows and image/disk acceptance remain open."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No legacy outcome closes before native acceptance; this cross-shell archive lifecycle adds technical evidence only."
+  }
+}

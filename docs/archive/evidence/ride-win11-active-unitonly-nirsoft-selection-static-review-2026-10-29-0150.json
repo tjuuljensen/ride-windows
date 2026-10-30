@@ -1,0 +1,45 @@
+{
+  "recordedAtUtc": "2026-10-29T01:50:03Z",
+  "source": "Read-only review of the active UnitOnly request source snapshot and current NirSoft selection/extraction code",
+  "requestId": "95bc76d3055f4f17964087ed15422295",
+  "snapshot": {
+    "requestTerminalResultPresent": false,
+    "currentSourceHashMatchesSnapshot": {
+      "tests/NirsoftCollectionPackages.Tests.ps1": true,
+      "modules/RIDE-PortablePackages.psm1": true,
+      "catalog/operations.psd1": true
+    },
+    "nirsoftFilteredPesterTemporaryParentPresentInCurrentSource": false
+  },
+  "sourceReview": {
+    "blockedExecutableNamesIncludePasswordScan": true,
+    "blockedNamesAbsentFromSelectedLauncherMembers": true,
+    "syntheticLifecycleFixtureUsesOnlySelectedMembersPlusUnselectedTextFile": true,
+    "retainedArchiveCheckExtractsPayloads": false,
+    "encryptedZipExtractorPassesOnlyExpectedFileNamesToTar": true,
+    "exactSelectedInventoryCheckedAfterExtraction": true
+  },
+  "interpretation": "The current checkout and active request snapshot do not select or extract PasswordScan through the reviewed NirSoft test path. This source review does not identify the creator of the previously reported temporary stage, establish the Defender event identity, or prove the unresolved full-suite request has completed.",
+  "handling": {
+    "defenderQueriedOrChanged": false,
+    "reportedFileOrStageAccessed": false,
+    "archiveOrPayloadOpened": false,
+    "testOrAcceptanceRunStartedByThisReview": false,
+    "newVmRequestSubmitted": false,
+    "passwordScanAddedToCatalogOrFixture": false
+  },
+  "disposition": "Keep PasswordScan x86/x64 out of package selections. The current filtered source path is not a reason to stop unrelated tests, but do not include either blocked binary in any selected or synthetic payload. Keep the earlier UnitOnly request unresolved until its correlated result/cleanup state is available; do not submit a duplicate.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

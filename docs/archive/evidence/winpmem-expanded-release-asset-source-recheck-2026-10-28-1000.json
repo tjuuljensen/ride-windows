@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:00:58Z",
+  "batch": "WinPmem expanded production asset source recheck",
+  "source": "Official Velocidex/WinPmem GitHub release pages",
+  "releaseUri": "https://github.com/Velocidex/WinPmem/releases",
+  "expandedAssetsUri": "https://github.com/Velocidex/WinPmem/releases/expanded_assets/v4.1.dev1",
+  "publisherAsset": {
+    "name": "go-winpmem_amd64_1.0-rc2_signed.exe",
+    "versionContext": "v4.1.dev1 release note identifies this asset for production use",
+    "uploadedAtUtc": "2025-09-03T05:58:51Z",
+    "displayedSize": "5.01 MB",
+    "publisherSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+    "catalogSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+    "catalogPinMatchesPublisher": true
+  },
+  "acquisition": {
+    "binaryDownloaded": false,
+    "localBytesHashed": false,
+    "authenticodeChecked": false,
+    "assetOpenResult": "The web fetch followed a GitHub release-assets redirect whose signed URL had expired. The expanded-assets HTML was separately readable and exposed the asset name, timestamp, size and SHA-256.",
+    "executableOpenedOrRun": false,
+    "driverLoaded": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationDisposition": {
+    "operation": "package.winpmem",
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "resolved": [
+      "The official release-assets endpoint independently confirms the catalog-pinned production executable name, publisher digest, displayed size and upload timestamp."
+    ],
+    "partial": [
+      "Publisher source identity is refreshed, but local artifact bytes and Authenticode remain unverified."
+    ],
+    "deferred": [
+      "Windows 11 and Server 2025 owned-file lifecycle and recovery acceptance; driver load/unload and memory-capture behavior remain separate explicit tests."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this source recheck verifies metadata, not a deployed-file lifecycle or legacy package outcome."
+    }
+  }
+}

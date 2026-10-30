@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T09:25:09Z",
+  "batch": "NTCore WIM Installer portable staging candidate",
+  "publisher": {
+    "listingUri": "https://ntcore.com/download/",
+    "observed": "The current publisher listing dates WIM Installer 2007-04-21 and describes its WIM-setup GUI purpose; no product-specific terms or current Windows support were listed.",
+    "downloadUri": "https://ntcore.com/files/WIM_Installer.zip"
+  },
+  "artifact": {
+    "retainedLocalPath": ".local/remaining-collections-20261017/WIM_Installer.zip",
+    "archiveLength": 134174,
+    "archiveSha256": "071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264",
+    "selectedMember": "WIM Installer.exe",
+    "memberLength": 278528,
+    "memberSha256": "3b932d91a2189e10c0423db00759e31eda24c8c7f38e9d16268f54f8be6e2d23",
+    "architecture": "x86",
+    "fileVersion": "1.0.0.1",
+    "productVersion": "1.0.0.1",
+    "authenticode": "NotSigned"
+  },
+  "candidate": {
+    "id": "package.ntcore-wim-installer",
+    "version": "1.0.0.1",
+    "supportedTargets": [],
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "pendingAcceptance": true,
+    "selectedMembers": [
+      "WIM Installer.exe"
+    ],
+    "localLicenseReview": {
+      "status": "NeedsReview",
+      "owner": "Unassigned",
+      "blocksPackagePlanning": false,
+      "source": "Workspace review store .local/license-reviews.json and user local review store",
+      "pendingPackageCoverage": "35/35"
+    }
+  },
+  "boundaries": {
+    "utilityExecuted": false,
+    "wimOpenedMountedOrApplied": false,
+    "diskOrPartitionAccessed": false,
+    "bootStateChanged": false,
+    "defenderToolsTouched": false,
+    "vmAcceptance": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    },
+    "remaining": "Windows 11 package file lifecycle/compatibility acceptance and any WIM behavior; behavior testing requires a synthetic image and disposable secondary virtual disk."
+  },
+  "validation": {
+    "focusedPester": {
+      "suites": [
+        "tests/NtcorePackages.Tests.ps1",
+        "tests/LicenseReviews.Tests.ps1"
+      ],
+      "passed": 40,
+      "failed": 0,
+      "testRegistry": false,
+      "testResult": false,
+      "scratchRoot": ".local/pester-ntcore-wim-review-20261026/temp"
+    },
+    "repositoryValidation": {
+      "passed": true,
+      "operations": 417,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 279
+    },
+    "licenseReviewStoreReadback": {
+      "confirmed": true,
+      "reviewedVersion": "1.0.0.1",
+      "owner": "Unassigned",
+      "status": "NeedsReview",
+      "blocksPackagePlanning": false,
+      "storeRecordCount": 32
+    },
+    "workspaceLicenseReviewStoreReadback": {
+      "confirmed": true,
+      "reviewedVersion": "1.0.0.1",
+      "owner": "Unassigned",
+      "status": "NeedsReview",
+      "blocksPackagePlanning": false,
+      "storeRecordCount": 72,
+      "pendingPackageCoverage": "35/35"
+    },
+    "firstAttempt": "Default AppData scratch hit a sandbox file-move denial; superseded by the passing workspace-local scratch run.",
+    "utilityExecuted": false
+  }
+}

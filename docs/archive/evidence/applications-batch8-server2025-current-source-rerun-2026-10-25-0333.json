@@ -1,0 +1,100 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "8ec925d3611241c1ab00b3e107bf844b",
+  "IntegrationSuite": "ApplicationsBatch8",
+  "Status": "Passed",
+  "StartedAtUtc": "2026-10-25T03:19:22.1763818Z",
+  "FinishedAtUtc": "2026-10-25T03:33:20.2958963Z",
+  "Guest": {
+    "OS": "Microsoft Windows Server 2025 Standard Evaluation",
+    "Build": "26100",
+    "PowerShell": "5.1.26100.33438",
+    "Account": "RIDE-S25-TEST\\bob",
+    "Elevated": true
+  },
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 411,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 274
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 358,
+    "Passed": 357,
+    "Failed": 0,
+    "Skipped": 1,
+    "Selection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Packages": [
+    {
+      "Id": "package.microsoft-openjdk",
+      "PinnedVersion": "25.0.4.1",
+      "RegisteredVersion": "25.0.4.101",
+      "JavaVersion": "25.0.4.1",
+      "JavacVersion": "25.0.4.1",
+      "Status": "Passed"
+    },
+    {
+      "Id": "package.microsoft-openjdk-21",
+      "PinnedVersion": "21.0.12.1",
+      "RegisteredVersion": "21.0.12.101",
+      "JavaVersion": "21.0.12.1",
+      "JavacVersion": "21.0.12.1",
+      "Status": "Passed"
+    },
+    {
+      "Id": "package.microsoft-openjdk-17",
+      "PinnedVersion": "17.0.20.1",
+      "RegisteredVersion": "17.0.20.101",
+      "JavaVersion": "17.0.20.1",
+      "JavacVersion": "17.0.20.1",
+      "Status": "Passed"
+    },
+    {
+      "Id": "package.microsoft-openjdk-11",
+      "PinnedVersion": "11.0.32.1",
+      "RegisteredVersion": "11.0.32.101",
+      "JavaVersion": "11.0.32.1",
+      "JavacVersion": "11.0.32.1",
+      "Status": "Passed"
+    }
+  ],
+  "Checks": [
+    "RIDE-managed install",
+    "Dedicated install directory",
+    "Java and Javac version",
+    "Preserve shared JAVA_HOME, PATH and .jar associations",
+    "Repeat install",
+    "Removal preview",
+    "RIDE uninstall",
+    "Repeat removal",
+    "Saved-state presence recovery"
+  ],
+  "Recovery": {
+    "Status": "Passed",
+    "Mode": "Compensating presence recovery",
+    "ExactPreviousVersionRecovery": "Unavailable; warning reported and the catalog-declared installer restored the installed state."
+  },
+  "SupportDecision": {
+    "SupportedTargets": [
+      "Windows Server 2025"
+    ],
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "NoSupportExpansion": true
+  },
+  "Controller": {
+    "QueueState": "Finished",
+    "Errors": 0,
+    "EvidenceCollection": "Passed",
+    "EvidenceExport": "Passed",
+    "ResultStatus": "Passed"
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Remaining": "Windows 11 acceptance and exact previous-version restoration."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T15:26:29Z",
+  "suite": {
+    "path": "tests/SixtySettings.Tests.ps1",
+    "runtime": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "temporaryRoot": ".local/pester-sixty-settings-current-20261026",
+    "discovered": 130,
+    "passed": 130,
+    "failed": 0,
+    "skipped": 0,
+    "result": "Passed"
+  },
+  "coverage": "Mocked 60-setting catalog and legacy reconciliation, state lifecycle, preview, saved-run capture, repeat application and restore; coordinated registry handler all-component/type/value behavior, failure propagation, reverse restore and snapshot preservation; boot-override recovery. No host settings or registry were changed.",
+  "migrationEffect": "Focused source regression passed; no legacy outcome closed, no target acceptance established, and no estimate deducted.",
+  "acceptanceBlocker": "Registered disposable VM access remains deferred; latest read-only evidence is remaining-settings-focused-current-source-regression-and-vm-recheck-2026-10-26-1516.json.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "recordedAtUtc": "2026-10-29T01:13:14Z",
+  "test": "tests/MiTeCAnalysisTools.Tests.ps1",
+  "result": {
+    "status": "passed",
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "powershell": "Windows PowerShell 5.1",
+    "pester": "5.7.1",
+    "testRegistryIntegration": "disabled",
+    "testResultIntegration": "disabled"
+  },
+  "products": [
+    {"name": "MiTeC EXE Explorer", "version": "3.7.5", "operationId": "package.mitec-exe-explorer", "retainedArchive": "EXE.zip"},
+    {"name": "MiTeC HexEdit", "version": "7.1.0", "operationId": "package.mitec-hexedit", "retainedArchive": "HEXEdit.zip"}
+  ],
+  "scope": "Validated catalog pins and exact retained archive/member SHA-256 values; verified pending install planning; staged the declared members from retained archives and synthetic inert ZIP fixtures; repeated staging and recovery while preserving unowned operator files.",
+  "safety": {
+    "productExecutablesLaunched": false,
+    "analyzedFileOpened": false,
+    "processMemoryRead": false,
+    "rawDiskAccessed": false,
+    "virustotalOrOtherNetworkAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "nirsoftOrPasswordScanSelected": false,
+    "vmOrGuestAcceptanceRun": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "remaining": [
+      "Disposable Windows 11 install/repeat/remove/recovery",
+      "EXE Explorer VirusTotal network feature and safe handling of user-selected files",
+      "HexEdit read-only versus mutating raw-disk behavior and privilege boundaries"
+    ]
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

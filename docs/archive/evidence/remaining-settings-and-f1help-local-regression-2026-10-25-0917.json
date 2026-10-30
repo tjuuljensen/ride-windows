@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T09:17:48Z",
+  "Batch": "Remaining settings and F1Help current-source local regression",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryPluginEnabled": false,
+    "PesterTempRoot": ".local/pester-current"
+  },
+  "Tests": {
+    "tests/RemainingSettings.Tests.ps1": { "Discovered": 82, "Passed": 82, "Failed": 0, "Skipped": 0 },
+    "tests/F1Help.Tests.ps1": { "Discovered": 1, "Passed": 1, "Failed": 0, "Skipped": 0 },
+    "Combined": { "Discovered": 83, "Passed": 83, "Failed": 0, "Skipped": 0 }
+  },
+  "Boundaries": {
+    "TestRegistryPluginEnabled": false,
+    "NativeF1BehaviorTested": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false,
+    "DefenderBlockedToolsSelected": false
+  },
+  "VmAccess": {
+    "ReadOnlyGetVmAttempted": true,
+    "Result": "Get-VM for RIDE-Win11-Test and RIDE-Srv2025Test was denied before VM/checkpoint inspection: Access to a CIM resource was not available to the client.",
+    "VmStateChanged": false
+  },
+  "MigrationDisposition": {
+    "Resolved": ["Current-source local regressions for remaining settings and F1Help pass."],
+    "Retired": [],
+    "Excluded": ["Defender-blocked utilities remain excluded from all test batches."],
+    "Deferred": ["Visible Windows 11 F1 behavior on Explorer/Desktop and an unrelated application; exact restore and broader GUI/policy acceptance require a disposable VM."],
+    "Partial": ["No legacy setting or component outcome closes."],
+    "Estimate": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155",
+      "Adjustment": "Unchanged; mocked/local Pester does not establish visible Windows behavior or close a legacy outcome."
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "RecordedAtUtc": "2026-10-26T06:13:00Z",
+  "Subject": "Sysinternals licensing disposition for RIDE package migration",
+  "UserDirection": "RIDE is a download-and-install tool and does not transfer or publish Sysinternals. The prior RIDE v2 review by a license specialist approved the tool. There are no legal issues using Sysinternals in RIDE; do not use strict or generalized redistribution reasoning to block package migration.",
+  "MigrationDisposition": "License review is settled for RIDE's approved direct-download-and-install workflow. Do not apply a new legal review, administrative review-marker gate, or generalized redistribution analysis to eligible Sysinternals package migration.",
+  "SecurityDisposition": "Keep the separately reported Defender-blocked utilities excluded as directed. This does not determine Defender findings or change security state.",
+  "RemainingWork": [
+    "Continue eligible Sysinternals migration on technical source, package lifecycle, functional behavior where selected, exact recovery, and Windows target acceptance.",
+    "Keep Defender-blocked utilities excluded unless the user changes that direction."
+  ],
+  "Resolved": ["Sysinternals legal/license migration blocker for the prior-v2-approved RIDE download-and-install workflow"],
+  "Retired": [],
+  "Excluded": ["Defender-blocked utilities, separately on security grounds"],
+  "Deferred": ["Remaining technical package and Windows acceptance"],
+  "Partial": ["No additional legacy package outcome closed"],
+  "Validation": {
+    "Test": "tests/LicenseReviews.Tests.ps1",
+    "PesterVersion": "5.7.1",
+    "Result": "Passed",
+    "Passed": 24,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "Coverage": "All ten RIDE v2-approved Sysinternals package plans remained install-plan selectable without a license gate; pending package plans remained available with informational NeedsReview markers.",
+    "HarnessNote": "The first attempt stopped before assertions because the optional TestRegistry helper could not create its HKCU key in the sandbox. The configured rerun disabled TestRegistry and passed all 24 tests."
+  },
+  "EstimateEffect": {
+    "Changed": false,
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  },
+  "Basis": "User's current direction and prior RIDE v2 license-specialist approval."
+}

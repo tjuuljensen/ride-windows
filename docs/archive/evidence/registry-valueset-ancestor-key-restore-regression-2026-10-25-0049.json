@@ -1,0 +1,65 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T00:49:25Z",
+  "Batch": "Registry value-set ancestor-key exact restoration and hash context-menu regression",
+  "Suites": [
+    "tests/HashValueContextMenu.Tests.ps1",
+    "tests/SixtySettings.Tests.ps1",
+    "tests/UpdateNotificationPolicy.Tests.ps1",
+    "tests/CustomRegistryAuthoring.Tests.ps1"
+  ],
+  "Runner": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "RepositoryValidation": "Passed; 411 operations, 8 groups, 5 profiles, 274 PowerShell files; generated operation documentation current."
+  },
+  "RegressionRuns": {
+    "InitialCombined": {
+      "Discovered": 190,
+      "Passed": 182,
+      "Failed": 7,
+      "Skipped": 1,
+      "FailureScope": "All seven failures were CustomRegistryAuthoring test staging moves under the sandbox-protected AppData TestDrive path; no failure was reported in HashValueContextMenu, SixtySettings, or UpdateNotificationPolicy."
+    },
+    "CorrectedCustomRegistryAuthoring": {
+      "Discovered": 32,
+      "Passed": 32,
+      "Failed": 0,
+      "Skipped": 0,
+      "TempRoot": ".local/pester-custom-registry/temp",
+      "TempPathVerified": true
+    },
+    "CombinedUniqueCases": {
+      "Passed": 189,
+      "Failed": 0,
+      "Skipped": 1
+    }
+  },
+  "ImplementationUnderTest": {
+    "File": "modules/RIDE-RegistryValueSet.psm1",
+    "Behavior": "Captures existence of all declared registry-key ancestors and, on restore, removes only empty descendants absent at capture; occupied keys and unrelated values/subkeys are preserved.",
+    "HashContextMenuSetting": "windows.sha256-certutil-context-menu"
+  },
+  "SideEffects": {
+    "LiveRegistryQueriedOrChanged": false,
+    "FileHashCommandExecuted": false,
+    "WindowsStateChanged": false,
+    "VmUsed": false
+  },
+  "VmAccess": {
+    "Target": "RIDE-Win11-Test",
+    "CheckedAtUtc": "2026-10-25T00:49:25Z",
+    "Result": "BlockedBeforeInspection",
+    "Stage": "Get-VM before VM/checkpoint inspection",
+    "Error": "Access to a CIM resource was not available to the client."
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Current-source registry value-set ancestor-key capture/restore regression and related planning/authoring suites pass after workspace-local temp rerun."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Hash context-menu menu placement/quoting, native registry lifecycle and exact Windows 11 recovery acceptance; VM access failed before inspection."],
+    "Partial": ["No legacy setting outcome closes and no new target support is declared."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

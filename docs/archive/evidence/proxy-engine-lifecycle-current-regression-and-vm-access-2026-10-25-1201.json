@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T12:01:16Z",
+  "Batch": "Engine-integrated default/LAN user-proxy lifecycle current-source regression",
+  "SourceReview": {
+    "OperationId": "windows.proxy-auto-detect",
+    "EngineIntegration": "Apply passes the engine RunId to the lifecycle. The lifecycle binds machine, SID and session, checks current values and documented policy, writes a durable snapshot before the WinINet setter, verifies readback, compensates detected failures, and tracks restore completion.",
+    "RemainingBehavior": [
+      "Complete effective-policy coverage",
+      "Controlled PAC-consumer behavior",
+      "Visible GUI effect",
+      "Named RAS support",
+      "Machine WinHTTP remains a separate control",
+      "Disposable Windows lifecycle and recovery acceptance"
+    ],
+    "CatalogSupport": []
+  },
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "Tests": 64,
+    "Passed": 64,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "TestRegistry": "Disabled because the sandbox denied creation of HKCU\\Software\\Pester",
+    "Boundaries": "WinINet calls, policy observations and identity observations were mocked; no native proxy configuration was read or written."
+  },
+  "VmAccess": {
+    "Targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "Result": "Get-VM was denied by CIM for both targets before VM or checkpoint inspection.",
+    "FreshUacPrompts": 0,
+    "VmStateChanged": false,
+    "AcceptanceQueued": false
+  },
+  "MigrationDisposition": {
+    "Resolved": ["Reconciled stale active documentation with the existing engine-integrated proxy lifecycle."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Native Windows apply/repeat/exact-restore acceptance, complete policy and visible-effect verification, and controlled PAC-consumer testing."],
+    "LegacyOutcomesClosed": 0,
+    "EstimateRanges": ["37-57", "40-55", "19-24", "25-35", "8-12"],
+    "ExactEndpoints": "129-183",
+    "RoundedTotal": "130-185/about 155",
+    "EstimateAdjustment": "No complete legacy setting outcome closed; ranges remain unchanged."
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:37:23Z",
+  "Scope": "Read-only match of retained files against pinned package asset names and SHA-256 values",
+  "SearchRoots": [
+    ".local/acquisition",
+    ".local/results/installed-next-samples",
+    ".local/wireshark-review/cache",
+    ".local/publisher-cache",
+    ".local/artifacts"
+  ],
+  "CatalogDistinctPinnedAssetNames": 75,
+  "RetainedMatchingFiles": 6,
+  "DigestMatches": 6,
+  "DigestMismatches": 0,
+  "Artifacts": [
+    {
+      "Operation": "package.etl2pcapng",
+      "Path": ".local/acquisition/etl2pcapng-v1.11.0/etl2pcapng.exe",
+      "Bytes": 163872,
+      "ExpectedSha256": "c2d03aac43ea0f5626fc8d909e6688393feaf71bd6facd39aaf8a637382d9043",
+      "ObservedSha256": "c2d03aac43ea0f5626fc8d909e6688393feaf71bd6facd39aaf8a637382d9043",
+      "Matches": true
+    },
+    {
+      "Operation": "package.imagemagick-portable-q16",
+      "Path": ".local/acquisition/imagemagick-7.1.2-34/ImageMagick-7.1.2-34-portable-Q16-x64.7z",
+      "Bytes": 12022003,
+      "ExpectedSha256": "52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1",
+      "ObservedSha256": "52cc6a441c7884f5ff4274b410c9b90c4b7d54245dcdf4d32988bb4e4df4e5d1",
+      "Matches": true
+    },
+    {
+      "Operation": "package.rawcopy",
+      "Path": ".local/acquisition/rawcopy-1.0.0.22/RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+      "Bytes": 880497,
+      "ExpectedSha256": "f5daf2c74a4b5a29dbd188e36f003535ab39aa80a5f86a564725a5a1642841df",
+      "ObservedSha256": "f5daf2c74a4b5a29dbd188e36f003535ab39aa80a5f86a564725a5a1642841df",
+      "Matches": true
+    },
+    {
+      "Operation": "package.windows-firewall-notifier",
+      "Path": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip",
+      "Bytes": 118745388,
+      "ExpectedSha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+      "ObservedSha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+      "Matches": true
+    },
+    {
+      "Operation": "package.gpg4win",
+      "Path": ".local/results/installed-next-samples/gpg4win-5.1.1.exe",
+      "Bytes": 44831736,
+      "ExpectedSha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+      "ObservedSha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+      "Matches": true
+    },
+    {
+      "Operation": "package.wireshark",
+      "Path": ".local/wireshark-review/cache/wireshark/4.6.9/Wireshark-4.6.9-x64.msi",
+      "Bytes": 80433152,
+      "ExpectedSha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+      "ObservedSha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+      "Matches": true
+    }
+  ],
+  "Interpretation": "The 69 other distinct catalog asset names had no same-named file in these five roots. This does not establish that those packages are absent elsewhere or unacquired.",
+  "Safety": {
+    "FilesReadOnly": true,
+    "PackagesExecuted": false,
+    "InstallersExecuted": false,
+    "DefenderChanged": false,
+    "WindowsOrVmStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "The six hash-matched artifacts still require any outstanding native product/VM acceptance; other asset names were not found in the scanned roots."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

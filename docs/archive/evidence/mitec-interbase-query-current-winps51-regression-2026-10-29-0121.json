@@ -1,0 +1,58 @@
+{
+  "recordedAtUtc": "2026-10-29T01:21:44Z",
+  "test": "tests/MiTeCInterbaseQuery.Tests.ps1",
+  "result": {
+    "status": "passed_with_intentional_skip",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 1,
+    "powershell": "Windows PowerShell 5.1",
+    "pester": "5.7.1",
+    "testRegistryIntegration": "disabled",
+    "testResultIntegration": "disabled"
+  },
+  "testSourceChange": "Added the missing System.IO.Compression.FileSystem assembly reference so ZipFile is available to the inert synthetic archive lifecycle case.",
+  "initialAttempt": "Before the test harness fix, the synthetic lifecycle case failed because [IO.Compression.ZipFile] could not be resolved. The rerun passed after adding the assembly reference.",
+  "package": {
+    "operationId": "package.mitec-interbase-query",
+    "version": "9.5.0",
+    "licenseReviewStatus": "NeedsReview",
+    "reviewOwner": "Unassigned",
+    "reviewStore": ".local/license-reviews.json",
+    "distributionNotes": "Owner-specific review unassigned; informational and does not block direct-download package planning."
+  },
+  "scope": "Validated catalog archive/version and x86/x64 member selections; exercised synthetic inert-ZIP selected-member staging, repeat, removal and snapshot restore while preserving an unowned file. The explicit retained archive variable was cleared, so the publisher archive check was intentionally skipped.",
+  "safety": {
+    "retainedPublisherArchiveRead": false,
+    "interbaseQueryOrDatabaseProgramsLaunched": false,
+    "databaseOrServiceAccessed": false,
+    "personalOrProductionDataAccessed": false,
+    "networkAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "nirsoftOrPasswordScanSelected": false,
+    "vmOrGuestAcceptanceRun": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "remaining": [
+      "Verify retained archive bytes and exact member provenance when safely available",
+      "Windows install/repeat/remove/recovery acceptance for x86 and x64",
+      "Database query behavior with disposable synthetic databases only"
+    ]
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

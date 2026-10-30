@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-10-26T18:56:29Z",
+  "targets": [
+    "RIDE-Win11-Test",
+    "RIDE-S25-Test"
+  ],
+  "getVmError": "Access to a CIM resource was not available to the client.",
+  "registeredTask": "\\RIDE\\RIDEWin11Test",
+  "getScheduledTaskError": "Access to a CIM resource was not available to the client.",
+  "schtasksExitCode": 1,
+  "schtasksOutput": "ERROR: The network address is invalid.",
+  "guestRequestDispatched": false,
+  "hostOrGuestStateChanged": false,
+  "elevationPromptRequested": false
+}

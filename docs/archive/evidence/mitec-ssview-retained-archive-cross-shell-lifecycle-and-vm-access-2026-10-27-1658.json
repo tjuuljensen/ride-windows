@@ -1,0 +1,87 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T16:58:00Z",
+  "PackageId": "package.mitec-ssview",
+  "PackageVersion": "4.1.2",
+  "TestFile": "tests/MiTeCSSView.Tests.ps1",
+  "TestDesign": "Current-source catalog pin checks, inert synthetic lifecycle, and retained publisher archive lifecycle with exact archive/member hash verification; file-only install/remove/recovery.",
+  "Archive": {
+    "Path": ".local/collection-inventory-20261017/SSView.zip",
+    "Length": 3572814,
+    "Sha256": "e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab",
+    "SelectedMember": "SSView.exe",
+    "SelectedMemberLength": 2706280,
+    "SelectedMemberSha256": "2620d85bf64e9f527740921a2a905753ac571d532dfc56ce7e91f629bbab6c0c",
+    "ExcludedMembers": [
+      "ZLibCodec.dll",
+      "ZLibCodec.dpr",
+      "test.ss"
+    ]
+  },
+  "Tests": {
+    "Pester": "5.7.1",
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Passed": 3,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "WindowsPowerShell51": {
+      "Version": "5.1.26100.9711",
+      "Passed": 3,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "PluginsDisabled": [
+      "TestRegistry",
+      "TestResult"
+    ],
+    "Scratch": [
+      ".local/pester-ssview-20261027-ps7",
+      ".local/pester-ssview-20261027-ps51"
+    ]
+  },
+  "Verified": [
+    "Retained archive size and SHA-256 match checked-in source evidence and catalog pin",
+    "SSView.exe entry SHA-256 matches checked-in member evidence without launching the executable",
+    "Only SSView.exe was staged from the real archive; optional codec, source and sample were not staged",
+    "Repeat install, health, snapshot, uninstall, restore and preservation of an operator note passed",
+    "Synthetic inert ZIP lifecycle remains self-contained for clean checkouts"
+  ],
+  "Boundaries": {
+    "ExecutableLaunched": false,
+    "CodecLoadedOrBuilt": false,
+    "StructuredStorageOpenedOrModified": false,
+    "UserDocumentsAccessed": false,
+    "DefenderChanged": false,
+    "UacRequested": false,
+    "VmAcceptanceDispatched": false,
+    "GetVm": "Access to a CIM resource was not available to the client before VM inspection.",
+    "SupportedTargets": [],
+    "Pending": [
+      "Synthetic-only structured-storage behavior, exact content recovery and activation/configuration preservation",
+      "Disposable Windows 11 install/repeat/uninstall/recovery acceptance"
+    ]
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 acceptance blocked before inspection by host CIM access"
+    ],
+    "Partial": [
+      "Retained publisher archive file lifecycle verified cross-shell; no full legacy outcome closed."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "A real-archive staging/recovery check strengthens package evidence but closes no legacy functional outcome."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T12:08:00Z",
+  "batch": "Registered Server target registration and current Win11 VM recheck",
+  "registeredServerTarget": {
+    "registration": "RIDESrv2025Test",
+    "configuredVmName": "RIDE-S25-Test",
+    "configuredCheckpointName": "RIDE-clean-test-base",
+    "configuredCheckpointId": "4a5b49ba-0795-480a-8d01-6f4f670577c8",
+    "capabilities": [
+      "GitHubPatGuestV1",
+      "FocusedPortableV1"
+    ],
+    "controllerValidation": "NotValidated",
+    "pendingQueueCount": 0,
+    "runningQueueCount": 0,
+    "finishedQueueCount": 83,
+    "taskSchedulerQuery": {
+      "result": "failed",
+      "error": "ERROR: The network address is invalid."
+    },
+    "hyperVManagerObservation": {
+      "observedAtUtc": "2026-10-26T12:05:38Z",
+      "state": "Off",
+      "source": "Read-only screenshot of existing Hyper-V Manager window"
+    },
+    "guestOsVerified": false,
+    "actualCurrentCheckpointIdVerified": false
+  },
+  "registeredWin11Run": {
+    "runId": "d7ea59b8cb38496a80fe3d98ae487c5c",
+    "vmName": "RIDE-Win11-Test",
+    "state": "Running (Hyper-V Manager observation)",
+    "requestEntry": "queue/running",
+    "resultJsonPresent": false,
+    "unitOnly": true,
+    "integrationAcceptanceSkipped": true
+  },
+  "interpretation": {
+    "resolved": [
+      "Correct registration/target VM naming for the separate Server acceptance configuration.",
+      "Confirmed the configured Server target VM is Off in Hyper-V Manager.",
+      "Confirmed RIDE-Win11-Test remains running for the already queued UnitOnly request."
+    ],
+    "deferred": [
+      "Server OS identity and current checkpoint identity verification.",
+      "Refresh and validate the protected Server controller before dispatching Server acceptance.",
+      "Collect the active Windows 11 UnitOnly result; no correlated result exists."
+    ],
+    "action": "Do not dispatch Server tests through the NotValidated controller; leave the active Win11 request untouched.",
+    "vmHostCheckpointControllerDefenderChanged": false,
+    "legacyOutcomesClosed": []
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155",
+    "changed": false
+  }
+}

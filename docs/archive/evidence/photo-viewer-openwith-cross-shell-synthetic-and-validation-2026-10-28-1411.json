@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-28T14:11:31Z",
+  "operationId": "windows.photo-viewer-openwith",
+  "basis": "Follow-up to the pending candidate implementation recorded at 14:07 UTC.",
+  "checks": {
+    "testFixtureParser": {
+      "PowerShell7": "Passed",
+      "WindowsPowerShell51": "Passed"
+    },
+    "syntheticDesiredStateChecks": {
+      "PowerShell7": "Passed: complete Registered-state match, altered-value mismatch rejection, WindowsDefault null-state, Unset mapping, six-value HKCU path boundary and unsupported-target gate.",
+      "WindowsPowerShell51": "Passed: complete Registered-state match, altered-value mismatch rejection, WindowsDefault null-state and Unset mapping."
+    },
+    "windowsPowerShellPolicy": "Windows PowerShell 5.1 script probe used process-scoped ExecutionPolicy Bypass after AuthorizationManager denied default module import; no persistent policy change or elevation was used.",
+    "focusedPester": "Not run; only Pester 3.4 is installed, and the fixture uses Pester 5 syntax.",
+    "repositoryValidation": "Passed tools/validate.ps1 -Root .: 446 operations, 8 groups, 5 profiles and 301 PowerShell files; generated operation documentation current.",
+    "focusedDiffCheck": "Passed for the tracked catalog, generated operations reference, migration plan, decision/review ledgers and TODO.",
+    "registryOrFeatureStateChanged": false,
+    "vmAccessed": false,
+    "photoViewerInvoked": false,
+    "defenderQueriedOrChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "interpretation": "These parser, synthetic matching and catalog checks do not establish actual registry write/recovery behavior, Photo Viewer component availability, Open with visibility, file rendering, extension coverage, or Windows target support. Keep SupportedTargets empty and PendingAcceptance true.",
+  "acceptanceBlockers": [
+    "Disposable Windows 11 acceptance for installed component identity, registration appearance, invocation and exact saved-state restore.",
+    "Resolve exact extension/alias coverage, including JPEG and TIFF families, by observed native behavior.",
+    "Host CIM/controller access currently blocks fresh VM and checkpoint inspection.",
+    "Pester 5.7.1 focused suite remains unavailable."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; this closes no legacy feature outcome."
+  }
+}

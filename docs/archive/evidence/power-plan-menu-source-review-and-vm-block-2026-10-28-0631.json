@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:31:29Z",
+  "batch": "Power-plan desktop menu source review and registered VM access",
+  "legacySource": {
+    "file": "legacy/v2/lib-windows.psm1",
+    "setFunction": "SetPwrSchemeDesktopMenu, lines 705-748",
+    "removeFunction": "RemovePwrSchemeDesktopMenu, lines 750-758",
+    "registryPath": "HKCR:\\DesktopBackground\\Shell\\Switch Power Plan",
+    "registrationBehavior": "Writes the parent and child shell keys through merged HKEY_CLASSES_ROOT, creates entries only for four English names found by parsing powercfg /list output, and places direct powercfg.exe -setactive <GUID> commands in child command keys.",
+    "removalBehavior": "Recursively deletes the entire named HKCR subtree without capturing prior contents or proving RIDE ownership.",
+    "migrationImplications": [
+      "The legacy source does not establish intended-user-only ownership; HKCR is a merged view.",
+      "Direct menu commands bypass the RIDE active-plan handler, saved-state capture and reporting.",
+      "Recursive removal can delete pre-existing or subsequently edited content under the same name.",
+      "A per-user native Power Options handoff remains the accepted initial design direction; any menu helper still needs an explicit physical path, ownership and recovery contract."
+    ]
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-28T06:31:29Z",
+    "RIDE-Win11-Test": "Get-VM failed before returning state or identity: Access to a CIM resource was not available to the client.",
+    "RIDE-Server2025-Test": "Get-VM failed before returning state or identity: Access to a CIM resource was not available to the client."
+  },
+  "actions": {
+    "legacyCodeExecuted": false,
+    "registryQueriedOrChanged": false,
+    "powerPlanQueriedOrChanged": false,
+    "checkpointInspected": false,
+    "taskDispatched": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolvedLegacyOutcomes": [],
+    "partial": [
+      "The legacy desktop-menu path and unsafe recursive-removal behavior are now grounded in source lines."
+    ],
+    "deferred": [
+      "Do not implement the legacy merged-HKCR submenu as-is. The separate native Power Options handoff still needs an intended-user location, ownership/recovery contract and Windows UI acceptance.",
+      "Disposable Windows 11 and Server 2025 acceptance remains blocked before inspection by host CIM access."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source review resolves no menu implementation or complete legacy outcome."
+    }
+  }
+}

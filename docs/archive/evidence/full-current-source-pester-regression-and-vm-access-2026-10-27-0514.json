@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T05:14:22Z",
+  "batch": "Full current-source local Pester regression and Windows VM access recheck",
+  "source": "Current Windows checkout; PowerShell 7.6.5; Pester 5.7.1",
+  "scope": {
+    "testFiles": 128,
+    "discovered": 3380,
+    "passed": 3376,
+    "failed": 1,
+    "skipped": 3,
+    "inconclusive": 0,
+    "notRun": 0,
+    "durationSeconds": 4322.03,
+    "plugins": {
+      "TestRegistry": "disabled",
+      "TestResult": "disabled"
+    },
+    "scratch": ".local/pester-full-20261027-050203",
+    "temporaryEnvironment": "TEMP and TMP were redirected for the PowerShell process to the workspace-local scratch directory."
+  },
+  "failure": {
+    "suite": "Catalog.Tests.ps1",
+    "test": "RIDE operation catalog.captures and exactly restores registry subtree values, kinds, and security descriptors",
+    "finding": "The sandbox denied registry security-descriptor access with 'Requested registry access is not allowed.' No source assertion failure was observed for this case; it could not exercise its intended registry boundary here.",
+    "line": 330
+  },
+  "skippedTests": {
+    "count": 3,
+    "names": "Pester's default summary did not enumerate skipped case names."
+  },
+  "repairedPriorGuestFailureGroups": {
+    "GitHubAuthentication": "Passed in the full run after the unique TestDrive credential-root repair.",
+    "LicenseReviews": "Passed in the full run after isolating the Phoenix .NET Framework 3.5 precondition.",
+    "MiTeCDFMEditor": "Passed in the full run with workspace-local temporary storage; retained-archive guest-source omission remains covered by the earlier focused source-snapshot rerun.",
+    "NtcorePackages": "Passed in the full run against the current WIM installer catalog pin."
+  },
+  "notableSlowSuites": {
+    "OptionalWindowsSettings.Tests.ps1": 415.55,
+    "PSScriptToolsPackage.Tests.ps1": 715.58,
+    "RemainingSettings.Tests.ps1": 258.14,
+    "SixtySettings.Tests.ps1": 513.22,
+    "SysinternalsProductPackages.Tests.ps1": 119.31,
+    "SysinternalsSuitePackage.Tests.ps1": 309.55,
+    "WfnPackage.Tests.ps1": 816.09
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-27T05:14:22Z",
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-S25-Test"
+    ],
+    "result": "Get-VM and the registered RIDEWin11Test task query failed at CIM before VM/checkpoint inspection or dispatch.",
+    "elevationPrompt": false,
+    "guestRequest": false
+  },
+  "stateChanges": {
+    "windowsSettings": false,
+    "registry": false,
+    "installerOrPackageUtilityExecution": false,
+    "defender": false,
+    "vmOrCheckpoint": false
+  },
+  "migration": {
+    "resolvedLegacyOutcomes": [],
+    "retiredOrExcluded": [],
+    "deferred": [
+      "Disposable Windows 11 and Server 2025 integration acceptance remains pending VM/controller CIM access.",
+      "Catalog.Tests.ps1 direct registry security-descriptor case requires a Windows environment with registry ACL access.",
+      "The three skipped Pester case names were not included in the command summary."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

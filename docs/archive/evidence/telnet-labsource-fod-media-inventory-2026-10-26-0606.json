@@ -1,0 +1,93 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T06:06:00Z",
+  "Scope": "Read-only inventory of registered LabSources for a matching Windows 11 Telnet/FOD source",
+  "InspectedRoots": [
+    {
+      "Path": "Z:\\LabSources\\ISOs",
+      "Files": [
+        {
+          "Name": "26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso",
+          "SizeBytes": 5112850432,
+          "SevenZipListingExitCode": 0,
+          "ListedRows": 1063,
+          "TelnetNamedRows": 0,
+          "SourcesSxsCabinetRows": 3
+        },
+        {
+          "Name": "26100.32230.260111-0550.lt_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
+          "SizeBytes": 8152356864,
+          "SevenZipListingExitCode": 0,
+          "ListedRows": 1174,
+          "TelnetNamedRows": 0,
+          "SourcesSxsCabinetRows": 3
+        },
+        {
+          "Name": "26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTENTERPRISEEVAL_OEMRET_x64FRE_en-us.iso",
+          "SizeBytes": 8225329152,
+          "SevenZipListingExitCode": 0,
+          "ListedRows": 1072,
+          "TelnetNamedRows": 0,
+          "SourcesSxsCabinetRows": 3
+        },
+        {
+          "Name": "Windows11_Client_x64_en-us_26300_9457.iso",
+          "SizeBytes": 9047330816,
+          "SevenZipListingExitCode": 0,
+          "ListedRows": 1071,
+          "TelnetNamedRows": 0,
+          "SourcesSxsCabinetRows": 3
+        }
+      ],
+      "NamedFodOrOptionalFeatureMedia": 0
+    },
+    {
+      "Path": "Z:\\LabSources\\SoftwarePackages",
+      "TopLevelEntries": ["README.md"],
+      "MatchingTelnetCabOrFodRepositoryObserved": false
+    },
+    {
+      "Path": "Z:\\LabSources\\OSUpdates",
+      "TopLevelEntries": ["README.md"],
+      "MatchingTelnetCabOrFodRepositoryObserved": false
+    }
+  ],
+  "Method": "Windows-native directory enumeration and read-only 7-Zip archive listings. No ISO was mounted or extracted; no CAB was read or serviced.",
+  "Finding": "No matching Languages and Optional Features ISO or Telnet-named package source is currently registered under the inspected LabSources roots. All four listed images are setup ISOs and expose three sources/sxs CABs each, with no Telnet-named entry. This is an inventory of those roots, not proof that no source exists elsewhere.",
+  "ExternalGuidance": {
+    "Windows11FeaturesOnDemandMedia": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+    "RelevantFinding": "Windows 11 FOD CABs are distributed on matching Languages and Optional Features media. Exact TelnetClient package identity and complete servicing repository requirements remain to be validated from matching media."
+  },
+  "StateChanges": {
+    "Host": false,
+    "Windows": false,
+    "Vm": false,
+    "Checkpoint": false,
+    "Defender": false,
+    "ElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [
+      "Current availability in the registered LabSources ISO, SoftwarePackages and OSUpdates roots."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Acquire or register the Windows-version-matching Languages and Optional Features media/repository before validating TelnetClient package identity, completeness, dependencies and recovery.",
+      "Telnet LocalSource and native Windows acceptance."
+    ],
+    "Partial": [
+      "Telnet LocalSource source readiness remains unresolved; no matching media is present in the inspected LabSources roots."
+    ],
+    "EstimateChanged": false,
+    "Ranges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

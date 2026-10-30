@@ -15,6 +15,7 @@ declares each operation's support, actions, references and recovery limits.
 | Settings and their individual guides | [Windows settings](windows-settings.md), [scope, defaults and recovery](setting-presentation.md) |
 | Explicit current-desktop user actions | [Intended-user handoff](intended-user-handoff.md), including pending native acceptance and mixed-profile recovery |
 | Existing Terminal default-profile selection | [Native profile workflow](windows-terminal-profile.md), with manual recovery and pending writer/GUI acceptance; [JSONC preparation API](terminal-jsonc-preparation.md) for supplied bytes only |
+| BitLocker enrollment and recovery | [Enrollment, decryption, recovery-key backup and retrieval](bitlocker-recovery.md); catalog workflows and the desktop shortcut remain pending Windows 11 disposable-target acceptance |
 | Reviewing built-in Store apps | [Accepted uninstall/reinstall groups](store-app-groups.md), [separate policy workflow](migrations/store-app-removal-review.md), [collected references](migrations/store-app-inventory-review.md), [user/provisioning inventory](store-app-inventory.md) |
 | Inspecting Windows component availability | [Read-only feature, capability and Server role inventory](windows-component-inventory.md), with explicit target identity and pending native acceptance |
 | Inspecting network adapter identities | [Read-only adapter inventory](network-adapter-inventory.md), with GUID-only saved lookup and pending native collection acceptance |
@@ -30,6 +31,7 @@ declares each operation's support, actions, references and recovery limits.
 | Custom catalogs and profiles | [Custom libraries](custom-libraries.md), [examples](../examples/README.md) |
 | Desktop helpers | [God Mode folder](god-mode.md), [screen-lock helpers](screen-lock-helpers.md) |
 | Disposable Windows validation | [Integration scenarios](../tests/integration/README.md), [AutomatedLab provisioning](../tests/integration/automatedlab.md), [task controller](../tests/integration/automatedlab-tasks.md) |
+| Physical Lenovo T480 acceptance | [T480 RIDE test plan](test-plans/t480-ride-acceptance.md) and [read-only preflight script](../tests/integration/Invoke-RideT480Preflight.ps1) |
 | Workflow diagrams | [Controller workflow](../tests/integration/automatedlab-tasks.md#controller-workflow), [GitHub cache and backoff](github-release-discovery.md#anonymous-cache-and-backoff-flow) |
 | Maintainer conventions | [Script model](models/script-repository-model.md), [documentation model](models/documentation-model.md), [configuration ownership](decisions/0001-configuration-ownership.md) |
 

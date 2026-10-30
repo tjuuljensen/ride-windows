@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:22:17Z",
+  "batch": "MiTeC UUID and certificate package scope reconciliation",
+  "packages": [
+    { "id": "package.mitec-uuid-generator", "reviewedVersion": "1.0.0", "reviewOwner": "Unassigned", "licenseReviewStatus": "NeedsReview" },
+    { "id": "package.mitec-certificate-generator", "reviewedVersion": "1.0.0", "reviewOwner": "Unassigned", "licenseReviewStatus": "NeedsReview" },
+    { "id": "package.mitec-certificate-information", "reviewedVersion": "1.5.0", "reviewOwner": "Unassigned", "licenseReviewStatus": "NeedsReview" }
+  ],
+  "acceptance": {
+    "evidence": "mitec-utility-files-win11-current-source-lifecycle-acceptance-2026-10-25-0516.json",
+    "target": "RIDE-Win11-Test, Windows 11 build 26300",
+    "result": "Passed 3/3",
+    "scope": "Each package passed install preview, exact selected-member staging, repeat install, removal, repeat removal, exact saved-state recovery, unowned-file preservation, prior-absence recovery, collision refusal and modified-file protection.",
+    "executablesRun": false,
+    "hostIdentifiersOrCertificatesAccessed": false
+  },
+  "scopeDecision": {
+    "packageMigration": "The Windows 11 package file lifecycle is complete for all three candidates. Utility feature execution is outside RIDE's package download/install lifecycle and is not a migration blocker.",
+    "licenseReview": "Keep the exact-version local NeedsReview markers for later owner review. They are administrative and do not block package planning or acceptance.",
+    "separateFollowUp": "If a future RIDE workflow invokes these utilities, test only with synthetic identifiers, disposable certificates and public fixtures; never inspect live device identifiers or production private keys.",
+    "targetSupport": "Windows 11 package file lifecycle only; no Windows Server support is inferred."
+  },
+  "migrationOutcome": {
+    "packageImplementationResolved": [
+      "MiTeC UUID Generator Windows 11 package lifecycle.",
+      "MiTeC Certificate Generator Windows 11 package lifecycle.",
+      "MiTeC Certificate Information Windows 11 package lifecycle."
+    ],
+    "legacyOutcomesClosed": 0,
+    "reason": "These are additional v3 package candidates, not separate legacy outcomes; estimates count legacy feature/product outcomes rather than catalog IDs.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; package implementation is resolved for these v3 additions, but no legacy outcome is deducted."
+    }
+  }
+}

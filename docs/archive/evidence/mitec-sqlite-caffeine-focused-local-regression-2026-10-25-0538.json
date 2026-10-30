@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "dateUtc": "2026-10-25T05:38:00Z",
+  "status": "Passed",
+  "runtime": "Windows PowerShell 5.1",
+  "pesterVersion": "5.7.1",
+  "testRegistryPluginEnabled": false,
+  "tests": [
+    {
+      "path": "tests/MiTeCSqliteQuery.Tests.ps1",
+      "scope": "Pinned package source, synthetic database, and mocked package lifecycle/recovery; no personal or production database was opened."
+    },
+    {
+      "path": "tests/Caffeine.Tests.ps1",
+      "scope": "Local package and disconnected-install contracts through synthetic fixtures and mocks; no Caffeine executable ran."
+    },
+    {
+      "path": "tests/CaffeineLight.Tests.ps1",
+      "scope": "Light-edition package contracts through synthetic fixtures and mocks; no Caffeine executable ran."
+    }
+  ],
+  "aggregate": {
+    "discovered": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "environmentBoundary": "No installer, payload, VM, Windows, registry, network, or Defender state was changed. This is local mocked regression evidence only; Windows target acceptance remains as recorded in the migration ledger."
+}

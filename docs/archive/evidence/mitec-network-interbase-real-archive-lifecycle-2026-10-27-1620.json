@@ -1,0 +1,82 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "MiTeCNetworkScannerAndInterbaseQueryRealArchiveLifecycle",
+  "RecordedAtUtc": "2026-10-27T16:20:45Z",
+  "Packages": [
+    {
+      "Id": "package.mitec-network-scanner",
+      "Version": "6.1.0",
+      "Archive": ".local/remaining-collections-20261017/NetScanner.zip",
+      "ArchiveLength": 11317163,
+      "ArchiveSha256": "02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66",
+      "Variants": {
+        "x64": { "Member": "NetScanner64.exe", "Length": 6973512, "Sha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06" },
+        "x86": { "Member": "NetScanner.exe", "Length": 5080296, "Sha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4" }
+      }
+    },
+    {
+      "Id": "package.mitec-interbase-query",
+      "Version": "9.5.0",
+      "Archive": ".local/remaining-collections-20261017/IBQ.zip",
+      "ArchiveLength": 7322738,
+      "ArchiveSha256": "6ce815ac089ff38afc0e4ed3eda4f3255f61a9e46611b55619dbdcfbb1688478",
+      "Variants": {
+        "x64": { "Executable": "IBQ64.exe", "Length": 4386136, "Sha256": "12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0", "SelectedMemberCount": 8 },
+        "x86": { "Executable": "IBQ.exe", "Length": 3257040, "Sha256": "0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971", "SelectedMemberCount": 8 }
+      }
+    }
+  ],
+  "Validation": {
+    "Tests": ["tests/MiTeCNetworkScanner.Tests.ps1", "tests/MiTeCInterbaseQuery.Tests.ps1"],
+    "Pester": "5.7.1",
+    "PowerShell7": { "Edition": "PowerShell 7.6.5", "Passed": 6, "Failed": 0, "Skipped": 0, "DurationSeconds": 91.64 },
+    "WindowsPowerShell51": { "Edition": "Windows PowerShell 5.1.26100.9711", "Passed": 6, "Failed": 0, "Skipped": 0, "DurationSeconds": 91.9 },
+    "OptionalPlugins": { "TestRegistry": false, "TestResult": false },
+    "ScratchRoots": [
+      ".local/pester-mitec-network-interbase-real-archives-20261027",
+      ".local/pester-mitec-network-interbase-real-archives-winps51-20261027"
+    ]
+  },
+  "Coverage": [
+    "Rechecked archive hashes and selected executable lengths and hashes",
+    "Staged Network Scanner x86 and x64 variants separately with repeat install, removal and restore",
+    "Staged Interbase Query x86 and x64 variants with their eight selected executable/localization members",
+    "Verified healthy state, saved-state restore and preservation of unrelated operator notes"
+  ],
+  "Boundaries": {
+    "NetworkScannerLaunched": false,
+    "NetworkTrafficSent": false,
+    "DatabaseUtilityLaunched": false,
+    "DatabaseOrServiceConnected": false,
+    "PublisherNetworkAccess": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Deferred": [
+      "Windows 11 package lifecycle acceptance",
+      "Network Scanner behavior in a bounded isolated owned test network",
+      "Interbase/Firebird behavior with synthetic disposable databases and client dependency review"
+    ],
+    "Blocker": "Get-VM -Name RIDE-Win11-Test returned CIM access unavailable before VM/checkpoint inspection."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Pinned archive variants and real-archive staging/recovery pass in both PowerShell editions; Windows and product behavior acceptance remain open."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No complete legacy outcome closes before native acceptance; the local archive run adds technical evidence only."
+  }
+}

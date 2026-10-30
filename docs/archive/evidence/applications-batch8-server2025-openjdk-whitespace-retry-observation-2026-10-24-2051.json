@@ -1,0 +1,31 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T20:51:00Z",
+  "RunId": "0d6cb028efec4b5491e2aa706c68f8c7",
+  "Suite": "ApplicationsBatch8",
+  "Target": "RIDESrv2025Test",
+  "RequestStatus": "Present in queue/running",
+  "SubmittedAtUtc": "2026-10-24T20:43:43Z",
+  "TimeoutMinutes": 180,
+  "ControllerLastLogEntryUtc": "2026-10-24T20:47:01Z",
+  "LastControllerActivity": "Guest lab command activity started and controller was waiting for completion.",
+  "ControllerErrors": [],
+  "GuestResultAvailable": false,
+  "RecoveryBlockPresent": false,
+  "Win11Queue": {
+    "Running": ["b434c134bc8144e1ae4dcd7ad80ef403"],
+    "Pending": [
+      "33c4bbf57c9a43ac9219892f9eeacb02",
+      "3f89f9225e324b22a6127318f62b86ca",
+      "89f97d58ba1a493199f83654702c91ea"
+    ]
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["OpenJDK lifecycle/recovery acceptance and Server target support until this run completes."],
+    "Partial": ["OpenJDK package outcomes remain partial."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T05:24:45Z",
+  "batch": "JoeWare downloader AdFind exclusion guard",
+  "change": {
+    "script": "tools/Download-JoeWareCollection.ps1",
+    "version": "0.2.1",
+    "behavior": [
+      "The default all-reviewed-products acquisition selection omits AdFind while it is recorded as Defender-blocked.",
+      "An explicit AdFind selection is rejected before publisher requests or destination creation.",
+      "The WhatIf preview remains network-free and creates no output directory."
+    ]
+  },
+  "tests": [
+    {
+      "runtime": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "runtime": "Windows PowerShell 5.1.26100.9711",
+      "pester": "5.7.1",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "testBoundaries": {
+    "publisherRequests": 0,
+    "outputDirectoriesCreated": 0,
+    "payloadsAcquiredOrExecuted": false,
+    "windowsOrDefenderStateChanged": false
+  },
+  "acceptance": {
+    "windowsPackageLifecycle": "Deferred; registered VM/controller access failed at CIM before inspection or dispatch.",
+    "adFind": "Excluded from acquisition and acceptance while Defender-blocked.",
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

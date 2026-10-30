@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T23:04:16Z",
+  "batch": "AzureHound retained archive integrity and selected-version reconciliation",
+  "source": "Workspace-retained publisher archive and official GitHub release metadata",
+  "retainedArchive": {
+    "path": ".local/b08-azurehound/AzureHound_v3.1.2_windows_amd64.zip",
+    "sourceUri": "https://github.com/SpecterOps/AzureHound/releases/download/v3.1.2/AzureHound_v3.1.2_windows_amd64.zip",
+    "bytes": 5363432,
+    "sha256": "64575a30873b9fcdcebeca988e1313e28da2dac00fc8a10a90ba67939552a26e",
+    "officialReleaseDigestMatched": true,
+    "members": [
+      {
+        "path": "azurehound.exe",
+        "bytes": 14900736,
+        "sha256": "1322925cd0aaa61654a58f1bcf155f59ffb4d24c2b12d7ebd3a0135d4d0d65f7",
+        "matchesRetainedStandaloneMember": true
+      }
+    ],
+    "retainedNotices": ["README.md", "LICENSE.md", "NOTICE.md"],
+    "binary": {
+      "architecture": "x64",
+      "productVersion": "v3.1.2",
+      "signatureStatus": "NotSigned"
+    }
+  },
+  "versionReconciliation": {
+    "selectedBloodHoundCEVersion": "9.8.0",
+    "selectedAzureHoundVersion": "3.1.1",
+    "retainedArchiveVersion": "3.1.2",
+    "publisherLatestVersionAtReview": "3.1.3",
+    "selectedVersionArchivePresent": false,
+    "selectedSharpHoundVersion": "2.17.0",
+    "selectedSharpHoundArchivePresent": false,
+    "retainedArchiveSubstitutedForSelectedPin": false,
+    "catalogCandidateAdded": false
+  },
+  "review": {
+    "archiveOrExecutableRun": false,
+    "collectorOrBackendStarted": false,
+    "collectionPerformed": false,
+    "licenseReviewUsedAsMigrationGate": false,
+    "networkOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "resolved": ["Retained AzureHound 3.1.2 archive and single-member digest match the publisher's release digest."],
+    "partial": ["This verifies 3.1.2 source integrity only; it does not establish compatibility with the selected CE 9.8.0 / AzureHound 3.1.1 pairing."],
+    "deferred": ["Acquire and review the exact selected AzureHound 3.1.1 and SharpHound 2.17.0 Windows archives, then complete notices, lifecycle, recovery and Windows acceptance."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  },
+  "relatedEvidence": [
+    "bloodhound-collector-github-release-digests-2026-10-26-1149.json",
+    "bloodhound-ce-9.8.0-collector-match-2026-10-23.json"
+  ]
+}

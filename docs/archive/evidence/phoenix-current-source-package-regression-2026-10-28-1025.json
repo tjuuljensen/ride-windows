@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:25:16Z",
+  "batch": "Phoenix Protector current-source package regression after NTCore version recheck",
+  "sourceEvidence": "ntcore-phoenix-explorer-current-version-source-recheck-2026-10-28-1021.json",
+  "test": {
+    "file": "tests/PhoenixPackage.Tests.ps1",
+    "result": "Passed",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "shell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "coverage": [
+      "Exact catalog package pin and pending target declaration",
+      "Machine-wide MSI scope and quiet installer arguments",
+      "Shared CLR 2.0 prerequisite check without installing it",
+      "Mocked msiexec dispatch without launching the installer"
+    ]
+  },
+  "status": {
+    "phoenixPageVersion": "1.8.0.1",
+    "catalogMsiVersion": "1.7.1",
+    "containedExecutableVersion": "1.9.0.1",
+    "versionMappingResolved": false,
+    "licenseReviewStatus": "NeedsReview",
+    "licenseReviewOwner": "Unassigned",
+    "licenseReviewIsMigrationGate": false,
+    "vmAcceptance": "Still blocked by host CIM access before VM/checkpoint inspection; last read-only check was 2026-10-28T10:17Z."
+  },
+  "handling": {
+    "msiDownloaded": false,
+    "msiExecuted": false,
+    "networkRequested": false,
+    "dotNetFrameworkFeatureChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Focused Phoenix package metadata, prerequisite and mocked dispatch regression passes 4/4."
+    ],
+    "partial": [
+      "Current Phoenix source and retained bytes were rechecked; the page/MSI/executable version relationship remains unmapped."
+    ],
+    "deferred": [
+      "Disposable Windows Phoenix install/repeat/remove/recovery, offline behavior and .NET prerequisite acceptance remain pending VM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; local mocked regression closes no whole legacy outcome."
+    }
+  }
+}

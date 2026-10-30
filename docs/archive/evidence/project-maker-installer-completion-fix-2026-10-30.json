@@ -1,0 +1,279 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T11:49:08.6714152Z",
+  "Status": "CompletionCorrectionPrepared",
+  "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch10",
+    "Status": "TimedOut",
+    "StartedAtUtc": "2026-10-30T11:15:13.0294012Z",
+    "FinishedAtUtc": "2026-10-30T11:36:14.2281152Z",
+    "Error": "Test controller exceeded its timeout; process tree terminated.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "HostProgress": [
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "Starting isolated request process",
+      "RecordedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "Validate request prerequisites",
+      "RecordedAtUtc": "2026-10-30T11:15:13.0474257Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "Validate host and import dependencies",
+      "RecordedAtUtc": "2026-10-30T11:15:13.1249606Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "Import lab and verify VM/checkpoint pins",
+      "RecordedAtUtc": "2026-10-30T11:15:29.4601319Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "Copy approved checkout snapshot",
+      "RecordedAtUtc": "2026-10-30T11:15:31.8348774Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": false
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "VM mutation may begin",
+      "RecordedAtUtc": "2026-10-30T11:16:18.0624462Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": true
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "Restore pinned checkpoint",
+      "RecordedAtUtc": "2026-10-30T11:16:18.0744534Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": true
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Preparation",
+      "Stage": "Start test VM",
+      "RecordedAtUtc": "2026-10-30T11:16:19.6516035Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:15:12.1779472Z",
+      "VmMayHaveChanged": true
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Execution",
+      "Stage": "Run test controller",
+      "RecordedAtUtc": "2026-10-30T11:16:29.5295753Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:16:29.5295753Z",
+      "VmMayHaveChanged": true
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Recovery",
+      "Stage": "Finalize request and recover VM if needed",
+      "RecordedAtUtc": "2026-10-30T11:35:10.5275797Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:35:10.5275797Z",
+      "VmMayHaveChanged": true
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Recovery",
+      "Stage": "Collect partial guest evidence",
+      "RecordedAtUtc": "2026-10-30T11:35:10.5661999Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:35:10.5275797Z",
+      "VmMayHaveChanged": true
+    },
+    {
+      "RunId": "0fdbadf304d447a7b3e38e974da4e4a5",
+      "Phase": "Recovery",
+      "Stage": "Restore checkpoint after request",
+      "RecordedAtUtc": "2026-10-30T11:36:12.1175668Z",
+      "PhaseStartedAtUtc": "2026-10-30T11:35:10.5275797Z",
+      "VmMayHaveChanged": true
+    }
+  ],
+  "ApplicationProgress": [
+    {
+      "AtUtc": "2026-10-30T11:28:45.2872385Z",
+      "PackageId": "package.mitec-project-maker",
+      "Stage": "Build installation plan"
+    },
+    {
+      "AtUtc": "2026-10-30T11:28:45.3071914Z",
+      "PackageId": "package.mitec-project-maker",
+      "Stage": "Read pre-install state"
+    },
+    {
+      "AtUtc": "2026-10-30T11:28:45.5550222Z",
+      "PackageId": "package.mitec-project-maker",
+      "Stage": "Preview installation"
+    },
+    {
+      "AtUtc": "2026-10-30T11:28:45.9958821Z",
+      "PackageId": "package.mitec-project-maker",
+      "Stage": "Install package"
+    }
+  ],
+  "InstallerTail": [
+    "2026-10-30 12:28:54.417   -- Icon entry --",
+    "2026-10-30 12:28:54.417   Dest filename: C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\MiTeC\\Project Maker\\Uninstall.lnk",
+    "2026-10-30 12:28:54.419   Creating the icon.",
+    "2026-10-30 12:28:54.442   Successfully created the icon.",
+    "2026-10-30 12:28:54.442   Saving uninstall information.",
+    "2026-10-30 12:28:54.442   Writing uninstaller messages: C:\\Program Files\\MiTeC\\Project Maker\\unins000.msg",
+    "2026-10-30 12:28:54.448   Deleting any uninstall keys left over from previous installs",
+    "2026-10-30 12:28:54.448   Creating new uninstall key: HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\MiTeC Project Maker_is1",
+    "2026-10-30 12:28:54.448   Writing uninstall key values.",
+    "2026-10-30 12:28:54.464   Installation process succeeded.",
+    "2026-10-30 12:28:54.468   Need to restart Windows? No",
+    "2026-10-30 12:28:54.475   -- Run entry --",
+    "2026-10-30 12:28:54.475   Run as: Original user",
+    "2026-10-30 12:28:54.475   Type: Exec",
+    "2026-10-30 12:28:54.475   Filename: C:\\Program Files\\MiTeC\\Project Maker\\ProjectMaker64.exe",
+    "2026-10-30 12:28:57.562   Deinitializing Setup.",
+    "2026-10-30 12:28:57.576   Log closed."
+  ],
+  "Observations": [
+    "Setup reported success, launched ProjectMaker64.exe, and closed its log.",
+    "Application stage stayed at Install package. No completed application summary was collected.",
+    "Process-tree wait for launched application is the leading inference, not a retained live process-tree observation."
+  ],
+  "WaitReference": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process?view=powershell-5.1",
+  "GuestTests": {
+    "Total": 439,
+    "Failed": 0,
+    "Passed": 435,
+    "Skipped": 4
+  },
+  "EvidenceFiles": [
+    {
+      "Path": "result.json",
+      "Bytes": 624,
+      "Sha256": "d169d1d38ed7cce6d8827a0d87976fcb9502322de67f28b3675e145e7d3843ff"
+    },
+    {
+      "Path": "host-progress.jsonl",
+      "Bytes": 2758,
+      "Sha256": "6b37952106ec1c80a38ef5fbf92245bad9967a11217918755d7bb56521b8c6c5"
+    },
+    {
+      "Path": "guest/application-progress.jsonl",
+      "Bytes": 460,
+      "Sha256": "73ce37063229decb8e0fdb99378a02b02121689ae6aae161419810aaacd21f0d"
+    },
+    {
+      "Path": "guest/project-maker-install.log",
+      "Bytes": 5009,
+      "Sha256": "08686a226202bb1262459f83055fd9caff99703cfeb05f420a3468dde0f4f84a"
+    },
+    {
+      "Path": "guest/progress.jsonl",
+      "Bytes": 1286,
+      "Sha256": "7191f32a82c1b364539fa75c910ef747df2a40259d8a309cab14ce821bfd0743"
+    },
+    {
+      "Path": "guest/collection-omissions.json",
+      "Bytes": 353,
+      "Sha256": "e2d9c2ad31e5e68c141605cf2424bc40ce2493ea0602502fece907f5d02b13e0"
+    },
+    {
+      "Path": "guest/pester.xml",
+      "Bytes": 159038,
+      "Sha256": "a41fce9974afda2a9d59fc6fc2037f27910487e51921e7dc2ca0542ee62b49d4"
+    }
+  ],
+  "LocalChecks": {
+    "Completion": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 10,
+      "Passed": 10,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "Repository": {
+      "Groups": 8,
+      "Profiles": 5,
+      "Operations": 451,
+      "Status": "Passed",
+      "PowerShellFiles": 313
+    },
+    "Preservation": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 29,
+      "Passed": 6,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    }
+  },
+  "SourceFiles": [
+    {
+      "Path": "modules/RIDE-Packages.psm1",
+      "Sha256": "e4f07deef0e8bd883674f1eef38a687939d09b7a7c62aed0453081b8c88a2223"
+    },
+    {
+      "Path": "modules/RIDE.CatalogValidation.psm1",
+      "Sha256": "c0bcca6925832801aa695877f6bde7cbfb44dbc3d546daf7ed563ca8fe6d20bf"
+    },
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "950bc89e98f6a6f5564b5871bde160f5ed69dab84b11dc93d23a46e77a5c11ae"
+    },
+    {
+      "Path": "tests/InstallerCompletion.Tests.ps1",
+      "Sha256": "d5780a5d380ef1bb7b9f4ac7f82f86a146a7a02b3581f31ed994964ba2e2c5d7"
+    }
+  ],
+  "QueueReadback": {
+    "Pending": 0,
+    "Running": 0,
+    "RequestArchived": true,
+    "RecoveryBlockPresent": false
+  },
+  "LiveOffReady": "Pending operator check",
+  "CorrectedVmAcceptance": "Pending",
+  "Next": "One Source Local ApplicationsBatch10 request with TimeoutMinutes 20 after Off/Ready check. No registration refresh or extra UnitOnly run.",
+  "LegacyOutcomesClosed": 0,
+  "Estimates": {
+    "Packages": "37-52",
+    "Settings": "37-57",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180"
+  }
+}

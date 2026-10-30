@@ -1,0 +1,36 @@
+{
+  "recordedAtUtc": "2026-10-29T00:27:55Z",
+  "source": "https://www.mitec.cz/wp/apps/",
+  "scope": "Current publisher Apps & Tools page only; older publisher-linked products remain separate.",
+  "currentPageProductCount": 22,
+  "catalogAudit": {
+    "method": "Compared the 22 product names listed on the current page against Package operation display names, allowing the OLE/COM Explorer versus OLE/COM Object Explorer alias.",
+    "currentPageProductsMapped": 22,
+    "missingProducts": [],
+    "totalMiTeCPackageOperations": 30,
+    "recentlyAddedCurrentPageProduct": "MiTeC Paradox Data Editor now maps to package.mitec-paradox-data-editor."
+  },
+  "candidateBoundaries": {
+    "paradoxDataEditor": "Catalogued as a pending candidate with no supported targets; source mapping does not establish target acceptance.",
+    "mailChecker": "Historical product, not named on the current Apps & Tools page; pending candidate under the full-collection decision.",
+    "weatherAgent": "Historical product, not named on the current Apps & Tools page; temporary product-security hold documented separately."
+  },
+  "sideEffects": {
+    "catalogOrStoreChanged": false,
+    "downloadOrInstallerRun": false,
+    "vmOrDefenderAccessed": false,
+    "windowsStateChanged": false,
+    "legacyOutcomeClosed": false,
+    "migrationEstimatesChanged": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "All current-page products now have catalog mappings, but candidate mapping alone does not close product lifecycle outcomes or native acceptance."
+  }
+}

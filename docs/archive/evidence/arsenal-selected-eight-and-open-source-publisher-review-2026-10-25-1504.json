@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T15:04:37Z",
+  "scope": "Arsenal initial eight products and expanded free-use publisher collection source review",
+  "Authority": {
+    "InitialEightSelected": ["Arsenal Image Mounter", "Hibernation Recon", "Registry Recon", "HBIN Recon", "Hive Recon", "ODC Recon", "Swap Recon", "LevelDB Recon"],
+    "ExpandedScopeDecisionDate": "2026-10-24",
+    "OpenSourceProjectsNowInScope": ["Backstage Parser", "CyberGate Log Decrypt", "Gmail URL Decoder", "NetWire Log Decoder", "Sdba Parser", "NwStacks"],
+    "MEGAcmd": "Remains separately deferred; not an implicit dependency"
+  },
+  "Products": [
+    {"name":"Arsenal Image Mounter","version":"3.13.368","releaseDate":"2026-08-05","use":"Publisher documents distinct Free and Professional modes; driver and VM behavior remain separate acceptance."},
+    {"name":"Hibernation Recon","version":"1.2.3.96","releaseDate":"2026-05-27","use":"Publisher explicitly offers Free Mode, including active-memory reconstruction."},
+    {"name":"Registry Recon","version":null,"releaseDate":null,"use":"Publisher page describes a paid product and evaluation through sales; a current public version was not identified."},
+    {"name":"HBIN Recon","version":"1.0.0.75","releaseDate":"2024-11-08","use":"Publisher lists it among additional tools included with an Arsenal subscription."},
+    {"name":"Hive Recon","version":"1.0.0.62","releaseDate":null,"use":"Publisher lists it among additional tools included with an Arsenal subscription."},
+    {"name":"ODC Recon","version":"1.0.0.61","releaseDate":null,"use":"Publisher lists it among additional tools included with an Arsenal subscription."},
+    {"name":"Swap Recon","version":"1.0.0.16","releaseDate":"2026-02-09","use":"Publisher lists it among additional tools included with an Arsenal subscription."},
+    {"name":"LevelDB Recon","version":"1.0.0.62","releaseDate":null,"use":"Publisher lists it among additional tools included with an Arsenal subscription."}
+  ],
+  "OpenSourceProjects": [
+    {"name":"Backstage Parser","repository":"https://github.com/ArsenalRecon/BackstageParser","license":"MIT","function":"Reads specified Office Backstage cache files and writes CSV/TSV/PSV/JSON output."},
+    {"name":"CyberGate Log Decrypt","repository":"https://github.com/ArsenalRecon/CyberGateLogDecrypt","license":"MIT","function":"Decodes supplied CyberGate keylogger records to plaintext; output can contain captured keystrokes."},
+    {"name":"Gmail URL Decoder","repository":"https://github.com/ArsenalRecon/GmailURLDecoder","license":"MIT","function":"Reads supplied text or raw files and writes extracted Gmail URL data as JSON."},
+    {"name":"NetWire Log Decoder","repository":"https://github.com/ArsenalRecon/NetWireLogDecoder","license":"MIT","function":"Scans supplied files or devices and writes carved/decoded NetWire log data; README recommends temporarily setting PowerShell execution policy to Unrestricted."},
+    {"name":"Sdba Parser","repository":"https://github.com/ArsenalRecon/SdbaParser","license":"MIT","function":"Reads supplied files and writes pipe-separated CSV; README recommends temporarily setting PowerShell execution policy to Unrestricted."},
+    {"name":"NwStacks","repository":"https://github.com/ArsenalRecon/NetWireStackForensics","license":"MIT","function":"Prototype scanner/analyzer for NetWire 1.7 stacks; repository also contains sample files, snapshots and decrypted payload examples that are not implicitly selected package content."}
+  ],
+  "SourceLimitations": {
+    "MutableGitBranches": true,
+    "ExactGitCommitsPinned": false,
+    "ArchiveBytesAcquired": false,
+    "Sha256Verified": false,
+    "CompleteFileInventoriesVerified": false,
+    "RegistryReconLatestVersionPubliclyIdentified": false,
+    "GitHubApiCommitResolution": "GitHub API commit resolution was inaccessible and the repository commits pages returned source-reader cache misses; no commit pin was claimed."
+  },
+  "SafetyBoundaries": {
+    "ToolsExecuted": false,
+    "ForensicOrUserDataOpened": false,
+    "PowerShellExecutionPolicyChanged": false,
+    "DriverInstalledOrChanged": false,
+    "ActivationAttempted": false,
+    "DefenderChangedOrQueried": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "Outcome": {
+    "Resolved": ["Current official product inventory for the original eight", "Six publisher-open-source utilities brought into review scope by the 2026-10-24 free-use decision", "MIT notices and documented input/output behavior for the six open-source repositories", "Current publisher version labels where publicly shown"],
+    "Deferred": ["Exact source revisions and archive SHA-256 pins", "Complete artifact member inventories and local notices", "Registry Recon current public version", "Package lifecycle and functional checks on synthetic inputs", "Driver, activation and VM behavior for applicable products"],
+    "LicenseGate": false,
+    "OwnerVersionReviewMarkers": "Record locally when package catalog identities are established; informational, not migration gates.",
+    "LegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "Estimates": {"settings":"37-57","packages":"40-55","components":"19-24","filesAndAssets":"25-35","maintenance":"8-12","exactTotal":"129-183","roundedTotal":"130-185/about 155"}
+  },
+  "PublisherSources": [
+    "https://arsenalrecon.com/products",
+    "https://arsenalrecon.com/additional-products",
+    "https://arsenalrecon.com/products/arsenal-image-mounter/downloads",
+    "https://arsenalrecon.com/products/hibernation-recon/downloads",
+    "https://arsenalrecon.com/products/registry-recon",
+    "https://arsenalrecon.com/products/registry-recon/faqs",
+    "https://arsenalrecon.com/products/hbin-recon/downloads",
+    "https://arsenalrecon.com/products/swap-recon/downloads"
+  ]
+}

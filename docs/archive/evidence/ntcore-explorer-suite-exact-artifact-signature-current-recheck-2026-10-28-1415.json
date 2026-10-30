@@ -1,0 +1,47 @@
+{
+  "recordedAtUtc": "2026-10-28T14:15:09Z",
+  "packageId": "package.ntcore-explorer-suite",
+  "packageVersion": "III-2012-11-18",
+  "publisherSource": {
+    "productUri": "https://ntcore.com/explorer-suite/",
+    "publishedSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+    "pageVersion": "III (18/11/2012)"
+  },
+  "retainedArtifact": {
+    "path": ".local/remaining-collections-20261017/ExplorerSuite.exe",
+    "length": 3613174,
+    "sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+    "sha256MatchesPublisher": true,
+    "authenticodeStatus": "NotSigned",
+    "signer": null
+  },
+  "catalogDisposition": {
+    "supportedTargets": [],
+    "candidateTargets": ["Windows 11"],
+    "pendingAcceptance": true,
+    "license": "Exact-version NeedsReview marker remains administrative; it does not block migration."
+  },
+  "interpretation": "The publisher's exact SHA-256 matches the retained installer. The installer has no Authenticode signature; the observed unsigned status is recorded separately from the publisher hash and is not treated as a Defender detection or a licensing gate.",
+  "execution": {
+    "installerExecuted": false,
+    "utilitiesExecuted": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "blockers": [
+    "Disposable Windows 11 install/repeat/remove/saved-state recovery acceptance remains pending and host CIM currently blocks fresh RIDE-Win11-Test checkpoint inspection.",
+    "Publisher page says Explorer Suite III while the embedded installer label says IV; version identity remains pinned to the publisher page/date plus exact digest without silently resolving the labels."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; source/signature review closes no legacy package outcome."
+  }
+}

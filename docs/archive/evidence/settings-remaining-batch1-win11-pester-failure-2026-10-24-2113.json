@@ -1,0 +1,44 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "b434c134bc8144e1ae4dcd7ad80ef403",
+  "Suite": "SettingsRemainingBatch1",
+  "Target": "Windows 11 Enterprise Evaluation",
+  "Build": "26300",
+  "StartedAtUtc": "2026-10-24T19:00:09.1591063Z",
+  "FinishedAtUtc": "2026-10-24T21:13:23.8804638Z",
+  "Status": "Failed",
+  "ValidationPassed": true,
+  "IntegrationPassed": false,
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 3206,
+    "Failed": 46,
+    "Skipped": 1,
+    "Total": 3253,
+    "Selection": "Full repository regression"
+  },
+  "FailureCategories": [
+    "Sysinternals lifecycle tests still expect the nine Windows 11-supported independent products to be unsupported and pending; this contradicts the catalog and the prior RIDE v2 specialist approval, and is not a legal blocker.",
+    "Six MiTeC archive tests require retained .local ZIP files that were not in the VM source snapshot.",
+    "Phoenix Protector install-planning tests encounter an undeclared .NET Framework 3.5 prerequisite.",
+    "GitHub credential tests report UnsafeCredentialPermissions in the disposable guest profile.",
+    "Remaining setting tests disagree with target metadata for the SHA-256 and Hash Value context-menu operations.",
+    "Other repository regressions include portable archive, scoped MSI detection and path-resolution assertions."
+  ],
+  "Recovery": {
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "BlockedMarkerPresent": false
+  },
+  "MigrationDisposition": {
+    "SettingsAcceptance": "Not reached; the full Pester regression gate failed before native setting scenarios.",
+    "LegacyOutcomeClosed": false,
+    "DefenderBlockedTools": "Remain excluded from acceptance selections."
+  },
+  "Sources": [
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\b434c134bc8144e1ae4dcd7ad80ef403\\result.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\b434c134bc8144e1ae4dcd7ad80ef403\\guest\\summary.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\b434c134bc8144e1ae4dcd7ad80ef403\\guest\\Pester.xml"
+  ]
+}

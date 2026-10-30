@@ -1,0 +1,21 @@
+{
+  "recordedAtUtc": "2026-10-28T21:17:20Z",
+  "batch": "Rufus current-source synthetic file lifecycle cross-shell regression and VM access recheck",
+  "test": {
+    "path": "tests/RufusPackage.Tests.ps1",
+    "powerShell7": { "version": "7.6.5", "pester": "5.7.1", "total": 4, "passed": 4, "failed": 0, "skipped": 0 },
+    "windowsPowerShell": { "version": "5.1.26100.9818", "pester": "5.7.1", "total": 4, "passed": 4, "failed": 0, "skipped": 0, "executionPolicy": "Process-only Bypass" },
+    "plugins": { "TestRegistry": false, "TestResult": false },
+    "scope": "Inert temporary bytes only. Tests cover portable filename trigger and profile exclusion, repeat stage/removal, preservation of user settings/logs, saved-state recovery without overwriting later settings, refusal of existing-file collision, and preservation of operator-modified executable bytes."
+  },
+  "vm": { "checkedAtUtc": "2026-10-28T21:17:20Z", "target": "RIDE-Win11-Test", "result": "Access to a CIM resource was not available to the client.", "stateRetrieved": false, "guestRequestSubmitted": false },
+  "sideEffects": { "syntheticTestDriveBytesOnly": true, "rufusExecuted": false, "mediaAccessed": false, "registrationChanged": false, "installerDownloaded": false, "networkRequest": false, "windowsChanged": false, "defenderChanged": false, "elevationRequested": false },
+  "migration": {
+    "resolved": [ "Current-source Rufus synthetic lifecycle regression passed in both PowerShell editions." ],
+    "retired": [], "excluded": [],
+    "deferred": [ "Publisher artifact verification and Windows 11 package install/repeat/uninstall/recovery acceptance remain blocked by host-CIM VM access." ],
+    "partial": [ "No legacy package outcome closed; no supported target inferred." ],
+    "estimates": { "settings": "37-57", "packages": "37-52", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exactTotal": "126-180", "roundedTotal": "125-180/about 155" },
+    "estimateAdjustment": "No legacy outcome resolved or retired; all ranges remain unchanged."
+  }
+}

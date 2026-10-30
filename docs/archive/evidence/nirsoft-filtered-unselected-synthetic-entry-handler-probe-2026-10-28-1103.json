@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:03:24Z",
+  "batch": "NirSoft filtered portable selection synthetic unselected-entry regression",
+  "implementation": {
+    "file": "tests/NirsoftCollectionPackages.Tests.ps1",
+    "change": "The synthetic lifecycle ZIP now contains an additional inert, unselected text fixture; the test asserts that it is not present in the installed package directory.",
+    "blockedExecutableFileCreatedOrUsed": false
+  },
+  "validation": {
+    "powershell76Parser": "Passed with zero parser errors.",
+    "windowsPowerShell51Parser": "Passed with zero parser errors.",
+    "directWindowsPowerShell76HandlerProbe": {
+      "packages": [
+        {
+          "packageId": "package.nirsoft-launcher",
+          "selectedFiles": 3,
+          "repeatInstall": "Passed",
+          "unselectedEntryStaged": false,
+          "uninstall": "Passed"
+        },
+        {
+          "packageId": "package.nirsoft-x64-tools",
+          "selectedFiles": 1,
+          "repeatInstall": "Passed",
+          "unselectedEntryStaged": false,
+          "uninstall": "Passed"
+        }
+      ],
+      "archive": "Synthetic unencrypted ZIPs containing inert required-file text and one inert unselected text entry each.",
+      "scratch": "Unique workspace-local .local directory; isolated process temp; cleaned after success."
+    },
+    "pesterSuite": {
+      "run": false,
+      "reason": "Only Pester 3.4.0 is available; the suite requires Pester 5.x."
+    },
+    "windowsPowerShell51DirectHandlerProbe": {
+      "run": false,
+      "reason": "Windows PowerShell blocked the temporary probe script at AuthorizationManager before its contents ran. The child-process Get-ExecutionPolicy query could not read policy registry state. No policy bypass was attempted."
+    },
+    "repositoryValidation": {
+      "verifiedAtUtc": "2026-10-28T11:05:45Z",
+      "validateScript": "Passed: 441 operations, 8 groups, 5 profiles and 299 PowerShell files.",
+      "catalogDocumentationCheck": "Passed: generated operation documentation is current."
+    }
+  },
+  "safety": {
+    "publisherArchiveOrPayloadUsed": false,
+    "NirSoftExecutableExecuted": false,
+    "DefenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "failedChildScratch": "Contained only the generated probe script and empty temp directory; verified under workspace .local and cleaned."
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The portable handler stages the exact selected required files for both NirSoft candidates (three for NirLauncher and one for x64 tools) and omits an extra unselected entry in the direct PowerShell 7.6.5 probes."
+    ],
+    "partial": [
+      "The strengthened Pester regression and Windows PowerShell 5.1 runtime path remain unverified."
+    ],
+    "deferred": [
+      "Pester 5 regression, actual encrypted NirLauncher archive staging, and disposable Windows 11 acceptance remain deferred. The reported PasswordScan stage path still correlates with the prior incomplete filtered archive retry but its creator and catalog revision are unproven."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the test coverage is stronger, but the archive lifecycle and whole legacy package outcome remain open."
+    }
+  },
+  "relatedEvidence": [
+    "nirsoft-passwordscan-defender-repeat-alert-2026-10-28-1048.json",
+    "nirsoft-defender-filtered-retry-incomplete-2026-10-27-1835.json",
+    "nirsoft-encrypted-stager-current-source-trace-2026-10-28-0646.json"
+  ]
+}

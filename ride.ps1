@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-  Plan, inspect, and manage declared Windows settings and packages.
+  Plan, inspect, and manage declared Windows settings, packages, and components.
 
 .DESCRIPTION
   Loads catalog metadata and dispatches list, search, show, plan, apply, download, install,
-  set, unset, status, restore, or remove. Command defaults to list. Discovery and
+  set, unset, status, restore, remove, or prune-state. Command defaults to list. Discovery and
   completion are read-only. State-changing engine commands use ShouldProcess and
   save pre-change state for settings and package presence. Package restoration
   can reinstall the current upstream release; exact prior package versions are
@@ -44,6 +44,12 @@
 
 .PARAMETER RunId
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
+
+.PARAMETER StateScope
+  State store for prune-state: User, Machine, or Both. Machine records require elevation.
+
+.PARAMETER OlderThanDays
+  Minimum completed-run age in days for prune-state; defaults to 365 and cannot be below 30.
 
 .PARAMETER UserContext
   Current (default) uses the execution account. Desktop explicitly launches a
@@ -127,7 +133,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.13.0
+  Version: 0.13.2
+  Changelog: 0.13.2: Add explicit previewable cleanup for old completed run recovery records.
+    0.13.1: Document the gated catalog BitLocker workflow entry point.
   Changelog:
     0.13.0: Enforce explicit offline portable bundle gates before install/apply.
     0.12.1: Document discovery of the separate guarded Store app workflow.
@@ -172,7 +180,7 @@
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
 param(
   [Parameter(Position = 0)]
-  [ValidateSet('list', 'search', 'show', 'plan', 'apply', 'download', 'install', 'set', 'unset', 'status', 'restore', 'remove')]
+  [ValidateSet('list', 'search', 'show', 'plan', 'apply', 'download', 'install', 'set', 'unset', 'status', 'restore', 'remove', 'prune-state')]
   [string] $Command = 'list',
 
   [Parameter(Position = 1)]
@@ -340,7 +348,7 @@ param(
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root (Split-Path -Parent (Split-Path -Parent $catalogPath)) -Library $fakeBoundParameters.Library).Catalog
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-      if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'WindowsService', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) {
+    if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'WindowsService', 'WindowsCapability', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) {
         $states = @($operation.States.Keys)
         if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder', 'ProfileSetting') -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }
@@ -388,6 +396,8 @@ param(
     }
   })]
   [string] $RunId = '',
+  [ValidateSet('User', 'Machine', 'Both')][string] $StateScope = 'User',
+  [ValidateRange(30, 36500)][int] $OlderThanDays = 365,
   [ValidateSet('Current','Desktop')][string] $UserContext = 'Current',
   [string[]] $Library = @(),
   [string] $Destination = '',
@@ -426,7 +436,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.13.0'
+$script:ScriptVersion = '0.13.2'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -443,7 +453,7 @@ Commands:
   plan                 Show current values beside the profile's desired values.
   apply                Apply the profile and record prior state.
   download <catalog-id> Download a package or standalone artifact without applying it.
-  install <package-id> Install one catalog package and record its prior state.
+  install <catalog-id> Install one package or Windows component and record prior state.
   set <setting-id>     Set one catalog setting to a declared state; use -State <state>.
   unset <setting-id>   Remove one setting value when its catalog declares an unset state.
                       Profile colors: Recommended, AdminBlue, Default or Baseline.
@@ -451,7 +461,10 @@ Commands:
                       Pending profile operations await disposable target/visual acceptance.
   status [view]         Show default or profile status, optionally filtered.
   restore -RunId <id>  Restore values recorded before a prior run.
-  remove [package-id]  Uninstall one package or packages selected by the profile.
+                      If apply fails, the error lists saved, completed and unfinished operations.
+                      Restore that RunId, then reapply the same profile to continue safely.
+  remove [catalog-id]  Remove one package/component or profile-selected packages.
+  prune-state          Preview or remove old, fully completed run recovery records.
 
 Options:
   -Library <files>     Explicit local library manifests; Tab completes filesystem paths.
@@ -464,6 +477,8 @@ Options:
                        Service states include catalog-declared startup-only and combined presets.
                        Pending firewall profile controls complete On/Off but await VM acceptance.
   -RunId <id>          Run ID required by restore.
+  -StateScope User|Machine|Both  State store to inspect (default User); machine requires elevation.
+  -OlderThanDays <n>   Minimum run age for prune-state; defaults to 365 days (minimum 30).
   -UserContext Current (default) or Desktop. Desktop starts a separate signed-in-user
                       window for set/unset, user-only apply/plan or user-only restore.
                       Refuses machine/mixed/package plans and missing/other desktop
@@ -471,7 +486,7 @@ Options:
                       Inspect child output for completion and saved user run IDs.
                       RunId completion is available in the actual user's session.
   -Destination <path>  Retain a downloaded artifact under this directory.
-  -WhatIf              Preview apply, download, install, set, unset, remove or restore.
+  -WhatIf              Preview apply, download, install, set, unset, remove, restore or prune-state.
   -Confirm             Ask before each supported change.
   -Help                Display this help.
   -Variant <name>      Select a declared package edition; Tab completes its variants.
@@ -498,6 +513,7 @@ List views:
   packages             Show software install and uninstall operations.
   store-apps           Show optional Store registration operations; use the separate
                        tools/Invoke-RideStoreApps.ps1 workflow for app actions.
+  components           Show optional Windows component operations and their acceptance state.
   artifacts            Show standalone download-only artifacts.
   windows              Show Windows setting operations; after status, show their defaults or profile state.
   explorer             Show Explorer-related settings; after status, show their defaults or profile state.
@@ -507,6 +523,15 @@ List views:
   groups               Show multi-operation solutions; after status, show their member package state.
   settings             Show Windows settings and managed exclusions; after status, show defaults or profile state.
   (Status supports all views except profiles; use -Profile <file> to select a profile.)
+
+BitLocker workflows:
+  Use .\tools\Invoke-RideBitLockerWorkflow.ps1 with a catalog BitLocker workflow ID
+  for guided encryption, explicit decryption, existing-key backup to a selected
+  native destination, additional recovery-password creation, or selected-key
+  reveal. All BitLocker workflows remain pending disposable Windows acceptance
+  and currently refuse application.
+  Use 'show <id>' for nonsecret state.
+  See docs/bitlocker-recovery.md before preparing a target.
 
 In an interactive PowerShell session, press Tab after a command or value to
 complete commands, operation and group IDs, profiles, and saved run IDs.
@@ -587,6 +612,9 @@ if ($Command -eq 'search') {
 }
 foreach ($parameter in @('Query', 'Field', 'View')) {
   if ($PSBoundParameters.ContainsKey($parameter)) { throw "-$parameter is only supported by the search command." }
+}
+foreach ($parameter in @('StateScope', 'OlderThanDays')) {
+  if ($PSBoundParameters.ContainsKey($parameter) -and $Command -ne 'prune-state') { throw "-$parameter is only supported by prune-state." }
 }
 if ($Variant -and $Command -notin @('install', 'remove', 'download', 'show')) { throw '-Variant is supported by install, remove, download and show.' }
 if ($Variant -and -not $Id) { throw '-Variant requires a package ID.' }
@@ -673,6 +701,11 @@ switch ($Command) {
   'restore' {
     if (-not $RunId) { throw 'The restore command requires -RunId.' }
     Restore-RideRun -RunId $RunId @shouldProcessParameters @githubParameters
+  }
+  'prune-state' {
+    $unsupported = @('Id', 'Profile', 'State', 'RunId', 'Variant', 'Destination', 'OfflineBundle', 'OfflineProfileId', 'OfflineCatalogFileId', 'GitHubAuthentication', 'GitHubCredentialReference') | Where-Object { $PSBoundParameters.ContainsKey($_) }
+    if ($unsupported) { throw "prune-state does not support: $($unsupported -join ', ')." }
+    Remove-RideOldRunRecords -OlderThanDays $OlderThanDays -Scope $StateScope @shouldProcessParameters
   }
   'remove' {
     if ($Id) {

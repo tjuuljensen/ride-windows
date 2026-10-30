@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T19:29:39Z",
+  "batch": "RIDE-Win11-Test read-only CIM access recheck",
+  "vmName": "RIDE-Win11-Test",
+  "command": "Get-VM -Name RIDE-Win11-Test",
+  "result": "failed_before_vm_or_checkpoint_inspection",
+  "error": "Access to a CIM resource was not available to the client.",
+  "taskDispatch": "not attempted",
+  "safety": {
+    "vmOrCheckpointChanged": false,
+    "hostServiceChanged": false,
+    "uacRequested": false,
+    "defenderChanged": false
+  },
+  "deferred": [
+    "HashCheck ApplicationsBatch11 Windows 11 acceptance",
+    "remaining Windows package, setting and component acceptance",
+    "protected controller capability refresh"
+  ],
+  "legacyOutcomeClosed": false,
+  "estimatesChanged": false,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155"
+  }
+}

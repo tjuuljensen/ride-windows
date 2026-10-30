@@ -1,0 +1,57 @@
+{
+  "recordedAtUtc": "2026-10-29T02:57:58Z",
+  "kind": "SysinternalsProductsCurrentSourceRegressionAndCimBlock",
+  "test": {
+    "path": "tests/SysinternalsProductPackages.Tests.ps1",
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "products": [
+      "Process Explorer",
+      "Autoruns",
+      "TCPView",
+      "Process Monitor",
+      "RAMMap",
+      "Disk2vhd",
+      "Sigcheck",
+      "Strings",
+      "Handle"
+    ],
+    "result": {
+      "discovered": 72,
+      "passed": 72,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "scope": {
+    "payloads": "Inert synthetic ZIP members only",
+    "productUtilitiesOrDriversRunOrLoaded": false,
+    "eulaInteractedWith": false,
+    "networkDiscoveryOrDownload": false,
+    "defenderStateReadOrChanged": false,
+    "defenderBlockedNirSoftToolsIncluded": false,
+    "windowsStateChanged": false,
+    "nativeAcceptanceEstablishedByThisRun": false
+  },
+  "licenseDisposition": "The prior RIDE v2 license-specialist approval for RIDE's direct-download-and-install workflow remains settled; this regression does not reopen licensing or add a legal migration gate.",
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-29T02:57:58Z",
+    "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "result": "Get-VM failed before state retrieval at host CIM for both targets.",
+    "checkpointState": "Unverified",
+    "acceptance": "No new VM acceptance run"
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

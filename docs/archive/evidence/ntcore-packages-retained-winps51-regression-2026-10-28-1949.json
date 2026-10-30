@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:49:07Z",
+  "batch": "NTCore current-source Windows PowerShell regression with retained candidate archives",
+  "command": "Windows PowerShell 5.1 with Pester 5.7.1; tests/NtcorePackages.Tests.ps1; TestRegistry disabled; RIDE_NTCORE_FIXTURE_DIRECTORY set to .local/source-review-batches2-20261017; process TEMP/TMP scoped to a workspace-local directory.",
+  "results": {
+    "discovered": 21,
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "inconclusive": 0,
+    "durationSeconds": 24.73,
+    "exitCode": 0
+  },
+  "retainedSources": {
+    "screenWriter": "ScreenWriter.msi length and SHA-256 matched the reviewed/catalog pin; Windows Installer was not started.",
+    "virtualRegManager": "VirtualRegManager.zip matched its review/catalog digest and its selected executable file lifecycle restored owned bytes; the utility was not run.",
+    "otherCandidates": "Inert synthetic fixtures were used wherever this directory did not contain the candidate archive."
+  },
+  "coverage": [
+    "Current source/catalog/review bindings for Explorer Suite, PE Detective, CFF Explorer, Driver List x64/x86, Rebel.NET, VirtualReg Manager, ScreenWriter and WIM Installer.",
+    "Synthetic and retained-file lifecycle checks for selected-member install, repeat, removal, snapshot recovery, collisions and modified-file protection.",
+    "Full candidate test suite passed with no skips after supplying the retained archive directory."
+  ],
+  "safety": {
+    "upstreamUtilitiesExecuted": false,
+    "windowsInstallerStarted": false,
+    "defenderBlockedFilesSelected": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "outcome": {
+    "legacyOutcomeClosed": 0,
+    "remaining": "The selected NTCore publisher-list scope and Windows acceptance of pending candidates remain open. This local regression does not establish native installation or tool behavior."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no legacy package outcome closed."
+  },
+  "relatedEvidence": [
+    "ntcore-packages-current-winps51-synthetic-regression-2026-10-28-1947.json",
+    "ntcore-packages-winps51-pester-retained-candidate-regression-2026-10-28-1441.json",
+    "ntcore-full-suite-candidate-current-catalog-recheck-2026-10-28-1651.json"
+  ]
+}

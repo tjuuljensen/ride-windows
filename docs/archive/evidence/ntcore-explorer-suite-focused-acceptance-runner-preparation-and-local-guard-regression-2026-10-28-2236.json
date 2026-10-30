@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:36:00Z",
+  "batch": "NTCore Explorer Suite focused acceptance runner preparation",
+  "packageId": "package.ntcore-explorer-suite",
+  "integrationSuite": "ApplicationsBatch12",
+  "controllerCapability": "ApplicationsBatch12NtcoreExplorerSuiteV1",
+  "runner": {
+    "guestSelection": "Exact package ID only; Windows 11 target guard; install/repeat/remove/repeat and saved install/removal recovery using the normal application lifecycle path.",
+    "safetyBoundary": "Does not launch any suite utility, open target files, invoke utilities against user data, or include PasswordScan.",
+    "controllerGuard": "Client refuses to queue before request creation unless the registered controller advertises the new capability.",
+    "versionGuards": {
+      "taskClient": "1.14.0",
+      "guest": "1.9.0",
+      "applicationBatch": "0.19.0",
+      "controllerRegistration": "0.11.0",
+      "vmTest": "0.18.0"
+    }
+  },
+  "localValidation": {
+    "parser": "All 8 changed PowerShell files parsed without errors.",
+    "versionGuards": "All five runner/registration version commands returned their expected versions.",
+    "exactPackageAndCapabilityGuards": "Direct checks passed for exact package selection and stale-controller refusal before queue submission.",
+    "pester": "Not run. PowerShell 7.6.5 has Pester 3.4.0 only. Windows PowerShell 5.1 has Pester 5.7.1, but module import failed on its format file with AuthorizationManager check failed; no execution-policy bypass was used.",
+    "powerShell": "7.6.5",
+    "windowsPowerShellScriptExecution": "Not performed; invoking repository scripts was blocked by AuthorizationManager."
+  },
+  "acceptance": {
+    "status": "Deferred",
+    "vm": "RIDE-Win11-Test",
+    "dispatch": "No VM request was submitted; no checkpoint or guest state was queried.",
+    "blockers": [
+      "Existing controller requires an elevated refresh to register the new capability; deferred to the saved fresh-UAC scenario.",
+      "Host CIM/VM access remains blocked by previously recorded access failures; no retry was made.",
+      "No focused Pester 5 runtime was available in this workspace session."
+    ],
+    "pending": [
+      "Run ApplicationsBatch12 through the existing RIDE-Win11-Test checkpoint after controller capability refresh and host VM access restoration.",
+      "Verify installed component/shortcut scope, registered uninstaller identity, repeat install/removal, and saved install/removal recovery.",
+      "Only after acceptance, decide whether to declare Windows 11 support and close the applicable legacy package outcome."
+    ]
+  },
+  "boundary": {
+    "installerRun": false,
+    "utilityRun": false,
+    "publisherNetwork": false,
+    "defenderQueriedOrChanged": false,
+    "reportedPasswordScanFileAccessed": false,
+    "uacPrompt": false,
+    "windowsStateChanged": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Focused acceptance runner prepared and guarded; Windows lifecycle acceptance remains deferred."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Windows 11 NTCore Explorer Suite package lifecycle acceptance pending elevated controller refresh and restored VM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; runner preparation closes no legacy outcome."
+    }
+  },
+  "sysinternalsDisposition": "Prior RIDE v2 specialist approval and the user clarification settle RIDE direct download-and-install; licensing is not a migration gate. Defender-blocked utilities remain separate security exclusions."
+}

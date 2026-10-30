@@ -1,0 +1,15 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "0d6cb028efec4b5491e2aa706c68f8c7",
+  "Suite": "ApplicationsBatch8",
+  "Target": "RIDESrv2025Test disposable Windows Server 2025 VM",
+  "Status": "Running",
+  "SubmittedAtUtc": "2026-10-24T20:43:43Z",
+  "TimeoutMinutes": 180,
+  "SourceSnapshotCopiedAtUtc": "2026-10-24T20:44:13Z",
+  "CodeUnderTest": "Catalog DisplayNamePattern accepts repeated whitespace after OpenJDK; focused test uses the exact double-spaced MSI registration.",
+  "ControllerErrors": [],
+  "ResultAvailable": false,
+  "SupportPromoted": false,
+  "Acceptance": "Pending guest execution and complete lifecycle evidence"
+}

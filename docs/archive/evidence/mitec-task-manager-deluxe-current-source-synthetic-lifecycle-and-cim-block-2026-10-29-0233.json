@@ -1,0 +1,60 @@
+{
+  "recordedAtUtc": "2026-10-29T02:33:03Z",
+  "kind": "MiTeCTaskManagerDeluxeCurrentSourceSyntheticLifecycleAndCimBlock",
+  "repository": "RIDE-Windows",
+  "test": {
+    "path": "tests/MiTeCTaskManagerDeluxe.Tests.ps1",
+    "environment": "Windows PowerShell 5.1 / Pester 5.7.1",
+    "registryAndTestResultProviders": "Disabled",
+    "retainedArchiveFixture": "Explicitly unset; retained-archive case skipped",
+    "firstRun": {
+      "passed": 1,
+      "failed": 1,
+      "skipped": 1,
+      "failure": "Synthetic ZIP fixture could not resolve [IO.Compression.ZipFile] because System.IO.Compression.FileSystem was not loaded."
+    },
+    "repair": "Load System.IO.Compression.FileSystem alongside System.IO.Compression in BeforeAll.",
+    "rerun": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 1
+    },
+    "verified": [
+      "x86 and x64 variant selection uses only its selected inert members",
+      "repeat staging and state health",
+      "unselected archive members omitted",
+      "snapshot restore preserves operator note"
+    ]
+  },
+  "scope": {
+    "syntheticZipOnly": true,
+    "retainedPublisherArchiveOpened": false,
+    "productExecutablesOrDllsRunOrLoaded": false,
+    "liveProcessServiceAccountSessionNetworkOrReputationDataQueried": false
+  },
+  "vmAccess": {
+    "names": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+    "result": "Get-VM failed before state retrieval: access to a CIM resource was not available to the client.",
+    "checkpointState": "Unverified",
+    "guestAcceptance": "Not run"
+  },
+  "defender": {
+    "passwordScanAlert": "Same reported path and stage GUID as the 2026-10-29 02:11 UTC evidence; distinct Defender event remains unverified.",
+    "disposition": "Keep PasswordScan x86/x64 excluded. Pause NirSoft staging that could materialize them.",
+    "stateReadOrChanged": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  },
+  "userDecision": "Sysinternals license-specialist approval for RIDE direct-download/install use remains accepted; this batch raises no licensing gate."
+}

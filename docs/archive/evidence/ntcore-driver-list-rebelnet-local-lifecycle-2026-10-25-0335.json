@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T03:35:00Z",
+  "batch": "NTCore Driver List and Rebel.NET local archive lifecycle",
+  "sourceEvidence": "ntcore-driver-list-rebelnet-candidate-2026-10-23-1047.json",
+  "archives": [
+    {
+      "id": "package.ntcore-driver-list",
+      "fixture": ".local/no-uac-source-review-20261017/DriverList.zip",
+      "sha256": "dbc5736808cf7203cf289a269cc27cbcf90a8c69e03eed60ae361ad29da08d28",
+      "variantsTested": ["portable", "portable-x86"],
+      "lifecycle": "Passed: selected-member staging, repeat install, removal, saved snapshot recovery, and operator-file preservation"
+    },
+    {
+      "id": "package.ntcore-rebelnet",
+      "fixture": ".local/no-uac-source-review-20261017/RebelDotNET.zip",
+      "sha256": "7bd01e9cb15426642c74f8f3cab45cf7005f7525ab7cb8abc5a32973f383af32",
+      "variantsTested": ["portable"],
+      "lifecycle": "Passed: selected-member staging, repeat install, removal, saved snapshot recovery, and operator-file preservation"
+    }
+  ],
+  "pester": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "ntcorePackages": { "passed": 14, "failed": 0, "skipped": 0, "notRun": 0 },
+    "licenseReviews": { "passed": 23, "failed": 0, "skipped": 0, "notRun": 0 },
+    "testRegistryPlugin": "disabled",
+    "temporaryFiles": ".local/pester-ntcore-candidate-lifecycle-20261025"
+  },
+  "licenseAdministration": "Both exact versions retain NeedsReview records. The marker is informational for owner-specific administration and did not block package planning or local implementation. This result makes no entitlement or redistribution determination.",
+  "windowsAcceptance": "Pending; SupportedTargets remains empty and PendingAcceptance remains true for both package operations.",
+  "defenderBlockedToolsTouched": false,
+  "toolsExecuted": false,
+  "vmUsed": false,
+  "uacPrompts": 0,
+  "defenderOrWindowsStateChanged": false,
+  "resolved": "Exact retained archives passed local selected-member lifecycle and recovery checks for Driver List x64/x86 and Rebel.NET.",
+  "deferred": "Windows 11 target lifecycle acceptance; Driver List must not create or retain a loaded-driver report; Rebel.NET functional testing remains limited to an owned synthetic assembly and separate output.",
+  "partial": "No NTCore legacy product outcome closed by this local run; the two candidate package operations remain unsupported pending Windows acceptance.",
+  "estimate": {
+    "groupRanges": "37-57 / 46-61 / 19-24 / 25-35 / 8-12",
+    "exactTotal": "135-189",
+    "roundedTotal": "135-190/about 160",
+    "adjustment": "Unchanged because local package readiness does not complete Windows target acceptance or close a legacy product outcome."
+  }
+}

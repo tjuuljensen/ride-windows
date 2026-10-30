@@ -1,0 +1,97 @@
+{
+  "recordedAtUtc": "2026-10-28T12:39:09Z",
+  "batch": "NTCore Windows 11 package support disposition reconciliation",
+  "catalogSupport": [
+    {
+      "id": "package.ntcore-pe-detective",
+      "supportedTargets": [
+        "Windows 11"
+      ],
+      "pendingAcceptance": false
+    },
+    {
+      "id": "package.ntcore-cff-explorer",
+      "supportedTargets": [
+        "Windows 11"
+      ],
+      "pendingAcceptance": false
+    },
+    {
+      "id": "package.ntcore-4gb-patch",
+      "supportedTargets": [
+        "Windows 11"
+      ],
+      "pendingAcceptance": false
+    },
+    {
+      "id": "package.ntcore-driver-list",
+      "supportedTargets": [
+        "Windows 11"
+      ],
+      "pendingAcceptance": false
+    },
+    {
+      "id": "package.ntcore-rebelnet",
+      "supportedTargets": [
+        "Windows 11"
+      ],
+      "pendingAcceptance": false
+    }
+  ],
+  "acceptance": [
+    {
+      "runId": "382d9f94682b4fa4a489690aee9a2d53",
+      "suite": "NTCore",
+      "vm": "RIDE-Win11-Test",
+      "build": "26300",
+      "status": "Passed",
+      "cases": "3/3",
+      "packages": [
+        "package.ntcore-pe-detective",
+        "package.ntcore-cff-explorer",
+        "package.ntcore-4gb-patch"
+      ],
+      "evidence": "ntcore-win11-guarded-lifecycle-acceptance-2026-10-25-0145.json",
+      "scope": "Package lifecycle passed; one guarded 4GB Patch action used an owned synthetic x86 PE. General payload execution was false; activation remains pending."
+    },
+    {
+      "runId": "dcee70c938d14e7e90fdc1edad0c71cc",
+      "suite": "NTCoreAdditional",
+      "vm": "RIDE-Win11-Test",
+      "build": "26300",
+      "status": "Passed",
+      "cases": "3/3",
+      "packages": [
+        "package.ntcore-driver-list x64",
+        "package.ntcore-driver-list x86",
+        "package.ntcore-rebelnet"
+      ],
+      "evidence": "ntcore-additional-win11-lifecycle-acceptance-2026-10-25-0402.json",
+      "scope": "Package install/repeat/remove/exact recovery passed; payload execution was false."
+    }
+  ],
+  "disposition": "Windows 11 package staging support is accepted for these five product outcomes and is already reflected in catalog SupportedTargets/PendingAcceptance metadata. Driver List x64/x86 are one product outcome. Utility activation or feature behavior remains separate and pending where applicable. Continue current publisher-list review for the remaining selected NTCore products; do not close the aggregate legacy collection outcome or deduct legacy estimates from this support-state reconciliation.",
+  "currentEnvironment": {
+    "observedAtUtc": "2026-10-28T12:37:07Z",
+    "targetVmVisible": "RIDE-Win11-Test",
+    "state": "Off",
+    "targetCheckpointConfirmed": false,
+    "freshAcceptanceRun": false
+  },
+  "observations": {
+    "catalogChanged": false,
+    "vmStateChanged": false,
+    "utilityLaunched": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; this reconciles existing catalog state and VM evidence but closes no additional legacy outcome."
+  }
+}

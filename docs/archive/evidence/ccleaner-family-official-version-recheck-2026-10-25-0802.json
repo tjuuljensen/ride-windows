@@ -1,0 +1,60 @@
+{
+  "RecordedAtUtc": "2026-10-25T08:02:52Z",
+  "Batch": "CCleaner family official version and installer route recheck",
+  "Products": [
+    {
+      "Product": "CCleaner",
+      "Version": "7.13.1573",
+      "VersionHistoryUri": "https://www.ccleaner.com/ccleaner/version-history",
+      "BuildsUri": "https://www.ccleaner.com/ccleaner/builds",
+      "Finding": "The official version history lists v7.13.1573 dated 2026-10-21. The official builds page now also identifies Free v7.13.1573 as the latest official release, resolving the previous installer-page/version-history mismatch.",
+      "StandardInstallerUri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+      "PortableUri": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "PortableFinding": "The publisher still links the portable ZIP to ccsetup641.zip, corresponding to the older v6.41 release; the publisher identifies the standard online installer as v7.13.1573.",
+      "PinningStatus": "Open: the standard installer route is versionless and neither installer nor portable bytes were available for local hash and signature verification."
+    },
+    {
+      "Product": "Recuva",
+      "Version": "1.55.133",
+      "VersionHistoryUri": "https://www.ccleaner.com/recuva/version-history",
+      "BuildsUri": "https://www.ccleaner.com/recuva/builds",
+      "InstallerUri": "https://download.ccleaner.com/rcsetup155.exe",
+      "Finding": "The official version history lists v1.55.133 dated 2026-06-22. The official builds page lists a standard installer only; no portable edition is offered.",
+      "PinningStatus": "Open: installer bytes, hash and signature remain unverified."
+    },
+    {
+      "Product": "Speccy",
+      "Version": "1.34.84",
+      "VersionHistoryUri": "https://www.ccleaner.com/speccy/version-history",
+      "BuildsUri": "https://www.ccleaner.com/speccy/builds",
+      "InstallerUri": "https://download.ccleaner.com/spsetup134.exe",
+      "Finding": "The official version history lists v1.34.84 dated 2026-06-22. The official builds page lists a standard installer only; no portable edition is offered.",
+      "PinningStatus": "Open: installer bytes, hash and signature remain unverified."
+    },
+    {
+      "Product": "Defraggler",
+      "BuildsUri": "https://www.ccleaner.com/defraggler/builds",
+      "Finding": "The official builds route redirected to the product overview during this check. The publisher's prior EOL notice remains the current recorded source disposition; no active installer source was confirmed.",
+      "PinningStatus": "Open: do not infer a new download source or substitute another product."
+    }
+  ],
+  "LicenseDisposition": "No product is blocked by generalized redistribution analysis. If package IDs are added, record owner/version-specific NeedsReview information separately; RIDE's direct publisher-download/install workflow is not treated as redistribution.",
+  "Scope": {
+    "PayloadBytesAcquired": false,
+    "InstallerOrUtilityExecuted": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "CatalogCandidateAdded": false,
+    "LegacyOutcomeClosed": false
+  },
+  "MigrationEstimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "AccountsFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

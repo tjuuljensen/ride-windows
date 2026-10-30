@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:00:00Z",
+  "batch": "Defraggler displayed version, source route and end-of-life reconciliation",
+  "officialSources": {
+    "indexedProductDownloadPage": {
+      "uri": "https://www.ccleaner.com/defraggler/download/portable",
+      "indexedReleaseVersion": "2.22.995",
+      "indexedReleaseDate": "2018-05-21",
+      "observation": "The official-domain search result exposes release notes for Defraggler v2.22.995 dated 21 May 2018.",
+      "directOpenResult": "Redirects to https://www.ccleaner.com/defraggler and returns a JavaScript-only page; no artifact or digest was exposed."
+    },
+    "publisherEndOfLifeAnnouncement": {
+      "uri": "https://community.ccleaner.com/t/defraggler-end-of-life/166405",
+      "date": "2026-09-11",
+      "statement": "The publisher says the last build shipped in August 2020, its product/download/support pages were removed, and it will no longer distribute, sell or support Defraggler."
+    }
+  },
+  "versionAndArtifactAssessment": {
+    "lastVersionShownByIndexedOfficialReleaseNotes": "2.22.995 (2018-05-21)",
+    "lastBuildPerPublisherEolNotice": "Shipped in August 2020; exact version/artifact identity not given in the announcement.",
+    "reconciliation": "The 2018 version/date in indexed release notes does not identify the last build shipped in August 2020. A later reissue with the same version, a differently versioned build, or another publisher build cannot be distinguished from available evidence.",
+    "exactLastBuildVersionVerified": false,
+    "publisherPayloadAndDigestAvailable": false,
+    "localArtifactSearch": {
+      "root": ".local",
+      "method": "PowerShell Get-ChildItem -Recurse -File -Force with case-insensitive filters for defraggler and dfsetup",
+      "matches": []
+    }
+  },
+  "migrationDisposition": {
+    "legacySelection": "Retain the user's selected Defraggler outcome as open scope; do not retire it based only on this source review.",
+    "candidateAdded": false,
+    "blocker": "Publisher has ended distribution and the exact last-build payload/source is unavailable; a supported acquisition path or user disposition is needed.",
+    "licenseGate": false
+  },
+  "handling": {
+    "payloadDownloaded": false,
+    "artifactOpenedOrExecuted": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The official publisher's lifecycle announcement confirms discontinued Defraggler distribution and support."
+    ],
+    "partial": [
+      "Official indexed release notes display version 2.22.995 from 2018, but the exact August 2020 last build and its payload identity remain unresolved."
+    ],
+    "deferred": [
+      "Keep Defraggler implementation open until an authorized retained artifact/source or user disposition is available."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; version evidence improves, but no exact last-build artifact or closed legacy outcome results."
+    }
+  },
+  "relatedEvidence": [
+    "ccleaner-defraggler-eol-confirmation-2026-10-28-1051.json",
+    "migration-prerequisites-recheck-and-defraggler-source-batch-2026-10-28-1054.json"
+  ]
+}

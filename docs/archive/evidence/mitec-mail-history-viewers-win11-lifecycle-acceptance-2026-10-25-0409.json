@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "runId": "31a0471ecae4477f8c81b86a41d47fe7",
+  "suite": "MiTeCMailHistoryViewers",
+  "target": "Windows 11",
+  "build": "26300",
+  "status": "Passed",
+  "startedAtUtc": "2026-10-25T04:02:59.1775355Z",
+  "finishedAtUtc": "2026-10-25T04:09:33.0905799Z",
+  "expectedCases": 4,
+  "completedCases": 4,
+  "passedCases": 4,
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "payloadExecution": false,
+  "toolExecuted": false,
+  "functionalAcceptance": "Pending",
+  "runtimeAcceptance": "NotSelected",
+  "activationAcceptance": "Pending",
+  "controllerErrors": [],
+  "vm": "RIDE-Win11-Test",
+  "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "sourceContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+  "sourceCommit": "17f9cef121d9544ea7ef6b97429021040262040b",
+  "cases": [
+    {
+      "Id": "package.mitec-mail-viewer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Localization.txt",
+          "Sha256": "704b33cb254a346de3bd12f24091c5146b8babfd3213af49345cef7ca8acf7cf",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailView.exe",
+          "Sha256": "cc775794e9a2973f633fcf8df19d98ffbbb6dd30a31b3305d26052c18eea962a",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "CD573F239A5426D11BC490B0AC627F63308174F2"
+        },
+        {
+          "RelativePath": "MailViewer.cs.lng",
+          "Sha256": "50355266d6d82a3364ce5d789059d49af363f10c805254b8778ff0b9d4aa7846",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.de.lng",
+          "Sha256": "b629028e9d5d01161894756cd22b0083685e90e781fd167dc010d770dc9a9e89",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.el.lng",
+          "Sha256": "9873b33da16bd5fed112dd42c1a28dd87213f543fb049313d31fd73634fcf7ef",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.en.lng",
+          "Sha256": "e3300811fd484168c793ff8a103206728ccf205214d3e07e841962fac0df94da",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.es.lng",
+          "Sha256": "4deac468ce800d163f304e08501d7a7fb6dc5a9bd79366db05c08fcd092eb141",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.fr.lng",
+          "Sha256": "de98e4200c9c6515be8ae18c091767f609a00e6981c15daffba7cc81f87f2055",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.hu.lng",
+          "Sha256": "83caf26eeed2e3fcb1c452860e353e3c9008c18033adb34bab1bbc1cbbd4b4db",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.it.lng",
+          "Sha256": "37f209801c7936c2263990e9ac4ca1da73a9c203dab533e9beed0b24be49bbbb",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.lt.lng",
+          "Sha256": "90e54d3f8690643bf74218554f763e611ab7250db5ae981443796acb4e29e536",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.lv.lng",
+          "Sha256": "86859c3aa75e043282990a2757e414f5573b8d89ce9ffe82e23e3093494a55e8",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.nl.lng",
+          "Sha256": "fb20da84600b6269ab41cf55093ad6e6de5aba92803bfd8389e86fe0bd5dc88e",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.pl.lng",
+          "Sha256": "ac6ae828043ac97949559977e1c8b6ac123ed841ea51a9d81617df9f79160d29",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.pt_br.lng",
+          "Sha256": "94f1988b2238608cfd82bf8a0bca6c1e1e6a1d27994bf10cdcfb606fb16f5bdb",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.pt_pt.lng",
+          "Sha256": "ca69ca69d6a115b151eec4163e734f1362063204fd438aac25d563aa6709a531",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.ru.lng",
+          "Sha256": "2ea2ff49c52cfaec480c098a7158ecd9df0c6bcc53e9c463837c170857b74935",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.sk.lng",
+          "Sha256": "678b976b0bb1e975f5eb07607871ca2c879a788c2eedcb81cde54699487ee048",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.sr.lng",
+          "Sha256": "dc636b6fd22b8e0a74e6c4de425ff7042ff63570e3319423de264faf34c1ba53",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.sv.lng",
+          "Sha256": "d61de889163d0dd217a145256b86f9fb7dad15118aae17d7476a8973ef74e950",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.tr.lng",
+          "Sha256": "1c10e9ae7dad84f6e07d698d48437d8fd50a6bb070458a591a205f3a8f94a05f",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.zh-tw.lng",
+          "Sha256": "0b9c08b4a16e43308c633aac555bc14ee07fa7e51dd082c1be688ed2fba96a1c",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "MailViewer.zh.lng",
+          "Sha256": "e474a610d16d1b0360ffeef33521aac2b4b3839368d8e3a2f6e3c93a5ad1aed2",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "RunIds": [
+        "a488fafc90234b9faf9b2e28e4f5985f",
+        "0b80440207a74b4f81754b71f449b23c",
+        "f31514662c984a97ae2442bccad91310"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-mail-viewer' failed. Run ID: 85f50989291e4be080f41f21191a6e48. Saved state: package.mitec-mail-viewer. Completed operations: <none>. Error: Portable destination collision: MailView.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-mail-viewer' failed. Run ID: e0055f8bf6a84559aac478547c3d8e04. Saved state: package.mitec-mail-viewer. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-email-history-browser",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "EHB.exe",
+          "Sha256": "274180e49846829773177ed65ac93fab03d104f84b2c8ce565a30e2a25c1e0ee",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        }
+      ],
+      "RunIds": [
+        "4a7256668c5f4ae9b2b0c46c27d00bb6",
+        "4d75d8af9fa14f638b263db7a9a0872f",
+        "a61e18cb97584d4593f996aff763affb"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-email-history-browser' failed. Run ID: 2bd9070d2b304193837a38a4c1579c9e. Saved state: package.mitec-email-history-browser. Completed operations: <none>. Error: Portable destination collision: EHB.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-email-history-browser' failed. Run ID: cd2cc513bd1f47fdbdae9b31b6f01f0a. Saved state: package.mitec-email-history-browser. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-internet-history-browser",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "IHB.dll",
+          "Sha256": "e9e45d6db26b5a9a020ca5214f6434bb9796caa9328085e77345ff149bbace84",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IHB.exe",
+          "Sha256": "290045a378ab23a3efba1856240f31b93fd9c04bad35ed4ec5b70ec7359662f3",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ],
+      "RunIds": [
+        "f632b00b056549ff8555a1eff65e63fb",
+        "acbb66366982498b9ee1ecff364da434",
+        "dffc4e46c7a94148b0c0ca1d6fa0507b"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-internet-history-browser' failed. Run ID: 9b188da5f2ac427ebf1afafb51e92623. Saved state: package.mitec-internet-history-browser. Completed operations: <none>. Error: Portable destination collision: IHB.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-internet-history-browser' failed. Run ID: b1d83e7a11a744dd8bdab403ab88728d. Saved state: package.mitec-internet-history-browser. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-instant-messaging-history-browser",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "IMHB.dll",
+          "Sha256": "44d3392efdc45532d42eefc780729ff062bfab8dcba1e7c0f077ab1ab48e02e3",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IMHB.exe",
+          "Sha256": "c36547380d21e7b31a7ef62056bc688002ed7a0a62ed22e50fab23dc2ab8bb52",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        }
+      ],
+      "RunIds": [
+        "28cc8f981f8c4d48af42dba211a46e0c",
+        "15561ec57ab042de8e40a113af4e6aa2",
+        "2db807eff26e4ddc9cbe44387c3a0f24"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-instant-messaging-history-browser' failed. Run ID: a787473b291f40c3a39bb086797e5f14. Saved state: package.mitec-instant-messaging-history-browser. Completed operations: <none>. Error: Portable destination collision: IMHB.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-instant-messaging-history-browser' failed. Run ID: 1189473c010c45998e87a7dabc053830. Saved state: package.mitec-instant-messaging-history-browser. Completed operations: <none>. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "sourceEvidencePath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\31a0471ecae4477f8c81b86a41d47fe7\\focused\\evidence"
+}

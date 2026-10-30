@@ -1,0 +1,55 @@
+{
+  "recordedAtUtc": "2026-10-29T00:55:04Z",
+  "batch": "Storage Sense machine-policy acceptance runner preparation",
+  "runner": {
+    "path": "tests/integration/Invoke-RideRemainingSettings.ps1",
+    "version": "0.3.3",
+    "selectedBatch": 1,
+    "existingCatalogOperations": 21,
+    "pendingCandidateOperations": 5,
+    "totalOperations": 26,
+    "candidates": [
+      "windows.bitlocker-encryption-method-os",
+      "windows.bitlocker-encryption-method-fixed-data",
+      "windows.bitlocker-encryption-method-removable-data",
+      "windows.click-to-do-policy",
+      "windows.storage-sense-global-policy"
+    ],
+    "editionGuard": "Only EditionID values beginning Professional, Enterprise, Education or IoTEnterprise pass the Storage Sense policy case.",
+    "candidateSupport": "Candidates are enabled only in the private guest catalog; published SupportedTargets remains unchanged.",
+    "recovery": "Capture exact registry value/type/existence; test explicit and WindowsDefault states; restore the original saved run in finally.",
+    "cleanupBoundary": "No cleanup command or cleanup preference is configured by this runner."
+  },
+  "verification": {
+    "windowsPowerShell": "5.1.26100.9818",
+    "parserErrors": 0,
+    "versionOutput": "0.3.3",
+    "directCatalogSelection": "passed: 21 existing operations plus five pending candidates equals 26; Storage Sense remains pending and unsupported.",
+    "editionGuardFixtures": "passed: Professional, EnterpriseS, Education and IoTEnterprise accepted; Core and ServerStandard refused.",
+    "repositoryValidation": "passed: 451 operations, 8 groups, 5 profiles, and 305 PowerShell files; generated operation documentation current."
+  },
+  "staleInventoryFinding": "The prior hardcoded batch-1 expectation was 23, while current catalog selection had 21 base operations plus four existing candidates (25); the prior runner would refuse before its loop. With Storage Sense added, the corrected count is 26.",
+  "nativeAcceptance": {
+    "getVmResult": "RIDE-Win11-Test and RIDE-S25-Test Get-VM calls fail before state retrieval at host CIM; see ride-win11-s25-current-cim-access-block-2026-10-29-0051.json.",
+    "guestDispatched": false,
+    "supportedTargetsChanged": false
+  },
+  "sideEffects": {
+    "registryOrWindowsStateChanged": false,
+    "vmOrCheckpointChanged": false,
+    "storageSenseCleanupRequested": false,
+    "defenderChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomesClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "This prepares a private acceptance selection but no guest execution or Windows behavior is verified."
+  }
+}

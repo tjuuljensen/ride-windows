@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-29T02:02:28Z",
+  "product": "AdMod",
+  "script": "tools/Download-JoeWareCollection.ps1",
+  "destination": ".local/joeware-admod-acquisition-20261029-0201",
+  "result": "Acquisition stopped before publisher page response.",
+  "failure": {
+    "type": "DNS resolution failure",
+    "host": "www.joeware.net",
+    "message": "The remote name could not be resolved: 'www.joeware.net'"
+  },
+  "destinationState": {
+    "createdByAttempt": true,
+    "directoryExistsAtReview": true,
+    "contentsAtReview": [],
+    "removed": false
+  },
+  "handling": {
+    "publisherResponseReceived": false,
+    "archiveDownloaded": false,
+    "archiveExtracted": false,
+    "productExecuted": false,
+    "defenderOrWindowsStateChanged": false,
+    "vmRequestCreated": false,
+    "elevationRequested": false
+  },
+  "disposition": "Preserve the empty attempt directory as local acquisition evidence. Retry only when publisher DNS/network resolution is available; do not treat this failure as product obsolescence or close the legacy outcome.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

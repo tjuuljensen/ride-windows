@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:03:22Z",
+  "batch": "PSScriptTools runtime dependency and acceptance-runner current-source regression",
+  "runtime": {
+    "powerShell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "testFile": "tests/PortableAcceptanceAutomation.Tests.ps1",
+    "discoveredInFile": 47,
+    "focusedRuns": [
+      {
+        "filter": ["*PSScriptTools*", "*ThreadJob*"],
+        "selected": 4,
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "cases": [
+          "Parse the isolated PSScriptTools runtime probe without executing it.",
+          "Resolve the staged ThreadJob manifest by exact path for RequiredModules.",
+          "Select the pinned ThreadJob prerequisite and all 360 PSScriptTools files.",
+          "Accept the .nupkg only for the pinned ThreadJob prerequisite."
+        ]
+      },
+      {
+        "filter": "*returns version without VM access*",
+        "selected": 5,
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "includesCurrentPSScriptToolsProbeVersion": "0.1.5"
+      }
+    ],
+    "totalFocusedAssertions": 9,
+    "TestRegistryPlugin": false,
+    "TestResultPlugin": false,
+    "executionPolicy": "Process-only Bypass to import Pester; persistent policy unchanged."
+  },
+  "change": {
+    "file": "tests/PortableAcceptanceAutomation.Tests.ps1",
+    "correction": "Updated the expected version for Invoke-RidePSScriptToolsRuntimeAcceptance.ps1 from stale 0.1.4 to current 0.1.5."
+  },
+  "setupAttempts": {
+    "initialMisconfiguredPesterAttempt": "Pester config was assigned to nonexistent FullNameFilter and Plugins properties. The default registry plugin then failed to create its HKCU fixture before any test body ran. This is not counted as product test failure.",
+    "correctedAttempt": "Used Filter.FullName and disabled TestRegistry.Enabled and TestResult.Enabled. Both focused invocations completed successfully.",
+    "registryChanged": false
+  },
+  "safety": {
+    "upstreamPSScriptToolsImported": false,
+    "upstreamCodeExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": "Current-source harness and synthetic manifest-resolution regression only. PSScriptTools guest runtime behavior and Windows 11 acceptance remain deferred.",
+  "migrationOutcome": {
+    "resolved": [
+      "The current-source regression now covers exact-path ThreadJob dependency import and the current 0.1.5 acceptance-runner version assertion."
+    ],
+    "partial": [
+      "PSScriptTools runtime behavior with the exact retained package files has not been accepted on a Windows VM."
+    ],
+    "deferred": [
+      "RIDE-Win11-Test acceptance remains blocked before inspection by host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; current-source harness coverage improved but guest runtime acceptance remains incomplete."
+    }
+  }
+}

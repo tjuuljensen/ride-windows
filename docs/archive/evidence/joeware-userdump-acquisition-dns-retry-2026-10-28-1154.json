@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:54:58Z",
+  "batch": "JoeWare UserDump publisher acquisition retry",
+  "product": "UserDump",
+  "tool": "tools/Download-JoeWareCollection.ps1 -Product UserDump",
+  "source": "Official JoeWare publisher pages and acquisition tool",
+  "acquisition": {
+    "versionListUri": "https://www.joeware.net/freetools/versions.txt",
+    "result": "Failed before publisher page/form submission: local Invoke-WebRequest reported 'No such host is known.'",
+    "destination": ".local/joeware-userdump-review-20261028-1154",
+    "destinationWasNew": true,
+    "destinationContentsAtCheck": [],
+    "emptyDestinationRemoved": true,
+    "archiveDownloaded": false,
+    "publisherFormSubmitted": false
+  },
+  "versionIdentity": {
+    "currentPublisherAndVersionList": "1.01.00",
+    "publisherHistoryConflict": "2.02.00 appears for the same date in the product page history.",
+    "archiveMembersReviewed": false,
+    "archiveSha256Established": false
+  },
+  "environmentPrerequisites": {
+    "getVm": "Get-VM -Name RIDE-Win11-Test failed before inspection: Access to a CIM resource was not available to the client.",
+    "scheduledTasks": "Get-ScheduledTask enumeration failed before inspection with the same host CIM access denial.",
+    "pester": "Only Pester 3.4.0 is available in this shell; Pester 5 suites cannot run here."
+  },
+  "handling": {
+    "payloadExtractedOrExecuted": false,
+    "DefenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The isolated publisher acquisition retry reproduced the DNS failure before form submission; no archive identity could be established."
+    ],
+    "deferred": [
+      "Keep UserDump catalog admission open until DNS permits exact publisher archive acquisition, member review and archive SHA-256 verification. This is a source/identity blocker, not a license gate."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the publisher request failed before acquisition and no migration outcome changed."
+    }
+  },
+  "relatedEvidence": [
+    "joeware-userdump-current-source-and-acquisition-recheck-2026-10-28-1142.json",
+    "joeware-administration-tools-source-review-2026-10-28-0350.json"
+  ]
+}

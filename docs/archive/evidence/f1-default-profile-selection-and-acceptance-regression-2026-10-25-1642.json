@@ -1,0 +1,72 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T16:42:31Z",
+  "Scope": "Implement the user's File Explorer F1 default-profile decision and verify the pending acceptance guard",
+  "Operation": {
+    "Id": "windows.explorer-f1-help",
+    "ProfileState": "Blocked",
+    "PendingAcceptance": true,
+    "SupportedTargets": [],
+    "CandidateTargets": [
+      "Windows 11"
+    ]
+  },
+  "FocusedPester": {
+    "TestFile": "tests/F1Help.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell": "7.6.5",
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistry": "Disabled",
+    "Coverage": [
+      "Default profile selects Blocked and no other profile selects the candidate",
+      "Pending candidate remains unsupported for Windows 11",
+      "Default-profile application is refused before mutation until target acceptance",
+      "Both unnamed current-user TypeLib values and their state mapping",
+      "Handler writes and exact captured-value restore order"
+    ]
+  },
+  "CatalogExport": "Regenerated docs/OPERATIONS.md from catalog/operations.psd1",
+  "Acceptance": {
+    "Windows11Runtime": "Pending",
+    "ExactV3Rollback": "Pending",
+    "UnrelatedApplicationF1": "Pending",
+    "SelectedTarget": "Prepared Lenovo T480 per user decision",
+    "Executed": false,
+    "HostModelConfirmed": false,
+    "ReasonNotRun": "No physical target was inspected or used in this turn."
+  },
+  "VmAccess": {
+    "Targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "Result": "BlockedBeforeInspection",
+    "Error": "Access to a CIM resource was not available to the client."
+  },
+  "Migration": {
+    "LegacyOutcomesClosed": 0,
+    "Deferred": [
+      "F1 behavior and refresh requirements on Windows 11",
+      "Exact v3 restoration of prior values and operation-created keys",
+      "Unrelated-application F1 behavior on the prepared T480",
+      "All default-profile application until the pending operation has accepted Windows support"
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "Safety": {
+    "RegistryChanged": false,
+    "ProfileApplied": false,
+    "WindowsOrVmStateChanged": false,
+    "DefenderStateChanged": false
+  }
+}

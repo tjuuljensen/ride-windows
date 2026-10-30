@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:17:22Z",
+  "batch": "WinHTTP inventory, preparation and lifecycle current-source regression",
+  "suites": [
+    "tests/WinHttpProxyInventory.Tests.ps1",
+    "tests/WinHttpProxyPreparation.Tests.ps1",
+    "tests/WinHttpProxyLifecycle.Tests.ps1"
+  ],
+  "results": {
+    "WindowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "pester": "5.7.1",
+      "processExecutionPolicy": "Bypass for this child process only",
+      "optionalPlugins": {
+        "TestRegistry": false,
+        "TestResult": false
+      },
+      "discovered": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "PowerShell7": {
+      "version": "7.6.5",
+      "pester": "5.7.1 imported by exact module path from the existing Windows PowerShell module installation",
+      "optionalPlugins": {
+        "TestRegistry": false,
+        "TestResult": false
+      },
+      "discovered": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "coverage": [
+    "Strict advanced WinHTTP output parsing and read-only identity-bound observation using mocks.",
+    "Synthetic full-state preparation, scope preservation, incomplete-observation refusal and conflict-aware recovery.",
+    "ShouldProcess behavior and guarded setter/lifecycle boundaries using mocks."
+  ],
+  "safety": {
+    "nativeNetshCommandsInvoked": false,
+    "realProxyConfigurationQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "executionPolicyPersistentlyChanged": false,
+    "uacRequested": false
+  },
+  "remaining": [
+    "WinHTTP candidate is not integrated into the catalog/engine.",
+    "Host build 26300 lacks the tested netsh winhttp advproxy command; native observation/setter support must be established on the declared Windows target.",
+    "Exact native state capture, guarded apply, restoration and disposable Windows acceptance remain open; the existing VM host CIM blocker remains."
+  ],
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source WinHTTP inventory, preparation and lifecycle Pester regression passes in Windows PowerShell 5.1 and PowerShell 7."
+    ],
+    "partial": [
+      "Mocked candidate behavior is verified across both PowerShell editions; native command support and catalog integration are not established."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "No legacy outcome closed; estimates remain unchanged."
+    }
+  }
+}

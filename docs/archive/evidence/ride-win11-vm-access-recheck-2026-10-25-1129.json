@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T11:29:00Z",
+  "target": "RIDE-Win11-Test",
+  "operation": "Read-only Get-VM",
+  "result": "Blocked",
+  "exceptionType": "Microsoft.HyperV.PowerShell.VirtualizationException",
+  "message": "Access to a CIM resource was not available to the client.",
+  "pointOfFailure": "Before VM state or checkpoint inspection",
+  "vmRequestSubmitted": false,
+  "vmStateChanged": false,
+  "freshElevationRequested": false,
+  "nextAction": "Defer VM-backed acceptance and continue source/local work until host CIM authorization is available."
+}

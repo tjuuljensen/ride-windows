@@ -51,7 +51,7 @@ Describe 'Independent Sysinternals <Id>' -ForEach $Products {
     Mock Get-AuthenticodeSignature -ModuleName RIDE-PortablePackages {[pscustomobject]@{Status='NotSigned';SignerCertificate=$null}}
     Mock Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages {throw 'No product launch'}
   }
-  It 'binds the complete publisher archive and keeps support and execution unaccepted' {
+  It 'binds the complete publisher archive for the accepted Windows 11 lifecycle without executing the product' {
     $Product.ExpectedSha256|Should -BeExactly $Evidence.Acquisition.Sha256
     $Product.PackageVersion|Should -BeExactly $Version
     $Product.RequiredFiles.Count|Should -Be $Count
@@ -59,7 +59,7 @@ Describe 'Independent Sysinternals <Id>' -ForEach $Products {
     @($Evidence.Members|Where-Object SignatureStatus -eq Valid).Count|Should -Be $Signed
     @($Evidence.Members|Where-Object ErrorType).Count|Should -Be 0
     $Product.RequiredFiles|Should -Contain Eula.txt
-    $Product.PendingAcceptance|Should -BeTrue;$Product.SupportedTargets.Count|Should -Be 0
+    $Product.PendingAcceptance|Should -BeFalse;$Product.SupportedTargets|Should -Contain 'Windows 11'
     $Product.InstallerArguments|Should -BeNullOrEmpty;$Product.UninstallerArguments|Should -BeNullOrEmpty
     foreach($path in Get-ChildItem -LiteralPath (Join-Path $Repo profiles) -Filter '*.psd1'){
       [IO.File]::ReadAllText($path.FullName)|Should -Not -Match ([regex]::Escape($Product.Id))
@@ -81,7 +81,7 @@ Describe 'Independent Sysinternals <Id>' -ForEach $Products {
     Should -Invoke Add-RideArtifactObservation -ModuleName RIDE-Packages -Exactly -Times 0
     Should -Invoke Invoke-RidePackageInstallerProcess -ModuleName RIDE-Packages -Exactly -Times 0
   }
-  It 'requires the license file before creating the destination' {
+  It 'requires the complete pinned archive member set before creating the destination' {
     $artifact=New-InertProductArchive (Join-Path $CaseRoot missing.zip) @($Product.RequiredFiles|Where-Object {$_ -cne 'Eula.txt'}) $Version
     {Install-RidePortablePayload $Operation $artifact}|Should -Throw '*missing required file*'
     Test-Path -LiteralPath $Operation.InstallDirectory|Should -BeFalse

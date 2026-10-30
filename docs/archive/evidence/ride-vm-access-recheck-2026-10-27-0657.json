@@ -1,0 +1,41 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "ride-vm-access-recheck-2026-10-27-0657",
+  "RecordedAtUtc": "2026-10-27T06:57:45Z",
+  "Repository": "ride-windows",
+  "ReadOnly": true,
+  "Targets": [
+    "RIDE-Win11-Test",
+    "RIDE-Srv2025Test",
+    "RIDE-S25-Test"
+  ],
+  "VmInspection": {
+    "Status": "FailedBeforeInspection",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "CheckpointInspection": "NotReached"
+  },
+  "RegisteredTask": {
+    "Path": "\\RIDE\\RIDEWin11Test",
+    "Status": "FailedBeforeInspection",
+    "Error": "Access to a CIM resource was not available to the client."
+  },
+  "RunnerDispatched": false,
+  "GuestRequestSent": false,
+  "ElevationRequested": false,
+  "VmOrCheckpointChanged": false,
+  "HostServiceChanged": false,
+  "WindowsStateChanged": false,
+  "DefenderStateChanged": false,
+  "NativeAcceptance": "DeferredUntilReadOnlyHostAccessAndRegisteredTaskInspectionSucceed",
+  "LegacyOutcomeClosed": false,
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Adjustment": "None; access recheck does not resolve a legacy outcome."
+  }
+}

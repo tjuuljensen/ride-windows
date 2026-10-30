@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-29T03:30:26Z",
+  "batch": "MiTeC System Information eXtra and TAPI Monitor current-source regression",
+  "environment": {
+    "platform": "Windows",
+    "shell": "Windows PowerShell 5.1",
+    "pesterVersion": "5.7.1",
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "retainedArchiveFixturesSupplied": false,
+    "syntheticFixtureRoot": ".local/pester-mitec-system-information-tapi"
+  },
+  "results": {
+    "testFile": "tests/MiTeCSystemInformationTapiMonitor.Tests.ps1",
+    "discovered": 6,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 2,
+    "skipReason": "No explicitly retained source archives were supplied; those cases were skipped.",
+    "repositoryValidation": {
+      "status": "Passed",
+      "operations": 451,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 306,
+      "generatedOperationDocumentation": "Current"
+    }
+  },
+  "coverage": [
+    "Catalog pin, product/download URLs, archive SHA-256, selected member set and candidate target metadata for both products.",
+    "Inert synthetic ZIP staging, repeat, exact owned-file state, uninstall, snapshot restore and preservation of operator-owned notes."
+  ],
+  "safetyAndLimitations": {
+    "productUtilityLaunched": false,
+    "publisherArchiveReadOrAcquired": false,
+    "networkUsed": false,
+    "telephoneProviderOrCallsAccessed": false,
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false,
+    "nativeWindowsAcceptance": "Deferred; RIDE-Win11-Test/Server VM acceptance remains blocked by host CIM access.",
+    "licenseReview": "Exact-version NeedsReview records exist for both products and remain non-gating; they do not assert entitlement."
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "partial": [
+      "Synthetic current-source package lifecycle and catalog regressions passed for both candidates."
+    ],
+    "deferred": [
+      "Native Windows 11 and Server 2025 package acceptance.",
+      "TAPI provider/call behavior using a simulated non-production provider.",
+      "Sensitive report output and intended-user data handling for System Information eXtra."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; staging tests and repository validation close no legacy outcome or native acceptance."
+    }
+  },
+  "relatedEvidence": [
+    "mitec-system-information-tapi-static-review-2026-10-20.json",
+    "ride-win11-s25-readonly-cim-block-2026-10-29-0250.json"
+  ]
+}

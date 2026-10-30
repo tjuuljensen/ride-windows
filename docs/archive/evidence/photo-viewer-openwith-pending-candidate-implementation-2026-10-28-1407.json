@@ -1,0 +1,53 @@
+{
+  "recordedAtUtc": "2026-10-28T14:07:00Z",
+  "operationId": "windows.photo-viewer-openwith",
+  "implementation": {
+    "scope": "User",
+    "requiresAdmin": false,
+    "supportedTargets": [],
+    "candidateTargets": ["Windows 11"],
+    "pendingAcceptance": true,
+    "ownedRegistryValues": 6,
+    "registryRoot": "HKCU:\\Software\\Classes\\Applications\\photoviewer.dll",
+    "extensionCandidates": [".bmp", ".gif", ".jpg", ".png"],
+    "dropTargetClsid": "{FFE2A43C-56B9-4bf5-9A79-CC6D4285608A}",
+    "defaultsChanged": false,
+    "componentDownloaded": false
+  },
+  "sourceFindings": {
+    "microsoftApplicationRegistration": "Microsoft documents the Applications\\photoviewer.dll DropTarget CLSID structure and SupportedTypes registration.",
+    "legacyImplementation": "The four association-loop ProgIDs are Paint.Picture, giffile, jpegfile and pngfile. The comment mentions TIFF, but the actual loop contains no TIFF ProgID.",
+    "extensionSet": "BMP, GIF, JPG and PNG are explicit candidate extensions; exact current component support and aliases remain unverified."
+  },
+  "validation": {
+    "repositoryValidation": "Passed tools/validate.ps1 -Root .: 446 operations, 8 groups, 5 profiles and 301 PowerShell files; generated operation documentation current.",
+    "focusedPester": "Not run; only Pester 3.4 was available, while the added fixture requires Pester 5.7.1.",
+    "directSyntheticChecks": "Not run because a later PowerShell shell launch failed during MXC E: volume enumeration before the script body.",
+    "vmAcceptance": "Not run; current VM/controller access blocker remains.",
+    "windowsRegistryChanged": false,
+    "photoViewerInvoked": false,
+    "defenderQueriedOrChanged": false,
+    "legacyOutcomeClosed": false
+  },
+  "acceptanceBlockers": [
+    "Verify component and DropTarget availability on a disposable Windows 11 target.",
+    "Verify modern/classic Open with visibility and exact extension coverage, including JPEG/TIFF aliases.",
+    "Verify invocation/rendering with synthetic files, spaced and Unicode names, and no default changes.",
+    "Verify repeat apply, conflict preservation, partial failure recovery and exact saved-state restore.",
+    "Verify managed-policy effects and determine separate Server support."
+  ],
+  "migrationEstimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; a pending candidate implementation is not a verified legacy outcome."
+  },
+  "references": [
+    "https://learn.microsoft.com/en-us/windows/win32/shell/app-registration",
+    "https://learn.microsoft.com/en-us/windows/uwp/launch-resume/launch-default-apps-settings"
+  ]
+}

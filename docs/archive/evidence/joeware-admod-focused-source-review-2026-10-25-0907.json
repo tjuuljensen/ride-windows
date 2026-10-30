@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T09:07:12Z",
+  "Batch": "JoeWare AdMod official behavior and source review",
+  "Scope": {
+    "FrozenMemberCount": 41,
+    "Product": "AdMod",
+    "AdFind": "Remains excluded from selected acquisition and acceptance batches because of its separately recorded Defender block."
+  },
+  "Sources": [
+    {
+      "Uri": "https://joeware.net/freetools/tools/admod/index.htm",
+      "Findings": [
+        "Publisher describes AdMod as a command-line Active Directory modification tool and lists Windows 7 / Server 2008 R2 or newer against AD, ADAM/ADLDS and other LDAP directories.",
+        "Current product page lists version 1.29.00 dated June 8, 2026; the page notes fixes involving tree deletion, DNS record updates, password set behavior and unicodePwd quoting."
+      ]
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/tools/admod/usage.htm",
+      "Findings": [
+        "Usage documents add, modify, clear, rename, move, delete, undelete, user creation, password changes, security descriptor changes and directory-service shortcut operations.",
+        "Default safety threshold is 10 objects; -unsafe removes that limit. -upto provides a separate object-count cap. Recursive tree-delete options can delete a branch.",
+        "The publisher states multi-object operations can report only the last error through the process error level. The utility's direct behavior must be tested only against synthetic data in an isolated disposable AD/AD LDS lab.",
+        "The usage page tells commercial-product packagers to contact the publisher for licensing information. If a catalog package identity is added, record an exact-version owner NeedsReview marker as informational administration; it is not a migration or package-planning gate."
+      ]
+    },
+    {
+      "Uri": "https://www.joeware.net/freetools/versions.txt",
+      "Findings": [
+        "AdMod row is 1.29.00 dated 2026-06-08; publisher MD5 9bae0e27dc3cf4e50b767b610b674a4f and SHA-1 f41f7c68e4629ebc80594a9f2d2b9b0bcf5e61ea.",
+        "Publisher digest values are observations only; no archive, local SHA-256, signature or member inventory was acquired or verified."
+      ]
+    }
+  ],
+  "Acquisition": {
+    "DownloadFormSubmitted": false,
+    "ArchiveAcquired": false,
+    "ReasonDeferred": "Earlier official-source acquisition attempts failed before transfer because local DNS could not resolve the publisher. No repeat was attempted in this batch.",
+    "PayloadExecuted": false
+  },
+  "Boundaries": {
+    "DirectoryEndpointContacted": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationDisposition": {
+    "LicenseBlocker": false,
+    "LicenseAdministration": "Publisher's commercial-packager note is recorded for later exact-version owner review if a catalog package identity is added; the marker does not block acquisition, implementation or install planning.",
+    "Resolved": ["Current publisher purpose, version/date and major operation/safety boundaries."],
+    "Retired": [],
+    "Excluded": ["AdFind remains separately excluded from selected batches because of its Defender block."],
+    "Deferred": [
+      "Exact publisher archive, local SHA-256/signature/member inventory and package lifecycle/recovery.",
+      "Functional acceptance only in an isolated disposable AD/AD LDS lab with synthetic objects; destructive or recursive operations must not target a real directory."
+    ],
+    "Partial": ["No JoeWare legacy package outcome closes."],
+    "Estimate": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155",
+      "Adjustment": "Unchanged; behavior review does not verify exact artifacts, lifecycle or Windows acceptance."
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T01:39:40Z",
+  "RunId": "70f4c7c4d9ff40028155aa88521e88a9",
+  "Suite": "SettingsRemainingBatch2",
+  "Target": "Windows 11 Enterprise Evaluation",
+  "Build": "26300",
+  "GuestPowerShell": "5.1.26100.9444",
+  "Status": "Passed",
+  "ValidationPassed": true,
+  "IntegrationPassed": true,
+  "Pester": {
+    "Version": "5.7.1",
+    "Passed": 343,
+    "Failed": 0,
+    "Skipped": 0,
+    "Total": 343,
+    "Selection": "Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression"
+  },
+  "Lifecycle": {
+    "Passed": 18,
+    "Failed": 0,
+    "NamedStates": 43,
+    "UnavailableOperations": [
+      "windows.smb1-server-protocol"
+    ],
+    "UnavailableVariants": 0
+  },
+  "Recovery": {
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "BlockedMarkerPresent": false
+  },
+  "PriorRun": {
+    "RunId": "3f89f9225e324b22a6127318f62b86ca",
+    "Outcome": "Timed out before guest execution after waiting behind the preceding request; superseded by this successful run."
+  },
+  "MigrationAccounting": {
+    "Resolved": [
+      "Windows 11 setting lifecycle and exact recovery for the 18 available operations in SettingsRemainingBatch2."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "SMB1 Server protocol inspection remained unavailable because its driver was not present in the Windows 11 guest.",
+      "Feature/UI/restart acceptance not covered by the selected settings lifecycle suite."
+    ],
+    "Partial": [
+      "No legacy setting outcome closes. All operations in SettingsRemainingBatch1 and 2 declare Windows 11 only; Server 2025 is not an applicable target for these batches."
+    ],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

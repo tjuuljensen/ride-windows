@@ -25,8 +25,25 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.1.0
+  Version: 1.17.1
   Changelog:
+    1.17.1: Serialize host progress reads/writes with bounded file-lock contention.
+    1.17.0: Supervise host preparation, execution and recovery with durable stage records.
+    1.16.0: Require ApplicationsBatch11InteractiveV1 for the signed-in HashCheck guest route.
+    1.15.0: Require ApplicationsBatch12NtcoreExplorerSuiteV1 before queueing or dispatching Explorer Suite acceptance.
+    1.14.0: Validate and dispatch the WinPmem single-file package acceptance batch.
+    1.13.0: Require ApplicationsBatch11HashCheckV1 before accepting HashCheck lifecycle acceptance.
+    1.12.0: Require MiTeCSystemAndTelephonyV1 before accepting the focused MiTeC system/TAPI lifecycle request.
+    1.11.0: Require MiTeCAnalysisToolsV1 before accepting EXE Explorer and HexEdit portable lifecycle requests.
+    1.10.0: Require the registered ApplicationsBatch10ProjectMakerV1 capability before queueing or dispatching Project Maker acceptance.
+    1.9.0: Require the registered ApplicationsBatch9InfoBarV1 capability before queueing or dispatching InfoBar acceptance.
+    1.8.1: Pass explicit reconnect arguments without capturing the caller's typed script scope.
+    1.8.0: Validate and dispatch the RawCopy synthetic-only package acceptance batch.
+    1.7.0: Gate split ApplicationsBatch1 requests on an explicit registered-controller capability.
+    1.6.0: Validate and dispatch the split ApplicationsBatch1 machine- and limited-user suites.
+    1.5.0: Reconnect an unavailable AutomatedLab guest session before exporting test results.
+    1.4.0: Validate and dispatch the MiTeC mail/history viewer fixed portable suite.
+    1.3.0: Validate and dispatch the NTCoreAdditional fixed portable suite.
     1.2.0: Validate and queue Server 2025 OpenJDK ApplicationsBatch8 acceptance.
     1.1.0: Validate and queue the dedicated ArtCraft Launcher ApplicationsBatch7 suite.
     1.0.0: Validate and dispatch the pinned ImageMagick Q16 feature batch.
@@ -54,7 +71,7 @@
 #>
 
 
-$script:ModuleVersion = '1.1.0'
+$script:ModuleVersion = '1.17.1'
 
 Set-StrictMode -Version 2
 
@@ -88,6 +105,73 @@ function Get-RideAutomationRoot {
   param([Parameter(Mandatory)][string] $Name)
   if ($Name -notmatch '^RIDE[A-Za-z0-9-]{1,55}$') { throw 'Name must start with RIDE and contain only letters, digits and hyphens.' }
   Join-Path ([Environment]::GetFolderPath('CommonApplicationData')) "RIDE\TestAutomation\$Name"
+}
+
+function Get-RideAutomationResultSession {
+  <#
+  .SYNOPSIS
+    Reuse or reconnect a guest session for exporting correlated VM test results.
+
+  .DESCRIPTION
+    Reuses an open, available session. A busy session is left untouched and rejected.
+    Disconnected, broken, closed, or unavailable sessions are removed before the supplied
+    reconnect action runs. This is intended for result collection after a test activity
+    interrupted its original remoting session.
+
+  .PARAMETER Session
+    Existing guest session, if one is available.
+
+  .PARAMETER Reconnect
+    Action that creates and returns one new guest session.
+
+  .PARAMETER ReconnectArgumentList
+    Arguments passed to the reconnect action. Use this to bind reconnect inputs without capturing
+    the caller's full script scope.
+
+  .EXAMPLE
+    $reconnect = { param($name) New-LabPSSession -ComputerName $name }
+    Get-RideAutomationResultSession -Session $session -Reconnect $reconnect -ReconnectArgumentList @('RIDE-Win11-Test')
+
+  .INPUTS
+    None. Parameters are supplied explicitly.
+
+  .OUTPUTS
+    The existing or newly connected guest session.
+
+  .NOTES
+    Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
+    Prerequisites: A caller-provided guest-session reconnect action.
+    Side effects: May close a stale session and run the reconnect action.
+    Recovery: The caller must preserve the VM checkpoint and report collection failure if reconnection fails.
+    Author: RIDE-Windows maintainers.
+    Version: 1.0.0
+    Changelog:
+      1.0.0: Add bounded-state validation for guest result-export sessions.
+  #>
+  [CmdletBinding()]
+  param(
+    [object] $Session,
+    [Parameter(Mandatory)][scriptblock] $Reconnect,
+    [object[]] $ReconnectArgumentList = @()
+  )
+
+  if ($Session) {
+    $state = [string]$Session.State
+    $availability = [string]$Session.Availability
+    if ($state -eq 'Opened' -and $availability -eq 'Available') { return $Session }
+    if ($state -eq 'Opened' -and $availability -eq 'Busy') {
+      throw 'The guest result-export session is still busy; refusing to replace an active command session.'
+    }
+    if ($Session -is [System.Management.Automation.Runspaces.PSSession]) {
+      Remove-PSSession -Session $Session -ErrorAction SilentlyContinue
+    }
+  }
+
+  $replacement = @(& $Reconnect @ReconnectArgumentList)
+  if ($replacement.Count -ne 1 -or -not $replacement[0]) {
+    throw 'The guest result-export reconnect action did not return exactly one session.'
+  }
+  $replacement[0]
 }
 
 function Read-RideAutomationConfiguration {
@@ -140,6 +224,67 @@ function Read-RideAutomationConfiguration {
   }
   if ($config.LocalRepositoryPath.TrimEnd('\') -eq $config.CIRepositoryPath.TrimEnd('\')) { throw 'Local and CI checkout paths must be separate.' }
   $config
+}
+
+function Assert-RideAutomationSuiteCapability {
+  <#
+  .SYNOPSIS
+    Refuse a suite when the protected controller was not registered with its required capability.
+  .DESCRIPTION
+    Checks versioned task-client/controller protocol support before queue submission or VM import.
+  .PARAMETER Configuration
+    Validated registered controller configuration.
+  .PARAMETER Suite
+    Selected finite integration suite.
+  .EXAMPLE
+    Assert-RideAutomationSuiteCapability -Configuration $config -Suite ApplicationsBatch1User
+  .INPUTS
+    None.
+  .OUTPUTS
+    None; throws before a request is queued or a VM is touched when the controller is stale.
+  .NOTES
+    Compatibility: Windows PowerShell 5.1 and PowerShell 7.
+    Author: RIDE-Windows maintainers.
+  #>
+  param([Parameter(Mandatory)][object] $Configuration, [Parameter(Mandatory)][string] $Suite)
+  if ($Suite -in @('ApplicationsBatch1Machine','ApplicationsBatch1User') -and
+      ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
+       'ApplicationsBatch1SplitV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for ApplicationsBatch1SplitV1; no request was queued.'
+  }
+  if ($Suite -eq 'ApplicationsBatch9' -and
+      ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
+       'ApplicationsBatch9InfoBarV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for ApplicationsBatch9InfoBarV1; no request was queued.'
+  }
+  if ($Suite -eq 'ApplicationsBatch11' -and
+      ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
+       'ApplicationsBatch11HashCheckV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for ApplicationsBatch11HashCheckV1; no request was queued.'
+  }
+  if ($Suite -eq 'ApplicationsBatch11' -and 'ApplicationsBatch11InteractiveV1' -notin @($Configuration.Capabilities)) {
+    throw 'Refresh the protected controller for ApplicationsBatch11InteractiveV1; HashCheck requires a signed-in guest administrator. No request was queued.'
+  }
+  if ($Suite -eq 'MiTeCAnalysisTools' -and
+      ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
+       'MiTeCAnalysisToolsV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for MiTeCAnalysisToolsV1; no request was queued.'
+  }
+  if ($Suite -eq 'MiTeCSystemAndTelephony' -and
+      ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
+       'MiTeCSystemAndTelephonyV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for MiTeCSystemAndTelephonyV1; no request was queued.'
+  }
+  if ($Suite -eq 'ApplicationsBatch10' -and
+      ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
+       'ApplicationsBatch10ProjectMakerV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for ApplicationsBatch10ProjectMakerV1; no request was queued.'
+  }
+  if ($Suite -eq 'ApplicationsBatch12' -and
+      ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
+       'ApplicationsBatch12NtcoreExplorerSuiteV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for ApplicationsBatch12NtcoreExplorerSuiteV1; no request was queued.'
+  }
 }
 
 function Assert-RideAutomationRegistrationPins {
@@ -251,8 +396,9 @@ function Stop-RideAutomationProcess {
     Terminate the timed-out controller process tree.
 
   .DESCRIPTION
-    Runs taskkill /PID /T /F for the supplied process. Throws when taskkill fails and the process
-    remains alive. Internal destructive timeout recovery helper.
+    Runs taskkill /PID /T /F with a ten-second bound, then waits at most five
+    seconds for the supplied process. Throws if termination cannot be confirmed.
+    Internal destructive timeout recovery helper.
 
   .PARAMETER Process
     Controller Process object retained by the worker; Id and HasExited are required.
@@ -273,8 +419,15 @@ function Stop-RideAutomationProcess {
   #>
 
   param([object] $Process)
-  & "$env:SystemRoot\System32\taskkill.exe" /PID $Process.Id /T /F | Out-Null
-  if ($LASTEXITCODE -ne 0 -and -not $Process.HasExited) { throw 'Could not terminate the timed-out controller. VM recovery is required.' }
+  if($Process.HasExited){return}
+  $killer=Start-Process -FilePath "$env:SystemRoot\System32\taskkill.exe" -ArgumentList @('/PID',[string]$Process.Id,'/T','/F') -WindowStyle Hidden -PassThru
+  $null=$killer.Handle
+  if(-not $killer.WaitForExit(10000)){
+    $killer.Kill()
+    throw 'Process-tree termination exceeded ten seconds. VM recovery is required.'
+  }
+  $killer.Refresh()
+  if($killer.ExitCode -ne 0 -or -not $Process.WaitForExit(5000)){throw 'Could not confirm termination of the timed-out process tree. VM recovery is required.'}
 }
 
 function Save-RideAutomationFailureEvidence {
@@ -625,9 +778,9 @@ function Assert-RideAutomationRequest {
     if ($name -notin @('SchemaVersion','RunId','Source','UnitOnly','IntegrationSuite','TimeoutMinutes','SubmittedAtUtc','GuestGitHubAuthentication','GitHubTestScenario')) { throw 'Request contains an unsupported field; credentials and paths are not accepted in the queue.' }
   }
   if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
-    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication', 'NTCore', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick')) { throw 'Invalid request IntegrationSuite.' }
+    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem')) { throw 'Invalid request IntegrationSuite.' }
     if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
-    if ($Request.IntegrationSuite -in @('NTCore','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
+    if ($Request.IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
   }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
   $null = [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()
@@ -759,6 +912,243 @@ function Get-RideAutomationTaskParameters {
   }
 }
 
+function Enter-RideAutomationHostProgressLock {
+  <#
+  .SYNOPSIS
+    Serialize progress readers and the single writer across processes.
+  .DESCRIPTION
+    Acquires an exclusive sibling lock file, retrying sharing/lock violations
+    for at most one second. The caller must dispose the returned handle.
+    The lock file is retained; handle lifetime, not file presence, owns the lock.
+  .PARAMETER Path
+    Literal progress JSON path; its sibling .lock file is used.
+  .OUTPUTS
+    FileStream holding the exclusive lock.
+  .NOTES
+    Internal local-filesystem coordination; never loads host/guest services.
+  #>
+  param([string]$Path)
+  $elapsed=[Diagnostics.Stopwatch]::StartNew()
+  while($true){
+    try{return [IO.File]::Open(($Path+'.lock'),[IO.FileMode]::OpenOrCreate,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)}
+    catch{
+      $failure=$_.Exception
+      while($failure.InnerException){$failure=$failure.InnerException}
+      if($failure -isnot [IO.IOException] -or ($failure.HResult -band 0xffff) -notin @(32,33) -or $elapsed.ElapsedMilliseconds -ge 1000){throw}
+      Start-Sleep -Milliseconds 25
+    }
+  }
+}
+
+function Read-RideAutomationHostProgress {
+  <#
+  .SYNOPSIS
+    Read one complete host progress snapshot under the shared coordination lock.
+  .DESCRIPTION
+    Holds the sibling progress lock while reading, so a writer cannot change
+    an open snapshot. Uses read-only access with ReadWrite/Delete sharing.
+    Lock acquisition and sharing/lock I/O retries are each limited to one second;
+    malformed JSON and other I/O errors remain failures. Always closes handles.
+  .PARAMETER Path
+    Literal path to the correlated host-phase.json file.
+  .OUTPUTS
+    Parsed progress object.
+  .NOTES
+    Windows PowerShell 5.1. Writes only the sibling coordination lock file.
+  #>
+  param([string]$Path)
+  $progressLock=Enter-RideAutomationHostProgressLock $Path
+  try{
+  $elapsed=[Diagnostics.Stopwatch]::StartNew()
+  while($true){
+    $stream=$null;$reader=$null
+    try{
+      $stream=[IO.File]::Open($Path,[IO.FileMode]::Open,[IO.FileAccess]::Read,([IO.FileShare]::ReadWrite -bor [IO.FileShare]::Delete))
+      $reader=[IO.StreamReader]::new($stream,[Text.Encoding]::UTF8,$true)
+      $json=$reader.ReadToEnd()
+      break
+    }catch{
+      $failure=$_.Exception
+      while($failure.InnerException){$failure=$failure.InnerException}
+      $code=$failure.HResult -band 0xffff
+      if($failure -isnot [IO.IOException] -or $code -notin @(32,33) -or $elapsed.ElapsedMilliseconds -ge 1000){throw}
+      Start-Sleep -Milliseconds 25
+    }finally{
+      if($reader){$reader.Dispose()}elseif($stream){$stream.Dispose()}
+    }
+  }
+  $json|ConvertFrom-Json -ErrorAction Stop
+  }finally{$progressLock.Dispose()}
+}
+
+function Write-RideAutomationHostProgress {
+  <#
+  .SYNOPSIS
+    Record a bounded request phase before beginning its next operation.
+  .DESCRIPTION
+    Retains the phase start time and a sticky possible-VM-change marker. Writes
+    a current-state file under an exclusive coordination lock and a closed-handle
+    JSON-lines history. Interrupted/incomplete writes fail closed on the next read.
+  .PARAMETER ResultDirectory
+    Existing correlated result directory.
+  .PARAMETER RunId
+    Correlated request identifier.
+  .PARAMETER Phase
+    Preparation, Execution or Recovery; phases cannot move backwards.
+  .PARAMETER Stage
+    Fixed operator-readable stage description; never include credentials.
+  .PARAMETER VmMayHaveChanged
+    Set before invoking any VM mutation; it cannot be cleared in later records.
+  .OUTPUTS
+    None.
+  .NOTES
+    Internal watchdog evidence; does not change VM state.
+  #>
+  param([string]$ResultDirectory,[string]$RunId,
+    [ValidateSet('Preparation','Execution','Recovery')][string]$Phase,
+    [string]$Stage,[bool]$VmMayHaveChanged=$false)
+  $path=Join-Path $ResultDirectory 'host-phase.json'
+  $now=[datetime]::UtcNow.ToString('o')
+  $phaseStarted=$now
+  if(Test-Path -LiteralPath $path){
+    $previous=Read-RideAutomationHostProgress $path
+    if($previous.RunId -cne $RunId){throw 'Host progress correlation failed.'}
+    $order=@{Preparation=0;Execution=1;Recovery=2}
+    if($order[$Phase] -lt $order[[string]$previous.Phase]){throw 'Host phase cannot move backwards.'}
+    if($previous.Phase -eq $Phase){$phaseStarted=$previous.PhaseStartedAtUtc}
+    $VmMayHaveChanged=$VmMayHaveChanged -or $previous.VmMayHaveChanged
+  }
+  $state=[ordered]@{RunId=$RunId;Phase=$Phase;Stage=$Stage;RecordedAtUtc=$now;PhaseStartedAtUtc=$phaseStarted;VmMayHaveChanged=$VmMayHaveChanged}
+  # All readers use this same bounded lock. Avoid replacing an open Windows file.
+  # A crash during writing leaves invalid evidence, which the supervisor blocks.
+  $json=$state|ConvertTo-Json
+  $progressLock=Enter-RideAutomationHostProgressLock $path
+  try {
+    [IO.File]::WriteAllText($path,$json,[Text.UTF8Encoding]::new($false))
+  } finally {$progressLock.Dispose()}
+  [IO.File]::AppendAllText((Join-Path $ResultDirectory 'host-progress.jsonl'),($state|ConvertTo-Json -Compress)+[Environment]::NewLine)
+}
+
+function Wait-RideAutomationSupervisedProcess {
+  <#
+  .SYNOPSIS
+    Observe a request child without loading Hyper-V or AutomatedLab in the parent.
+  .DESCRIPTION
+    Preparation gets at most five minutes and shares the request deadline.
+    Execution gets the request deadline plus 15 seconds to enter recovery.
+    Recovery gets three minutes, capped at four minutes after the request deadline.
+    Returns on child exit or deadline; the caller owns termination and results.
+  .PARAMETER Process
+    Started child process with its retained handle.
+  .PARAMETER ResultDirectory
+    Directory containing coordinated host-phase.json.
+  .PARAMETER RunId
+    Expected request identifier.
+  .PARAMETER DeadlineUtc
+    Absolute submitted-request execution deadline.
+  .PARAMETER PreparationSeconds
+    Internal preparation budget; smaller values support inert-process tests.
+  .PARAMETER RecoverySeconds
+    Internal recovery budget; smaller values support inert-process tests.
+  .OUTPUTS
+    Last phase state and TimedOut flag. Does not stop processes or touch a VM.
+  .NOTES
+    Windows PowerShell 5.1. Queue requests cannot override these phase budgets.
+  #>
+  param($Process,[string]$ResultDirectory,[string]$RunId,[datetime]$DeadlineUtc,
+    [ValidateRange(0.1,300)][double]$PreparationSeconds=300,
+    [ValidateRange(0.1,180)][double]$RecoverySeconds=180)
+  $preparationDeadline=[datetime]::UtcNow.AddSeconds($PreparationSeconds)
+  $recoveryDeadline=$null
+  $state=$null
+  while($true){
+    $state=Read-RideAutomationHostProgress (Join-Path $ResultDirectory 'host-phase.json')
+    if($state.RunId -cne $RunId -or $state.Phase -notin @('Preparation','Execution','Recovery')){throw 'Invalid supervised host progress.'}
+    if($Process.WaitForExit(200)){return [pscustomobject]@{TimedOut=$false;State=$state}}
+    $limit=$DeadlineUtc
+    switch($state.Phase){
+      Preparation {if($preparationDeadline -lt $limit){$limit=$preparationDeadline}}
+      Execution {$limit=$DeadlineUtc.AddSeconds(15)}
+      Recovery {
+        if($null -eq $recoveryDeadline){$recoveryDeadline=[datetime]::UtcNow.AddSeconds($RecoverySeconds)}
+        $limit=$DeadlineUtc.AddSeconds(240)
+        if($recoveryDeadline -lt $limit){$limit=$recoveryDeadline}
+      }
+    }
+    if([datetime]::UtcNow -ge $limit){return [pscustomobject]@{TimedOut=$true;State=$state}}
+  }
+}
+
+function Invoke-RideAutomationSupervisedRequest {
+  <#
+  .SYNOPSIS
+    Run a claimed request with an independent host-preparation watchdog.
+  .DESCRIPTION
+    The parent retains the queue lock and invokes only the fixed installed child.
+    Host checks, lab import, staging and VM startup are supervised. A timeout
+    terminates the child tree and records a terminal result. If the VM may have
+    changed, termination fails, or progress is untrustworthy, block new requests
+    for explicit recovery rather than calling another potentially hung host API.
+  .PARAMETER Configuration
+    Installed configuration already read by the worker.
+  .PARAMETER Request
+    Validated, claimed request; no arbitrary script path or timeout hook accepted.
+  .PARAMETER Root
+    Installed controller root.
+  .OUTPUTS
+    Correlated terminal summary.
+  .NOTES
+    Windows PowerShell 5.1; called by the serialized elevated worker only.
+  #>
+  param($Configuration,$Request,[string]$Root)
+  Assert-RideAutomationRequest $Request
+  $runDirectory=Join-Path $Root "results\$($Request.RunId)"
+  Assert-RideAutomationDirectory $runDirectory
+  $null=New-Item -ItemType Directory -Path $runDirectory -Force
+  $deadline=([datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).AddMinutes($Request.TimeoutMinutes)
+  $suite=if($Request.PSObject.Properties.Name -contains 'IntegrationSuite'){$Request.IntegrationSuite}else{'Full'}
+  $resultPath=Join-Path $runDirectory 'result.json'
+  if(Test-Path -LiteralPath $resultPath){throw 'Terminal result already exists; refuse duplicate dispatch.'}
+  $process=$null;$state=$null;$terminationError=$null
+  $summary=[ordered]@{SchemaVersion=1;RunId=$Request.RunId;Source=$Request.Source;UnitOnly=$Request.UnitOnly;IntegrationSuite=$suite;Status='Failed';StartedAtUtc=[datetime]::UtcNow.ToString('o');FinishedAtUtc=$null;Error=$null;CleanupError=$null;CollectionError=$null;EvidenceExportError=$null;Supervisor=$true;RecoveryRequired=$false;GuestGitHubAuthentication=if($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication'){$Request.GuestGitHubAuthentication}else{'Anonymous'}}
+  try{
+    Write-RideAutomationHostProgress $runDirectory $Request.RunId Preparation 'Starting isolated request process'
+    if([datetime]::UtcNow -ge $deadline){throw 'Request expired while waiting in the queue.'}
+    $arguments="-NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RideVmTestRequest.ps1')`" -ConfigurationPath `"$(Join-Path $Root 'configuration.json')`" -RunId $($Request.RunId)"
+    $process=Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runDirectory 'host-worker.log') -RedirectStandardError (Join-Path $runDirectory 'host-worker-errors.log')
+    $null=$process.Handle
+    $wait=Wait-RideAutomationSupervisedProcess -Process $process -ResultDirectory $runDirectory -RunId $Request.RunId -DeadlineUtc $deadline
+    $state=$wait.State
+    if($wait.TimedOut){$summary.Status='TimedOut';throw "Host watchdog expired in $($state.Phase): $($state.Stage)."}
+    $process.Refresh()
+    if(-not (Test-Path -LiteralPath $resultPath)){throw 'Request child exited without a terminal result; inspect host-worker-errors.log.'}
+    $result=Get-Content -LiteralPath $resultPath -Raw|ConvertFrom-Json
+    if($result.RunId -cne $Request.RunId -or $result.IntegrationSuite -cne $suite -or $result.Status -notin @('Passed','Failed','TimedOut') -or ($result.Status -eq 'Passed' -and $process.ExitCode -ne 0)){throw 'Invalid supervised terminal result.'}
+    return $result
+  }
+  catch{
+    $summary.Error=$_.Exception.Message
+    if($process){
+      try{if(-not $process.HasExited){Stop-RideAutomationProcess $process}}
+      catch{$terminationError=$_.Exception.Message}
+      # Read again after termination: the child could have announced a VM
+      # mutation between the watchdog's last observation and the stop request.
+      try{$state=Read-RideAutomationHostProgress (Join-Path $runDirectory 'host-phase.json');if($state.RunId -cne $Request.RunId -or $state.Phase -notin @('Preparation','Execution','Recovery') -or $state.VmMayHaveChanged -isnot [bool]){$state=$null}}
+      catch{$state=$null}
+    }
+    $summary.RecoveryRequired=[bool]($terminationError -or ($process -and ($null -eq $state -or $state.VmMayHaveChanged)))
+    if($state){$summary.LastHostPhase=$state.Phase;$summary.LastHostStage=$state.Stage}
+    if($summary.RecoveryRequired){
+      $summary.CleanupError=if($terminationError){$terminationError}else{'Request interrupted after a possible VM change; explicit checkpoint recovery required.'}
+      Write-RideAutomationJson -Path (Join-Path $Root 'runtime\blocked.json') -Value @{RunId=$Request.RunId;Error=$summary.CleanupError}
+    }
+    $summary.FinishedAtUtc=[datetime]::UtcNow.ToString('o')
+    if(Test-Path -LiteralPath $resultPath){Copy-Item -LiteralPath $resultPath -Destination (Join-Path $runDirectory 'request-child-result.json') -ErrorAction Stop}
+    Write-RideAutomationJson -Path $resultPath -Value $summary
+    return [pscustomobject]$summary
+  }
+}
+
 function Invoke-RideAutomationRequest {
   <#
   .SYNOPSIS
@@ -779,6 +1169,9 @@ function Invoke-RideAutomationRequest {
   .PARAMETER Root
     Controller root returned by Get-RideAutomationRoot for this registered configuration.
 
+  .PARAMETER Supervised
+    Emit host phases for the independent parent watchdog. Used by the fixed request child.
+
   .EXAMPLE
     Get-Help Invoke-RideAutomationRequest -Full
     Inspect this command's contract without invoking its implementation.
@@ -794,10 +1187,10 @@ function Invoke-RideAutomationRequest {
 
   #>
 
-  param([object] $Configuration, [object] $Request, [string] $Root)
+  param([object] $Configuration, [object] $Request, [string] $Root, [switch]$Supervised)
   Assert-RideAutomationRequest $Request
   $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
-  $focusedPortable = $selectedSuite -in @('NTCore','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick')
+  $focusedPortable = $selectedSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')
   $guestAuthentication = if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $Request.GuestGitHubAuthentication } else { 'Anonymous' }
   $authenticationContext = $null
   $gitHubScenario = if ($Request.PSObject.Properties.Name -contains 'GitHubTestScenario') { $Request.GitHubTestScenario } else { 'Acquire' }
@@ -810,28 +1203,41 @@ function Invoke-RideAutomationRequest {
   $summary.GitHubTestScenario = $gitHubScenario
   $summary.CredentialCleanupVerified = $null
   $summary.EvidenceExportError = $null
+  function Set-HostStage([string]$Phase,[string]$Stage){
+    if($Supervised){Write-RideAutomationHostProgress -ResultDirectory $runDirectory -RunId $Request.RunId -Phase $Phase -Stage $Stage -VmMayHaveChanged $touchedVm}
+  }
   try {
+    Set-HostStage Preparation 'Validate request prerequisites'
     if (Test-Path -LiteralPath (Join-Path $Root 'runtime\blocked.json')) { throw 'VM cleanup is blocked. Follow the recovery runbook before submitting another run.' }
+    Assert-RideAutomationSuiteCapability -Configuration $Configuration -Suite $selectedSuite
+    if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while waiting in the queue.' }
+    Set-HostStage Preparation 'Validate host and import dependencies'
     Assert-RideAutomationHost $Configuration
     if ($focusedPortable -and ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or 'FocusedPortableV1' -notin @($Configuration.Capabilities))) { throw 'Refresh the protected controller for FocusedPortableV1 before requesting this batch.' }
     if ($guestAuthentication -eq 'PAT') {
+      Set-HostStage Preparation 'Read configured guest authentication'
       Import-Module (Join-Path $Root 'bin\RIDE.GitHubVmAuthentication.psm1') -ErrorAction Stop
       $authenticationContext = Get-RideVmGitHubContext $Configuration
     }
+    Set-HostStage Preparation 'Import lab and verify VM/checkpoint pins'
     $target = Import-RideAutomationLab $Configuration
     if ($focusedPortable -and $target.VM.State -ne 'Off') { throw 'Focused acceptance requires the pinned VM to be Off before dispatch.' }
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while waiting in the queue.' }
     $source = if ($Request.Source -eq 'CI') { $Configuration.CIRepositoryPath } else { $Configuration.LocalRepositoryPath }
     $snapshotPath = Join-Path $runDirectory 'snapshot\ride-windows'
+    Set-HostStage Preparation 'Copy approved checkout snapshot'
     $manifest = @(Copy-RideAutomationSnapshot -Source $source -Destination $snapshotPath)
     Write-RideAutomationJson -Path (Join-Path $runDirectory 'source-files.json') -Value $manifest
     if ($selectedSuite -eq 'GitHubAuthentication' -and (Test-Path -LiteralPath (Join-Path $snapshotPath 'tests\integration\settings-validation.fixture.psd1'))) { throw 'Use an isolated reviewed authentication source without the active settings fixture.' }
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while staging the checkout.' }
     $touchedVm = $true
+    Set-HostStage Preparation 'VM mutation may begin'
     if ($focusedPortable) {
       $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RidePortableVmAcceptance.ps1')`" -ConfigurationPath `"$(Join-Path $Root 'configuration.json')`" -ControllerRunId $($Request.RunId) -Batch $selectedSuite -TimeoutMinutes $([math]::Min(60,$Request.TimeoutMinutes))"
     } else {
+      Set-HostStage Preparation 'Restore pinned checkpoint'
       Reset-RideAutomationVm $Configuration
+      Set-HostStage Preparation 'Start test VM'
       Start-VM -VM (Get-VM -Id ([guid]$Configuration.VMId) -ErrorAction Stop) -ErrorAction Stop | Out-Null
       $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RideVmTest.ps1')`" -Transport AutomatedLab -LabName `"$($Configuration.LabName)`" -VMName `"$($Configuration.VMName)`" -RepositoryPath `"$snapshotPath`" -GuestRepositoryPath `"$($Configuration.GuestRepositoryPath)`" -ResultDirectory `"$runDirectory`" -RunId $($Request.RunId)"
       if ($Request.UnitOnly) { $arguments += ' -UnitOnly' }
@@ -842,6 +1248,7 @@ function Invoke-RideAutomationRequest {
       $deadline = ([datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).AddMinutes($Request.TimeoutMinutes).ToString('o')
       $arguments += " -AuthenticationConfigurationPath `"$(Join-Path $Root 'configuration.json')`" -AuthenticationDeadlineUtc $deadline -AuthenticationCredentialRevision $($authenticationContext.Revision)"
     }
+    Set-HostStage Execution 'Run test controller'
     $process = Start-Process -FilePath (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $runDirectory 'controller.log') -RedirectStandardError (Join-Path $runDirectory 'controller-errors.log')
     # Retain the handle before waiting; otherwise Windows PowerShell 5.1 can lose ExitCode.
     $null = $process.Handle
@@ -862,7 +1269,7 @@ function Invoke-RideAutomationRequest {
     if ($process.ExitCode -ne 0) { throw "Test controller exited with code $($process.ExitCode). See controller-errors.log." }
     if ($focusedPortable) {
       $focused = Get-Content -LiteralPath (Join-Path $runDirectory 'focused/result.json') -Raw -ErrorAction Stop | ConvertFrom-Json
-      $expectedToolExecution = $selectedSuite -in @('ImageMagick','NTCore')
+      $expectedToolExecution = $selectedSuite -in @('ImageMagick','NTCore','RawCopy')
       if ($focused.RunId -cne $Request.RunId -or $focused.Batch -cne $selectedSuite -or $focused.Status -ne 'Passed' -or $focused.Cleanup -ne 'ResetAndOff' -or $focused.EvidenceCollected -ne $true -or $focused.ToolExecuted -ne $expectedToolExecution) { throw 'Focused result is missing, mismatched, incomplete or unsuccessful.' }
       $summary.FocusedResult = $focused
     } else {
@@ -878,12 +1285,14 @@ function Invoke-RideAutomationRequest {
   }
   catch { $summary.Error = $_.Exception.Message }
   finally {
+    Set-HostStage Recovery 'Finalize request and recover VM if needed'
     if ($touchedVm) {
       if ($summary.Status -ne 'Passed' -and -not $focusedPortable) {
-        try { Save-RideAutomationFailureEvidence -Root $Root -RunId $Request.RunId -ResultDirectory $runDirectory }
+        try { Set-HostStage Recovery 'Collect partial guest evidence'; Save-RideAutomationFailureEvidence -Root $Root -RunId $Request.RunId -ResultDirectory $runDirectory }
         catch { $summary.CollectionError = $_.Exception.Message }
       }
       try {
+        Set-HostStage Recovery 'Restore checkpoint after request'
         Reset-RideAutomationVm $Configuration
         if ($guestAuthentication -eq 'PAT') {
           try { Save-RideAutomationFailureEvidence -Root $Root -RunId $Request.RunId -ResultDirectory $runDirectory -VerifyGitHubCredentialAbsence }
@@ -910,6 +1319,34 @@ function Invoke-RideAutomationRequest {
     Write-RideAutomationJson -Path (Join-Path $runDirectory 'result.json') -Value $summary
   }
   [pscustomobject]$summary
+}
+
+function Assert-RideAutomationInteractiveEvidence {
+  <#
+  .SYNOPSIS
+  Validate collected interactive guest task and worker evidence on the host.
+  .DESCRIPTION
+  Read-only validation independent of remoting error propagation. Requires a
+  correlated successful worker and task, with completed task removal.
+  .PARAMETER Path
+  Collected guest result directory.
+  .PARAMETER RunId
+  Expected controller request ID.
+  .OUTPUTS
+  None. Throws when evidence is missing, mismatched or unsuccessful.
+  .NOTES
+  Windows PowerShell 5.1; module version 1.16.0. No guest or task changes.
+  #>
+  [CmdletBinding()]
+  param([Parameter(Mandatory)][string]$Path, [Parameter(Mandatory)][string]$RunId)
+  $task = Get-Content -LiteralPath (Join-Path $Path 'interactive-task.json') -Raw -ErrorAction Stop | ConvertFrom-Json
+  $worker = Get-Content -LiteralPath (Join-Path $Path 'interactive-worker.json') -Raw -ErrorAction Stop | ConvertFrom-Json
+  if ($task.RunId -cne $RunId -or $worker.RunId -cne $RunId -or $task.LastTaskResult -ne 0 -or
+      $task.TaskRemoved -ne $true -or $task.Error -or $task.CleanupError -or $worker.Status -ne 'Passed' -or $worker.Error -or
+      $worker.Context.SID -ne $task.ExpectedUserSid -or $task.ExpectedSessionId -le 0 -or
+      $worker.Context.SessionId -ne $task.ExpectedSessionId -or $worker.Context.Elevated -ne $true -or $worker.Context.UserInteractive -ne $true) {
+    throw 'Interactive guest evidence is mismatched, incomplete or unsuccessful; inspect task and worker records.'
+  }
 }
 
 Export-ModuleMember -Function *-RideAutomation*

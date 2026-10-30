@@ -1,0 +1,59 @@
+{
+  "recordedAtUtc": "2026-10-29T01:26:54Z",
+  "test": "tests/MiTeCSSView.Tests.ps1",
+  "result": {
+    "status": "passed",
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "powershell": "Windows PowerShell 5.1",
+    "pester": "5.7.1",
+    "testRegistryIntegration": "disabled",
+    "testResultIntegration": "disabled"
+  },
+  "testSourceChange": "Added the missing System.IO.Compression.FileSystem assembly reference so ZipFile is available to the synthetic and retained-archive cases.",
+  "initialAttempt": "Before the test harness fix, the two ZIP cases failed because [IO.Compression.ZipFile] could not be resolved. The rerun passed after adding the assembly reference.",
+  "package": {
+    "operationId": "package.mitec-ssview",
+    "version": "4.1.2",
+    "licenseReviewStatus": "NeedsReview",
+    "reviewOwner": "Unassigned",
+    "reviewStore": ".local/license-reviews.json",
+    "distributionNotes": "Owner-specific entitlement review is not assigned. This marker is informational and does not block direct-download package planning. Optional codec, source, and sample are excluded."
+  },
+  "scope": "Validated catalog pins and optional-member exclusions, synthetic repeat staging/removal/snapshot recovery, and the retained SSView.zip size/hash plus selected SSView.exe member hash. The retained archive was staged to the test-owned fixture and removed/restored through the file lifecycle.",
+  "safety": {
+    "retainedPublisherArchiveRead": true,
+    "ssviewExecutableLaunched": false,
+    "optionalCodecLoaded": false,
+    "sampleOrUserStructuredStorageOpened": false,
+    "windowsConfigurationChanged": false,
+    "defenderConfigurationChanged": false,
+    "nirsoftOrPasswordScanSelected": false,
+    "vmOrGuestAcceptanceRun": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "candidateTargets": ["Windows 11"],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "remaining": [
+      "Windows 11 package/activation and exact restore acceptance",
+      "Structured-storage behavior using a disposable test file",
+      "Activation preservation and optional-member rights remain separate"
+    ]
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

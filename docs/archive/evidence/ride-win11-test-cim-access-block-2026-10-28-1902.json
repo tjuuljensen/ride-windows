@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:02:23Z",
+  "batch": "RIDE-Win11-Test read-only CIM access recheck after B06 cross-shell regression",
+  "command": "Get-VM -Name RIDE-Win11-Test",
+  "status": "Failed before retrieving VM state: Access to a CIM resource was not available to the client.",
+  "vmStateRetrieved": false,
+  "checkpointStateRetrieved": false,
+  "registeredTaskInspected": false,
+  "guestRequestDispatched": false,
+  "changes": {
+    "vmOrCheckpoint": false,
+    "defender": false,
+    "windows": false,
+    "elevation": false
+  },
+  "blocker": "Host CIM access continues to prevent target VM/checkpoint inspection and guest acceptance dispatch.",
+  "migrationOutcome": {
+    "deferred": [
+      "RIDE-Win11-Test Windows acceptance remains pending until host CIM access permits checkpoint and registered-task inspection."
+    ],
+    "resolved": [],
+    "estimates": {
+      "adjustment": "None; access failure closes no migration outcome.",
+      "roundedTotal": "125-180/about 155",
+      "settings": "37-57",
+      "maintenance": "8-12",
+      "packages": "37-52",
+      "exactTotal": "126-180",
+      "filesAndAssets": "25-35",
+      "components": "19-24"
+    },
+    "partial": [
+      "A current read-only access failure is recorded."
+    ],
+    "legacyOutcomeClosed": false
+  }
+}

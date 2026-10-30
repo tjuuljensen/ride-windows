@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T19:31:57Z",
+  "batch": "RSAT, Hyper-V, Windows Sandbox and WSL official component source review",
+  "scope": {
+    "selectedSeparatelyForV3": true,
+    "defaultProfileChanges": false,
+    "activationOrInstallationPerformed": false
+  },
+  "components": {
+    "rsat": {
+      "model": "Windows client RSAT tools are individual Windows capabilities; the set is edition/build/architecture dependent.",
+      "discovery": "Get-WindowsCapability -Online filtered to Name like Rsat*",
+      "example": "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0",
+      "dependencies": "Some capability entries declare other RSAT capability dependencies.",
+      "specificReview": "Windows 11 25H2 Arm64 does not support RSAT FODs; some tools are available as Windows optional features instead.",
+      "open": "The user-selected role/tool set is not specified; do not create one all-tools bundle or infer a default."
+    },
+    "hyperv": {
+      "feature": "Microsoft-Hyper-V",
+      "edition": "Windows 11 Pro or Enterprise; Home is excluded by current Microsoft installation guidance.",
+      "requirements": [
+        "64-bit processor with SLAT",
+        "CPU VM-monitor extensions",
+        "At least 4 GB RAM",
+        "Hardware virtualization enabled"
+      ],
+      "sideEffect": "Enabling the feature requires an administrator and restart.",
+      "open": "Preserve existing VM/configuration data; edition, hardware, feature dependency and recovery guards need candidate design and disposable target acceptance."
+    },
+    "sandbox": {
+      "feature": "Containers-DisposableClientVM",
+      "editions": "Windows 10/11 supported editions; feature availability is gated by OS requirements.",
+      "requirements": [
+        "AMD64 or supported Arm64",
+        "Hardware virtualization enabled",
+        "Nested virtualization when the target itself is a VM",
+        "Memory, disk and CPU minimums"
+      ],
+      "sideEffect": "Requires elevated optional-feature enablement and may require restart; opening the Sandbox is a separate action.",
+      "security": "Networking is enabled by default; network/drive exposure and .wsb configuration must remain explicit separate choices.",
+      "open": "Edition/hardware checks, parent feature requirements, config ownership and recovery need separate review."
+    },
+    "wsl": {
+      "features": [
+        "Microsoft-Windows-Subsystem-Linux",
+        "VirtualMachinePlatform for WSL 2"
+      ],
+      "installShortcut": "wsl --install enables optional components, downloads the latest Linux kernel and Ubuntu, defaults to WSL 2, and may require restart.",
+      "implication": "Do not use the default shortcut for a no-network-fallback or independent-component workflow; kernel and distribution acquisition/registration/data recovery are separate outcomes.",
+      "open": "Select the WSL architecture/version path; pin or bundle required kernel/distro artifacts before any offline installation candidate."
+    }
+  },
+  "sources": [
+    "https://learn.microsoft.com/en-us/windows-server/administration/install-remote-server-administration-tools?pivots=windows-client-11",
+    "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11",
+    "https://learn.microsoft.com/en-us/windows/hardware/manufacture/desktop/dism-capabilities-package-servicing-command-line-options",
+    "https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/install-hyper-v?pivots=windows",
+    "https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/windows-sandbox-install",
+    "https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview",
+    "https://learn.microsoft.com/en-us/windows/wsl/faq",
+    "https://learn.microsoft.com/en-us/windows/wsl/setup/environment",
+    "https://learn.microsoft.com/en-us/windows/wsl/install-manual"
+  ],
+  "outcomes": {
+    "resolved": [
+      "Authoritative per-component acquisition and platform prerequisites recorded.",
+      "The four outcomes remain separate and optional; no aggregate enablement, default-profile selection, distro provisioning, Sandbox launch, or VM/data change was authorized by this review."
+    ],
+    "deferred": [
+      "RSAT subtool selection and exact capability/dependency mapping.",
+      "Hyper-V existing-VM preservation, edition/hardware guards and exact restore.",
+      "Windows Sandbox parent-feature, networking/configuration ownership and exact recovery.",
+      "WSL 1/2 selection, pinned offline kernel/distro acquisition and WSL data-preserving recovery.",
+      "Disposable Windows 11/Server acceptance and VM/checkpoint inspection."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false
+  },
+  "safety": {
+    "nativeWindowsQuery": false,
+    "optionalFeatureChanged": false,
+    "capabilityChanged": false,
+    "wslCommandRun": false,
+    "sandboxLaunched": false,
+    "vmChanged": false,
+    "defenderChanged": false,
+    "uacRequested": false
+  }
+}

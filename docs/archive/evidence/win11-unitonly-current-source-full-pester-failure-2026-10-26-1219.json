@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T12:19:28Z",
+  "batch": "RIDE-Win11-Test current-source UnitOnly full Pester regression",
+  "runId": "d7ea59b8cb38496a80fe3d98ae487c5c",
+  "request": {
+    "source": "Local",
+    "unitOnly": true,
+    "integrationSuite": "Full",
+    "pesterSelection": "Full repository regression"
+  },
+  "guest": {
+    "os": "Microsoft Windows 11 Enterprise Evaluation",
+    "build": "26300",
+    "powershell": "5.1.26100.9444"
+  },
+  "result": {
+    "status": "Failed",
+    "validationPassed": true,
+    "integrationPassed": false,
+    "pesterVersion": "5.7.1",
+    "total": 3334,
+    "passed": 3313,
+    "failed": 14,
+    "skipped": 7,
+    "error": "Test controller exited with code 1: guest results mismatched or unsuccessful.",
+    "collectionError": null,
+    "cleanupError": null
+  },
+  "failureGroups": [
+    {
+      "suite": "GitHubAuthentication.Tests.ps1",
+      "failures": 10,
+      "finding": "Credential setup/context cases received UnsafeCredentialPermissions before reaching their intended assertions."
+    },
+    {
+      "suite": "LicenseReviews.Tests.ps1",
+      "failures": 2,
+      "finding": "The review-planning cases did not isolate the Phoenix Protector .NET Framework 3.5 technical precondition; the guest lacks that shared feature, so planning failed before license-marker assertions could pass."
+    },
+    {
+      "suite": "MiTeCDFMEditor.Tests.ps1",
+      "failures": 1,
+      "finding": "A retained DFMEdit.zip under ignored .local acquisition evidence is absent from the transferred guest source snapshot."
+    },
+    {
+      "suite": "NtcorePackages.Tests.ps1",
+      "failures": 1,
+      "finding": "The WIM test read the superseded 2026-10-21 inventory (SHA-256 500c83263adaedda833a8b633ba07f18e014c2a30435b5ba1e6c3a583200db17) rather than the current 2026-10-26 pin 071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264."
+    }
+  ],
+  "sourceSnapshotManifestSha256": "664150bb84624e55a4acf804d5b180c6439b2176c07d9125f2a2dcc99816a13a",
+  "triage": {
+    "workingTreeRepairs": [
+      "Update WIM test to the current 2026-10-26 archive inventory.",
+      "Skip the retained-archive-only DFM hash test when the private .local artifact is not part of the VM source snapshot.",
+      "Mock the .NET Framework 3.5 precondition as satisfied in license-planning tests so they test whether NeedsReview blocks plans, not runtime availability.",
+      "Force GitHub authentication tests to use their unique TestDrive credential root."
+    ],
+    "verification": "The four modified Pester files parse successfully under PowerShell 7.6.5 and git diff --check passes. Pester rerun is pending; the fixes are not yet accepted."
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155",
+    "vmBehaviorAcceptance": false
+  }
+}

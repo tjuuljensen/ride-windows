@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:30:52Z",
+  "batch": "MiTeC Mail and History Viewer retained archive digest recheck",
+  "sourceEvidence": "mitec-mail-history-viewer-candidates-2026-10-23.json",
+  "results": [
+    {"id":"package.mitec-mail-viewer","path":".local/remaining-collections-20261017/MailView.zip","length":1939876,"sha256":"c2590633a9b13cc9d46a41a2980347057c84d8788a4597b83ffcc057ffd5b774","matchesPinnedEvidence":true},
+    {"id":"package.mitec-email-history-browser","path":".local/remaining-collections-20261017/EHB.zip","length":897775,"sha256":"6ecc87d4a0061cedc13ccc398eb66009c39c5e36931737bb1841a373de22c363","matchesPinnedEvidence":true},
+    {"id":"package.mitec-internet-history-browser","path":".local/remaining-collections-20261017/IHB.zip","length":1956135,"sha256":"94d513e5507e871b7d87246676f1072a92386e0b352ef7e02473a5812fd292db","matchesPinnedEvidence":true},
+    {"id":"package.mitec-instant-messaging-history-browser","path":".local/remaining-collections-20261017/IMHB.zip","length":1425874,"sha256":"107dd1bc31e4493a93f2a213934a976a0f1901d6eecd8ed203216d1765bba7a8","matchesPinnedEvidence":true}
+  ],
+  "scope": {"archiveBytesHashed":true,"archiveMembersEnumeratedOrExtracted":false,"executablesLaunched":false,"personalDataOpened":false,"vmOrWindowsStateChanged":false,"elevationRequested":false,"defenderQueriedOrChanged":false,"reportedPasswordScanPathMetadataCheckedAtUtc":"2026-10-28T11:32:43Z","reportedPasswordScanPathExistsAtCheck":false,"reportedPasswordScanContentsOrHashRead":false},
+  "blockers": ["This hash-only recheck did not run a package lifecycle; the prior Windows 11 file-lifecycle acceptance is recorded separately.","Synthetic mail, browser-history and messaging-store feature behavior and cleanup remain deferred."],
+  "migrationOutcome": {"legacyOutcomesClosed":[],"packageEstimate":"37-52","exactTotal":"126-180","roundedTotal":"125-180/about 155","estimateAdjustment":"None; this digest recheck closes no legacy product outcome."}
+}

@@ -6,8 +6,12 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.27.0.
-  Changelog: 0.27.0: Validate explicit installer config and multi-process data preservation contracts.
+  Owner: RIDE-Windows maintainers. Version: 0.31.0.
+  Changelog: 0.31.0: Validate explicit EXE installer completion modes.
+    0.30.0: Validate explicit staged BitLocker OS-volume workflows.
+    0.29.0: Validate repository-bound, hash-pinned portable notice files.
+    0.28.0: Accept NuGet containers as ZIP-format portable package assets.
+    0.27.0: Validate explicit installer config and multi-process data preservation contracts.
     0.26.0: Validate minimum installed package and prerequisite DLL versions.
     0.25.0: Validate declared Windows system-DLL prerequisites.
     0.24.0: Reject package prerequisite cycles across base and variant edges.
@@ -37,7 +41,9 @@
     0.1.0: Extract the existing validator for shared library validation.
 #>
 
-$script:ModuleVersion = '0.27.0'
+$script:CatalogRepositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+
+$script:ModuleVersion = '0.31.0'
 
 
 function Get-RideCatalogValidationErrors {
@@ -144,10 +150,10 @@ function Get-RideCatalogValidationErrors {
       }
     }
     if ($operation.ContainsKey('MinimumBuild') -and ($operation.MinimumBuild -isnot [int] -or $operation.MinimumBuild -lt 1)) { Add-Error "MinimumBuild must be a positive integer: $($operation.Id)" }
-    $pendingPackage = $operation.Kind -in @('Package', 'StoreApp', 'ProfileSetting', 'FirewallProfile', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge', 'UserPath', 'UserProxy') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
-    if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingPackage))) { Add-Error "Pending acceptance requires a supported candidate kind with no supported targets: $($operation.Id)" }
-    if ($pendingPackage -and (-not $operation.CandidateTargets -or @($operation.CandidateTargets | Where-Object { $_ -notin @('Windows 11', 'Windows Server 2025') }).Count)) { Add-Error "Pending operation requires explicit candidate targets: $($operation.Id)" }
-    if (@($operation.SupportedTargets).Count -eq 0 -and -not $pendingPackage) { Add-Error "No supported target declared for $($operation.Id)" }
+    $pendingCandidate = $operation.Kind -in @('Package', 'StoreApp', 'ProfileSetting', 'FirewallProfile', 'RemoteDesktopFirewall', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge', 'UserPath', 'UserProxy', 'WinHttpProxy', 'DesktopShortcut', 'BitLockerWorkflow', 'WindowsCapability') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
+    if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingCandidate))) { Add-Error "Pending acceptance requires a supported candidate kind with no supported targets: $($operation.Id)" }
+    if ($pendingCandidate -and (-not $operation.CandidateTargets -or @($operation.CandidateTargets | Where-Object { $_ -notin @('Windows 11', 'Windows Server 2025') }).Count)) { Add-Error "Pending operation requires explicit candidate targets: $($operation.Id)" }
+    if (@($operation.SupportedTargets).Count -eq 0 -and -not $pendingCandidate) { Add-Error "No supported target declared for $($operation.Id)" }
     if (-not $operation.ContainsKey('TargetDefaults')) {
       Add-Error "Operation is missing target defaults: $($operation.Id)"
       $targetDefaults = @{}
@@ -229,6 +235,20 @@ function Get-RideCatalogValidationErrors {
       }
       if ($operation.Kind -eq 'SmbProtocol' -and $operation.Preference -notin @('EnableSMB1Protocol', 'EnableSMB2Protocol')) { Add-Error "Unsupported SMB preference: $($operation.Id)" }
       if ($operation.Kind -eq 'DefenderPreference' -and $operation.Preference -ne 'EnableControlledFolderAccess') { Add-Error "Unsupported Defender preference: $($operation.Id)" }
+      if ($operation.Kind -eq 'RemoteDesktopFirewall' -and $operation.ContainsKey('FirewallRuleNames')) {
+        if ($operation.Id -cne 'windows.openssh-server-firewall' -or @($operation.FirewallRuleNames).Count -ne 1 -or
+            $operation.FirewallRuleNames[0] -cne 'OpenSSH-Server-In-TCP' -or $operation.RequiredCapabilityName -cne 'OpenSSH.Server~~~~0.0.1.0' -or
+            $operation.Handler -cne 'RemoteDesktopFirewall' -or $operation.Scope -cne 'Machine' -or $operation.RequiresAdmin -ne $true -or
+            -not $operation.PendingAcceptance -or @($operation.SupportedTargets).Count -ne 0 -or
+            @($operation.CandidateTargets | Sort-Object) -join ',' -cne 'Windows 11,Windows Server 2025' -or
+            $operation.Category -cne 'Windows settings / Network' -or $operation.Rollback -cne 'Exact' -or
+            @($operation.States.Keys | Sort-Object) -join ',' -cne 'Disabled,Enabled' -or
+            $operation.States.Disabled -cne 'False' -or $operation.States.Enabled -cne 'True') {
+          Add-Error "OpenSSH firewall setting must remain an exact, separate, pending rule operation: $($operation.Id)"
+        }
+      } elseif ($operation.Kind -eq 'RemoteDesktopFirewall' -and $operation.Id -ceq 'windows.openssh-server-firewall') {
+        Add-Error "OpenSSH firewall setting is missing its exact rule and capability identity: $($operation.Id)"
+      }
       foreach ($value in $operation.States.Values) {
         if ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'SmbProtocol') -and $value -isnot [bool]) { Add-Error "Managed flag must be Boolean: $($operation.Id)" }
         if ($operation.Kind -eq 'DefenderPreference' -and ($value -isnot [int] -or $value -notin @(0, 1, 2))) { Add-Error "Invalid Controlled Folder Access mode: $($operation.Id)" }
@@ -239,6 +259,7 @@ function Get-RideCatalogValidationErrors {
       }
     }
     elseif ($operation.Kind -eq 'Package') {
+      if($operation.ContainsKey('InstallerWaitMode') -and ($operation.InstallerType -ne 'Exe' -or $operation.InstallerWaitMode -isnot [string] -or $operation.InstallerWaitMode -cnotin @('ProcessTree','Process'))){Add-Error "InstallerWaitMode requires an EXE and ProcessTree or Process: $($operation.Id)"}
       if ($operation.ContainsKey('RequiresDesktopExperience') -and $operation.RequiresDesktopExperience -isnot [bool]) { Add-Error "RequiresDesktopExperience must be Boolean: $($operation.Id)" }
       if ($operation.ContainsKey('RequiresUnelevatedUser') -and ($operation.RequiresUnelevatedUser -isnot [bool] -or $operation.Scope -ne 'User' -or $operation.RequiresAdmin -or $operation.InstallerType -ne 'Exe')) { Add-Error "Invalid unelevated user execution contract: $($operation.Id)" }
       if ($operation.ContainsKey('LocalAppDataInstallDirectory')) {
@@ -290,6 +311,11 @@ function Get-RideCatalogValidationErrors {
         if ($operation.Scope -ne 'Machine' -or $operation.PortableFormat -notin @('Zip', 'File', 'SevenZip') -or -not $operation.RequiredFiles) { Add-Error "Portable packages require machine scope, Zip/File/SevenZip and RequiredFiles: $($operation.Id)" }
         if ($operation.PortableFormat -eq 'SevenZip' -and ($operation.ArchiveType -or $operation.ContainsKey('PortableMembers') -or [IO.Path]::GetExtension([string]$operation.AssetName) -ne '.7z')) { Add-Error "SevenZip portable packages require a .7z asset, no nested installer archive, and whole-archive ownership: $($operation.Id)" }
         if ($operation.PortableFormat -ne 'SevenZip' -and [IO.Path]::GetExtension([string]$operation.AssetName) -eq '.7z') { Add-Error "7z asset requires PortableFormat SevenZip: $($operation.Id)" }
+        if ($operation.ContainsKey('PortableArchivePassword') -and
+            ($operation.PortableFormat -ne 'Zip' -or -not $operation.ContainsKey('PortableMembers') -or
+             $operation.PortableArchivePassword -isnot [string] -or $operation.PortableArchivePassword -notmatch '^[A-Za-z0-9!$._-]{1,64}$')) {
+          Add-Error "PortableArchivePassword requires an exact-member ZIP and a bounded publisher passphrase: $($operation.Id)"
+        }
         foreach ($member in @($operation.RequiredFiles) + @($operation.PortableFileName) | Where-Object { $_ }) {
           if ($member -match '[\\\x00-\x1f:"*?<>|]|^/|(^|/)\.{1,2}(/|$)|[. ](/|$)|//|/$' -or $member -eq '.ride-package.json') { Add-Error "Unsafe portable member: $($operation.Id)" }
         }
@@ -304,7 +330,8 @@ function Get-RideCatalogValidationErrors {
         $selectedMembers = @{}
         foreach ($member in @($operation.PortableMembers)) {
           if ($member -isnot [string] -or [string]::IsNullOrWhiteSpace($member) -or $member.Length -gt 240 -or
-              $member -match '[\\\x00-\x1f:"*?<>|]|^/|(^|/)\.{1,2}(/|$)|[. ](/|$)|//|/$|(^|/)(?i:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|/|$)' -or $member -ieq '.ride-package.json') {
+              $member -match '[\\\x00-\x1f:"*?<>|]|^/|(^|/)\.{1,2}(/|$)|[. ](/|$)|//|/$|(^|/)(?i:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|/|$)' -or
+              ($operation.ContainsKey('PortableArchivePassword') -and $member -match '[\[\]]|(^|/)-') -or $member -ieq '.ride-package.json') {
             Add-Error "Unsafe PortableMembers file: $($operation.Id)"; continue
           }
           if ($selectedMembers.ContainsKey($member)) { Add-Error "Duplicate PortableMembers file: $($operation.Id)" }
@@ -343,11 +370,72 @@ function Get-RideCatalogValidationErrors {
           }
         }
       }
+      if ($operation.ContainsKey('PortableLocalFiles')) {
+        if ($operation.PortableLocalFiles -isnot [array] -or $operation.PortableLocalFiles.Count -lt 1 -or
+            $operation.PortableLocalFiles.Count -gt 64) {
+          Add-Error "PortableLocalFiles requires a bounded source/destination/hash list: $($operation.Id)"
+        } else {
+          $localDestinations = @{}
+          foreach ($localFile in @($operation.PortableLocalFiles)) {
+            if ($localFile -isnot [hashtable] -or @($localFile.Keys | Where-Object { $_ -notin @('Source','Destination','Sha256') }).Count -or
+                @('Source','Destination','Sha256' | Where-Object { -not $localFile.ContainsKey($_) }).Count) {
+              Add-Error "PortableLocalFiles entries require only Source, Destination, and Sha256: $($operation.Id)"; continue
+            }
+            $source = [string]$localFile.Source; $destination = [string]$localFile.Destination
+            if ($source -notmatch '^[A-Za-z0-9.][A-Za-z0-9._/-]{0,255}$' -or $source.Contains('//') -or
+                @($source.Split('/') | Where-Object { $_ -in @('.', '..') }).Count -or
+                $destination -notmatch '^[A-Za-z0-9][A-Za-z0-9._/-]{0,255}$' -or $destination.Contains('//') -or
+                @($destination.Split('/') | Where-Object { $_ -in @('.', '..') }).Count -or
+                $destination -notin @($operation.RequiredFiles) -or $localFile.Sha256 -notmatch '^[a-fA-F0-9]{64}$') {
+              Add-Error "Unsafe or incomplete PortableLocalFiles declaration: $($operation.Id)"; continue
+            }
+            if ($localDestinations.ContainsKey($destination)) { Add-Error "Duplicate PortableLocalFiles destination: $($operation.Id)" }
+            $localDestinations[$destination] = $true
+            $repoRoot = $script:CatalogRepositoryRoot
+            $sourcePath = Join-Path $repoRoot ($source.Replace('/', [IO.Path]::DirectorySeparatorChar))
+            try {
+              if (-not (Test-Path -LiteralPath $sourcePath -PathType Leaf)) { throw 'Source file is not present.' }
+              $resolvedSource = (Resolve-Path -LiteralPath $sourcePath -ErrorAction Stop).Path
+              $repoPrefix = $repoRoot.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar
+              if (-not $resolvedSource.StartsWith($repoPrefix, [StringComparison]::OrdinalIgnoreCase) -or
+                  (Get-FileHash -LiteralPath $resolvedSource -Algorithm SHA256).Hash -ine $localFile.Sha256) {
+                Add-Error "PortableLocalFiles source is outside the repository or has a mismatched SHA-256: $($operation.Id)"
+              }
+            } catch { Add-Error "PortableLocalFiles source is missing or unreadable: $($operation.Id)" }
+          }
+        }
+      }
       if ($operation.InstallerType -eq 'Msi' -and ($operation.InstallerArguments -notmatch '/qn' -or $operation.InstallerArguments -notmatch '/norestart')) { Add-Error "MSI packages require quiet, no-restart arguments: $($operation.Id)" }
       if ($operation.PrerequisitePackageId) {
         if ($operation.PrerequisitePackageId -notin @($catalog.Operations | Where-Object Kind -eq 'Package' | ForEach-Object Id)) { Add-Error "Unknown package prerequisite: $($operation.Id)" }
-        if (-not $operation.PrerequisiteProgramFilesExecutable -and -not $operation.PrerequisiteSystemFiles) { Add-Error "Package prerequisite requires an executable or system DLL requirement: $($operation.Id)" }
+        if (-not $operation.PrerequisiteProgramFilesExecutable -and -not $operation.PrerequisiteSystemFiles -and -not $operation.PrerequisitePowerShellModuleName) { Add-Error "Package prerequisite requires an executable, system DLL or PowerShell module requirement: $($operation.Id)" }
         if ($operation.PrerequisiteProgramFilesExecutable -and ([IO.Path]::IsPathRooted($operation.PrerequisiteProgramFilesExecutable) -or $operation.PrerequisiteProgramFilesExecutable -match '(^|[\\/])\.\.([\\/]|$)|["\r\n:*?]')) { Add-Error "Invalid prerequisite executable: $($operation.Id)" }
+      }
+      $modulePrerequisiteFields = @('PrerequisitePowerShellModuleName','PrerequisitePowerShellModuleMinimumVersion','PrerequisiteModuleDirectory')
+      $hasModulePrerequisite = [bool]$operation.PrerequisitePowerShellModuleName
+      if ($hasModulePrerequisite) {
+        if (-not $operation.PrerequisitePackageId -or -not $operation.PrerequisiteModuleDirectory -or -not $operation.PrerequisitePowerShellModuleMinimumVersion -or
+            $operation.PrerequisitePowerShellModuleName -notmatch '^[A-Za-z0-9][A-Za-z0-9.-]{0,127}$' -or
+            $operation.PrerequisiteModuleDirectory -notmatch '^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$') {
+          Add-Error "PowerShell module prerequisite identity is incomplete or unsafe: $($operation.Id)"
+        } else {
+          [version]$requiredModuleVersion = [version]::MinValue
+          if (-not [version]::TryParse([string]$operation.PrerequisitePowerShellModuleMinimumVersion, [ref]$requiredModuleVersion)) { Add-Error "Invalid PowerShell module prerequisite minimum version: $($operation.Id)" }
+          $modulePackages = @($catalog.Operations | Where-Object { $_.Id -ceq $operation.PrerequisitePackageId })
+          if ($modulePackages.Count -eq 1 -and
+              ($modulePackages[0].InstallerType -ne 'Portable' -or $modulePackages[0].PackageId -cne $operation.PrerequisiteModuleDirectory -or
+               $modulePackages[0].PowerShellModuleName -cne $operation.PrerequisitePowerShellModuleName -or
+               ($operation.PrerequisitePowerShellModuleName + '.psd1') -notin @($modulePackages[0].RequiredFiles))) {
+            Add-Error "PowerShell module prerequisite package does not match its declared module and directory: $($operation.Id)"
+          }
+        }
+      } elseif (@($modulePrerequisiteFields | Where-Object { $operation.ContainsKey($_) }).Count) {
+        Add-Error "PowerShell module prerequisite metadata must be declared together: $($operation.Id)"
+      }
+      if ($operation.PowerShellModuleName -and
+          ($operation.InstallerType -ne 'Portable' -or $operation.PowerShellModuleName -notmatch '^[A-Za-z0-9][A-Za-z0-9.-]{0,127}$' -or
+           ($operation.PowerShellModuleName + '.psd1') -notin @($operation.RequiredFiles))) {
+        Add-Error "PowerShell module package must declare its module manifest among portable RequiredFiles: $($operation.Id)"
       }
       if ($operation.PrerequisiteProgramFilesExecutable -and -not $operation.PrerequisitePackageId) { Add-Error "Prerequisite executable requires PrerequisitePackageId: $($operation.Id)" }
       if ($operation.ContainsKey('PrerequisiteSystemFiles')) {
@@ -432,9 +520,11 @@ function Get-RideCatalogValidationErrors {
           }
         }
         elseif ($operation.DownloadProvider -eq 'DirectHttps') {
-          $assetExtension = if ($operation.PortableFormat -eq 'File') { [IO.Path]::GetExtension([string]$operation.AssetName) } elseif ($operation.PortableFormat -eq 'SevenZip') { '.7z' } elseif ($operation.ArchiveType -eq 'Zip' -or $operation.PortableFormat -eq 'Zip') { '.zip' } else { '.' + ([string]$operation.InstallerType).ToLowerInvariant() }
+          $assetNameExtension = [IO.Path]::GetExtension([string]$operation.AssetName)
+          $assetExtension = if ($operation.PortableFormat -eq 'File') { $assetNameExtension } elseif ($operation.PortableFormat -eq 'SevenZip') { '.7z' } elseif ($operation.ArchiveType -eq 'Zip' -or $operation.PortableFormat -eq 'Zip') { if ($assetNameExtension -eq '.nupkg' -and $operation.InstallerType -eq 'Portable' -and $operation.PortableFormat -eq 'Zip') { '.nupkg' } else { '.zip' } } else { '.' + ([string]$operation.InstallerType).ToLowerInvariant() }
+          $assetPattern = if ($assetExtension -eq '.nupkg') { '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.nupkg$' } else { '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(exe|msi|zip|7z)$' }
           if ($operation.PackageVersion -notmatch '^[0-9A-Za-z][0-9A-Za-z.+_-]*$' -or
-              $operation.AssetName -notmatch '^[a-zA-Z0-9][a-zA-Z0-9._-]*\.(exe|msi|zip|7z)$' -or
+              $operation.AssetName -notmatch $assetPattern -or
               [IO.Path]::GetExtension([string]$operation.AssetName) -ne $assetExtension) { Add-Error "Direct HTTPS packages require a safe PackageVersion and matching EXE/MSI or ZIP AssetName: $($operation.Id)" }
           if (-not [Uri]::IsWellFormedUriString([string]$operation.DownloadUri, [UriKind]::Absolute) -or
               -not ([Uri]$operation.DownloadUri).IsDefaultPort -or ([Uri]$operation.DownloadUri).UserInfo -or ([Uri]$operation.DownloadUri).Fragment) { Add-Error "Direct HTTPS sources must use the default port without credentials or fragments: $($operation.Id)" }
@@ -454,6 +544,18 @@ function Get-RideCatalogValidationErrors {
           }
           if (-not $operation.InstallerArguments -or $operation.InstallerArguments -notmatch '(^|\s)ADDLOCAL=FeatureMain(\s|$)' -or $operation.InstallerArguments -match 'FeatureEnvironment|FeatureJarFileRunWith|FeatureJavaHome|INSTALLLEVEL') {
             Add-Error "Microsoft OpenJDK must install only FeatureMain to preserve environment, JavaHome and jar associations: $($operation.Id)"
+          }
+        }
+        elseif ($operation.DownloadProvider -eq 'JoeWareAdModForm') {
+          $productUri = 'https://www.joeware.net/freetools/tools/admod/index.htm'
+          if ($operation.PackageId -cne 'joeware-admod' -or $operation.AcquisitionProduct -cne 'admod' -or
+              $operation.ProductUri -cne $productUri -or $operation.DownloadUri -cne $productUri -or
+              $operation.PackageVersion -notmatch '^[0-9A-Za-z][0-9A-Za-z.+_-]*$' -or $operation.AssetName -cne 'AdMod.zip' -or
+              $operation.InstallerType -cne 'Portable' -or $operation.PortableFormat -cne 'Zip' -or $operation.Architecture -cne 'x86' -or
+              $operation.ExpectedSha256 -notmatch '^[a-fA-F0-9]{64}$' -or @($operation.PortableMembers).Count -ne 1 -or
+              $operation.PortableMembers[0] -cne 'AdMod.exe' -or @($operation.RequiredFiles).Count -ne 1 -or
+              $operation.RequiredFiles[0] -cne 'AdMod.exe') {
+            Add-Error "JoeWare AdMod form provider requires its exact official page, pinned ZIP/member, version, architecture and archive digest: $($operation.Id)"
           }
         }
         elseif ($operation.DownloadProvider -in @('VSCodeUpdateApi', 'MozillaVersionsJson', 'PublisherLinkPage', 'SignalDesktopFeed', 'WinSCPPortablePage')) {
@@ -512,6 +614,13 @@ function Get-RideCatalogValidationErrors {
     elseif ($operation.Kind -eq 'WindowsService') {
       if ($operation.ContainsKey('RefuseDependencyChanges') -and $operation.RefuseDependencyChanges -isnot [bool]) { Add-Error "Service dependency refusal must be Boolean: $($operation.Id)" }
       if ($operation.Handler -ne 'WindowsService') { Add-Error "No matching handler for $($operation.Id)" }
+      if ($operation.ContainsKey('RequiredCapabilityName') -and
+          ($operation.ServiceName -cne 'sshd' -or $operation.RequiredCapabilityName -cne 'OpenSSH.Server~~~~0.0.1.0' -or
+           -not $operation.PendingAcceptance -or @($operation.SupportedTargets).Count -ne 0 -or
+           @($operation.CandidateTargets | Sort-Object) -join ',' -cne 'Windows 11,Windows Server 2025' -or
+           $operation.Category -cne 'Windows components / Services')) {
+        Add-Error "OpenSSH service activation must remain an independent pending capability-bound component: $($operation.Id)"
+      }
       if ([string]$operation.ServiceName -notmatch '^[A-Za-z0-9_.-]+$') { Add-Error "Invalid exact service identity: $($operation.Id)" }
       foreach ($field in @('ServiceName', 'States', 'DocumentationUri')) {
         if (-not $operation.ContainsKey($field)) { Add-Error "Windows service operation is missing '$field': $($operation.Id)" }
@@ -704,6 +813,13 @@ function Get-RideCatalogValidationErrors {
       if (@(@('Get', 'Test', 'Set', 'Restore') | Where-Object { $_ -notin $operation.Actions }).Count) { Add-Error "Automatic proxy detection lifecycle is incomplete: $($operation.Id)" }
       if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Automatic proxy detection requires Microsoft HTTPS documentation: $($operation.Id)" }
     }
+    elseif ($operation.Kind -eq 'WinHttpProxy') {
+      if ($operation.Handler -ne 'WinHttpProxy' -or $operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.WinHttpSetting -cne 'MachineAutoDetect') { Add-Error "WinHTTP automatic detection requires its machine-scoped handler: $($operation.Id)" }
+      if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 2 -or $operation.States.Enabled -ne $true -or $operation.States.Disabled -ne $false -or $operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState')) { Add-Error "WinHTTP automatic detection requires explicit Boolean Enabled/Disabled states and saved-run restore: $($operation.Id)" }
+      if (-not $operation.PendingAcceptance -or @($operation.SupportedTargets).Count -ne 0 -or @($operation.CandidateTargets) -notcontains 'Windows 11' -or $operation.Rollback -ne 'Exact') { Add-Error "WinHTTP automatic detection must remain a Windows 11 candidate pending native acceptance: $($operation.Id)" }
+      if (@(@('Get', 'Test', 'Set', 'Restore') | Where-Object { $_ -notin $operation.Actions }).Count) { Add-Error "WinHTTP automatic detection lifecycle is incomplete: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "WinHTTP automatic detection requires Microsoft HTTPS documentation: $($operation.Id)" }
+    }
     elseif ($operation.Kind -eq 'ProfileSetting') {
       if ($operation.Handler -ne 'ProfileSetting' -or $operation.Scope -ne 'User' -or $operation.RequiresAdmin -ne $false) { Add-Error "Profile setting requires its user-scoped handler: $($operation.Id)" }
       if ($operation.ProfileRuntime -notin @('WindowsPowerShell51', 'PowerShell7') -or $operation.ProfileSetting -notin @('TerminalColors', 'UserBinPath')) { Add-Error "Unsupported profile runtime or setting: $($operation.Id)" }
@@ -731,6 +847,58 @@ function Get-RideCatalogValidationErrors {
       foreach ($target in $operation.SupportedTargets) { if ($operation.TargetDefaults[$target].DefaultValue -cne 'Absent') { Add-Error "Shell folder default must be Absent: $($operation.Id)" } }
       foreach ($action in @('Get', 'Test', 'Set', 'Restore')) { if ($action -notin $operation.Actions) { Add-Error "Shell folder lifecycle is missing '$action': $($operation.Id)" } }
       if ($operation.Rollback -ne 'Exact') { Add-Error "Shell folder requires exact restore: $($operation.Id)" }
+    }
+    elseif ($operation.Kind -eq 'DesktopShortcut') {
+      if ($operation.Handler -ne 'DesktopShortcut') { Add-Error "No matching handler for $($operation.Id)" }
+      if ($operation.Scope -ne 'User' -or $operation.RequiresAdmin -ne $false -or $operation.PathResolver -ne 'CurrentUserDesktop') { Add-Error "Desktop shortcut must use the current-user desktop: $($operation.Id)" }
+      $shortcutDefinition = switch ([string]$operation.Id) {
+        'windows.bitlocker-wizard-shortcut' { @{ ShortcutName='BitLocker Drive Encryption.lnk'; TargetPath='%SystemRoot%\System32\BitLockerWizardElev.exe'; Arguments=''; DescriptionText='Open Windows BitLocker Drive Encryption'; WorkingDirectory='%SystemRoot%\System32' }; break }
+        'windows.power-options-shortcut' { @{ ShortcutName='Power Options.lnk'; TargetPath='%SystemRoot%\System32\control.exe'; Arguments='/name Microsoft.PowerOptions'; DescriptionText='Open Windows Power Options'; WorkingDirectory='%SystemRoot%\System32' }; break }
+        default { $null }
+      }
+      if (-not $shortcutDefinition -or
+          $operation.ShortcutName -cne $shortcutDefinition.ShortcutName -or
+          $operation.TargetPath -cne $shortcutDefinition.TargetPath -or
+          $operation.Arguments -cne $shortcutDefinition.Arguments -or
+          $operation.DescriptionText -cne $shortcutDefinition.DescriptionText -or
+          $operation.WorkingDirectory -cne $shortcutDefinition.WorkingDirectory) { Add-Error "Unsupported desktop shortcut metadata: $($operation.Id)" }
+      if (-not $operation.States -or @($operation.States.Keys).Count -ne 2 -or $operation.States.Present -cne 'Present' -or $operation.States.Absent -cne 'Absent' -or $operation.BaselineState -cne 'Absent') { Add-Error "Desktop shortcut must declare Present/Absent and baseline Absent: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Desktop shortcut requires Microsoft documentation: $($operation.Id)" }
+      foreach ($action in @('Get', 'Test', 'Set', 'Restore')) { if ($action -notin $operation.Actions) { Add-Error "Desktop shortcut lifecycle is missing '$action': $($operation.Id)" } }
+      if ($operation.Rollback -ne 'Exact') { Add-Error "Desktop shortcut requires exact restore: $($operation.Id)" }
+    }
+    elseif ($operation.Kind -eq 'WindowsCapability') {
+      if ($operation.Handler -ne 'OpenSshServerCapability' -or $operation.CapabilityName -cne 'OpenSSH.Server~~~~0.0.1.0') { Add-Error "Unsupported Windows capability handler or identity: $($operation.Id)" }
+      if ($operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.Rollback -ne 'Conditional') { Add-Error "Windows capability requires machine scope, elevation, and conditional owned-state recovery: $($operation.Id)" }
+      if (@(Compare-Object @('Get', 'Test', 'Install', 'Uninstall', 'Restore') @($operation.Actions)).Count -gt 0) { Add-Error "Windows capability lifecycle is incomplete: $($operation.Id)" }
+      if (-not $operation.States -or $operation.States.Present -cne 'Installed' -or $operation.States.Absent -cne 'NotPresent' -or @($operation.States.Keys).Count -ne 2) { Add-Error "Windows capability requires Installed/NotPresent states: $($operation.Id)" }
+      if (-not $operation.PendingAcceptance -or @($operation.SupportedTargets).Count -ne 0 -or @($operation.CandidateTargets | Sort-Object) -join ',' -cne 'Windows 11,Windows Server 2025') { Add-Error "OpenSSH Server must remain pending Windows 11 and Windows Server 2025 acceptance: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Windows capability requires Microsoft HTTPS documentation: $($operation.Id)" }
+      foreach ($field in @('ActivationSeparate', 'FirewallExposureSeparate')) { if ($operation[$field] -ne $true) { Add-Error "Windows capability must keep activation and firewall exposure separate: $($operation.Id) / $field" } }
+    }
+    elseif ($operation.Kind -eq 'BitLockerWorkflow') {
+      $expectedActions = @{
+        Enable = @('Get', 'Enable')
+        Disable = @('Get', 'Disable')
+        AddRecoveryPassword = @('Get', 'AddRecoveryPassword')
+        BackupRecoveryPassword = @('Get', 'BackupRecoveryPassword')
+        ShowRecoveryPassword = @('Get', 'ShowRecoveryPassword')
+      }
+      if ($operation.Handler -ne 'BitLockerWorkflow' -or -not $expectedActions.ContainsKey([string]$operation.Workflow)) { Add-Error "Invalid BitLocker workflow handler/action: $($operation.Id)" }
+      elseif (@(Compare-Object $expectedActions[[string]$operation.Workflow] @($operation.Actions)).Count -gt 0) { Add-Error "BitLocker workflow actions do not match its explicit workflow: $($operation.Id)" }
+      if ($operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.MountPoint -cne '%SystemDrive%') { Add-Error "BitLocker workflow must be elevated and limited to the current OS volume: $($operation.Id)" }
+      if ($operation.ContainsKey('States') -or $operation.ContainsKey('BaselineState') -or $operation.Rollback -notin @('Staged', 'NonRestorable')) { Add-Error "BitLocker workflow cannot use setting states or exact restore: $($operation.Id)" }
+      if ($operation.Workflow -eq 'Enable' -and @($operation.EncryptionScopes | Sort-Object) -join ',' -cne 'FullVolume,UsedSpaceOnly') { Add-Error "BitLocker enrollment requires the two explicit encryption scope choices: $($operation.Id)" }
+      if ($operation.Workflow -eq 'Enable' -and @($operation.StartupAuthenticationChoices | Sort-Object) -join ',' -cne 'TPMAndPIN,TPMOnly') { Add-Error "BitLocker enrollment requires explicit TPM-only and TPM-plus-PIN startup choices: $($operation.Id)" }
+      if ($operation.Workflow -ne 'Enable' -and $operation.ContainsKey('EncryptionScopes')) { Add-Error "Only BitLocker enrollment may declare encryption scope choices: $($operation.Id)" }
+      if ($operation.Workflow -ne 'Enable' -and $operation.ContainsKey('StartupAuthenticationChoices')) { Add-Error "Only BitLocker enrollment may declare startup-authentication choices: $($operation.Id)" }
+      if ($operation.Workflow -eq 'BackupRecoveryPassword' -and @($operation.BackupDestinationChoices | Sort-Object) -join ',' -cne 'FileOrUsb,PersonalMicrosoftAccount,Print') { Add-Error "BitLocker backup requires explicit supported native destination choices: $($operation.Id)" }
+      if ($operation.Workflow -ne 'BackupRecoveryPassword' -and $operation.ContainsKey('BackupDestinationChoices')) { Add-Error "Only the BitLocker backup handoff may declare destination choices: $($operation.Id)" }
+      if ($operation.PendingAcceptance) {
+        if (@($operation.SupportedTargets).Count -ne 0 -or @($operation.CandidateTargets) -notcontains 'Windows 11') { Add-Error "Pending BitLocker workflows must remain Windows 11 candidates: $($operation.Id)" }
+      }
+      elseif (@($operation.SupportedTargets) -notcontains 'Windows 11' -or @($operation.CandidateTargets | Where-Object { $_ }).Count -gt 0) { Add-Error "Activated BitLocker workflows require accepted Windows 11 support without residual candidate targets: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -notin @('learn.microsoft.com', 'support.microsoft.com')) { Add-Error "BitLocker workflow requires authoritative HTTPS documentation: $($operation.Id)" }
     }
     else { Add-Error "Unknown operation kind '$($operation.Kind)': $($operation.Id)" }
   }
@@ -826,10 +994,15 @@ function Get-RideCatalogValidationErrors {
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
       $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
       if(($operation -and $operation.Kind -eq 'StoreApp') -or ($group -and $group.Workflow -eq 'StoreApps')){Add-Error "$($profileFile.Name) cannot route Store apps through setting/package profiles; use the explicit Store workflow."}
+      if ($operation -and $operation.Kind -eq 'BitLockerWorkflow') { Add-Error "$($profileFile.Name) cannot select staged BitLocker workflows; use the explicit BitLocker workflow entry point." }
       if ($operation -and $operation.Kind -eq 'RegistryValue' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid state for '$($selection.Id)'" }
       if ($selection.Variant -and (-not $operation -or $operation.Kind -ne 'Package' -or ($operation.Variants -and -not $operation.Variants.ContainsKey($selection.Variant)) -or (-not $operation.Variants -and $selection.Variant -ne 'installed'))) { Add-Error "Invalid profile package variant: $($selection.Id)" }
       if ($operation -and $operation.Kind -eq 'Artifact') { Add-Error "$($profileFile.Name) cannot select download-only artifact '$($selection.Id)' as a desired Windows state." }
       if ($operation -and $operation.Kind -eq 'WindowsService' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid service state for '$($selection.Id)'" }
+      if ($operation -and $operation.ContainsKey('RequiredCapabilityName') -and $operation.PendingAcceptance) { Add-Error "$($profileFile.Name) cannot select pending capability-bound operation '$($selection.Id)' before target acceptance" }
+      if ($operation -and $operation.Kind -eq 'WindowsCapability' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid Windows capability state for '$($selection.Id)'" }
+      if ($operation -and $operation.Kind -eq 'WindowsCapability' -and $operation.PendingAcceptance) { Add-Error "$($profileFile.Name) cannot select pending Windows capability '$($selection.Id)' before target acceptance" }
+      if ($operation -and $operation.Kind -eq 'WinHttpProxy' -and $operation.PendingAcceptance) { Add-Error "$($profileFile.Name) cannot select pending WinHTTP proxy operation '$($selection.Id)' before target acceptance" }
       if ($operation -and $operation.Kind -in @('FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid focused setting state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'BackgroundAppOverrides' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid background app state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'BootConfiguration' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid boot configuration state for '$($selection.Id)'" }
@@ -840,6 +1013,7 @@ function Get-RideCatalogValidationErrors {
       if ($operation -and $operation.Kind -eq 'ShellFolder' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid Shell folder state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'ProfileSetting' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid profile setting state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'UserProxy' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid user proxy state for '$($selection.Id)'" }
+      if ($operation -and $operation.Kind -eq 'WinHttpProxy' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid WinHTTP proxy state for '$($selection.Id)'" }
       if ((($operation -and $operation.Kind -in @('Package', 'DefenderExclusion')) -or $group) -and $selection.State -notin @('Present', 'Absent')) { Add-Error "$($profileFile.Name) must use Present or Absent for '$($selection.Id)'" }
     }
   }

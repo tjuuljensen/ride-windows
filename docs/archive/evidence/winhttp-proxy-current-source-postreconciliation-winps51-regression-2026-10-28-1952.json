@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:52:18Z",
+  "batch": "WinHTTP advanced proxy current-source Windows PowerShell 5.1 regression after source reconciliation",
+  "command": "Windows PowerShell 5.1 with Pester 5.7.1; WinHttpProxyInventory.Tests.ps1, WinHttpProxyPreparation.Tests.ps1 and WinHttpProxyLifecycle.Tests.ps1; TestRegistry disabled; process TEMP/TMP scoped to workspace-local .local.",
+  "results": {
+    "discovered": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "inconclusive": 0,
+    "durationSeconds": 6.37,
+    "exitCode": 0
+  },
+  "coverage": [
+    "Documented netsh output parsing and observation binding with supplied fixtures.",
+    "Preparation, field-preservation and conflict-aware recovery using supplied objects.",
+    "Mocked durable apply/restore lifecycle, identity checks, ShouldProcess and conflict refusal."
+  ],
+  "safety": {
+    "netshExecuted": false,
+    "winHttpStateQueriedOrChanged": false,
+    "registryQueriedOrChanged": false,
+    "networkCallsMade": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "currentSourceCrossShell": "Pester 5.1 regression passed 22/22 after the 2026-10-28 16:30 implementation reconciliation; prior PowerShell 7.6.5 current-source run passed 22/22 before that reconciliation.",
+    "nativeTarget": "Not accepted; target support remains empty pending native command availability, apply/readback/restore behavior and VM acceptance.",
+    "vmBlocker": "The latest RIDE-Win11-Test read-only Get-VM query at 19:50 UTC failed at host CIM before returning VM state; see B04 blocker evidence."
+  },
+  "outcome": {
+    "legacyOutcomeClosed": 0,
+    "remaining": "Windows 11/Server target behavior, netsh advproxy availability, exact underlying registry state, effective policy, PAC consumer behavior and GUI acceptance remain open."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; local source regression closes no legacy setting outcome."
+  },
+  "relatedEvidence": [
+    "winhttp-advanced-proxy-source-implementation-reconciliation-2026-10-28-1630.json",
+    "winhttp-advanced-proxy-source-reconciliation-validation-2026-10-28-1631.json",
+    "winhttp-current-source-cross-shell-pester-regression-2026-10-28-0607.json",
+    "b04-userproxy-inventory-preparation-lifecycle-winps51-and-vm-block-2026-10-28-1950.json"
+  ]
+}

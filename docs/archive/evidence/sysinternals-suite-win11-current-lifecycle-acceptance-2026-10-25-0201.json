@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "runId": "3134ed10d9294180a8a642849f4df6dc",
+  "suite": "SysinternalsSuite",
+  "target": "Windows 11",
+  "build": "26300",
+  "status": "Passed",
+  "expectedCases": 1,
+  "completedCases": 1,
+  "passedCases": 1,
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "payloadExecution": false,
+  "toolExecuted": false,
+  "functionalAcceptance": "Pending",
+  "runtimeAcceptance": "NotSelected",
+  "activationAcceptance": "Pending",
+  "case": {
+    "id": "package.sysinternals-suite",
+    "status": "Passed",
+    "variant": "portable",
+    "lifecycleRecovery": true,
+    "checks": ["install preview", "install", "exact member selection", "repeat install", "remove preview", "remove", "repeat remove", "saved removal restore", "preserve unowned files", "restore original absence", "refuse unowned collision", "refuse modified replacement", "preserve modified file on removal"]
+  },
+  "vm": "RIDE-Win11-Test",
+  "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "sourceEvidence": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\3134ed10d9294180a8a642849f4df6dc\\focused\\evidence"
+}

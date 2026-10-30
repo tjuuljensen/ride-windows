@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T00:31:51Z",
+  "Batch": "B06 OpenSSH Client source-readiness and VM access recheck",
+  "MicrosoftSourceFindings": {
+    "AvailableFeaturesOnDemand": {
+      "Uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod?view=windows-11",
+      "Capability": "OpenSSH.Client~~~~0.0.1.0",
+      "SamplePackage": "OpenSSH-Client-Package~31bf3856ad364e35~amd64~~.cab",
+      "SatellitePackages": "No",
+      "Implication": "A matching Windows 11 Languages and Optional Features source is still required; the sample package identity alone does not verify the exact target media or effective dependencies."
+    },
+    "ServicingSourcePrecedence": {
+      "Uri": "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-v2--capabilities?view=windows-11",
+      "Order": ["Explicit source first", "Configured Group Policy source if explicit source content is missing", "Windows Update if content remains missing and LimitAccess is not set"],
+      "LimitAccess": "Blocks Windows Update/WSUS lookup; does not establish that configured Group Policy sources are excluded."
+    }
+  },
+  "LocalSourceInventory": {
+    "SearchRoot": ".local",
+    "InventoryMethod": "Recursive Get-ChildItem -Force over files, including hidden and ignored content.",
+    "Patterns": ["OpenSSH-Client-Package", "LanguagesAndOptionalFeatures", "FOD", "Windows 11 ISO"],
+    "MatchingSourceFilesFound": 0
+  },
+  "VmAccess": {
+    "Target": "RIDE-Win11-Test",
+    "CheckedAtUtc": "2026-10-25T00:31:51Z",
+    "Result": "BlockedBeforeInspection",
+    "Stage": "Get-VM before VM/checkpoint inspection",
+    "Error": "Access to a CIM resource was not available to the client."
+  },
+  "SideEffects": {
+    "DismCalled": false,
+    "ServicingPolicyChanged": false,
+    "VmStateChanged": false,
+    "WindowsStateChanged": false,
+    "FreshElevationPromptRequested": false
+  },
+  "Disposition": {
+    "Resolved": ["Current Microsoft source structure and source precedence were rechecked against primary documentation."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Exact matching media, payload/dependency completeness, configured-source fallback behavior, literal recovery and Windows 11/Server acceptance."],
+    "Partial": ["B06 remains an unregistered, unsupported candidate; no legacy component outcome closes."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

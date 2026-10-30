@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T15:54:31Z",
+  "scope": "MiTeC EXE Explorer 3.7.5 and HexEdit 7.1.0 focused portable route preparation and local regression",
+  "candidateEvidence": "mitec-analysis-tools-candidates-2026-10-23.json",
+  "selectedPackages": [
+    {
+      "id": "package.mitec-exe-explorer",
+      "version": "3.7.5",
+      "archiveSha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78",
+      "members": ["EXE.exe", "EXE64.exe"]
+    },
+    {
+      "id": "package.mitec-hexedit",
+      "version": "7.1.0",
+      "archiveSha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788",
+      "members": ["HEXEdit.exe"]
+    }
+  ],
+  "route": {
+    "batch": "MiTeCAnalysisTools",
+    "controllerCapability": "MiTeCAnalysisToolsV1",
+    "checks": ["exact package and archive selection", "repeat portable file install", "remove and repeat remove", "saved install and removal recovery", "unowned and modified-file preservation"],
+    "applicationLaunched": false,
+    "featureChecksIncluded": false,
+    "defenderBlockedToolsIncluded": false,
+    "supportedTargets": [],
+    "pendingAcceptance": true
+  },
+  "validation": {
+    "pesterVersion": "5.7.1",
+    "testFiles": ["tests/PortableAcceptanceAutomation.Tests.ps1", "tests/TestAutomation.Tests.ps1"],
+    "passed": 183,
+    "failed": 0,
+    "skipped": 2,
+    "notRun": 0,
+    "windowsIntegrationExcluded": true,
+    "optionalPesterRegistryAndResultPluginsDisabled": true,
+    "workspaceLocalTemp": ".local/pester-mitec-analysis-tools-20261027",
+    "powerShellParser": "Passed for all edited PowerShell files",
+    "versionCommands": {"Invoke-RidePortableAcceptance.ps1": "0.11.0", "Invoke-RidePortableVmAcceptance.ps1": "0.9.0"}
+  },
+  "windowsAcceptance": {
+    "status": "Deferred",
+    "vm": "RIDE-Win11-Test",
+    "latestReadOnlyCheck": "Get-VM failed with CIM access denied before VM/checkpoint inspection",
+    "controllerRefreshRequired": true,
+    "controllerRefresh": "Deferred to a later elevated session; not attempted"
+  },
+  "effects": {"taskDispatched": false, "archiveDownloaded": false, "packageInstalled": false, "utilityLaunched": false, "defenderStateChanged": false, "freshUacPromptRequested": false},
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {"settings": "37-57", "packages": "38-53", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exact": "127-181", "rounded": "125-180/about 155"}
+  }
+}

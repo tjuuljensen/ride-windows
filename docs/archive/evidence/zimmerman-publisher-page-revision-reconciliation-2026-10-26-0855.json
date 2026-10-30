@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T08:55:00Z",
+  "publisherRepository": "EricZimmerman/ericzimmerman.github.io",
+  "defaultBranch": "master",
+  "commit": {
+    "sha": "f3947d47f72070c2b7695859d4f746a48aca2845",
+    "committerDateUtc": "2026-10-25T14:00:42Z",
+    "message": "Home page: MFTECmd 2026.10.6, JLECmd 2026.10.5, SQLECmd 2026.10.3",
+    "verification": {
+      "verified": false,
+      "reason": "unknown_key"
+    }
+  },
+  "publisherIndex": {
+    "path": "docs/index.md",
+    "gitBlobSha": "38d71093176767ec50922d6f70f4351914119e82",
+    "productRows": 29,
+    "acceptedSelectionRows": 26,
+    "allAcceptedMembersPresent": true,
+    "acceptedMemberVersionsChangedSince2026_10_25_1446": [],
+    "currentProductsOutsideAcceptedSelection": [
+      "iisGeoLocate",
+      "TimeApp",
+      "XWFIM"
+    ],
+    "frameworkGuidance": {
+      "netVersionChoices": [".NET 4.7.2", ".NET 10"],
+      "default": ".NET 10",
+      "gui": "All GUI tools are .NET 10 only, except TimeApp, which is also built for .NET 4.",
+      "cliNet10Only": ["AmcacheParser", "SQLECmd", "VSCMount", "WxTCmd"]
+    },
+    "hasher": {
+      "publisherIndexRoute": "https://download.ericzimmermanstools.com/net/hasher.zip",
+      "publisherIndexVersion": "2026.10.0",
+      "priorObservedProductPageLabel": ".NET 4.7.2",
+      "disposition": "Framework selection remains deferred until exact bytes or publisher clarification resolve the page/route inconsistency."
+    }
+  },
+  "artifactAcquisition": {
+    "officialHost": "download.ericzimmermanstools.com",
+    "latestHeadAttemptUri": "https://download.ericzimmermanstools.com/net/AmcacheParser.zip",
+    "result": "dns_failure_before_response",
+    "error": "No such host is known. (download.ericzimmermanstools.com:443)",
+    "payloadBytesAcquired": false
+  },
+  "validation": {
+    "recordedAtUtc": "2026-10-26T08:57:50Z",
+    "repositoryValidator": {
+      "status": "Passed",
+      "operations": 416,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 279
+    },
+    "focusedDiffCheck": "Passed"
+  },
+  "migration": {
+    "resolved": [
+      "The current immutable publisher index confirms all 26 accepted collection members remain present and their exact current page versions match the 2026-10-25 version map.",
+      "The mutable current page contains three additional tools outside the accepted 26-member scope; they remain unselected absent a separate scope decision."
+    ],
+    "partial": [
+      "The publisher index revision is pinned, but release artifacts, payload hashes, members, notices, signatures and package lifecycle remain unverified."
+    ],
+    "deferred": [
+      "Exact selected archive acquisition and the Hasher framework discrepancy remain pending official artifact access or publisher clarification."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

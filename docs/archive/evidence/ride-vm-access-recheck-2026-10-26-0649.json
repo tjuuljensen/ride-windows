@@ -1,0 +1,38 @@
+{
+  "CheckedAtUtc": "2026-10-26T06:49:12Z",
+  "Scope": "Read-only access check for registered RIDE Windows test VMs",
+  "Targets": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Operation": "Get-VM followed by checkpoint listing only if accessible",
+      "Result": "Failed before VM inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Operation": "Get-VM followed by checkpoint listing only if accessible",
+      "Result": "Failed before VM inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "ControllerTaskQuery": {
+    "Task": "\\RIDE\\RIDEWin11Test",
+    "Result": "Failed",
+    "Error": "The network address is invalid."
+  },
+  "GuestRequestSubmitted": false,
+  "VmOrCheckpointChanged": false,
+  "HostServiceChanged": false,
+  "DefenderChanged": false,
+  "FreshUacPromptRequested": false,
+  "Disposition": "Defer Windows acceptance until existing VM/CIM or registered-task access is restored; continue independent local/source work without requesting fresh elevation.",
+  "EstimateRanges": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

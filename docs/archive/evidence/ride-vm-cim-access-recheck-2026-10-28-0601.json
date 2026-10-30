@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:01:01Z",
+  "batch": "RIDE registered VM access and repository validation recheck",
+  "vmAccess": {
+    "targets": [
+      {
+        "name": "RIDE-Win11-Test",
+        "inspection": "Get-VM failed before returning VM state or identity.",
+        "error": "Access to a CIM resource was not available to the client.",
+        "checkpointInspection": false
+      },
+      {
+        "name": "RIDE-Server2025-Test",
+        "inspection": "Get-VM failed before returning VM state or identity.",
+        "error": "Access to a CIM resource was not available to the client.",
+        "checkpointInspection": false
+      }
+    ],
+    "taskDispatched": false,
+    "hostWinRmChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "repositoryValidation": {
+    "command": "tools/validate.ps1 -Root .",
+    "exitCode": 0,
+    "operationCount": 440,
+    "groupCount": 8,
+    "profileCount": 5,
+    "powerShellFileCount": 298,
+    "operationDocumentationCurrent": true
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current repository validation passed after the AdMod current-source regression was added."
+    ],
+    "deferred": [
+      "Windows 11 and Server 2025 disposable VM acceptance remains blocked before inspection by host CIM access."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; validation confirms current static repository consistency but the VM blocker prevents Windows runtime acceptance and no legacy outcome was closed."
+    }
+  }
+}

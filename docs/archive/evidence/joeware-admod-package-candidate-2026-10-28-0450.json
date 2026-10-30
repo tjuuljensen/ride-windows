@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:50:20Z",
+  "batch": "JoeWare AdMod 1.29.00 package candidate and retained archive review",
+  "publisher": {
+    "productPage": "https://joeware.net/freetools/tools/admod/index.htm",
+    "pageVersion": "1.29.00",
+    "releaseDate": "2026-06-08",
+    "platforms": "Windows 7 / Windows Server 2008 R2 or newer per publisher page",
+    "versionsList": "https://www.joeware.net/freetools/versions.txt",
+    "versionsListSha256": "d0c1c3b827a86a791dd3973b621fe2338f55eff547d50cc74519d371230b9164",
+    "versionsListProductRow": {
+      "version": "1.29.00",
+      "date": "2026.06.08",
+      "md5": "9bae0e27dc3cf4e50b767b610b674a4f",
+      "sha1": "f41f7c68e4629ebc80594a9f2d2b9b0bcf5e61ea"
+    }
+  },
+  "acquisition": {
+    "completedAtUtc": "2026-10-28T04:40:31.3765967Z",
+    "route": "Official JoeWare AdMod product form via tools/Download-JoeWareCollection.ps1",
+    "responseUri": "https://www.joeware.net/downloads/dl2.php",
+    "archiveName": "AdMod.zip",
+    "archiveBytes": 811771,
+    "archiveSha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+    "archiveMembers": [
+      "AdMod.exe"
+    ],
+    "embeddedLength": 1975296,
+    "embeddedSha256": "86c922fc98c115ea21c2053739938234fd90ce626ed227b2c3c122c2484e4d79",
+    "peMachine": "0x014C",
+    "architecture": "x86",
+    "archiveExtractedToDisk": false,
+    "payloadExecuted": false,
+    "packageInstalled": false
+  },
+  "implementation": {
+    "catalogId": "package.joeware-admod",
+    "packageVersion": "1.29.00",
+    "supportedTargets": [],
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "pendingAcceptance": true,
+    "adminRequiredWhenApplied": true,
+    "utilityExecutedByRIDE": false,
+    "catalogValidationErrors": 0,
+    "providerResolution": "Passed: exact package/version/file/provider digest resolved; modified product URI was rejected.",
+    "parsedSourceFiles": [
+      "modules/RIDE-Packages.psm1",
+      "modules/RIDE.CatalogValidation.psm1",
+      "modules/RIDE.Engine.psm1",
+      "tools/Download-JoeWareCollection.ps1",
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/Download-JoeWareCollection.Tests.ps1"
+    ],
+    "parser": "PowerShell 7.6.5: six focused source/test files parsed without errors.",
+    "catalogDocumentation": "tools/Export-RideCatalog.ps1 regenerated docs/OPERATIONS.md; -Check passed."
+  },
+  "acceptance": {
+    "pester5": "Not run; unavailable in the current shell.",
+    "ridePackageAcquisitionBranch": "Not exercised end to end through Save-RidePackageArtifact; archive acquisition was performed by the focused source downloader.",
+    "windows11Lifecycle": "Pending disposable VM and required machine elevation.",
+    "windowsServerAcceptance": "Not selected; only Windows 11 is a migration candidate."
+  },
+  "safety": {
+    "defenderQueriedOrChanged": false,
+    "defenderExclusionAdded": false,
+    "utilityExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": "AdMod stays a direct-download/install candidate. The package terms note is not a migration gate; exact owner review is administrative and local. AdFind remains separately excluded by its Defender disposition.",
+  "migrationOutcome": {
+    "resolved": [
+      "Official AdMod 1.29.00 archive acquisition and exact archive/member/architecture pins.",
+      "Catalog candidate, constrained publisher-form resolver, operator documentation, and generated operation reference."
+    ],
+    "partial": [
+      "Package provider end-to-end acquisition path and Windows package lifecycle remain unverified."
+    ],
+    "retired": [],
+    "excluded": [
+      "AdFind remains separately excluded by the existing Defender policy."
+    ],
+    "deferred": [
+      "Pester 5 regression, RIDE-managed package install/repeat/uninstall/restore, and Windows 11 acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "No legacy product outcome closed; estimates and rounded ranges remain unchanged."
+    }
+  }
+}

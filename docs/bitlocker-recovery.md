@@ -1,9 +1,52 @@
 # BitLocker recovery backup and retrieval
 
-This implements the accepted guided recovery area through Windows and the
-account/organization's native recovery interface. It does not add an executable
-RIDE recovery-key handler, retrieve a key, create a protector or change encryption.
-Manual steps are not captured RIDE apply/restore actions.
+The v3 catalog now contains source-ready workflows for OS-volume enrollment,
+explicit decryption, adding a recovery-password protector and revealing a selected
+key. They remain unavailable for application while disposable Windows acceptance
+is pending. Recovery creation and reveal use a local dialog and return only
+nonsecret IDs/status; they do not use generic snapshots, pipeline output, logs or
+transcripts. Encryption/decryption are staged system actions, not exact RIDE
+restore operations. This guide covers the manual destination, backup and retrieval
+steps that remain under user control.
+
+The dedicated entry point is `tools/Invoke-RideBitLockerWorkflow.ps1`. It reads
+the workflow ID, action, encryption choices and target gate from the catalog.
+Each state-changing or secret-revealing handler also checks the catalog gate, so
+calling the module function directly cannot bypass pending acceptance. The gate
+stops before BitLocker volume inspection while an operation is pending; read-only
+status remains available. Add, Backup and Show previews also stop before volume
+inspection, since the native volume object may contain recovery passwords. The
+workflow order is: add a recovery protector, store
+and verify its key from another device, then enroll encryption. Choose TPM-only
+startup or TPM plus a BitLocker
+startup PIN, and choose full-volume or used-space-only scope after considering the
+drive's prior use. The PIN is prompted as a SecureString only after preview
+approval; it is never a command-line parameter. The hardware test remains enabled;
+RIDE does not reboot, modify firmware, skip checks or change managed policy.
+
+Use `.\ride.ps1 show windows.bitlocker-enrollment` for read-only current
+volume state, all protector IDs/types and a whitelisted snapshot of FVE and
+PolicyManager startup-authentication values. The PolicyManager snapshot includes
+the startup-authentication choice, enhanced-PIN and minimum-PIN settings, the
+preboot-PIN exception for InstantGo/HSTI-capable devices, and preboot input
+policy for slates. Microsoft's [BitLocker CSP reference](https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp)
+documents these device-policy names and supported editions. The snapshot is
+explicitly raw: it does not determine which GPO/MDM source wins or prove an
+effective boot route. Do not treat the absence of these values as Windows boot
+acceptance.
+
+The status view labels a `TpmCertificate` protector as a *potential* Network
+Unlock route. Microsoft identifies Network Unlock as a TPM-plus-network-key
+route requiring managed policy, certificate distribution, a Windows Deployment
+Services server and suitable UEFI networking. The label alone does not prove
+that the route is provisioned or used. Enrollment preserves and refuses this
+protector until its policy and actual boot behavior have been reviewed; see
+Microsoft's [Network Unlock requirements](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/network-unlock).
+
+RIDE's `windows.bitlocker-wizard-shortcut` is a source-ready, pending Windows 11
+operation. Once disposable-target acceptance passes, it will add a reversible
+current-user desktop shortcut and be selected by the default workstation profile.
+It opens the Windows wizard only; it does not enable encryption or handle keys.
 
 ## Identify the volume and existing recovery protector
 
@@ -66,6 +109,24 @@ Do not store the only backup on the protected volume or keep an unprotected USB/
 printout with the computer. Offline backup needs no RIDE/cloud subscription;
 account/directory routes retain their own access and licensing requirements.
 
+The source operation `windows.bitlocker-backup-recovery-password` opens the native
+BitLocker Drive Encryption Control Panel after `ShouldProcess` approves. It
+requires an exact existing protector ID and a catalog destination choice:
+`FileOrUsb`, `PersonalMicrosoftAccount`, or `Print`. For example, after target
+acceptance, the script syntax is:
+
+```powershell
+.\tools\Invoke-RideBitLockerWorkflow.ps1 -OperationId windows.bitlocker-backup-recovery-password -MountPoint C: -KeyProtectorId '{id}' -BackupDestination FileOrUsb
+```
+
+The selected category is an instruction for the native UI, not evidence that the
+same route was used. Entra ID and AD DS escrow are separate organization-managed
+backend workflows and are not options in this Control Panel handoff. It returns
+`BackupVerified = false`;
+the user must match that ID in the chosen destination and verify retrieval from
+another device. The operation is still pending disposable Windows acceptance and
+cannot currently run through RIDE.
+
 ## Show the selected recovery key
 
 Use the explicit key ID to select the corresponding entry in the native account,
@@ -75,6 +136,9 @@ characters of its key ID help identify the matching saved entry. Microsoft's
 link the personal and work/school account routes and explain ID matching. Use
 that native interface for secret presentation; do not paste the password into
 this chat or a RIDE diagnostic record.
+The explicit Show workflow offers only local reveal and close; it does not claim
+that a backup was made. Use the separate native backup handoff for an existing
+protector and independently verify retrieval from another device.
 
 For organization recovery, follow the
 [BitLocker recovery process](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/bitlocker-use-bitlocker-recovery-password-viewer).
@@ -84,13 +148,35 @@ retrieval, automatic clipboard copy or custom secret viewer is introduced.
 
 ## Additional creation and complete acceptance
 
-**Create an additional recovery key** remains a separate advanced pending
-implementation. Native protector-add commands can return recovery passwords in
-their output, so this guide does not wrap them or claim secure creation through
-routine logs. A future backend must record nonsecret protector ownership and
-stages, preserve all existing unlock methods and prove redaction/partial recovery
-before availability. No create/delete, implicit rotation, backup cleanup, suspend,
-decryption, reboot or forced recovery test is included here.
+**Create an additional recovery key** is implemented in source as
+`windows.bitlocker-add-recovery-password`, but remains pending disposable Windows
+acceptance. Native protector-add commands can return recovery passwords in their
+output. The handler captures the object privately, shows the key only in a local
+masked dialog, and returns a nonsecret protector ID with `BackupVerified = false`.
+Create never claims that a destination was used or that recovery access was
+verified. After closing the dialog, use the separate
+`windows.bitlocker-backup-recovery-password` workflow with that exact protector
+ID and an explicit destination; verify retrieval from another device before
+relying on the key or enabling encryption. If presentation fails, the protector
+is retained and the partial result must be inspected before any retry. No
+implicit rotation, backup cleanup, suspend, decryption, reboot or forced recovery
+test is included here.
+
+The source workflows map `EnableBitlocker`, `DisableBitlocker`,
+`AddBitlockerRecoveryPswd` and `DisplayBitlockerRecoveryPwd` to separate catalog
+IDs. Enablement is gated on a supported Windows Pro/Enterprise/Education edition,
+a ready TPM, Windows RE verified enabled, no configured local FVE policy values,
+a fully decrypted OS volume and an exact recovery-protector ID whose off-device
+backup was verified. The source offers TPM-only and TPM+PIN, but managed/effective
+startup policy and alternate boot-route analysis remain incomplete; catalog
+activation therefore stays gated. Enrollment also fails closed inside the handler
+until effective policy and boot-route compatibility can be established; a catalog
+target declaration alone cannot release that guard. `Disable-BitLocker` removes every protector on
+the selected OS volume and starts decryption; it is never a restore action. Secret
+display is selected by exact protector ID and never by array position. Each
+operation remains blocked until Windows acceptance verifies zero/one/multiple
+protectors, secure PIN input, secret redaction, preview, repeat behavior, failed
+backup, conversion states and recovery.
 
 Routine progress should contain only the selected volume, protector/key ID,
 destination category and stages such as identified, backup submitted/saved,

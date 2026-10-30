@@ -1,0 +1,11 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T00:16:00Z",
+  "VmName": "RIDE-Win11-Test",
+  "Action": "Read-only VM/checkpoint inspection via Get-VM",
+  "Result": "Failed before VM state or checkpoint details were available",
+  "Error": "Access to a CIM resource was not available to the client.",
+  "ChangesToVmOrWindows": false,
+  "WFNAcceptance": "Pending: no guest run or target support claimed",
+  "NextAction": "Retry only when existing authorized non-elevated VM access is restored; do not request fresh UAC for this batch."
+}

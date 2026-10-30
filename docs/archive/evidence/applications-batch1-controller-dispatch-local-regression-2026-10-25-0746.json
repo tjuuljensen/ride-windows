@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T07:46:59Z",
+  "Scope": "Repair and verify server-side controller validation for ApplicationsBatch1 split suites",
+  "Finding": {
+    "Issue": "The client and guest runner accepted ApplicationsBatch1Machine and ApplicationsBatch1User, but Assert-RideAutomationRequest in RIDE.TestAutomation.psm1 did not allow either value. The registered controller would reject both requests before launching a guest runner.",
+    "AffectedPath": "tests/integration/RIDE.TestAutomation.psm1",
+    "PreviousModuleVersion": "1.5.0"
+  },
+  "Implementation": {
+    "ModuleVersion": "1.6.0",
+    "Change": "Added both split suites to server-side IntegrationSuite validation; expanded controller dispatch Pester cases to prove request acceptance, launch argument forwarding and correlated suite result handling.",
+    "Files": [
+      "tests/integration/RIDE.TestAutomation.psm1",
+      "tests/TestAutomation.Tests.ps1"
+    ]
+  },
+  "LocalValidation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "PesterVersion": "5.7.1",
+    "TestFile": "tests/TestAutomation.Tests.ps1",
+    "TestRegistry": "Disabled because sandbox access to HKCU\\Software\\Pester is denied",
+    "TemporaryRoot": ".local/test-output/split-dispatch-*",
+    "Passed": 124,
+    "Failed": 0,
+    "Skipped": 2,
+    "Discovered": 126,
+    "DurationSeconds": 36.49
+  },
+  "VMState": {
+    "Windows11QueuePending": 0,
+    "Windows11QueueRunning": 0,
+    "Server2025QueuePending": 0,
+    "Server2025QueueRunning": 0,
+    "Windows11InstalledTaskClient": "1.4.0",
+    "Windows11InstalledVmRunner": "0.13.0",
+    "Server2025InstalledTaskClient": "1.1.0",
+    "Server2025InstalledVmRunner": "0.13.0",
+    "CheckedOutTaskClient": "1.5.0",
+    "CheckedOutVmRunner": "0.15.0",
+    "CurrentProcessElevated": false,
+    "GetVm": "Denied by CIM access control; no VM state change occurred."
+  },
+  "MigrationDisposition": {
+    "Resolved": "Current source accepts and dispatches both split ApplicationsBatch1 suite values through the protected controller validator.",
+    "Deferred": "Refresh both registered controllers in elevated PowerShell; run Windows 11 ApplicationsBatch1Machine, ApplicationsBatch1User, ApplicationsBatch3 and ApplicationsBatch3AllUsers, then continue remaining target acceptance.",
+    "LegacyOutcomesClosed": [],
+    "EstimateRangesChanged": false,
+    "CurrentOverviewRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

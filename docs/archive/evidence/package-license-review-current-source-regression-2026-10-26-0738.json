@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T07:38:15Z",
+  "test": {
+    "file": "tests/LicenseReviews.Tests.ps1",
+    "pester": "5.7.1",
+    "selected": 24,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "durationSeconds": 86.05,
+    "testRegistryPluginEnabled": false,
+    "coverage": [
+      "Pending package install plans remain available when local NeedsReview records exist.",
+      "Windows 11 accepted package plans and NTCore 4GB package planning remain available with NeedsReview markers.",
+      "All ten RIDE v2-approved Sysinternals package plans remain available without a license gate.",
+      "Local owner/version review persistence, import/export, collision handling, concurrency and completion remain validated."
+    ]
+  },
+  "initialHarnessAttempt": {
+    "result": "Framework setup failure before test assertions",
+    "failed": 24,
+    "cause": "Optional Pester TestRegistry fixture could not create HKCU\\Software\\Pester because host registry access is denied.",
+    "retry": "Disabled TestRegistry and reran; all 24 tests passed."
+  },
+  "scope": {
+    "packageExecution": false,
+    "installerOrUtilityExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "legacyOutcomeClosed": false,
+    "decision": "License review markers remain administrative and informational; no license-review or generalized redistribution gate applies to package planning.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

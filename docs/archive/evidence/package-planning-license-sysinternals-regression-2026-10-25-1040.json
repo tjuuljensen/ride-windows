@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T10:40:00Z",
+  "validation": {
+    "command": "pwsh -NoLogo -NoProfile -File tools/validate.ps1",
+    "result": "Passed",
+    "operations": 413,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 277,
+    "gitDiffCheck": "Passed"
+  },
+  "pester": {
+    "version": "5.7.1",
+    "files": [
+      {
+        "path": "tests/ApplicationPackages.Tests.ps1",
+        "result": "Passed"
+      },
+      {
+        "path": "tests/PackageDependencyPlanning.Tests.ps1",
+        "result": "Passed"
+      },
+      {
+        "path": "tests/LicenseReviews.Tests.ps1",
+        "result": "Passed"
+      },
+      {
+        "path": "tests/SysinternalsSuitePackage.Tests.ps1",
+        "result": "Passed"
+      },
+      {
+        "path": "tests/SysinternalsProductPackages.Tests.ps1",
+        "result": "Passed"
+      }
+    ],
+    "passed": 237,
+    "failed": 0,
+    "skipped": 0,
+    "totalDurationSeconds": 778.57,
+    "testRegistryPlugin": "Disabled",
+    "temporaryRoot": ".local/pester-migration-followup-20261025-rerun"
+  },
+  "scope": {
+    "licenseReviewMarkersBlockPlanning": false,
+    "sysinternalsDirectDownloadInstallLicenseBlocker": false,
+    "utilityExecuted": false,
+    "vmUsed": false,
+    "defenderStateChanged": false
+  },
+  "migrationImpact": {
+    "completeLegacyOutcomesClosed": [],
+    "supportedTargetsChanged": false,
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "accountsConfigurationAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T06:37:37Z",
+  "batch": "Power Options current-user shortcut candidate and VM acceptance preflight",
+  "operation": {
+    "id": "windows.power-options-shortcut",
+    "scope": "User",
+    "requiresAdmin": false,
+    "shortcutPath": "CurrentUserDesktop\\Power Options.lnk",
+    "target": "%SystemRoot%\\System32\\control.exe",
+    "arguments": "/name Microsoft.PowerOptions",
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "supportedTargets": [],
+    "pendingAcceptance": true,
+    "baselineState": "Absent"
+  },
+  "sourceBasis": {
+    "legacy": "legacy/v2/lib-windows.psm1:705-758 wrote through merged HKCR, used direct powercfg commands and recursively deleted the whole menu tree without ownership recovery.",
+    "microsoft": [
+      "https://learn.microsoft.com/en-us/windows/win32/shell/executing-control-panel-items",
+      "https://learn.microsoft.com/en-us/windows/win32/shell/controlpanel-canonical-names"
+    ],
+    "targetQualification": "Microsoft documents the Microsoft.PowerOptions canonical item, but the canonical-name page lists recognition only through Windows 8.1; current Windows 11 launch behavior and UI remain unverified."
+  },
+  "regression": {
+    "file": "tests/DesktopShortcuts.Tests.ps1",
+    "pester": "5.7.1",
+    "powerShell7": {
+      "version": "7.6.5",
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "executionPolicy": "Process-scoped Bypass"
+    },
+    "testRegistryPlugin": false,
+    "testResultPlugin": false,
+    "coverage": [
+      "BitLocker shortcut metadata remains immutable during path resolution.",
+      "Power Options resolves to the declared current-user desktop link, exact control.exe target and canonical arguments.",
+      "The new operation remains pending, current-user and absent from supported targets.",
+      "Unrelated directory and file collisions are refused or preserved before COM."
+    ],
+    "supersededFailure": "The first catalog-validation pass identified missing empty TargetDefaults metadata on the new candidate. Added TargetDefaults = @{}; the full focused suite then passed in both shells."
+  },
+  "repositoryValidation": {
+    "result": "Passed",
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 298,
+    "operationDocumentation": "Current"
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-28T06:37:37Z",
+    "RIDE-Win11-Test": "Get-VM failed before inspection: Access to a CIM resource was not available to the client.",
+    "RIDE-Server2025-Test": "Get-VM failed before inspection: Access to a CIM resource was not available to the client."
+  },
+  "boundary": {
+    "shortcutCreatedOrRemoved": false,
+    "controlExeLaunched": false,
+    "powerPlanQueriedOrChanged": false,
+    "comInvoked": false,
+    "registryQueriedOrChanged": false,
+    "vmCheckpointInspected": false,
+    "taskDispatched": false,
+    "defenderOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "defaultProfileChanged": false
+  },
+  "migrationOutcome": {
+    "resolvedLegacyOutcomes": [],
+    "partial": [
+      "The accepted initial native Power Options handoff is implemented as a pending, current-user DesktopShortcut candidate with cross-shell resolver and catalog validation."
+    ],
+    "deferred": [
+      "Windows 11 current-build Control Panel launch/UI, intended-user session, shortcut lifecycle and exact restore require disposable-VM acceptance.",
+      "Server behavior and the old direct quick-selection submenu remain undeclared/deferred."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; an implemented candidate does not close its Windows acceptance or the whole power-plan legacy outcome."
+    }
+  }
+}

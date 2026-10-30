@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:17:07Z",
+  "batch": "NTCore local regression and RIDE-Win11-Test read-only access recheck",
+  "source": "Current Windows-host execution",
+  "attempts": [
+    {
+      "name": "Read-only Hyper-V preflight",
+      "command": "Get-VM -Name RIDE-Win11-Test followed by Get-VMSnapshot only if VM lookup succeeds",
+      "result": "Failed before VM or checkpoint inspection: Value cannot be null. (Parameter name: name). PowerShell also reported FileSystem provider InitializeDefaultDrives failure.",
+      "guestDispatched": false
+    },
+    {
+      "name": "NTCore package Pester regression",
+      "command": "Invoke-Pester -Path tests/NtcorePackages.Tests.ps1 -Output Detailed -PassThru in Windows PowerShell 5.1 with synthetic fixtures forced by clearing RIDE_NTCORE_FIXTURE_DIRECTORY",
+      "result": "Pester 5.7.1 module import failed while loading format data because AuthorizationManager rejected Pester.Format.ps1xml and PesterConfiguration.Format.ps1xml. No test assertions loaded or ran.",
+      "testCount": null
+    }
+  ],
+  "disposition": "The authorized independent NTCore regression batch did not reach test discovery, and the fresh VM preflight did not inspect RIDE-Win11-Test or its checkpoint. No bypass, package install, utility execution, guest dispatch or target mutation was attempted. Continue with other independent work; keep Windows acceptance deferred until host VM access and a supported Pester load path are available.",
+  "effects": {
+    "vmOrCheckpointInspected": false,
+    "guestDispatched": false,
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "packageOrUtilityRun": false,
+    "elevationRequested": false,
+    "executionPolicyBypassed": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "Fresh VM and local test-environment blockers are confirmed; the NTCore package lifecycle has no result from this attempt."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "NTCore Windows 11 acceptance pending VM access.",
+      "NTCore local Pester regression pending Pester format-data import under AuthorizationManager."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the failed preflight and pre-assertion Pester import close no legacy outcome."
+    }
+  }
+}

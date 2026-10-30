@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:26:48Z",
+  "batch": "BitLocker drive-type policy and default-profile source recheck",
+  "sources": {
+    "configurationAndGpoPolicy": "https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure#choose-drive-encryption-method-and-cipher-strength",
+    "bitlockerCsp": "https://learn.microsoft.com/en-us/windows/client-management/mdm/bitlocker-csp#encryptionmethodbydrivetype"
+  },
+  "findings": {
+    "policyChoices": "Microsoft documents AES-CBC 128/256 and XTS-AES 128/256 for operating-system, fixed-data and removable-data drives. It recommends XTS-AES and says the 128/256-bit choice depends on device performance.",
+    "effectiveDefault": "When the policy is not configured, new BitLocker encryption defaults to XTS-AES 128-bit.",
+    "activationBoundary": "The policy is enforced when encryption starts. Changing policy does not restart encryption or change an already-encrypted drive.",
+    "hardwareEncryption": "The policy does not apply to hardware-based encryption; the drive's hardware algorithm is set when partitioned.",
+    "cspContract": "The BitLocker CSP EncryptionMethodByDriveType node is device-scoped and Microsoft says all three drive-type values must be sent together in one SyncML request. RIDE's candidates write local Group Policy registry values and do not configure CSP/MDM."
+  },
+  "catalogAndProfileReview": {
+    "operations": [
+      "windows.bitlocker-encryption-method-os",
+      "windows.bitlocker-encryption-method-fixed-data",
+      "windows.bitlocker-encryption-method-removable-data"
+    ],
+    "allThreeDriveTypesSelectedInDefaultProfile": true,
+    "defaultProfileState": "XtsAes256",
+    "registryHandlerScope": "Each operation writes only its local Group Policy DWORD, does not write CSP/MDM settings and does not encrypt/decrypt or modify volume protectors.",
+    "candidateSupport": "Windows 11 candidate only; SupportedTargets remains empty pending disposable-target policy precedence, observation and exact saved-state acceptance.",
+    "catalogOrProfileChanged": false
+  },
+  "operatorGuidanceChange": "Explain that the profile chooses XTS-AES 256-bit as a user-approved security default, while Microsoft's guidance makes key length a device-performance choice; users may select 128-bit through the declared setting state when performance is more important.",
+  "verification": {
+    "command": "tools/Export-RideCatalog.ps1 -Check",
+    "verifiedAtUtc": "2026-10-28T11:28:16Z",
+    "exitCode": 0,
+    "result": "Operation documentation is current."
+  },
+  "migrationOutcome": {
+    "legacyOutcomesClosed": 0,
+    "deferred": [
+      "Windows 11 native policy precedence/readback and exact saved-state restore remain pending because VM access is blocked before checkpoint inspection."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source recheck closes no legacy outcome and changes no catalog/profile state."
+    }
+  }
+}

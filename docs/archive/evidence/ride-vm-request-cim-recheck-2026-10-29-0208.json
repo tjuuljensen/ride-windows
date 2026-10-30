@@ -1,0 +1,40 @@
+{
+  "recordedAtUtc": "2026-10-29T02:08:17Z",
+  "vmTargets": [
+    "RIDE-Win11-Test",
+    "RIDE-S25-Test"
+  ],
+  "vmInspection": {
+    "command": "Get-VM",
+    "result": "Failed before returning state",
+    "error": "Access to a CIM resource was not available to the client."
+  },
+  "existingRequest": {
+    "runId": "95bc76d3055f4f17964087ed15422295",
+    "foundInPendingQueue": false,
+    "foundInRunningQueue": true,
+    "foundInFinishedQueue": false,
+    "correlatedResultArtifactPresent": false,
+    "controllerLogLastWriteLocal": "2026-10-29 02:19:09",
+    "duplicateSubmitted": false
+  },
+  "vmStateOrCheckpointRetrieved": false,
+  "requestCancelledOrModified": false,
+  "guestRequestDispatched": false,
+  "windowsOrDefenderStateChanged": false,
+  "elevationRequested": false,
+  "disposition": "Keep the existing UnitOnly/Full request unresolved; do not submit a duplicate or mark it stopped. Defer further VM acceptance while host CIM access fails and continue independent source/implementation work.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

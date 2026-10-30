@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T07:22:21Z",
+  "Scope": "PSScriptTools complete retained-source file lifecycle regression",
+  "Test": "tests/PSScriptToolsPackage.Tests.ps1",
+  "PesterVersion": "5.7.1",
+  "Results": {
+    "Total": 7,
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "ElapsedSeconds": 1533.63,
+    "FullArchiveLifecycleSeconds": 1476.31,
+    "TestRegistry": "Disabled because sandbox policy denied Pester's optional HKCU fixture.",
+    "TemporaryStorage": "Unique run directory under .local; TEMP and TMP were redirected there."
+  },
+  "Artifact": {
+    "Source": "Retained archive referenced by .local/acceptance-input/PSScriptTools.json",
+    "Version": "3.2.0",
+    "HashCheckedAgainstCatalogAndReview": true,
+    "UpstreamCodeExecutedOrImported": false
+  },
+  "Coverage": [
+    "Pinned package metadata and notices",
+    "Incomplete archive refusal",
+    "Full 360-member archive install, repeat install, removal, and saved-state restore",
+    "Preservation of unowned analyst output",
+    "Modified source protection and recovery",
+    "Unowned destination collision refusal",
+    "Changed recovery byte refusal",
+    "Prior-absence restore"
+  ],
+  "Interpretation": {
+    "Resolved": ["Current-source local file lifecycle regression"],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows 11 and Server 2025 file acceptance",
+      "Microsoft.PowerShell.ThreadJob dependency acquisition and installation",
+      "PowerShell runtime import and function behavior acceptance"
+    ],
+    "Partial": "This validates file ownership and recovery only; it does not establish that PSScriptTools can import or execute its functions.",
+    "EstimateChanged": false,
+    "PackageEstimate": "40-55",
+    "TotalEstimate": "37-57 / 40-55 / 19-24 / 25-35 / 8-12; exact 129-183; rounded 130-185/about 155"
+  }
+}

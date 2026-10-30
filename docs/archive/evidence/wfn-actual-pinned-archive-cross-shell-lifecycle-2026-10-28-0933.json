@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:33:05Z",
+  "batch": "WFN Nightly actual pinned-archive portable lifecycle and recovery",
+  "source": "Current checkout, retained official archive and direct portable-handler lifecycle",
+  "packageId": "package.windows-firewall-notifier",
+  "version": "20250719-ac02df",
+  "archive": {
+    "path": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip",
+    "length": 118745388,
+    "sha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "catalogPinMatched": true,
+    "selectedMemberCount": 531
+  },
+  "lifecycle": {
+    "powershell7": {
+      "version": "7.6.5",
+      "status": "Passed",
+      "installFiles": 531,
+      "repeatInstallFiles": 531,
+      "installedSnapshotRecoveryFiles": 531,
+      "priorAbsenceRestored": true
+    },
+    "windowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "status": "Passed",
+      "installFiles": 531,
+      "repeatInstallFiles": 531,
+      "installedSnapshotRecoveryFiles": 531,
+      "priorAbsenceRestored": true,
+      "launch": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File <workspace-local runner>",
+      "persistentExecutionPolicyChanged": false
+    },
+    "operatorOwnedSentinel": "Survived repeat install, uninstall, installed-snapshot recovery, uninstall and prior-absence recovery in both editions.",
+    "runDirectoriesCleaned": true
+  },
+  "handling": {
+    "wfnExecutableLaunched": false,
+    "installerExecuted": false,
+    "firewallOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "vmUsed": false,
+    "elevationRequested": false
+  },
+  "limitations": [
+    "This directly exercises the catalog-selected portable file handler with the retained real archive. It does not run the WFN utility, configure firewall notifications, exercise the full RIDE engine route, or establish Windows runtime/support acceptance.",
+    "The first Windows PowerShell 5.1 launch was blocked by AuthorizationManager before script execution; the successful rerun used process-only ExecutionPolicy Bypass and did not persist a policy change."
+  ],
+  "vmAcceptance": {
+    "status": "Deferred",
+    "reason": "Latest read-only Get-VM preflight failed at host CIM before inspection of either target.",
+    "evidence": "gpg4win-source-review-vm-access-block-2026-10-28-0909.json"
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Actual catalog-pinned WFN archive install, repeat, uninstall, installed-snapshot recovery and prior-absence recovery through the portable module pass in both supported PowerShell editions."
+    ],
+    "partial": [
+      "WFN portable package file lifecycle is locally verified; no legacy product outcome is closed."
+    ],
+    "deferred": [
+      "Disposable Windows 11 package lifecycle, target support, and WFN runtime/firewall-notification behavior."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; module-level retained-archive lifecycle does not establish Windows runtime behavior or close the legacy package outcome."
+    }
+  }
+}

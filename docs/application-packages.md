@@ -1,5 +1,48 @@
 # Application variants and portable recovery
 
+## Installer completion
+
+EXE packages may explicitly declare `InstallerWaitMode = 'Process'` when a
+reviewed installer completes setup and launches an independent application.
+RIDE then waits for the installer itself and checks its exit code and installed
+state. Omitting this property, or declaring `ProcessTree`, retains the existing
+wait for the installer and all descendants. This option changes installation
+only; uninstallers keep their existing completion behavior. Do not use it for
+bootstrap installers that exit before child installers finish.
+
+The pending MiTeC Project Maker 1.9.0 candidate is the only current opt-in.
+Its retained setup log reports successful installation, launches
+`ProjectMaker64.exe`, and closes while RIDE remains at installation until timeout.
+This is consistent with PowerShell's documented
+[process-tree wait](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process?view=powershell-5.1).
+The correction does not suppress the publisher's application launch, establish
+product functionality, or promote the candidate to supported Windows targets.
+Its corrected Windows 11 deployment lifecycle passed in request
+`2ecfe2bb51b447a7ae586a860d7123da`, including repeat install/removal and
+compensating saved-state presence recovery. This milestone does not establish
+arbitrary previous-version recovery or compiler/project/signing behavior.
+
+## HashCheck Shell Extension
+
+`package.hashcheck-shell-extension` pins the publisher's HashCheck 2.6.3 x86/x64
+NSIS installer. The retained 2,157,368-byte file matches the official publisher
+SHA-256 sidecar and the release API digest; Authenticode is valid for IDRIX
+SARL. Its
+`/S` switch is supported by NSIS and the tagged publisher script checks silent
+mode. Installation registers a machine shell extension and HKLM uninstall
+entry; the registered quiet uninstall command invokes `regsvr32` against the
+installed DLL. The installer also migrates the older uninstall key and, on
+Windows 11, registers a signed sparse package from the elevated installer
+process. Managed install/remove/repeat and saved-state recovery passed on the
+tested Windows 11 guest using an elevated interactive administrator session.
+The normal controller route preserves that context. Use the intended signed-in
+administrator's elevated interactive session for installation and removal.
+Session 0, SYSTEM, another intended user and Windows Server are outside supported
+scope. Recovery reinstalls the declared version, not an arbitrary prior version.
+Explorer verification of matching and changed files, and SHA-256 checksum
+creation, passed the recorded acceptance checks. See the
+[completed Windows 11 acceptance](archive/evidence/hashcheck-windows11-acceptance-complete-2026-10-30.json).
+
 RIDE keeps one product ID and declares supported distributions in `Variants`.
 `DefaultVariant` preserves the existing default; old flat package entries use
 `installed`. Additional products are optional. Check the
@@ -20,6 +63,141 @@ note. The current implementation refuses a different installed edition;
 switching editions requires a reviewed edition change. `show`, default `status`
 and removal use the recorded selection where available. An explicit profile
 compares its requested edition.
+
+## Google Analytic Cookie Cruncher pending package candidate
+
+`package.google-analytic-cookie-cruncher` pins the publisher's version 2.0.0.1
+archive at an immutable GitHub revision. RIDE stages its x86 GUI, bundled
+`System.Data.SQLite.dll`, and upstream `License.txt` as owned files. Mari
+DeGrazia's embedded freeware notice permits redistribution and includes a
+warranty disclaimer; RIDE retains the notice with the files. Licensing is not a
+migration gate.
+
+Static metadata identifies a .NET Framework 4.0 x86 GUI and bundled
+System.Data.SQLite 1.0.89. This records the build's target; it does not establish
+runtime compatibility on a supported Windows release.
+
+Package installation only stages these files. It does not launch the GUI, scan
+browser profiles, or read or import cookie data. Runtime requirements, GUI
+behavior, disposable Windows 11 file lifecycle, and exact recovery remain
+pending; the candidate declares no supported Windows target until those checks
+pass. Do not select it in a profile before acceptance.
+
+## NirSoft collection pending portable candidates
+
+`package.nirsoft-launcher` pins NirLauncher 1.30.26 from the publisher download
+page. Its exact archive SHA-256 and central-directory inventory are recorded in
+the [source evidence](archive/evidence/nirlauncher-source-inventory-2026-10-17.json).
+The package stages the reviewed collection as owned files and leaves the
+launcher and its configuration inert. Individual member hashes were unavailable
+for this archive review; the exact archive hash remains the acquisition pin.
+
+`package.nirsoft-x64-tools` pins the publisher's x64 package snapshot using the
+measured archive SHA-256 and the 47 member hashes in its
+[source evidence](archive/evidence/nirsoft-x64-source-review-2026-10-17.json).
+The publisher does not provide an archive digest.
+
+Both candidates omit every executable whose basename is
+`chromecookiesview.exe`, `bulletspassview.exe`, `produkey.exe`, or
+`wirelesskeyview.exe`, including duplicate architecture paths. These are the
+four Defender-reported tools. NirLauncher also omits `NirSoft/iehv.exe` and
+`NirSoft/lanipscanner.exe` after Defender prevented their staging. Further
+Defender-prevented members are also omitted: `NirSoft/lsasecretsdump.exe` and
+its x64 copy, `NirSoft/operapassview.exe`, `NirSoft/routerpassview.exe`,
+`NirSoft/netpass.exe` and its x64 copy,
+`NirSoft/webbrowserbookmarksview.exe`, `NirSoft/browserautofillview.exe` and
+its x64 copy, and `NirSoft/passwordscan.exe` and its x64 copy. The latest user report, received at 23:28 UTC, identifies `NirSoft/x64/passwordscan.exe` again but supplies no detection name, Defender event time or stage creator. A metadata-only current-source audit at 23:36 confirms neither candidate selects any PasswordScan executable and the reported temporary-parent name is absent from current tests, modules, tools and catalog text; the stage creator remains unknown. See the [latest alert record](archive/evidence/nirsoft-passwordscan-user-defender-block-2026-10-28-2328.json) and [current-source audit](archive/evidence/nirsoft-current-catalog-passwordscan-exclusion-and-stage-source-audit-2026-10-28-2336.json). RIDE does not restore or
+re-extract these files, run utilities, add Defender exclusions, or change
+Defender settings. The NirLauncher configuration may still list
+omitted utilities; selecting one can report that its executable is absent.
+
+The publisher describes NirLauncher as freeware and lists NK2Edit as an
+exception that requires a commercial license for company/business use. Exact
+package/version `NeedsReview` records are informational and do not block package
+planning or the direct publisher-download-and-install migration. Assign an owner
+review for use context separately. Neither package declares a supported Windows
+target; Windows 11 lifecycle, recovery, and launcher behavior remain pending.
+Package staging does not execute the launcher or any included utility. The exact
+filtered sets passed a synthetic inert-ZIP local lifecycle: repeat install,
+exact owned-file membership, remove, snapshot recovery and operator-note
+preservation. The 660-member launcher case took 17m40s before the two additional
+Defender blocks were found. Both retained publisher ZIPs are password-protected;
+portable staging now uses the signed Windows inbox `tar.exe` with the
+catalog-pinned publisher passphrase and exact `PortableMembers` selectors. The
+x64 archive passed actual-archive install, repeat, removal and saved-state
+recovery (**1/1**). Defender-prevented staging paths and the original four
+alert basenames are excluded from the 647 selected entries (21 archive entries
+excluded in total). A later filtered lifecycle retry remained silent and showed
+no temporary-tree progress; it was stopped and recorded as incomplete, not as a
+pass. No package commit or utility launch occurred.
+Windows target acceptance, further Defender review, launcher operation and
+utility behavior remain pending. See the
+[dated candidate evidence](archive/evidence/nirsoft-filtered-portable-candidates-2026-10-27.json),
+[encrypted archive lifecycle evidence](archive/evidence/nirsoft-encrypted-archive-lifecycle-defender-blocks-2026-10-27-1732.json),
+and [earlier encryption diagnostic](archive/evidence/nirsoft-retained-archive-encryption-lifecycle-block-2026-10-27-1713.json).
+
+## MiTeC InfoBar 4.6.2 candidate
+
+`package.mitec-infobar` pins the official 4.6.2 installer by SHA-256. Prior
+static extraction identified the x86 and x64 InfoBar 4.6.2.0 and DeskExp 1.4.0.0
+executables plus the publisher's language and data files; all 29 member hashes
+match the retained extraction. The exact-version local `NeedsReview` record
+captures owner-specific license administration and does not block the direct
+publisher-download/install migration.
+
+This candidate remains unsupported pending disposable Windows 11 install,
+uninstall, startup, network, repeat and saved-run recovery checks. Do not use a
+real location, weather API key, RSS account or personal feed. Preserve only
+changes RIDE can identify and recover exactly. See the [source review](archive/evidence/mitec-infobar-static-behavior-review-2026-10-20.json),
+[static extraction inventory](archive/evidence/installer-static-extraction-2026-10-17.json),
+and [current candidate evidence](archive/evidence/mitec-infobar-package-candidate-2026-10-27-1450.json).
+
+## MiTeC Project Maker 1.9.0 candidate
+
+`package.mitec-project-maker` pins the official `PMInstall.exe` by SHA-256.
+The candidate is the released 1.9.0 build; the publisher labels 2.0.0 as under
+development. Static extraction identified the x86 and x64 Project Maker 1.9.0.0
+executables and the CHM help file. RIDE obtains the installer directly from
+MiTeC; it does not publish or transfer a bundled copy. The local exact-version
+`NeedsReview` record is an owner-administration reminder and does not block
+package planning or migration.
+
+The candidate remains unsupported pending disposable Windows 11 installer,
+uninstall, repeat and saved-run recovery acceptance. The focused
+`ApplicationsBatch10` route checks the pinned install/remove lifecycle without
+launching Project Maker. It does not verify compiler, build, before/after action,
+version-patching, signing or protection behavior. Verify install scope,
+registration, dependencies and UI behavior before enabling it. Any functional
+build check must use a synthetic Delphi project/output folder, bounded actions,
+and a disposable signing certificate and key; never use a real project or
+production signing key. Native acceptance also requires the registered
+`ApplicationsBatch10ProjectMakerV1` controller capability. See the [static extraction evidence](archive/evidence/installer-static-extraction-2026-10-17.json)
+and [candidate review](archive/evidence/mitec-olecom-project-maker-static-review-2026-10-21.json).
+
+## PSScriptTools module prerequisite
+
+`package.psscripttools` declares `package.microsoft-powershell-threadjob` 2.2.0
+as a catalog-managed prerequisite. RIDE plans the pinned portable package before
+PSScriptTools, checks its managed-file manifest and module version, and protects
+it from removal while PSScriptTools remains installed. The package is staged in
+the configured tools directory; normal package installation does not add it to
+the system or user `PSModulePath`. The isolated acceptance probe imports the
+managed ThreadJob manifest by exact path inside its present-mode child process.
+It does not change persistent module-path configuration. Windows 11 lifecycle
+and runtime acceptance remain pending.
+
+## Windows Firewall Notifier Nightly candidate
+
+`package.windows-firewall-notifier` pins the user-selected x64 Nightly
+`20250719-ac02df` from the official [WFN release page](https://github.com/wokhan/WFN/releases/tag/nightlies).
+It stages the complete publisher archive into the configured tools directory;
+the package handler owns the selected files and supports saved-run recovery.
+The application was not run as part of package installation. The v2 install
+and remove actions only copied/extracted or removed files; they did not modify
+Windows Firewall policy, so package lifecycle does not claim to configure
+firewall rules or notifications.
+
+The retained real archive subsequently passed two local installs, 531-file ownership checks, snapshot capture, uninstall, exact restore and final removal. Both license notices were present. WFN was not launched and no firewall configuration changed. This is local file-lifecycle evidence; disposable Windows 11 staging and WFN application/firewall behavior acceptance remain pending. The selected Nightly can contain unstable changes, and the publisher does not support Windows Server. WFN GPL terms and the bundled GeoLite2/GeoNames license attribution files remain alongside the package.
 
 ## Slack and Discord current-user candidates
 
@@ -72,16 +250,49 @@ memory. The package remains a Windows 11 candidate with no supported targets.
 
 The publisher's 4.1 development release marks its new drivers test-signed and
 directs production users to the separate `go-winpmem_amd64_1.0-rc2_signed.exe`
-asset with older signed drivers. The release asset page publishes the SHA-256
-pin used by RIDE, but this workspace could not resolve `github.com`, so the
-exact bytes and Authenticode signer have not yet been verified locally. Driver
-loading, service cleanup, reboot recovery and capture require separate explicit
-acceptance on a disposable Windows guest. Do not infer Windows support from the
-publisher's historical OS claims. The publisher identifies the source and
+asset with older signed drivers. The [expanded release-assets page](https://github.com/Velocidex/WinPmem/releases/expanded_assets/v4.1.dev1)
+publishes the SHA-256 pin used by RIDE. The local binary has not been acquired,
+so its bytes and Authenticode signer remain unverified. A focused WinPmem VM
+file-lifecycle batch is prepared; it will stage and remove the exact owned file
+without launching it or loading its driver. Windows 11/Server 2025 acceptance
+and driver loading, service cleanup, reboot recovery and capture require
+separate explicit tests on disposable guests. Do not infer Windows support from
+the publisher's historical OS claims. The publisher identifies the source and
 signed binaries as Apache-2.0; retain upstream license and notice files.
 
 See the [WinPmem migration record](migrations/application-migration-review.md#winpmem-production-asset-source-review-and-package-candidate-2026-10-24)
 and the [publisher's release page](https://github.com/Velocidex/WinPmem/releases).
+
+## RawCopy x64 staging candidate
+
+The package stages RawCopy 1.0.0.22 from the immutable upstream repository
+snapshot at commit `0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c`. The selected ZIP
+contains the x64 executable, `LICENSE.md`, readme and changelog. The archive
+SHA-256 is pinned in the catalog; the x64 member matched the publisher Git blob
+and is unsigned. Package install only copies owned files. It does not run
+RawCopy, acquire or extract evidence, inspect target data, or use the optional
+unencrypted TCP output. The retained real ZIP subsequently passed two local installs, exact selected-member ownership, snapshot capture, uninstall and restore of all four files; the x86 executable and AutoIt source were not staged. RawCopy was never launched, and no evidence or system data was accessed. See the [real-artifact lifecycle evidence](archive/evidence/rawcopy-real-artifact-local-lifecycle-2026-10-25-1131.json). This confirms local archive ownership/recovery only; Windows 11 remains a candidate awaiting VM lifecycle and synthetic-behavior acceptance.
+
+Windows 11 is a candidate deployment host only. Before support is declared,
+acceptance must verify install, repeat install, removal, exact recovery and
+collision/modified-file handling on the disposable VM, then check the documented
+read-only/listing behavior against synthetic NTFS fixtures without touching real
+evidence. Do not use the numbered 1.0.0.19 release: its publisher identifies it
+as a Windows 2000/NTFS 3.0 special build. The prior publisher documentation
+does not establish modern Windows compatibility.
+
+## Microsoft ETL2PCAPNG portable candidate
+
+RIDE pins the latest published Microsoft release, v1.11.0. The repository's
+`main` branch has a later 1.12.0 changelog entry, but that is not the latest
+release asset. The x64 executable is Authenticode-signed by Microsoft and is
+staged beside the upstream MIT license notice as `LICENSE.txt`. Install and
+remove only copy or delete owned files; RIDE does not invoke the converter.
+
+Windows 11 remains a candidate target. On the disposable VM, verify install,
+repeat install, removal, exact recovery and collision handling. Then convert a
+synthetic ETL capture to a temporary PCAPNG file and check that the input stays
+unchanged. Do not use real network captures for acceptance.
 
 ## MiTeC SQLite Query portable candidate
 
@@ -127,12 +338,13 @@ license record is informational for candidate planning. MiTeC's unregistered
 terms describe non-commercial use and list paid tiers; package preparation does
 not determine an individual or organization's entitlement.
 
-The focused inert package lifecycle regression passes 2/2 in PowerShell 7. It
-checks catalog metadata against the recorded archive/member pins and exercises
-repeat staging, snapshot, removal and restore with a generated inert ZIP.
-Windows PowerShell 5.1 parsing passes, but Pester cannot import on this host
-because AuthorizationManager blocks its format data/module load. This is
-static/lifecycle preparation, not VM acceptance.
+The focused package lifecycle suite passes 3/3 on PowerShell 7 and Windows
+PowerShell 5.1. It checks the catalog pins, exercises an inert ZIP, and when the
+retained publisher ZIP is available verifies its archive and selected-member
+hashes before staging only `SSView.exe` through repeat install, snapshot,
+removal and restore. The viewer was not launched and no structured-storage file
+was opened. See the [retained-archive cross-shell evidence](archive/evidence/mitec-ssview-retained-archive-cross-shell-lifecycle-and-vm-access-2026-10-27-1658.json).
+This remains local package lifecycle evidence, not Windows acceptance.
 
 Later behavior checks require a separately generated synthetic structured-
 storage file, byte-exact recovery, an isolated viewer directory, and preservation
@@ -226,6 +438,10 @@ raw-disk features stay outside this file-lifecycle batch.
 
 Both versions have local `NeedsReview` records for owner-specific license
 administration. Those records do not block implementation or install planning.
+The `MiTeCAnalysisTools` portable acceptance batch covers only exact pinned
+archive staging, repeat/remove and saved-state recovery; it does not launch either
+tool or exercise analysis features. EXE Explorer's synthetic PE/export checks
+and HexEdit's disposable-file feature checks remain separate acceptance work.
 Both candidates remain unsupported pending Windows 11 lifecycle and the
 synthetic feature checks above. See the [candidate evidence](archive/evidence/mitec-analysis-tools-candidates-2026-10-23.json)
 and [dated migration review](migrations/application-migration-review.md#mitec-exe-explorer-and-hexedit-candidate-packages-2026-10-23).
@@ -251,6 +467,10 @@ provider, synthetic calls and unchanged line/provider configuration.
 The current publisher pages list version 16.0.0 and 1.2.0, respectively, and
 both list Windows 11. Exact archive and selected-member hashes are retained in
 the [static review](archive/evidence/mitec-system-information-tapi-static-review-2026-10-20.json).
+The `MiTeCSystemAndTelephony` acceptance batch checks only pinned archive file
+staging, repeat/remove, recovery and preservation of unrelated files. It does
+not generate reports or access a live TAPI provider, line, call or call history.
+Report redaction and simulated-provider behavior remain separate acceptance.
 Both versions have local `NeedsReview` records. Those markers do not block
 candidate planning and do not assert entitlement. See the [candidate-preparation
 record](migrations/application-migration-review.md#mitec-system-information-extra-and-tapi-monitor-package-candidates-2026-10-23).
@@ -664,7 +884,7 @@ It contains no Npcap/USBPcap installer. Live capture remains the separately sele
 interactive Npcap workflow, retaining administrator-only access. Q16 now selects
 WinPcap compatibility off by default; enabling it needs explicit selection and
 preview of replacement of any existing WinPcap installation. The Wireshark candidate
-does not implement or execute that driver workflow.
+does not implement or execute that driver workflow. Focused current-source coverage passes 8/8 in Windows PowerShell 5.1 with inert payloads and mocked installer boundaries; no installer ran. Windows lifecycle/recovery and publisher PGP verification remain open because VM access is blocked at host CIM. See [latest batch evidence](archive/evidence/wireshark-package-focused-regression-and-vm-cim-block-2026-10-28-1017.json).
 
 The publisher labels its WiX installer experimental and warns about transitions
 between NSIS and MSI installations. The inspected MSI launch conditions refuse
@@ -774,20 +994,19 @@ archive remains in acquisition/recovery storage; selection does not remove its
 other contents or establish permission to redistribute that archive. Exact
 PortableMembers selection is currently limited to ZIP packages.
 
-The pending NTCore candidates are independently owned portable copies: PE Detective
-includes Signature Explorer and five signature databases; standalone x86 CFF Explorer
-selects its executable and five databases, omitting SDK installers, example scripts
-and the UPX extension. It does not replace the installed Explorer Suite. Publisher
-pages describe freeware; the inspected archives contain no separate license file.
-Embedded copyright is preserved, and shared-kit rights need their own assessment.
-Neither candidate launches a tool, scans or patches files, refreshes signatures,
-registers extensions, or changes PATH. Native acceptance is still pending, so no
-supported apply target or profile selection is added.
+The NTCore PE Detective and standalone x86 CFF Explorer packages stage independently
+owned portable copies: PE Detective includes Signature Explorer and five signature
+databases; CFF Explorer selects its executable and five databases, omitting SDK
+installers, example scripts and the UPX extension. It does not replace the installed
+Explorer Suite. Current publisher page and hash checks are recorded in [version source evidence](archive/evidence/ntcore-phoenix-explorer-current-version-source-recheck-2026-10-28-1021.json). Their Windows 11 package install/remove/recovery passed on
+`RIDE-Win11-Test`; neither utility was launched. Runtime behavior, activation, and
+other Windows targets remain untested. Embedded copyright and publisher notices are
+preserved. Local license-review metadata does not block package planning.
 
 The pending MiTeC JSON Viewer and XML Viewer candidates each use one pinned
 publisher archive. The `portable` variant selects its x64 executable;
 `portable-x86` selects its x86 executable. Both remain pending Windows 11
-acceptance. Licence tiers are not separate package identities: these candidates
+acceptance. The current-source real-archive file lifecycle suite passes 16/16 in PowerShell 7 and Windows PowerShell 5.1 across the x64 and x86 variants; it stages only the selected executable and does not launch either viewer. This is not Windows acceptance. See the [current-source evidence](archive/evidence/mitec-json-xml-current-source-retained-archive-cross-shell-regression-2026-10-27-1702.json). Licence tiers are not separate package identities: these candidates
 do not activate the software, inspect licence keys, open documents or launch
 update checks. Unowned licence/configuration files are preserved by file ownership
 rules; real activation preservation still needs disposable-target evidence.
@@ -908,13 +1127,10 @@ targets only, empty supported targets and no recommended profile inclusion.
 
 | Candidate | Source and observed archive SHA-256 | Runtime/function boundary |
 | --- | --- | --- |
-| Hex2text | gh05t-4/hex2text revision `9715c6c26824ef05039228f16e0c47620c52fe79`; `aa0083da094a3320db9a97eb22c499a420187c208ed92376a662243678f083c3` | A prompted converter with no imports: removes literal spaces and maps each complete four-digit hexadecimal group to one Unicode code point. Five synthetic-input probes confirmed incomplete-suffix loss, uncaught `ValueError`, U+0001 output and strict UTF-8 `UnicodeEncodeError` for an isolated surrogate. It is not a UTF-8 byte decoder. Windows console behavior and managed-file lifecycle remain pending. Retain GNU GPL v3 license and source. |
-| ChromeSyncParser | marleyjaffe/ChromeSyncParser revision `0f59c5702ffd03102c550ecc373ab4fefa6f810c`; `8dff59a48d3d6ab41cf8d39154a0e05cfda5df36a1b76180a70692762854da46` | Historical Chrome SyncData/metas parser, using Python's standard library including sqlite3. Ordinary SQLite connections do not guarantee read-only forensic handling. Current Chrome schema, output correctness and input protection remain unverified. Retain MIT copyright/license. |
+| Hex2text | gh05t-4/hex2text revision `9715c6c26824ef05039228f16e0c47620c52fe79`; `aa0083da094a3320db9a97eb22c499a420187c208ed92376a662243678f083c3` | A prompted converter with no imports: removes literal spaces and maps each complete four-digit hexadecimal group to one Unicode code point. Five synthetic-input probes confirmed incomplete-suffix loss, uncaught `ValueError`, U+0001 output and strict UTF-8 `UnicodeEncodeError` for an isolated surrogate. It is not a UTF-8 byte decoder. Windows console behavior remains pending. The pinned three-file archive passed current-source local owned-file staging, repeat, restore and modified/unowned-content recovery. Retain GNU GPL v3 license and source; see [current file-lifecycle evidence](archive/evidence/python-source-real-artifact-lifecycle-2026-10-25-1625.json). |
+| ChromeSyncParser | marleyjaffe/ChromeSyncParser revision `0f59c5702ffd03102c550ecc373ab4fefa6f810c`; `8dff59a48d3d6ab41cf8d39154a0e05cfda5df36a1b76180a70692762854da46` | Historical Chrome SyncData/metas parser, using Python's standard library including sqlite3. Ordinary SQLite connections do not guarantee read-only forensic handling. Current Chrome schema, output correctness and input protection remain unverified. The exact three-file archive passed local staging/recovery checks only; retain MIT copyright/license. See the [file-lifecycle evidence](archive/evidence/python-source-real-artifact-lifecycle-2026-10-25-1625.json). |
 
-Both pinned scripts parse under Python 3.12.14. Hex2text was additionally run
-with synthetic input only; this does not verify Windows console behavior or
-managed-file lifecycle. Choose and validate an interpreter separately before
-use. RIDE does not point these scripts at live profiles or evidence.
+Both pinned scripts parse under Python 3.12.14. Hex2text was additionally run with synthetic input only; this does not verify Windows console behavior. Current-source local file-lifecycle checks passed for both exact archives without executing Python. Choose and validate an interpreter separately before use. RIDE does not point these scripts at live profiles or evidence. See the [combined artifact evidence](archive/evidence/python-source-real-artifact-lifecycle-2026-10-25-1625.json).
 ChromeSyncParser can search historical user-profile paths and overwrite a
 requested output file.
 Static review of the pinned ChromeParser.py (SHA-256
@@ -1008,6 +1224,14 @@ reports a 2011 build. Its current-build/runtime compatibility remains unverified
 The candidate uses manifest-owned file recovery. Unowned analyst reports and custom
 plugins are preserved; changed bundled plugins block upgrades and survive removal.
 Saved-run restore requires the retained files and refuses conflicting destinations.
+
+The retained pinned archive passed a current-source local file-lifecycle run on
+2026-10-25: all 282 archive files staged and matched the managed manifest; repeat
+install remained healthy; exact saved-run recovery restored the pinned bytes;
+uninstall preserved an operator plugin and analyst report; and a modified bundled
+README refused upgrade and survived removal. No RegRipper executable, script or
+plugin ran. This is file-lifecycle evidence only: Windows target support and parser
+behavior remain pending. The inert fixture suite passed 4/4, and repository validation passed 415 operations, 8 groups, 5 profiles and 278 PowerShell files. See [consolidated current-source evidence](archive/evidence/regripper-3.0-current-source-regression-and-real-artifact-lifecycle-2026-10-25-1618.json) and [real-artifact lifecycle detail](archive/evidence/regripper-3.0-real-artifact-local-lifecycle-2026-10-25-1605.json).
 A new revision has a different archive-root folder, so custom plugins are not
 automatically copied into its folder. Review plugin compatibility explicitly before
 moving them; neither pinned source acquisition nor successful extraction proves
@@ -1044,13 +1268,13 @@ pin. The reviewed bytes had a Valid Akeo Consulting Authenticode signature and f
 version 4.15.2396. This is dated evidence, not a publisher-published checksum or
 automatic latest-version discovery. See the [source review](archive/evidence/rufus-portable-source-review-2026-10-16.json).
 The unmodified executable retains its embedded notices; publisher terms are linked
-in the catalog. No redistribution or local/company license approval is implied.
+in the catalog. Keep the declared publisher license with the package metadata; any owner-specific review is an administrative record, not a reason to withhold this direct-download/install migration.
 
 After acceptance, the existing portable handler would own only `rufusp.exe` beneath
 `<ToolsDirectory>\rufus` plus its RIDE ownership manifest. The stable filename keeps
 the `p` that triggers Rufus portable mode. RIDE does not create or own `rufus.ini`,
 logs, downloaded images or other user files; removal and exact owned-file restore
-preserve them. Existing unowned executable collisions refuse adoption, and modified
+preserve them. On 2026-10-25, the retained real 4.15 executable passed two local installs, ownership checks, exact snapshot restore and final removal; its valid signature was rechecked. Rufus was not launched and no USB device was accessed. See the [real-artifact lifecycle evidence](archive/evidence/rufus-real-artifact-local-lifecycle-2026-10-25-1127.json). Disposable Windows 11 staging and application/hardware acceptance remain pending. Existing unowned executable collisions refuse adoption, and modified
 owned executables are preserved rather than overwritten. Machine tools deployment
 requires elevation and does not grant the user write access to that directory.
 
@@ -1125,8 +1349,7 @@ The package is a Windows 11 candidate with no supported production target while
 native installation, removal, exact recovery, offline use and the MSI's
 `.NET Framework 2.0.50727` launch condition remain untested. The MSI bundles an
 individual on-premises development/testing license; the publisher page calls the
-product freeware but does not say that it replaces the bundled terms. The exact
-version remains `NeedsReview` in the checkout-local license store. That review
+product freeware but does not say that it replaces the bundled terms. The exact version remains `NeedsReview` in the checkout-local license store, as an informational review marker rather than a package-planning gate. The current page/MSI/executable version identities remain unmapped; see [current source recheck evidence](archive/evidence/ntcore-phoenix-explorer-current-version-source-recheck-2026-10-28-1021.json). Focused package regression also passes 4/4; see [test evidence](archive/evidence/phoenix-current-source-package-regression-2026-10-28-1025.json). That review
 status documents uncertainty and neither grants nor denies an individual or
 organization's rights. Check the terms that apply to the intended user and use;
 do not treat downloadability as a rights determination. RIDE's offline bundle
@@ -1137,25 +1360,40 @@ the host. MSI execution and disconnected installation acceptance belong in a
 disposable Windows guest using the existing checkpoint. See the [offline bundle
 limits](offline-bundles.md#execute-an-explicitly-selected-offline-package-bundle).
 
-## Task Manager TMOG free-edition candidate
+## Task Manager TMOG package candidate
 
-`package.tmog` pins the official Windows x64 free-edition installer for marketing
-version 1.0.1. The contained product file version is 1.0.1.0; the installer uses
+`package.tmog` pins the official Windows x64 installer for marketing version
+1.0.1. It installs the TMOG application with its free features; users who have
+a paid TMOG PRO license can enter their own key in the app after installation.
+The free features remain available under the applicable free-edition terms.
+The contained product file version is 1.0.1.0; the installer uses
 Inno Setup 6.7.0 and contains the application, `TMOG.scr`, license text, and
 third-party notices. The retained candidate matches the publisher release
 manifest SHA-256 and has a verified David Plummer Authenticode signature. The
 catalog declares Windows 11 as a candidate target, with no supported target until
 installation, repeat, uninstall, exact recovery, and screensaver effects are
-accepted in the disposable VM. See the [current publisher release notes](https://tmog.org/rtm/release-notes.html).
+accepted in the disposable VM. See the [current publisher release notes](https://tmog.org/rtm/release-notes.html)
+and [PRO license terms](https://store.tmog.org/licenses).
 
-The installer embeds a free-edition license that describes personal evaluation
-and ordinary system-monitoring use, restricts public redistribution, and calls
-itself a release-candidate document requiring publisher approval before public
-distribution. This is recorded for owner review in the checkout-local license
-store as `NeedsReview`; it does not block RIDE's direct publisher-download/install
-package planning. It is not an entitlement or redistribution determination.
+An earlier Windows 11 ApplicationsBatch1 summary lists TMOG as passed, but that
+run used runner 0.14.2, before TMOG uninstall/recovery coverage was added in
+0.15.1. Do not use that package row to claim full install/remove/recovery
+acceptance. The current 0.15.3 runner includes the full lifecycle and synthetic
+LocalAppData preservation checks; rerun it on the registered Windows 11 VM
+before changing the target declaration. The current host cannot inspect or
+dispatch the VM, so the package remains a candidate. The test does not launch
+TMOG or its screensaver, activate PRO, or select a screensaver; those effects
+remain outside accepted behavior.
+
+The installer embeds the free-edition terms, while PRO is a separate paid
+license. The checkout-local version/owner license record remains `NeedsReview`
+for administration; this does not block direct publisher-download/install
+planning and does not determine any user's entitlement. RIDE does not collect,
+activate, log, or store license keys. A paid user enters their own key in TMOG;
+the package must preserve the resulting application data on removal and saved-run
+recovery.
 Preview the operation with `.\ride.ps1 show package.tmog`. Do not launch TMOG,
-activate PRO, select it as the Windows screensaver, or inspect live process data
+enter a license key, select TMOG as the Windows screensaver, or inspect live process data
 during package lifecycle acceptance. Keep install/uninstall and screensaver
 effects in the existing disposable Windows VM; do not run the installer on the
 developer workstation.
@@ -1302,7 +1540,7 @@ saved-run preflight reject Server Core explicitly. The integration ledger report
 that applicability separately from failures. Detection follows Microsoft's
 [InstallationType reference](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ee391629(v=vs.85)).
 
-## Sysinternals reviewed Suite candidate
+## Sysinternals reviewed Suite package
 
 package.sysinternals-suite stages the full official portable snapshot captured on
 2026-10-17. Its RIDE snapshot label is not a publisher Suite release version.
@@ -1312,11 +1550,15 @@ All 164 names, including Eula.txt and help/readme material, are required. The
 [source inventory](archive/evidence/sysinternals-suite-source-review-2026-10-17.json)
 records file hashes, versions, PE machine fields and observed signatures.
 
-This candidate has no supported apply targets and is absent from recommended
-profiles. Whole-suite source staging is implemented. A fixed `SysinternalsSuite`
-disposable-VM batch is prepared to check only the Suite's file lifecycle; it has not
-run because VM access is blocked. Individual product selection, per-tool
-dependencies/applicability and application behavior remain pending. The existing portable handler owns only recorded unchanged files
+Windows 11 package staging, removal and saved-run recovery are accepted for the
+pinned snapshot, and its Windows 11 support is declared. It remains absent from
+recommended profiles. The registered `RIDE-Win11-Test` lifecycle acceptance
+checked all 164 selected members, repeat installation/removal, restoration,
+unowned-file preservation, collision refusal and modified-file preservation.
+It did not execute a Sysinternals utility; utility feature execution is outside
+RIDE package install lifecycle acceptance. The nine independent product
+selections are documented below. Windows Server targets remain unaccepted.
+The existing portable handler owns only recorded unchanged files
 and preserves user-created/modified content. No tool is launched, EULA interaction
 answered, driver/service installed, Sysmon configuration applied, PATH changed or
 shortcut created. Mixed x86/x64 files do not imply support on every architecture.
@@ -1324,8 +1566,10 @@ The separately managed Sysmon service package remains independent.
 
 The prior RIDE v2 license-specialist approval covers this direct-download-and-install
 workflow. The exact snapshot and all nine product versions are `Reviewed`; licensing
-is settled and is not a reason to defer their package migration. The remaining Suite
-gate is technical Windows lifecycle, recovery and target acceptance.
+is settled and is not a reason to defer their package migration. No runtime or
+feature behavior of the individual Suite tools is claimed by file staging; this
+is outside the accepted package lifecycle and does not block the Windows 11
+download/install migration.
 
 Inspect the [batch procedure and recovery](migrations/application-migration-review.md#b11-sysinternals-reviewed-snapshot-candidate-2026-10-17)
 before disposable-target acceptance. RIDE's direct-download-and-install workflow
@@ -1366,7 +1610,8 @@ activation, EULA interaction or VirusTotal upload is performed by file staging.
 Symbols, application preferences and tool execution are separate choices. Upstream
 help inventory differs from the Suite; retain each archive's actual complete set
 rather than silently borrowing files from another product. Utility runtime and
-activation behavior have not been tested. Exact saved file recovery and
+activation behavior have not been tested; this is outside the accepted Windows 11
+package file lifecycle, not a migration blocker. Exact saved file recovery and
 collision/modified-file refusal use the existing portable lifecycle. See the
 [source review](migrations/application-migration-review.md#b11-independent-sysinternals-products-2026-10-17) for pins and
   remaining native acceptance. The prior RIDE v2 license-specialist approval,
@@ -1378,7 +1623,9 @@ collision/modified-file refusal use the existing portable lifecycle. See the
 Process Monitor, RAMMap and Disk2vhd stage files only. Kernel-driver loading, boot
 logging, trace capture, memory-list changes, imaging, VSS, virtual-disk attachment
 and encrypted-volume handling require separate explicit workflows and acceptance.
-RIDE does not decrypt volumes or infer imaging rights from this package selection.
+Package selection does not invoke imaging, decryption or encrypted-volume
+handling; those functions remain outside the managed file-install lifecycle and
+require separate technical implementation and acceptance.
 The publisher's historical OS lists are not new RIDE support declarations. See the
 [diagnostic/imaging review](migrations/application-migration-review.md#b11-sysinternals-diagnostic-and-imaging-candidates-2026-10-17).
 
@@ -1388,7 +1635,7 @@ use require explicit tool execution. Optional external-service terms are conside
 when selecting that service; package staging does not accept them. See the
 [command-line product review](migrations/application-migration-review.md#b11-sysinternals-command-line-candidates-2026-10-17).
 
-## NTCore 4GB Patch portable candidate
+## NTCore 4GB Patch portable package
 
 `package.ntcore-4gb-patch` stages the retained single-file x86 1.0.0.1 ZIP into
 the managed portable package directory. The archive is pinned to its observed
@@ -1408,39 +1655,84 @@ survived, and checks that only the PE large-address-aware flag changed. If
 post-run checks fail, it attempts exact recovery and retains the adjacent backup
 for manual recovery. Close the target application first.
 
-The launcher is source-ready, but the guarded workflow has not yet passed its
-Windows 11 VM acceptance. Keep supported targets empty until a disposable-VM
-run verifies ordinary patching, exact backup creation, pre-existing backup
-refusal without mutation, and exact recovery using only a synthetic x86 PE. Do
-not patch a third-party or production executable.
+The guarded workflow passed Windows 11 VM acceptance on `RIDE-Win11-Test` using
+only an owned synthetic x86 PE. The run verified ordinary patching, exact backup
+creation, occupied-backup refusal without mutation, the large-address-aware flag
+and PE checksum, then exact restoration. No production executable was patched.
+Windows 11 package support covers staging and this guarded synthetic workflow;
+it does not authorize patching third-party or production executables.
 
 The retained 2007 copyright metadata says all rights reserved; the reviewed
-product page and archive contain no product-specific license grant. The package
-is prepared as a candidate and its version-specific local license status is
-`NeedsReview`, per the user's migration priority. This status does not assert
-entitlement or redistribution permission. See the [source and pin evidence](archive/evidence/ntcore-4gb-patch-page-follow-up-2026-10-21.json),
+product page and archive contain no product-specific license grant. The
+version-specific local status is `NeedsReview` for owner-specific administration;
+it is informational and does not gate RIDE's direct-download/install migration.
+See the [source and pin evidence](archive/evidence/ntcore-4gb-patch-page-follow-up-2026-10-21.json),
 [candidate preparation record](archive/evidence/ntcore-4gb-patch-candidate-preparation-2026-10-22.json),
 [license review guidance](package-licensing.md#local-usercompany-reviews), and
 [dated migration record](migrations/application-migration-review.md#ntcore-4gb-patch-candidate-preparation-2026-10-22).
 
-## NTCore Driver List and Rebel.NET portable candidates
+## NTCore WIM Installer portable staging candidate
+
+`package.ntcore-wim-installer` stages only the x86 `WIM Installer.exe` member
+from the retained publisher ZIP. The archive SHA-256 is pinned from the retained
+official download; the executable is version 1.0.0.1 and is unsigned. RIDE does
+not launch it, inspect or mount a WIM, choose a disk destination, apply an image,
+or modify partition or boot state. Windows 11 is only a candidate target; no
+Windows support is declared until file lifecycle and compatibility acceptance
+pass.
+
+The current [NTCore download listing](https://ntcore.com/download/) dates the
+utility to 2007-04-21 and describes its WIM setup purpose, but provides no
+product-specific terms. The exact-version `NeedsReview` marker is stored in the
+local user/company review store. It is an administrative reminder and does not
+block package planning or staging; it does not assert entitlement or grant
+redistribution permission. Do not run the utility on real images. Any later
+behavior acceptance needs an inert synthetic WIM, a disposable secondary virtual
+disk, an explicit destination, checkpoint recovery, and verification that
+partition/boot changes do not escape the test. See the [static source review](archive/evidence/ntcore-snsremover-wim-installer-static-review-2026-10-21.json),
+[candidate evidence](archive/evidence/ntcore-wim-installer-package-candidate-2026-10-26.json),
+and [local review guidance](package-licensing.md#local-usercompany-reviews).
+
+## NTCore .NET Generic Unpacker and DynLogger portable candidates
+
+`package.ntcore-net-generic-unpacker` and `package.ntcore-dynlogger` each
+provide `portable-x86` and `portable-x64` variants pinned to the retained
+official ZIPs. Choose the variant by target-process bitness as directed by the
+publisher. The local lifecycle regression verified the exact archive hashes,
+selected member inventories, repeat staging, uninstall and saved-state
+recovery. It used only retained archives and isolated files; neither utility
+was launched and no target process was opened, dumped or instrumented.
+
+Windows 11 is a candidate target only. `SupportedTargets` remains empty until
+native acceptance is available. Any later functional check must use an owned
+synthetic process with isolated output. Version-specific `NeedsReview` entries
+are local administrative reminders and do not block package migration or
+installation planning. See the [focused evidence](archive/evidence/ntcore-unpacker-dynlogger-portable-candidate-regression-2026-10-27-1410.json),
+[static publisher/archive review](archive/evidence/ntcore-unpacker-dynlogger-static-review-2026-10-21.json),
+and [local review guidance](package-licensing.md#local-usercompany-reviews).
+
+## NTCore Driver List and Rebel.NET portable packages
 
 `package.ntcore-driver-list` stages the pinned x64 Driver List executable by
 default; the `portable-x86` variant selects the verified x86 member. The retained
 publisher ZIP contains an IA64 executable as well, but RIDE does not select it.
 The publisher page advertises 1.0.2; both selected x86/x64 files carry file
 version 1.0.2.1. The archive SHA-256 is measured from the retained publisher
-archive, not an independently published digest. Staging does not inspect loaded
-drivers or create a report. Keep target support empty until Windows lifecycle and
-recovery acceptance pass. Do not retain a loaded-driver report from a test VM.
+archive, not an independently published digest. Windows 11 package install,
+removal and exact recovery passed on build 26300 for the default x64 and
+`portable-x86` variants. The utilities were not launched. Staging does not
+inspect loaded drivers or create a report. Do not retain a loaded-driver report
+from a test VM. Functional use and activation remain untested.
 
 `package.ntcore-rebelnet` stages the pinned x86 Rebel.NET 1.6.0.1 executable and
 its format header. The archive SHA-256 is measured from the retained publisher
 archive, not an independently published digest. Package install/removal does not
-open or rewrite assemblies. Keep target support empty. Any later functional
-acceptance must use an owned synthetic .NET assembly, save to a separate output,
-verify that the input remains unchanged, and test exact cleanup/recovery. Never
-use a third-party or production assembly.
+open or rewrite assemblies. Windows 11 package install, removal and exact
+recovery passed on build 26300; the utility was not launched and no assembly was
+opened or rewritten. Any later functional acceptance must use an owned synthetic
+.NET assembly, save to a separate output, verify that the input remains
+unchanged, and test exact cleanup/recovery. Never use a third-party or
+production assembly. Functional use and activation remain untested.
 
 The Driver List product page and archive did not provide a product-specific use
 or distribution grant. The [Rebel.NET guide](https://ntcore.com/files/rebelnet.htm)
@@ -1502,31 +1794,45 @@ migration or acceptance preparation. See the [retained source reviews](archive/e
 [candidate evidence](archive/evidence/mitec-review-data-tools-candidates-2026-10-23-1235.json),
 and [dated migration record](migrations/application-migration-review.md#mitec-olecom-registry-recovery-and-smbios-explorer-candidates-2026-10-23).
 
-## MiTeC Mail and History Viewer candidates
+## MiTeC Mail and History Viewer packages
 
-The unsupported Windows 11 candidates are `package.mitec-mail-viewer` 2.5.1.0,
-`package.mitec-email-history-browser` 1.2.0, `package.mitec-internet-history-browser`
-2.5.0 and `package.mitec-instant-messaging-history-browser` 1.2.1. Their retained
-publisher archives and selected member hashes are pinned in the catalog and dated
-evidence. Staging opens no personal mail, attachments, browser history, chats,
-calls or transfers. Any future feature check must use synthetic disposable stores,
-prove the inputs remain unchanged and verify output cleanup. The Mail Viewer may
-expose message content and attachments; the history tools expose the metadata
-listed on their publisher pages.
+`package.mitec-mail-viewer` 2.5.1.0, `package.mitec-email-history-browser`
+1.2.0, `package.mitec-internet-history-browser` 2.5.0 and
+`package.mitec-instant-messaging-history-browser` 1.2.1 support Windows 11
+package install, removal and exact recovery after passing their four-case
+acceptance run on build 26300. The retained publisher archives and selected
+member hashes are pinned in the catalog and dated evidence. Staging opens no
+personal mail, attachments, browser history, chats, calls or transfers. Any
+future feature check must use synthetic disposable stores, prove the inputs
+remain unchanged and verify output cleanup. The Mail Viewer may expose message
+content and attachments; the history tools expose the metadata listed on their
+publisher pages.
 
-All four candidates keep `SupportedTargets` empty and `PendingAcceptance` true.
-Their exact-version local `NeedsReview` records are owner-administration context;
-they do not block implementation or install planning. Publisher-page claims and
-general support-EULA language are retained as observations without treating the
-local status as a migration gate. See the [candidate evidence](archive/evidence/mitec-mail-history-viewer-candidates-2026-10-23.json)
+The retained archives passed local hash/member verification and inert selected-file
+install/repeat/remove/snapshot-recovery tests (**16/16**). The Windows 11 run
+passed all four package lifecycle and exact-recovery cases; no viewer ran and no
+personal data was opened. Exact-version `NeedsReview` records remain informational
+for owner administration. Synthetic-only product behavior remains untested.
+
+The four operations declare Windows 11 support for package staging and have
+`PendingAcceptance` cleared; this does not claim viewer behavior or activation.
+The focused suite did not query Defender history. Manually review any alert
+before use. Their exact-version local `NeedsReview` records are owner
+administration context and do not block implementation or package staging.
+Publisher-page claims and general support-EULA language are retained as
+observations without treating the local status as a migration gate. See the
+[candidate source evidence](archive/evidence/mitec-mail-history-viewer-candidates-2026-10-23.json),
+[Windows 11 acceptance](archive/evidence/mitec-mail-history-viewers-win11-lifecycle-acceptance-2026-10-25-0409.json)
 and [dated migration record](migrations/application-migration-review.md#mitec-mail-and-history-viewer-package-candidates-2026-10-23).
 
 ## Microsoft OpenJDK compatibility packages
 
 The catalog provides Microsoft Build of OpenJDK 25.0.4.1 as the default Java
 package and side-by-side compatibility choices 21.0.12.1, 17.0.20.1 and
-11.0.32.1. Each candidate uses its exact Microsoft x64 MSI and validates the
-publisher's version-matched SHA-256 sidecar before acquiring the installer.
+11.0.32.1. All four packages are supported on Windows Server 2025; Windows 11
+remains a candidate pending its own lifecycle acceptance. Each package uses its
+exact Microsoft x64 MSI and validates the publisher's version-matched SHA-256
+sidecar before acquiring the installer.
 The MSI installs only `FeatureMain` into a separate `C:\Program Files\Microsoft\RIDE\OpenJDK\jdk-<major>` directory; it leaves
 `JAVA_HOME`, `PATH` and `.jar` associations unchanged. Selecting or installing
 one version does not switch another application's runtime.
@@ -1535,10 +1841,12 @@ Microsoft lists these current LTS MSI versions and checksum files on the
 [OpenJDK download page](https://learn.microsoft.com/en-us/java/openjdk/download).
 Its [MSI instructions](https://learn.microsoft.com/en-us/java/openjdk/install)
 document the optional environment, Java home and JAR association features; RIDE
-does not select them. The packages are pending disposable Windows 11 and
-Server 2025 lifecycle, repeat, uninstall and recovery acceptance, so they have
-no supported target yet. Static metadata and mocked checksum checks do not
-verify live Microsoft endpoints or MSI behavior.
+does not select them. Server 2025 Standard Evaluation build 26100 acceptance
+passed for install, repeat install, runtime/compiler versions, shared Java
+environment and association preservation, removal preview, actual uninstall,
+repeat removal, and compensating recovery. The packages declare Server 2025
+support and an absent default in the tested clean image. Windows 11 acceptance
+is still pending. See the [dated lifecycle evidence](archive/evidence/applications-batch8-server2025-openjdk-full-lifecycle-acceptance-2026-10-24-2252.json).
 
 ## Volatility Workbench source-review status
 
@@ -1584,10 +1892,11 @@ supported yet. GPL-3.0-or-later is not a migration blocker. See the
 ## ExifTool portable candidate
 
 The catalog contains `package.exiftool` as an unsupported Windows 11 candidate
-for publisher version 13.59 x64. The exact ZIP URL and reported SHA-256 are
-pinned, but local acquisition and member/hash inspection are still required
-before acceptance. The publisher labels 13.59 a development release; 13.55 is
-its latest production release.
+for publisher version 13.59 x64, the version currently offered on the publisher's
+Windows download page. The version history identifies 13.55 as the latest
+production release, but the Windows download page offers no 13.55 Windows ZIP.
+The exact 13.59 ZIP URL and publisher-reported SHA-256 are pinned; local
+acquisition and member/hash inspection are still required before acceptance.
 
 The candidate stages the publisher's complete folder and notices, keeping
 `exiftool(-k).exe` beside `exiftool_files`. It creates `exiftool.exe` as an
@@ -1622,6 +1931,36 @@ and configuration notices. The source archive documents the collection goals,
 compatible Sysmon versions and release checksum manifest. See the [migration
 record](migrations/application-migration-review.md#sysmon-modular-pinned-profile-artifacts-2026-10-23).
 
+## JoeWare AdMod portable package candidate
+
+RIDE catalogues JoeWare AdMod as package.joeware-admod version 1.29.00. The
+publisher product page identifies this version as released on June 8, 2026 and
+lists Windows 7 / Windows Server 2008 R2 or newer. The pinned archive contains
+only AdMod.exe; its local archive SHA-256 is
+45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235. The embedded
+PE machine type is x86. The publisher versions list supplies matching version,
+date, MD5 and SHA-1 observations; it does not publish a SHA-256 for this ZIP.
+
+The package operation stages the portable executable under the machine package
+store. It requires administrative rights when applied. RIDE does not launch
+AdMod: creating, modifying, moving, deleting, undeleting directory objects,
+changing passwords or security descriptors remains an explicit operator action.
+The candidate has no supported targets until disposable Windows 11 lifecycle
+and operational acceptance is complete. Its current-version and acquisition
+evidence is recorded in the [migration follow-up](migrations/remaining-migrations-follow-up.md#joeware-admod-12900-acquisition-and-candidate-registration-2026-10-28-0450-utc)
+and [package verification matrix](package-verification-matrix.md#joeware-admod-12900-retained-archive-and-package-candidate-2026-10-28-0450-utc).
+
+The product's proprietary-freeware terms and the publisher's note for
+commercial product packagers are recorded as package information. They are not
+a migration gate for RIDE's direct download-and-install workflow. Any
+individual or company license-review status belongs in the local license review
+store. AdFind remains separately excluded by its Defender disposition; that
+exclusion does not apply to AdMod.
+
+See the publisher's [AdMod product page](https://joeware.net/freetools/tools/admod/index.htm),
+[version list](https://www.joeware.net/freetools/versions.txt), and
+[warranty and terms](https://www.joeware.net/freetools/warranty.htm).
+
 ## JoeWare download-only source preparation
 
 `tools/Download-JoeWareCollection.ps1` acquires the latest ZIP currently offered
@@ -1630,8 +1969,9 @@ It saves the page's current-version label, the resolved response URL, local
 SHA-256, archive member names, inert version-string candidates, and the
 publisher's current `versions.txt` row. It submits the publisher form with no
 email address. It does not extract, install, execute or configure tools, and it
-does not add Defender exclusions. AdFind's Defender-reported block remains a
-separate selection/acceptance issue.
+does not add Defender exclusions. AdFind's Defender-reported block is enforced
+in the downloader: it is omitted from default selection, and explicit selection
+is rejected before network or filesystem activity.
 
 Run from the repository root in Windows PowerShell 5.1 or PowerShell 7:
 
@@ -1639,10 +1979,13 @@ Run from the repository root in Windows PowerShell 5.1 or PowerShell 7:
 .\tools\Download-JoeWareCollection.ps1 -Product rdp-sec-check -DestinationDirectory D:\staging\joeware
 ```
 
-Omit `-Product` to select the full reviewed collection. The destination must
+Omit `-Product` to select all currently selectable reviewed products; AdFind is
+excluded. The destination must
 be new or empty; each ZIP and the JSON observation manifest are retained there.
-Use `-WhatIf` to preview the publisher requests. The script does not claim a
-publisher SHA-256: it records a local hash of the acquired bytes. Review any
+Use `-WhatIf` to preview selected products without requesting publisher pages,
+fetching the version list, creating the destination or submitting forms. The
+script does not claim a publisher SHA-256: it records a local hash of the
+acquired bytes. Review any
 page/list/archive differences in the
 [JoeWare discrepancy record](joeware-version-discrepancies.md) before package
 catalog admission or technical acceptance. In particular, do not associate the
@@ -1650,6 +1993,23 @@ older `rdp-sec-check` V01.00.00 digest with the page's V02.00.00 version unless
 the acquired archive establishes the identity. The eventual package description
 should use a short note such as: “The `rdp-sec-check` product page and publisher
 version list disagree; see the [discrepancy record](joeware-version-discrepancies.md).”
+
+### AdFind download exclusion guard, 2026-10-27
+
+While AdFind remains recorded as Defender-blocked, the acquisition script omits
+it from the default selection and rejects it if named explicitly. The focused
+network-free preview and exclusion tests passed **3/3** on PowerShell 7.6.5 and
+**3/3** on Windows PowerShell 5.1.26100.9711. No publisher request, payload or
+destination directory was created. See [structured evidence](archive/evidence/joeware-adfind-defender-exclusion-guard-2026-10-27-0524.json).
+
+### JoeWare Product completion and shared exclusion policy, 2026-10-27
+
+The downloader reads `tools/joeware-acquisition-policy.json` for Defender-blocked
+products. Its `-Product` tab completion uses that same policy with the reviewed
+collection inventory, offers the **40** selectable products and omits AdFind.
+Focused tests passed **4/4** on PowerShell 7.6.5 and **4/4** on Windows
+PowerShell 5.1.26100.9711, including live `TabExpansion2` completion. See
+[structured evidence](archive/evidence/joeware-selection-policy-completion-current-source-2026-10-27-0530.json).
 
 ### AccExp, ATSN and Auth source review, 2026-10-24 15:43 UTC
 
@@ -1669,6 +2029,20 @@ the [publisher version list](https://joeware.net/freetools/versions.txt),
 [ATSN page](https://www.joeware.net/freetools/tools/atsn/index.htm),
 [ATSN usage](https://joeware.net/freetools/tools/atsn/usage.htm), and
 [Auth page](https://joeware.net/freetools/tools/auth/index.htm).
+### Network-free preview regression and acquisition retry, 2026-10-26 15:56 UTC
+
+`Download-JoeWareCollection.ps1` now returns from `-WhatIf` before requesting
+`versions.txt` or product pages, and it stops if creation of a new destination
+is declined. The focused mock test passed 1/1 on PowerShell 7.6.5 and 1/1 on
+Windows PowerShell 5.1.26100.9711/Pester 5.7.1; it verifies zero HTTP calls and
+no destination directory under `-WhatIf`.
+
+A retry for AccExp, ATSN and Auth still failed at the publisher version-list
+request with `No such host is known`. No form was submitted and the existing
+empty evidence directory received no payloads. AdFind was not selected. Exact
+archives and Windows acceptance remain pending; no legacy outcome closed and
+estimates are unchanged. See [structured preview and DNS evidence](archive/evidence/joeware-downloader-network-free-whatif-and-dns-retry-2026-10-26-1556.json).
+
 ### Unlock source review, 2026-10-24
 
 The publisher page lists Unlock 2.1.0 (version-list form `02.01.00`), released
@@ -1740,3 +2114,50 @@ evidence](archive/evidence/joeware-findpdc-sidtoname-getuserinfo-source-review-2
 [SidToName usage](https://joeware.net/freetools/tools/sidtoname/usage.htm),
 [publisher index](https://joeware.net/freetools/), and
 [versions file](https://joeware.net/freetools/versions.txt).
+
+### MiTeC UUID and certificate utility staging, 2026-10-25
+
+The pinned UUID Generator, Certificate Generator and Certificate Information
+packages passed install, exact-member selection, repeat install, removal,
+saved-state recovery, collision refusal and modified-file protection on Windows
+11 build 26300. RIDE supports their package file lifecycle on Windows 11; that
+completes their download/install package migration. Utility feature behavior,
+activation and UI behavior were not tested and are outside the RIDE package
+lifecycle. Any future utility-invocation workflow needs separate acceptance.
+Such behavior checks must use synthetic identifiers, disposable test
+certificates and signed public
+fixtures; never inspect live device identifiers or production private keys. The
+suite did not query Defender history; manually review any alert before use. See
+[acceptance evidence](archive/evidence/mitec-utility-files-win11-current-source-lifecycle-acceptance-2026-10-25-0516.json).
+
+## NTCore SNSRemover portable staging candidate
+
+`package.ntcore-snsremover` stages only the x86 `SNSRemover.exe` from the
+pinned publisher archive. The ZIP also contains a different, older
+`PE_Detective.zip`; RIDE explicitly excludes that nested archive. The
+publisher's listing date is used as the package version key because the
+executable has no embedded file/product version. This date is not a binary
+version claim.
+
+The focused retained-archive lifecycle verifies the full archive inventory and
+hash, selected member, repeat staging, uninstall and saved-state recovery in
+PowerShell 5.1 and 7. It does not open or modify an assembly or launch the tool.
+Windows 11 remains a candidate only. Any later functional check requires an
+owned synthetic assembly and separate output. The exact-version `NeedsReview`
+marker is administrative and does not block migration. See [structured
+evidence](archive/evidence/ntcore-snsremover-portable-candidate-regression-2026-10-27-1415.json)
+and [NTCore's listing](https://ntcore.com/download/).
+## NTCore NoDel portable staging candidate
+
+`package.ntcore-nodel` stages only the retained x86 `NoDel.exe` and
+`nodel.sys`. It excludes source/project files and does not create or start a
+kernel-driver service. The publisher listing date, 2005-05-04, is the package
+version key because no binary file/product version is verified.
+
+The exact retained archive passed a focused staging/recovery lifecycle in
+PowerShell 5.1 and 7. Windows 11 remains a candidate only. Driver compatibility,
+file-operation behavior and cleanup are untested; any later acceptance needs a
+separately attended disposable VM and synthetic files. The exact-version
+`NeedsReview` marker is administrative and does not block migration. See
+[structured evidence](archive/evidence/ntcore-nodel-portable-candidate-regression-2026-10-27-1425.json)
+and [NTCore's listing](https://ntcore.com/download/).

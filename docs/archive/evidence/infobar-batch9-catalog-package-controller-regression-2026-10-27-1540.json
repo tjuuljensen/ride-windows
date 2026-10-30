@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T15:40:00Z",
+  "scope": "InfoBar ApplicationsBatch9 catalog, package and controller regression",
+  "environment": {
+    "operatingSystem": "Windows",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "Disabled because host HKCU access is restricted",
+    "testResultPlugin": "Disabled",
+    "excludedTags": ["WindowsIntegration"],
+    "temporaryRoot": ".local/pester-migration-regression-20261027"
+  },
+  "tests": {
+    "files": ["tests/Catalog.Tests.ps1", "tests/ApplicationPackages.Tests.ps1", "tests/TestAutomation.Tests.ps1"],
+    "passed": 352,
+    "failed": 0,
+    "skipped": 4,
+    "notRun": 1,
+    "durationSeconds": 145,
+    "checks": [
+      "Catalog operation and package metadata validation",
+      "ApplicationsBatch9 runner version and lifecycle selection",
+      "ApplicationsBatch9 task validation, routing and request forwarding",
+      "registered controller capability acceptance and stale-controller rejection",
+      "package lifecycle/planning regression"
+    ]
+  },
+  "additionalValidation": {
+    "operationDocumentationCheck": "Passed; tools/Export-RideCatalog.ps1 -Check reported current",
+    "PowerShellParser": "Passed for changed scripts and tests",
+    "VersionCommands": "Passed for application batch, guest runner, VM runner, task client and registration script",
+    "FocusedDiffWhitespaceCheck": "Passed"
+  },
+  "scopeBoundaries": {
+    "liveRegistryIntegration": "Excluded; TestRegistry and WindowsIntegration tests require an isolated Windows target",
+    "VMTaskDispatched": false,
+    "InstallerRun": false,
+    "InfoBarLaunched": false,
+    "DefenderStateChanged": false,
+    "FreshUACPromptRequested": false
+  },
+  "readOnlyVmAccess": {
+    "RIDE-Win11-Test": "Blocked before VM/checkpoint inspection: Access to a CIM resource was not available to the client",
+    "RIDE-Srv2025Test": "Blocked before VM/checkpoint inspection: Access to a CIM resource was not available to the client",
+    "registeredTaskEnumeration": "Blocked at CIM"
+  },
+  "remainingAcceptance": [
+    "Refresh the registered controller for ApplicationsBatch9InfoBarV1 in a later elevated session.",
+    "Run the Windows 11 candidate install, registration, repeat, uninstall and saved-state recovery suite.",
+    "Separately assess startup integration and network behavior using synthetic data only."
+  ],
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": { "settings": "37-57", "packages": "38-53", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exact": "127-181", "rounded": "125-180/about 155" },
+    "sysinternalsLicenseGate": false,
+    "defenderBlockedToolsRemainExcluded": true
+  }
+}

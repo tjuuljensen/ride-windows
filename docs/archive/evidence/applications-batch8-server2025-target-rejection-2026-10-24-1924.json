@@ -1,0 +1,64 @@
+{
+  "RunId": "9c141bad3d2c4ec29cffd9237a266e52",
+  "Batch": "ApplicationsBatch8",
+  "RecordedAtUtc": "2026-10-24T19:25:00Z",
+  "VMName": "RIDE-S25-Test",
+  "Checkpoint": "RIDE-clean-test-base",
+  "Target": "Windows Server 2025",
+  "OS": "Microsoft Windows Server 2025 Standard Evaluation",
+  "Build": "26100",
+  "RunStatus": "Failed",
+  "StartedAtUtc": "2026-10-24T19:11:06.9250255Z",
+  "FinishedAtUtc": "2026-10-24T19:23:58.1958938Z",
+  "Pester": {
+    "Version": "5.7.1",
+    "Total": 350,
+    "Passed": 349,
+    "Failed": 0,
+    "Skipped": 1,
+    "Result": "Passed"
+  },
+  "IntegrationPassed": false,
+  "PackageRows": [
+    {
+      "Id": "package.microsoft-openjdk",
+      "Version": "25.0.4.1",
+      "Status": "Failed",
+      "Checks": [],
+      "Error": "The operation target guard rejected Windows Server 2025 because SupportedTargets is empty."
+    },
+    {
+      "Id": "package.microsoft-openjdk-21",
+      "Version": "21.0.12.1",
+      "Status": "Failed",
+      "Checks": [],
+      "Error": "The operation target guard rejected Windows Server 2025 because SupportedTargets is empty."
+    },
+    {
+      "Id": "package.microsoft-openjdk-17",
+      "Version": "17.0.20.1",
+      "Status": "Failed",
+      "Checks": [],
+      "Error": "The operation target guard rejected Windows Server 2025 because SupportedTargets is empty."
+    },
+    {
+      "Id": "package.microsoft-openjdk-11",
+      "Version": "11.0.32.1",
+      "Status": "Failed",
+      "Checks": [],
+      "Error": "The operation target guard rejected Windows Server 2025 because SupportedTargets is empty."
+    }
+  ],
+  "CleanupError": null,
+  "CollectionError": null,
+  "SourceSnapshot": {
+    "RunnerSha256": "5A5B53DD219EABF4375A080A3851B7DF1A41F89EDB2704FC1DC1884D9CA08FAE",
+    "CurrentRunnerSha256": "F15B25FD5D2D66CF1B0C5B443A9E4DA184CB2FF47B1C748AA40F1FB81BFD0C59",
+    "ContainsCurrentTestOnlyCandidateTargetOverlay": false,
+    "CurrentRepositoryContainsTestOnlyCandidateTargetOverlay": true
+  },
+  "Interpretation": "The batch selected all four candidate packages, but its frozen runner snapshot predates the repository's current in-memory test-only candidate-target overlay. RIDE's production operation target guard rejected them before installation. This establishes neither successful nor failed installer behavior and grants no Server support.",
+  "NextAction": "Rerun the four full lifecycles on the disposable Server VM using the current local source snapshot. Keep production SupportedTargets declarations empty until that acceptance passes.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateImpact": "No legacy scope closed. Ranges remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170."
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T03:38:00Z",
+  "batch": "MiTeC Mail and History Viewer local package lifecycle",
+  "sourceEvidence": "mitec-mail-history-viewer-candidates-2026-10-23.json",
+  "products": [
+    "package.mitec-mail-viewer 2.5.1.0",
+    "package.mitec-email-history-browser 1.2.0",
+    "package.mitec-internet-history-browser 2.5.0",
+    "package.mitec-instant-messaging-history-browser 1.2.1"
+  ],
+  "pester": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "suite": "tests/MiTeCMailHistoryViewers.Tests.ps1",
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "licenseReviewsPassed": 23,
+    "testRegistryPlugin": "disabled",
+    "temporaryFiles": ".local/pester-mitec-mail-history-20261025"
+  },
+  "checks": [
+    "retained archive SHA-256 and selected member hashes",
+    "catalog publisher/version/member pins",
+    "install planning remains available while target acceptance is pending",
+    "synthetic selected-member repeat installation",
+    "uninstall and saved snapshot restoration",
+    "operator-file preservation"
+  ],
+  "sensitiveDataOpened": false,
+  "toolsExecuted": false,
+  "vmUsed": false,
+  "uacPrompts": 0,
+  "defenderBlockedToolsTouched": false,
+  "defenderOrWindowsStateChanged": false,
+  "licenseDisposition": "Version-specific NeedsReview markers are informational and do not block implementation or package planning; no entitlement conclusion is asserted.",
+  "windowsAcceptance": "Pending; all four operations retain empty SupportedTargets and PendingAcceptance=true.",
+  "resolved": "Local exact-archive package lifecycle readiness for four retained publisher products.",
+  "deferred": "Windows 11 target lifecycle acceptance and product behavior tests using disposable synthetic mail, browser-history, or messaging stores.",
+  "partial": "No legacy product outcome closes; the dynamic InstallMitec/RemoveMitec collection remains deferred.",
+  "estimate": {
+    "groupRanges": "37-57 / 46-61 / 19-24 / 25-35 / 8-12",
+    "exactTotal": "135-189",
+    "roundedTotal": "135-190/about 160",
+    "adjustment": "Unchanged because local package lifecycle readiness does not establish Windows target acceptance or complete a legacy product outcome."
+  }
+}

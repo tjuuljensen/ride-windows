@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T08:51:57Z",
+  "batch": "Rufus 4.15 official release and download source recheck",
+  "source": "Official publisher website and GitHub release page",
+  "package": {
+    "id": "package.rufus",
+    "catalogVersion": "4.15",
+    "catalogAsset": "rufus-4.15p.exe",
+    "catalogDownloadUri": "https://github.com/pbatard/rufus/releases/download/v4.15/rufus-4.15p.exe",
+    "catalogSha256": "84c8a437f8af89257524478489e5c85f1edf25f761d299e2bcde46ac0afbe106",
+    "license": "GNU General Public License version 3 or later",
+    "licenseUri": "https://www.gnu.org/licenses/gpl-3.0.html"
+  },
+  "observations": {
+    "githubReleasePage": "https://github.com/pbatard/rufus/releases",
+    "officialDownloadIndex": "https://rufus.ie/downloads/",
+    "latestPublisherVersion": "4.15",
+    "publisherReleaseDate": "2026-06-30",
+    "portableX64VariantListed": true,
+    "catalogVersionMatchesLatest": true,
+    "publisherChecksumForPortableAsset": "Not found in reviewed source pages; prior exact-byte source review records no publisher checksum.",
+    "artifactReacquiredOrRehashed": false,
+    "priorArtifactIdentity": {
+      "sourceEvidence": "rufus-portable-source-review-2026-10-16.json",
+      "sha256": "84c8a437f8af89257524478489e5c85f1edf25f761d299e2bcde46ac0afbe106",
+      "fileVersion": "4.15.2396",
+      "authenticodeStatus": "Valid",
+      "authenticodeSigner": "Akeo Consulting"
+    }
+  },
+  "handling": {
+    "downloaded": false,
+    "installed": false,
+    "launched": false,
+    "usbOrMediaModified": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Official publisher version check confirms the existing pinned 4.15 candidate still matches the latest listed Rufus release and retains the portable x64 variant."
+    ],
+    "retired": [],
+    "excluded": [],
+    "partial": [
+      "Source freshness does not reverify current artifact bytes or establish package lifecycle, runtime behavior, or safe USB recovery."
+    ],
+    "deferred": [
+      "RIDE-Win11-Test file lifecycle and recovery, followed by a separately controlled application acceptance scenario; no USB media writing during package staging acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; upstream freshness adds no verified legacy migration outcome."
+    }
+  },
+  "relatedEvidence": [
+    "rufus-portable-source-review-2026-10-16.json",
+    "wfn-pinned-archive-cross-shell-synthetic-lifecycle-and-vm-block-2026-10-28-0845.json"
+  ]
+}

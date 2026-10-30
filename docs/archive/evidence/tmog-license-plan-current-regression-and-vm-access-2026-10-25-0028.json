@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T00:28:08Z",
+  "Scope": "TMOG pending candidate planning regression and RIDE-Win11-Test access recheck",
+  "Tests": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "CatalogSuite": {
+      "Discovered": 104,
+      "Selected": 1,
+      "Passed": 1,
+      "Failed": 0,
+      "Skipped": 0,
+      "Case": "Pins the selected TMOG free-edition package without declaring unverified Windows support"
+    },
+    "LicenseReviewsSuite": {
+      "Discovered": 22,
+      "Selected": 22,
+      "Passed": 22,
+      "Failed": 0,
+      "Skipped": 0,
+      "Coverage": "Version-matched NeedsReview records remain informational and pending package install plans remain available, including package.tmog 1.0.1."
+    }
+  },
+  "VmAccess": {
+    "Target": "RIDE-Win11-Test",
+    "CheckedAtUtc": "2026-10-25T00:28:08Z",
+    "Result": "BlockedBeforeInspection",
+    "Stage": "Get-VM before VM/checkpoint inspection",
+    "Error": "Access to a CIM resource was not available to the client."
+  },
+  "SideEffects": {
+    "InstallerRun": false,
+    "ApplicationLaunched": false,
+    "ScreensaverChanged": false,
+    "VmStateChanged": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Current-source TMOG candidate planning and informational NeedsReview regression pass."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["TMOG install/repeat/uninstall, exact recovery, screensaver behavior, and Windows 11 acceptance pending VM access."],
+    "Partial": ["TMOG package.tmog remains pending native acceptance; no legacy product outcome closes."],
+    "EstimateRangesUnchanged": {
+      "Settings": "37-57",
+      "Packages": "50-65",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "139-193",
+      "RoundedTotal": "140-195/about 170"
+    }
+  }
+}

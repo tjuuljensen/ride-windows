@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T16:10:47Z",
+  "batch": "MiTeC official page and catalog version/source recheck; twelve pending package candidates",
+  "products": [
+    {"id":"package.mitec-exe-explorer","catalogVersion":"3.7.5","publisherVersion":"3.7.5","versionDate":"2026-04-15","sourcePage":"https://www.mitec.cz/exe.html","downloadUri":"https://www.mitec.cz/wp/files/EXE.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-hexedit","catalogVersion":"7.1.0","publisherVersion":"7.1.0","versionDate":"2021-02-24","sourcePage":"https://www.mitec.cz/wp/mhex/","downloadUri":"https://www.mitec.cz/wp/files/HEXEdit.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-json-viewer","catalogVersion":"3.2.2.0","publisherVersion":"3.2.2","versionDate":"2025-01-20","sourcePage":"https://www.mitec.cz/wp/mjsonv/","downloadUri":"https://www.mitec.cz/wp/files/JSONView.zip","versionAssessment":"Match; catalog retains four-part file version"},
+    {"id":"package.mitec-sqlite-query","catalogVersion":"3.2.0","publisherVersion":"3.2.0","versionDate":"2021-05-18","sourcePage":"https://www.mitec.cz/wp/msqliteq/","downloadUri":"https://www.mitec.cz/wp/files/SQLiteQ.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-task-manager-deluxe","catalogVersion":"5.1.1","publisherVersion":"5.1.1","versionDate":"2026-09-08","sourcePage":"https://www.mitec.cz/wp/tmx/","downloadUri":"https://www.mitec.cz/wp/files/TMX.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-smbios-explorer","catalogVersion":"1.8.0","publisherVersion":"1.8.0","versionDate":"2026-04-15","sourcePage":"https://www.mitec.cz/wp/smbe/","downloadUri":"https://www.mitec.cz/wp/files/SMBE.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-network-scanner","catalogVersion":"6.1.0","publisherVersion":"6.1.0","versionDate":"2026-04-23","sourcePage":"https://www.mitec.cz/netscan.html","downloadUri":"https://www.mitec.cz/wp/files/NetScanner.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-system-information","catalogVersion":"16.0.0","publisherVersion":"16.0.0","versionDate":"2026-04-26","sourcePage":"https://www.mitec.cz/wp/msix/","downloadUri":"https://www.mitec.cz/wp/files/MSIX.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-windows-registry-recovery","catalogVersion":"3.1.3","publisherVersion":"3.1.3","versionDate":"2025-01-17","sourcePage":"https://www.mitec.cz/wp/mwrr/","downloadUri":"https://www.mitec.cz/wp/files/WRR.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-ole-com-explorer","catalogVersion":"1.4.0.0","publisherVersion":"1.4.0","versionDate":"2019-06-18","sourcePage":"https://www.mitec.cz/wp/molexp/","downloadUri":"https://www.mitec.cz/wp/files/OLExp.zip","versionAssessment":"Base version matches; current page does not show a newer version history"},
+    {"id":"package.mitec-windows-file-analyzer","catalogVersion":"2.10.0","publisherVersion":"2.10.0","versionDate":"2021-09-27","sourcePage":"https://w.mitec.cz/wfa.html","downloadUri":"https://www.mitec.cz/Downloads/WFA.zip","versionAssessment":"Matches the publisher's available version history; page's OS list does not state Windows 11"},
+    {"id":"package.mitec-icon-explorer","catalogVersion":"5.3.0","publisherVersion":"5.3.0","versionDate":"2021-12-03","sourcePage":"https://www.mitec.cz/iconex.html","downloadUri":"https://www.mitec.cz/Downloads/IconExplorer.zip","versionAssessment":"Matches the publisher's available version history; page's OS list does not state Windows 11"}
+  ],
+  "catalogAndLocalReviewAudit": {
+    "allTwelvePendingTechnicalAcceptance": true,
+    "allTwelveExactVersionLocalReviewRecordsPresent": true,
+    "reviewOwner": "Unassigned",
+    "reviewStatus": "NeedsReview",
+    "reviewRecordPurpose": "Owner/version administration only; not a package-migration or install-planning gate, consistent with the user's direction."
+  },
+  "acquisition": {
+    "headAttempts": [
+      {"id":"package.mitec-exe-explorer","result":"No such host is known (www.mitec.cz:443); no response/body"},
+      {"id":"package.mitec-hexedit","result":"No such host is known (www.mitec.cz:443); no response/body"},
+      {"id":"package.mitec-json-viewer","result":"No such host is known (www.mitec.cz:443); no response/body"},
+      {"id":"package.mitec-sqlite-query","result":"No such host is known (www.mitec.cz:443); no response/body"}
+    ],
+    "remainingProductRequests": "Not repeated after the shared publisher hostname failed DNS resolution.",
+    "payloadsAcquired": false,
+    "partialFilesCreated": false,
+    "archiveHashesOrInventoriesVerified": false
+  },
+  "technicalNotes": [
+    "Publisher pages describe TMX process/service/driver, session, network and system monitoring capabilities; do not launch it during staging acceptance.",
+    "Network Scanner performs active network discovery and may query remote services/accounts; keep its functional network scan outside inert package staging.",
+    "SMBIOS Explorer displays identifiers including serial/asset data; do not capture live identifiers in package logs or evidence.",
+    "Windows Registry Recovery can expose hive contents including account/configuration data; no user hives were opened.",
+    "EXE Explorer, HexEdit, JSON Viewer and SQLite Query also expose viewer/editor functionality; source page capabilities do not establish behavior acceptance."
+  ],
+  "hostAndVmState": {"packageExecuted":false,"installerExecuted":false,"vmUsed":false,"windowsStateChanged":false,"defenderStateChanged":false,"elevationPrompted":false},
+  "migrationEffect": "Resolved publisher page identity, listed version/date and declared DownloadUri alignment for twelve candidates. Payload identities, archive contents and lifecycle remain open; Windows target support is not promoted. No legacy product outcome closed and no estimate deducted.",
+  "estimates": {"settings":"37-57","packages":"40-55","components":"19-24","filesAndAssets":"25-35","maintenance":"8-12","exactTotal":"129-183","roundedTotal":"130-185/about 155"}
+}

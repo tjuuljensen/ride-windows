@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T06:19:03Z",
+  "scope": "Read-only access recheck for registered RIDE test VMs and Windows 11 acceptance task",
+  "targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+  "checks": [
+    {
+      "command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+      "result": "FailedBeforeVmOrCheckpointInspection",
+      "errorType": "Microsoft.HyperV.PowerShell.VirtualizationException",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "command": "schtasks.exe /Query /TN \\\\RIDE\\\\RIDEWin11Test /FO LIST /V",
+      "result": "FailedBeforeTaskDetails",
+      "error": "ERROR: The network address is invalid."
+    }
+  ],
+  "acceptance": {
+    "requestSubmitted": false,
+    "guestStateInspected": false,
+    "checkpointStateInspected": false,
+    "hostOrGuestStateChanged": false,
+    "elevationPromptRequested": false,
+    "defenderStateChanged": false
+  },
+  "disposition": "Keep disposable-VM acceptance deferred. Continue independent source review, implementation and local regression without requesting fresh UAC.",
+  "migrationAccounting": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["All package, setting and component scenarios requiring these registered VMs or the scheduled task."],
+    "partial": [],
+    "estimatesChanged": false,
+    "groupRanges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

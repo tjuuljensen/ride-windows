@@ -1,0 +1,33 @@
+{
+  "recordedAtUtc": "2026-10-29T03:10:07Z",
+  "type": "Migration ledger reconciliation",
+  "legacyOperations": ["InstallImageMagickPortable", "RemoveImageMagickPortable"],
+  "catalogOperation": "package.imagemagick-portable-q16",
+  "currentCatalogStatus": {
+    "version": "7.1.2-34",
+    "variant": "Win64 static Q16 portable SevenZip archive",
+    "supportedTargets": ["Windows 11"],
+    "pendingAcceptance": false,
+    "activation": "Pending"
+  },
+  "authoritativeAcceptance": {
+    "evidence": "docs/archive/evidence/imagemagick-win11-v14-prerequisite-and-lifecycle-acceptance-2026-10-25-0228.json",
+    "runId": "7211dd05d0284019b9c7ea7a1a7e3a32",
+    "target": "RIDE-Win11-Test",
+    "build": "26300",
+    "status": "Passed",
+    "checks": ["install/repeat/remove", "saved-run recovery", "dependency prerequisite", "publisher version and Q16", "archive notices and signer", "synthetic 1x1 PNG encode/identify", "modified/unowned-file preservation"]
+  },
+  "reconciliation": "The install-programs-dispositions row incorrectly described the already-implemented portable Q16 candidate as deferred for publisher edition/source. Update it to Windows 11 lifecycle accepted with activation pending. The separate nonportable InstallImageMagick variant remains deferred until its release/variant adapter is selected.",
+  "estimateDisposition": {
+    "legacyOutcomesClosedThisRun": 0,
+    "reason": "This corrects a stale status label for evidence already included in migration tracking; package activation and the separate nonportable variant remain incomplete, so no remaining estimate is deducted.",
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

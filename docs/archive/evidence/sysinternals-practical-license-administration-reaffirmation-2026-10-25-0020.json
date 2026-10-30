@@ -1,0 +1,12 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T00:20:50Z",
+  "Decision": "The prior RIDE v2 license-specialist approval covers Sysinternals in RIDE's direct-download-and-install workflow.",
+  "Workflow": "RIDE downloads Sysinternals directly from Microsoft for installation on supported devices; RIDE does not transfer or publish copies.",
+  "MigrationDisposition": "The user's determination is that there are no legal issues using Sysinternals in RIDE. Do not require another license review or apply generalized redistribution analysis as a package migration or acceptance gate.",
+  "PackageIntegrity": "Keep official product references and expected pinned archive members as descriptive metadata and technical package-completeness checks.",
+  "DefenderDisposition": "Defender-detected utilities remain separately excluded as a security decision.",
+  "TechnicalStatus": "Eligible packages continue through lifecycle, exact recovery, utility behavior where authorized, and Windows target acceptance.",
+  "OutcomesClosed": 0,
+  "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+}

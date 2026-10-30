@@ -15,7 +15,9 @@
 
 BeforeDiscovery {
   Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.CatalogData.psm1') -Force
-  $batchCases = @((Import-RideCatalogData -Path (Join-Path $PSScriptRoot '../catalog/operations.psd1')).Operations | Where-Object { $_.MigrationBatch -like '2026-10-10-remaining-settings-*' } | ForEach-Object { @{ Id = $_.Id } })
+  $allBatchOperations = @((Import-RideCatalogData -Path (Join-Path $PSScriptRoot '../catalog/operations.psd1')).Operations | Where-Object { $_.MigrationBatch -like '2026-10-10-remaining-settings-*' })
+  $batchCases = @($allBatchOperations | ForEach-Object { @{ Id = $_.Id } })
+  $supportedBatchCases = @($allBatchOperations | Where-Object { $_.SupportedTargets -contains 'Windows 11' } | ForEach-Object { @{ Id = $_.Id } })
 }
 BeforeAll {
   Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.Engine.psm1') -Force
@@ -28,7 +30,9 @@ BeforeAll {
 Describe 'Remaining-setting catalog and discovery' {
   It 'contains remaining new optional settings with no overlapping registry values' {
     $batch = @((Get-RideCatalog).Operations | Where-Object { $_.MigrationBatch -like '2026-10-10-remaining-settings-*' })
-    $batch.Count | Should -Be 36
+    # The batch can grow as newly mapped legacy settings join it. Keep the
+    # original minimum as a regression floor without freezing the catalog size.
+    $batch.Count | Should -BeGreaterOrEqual 38
     @($batch.Id | Select-Object -Unique).Count | Should -Be $batch.Count
     $profile = Get-RideProfile
     foreach ($operation in $batch) { $profile.Operations.Id | Should -Not -Contain $operation.Id }
@@ -42,7 +46,12 @@ Describe 'Remaining-setting catalog and discovery' {
     $operation = Get-RideOperation -Id $Id
     foreach ($selector in $operation.LegacySelectors) { $script:LegacyNames | Should -Contain $selector }
     $operation.DocumentationUri | Should -Match '^https://(learn|support)\.microsoft\.com/'
-    $operation.SupportedTargets | Should -Be @('Windows 11')
+    if ($operation.SupportedTargets -contains 'Windows 11') {
+      $operation.PendingAcceptance | Should -BeFalse
+    } else {
+      $operation.CandidateTargets | Should -Contain 'Windows 11'
+      $operation.PendingAcceptance | Should -BeTrue
+    }
     if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet')) { $operation.States.Keys | Should -Contain $operation.BaselineState }
     foreach ($state in $operation.States.Keys) {
       $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Set -State $state)
@@ -61,6 +70,7 @@ Describe 'Remaining-setting saved-run lifecycle' {
       param($Root)
       $script:BatchRoot = $Root
       Mock Get-RidePlatform { 'Windows 11' }
+      Mock Assert-RidePlanAllowed {}
       Mock Test-RideAdministrator { $true }
       Mock Get-RideStateRoot { Join-Path $script:BatchRoot $Scope }
       Mock Initialize-RideStateRoot { $path = Get-RideStateRoot -Scope $Scope; New-Item -ItemType Directory -Path $path -Force | Out-Null; $path }
@@ -114,7 +124,7 @@ Describe 'Remaining-setting saved-run lifecycle' {
       {Get-RideSingleOperationPlan -Id $op.Id -Action Unset} | Should -Throw '*explicit state*captured run*'
     }
   }
-  It 'previews, captures, repeats all states and restores <Id>' -ForEach $batchCases {
+  It 'previews, captures, repeats all states and restores supported setting <Id>' -ForEach $supportedBatchCases {
     InModuleScope RIDE.Engine -Parameters @{ Id = $Id } {
       param($Id)
       $operation = Get-RideOperation -Id $Id

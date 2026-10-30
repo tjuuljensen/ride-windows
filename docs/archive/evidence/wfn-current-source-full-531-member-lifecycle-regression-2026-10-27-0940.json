@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T09:40:00Z",
+  "package": {
+    "id": "package.windows-firewall-notifier",
+    "version": "20250719-ac02df",
+    "archivePath": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip",
+    "archiveSha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "archiveMembers": 531,
+    "exactPinnedArchiveInventoryPreviouslyVerified": true
+  },
+  "currentSourcePester": {
+    "file": "tests/WfnPackage.Tests.ps1",
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "suiteDurationSeconds": 1310.5,
+    "full531MemberLifecycleDurationSeconds": 1299.14,
+    "testNames": [
+      "matches the selected publisher ZIP, complete static inventory and bundled license files",
+      "repeats owned-file staging and restores exact prior absence with a synthetic archive",
+      "repeats the complete 531-member snapshot and restores both prior package states",
+      "matches the retained real archive to the pinned complete inventory without launching WFN"
+    ],
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "disabledOptionalPlugins": [
+      "TestRegistry"
+    ],
+    "assertionScope": "The 531-member lifecycle used inert synthetic ZIP entries. The retained publisher ZIP test checked only its pinned hash and member inventory."
+  },
+  "safety": {
+    "wfnExecuted": false,
+    "installerExecuted": false,
+    "firewallConfigurationChanged": false,
+    "defenderStateChanged": false,
+    "vmOrGuestTouched": false,
+    "elevationRequested": false,
+    "networkAccessed": false
+  },
+  "acceptance": {
+    "localCurrentSourceFullSuite": "Passed 4/4",
+    "windows11LifecycleAndRuntime": "Pending disposable VM acceptance",
+    "supportedTargets": [],
+    "priorInterruptedCurrentSourceRun": "Superseded by this complete passing run.",
+    "legacyOutcomeClosed": false,
+    "estimateChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "127-181",
+      "rounded": "125-180/about 155"
+    }
+  },
+  "vmBlocker": {
+    "latestRecordedPreflight": "2026-10-27 09:04 UTC",
+    "evidence": "exiftool-current-source-synthetic-command-copy-lifecycle-2026-10-27-0908.json",
+    "result": "Get-VM/Get-ScheduledTask denied at CIM before inspection; schtasks reported invalid network address.",
+    "acceptanceRequestDispatched": false
+  }
+}

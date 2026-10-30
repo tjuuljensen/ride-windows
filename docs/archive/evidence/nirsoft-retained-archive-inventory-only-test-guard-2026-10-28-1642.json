@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:42:50Z",
+  "batch": "NirSoft retained encrypted archive test safety guard",
+  "change": {
+    "file": "tests/NirsoftCollectionPackages.Tests.ps1",
+    "summary": "The retained encrypted publisher archive case now verifies archive length, digest, complete member inventory, alert-reported member count, exact selected catalog members, and absence of blocked basenames from selection without calling the portable installer or recovery functions. The synthetic inert archive lifecycle case remains the focused staging/repeat/remove/restore coverage.",
+    "reason": "A user-reported PasswordScan Defender alert appeared under the same RIDE-Portable temporary stage pattern used by the retained encrypted archive lifecycle case; the creating run is not established."
+  },
+  "validation": {
+    "windowsPowerShellParser": "Passed for the updated Pester source file.",
+    "staticGuard": "Passed: the retained-archive case contains no Install-RidePortablePayload or Save-RidePortableSnapshot call; the synthetic inert case still contains Install-RidePortablePayload.",
+    "pesterAssertions": "Not run. Only Pester 3.4.0 is discoverable in this environment and the current supported Pester 5 import path has been blocked.",
+    "realArchivesOpenedOrHashed": false,
+    "reportedExecutableAccessedOrExecuted": false,
+    "stageOrDefenderStateChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The retained archive Pester case is now inventory-only, and its source parses; assertions and real archive selection behavior remain unverified."
+    ],
+    "retired": [],
+    "excluded": [
+      "PasswordScan x86 and x64 remain excluded from package selection and acceptance."
+    ],
+    "deferred": [
+      "Retained NirSoft encrypted archive lifecycle and creating-run provenance pending safe independent validation of exact member extraction."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; test safety preparation closes no legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "nirsoft-passwordscan-user-defender-alert-2026-10-28-1639.json",
+    "nirsoft-filtered-pester-temp-path-static-trace-2026-10-28-1614.json",
+    "nirsoft-current-catalog-blocked-member-selection-audit-2026-10-28-1459.json"
+  ]
+}

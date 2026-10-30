@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T14:27:42Z",
+  "batch": "Selected ArsenalRecon release asset metadata recheck",
+  "method": "Read-only publisher GitHub REST API requests through the connected GitHub app, followed by a direct publisher-asset HEAD request from the Windows checkout. No binary download, extraction, execution, VM request, or Windows change.",
+  "assets": [
+    {
+      "repository": "ArsenalRecon/NetWireLogDecoder",
+      "tag": "v1.0.0.1",
+      "releaseId": 76170608,
+      "immutableRelease": false,
+      "publishedAt": "2022-09-02T17:33:26Z",
+      "assetId": 76693684,
+      "name": "NetWireLogDecoder_v1.0.0.1.zip",
+      "sizeBytes": 1448704,
+      "digest": null,
+      "url": "https://github.com/ArsenalRecon/NetWireLogDecoder/releases/download/v1.0.0.1/NetWireLogDecoder_v1.0.0.1.zip",
+      "releaseNotes": "Bug fix for read-only mounted drives; performance improvements in final decoding."
+    },
+    {
+      "repository": "ArsenalRecon/SdbaParser",
+      "tag": "1.0.0.1",
+      "releaseId": 46317416,
+      "immutableRelease": false,
+      "publishedAt": "2021-07-16T13:05:02Z",
+      "assetId": 40427856,
+      "name": "SdbaParser.zip",
+      "sizeBytes": 932944,
+      "digest": null,
+      "url": "https://github.com/ArsenalRecon/SdbaParser/releases/download/1.0.0.1/SdbaParser.zip",
+      "releaseNotes": "Fixed handling of wildcard characters in paths."
+    },
+    {
+      "repository": "ArsenalRecon/NetWireStackForensics",
+      "tag": "v1.0.0.0",
+      "releaseId": 90088196,
+      "immutableRelease": false,
+      "publishedAt": "2023-01-24T19:24:39Z",
+      "assetId": 92890777,
+      "name": "NwStacks_v1.0.0.0.zip",
+      "sizeBytes": 1008924,
+      "digest": null,
+      "url": "https://github.com/ArsenalRecon/NetWireStackForensics/releases/download/v1.0.0.0/NwStacks_v1.0.0.0.zip",
+      "releaseNotes": "First build of NwStacks."
+    }
+  ],
+  "acquisition": {
+    "directHeadResult": "Failed before response: No such host is known (github.com:443).",
+    "bytesDownloaded": false,
+    "hashesComputed": false,
+    "archiveMembersInspected": false,
+    "toolsExecuted": false
+  },
+  "acceptancePreflight": {
+    "recordedAtUtc": "2026-10-26T14:27:00Z",
+    "getVm": "Denied at CIM before VM inspection.",
+    "getVmCheckpoint": "Denied at CIM before checkpoint inspection.",
+    "registeredTaskQuery": "ERROR: The network address is invalid.",
+    "guestRequestDispatched": false,
+    "vmOrCheckpointChanged": false,
+    "freshElevationRequested": false
+  },
+  "handling": {
+    "selectedScopeRetained": true,
+    "licenseGate": false,
+    "licenseFinding": "All selected repositories expose publisher MIT license files; exact-version owner review remains administrative and does not gate direct package migration.",
+    "executionPolicyChange": false,
+    "excludedContent": [
+      "NwStacks repository sample snapshots, uploaded samples, and decrypted payload data"
+    ],
+    "legacyOutcomesClosed": []
+  },
+  "migration": {
+    "resolved": [
+      "Current official release IDs, asset IDs, names, publisher download URLs, published times, sizes, release notes, and mutable-release status for the three selected released artifacts"
+    ],
+    "deferred": [
+      "Exact asset bytes, hashes, signatures where applicable, archive inventories, package implementations, lifecycle checks, and target acceptance; direct GitHub asset access remains blocked by host DNS"
+    ],
+    "retired": [],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

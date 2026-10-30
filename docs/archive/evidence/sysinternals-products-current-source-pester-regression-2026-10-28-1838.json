@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T18:38:45Z",
+  "batch": "Nine independent Sysinternals product current-source package regressions",
+  "runtime": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "tempDirectory": ".local/pester-sysinternals-products-ps7-20261028-1834"
+  },
+  "testFile": "tests/SysinternalsProductPackages.Tests.ps1",
+  "products": [
+    "process-explorer",
+    "autoruns",
+    "tcpview",
+    "procmon",
+    "rammap",
+    "disk2vhd",
+    "sigcheck",
+    "strings",
+    "handle"
+  ],
+  "result": {
+    "discovered": 72,
+    "passed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "durationSeconds": 139.36
+  },
+  "coverageBoundary": {
+    "archiveMembersSyntheticAndInert": true,
+    "networkDiscoveryOrPayloadDownloadInvoked": false,
+    "sysinternalsUtilitiesOrInstallersExecuted": false,
+    "defenderBlockedToolsSelectedOrTouched": false,
+    "vmOrCheckpointAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false,
+    "nativeWindows11AcceptanceAdded": false,
+    "legacyOutcomeClosed": false
+  },
+  "migrationDisposition": {
+    "sysinternalsLicense": "The prior RIDE v2 license-specialist approval remains authoritative for RIDE's direct download-and-install workflow; licensing is not a migration gate.",
+    "defenderExclusions": "PasswordScan x86/x64 and other user-reported Defender-blocked tools remain separately excluded.",
+    "resolved": [],
+    "partial": [
+      "Current-source local lifecycle regression passed 72/72 for all nine independent Sysinternals products. Together with the separately recorded Suite run, 80/80 focused assertions pass; no native acceptance or legacy-outcome closure is added."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Native Windows acceptance remains governed by existing VM evidence and is not expanded by these local Pester runs."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; local current-source assertions add regression evidence but close no additional legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "sysinternals-suite-current-source-pester-regression-2026-10-28-1834.json"
+  ]
+}

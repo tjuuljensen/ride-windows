@@ -1,0 +1,114 @@
+{
+  "RecordedAtUtc": "2026-10-27T06:22:00Z",
+  "Batch": "NirSoft filtered portable candidate lifecycle regression",
+  "Disposition": "Two pending portable candidates were added from frozen official source inventories. Their filtered exact member sets passed synthetic local install/repeat/remove/snapshot-recovery lifecycle checks. Defender-reported executable basenames remain excluded. No legacy collection outcome is closed because Windows-target acceptance and launcher/tool behavior remain pending.",
+  "SourceInventories": [
+    {
+      "Inventory": "nirlauncher-source-inventory-2026-10-17.json",
+      "Source": "Official NirLauncher v1.30.26 archive",
+      "ArchiveBytes": 41961437,
+      "ArchiveSha256": "6cfd973d0f2d34ec2fe5c7cfdcc0bdbcb56a8fad329fb4683f6446602769f1b2",
+      "ObservedMembers": 668,
+      "SelectedMembers": 660,
+      "ExcludedExecutableEntries": 8,
+      "ExcludedBasenames": [
+        "chromecookiesview.exe",
+        "bulletspassview.exe",
+        "produkey.exe",
+        "wirelesskeyview.exe"
+      ],
+      "MemberHashesAvailable": false
+    },
+    {
+      "Inventory": "nirsoft-x64-source-review-2026-10-17.json",
+      "Source": "Official NirSoft x64 archive",
+      "ArchiveBytes": 2105172,
+      "ArchiveSha256": "305556bfa9796fd5320ffe4f87ccc66a1fca6dad5fed7d5653bc21ac5df2806b",
+      "PublisherDigestAvailable": false,
+      "ObservedMembers": 49,
+      "SelectedMembers": 47,
+      "ExcludedMembers": 2,
+      "VerifiedSelectedMemberHashes": 47,
+      "ExcludedBasenames": [
+        "produkey.exe",
+        "wirelesskeyview.exe"
+      ]
+    }
+  ],
+  "Candidates": [
+    {
+      "Id": "package.nirsoft-launcher",
+      "Version": "1.30.26",
+      "SelectedMembers": 660,
+      "PendingAcceptance": true,
+      "SupportedTargets": [],
+      "LicenseReview": "NeedsReview / Unassigned is an informational local owner-administration marker. NK2Edit's company/business-use exception remains documented; this does not block package planning."
+    },
+    {
+      "Id": "package.nirsoft-x64-tools",
+      "Version": "snapshot-2026-10-17",
+      "SelectedMembers": 47,
+      "PendingAcceptance": true,
+      "SupportedTargets": [],
+      "LicenseReview": "NeedsReview / Unassigned is an informational local owner-administration marker and does not block package planning."
+    }
+  ],
+  "Validation": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "PesterPlugins": "TestRegistry and TestResult disabled",
+    "FocusedSuite": {
+      "File": "tests/NirsoftCollectionPackages.Tests.ps1",
+      "Discovered": 4,
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 1060.17,
+      "Lifecycle": "For both candidates, generated inert text ZIP entries for every selected member; installed, repeated, verified exact managed-file membership, saved a snapshot, removed, restored, checked healthy ownership and preserved an operator note."
+    },
+    "HarnessRetry": "The first default Pester invocation stopped before assertions because its TestRegistry plugin could not access HKCU in the sandbox. The successful focused rerun disabled TestRegistry and TestResult.",
+    "CombinedLicenseReviewSuite": "26/27 passed in the combined NirSoft/license-review run; the one existing atomic-store fixture failed at System.IO.File.Replace under the sandbox. This does not affect the focused NirSoft 3/3 pass or repository validation.",
+    "PortablePackageRegression": {
+      "File": "tests/ApplicationPackages.Tests.ps1",
+      "Discovered": 124,
+      "Passed": 124,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 74.1
+    },
+    "PortableRestoreOptimization": "Restore-RidePortableSnapshot now indexes current owned files by relative path before preflight, replacing a repeated full-list search for every snapshot member while preserving collision and modified-file checks.",
+    "InterruptedInitialAttempt": "An initial pre-optimization synthetic run was manually stopped after about 19 minutes without a terminal result. It made no Windows/Defender changes. The indexed implementation was then rerun to completion; the 4/4 pass above is authoritative.",
+    "RepositoryValidation": "Passed: 426 operations, 8 groups, 5 profiles and 291 PowerShell files; generated operation documentation current."
+  },
+  "SafetyAndAcceptance": {
+    "AlertExecutablesRestoredOrReextracted": false,
+    "ExecutablesLaunched": false,
+    "WindowsOrDefenderStateChanged": false,
+    "VmAcceptance": "Deferred: read-only VM/checkpoint inspection and registered task dispatch were blocked before guest access in the latest recorded check.",
+    "RemainingAcceptance": [
+      "Portable install/repeat/remove and exact saved-state recovery on a disposable Windows target",
+      "Windows target support decision",
+      "NirLauncher behavior and package/configuration coupling review"
+    ]
+  },
+  "MigrationEstimate": {
+    "ResolvedLegacyOutcomes": [],
+    "PartialLegacyOutcomes": [
+      "InstallNirsoftLauncher / RemoveNirsoftLauncher",
+      "InstallNirsoftToolsX64 / RemoveNirsoftToolsX64"
+    ],
+    "DeferredOutcomes": [
+      "InstallNirsoftPkgFiles / RemoveNirsoftPkgFiles"
+    ],
+    "RangesUnchanged": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "127-181",
+      "RoundedTotal": "125-180/about 155"
+    },
+    "Reason": "The synthetic full-member lifecycle checks establish local owned-file behavior only; they do not establish publisher-archive handling, Defender scan behavior, Windows target support, or launcher/tool behavior, so no legacy collection outcome closes."
+  }
+}

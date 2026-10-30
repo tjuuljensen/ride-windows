@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:44:00Z",
+  "scope": "Read-only verification of exact-version local license review markers for MiTeC package candidates",
+  "tool": "tools/Manage-RideLicenseReviews.ps1 Get",
+  "storePath": ".local/license-reviews.json",
+  "recordCount": 12,
+  "records": [
+    {
+      "id": "package.mitec-dfm-editor",
+      "reviewedVersion": "8.3.1.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-dfm-editor",
+      "reviewedVersion": "8.4.0.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-interbase-query",
+      "reviewedVersion": "9.5.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-json-viewer",
+      "reviewedVersion": "3.2.2.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-network-scanner",
+      "reviewedVersion": "6.1.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-ole-com-explorer",
+      "reviewedVersion": "1.4.0.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-smbios-explorer",
+      "reviewedVersion": "1.8.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-system-information",
+      "reviewedVersion": "16.0.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-tapi-monitor",
+      "reviewedVersion": "1.2.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-task-manager-deluxe",
+      "reviewedVersion": "5.1.1",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-windows-registry-recovery",
+      "reviewedVersion": "3.1.3",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    },
+    {
+      "id": "package.mitec-xml-viewer",
+      "reviewedVersion": "6.5.0.0",
+      "reviewOwner": "Unassigned",
+      "status": "NeedsReview"
+    }
+  ],
+  "result": "All 12 expected exact-version records are NeedsReview with owner Unassigned",
+  "interpretation": "Owner-specific review markers are informational. They neither determine entitlement nor block direct-download package planning or migration. No store data was modified and no shared catalog metadata was changed.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

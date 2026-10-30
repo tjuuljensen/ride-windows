@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T07:45:24Z",
+  "queries": {
+    "getVm": {
+      "command": "Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+      "result": "Access to a CIM resource was not available to the client; no VM/checkpoint state was inspected."
+    },
+    "getComputerInfo": {
+      "command": "Get-ComputerInfo -Property WindowsProductName,OsName,WindowsVersion",
+      "result": "Access to a CIM resource was not available to the client."
+    },
+    "scheduledTask": {
+      "command": "schtasks.exe /Query /TN \\RIDE\\RIDEWin11Test /FO LIST",
+      "result": "ERROR: The network address is invalid."
+    },
+    "winRm": {
+      "getService": "Get-Service WinRM reported no service with that name.",
+      "scQueryAndConfig": "sc.exe query/qc WinRM returned OpenService FAILED 5: Access is denied.",
+      "disposition": "Status cannot be determined from this session; do not infer that WinRM is absent or stopped."
+    }
+  },
+  "sideEffects": {
+    "guestRequestSubmitted": false,
+    "elevationPromptRequested": false,
+    "hostServiceChanged": false,
+    "vmOrCheckpointChanged": false,
+    "windowsOrDefenderStateChanged": false
+  },
+  "migration": {
+    "outcomeClosed": false,
+    "deferred": "Windows package, settings, component and user-context acceptance remain pending usable VM/controller access.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

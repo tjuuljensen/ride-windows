@@ -1,0 +1,47 @@
+{
+  "checkedAtUtc": "2026-10-28T13:41:56Z",
+  "catalog": {
+    "operationCount": 445,
+    "packageCount": 119,
+    "pendingAcceptancePackageCount": 49
+  },
+  "workspaceLocalReviewStore": {
+    "recordCount": 86,
+    "exactIdAndReviewedVersionMatchesForPendingPackages": 49,
+    "missingExactMarkers": 0,
+    "statusCounts": {
+      "NeedsReview": 49
+    },
+    "ownerCounts": {
+      "Unassigned": 49
+    }
+  },
+  "validation": {
+    "command": "tools/validate.ps1 -Root .",
+    "result": "passed",
+    "operations": 445,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 300,
+    "generatedDocumentation": "current"
+  },
+  "interpretation": "NeedsReview/Unassigned are owner-administration markers only. They do not block planning, migration, acquisition or ordinary publisher download-and-install. Sysinternals licensing remains settled by prior RIDE v2 license-specialist approval and the user's direction.",
+  "migrationOutcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [],
+    "partial": [],
+    "closedLegacyOutcomes": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; administrative review markers do not satisfy a technical migration outcome."
+  }
+}

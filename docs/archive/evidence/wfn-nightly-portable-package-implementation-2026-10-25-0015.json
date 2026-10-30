@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T00:15:00Z",
+  "OperationId": "package.windows-firewall-notifier",
+  "PackageId": "windows-firewall-notifier",
+  "PackageVersion": "20250719-ac02df",
+  "SelectedAsset": "wfn-20250719-ac02df-x64-standalone.zip",
+  "ExpectedSha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+  "PinnedArchiveMembers": 531,
+  "RequiredLifecycleMembers": [
+    "WFN.exe",
+    "LICENSE.txt",
+    "Resources/IPDatabase/LICENSE.txt"
+  ],
+  "Implementation": "Portable file package using existing owned-member lifecycle and saved-run exact recovery; no application launch or firewall-policy mutation.",
+  "Pester": {
+    "Version": "5.7.1",
+    "TestRegistryEnabled": false,
+    "Tests": 2,
+    "Passed": 2,
+    "Failed": 0,
+    "Skipped": 0,
+    "Coverage": [
+      "Catalog version/source/hash/license metadata and target status",
+      "Exact comparison of all 531 catalog members to archived static inventory",
+      "Synthetic offline install/repeat/uninstall/exact prior-absence restore of WFN.exe and both bundled notices"
+    ]
+  },
+  "WindowsAcceptance": {
+    "Windows11Lifecycle": "Pending",
+    "IntendedUserLogWrite": "Pending",
+    "FirewallPolicyUnchanged": "Pending",
+    "ApplicationActivation": "Separate runtime behavior, not run",
+    "WindowsServer": "Unsupported by publisher; no candidate target"
+  },
+  "LegacyOutcomeClosed": false,
+  "MigrationEstimate": {
+    "Settings": "37-57",
+    "Packages": "50-65",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170"
+  },
+  "Notes": [
+    "Whole publisher archive hash and complete path/member safety inventory were verified separately.",
+    "No WFN executable ran; no VM, Defender, firewall, or Windows state changed.",
+    "A synthetic all-531-file lifecycle test was stopped when repeated full-file scans made no progress; the focused fixture retains the executable and both required license files. This is not a package failure or acceptance result."
+  ]
+}

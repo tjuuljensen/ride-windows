@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T07:20:55Z",
+  "publisher": "Gen Digital Inc.",
+  "method": "Read-only HTTP HEAD to the five official publisher artifact routes",
+  "routes": [
+    {
+      "name": "CCleaner online installer",
+      "uri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+      "error": "No such host is known. (bits.avcdn.net:443)"
+    },
+    {
+      "name": "CCleaner offline installer",
+      "uri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_FULL/build_RELEASE",
+      "error": "No such host is known. (bits.avcdn.net:443)"
+    },
+    {
+      "name": "CCleaner portable archive",
+      "uri": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "error": "No such host is known. (download.ccleaner.com:443)"
+    },
+    {
+      "name": "Recuva installer",
+      "uri": "https://download.ccleaner.com/rcsetup155.exe",
+      "error": "No such host is known. (download.ccleaner.com:443)"
+    },
+    {
+      "name": "Speccy installer",
+      "uri": "https://download.ccleaner.com/spsetup134.exe",
+      "error": "No such host is known. (download.ccleaner.com:443)"
+    }
+  ],
+  "artifactsAcquired": 0,
+  "hashesOrSignaturesVerified": 0,
+  "catalogChanged": false,
+  "installerOrUtilityExecuted": false,
+  "windowsVmDefenderOrHostStateChanged": false,
+  "licenseGateAdded": false,
+  "estimateChanged": false,
+  "disposition": "Keep the selected CCleaner-family outcomes and license-review reminders; exact payload verification is deferred until publisher DNS is available. Defraggler remains without a current publisher build route.",
+  "migrationAccounting": {
+    "resolved": [
+      "The publisher artifact routes are still declared as in the 2026-10-26 06:25 source recheck."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Exact payload acquisition and hash/signature/version inspection for CCleaner, Recuva and Speccy.",
+      "Portable source for Recuva/Speccy and a current Defraggler build route remain unavailable."
+    ],
+    "partial": [
+      "No CCleaner-family package or whole legacy outcome closes."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "129-183",
+      "rounded": "130-185/about 155"
+    }
+  }
+}

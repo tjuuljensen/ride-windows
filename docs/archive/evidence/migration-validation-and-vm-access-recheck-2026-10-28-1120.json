@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T11:20:25Z",
+  "batch": "Current migration repository validation and Windows acceptance prerequisite recheck",
+  "repositoryValidation": {
+    "command": "pwsh -NoLogo -NoProfile -File tools/validate.ps1 -Root .",
+    "exitCode": 0,
+    "result": "Passed",
+    "operations": 441,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 299,
+    "operationDocumentation": "Current"
+  },
+  "testAvailability": {
+    "powershell": "7.6.5",
+    "availablePesterVersions": ["3.4.0"],
+    "pester5RegressionsRun": false,
+    "reason": "Pester 5 is not installed in the current shell."
+  },
+  "vmAccess": {
+    "command": "Get-VM -Name RIDE-Win11-Test",
+    "result": "Failed before VM/checkpoint inspection",
+    "error": "Access to a CIM resource was not available to the client.",
+    "acceptanceDispatched": false,
+    "elevationRequested": false,
+    "vmOrCheckpointChanged": false
+  },
+  "migrationImpact": {
+    "legacyOutcomesClosedThisRun": 0,
+    "latestResolvedOutcome": "One legacy Sysinternals Suite download/install outcome on Windows 11 was closed in the 11:14 UTC scope reconciliation using the existing registered suite 1/1 and independent product lifecycle 9/9 evidence.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "deferredAcceptance": [
+      "New Windows VM acceptance remains blocked by host CIM access before inspection.",
+      "Pester 5 suite execution remains deferred until a usable Pester 5 environment is available.",
+      "The existing successful Sysinternals Windows 11 package lifecycle remains valid; no utility execution or licensing gate is needed for that package acceptance."
+    ]
+  }
+}

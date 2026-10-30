@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T09:49:00Z",
+  "audit": "Current Sysinternals catalog target support, package review status, prior Windows lifecycle evidence, and user licensing decision",
+  "userDecision": {
+    "priorRideV2LicenseSpecialistApproval": "Controlling",
+    "rideWorkflow": "Direct download from Microsoft and install/stage on user-supported devices",
+    "rideTransfersOrPublishesCopies": false,
+    "legalIssueForRideUse": false,
+    "additionalLicenseReviewRequired": false,
+    "licensingMigrationGate": false,
+    "defenderBlockedUtilities": "Separate security exclusions"
+  },
+  "catalog": {
+    "source": "catalog/operations.psd1 via Get-RideCatalog",
+    "packageCount": 10,
+    "allSupportedOn": ["Windows 11"],
+    "allPendingAcceptance": false,
+    "operations": [
+      {"id":"package.sysinternals-suite","version":"snapshot-20261017-e1e75de5"},
+      {"id":"package.sysinternals-process-explorer","version":"17.2"},
+      {"id":"package.sysinternals-autoruns","version":"14.3"},
+      {"id":"package.sysinternals-tcpview","version":"4.19"},
+      {"id":"package.sysinternals-procmon","version":"4.12"},
+      {"id":"package.sysinternals-rammap","version":"1.63"},
+      {"id":"package.sysinternals-disk2vhd","version":"2.02"},
+      {"id":"package.sysinternals-sigcheck","version":"2.93"},
+      {"id":"package.sysinternals-strings","version":"2.54"},
+      {"id":"package.sysinternals-handle","version":"5.0"}
+    ]
+  },
+  "localReviewStore": {
+    "path": ".local/license-reviews.json",
+    "allTenExactVersions": "Reviewed",
+    "reviewDisposition": "Prior RIDE v2 specialist approval and direct-download/install scope recorded; no legal issue or migration blocker"
+  },
+  "windowsLifecycleEvidence": [
+    {
+      "evidence": "sysinternals-suite-win11-current-lifecycle-acceptance-2026-10-25-0201.json",
+      "package": "package.sysinternals-suite",
+      "result": "Passed 1/1 on RIDE-Win11-Test, Windows 11 build 26300",
+      "scope": "File staging, repeat install, removal, saved restore, conflict and modified-file preservation; no tool executed"
+    },
+    {
+      "evidence": "sysinternals-products-runner-path-fix-and-win11-acceptance-2026-10-25-1017.json",
+      "packages": 9,
+      "result": "Passed 9/9 scenarios on RIDE-Win11-Test, Windows 11 build 26300",
+      "scope": "Package file lifecycle and recovery; no Sysinternals utility executed; zero Defender-blocked or NirSoft items"
+    }
+  ],
+  "currentVmAccessRecheck": {
+    "recordedAtUtc": "2026-10-27T09:48:00Z",
+    "getVm": "Blocked before VM/checkpoint inspection: CIM access denied",
+    "getScheduledTask": "Blocked before task inspection: CIM access denied",
+    "schtasks": "Blocked: The network address is invalid",
+    "acceptanceRequestDispatched": false,
+    "systemStateChanged": false
+  },
+  "migrationImpact": {
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "127-181",
+      "rounded": "125-180/about 155"
+    },
+    "remainingTechnicalWork": "Only separately identified package scope or behavior acceptance; licensing is not a blocker"
+  }
+}

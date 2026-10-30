@@ -1,0 +1,2194 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T23:54:00Z",
+  "Product": "Windows Firewall Notifier (WFN)",
+  "UserSelectedChannel": "Nightlies / Unstable",
+  "Publisher": "https://github.com/wokhan/WFN",
+  "PublisherRelease": "https://github.com/wokhan/WFN/releases/tag/nightlies",
+  "PublisherAssetIndex": "https://github.com/wokhan/WFN/releases/expanded_assets/nightlies",
+  "ReleaseCommit": "ac02df2",
+  "SelectedAsset": {
+    "Name": "wfn-20250719-ac02df-x64-standalone.zip",
+    "Version": "20250719-ac02df",
+    "DownloadUri": "https://github.com/wokhan/WFN/releases/download/nightlies/wfn-20250719-ac02df-x64-standalone.zip",
+    "PublishedSha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "LocalSha256": "b7ecea5a7c1cac4dbb845522afcf49bbb7d7efa01d3a8266033d11ca88678378",
+    "PayloadBytes": 118745388,
+    "DisplayedSize": "113 MB",
+    "PublishedAtUtc": "2025-07-19T09:51:27Z",
+    "CachePath": ".local/acquisition/wfn-20250719-ac02df/wfn-20250719-ac02df-x64-standalone.zip"
+  },
+  "Verification": {
+    "ReleasePageStillPointsToSelectedCommit": true,
+    "HashReadFromPublisherAssetIndex": true,
+    "LocalSha256MatchesPublisher": true,
+    "EarlierShellRequest": "Denied before HTTP response",
+    "OfficialPublisherDownloadSucceeded": true,
+    "ArchiveFileCount": 531,
+    "UncompressedBytes": 265089178,
+    "UnsafeEntries": 0,
+    "DuplicateNames": 0,
+    "WindowsInvalidNames": 0,
+    "Symlinks": 0,
+    "LicenseAndAttributionFiles": [
+      "LICENSE.txt",
+      "Resources/IPDatabase/LICENSE.txt"
+    ],
+    "PayloadExecuted": false,
+    "NoMirrorUsed": true,
+    "ArchiveMembers": [
+      {
+        "Name": "cs/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25880
+      },
+      {
+        "Name": "cs/PresentationCore.resources.dll",
+        "Length": 108704
+      },
+      {
+        "Name": "cs/PresentationFramework.resources.dll",
+        "Length": 196768
+      },
+      {
+        "Name": "cs/PresentationUI.resources.dll",
+        "Length": 45728
+      },
+      {
+        "Name": "cs/ReachFramework.resources.dll",
+        "Length": 39072
+      },
+      {
+        "Name": "cs/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "cs/System.Windows.Forms.Design.resources.dll",
+        "Length": 149264
+      },
+      {
+        "Name": "cs/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "cs/System.Windows.Forms.resources.dll",
+        "Length": 365840
+      },
+      {
+        "Name": "cs/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "cs/System.Xaml.resources.dll",
+        "Length": 65184
+      },
+      {
+        "Name": "cs/UIAutomationClient.resources.dll",
+        "Length": 20144
+      },
+      {
+        "Name": "cs/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21168
+      },
+      {
+        "Name": "cs/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "cs/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "cs/WindowsBase.resources.dll",
+        "Length": 86688
+      },
+      {
+        "Name": "cs/WindowsFormsIntegration.resources.dll",
+        "Length": 16048
+      },
+      {
+        "Name": "de/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25872
+      },
+      {
+        "Name": "de/PresentationCore.resources.dll",
+        "Length": 114352
+      },
+      {
+        "Name": "de/PresentationFramework.resources.dll",
+        "Length": 213664
+      },
+      {
+        "Name": "de/PresentationUI.resources.dll",
+        "Length": 47264
+      },
+      {
+        "Name": "de/ReachFramework.resources.dll",
+        "Length": 39584
+      },
+      {
+        "Name": "de/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "de/System.Windows.Forms.Design.resources.dll",
+        "Length": 149776
+      },
+      {
+        "Name": "de/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "de/System.Windows.Forms.resources.dll",
+        "Length": 373920
+      },
+      {
+        "Name": "de/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16560
+      },
+      {
+        "Name": "de/System.Xaml.resources.dll",
+        "Length": 68784
+      },
+      {
+        "Name": "de/UIAutomationClient.resources.dll",
+        "Length": 20232
+      },
+      {
+        "Name": "de/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21152
+      },
+      {
+        "Name": "de/UIAutomationProvider.resources.dll",
+        "Length": 15536
+      },
+      {
+        "Name": "de/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "de/WindowsBase.resources.dll",
+        "Length": 91296
+      },
+      {
+        "Name": "de/WindowsFormsIntegration.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "es/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25760
+      },
+      {
+        "Name": "es/PresentationCore.resources.dll",
+        "Length": 110256
+      },
+      {
+        "Name": "es/PresentationFramework.resources.dll",
+        "Length": 203424
+      },
+      {
+        "Name": "es/PresentationUI.resources.dll",
+        "Length": 45728
+      },
+      {
+        "Name": "es/ReachFramework.resources.dll",
+        "Length": 39584
+      },
+      {
+        "Name": "es/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "es/System.Windows.Forms.Design.resources.dll",
+        "Length": 149768
+      },
+      {
+        "Name": "es/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "es/System.Windows.Forms.resources.dll",
+        "Length": 366344
+      },
+      {
+        "Name": "es/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16560
+      },
+      {
+        "Name": "es/System.Xaml.resources.dll",
+        "Length": 66320
+      },
+      {
+        "Name": "es/UIAutomationClient.resources.dll",
+        "Length": 20144
+      },
+      {
+        "Name": "es/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21152
+      },
+      {
+        "Name": "es/UIAutomationProvider.resources.dll",
+        "Length": 15536
+      },
+      {
+        "Name": "es/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "es/WindowsBase.resources.dll",
+        "Length": 89760
+      },
+      {
+        "Name": "es/WindowsFormsIntegration.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "fr/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25880
+      },
+      {
+        "Name": "fr/PresentationCore.resources.dll",
+        "Length": 113312
+      },
+      {
+        "Name": "fr/PresentationFramework.resources.dll",
+        "Length": 207008
+      },
+      {
+        "Name": "fr/PresentationUI.resources.dll",
+        "Length": 46752
+      },
+      {
+        "Name": "fr/ReachFramework.resources.dll",
+        "Length": 40096
+      },
+      {
+        "Name": "fr/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "fr/System.Windows.Forms.Design.resources.dll",
+        "Length": 150280
+      },
+      {
+        "Name": "fr/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "fr/System.Windows.Forms.resources.dll",
+        "Length": 373000
+      },
+      {
+        "Name": "fr/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16560
+      },
+      {
+        "Name": "fr/System.Xaml.resources.dll",
+        "Length": 67232
+      },
+      {
+        "Name": "fr/UIAutomationClient.resources.dll",
+        "Length": 20128
+      },
+      {
+        "Name": "fr/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21152
+      },
+      {
+        "Name": "fr/UIAutomationProvider.resources.dll",
+        "Length": 15536
+      },
+      {
+        "Name": "fr/UIAutomationTypes.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "fr/WFN.resources.dll",
+        "Length": 7680
+      },
+      {
+        "Name": "fr/WindowsBase.resources.dll",
+        "Length": 90784
+      },
+      {
+        "Name": "fr/WindowsFormsIntegration.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "fr/Wokhan.WindowsFirewallNotifier.Common.resources.dll",
+        "Length": 6144
+      },
+      {
+        "Name": "it/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25872
+      },
+      {
+        "Name": "it/PresentationCore.resources.dll",
+        "Length": 111776
+      },
+      {
+        "Name": "it/PresentationFramework.resources.dll",
+        "Length": 205984
+      },
+      {
+        "Name": "it/PresentationUI.resources.dll",
+        "Length": 45744
+      },
+      {
+        "Name": "it/ReachFramework.resources.dll",
+        "Length": 39600
+      },
+      {
+        "Name": "it/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "it/System.Windows.Forms.Design.resources.dll",
+        "Length": 150792
+      },
+      {
+        "Name": "it/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "it/System.Windows.Forms.resources.dll",
+        "Length": 368920
+      },
+      {
+        "Name": "it/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "it/System.Xaml.resources.dll",
+        "Length": 66208
+      },
+      {
+        "Name": "it/UIAutomationClient.resources.dll",
+        "Length": 20128
+      },
+      {
+        "Name": "it/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21168
+      },
+      {
+        "Name": "it/UIAutomationProvider.resources.dll",
+        "Length": 15536
+      },
+      {
+        "Name": "it/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "it/WindowsBase.resources.dll",
+        "Length": 91296
+      },
+      {
+        "Name": "it/WindowsFormsIntegration.resources.dll",
+        "Length": 16048
+      },
+      {
+        "Name": "ja/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 26384
+      },
+      {
+        "Name": "ja/PresentationCore.resources.dll",
+        "Length": 122528
+      },
+      {
+        "Name": "ja/PresentationFramework.resources.dll",
+        "Length": 226480
+      },
+      {
+        "Name": "ja/PresentationUI.resources.dll",
+        "Length": 49328
+      },
+      {
+        "Name": "ja/ReachFramework.resources.dll",
+        "Length": 42248
+      },
+      {
+        "Name": "ja/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 19104
+      },
+      {
+        "Name": "ja/System.Windows.Forms.Design.resources.dll",
+        "Length": 155912
+      },
+      {
+        "Name": "ja/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16656
+      },
+      {
+        "Name": "ja/System.Windows.Forms.resources.dll",
+        "Length": 409352
+      },
+      {
+        "Name": "ja/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "ja/System.Xaml.resources.dll",
+        "Length": 74416
+      },
+      {
+        "Name": "ja/UIAutomationClient.resources.dll",
+        "Length": 20640
+      },
+      {
+        "Name": "ja/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21664
+      },
+      {
+        "Name": "ja/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "ja/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "ja/WindowsBase.resources.dll",
+        "Length": 99488
+      },
+      {
+        "Name": "ja/WindowsFormsIntegration.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "ko/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25864
+      },
+      {
+        "Name": "ko/PresentationCore.resources.dll",
+        "Length": 114352
+      },
+      {
+        "Name": "ko/PresentationFramework.resources.dll",
+        "Length": 211632
+      },
+      {
+        "Name": "ko/PresentationUI.resources.dll",
+        "Length": 46256
+      },
+      {
+        "Name": "ko/ReachFramework.resources.dll",
+        "Length": 40608
+      },
+      {
+        "Name": "ko/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "ko/System.Windows.Forms.Design.resources.dll",
+        "Length": 151200
+      },
+      {
+        "Name": "ko/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16144
+      },
+      {
+        "Name": "ko/System.Windows.Forms.resources.dll",
+        "Length": 370848
+      },
+      {
+        "Name": "ko/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "ko/System.Xaml.resources.dll",
+        "Length": 69792
+      },
+      {
+        "Name": "ko/UIAutomationClient.resources.dll",
+        "Length": 20144
+      },
+      {
+        "Name": "ko/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21152
+      },
+      {
+        "Name": "ko/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "ko/UIAutomationTypes.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "ko/WindowsBase.resources.dll",
+        "Length": 92320
+      },
+      {
+        "Name": "ko/WindowsFormsIntegration.resources.dll",
+        "Length": 16048
+      },
+      {
+        "Name": "pl/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25864
+      },
+      {
+        "Name": "pl/PresentationCore.resources.dll",
+        "Length": 113312
+      },
+      {
+        "Name": "pl/PresentationFramework.resources.dll",
+        "Length": 209568
+      },
+      {
+        "Name": "pl/PresentationUI.resources.dll",
+        "Length": 46240
+      },
+      {
+        "Name": "pl/ReachFramework.resources.dll",
+        "Length": 40112
+      },
+      {
+        "Name": "pl/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "pl/System.Windows.Forms.Design.resources.dll",
+        "Length": 149272
+      },
+      {
+        "Name": "pl/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "pl/System.Windows.Forms.resources.dll",
+        "Length": 366240
+      },
+      {
+        "Name": "pl/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "pl/System.Xaml.resources.dll",
+        "Length": 69792
+      },
+      {
+        "Name": "pl/UIAutomationClient.resources.dll",
+        "Length": 20128
+      },
+      {
+        "Name": "pl/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21152
+      },
+      {
+        "Name": "pl/UIAutomationProvider.resources.dll",
+        "Length": 15536
+      },
+      {
+        "Name": "pl/UIAutomationTypes.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "pl/WindowsBase.resources.dll",
+        "Length": 90784
+      },
+      {
+        "Name": "pl/WindowsFormsIntegration.resources.dll",
+        "Length": 16048
+      },
+      {
+        "Name": "pt-BR/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25864
+      },
+      {
+        "Name": "pt-BR/PresentationCore.resources.dll",
+        "Length": 109728
+      },
+      {
+        "Name": "pt-BR/PresentationFramework.resources.dll",
+        "Length": 202912
+      },
+      {
+        "Name": "pt-BR/PresentationUI.resources.dll",
+        "Length": 45728
+      },
+      {
+        "Name": "pt-BR/ReachFramework.resources.dll",
+        "Length": 39088
+      },
+      {
+        "Name": "pt-BR/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "pt-BR/System.Windows.Forms.Design.resources.dll",
+        "Length": 149256
+      },
+      {
+        "Name": "pt-BR/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "pt-BR/System.Windows.Forms.resources.dll",
+        "Length": 359192
+      },
+      {
+        "Name": "pt-BR/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "pt-BR/System.Xaml.resources.dll",
+        "Length": 65712
+      },
+      {
+        "Name": "pt-BR/UIAutomationClient.resources.dll",
+        "Length": 20128
+      },
+      {
+        "Name": "pt-BR/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21152
+      },
+      {
+        "Name": "pt-BR/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "pt-BR/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "pt-BR/WindowsBase.resources.dll",
+        "Length": 89248
+      },
+      {
+        "Name": "pt-BR/WindowsFormsIntegration.resources.dll",
+        "Length": 16144
+      },
+      {
+        "Name": "Resources/IPDatabase/COPYRIGHT.txt",
+        "Length": 56
+      },
+      {
+        "Name": "Resources/IPDatabase/GeoLite2-City.mmdb",
+        "Length": 72504743
+      },
+      {
+        "Name": "Resources/IPDatabase/LICENSE.txt",
+        "Length": 401
+      },
+      {
+        "Name": "ru/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 26912
+      },
+      {
+        "Name": "ru/PresentationCore.resources.dll",
+        "Length": 138400
+      },
+      {
+        "Name": "ru/PresentationFramework.resources.dll",
+        "Length": 257696
+      },
+      {
+        "Name": "ru/PresentationUI.resources.dll",
+        "Length": 54432
+      },
+      {
+        "Name": "ru/ReachFramework.resources.dll",
+        "Length": 44208
+      },
+      {
+        "Name": "ru/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 19632
+      },
+      {
+        "Name": "ru/System.Windows.Forms.Design.resources.dll",
+        "Length": 163080
+      },
+      {
+        "Name": "ru/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16664
+      },
+      {
+        "Name": "ru/System.Windows.Forms.resources.dll",
+        "Length": 476952
+      },
+      {
+        "Name": "ru/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 17056
+      },
+      {
+        "Name": "ru/System.Xaml.resources.dll",
+        "Length": 84656
+      },
+      {
+        "Name": "ru/UIAutomationClient.resources.dll",
+        "Length": 21680
+      },
+      {
+        "Name": "ru/UIAutomationClientSideProviders.resources.dll",
+        "Length": 22192
+      },
+      {
+        "Name": "ru/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "ru/UIAutomationTypes.resources.dll",
+        "Length": 19104
+      },
+      {
+        "Name": "ru/WindowsBase.resources.dll",
+        "Length": 111776
+      },
+      {
+        "Name": "ru/WindowsFormsIntegration.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "tr/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25248
+      },
+      {
+        "Name": "tr/PresentationCore.resources.dll",
+        "Length": 107680
+      },
+      {
+        "Name": "tr/PresentationFramework.resources.dll",
+        "Length": 196272
+      },
+      {
+        "Name": "tr/PresentationUI.resources.dll",
+        "Length": 44704
+      },
+      {
+        "Name": "tr/ReachFramework.resources.dll",
+        "Length": 38560
+      },
+      {
+        "Name": "tr/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18608
+      },
+      {
+        "Name": "tr/System.Windows.Forms.Design.resources.dll",
+        "Length": 148640
+      },
+      {
+        "Name": "tr/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16160
+      },
+      {
+        "Name": "tr/System.Windows.Forms.resources.dll",
+        "Length": 361632
+      },
+      {
+        "Name": "tr/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "tr/System.Xaml.resources.dll",
+        "Length": 65184
+      },
+      {
+        "Name": "tr/UIAutomationClient.resources.dll",
+        "Length": 20128
+      },
+      {
+        "Name": "tr/UIAutomationClientSideProviders.resources.dll",
+        "Length": 21152
+      },
+      {
+        "Name": "tr/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "tr/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "tr/WindowsBase.resources.dll",
+        "Length": 85168
+      },
+      {
+        "Name": "tr/WindowsFormsIntegration.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "zh-Hans/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25376
+      },
+      {
+        "Name": "zh-Hans/PresentationCore.resources.dll",
+        "Length": 100528
+      },
+      {
+        "Name": "zh-Hans/PresentationFramework.resources.dll",
+        "Length": 183568
+      },
+      {
+        "Name": "zh-Hans/PresentationUI.resources.dll",
+        "Length": 43168
+      },
+      {
+        "Name": "zh-Hans/ReachFramework.resources.dll",
+        "Length": 37040
+      },
+      {
+        "Name": "zh-Hans/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "zh-Hans/System.Windows.Forms.Design.resources.dll",
+        "Length": 145056
+      },
+      {
+        "Name": "zh-Hans/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "zh-Hans/System.Windows.Forms.resources.dll",
+        "Length": 319760
+      },
+      {
+        "Name": "zh-Hans/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "zh-Hans/System.Xaml.resources.dll",
+        "Length": 61088
+      },
+      {
+        "Name": "zh-Hans/UIAutomationClient.resources.dll",
+        "Length": 19616
+      },
+      {
+        "Name": "zh-Hans/UIAutomationClientSideProviders.resources.dll",
+        "Length": 20640
+      },
+      {
+        "Name": "zh-Hans/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "zh-Hans/UIAutomationTypes.resources.dll",
+        "Length": 18096
+      },
+      {
+        "Name": "zh-Hans/WindowsBase.resources.dll",
+        "Length": 79024
+      },
+      {
+        "Name": "zh-Hans/WindowsFormsIntegration.resources.dll",
+        "Length": 16048
+      },
+      {
+        "Name": "zh-Hant/Microsoft.VisualBasic.Forms.resources.dll",
+        "Length": 25352
+      },
+      {
+        "Name": "zh-Hant/PresentationCore.resources.dll",
+        "Length": 101552
+      },
+      {
+        "Name": "zh-Hant/PresentationFramework.resources.dll",
+        "Length": 183968
+      },
+      {
+        "Name": "zh-Hant/PresentationUI.resources.dll",
+        "Length": 43168
+      },
+      {
+        "Name": "zh-Hant/ReachFramework.resources.dll",
+        "Length": 37536
+      },
+      {
+        "Name": "zh-Hant/System.Windows.Controls.Ribbon.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "zh-Hant/System.Windows.Forms.Design.resources.dll",
+        "Length": 145184
+      },
+      {
+        "Name": "zh-Hant/System.Windows.Forms.Primitives.resources.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "zh-Hant/System.Windows.Forms.resources.dll",
+        "Length": 325400
+      },
+      {
+        "Name": "zh-Hant/System.Windows.Input.Manipulations.resources.dll",
+        "Length": 16544
+      },
+      {
+        "Name": "zh-Hant/System.Xaml.resources.dll",
+        "Length": 60592
+      },
+      {
+        "Name": "zh-Hant/UIAutomationClient.resources.dll",
+        "Length": 19616
+      },
+      {
+        "Name": "zh-Hant/UIAutomationClientSideProviders.resources.dll",
+        "Length": 20656
+      },
+      {
+        "Name": "zh-Hant/UIAutomationProvider.resources.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "zh-Hant/UIAutomationTypes.resources.dll",
+        "Length": 18592
+      },
+      {
+        "Name": "zh-Hant/WindowsBase.resources.dll",
+        "Length": 80544
+      },
+      {
+        "Name": "zh-Hant/WindowsFormsIntegration.resources.dll",
+        "Length": 16032
+      },
+      {
+        "Name": "Accessibility.dll",
+        "Length": 21256
+      },
+      {
+        "Name": "AlphaChiTech.Virtualization.dll",
+        "Length": 52736
+      },
+      {
+        "Name": "BruTile.dll",
+        "Length": 203264
+      },
+      {
+        "Name": "clretwrc.dll",
+        "Length": 311064
+      },
+      {
+        "Name": "clrgc.dll",
+        "Length": 672024
+      },
+      {
+        "Name": "clrjit.dll",
+        "Length": 1787656
+      },
+      {
+        "Name": "CommunityToolkit.Mvvm.dll",
+        "Length": 117392
+      },
+      {
+        "Name": "coreclr.dll",
+        "Length": 5035288
+      },
+      {
+        "Name": "CountryFlag.Wpf.dll",
+        "Length": 3516416
+      },
+      {
+        "Name": "createdump.exe",
+        "Length": 65856
+      },
+      {
+        "Name": "D3DCompiler_47_cor3.dll",
+        "Length": 4916840
+      },
+      {
+        "Name": "DirectWriteForwarder.dll",
+        "Length": 497944
+      },
+      {
+        "Name": "DisableWFN.cmd",
+        "Length": 950
+      },
+      {
+        "Name": "ExCSS.dll",
+        "Length": 344064
+      },
+      {
+        "Name": "HarfBuzzSharp.dll",
+        "Length": 117184
+      },
+      {
+        "Name": "hostfxr.dll",
+        "Length": 354576
+      },
+      {
+        "Name": "hostpolicy.dll",
+        "Length": 399120
+      },
+      {
+        "Name": "Interop.NetFwTypeLib.dll",
+        "Length": 22016
+      },
+      {
+        "Name": "libHarfBuzzSharp.dll",
+        "Length": 1607104
+      },
+      {
+        "Name": "libSkiaSharp.dll",
+        "Length": 9414064
+      },
+      {
+        "Name": "LICENSE.txt",
+        "Length": 793
+      },
+      {
+        "Name": "LiveChartsCore.dll",
+        "Length": 630784
+      },
+      {
+        "Name": "LiveChartsCore.SkiaSharpView.dll",
+        "Length": 133632
+      },
+      {
+        "Name": "LiveChartsCore.SkiaSharpView.WPF.dll",
+        "Length": 55808
+      },
+      {
+        "Name": "log4net.dll",
+        "Length": 262144
+      },
+      {
+        "Name": "Mapsui.dll",
+        "Length": 308224
+      },
+      {
+        "Name": "Mapsui.Nts.dll",
+        "Length": 152576
+      },
+      {
+        "Name": "Mapsui.Rendering.Skia.dll",
+        "Length": 84480
+      },
+      {
+        "Name": "Mapsui.Tiling.dll",
+        "Length": 42496
+      },
+      {
+        "Name": "Mapsui.UI.Wpf.dll",
+        "Length": 26112
+      },
+      {
+        "Name": "MaxMind.Db.dll",
+        "Length": 44544
+      },
+      {
+        "Name": "MaxMind.GeoIP2.dll",
+        "Length": 58368
+      },
+      {
+        "Name": "Microsoft.CSharp.dll",
+        "Length": 1005728
+      },
+      {
+        "Name": "Microsoft.DiaSymReader.Native.amd64.dll",
+        "Length": 1925056
+      },
+      {
+        "Name": "Microsoft.Extensions.Configuration.Abstractions.dll",
+        "Length": 27936
+      },
+      {
+        "Name": "Microsoft.Extensions.Configuration.Binder.dll",
+        "Length": 42776
+      },
+      {
+        "Name": "Microsoft.Extensions.Configuration.dll",
+        "Length": 43800
+      },
+      {
+        "Name": "Microsoft.Extensions.Configuration.FileExtensions.dll",
+        "Length": 27936
+      },
+      {
+        "Name": "Microsoft.Extensions.Configuration.Json.dll",
+        "Length": 26784
+      },
+      {
+        "Name": "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "Length": 64288
+      },
+      {
+        "Name": "Microsoft.Extensions.FileProviders.Abstractions.dll",
+        "Length": 22176
+      },
+      {
+        "Name": "Microsoft.Extensions.FileProviders.Physical.dll",
+        "Length": 44808
+      },
+      {
+        "Name": "Microsoft.Extensions.FileSystemGlobbing.dll",
+        "Length": 45848
+      },
+      {
+        "Name": "Microsoft.Extensions.Options.dll",
+        "Length": 64672
+      },
+      {
+        "Name": "Microsoft.Extensions.Primitives.dll",
+        "Length": 43680
+      },
+      {
+        "Name": "Microsoft.VisualBasic.Core.dll",
+        "Length": 1247512
+      },
+      {
+        "Name": "Microsoft.VisualBasic.dll",
+        "Length": 19104
+      },
+      {
+        "Name": "Microsoft.VisualBasic.Forms.dll",
+        "Length": 248080
+      },
+      {
+        "Name": "Microsoft.Win32.Primitives.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "Microsoft.Win32.Registry.AccessControl.dll",
+        "Length": 35088
+      },
+      {
+        "Name": "Microsoft.Win32.Registry.dll",
+        "Length": 121104
+      },
+      {
+        "Name": "Microsoft.Win32.SystemEvents.dll",
+        "Length": 96528
+      },
+      {
+        "Name": "mscordaccore_amd64_amd64_8.0.524.21615.dll",
+        "Length": 1337248
+      },
+      {
+        "Name": "mscordaccore.dll",
+        "Length": 1337248
+      },
+      {
+        "Name": "mscordbi.dll",
+        "Length": 1241504
+      },
+      {
+        "Name": "mscorlib.dll",
+        "Length": 59656
+      },
+      {
+        "Name": "mscorrc.dll",
+        "Length": 136968
+      },
+      {
+        "Name": "msquic.dll",
+        "Length": 538136
+      },
+      {
+        "Name": "netstandard.dll",
+        "Length": 101136
+      },
+      {
+        "Name": "NetTopologySuite.dll",
+        "Length": 774144
+      },
+      {
+        "Name": "NetTopologySuite.Features.dll",
+        "Length": 12288
+      },
+      {
+        "Name": "NetTopologySuite.IO.GeoJSON4STJ.dll",
+        "Length": 36864
+      },
+      {
+        "Name": "Newtonsoft.Json.dll",
+        "Length": 711952
+      },
+      {
+        "Name": "Notifier.deps.json",
+        "Length": 85198
+      },
+      {
+        "Name": "Notifier.dll",
+        "Length": 459776
+      },
+      {
+        "Name": "Notifier.exe",
+        "Length": 154112
+      },
+      {
+        "Name": "Notifier.pdb",
+        "Length": 37312
+      },
+      {
+        "Name": "Notifier.runtimeconfig.json",
+        "Length": 466
+      },
+      {
+        "Name": "PenImc_cor3.dll",
+        "Length": 157360
+      },
+      {
+        "Name": "PresentationCore.dll",
+        "Length": 8542472
+      },
+      {
+        "Name": "PresentationFramework-SystemCore.dll",
+        "Length": 39176
+      },
+      {
+        "Name": "PresentationFramework-SystemData.dll",
+        "Length": 35096
+      },
+      {
+        "Name": "PresentationFramework-SystemDrawing.dll",
+        "Length": 35080
+      },
+      {
+        "Name": "PresentationFramework-SystemXml.dll",
+        "Length": 35104
+      },
+      {
+        "Name": "PresentationFramework-SystemXmlLinq.dll",
+        "Length": 31000
+      },
+      {
+        "Name": "PresentationFramework.Aero.dll",
+        "Length": 444704
+      },
+      {
+        "Name": "PresentationFramework.Aero2.dll",
+        "Length": 448784
+      },
+      {
+        "Name": "PresentationFramework.AeroLite.dll",
+        "Length": 239888
+      },
+      {
+        "Name": "PresentationFramework.Classic.dll",
+        "Length": 272664
+      },
+      {
+        "Name": "PresentationFramework.dll",
+        "Length": 16124168
+      },
+      {
+        "Name": "PresentationFramework.Luna.dll",
+        "Length": 669976
+      },
+      {
+        "Name": "PresentationFramework.Royale.dll",
+        "Length": 334096
+      },
+      {
+        "Name": "PresentationNative_cor3.dll",
+        "Length": 1241248
+      },
+      {
+        "Name": "PresentationUI.dll",
+        "Length": 1288456
+      },
+      {
+        "Name": "ReachFramework.dll",
+        "Length": 1603848
+      },
+      {
+        "Name": "ShimSkiaSharp.dll",
+        "Length": 155136
+      },
+      {
+        "Name": "SkiaSharp.dll",
+        "Length": 432560
+      },
+      {
+        "Name": "SkiaSharp.HarfBuzz.dll",
+        "Length": 21936
+      },
+      {
+        "Name": "SkiaSharp.Views.Desktop.Common.dll",
+        "Length": 27072
+      },
+      {
+        "Name": "SkiaSharp.Views.WPF.dll",
+        "Length": 22448
+      },
+      {
+        "Name": "Svg.Custom.dll",
+        "Length": 729600
+      },
+      {
+        "Name": "Svg.Model.dll",
+        "Length": 143872
+      },
+      {
+        "Name": "Svg.Skia.dll",
+        "Length": 51712
+      },
+      {
+        "Name": "System.AppContext.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Buffers.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.CodeDom.dll",
+        "Length": 489736
+      },
+      {
+        "Name": "System.Collections.Concurrent.dll",
+        "Length": 276744
+      },
+      {
+        "Name": "System.Collections.dll",
+        "Length": 260360
+      },
+      {
+        "Name": "System.Collections.Immutable.dll",
+        "Length": 837896
+      },
+      {
+        "Name": "System.Collections.NonGeneric.dll",
+        "Length": 104712
+      },
+      {
+        "Name": "System.Collections.Specialized.dll",
+        "Length": 104728
+      },
+      {
+        "Name": "System.ComponentModel.Annotations.dll",
+        "Length": 198920
+      },
+      {
+        "Name": "System.ComponentModel.DataAnnotations.dll",
+        "Length": 17168
+      },
+      {
+        "Name": "System.ComponentModel.dll",
+        "Length": 31000
+      },
+      {
+        "Name": "System.ComponentModel.EventBasedAsync.dll",
+        "Length": 47368
+      },
+      {
+        "Name": "System.ComponentModel.Primitives.dll",
+        "Length": 80136
+      },
+      {
+        "Name": "System.ComponentModel.TypeConverter.dll",
+        "Length": 743712
+      },
+      {
+        "Name": "System.Configuration.ConfigurationManager.dll",
+        "Length": 1075464
+      },
+      {
+        "Name": "System.Configuration.dll",
+        "Length": 19736
+      },
+      {
+        "Name": "System.Console.dll",
+        "Length": 174352
+      },
+      {
+        "Name": "System.Core.dll",
+        "Length": 23816
+      },
+      {
+        "Name": "System.Data.Common.dll",
+        "Length": 2861320
+      },
+      {
+        "Name": "System.Data.DataSetExtensions.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Data.dll",
+        "Length": 25352
+      },
+      {
+        "Name": "System.Design.dll",
+        "Length": 22176
+      },
+      {
+        "Name": "System.Device.dll",
+        "Length": 64792
+      },
+      {
+        "Name": "System.Diagnostics.Contracts.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.Diagnostics.Debug.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Diagnostics.DiagnosticSource.dll",
+        "Length": 416008
+      },
+      {
+        "Name": "System.Diagnostics.EventLog.dll",
+        "Length": 387336
+      },
+      {
+        "Name": "System.Diagnostics.EventLog.Messages.dll",
+        "Length": 801032
+      },
+      {
+        "Name": "System.Diagnostics.FileVersionInfo.dll",
+        "Length": 47368
+      },
+      {
+        "Name": "System.Diagnostics.PerformanceCounter.dll",
+        "Length": 289048
+      },
+      {
+        "Name": "System.Diagnostics.Process.dll",
+        "Length": 338184
+      },
+      {
+        "Name": "System.Diagnostics.StackTrace.dll",
+        "Length": 47368
+      },
+      {
+        "Name": "System.Diagnostics.TextWriterTraceListener.dll",
+        "Length": 67848
+      },
+      {
+        "Name": "System.Diagnostics.Tools.dll",
+        "Length": 15640
+      },
+      {
+        "Name": "System.Diagnostics.TraceSource.dll",
+        "Length": 145680
+      },
+      {
+        "Name": "System.Diagnostics.Tracing.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.DirectoryServices.dll",
+        "Length": 1046816
+      },
+      {
+        "Name": "System.dll",
+        "Length": 50440
+      },
+      {
+        "Name": "System.Drawing.Common.dll",
+        "Length": 610992
+      },
+      {
+        "Name": "System.Drawing.Design.dll",
+        "Length": 15520
+      },
+      {
+        "Name": "System.Drawing.dll",
+        "Length": 21664
+      },
+      {
+        "Name": "System.Drawing.Primitives.dll",
+        "Length": 133400
+      },
+      {
+        "Name": "System.Dynamic.Runtime.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.Formats.Asn1.dll",
+        "Length": 243984
+      },
+      {
+        "Name": "System.Formats.Tar.dll",
+        "Length": 272672
+      },
+      {
+        "Name": "System.Globalization.Calendars.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Globalization.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Globalization.Extensions.dll",
+        "Length": 15632
+      },
+      {
+        "Name": "System.IO.Compression.Brotli.dll",
+        "Length": 84232
+      },
+      {
+        "Name": "System.IO.Compression.dll",
+        "Length": 264456
+      },
+      {
+        "Name": "System.IO.Compression.FileSystem.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.IO.Compression.Native.dll",
+        "Length": 835848
+      },
+      {
+        "Name": "System.IO.Compression.ZipFile.dll",
+        "Length": 55560
+      },
+      {
+        "Name": "System.IO.dll",
+        "Length": 16160
+      },
+      {
+        "Name": "System.IO.FileSystem.AccessControl.dll",
+        "Length": 104720
+      },
+      {
+        "Name": "System.IO.FileSystem.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.IO.FileSystem.DriveInfo.dll",
+        "Length": 55576
+      },
+      {
+        "Name": "System.IO.FileSystem.Primitives.dll",
+        "Length": 15632
+      },
+      {
+        "Name": "System.IO.FileSystem.Watcher.dll",
+        "Length": 88328
+      },
+      {
+        "Name": "System.IO.IsolatedStorage.dll",
+        "Length": 92336
+      },
+      {
+        "Name": "System.IO.MemoryMappedFiles.dll",
+        "Length": 84248
+      },
+      {
+        "Name": "System.IO.Packaging.dll",
+        "Length": 289032
+      },
+      {
+        "Name": "System.IO.Pipes.AccessControl.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.IO.Pipes.dll",
+        "Length": 166152
+      },
+      {
+        "Name": "System.IO.UnmanagedMemoryStream.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Linq.dll",
+        "Length": 542984
+      },
+      {
+        "Name": "System.Linq.Dynamic.Core.dll",
+        "Length": 215552
+      },
+      {
+        "Name": "System.Linq.Expressions.dll",
+        "Length": 3676424
+      },
+      {
+        "Name": "System.Linq.Parallel.dll",
+        "Length": 805144
+      },
+      {
+        "Name": "System.Linq.Queryable.dll",
+        "Length": 174344
+      },
+      {
+        "Name": "System.Management.dll",
+        "Length": 311984
+      },
+      {
+        "Name": "System.Memory.dll",
+        "Length": 157960
+      },
+      {
+        "Name": "System.Net.dll",
+        "Length": 17672
+      },
+      {
+        "Name": "System.Net.Http.dll",
+        "Length": 1730824
+      },
+      {
+        "Name": "System.Net.Http.Json.dll",
+        "Length": 129304
+      },
+      {
+        "Name": "System.Net.HttpListener.dll",
+        "Length": 551192
+      },
+      {
+        "Name": "System.Net.Mail.dll",
+        "Length": 432416
+      },
+      {
+        "Name": "System.Net.NameResolution.dll",
+        "Length": 112904
+      },
+      {
+        "Name": "System.Net.NetworkInformation.dll",
+        "Length": 157960
+      },
+      {
+        "Name": "System.Net.Ping.dll",
+        "Length": 96520
+      },
+      {
+        "Name": "System.Net.Primitives.dll",
+        "Length": 231688
+      },
+      {
+        "Name": "System.Net.Quic.dll",
+        "Length": 280752
+      },
+      {
+        "Name": "System.Net.Requests.dll",
+        "Length": 346400
+      },
+      {
+        "Name": "System.Net.Security.dll",
+        "Length": 669976
+      },
+      {
+        "Name": "System.Net.ServicePoint.dll",
+        "Length": 47384
+      },
+      {
+        "Name": "System.Net.Sockets.dll",
+        "Length": 542992
+      },
+      {
+        "Name": "System.Net.WebClient.dll",
+        "Length": 170248
+      },
+      {
+        "Name": "System.Net.WebHeaderCollection.dll",
+        "Length": 67864
+      },
+      {
+        "Name": "System.Net.WebProxy.dll",
+        "Length": 43288
+      },
+      {
+        "Name": "System.Net.WebSockets.Client.dll",
+        "Length": 100616
+      },
+      {
+        "Name": "System.Net.WebSockets.dll",
+        "Length": 190640
+      },
+      {
+        "Name": "System.Numerics.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Numerics.Vectors.dll",
+        "Length": 16144
+      },
+      {
+        "Name": "System.ObjectModel.dll",
+        "Length": 80136
+      },
+      {
+        "Name": "System.Printing.dll",
+        "Length": 964880
+      },
+      {
+        "Name": "System.Private.CoreLib.dll",
+        "Length": 13170952
+      },
+      {
+        "Name": "System.Private.DataContractSerialization.dll",
+        "Length": 2083080
+      },
+      {
+        "Name": "System.Private.Uri.dll",
+        "Length": 260376
+      },
+      {
+        "Name": "System.Private.Xml.dll",
+        "Length": 7989424
+      },
+      {
+        "Name": "System.Private.Xml.Linq.dll",
+        "Length": 403720
+      },
+      {
+        "Name": "System.Reflection.DispatchProxy.dll",
+        "Length": 76040
+      },
+      {
+        "Name": "System.Reflection.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.Reflection.Emit.dll",
+        "Length": 129304
+      },
+      {
+        "Name": "System.Reflection.Emit.ILGeneration.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Reflection.Emit.Lightweight.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Reflection.Extensions.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Reflection.Metadata.dll",
+        "Length": 1116424
+      },
+      {
+        "Name": "System.Reflection.Primitives.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Reflection.TypeExtensions.dll",
+        "Length": 43272
+      },
+      {
+        "Name": "System.Resources.Extensions.dll",
+        "Length": 137480
+      },
+      {
+        "Name": "System.Resources.Reader.dll",
+        "Length": 15648
+      },
+      {
+        "Name": "System.Resources.ResourceManager.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Resources.Writer.dll",
+        "Length": 51472
+      },
+      {
+        "Name": "System.Runtime.CompilerServices.Unsafe.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Runtime.CompilerServices.VisualC.dll",
+        "Length": 31000
+      },
+      {
+        "Name": "System.Runtime.dll",
+        "Length": 43784
+      },
+      {
+        "Name": "System.Runtime.Extensions.dll",
+        "Length": 18192
+      },
+      {
+        "Name": "System.Runtime.Handles.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Runtime.InteropServices.dll",
+        "Length": 96528
+      },
+      {
+        "Name": "System.Runtime.InteropServices.JavaScript.dll",
+        "Length": 51464
+      },
+      {
+        "Name": "System.Runtime.InteropServices.RuntimeInformation.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Runtime.Intrinsics.dll",
+        "Length": 17160
+      },
+      {
+        "Name": "System.Runtime.Loader.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Runtime.Numerics.dll",
+        "Length": 329992
+      },
+      {
+        "Name": "System.Runtime.Serialization.dll",
+        "Length": 17176
+      },
+      {
+        "Name": "System.Runtime.Serialization.Formatters.dll",
+        "Length": 309536
+      },
+      {
+        "Name": "System.Runtime.Serialization.Json.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Runtime.Serialization.Primitives.dll",
+        "Length": 39176
+      },
+      {
+        "Name": "System.Runtime.Serialization.Xml.dll",
+        "Length": 17160
+      },
+      {
+        "Name": "System.Security.AccessControl.dll",
+        "Length": 231696
+      },
+      {
+        "Name": "System.Security.Claims.dll",
+        "Length": 100640
+      },
+      {
+        "Name": "System.Security.Cryptography.Algorithms.dll",
+        "Length": 17680
+      },
+      {
+        "Name": "System.Security.Cryptography.Cng.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.Security.Cryptography.Csp.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Security.Cryptography.dll",
+        "Length": 2046216
+      },
+      {
+        "Name": "System.Security.Cryptography.Encoding.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Security.Cryptography.OpenSsl.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Security.Cryptography.Pkcs.dll",
+        "Length": 760080
+      },
+      {
+        "Name": "System.Security.Cryptography.Primitives.dll",
+        "Length": 16144
+      },
+      {
+        "Name": "System.Security.Cryptography.ProtectedData.dll",
+        "Length": 55568
+      },
+      {
+        "Name": "System.Security.Cryptography.X509Certificates.dll",
+        "Length": 17160
+      },
+      {
+        "Name": "System.Security.Cryptography.Xml.dll",
+        "Length": 456984
+      },
+      {
+        "Name": "System.Security.dll",
+        "Length": 18696
+      },
+      {
+        "Name": "System.Security.Permissions.dll",
+        "Length": 186632
+      },
+      {
+        "Name": "System.Security.Principal.dll",
+        "Length": 15632
+      },
+      {
+        "Name": "System.Security.Principal.Windows.dll",
+        "Length": 186640
+      },
+      {
+        "Name": "System.Security.SecureString.dll",
+        "Length": 15640
+      },
+      {
+        "Name": "System.ServiceModel.Web.dll",
+        "Length": 17056
+      },
+      {
+        "Name": "System.ServiceProcess.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.ServiceProcess.ServiceController.dll",
+        "Length": 87728
+      },
+      {
+        "Name": "System.Text.Encoding.CodePages.dll",
+        "Length": 862480
+      },
+      {
+        "Name": "System.Text.Encoding.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Text.Encoding.Extensions.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Text.Encodings.Web.dll",
+        "Length": 133384
+      },
+      {
+        "Name": "System.Text.Json.dll",
+        "Length": 1501448
+      },
+      {
+        "Name": "System.Text.RegularExpressions.dll",
+        "Length": 1022216
+      },
+      {
+        "Name": "System.Threading.AccessControl.dll",
+        "Length": 84232
+      },
+      {
+        "Name": "System.Threading.Channels.dll",
+        "Length": 133408
+      },
+      {
+        "Name": "System.Threading.dll",
+        "Length": 84240
+      },
+      {
+        "Name": "System.Threading.Overlapped.dll",
+        "Length": 16144
+      },
+      {
+        "Name": "System.Threading.Tasks.Dataflow.dll",
+        "Length": 489736
+      },
+      {
+        "Name": "System.Threading.Tasks.dll",
+        "Length": 17160
+      },
+      {
+        "Name": "System.Threading.Tasks.Extensions.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Threading.Tasks.Parallel.dll",
+        "Length": 133400
+      },
+      {
+        "Name": "System.Threading.Thread.dll",
+        "Length": 16144
+      },
+      {
+        "Name": "System.Threading.ThreadPool.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Threading.Timer.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Transactions.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.Transactions.Local.dll",
+        "Length": 661768
+      },
+      {
+        "Name": "System.ValueTuple.dll",
+        "Length": 15624
+      },
+      {
+        "Name": "System.Web.dll",
+        "Length": 15632
+      },
+      {
+        "Name": "System.Web.HttpUtility.dll",
+        "Length": 59656
+      },
+      {
+        "Name": "System.Windows.Controls.Ribbon.dll",
+        "Length": 1452304
+      },
+      {
+        "Name": "System.Windows.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Windows.Extensions.dll",
+        "Length": 117008
+      },
+      {
+        "Name": "System.Windows.Forms.Design.dll",
+        "Length": 5564680
+      },
+      {
+        "Name": "System.Windows.Forms.Design.Editors.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.Windows.Forms.dll",
+        "Length": 13560088
+      },
+      {
+        "Name": "System.Windows.Forms.Primitives.dll",
+        "Length": 3012880
+      },
+      {
+        "Name": "System.Windows.Input.Manipulations.dll",
+        "Length": 137488
+      },
+      {
+        "Name": "System.Windows.Presentation.dll",
+        "Length": 30984
+      },
+      {
+        "Name": "System.Xaml.dll",
+        "Length": 1419528
+      },
+      {
+        "Name": "System.Xml.dll",
+        "Length": 23816
+      },
+      {
+        "Name": "System.Xml.Linq.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Xml.ReaderWriter.dll",
+        "Length": 22280
+      },
+      {
+        "Name": "System.Xml.Serialization.dll",
+        "Length": 16648
+      },
+      {
+        "Name": "System.Xml.XDocument.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Xml.XmlDocument.dll",
+        "Length": 16152
+      },
+      {
+        "Name": "System.Xml.XmlSerializer.dll",
+        "Length": 18184
+      },
+      {
+        "Name": "System.Xml.XPath.dll",
+        "Length": 16136
+      },
+      {
+        "Name": "System.Xml.XPath.XDocument.dll",
+        "Length": 31000
+      },
+      {
+        "Name": "Topten.RichTextKit.dll",
+        "Length": 177488
+      },
+      {
+        "Name": "UIAutomationClient.dll",
+        "Length": 416008
+      },
+      {
+        "Name": "UIAutomationClientSideProviders.dll",
+        "Length": 870672
+      },
+      {
+        "Name": "UIAutomationProvider.dll",
+        "Length": 59680
+      },
+      {
+        "Name": "UIAutomationTypes.dll",
+        "Length": 313608
+      },
+      {
+        "Name": "vcruntime140_cor3.dll",
+        "Length": 119376
+      },
+      {
+        "Name": "WFN.config.log4net",
+        "Length": 2464
+      },
+      {
+        "Name": "WFN.deps.json",
+        "Length": 104985
+      },
+      {
+        "Name": "WFN.dll",
+        "Length": 2646016
+      },
+      {
+        "Name": "WFN.exe",
+        "Length": 175616
+      },
+      {
+        "Name": "WFN.pdb",
+        "Length": 148152
+      },
+      {
+        "Name": "WFN.runtimeconfig.json",
+        "Length": 466
+      },
+      {
+        "Name": "WindowsBase.dll",
+        "Length": 2255112
+      },
+      {
+        "Name": "WindowsFormsIntegration.dll",
+        "Length": 211208
+      },
+      {
+        "Name": "Wokhan.Core.dll",
+        "Length": 54784
+      },
+      {
+        "Name": "Wokhan.UI.dll",
+        "Length": 44032
+      },
+      {
+        "Name": "Wokhan.WindowsFirewallNotifier.Common.deps.json",
+        "Length": 85980
+      },
+      {
+        "Name": "Wokhan.WindowsFirewallNotifier.Common.dll",
+        "Length": 379392
+      },
+      {
+        "Name": "Wokhan.WindowsFirewallNotifier.Common.dll.config",
+        "Length": 4964
+      },
+      {
+        "Name": "Wokhan.WindowsFirewallNotifier.Common.pdb",
+        "Length": 169712
+      },
+      {
+        "Name": "wpfgfx_cor3.dll",
+        "Length": 1958560
+      }
+    ]
+  },
+  "Disposition": {
+    "LegacyOutcomeClosed": false,
+    "Resolved": [
+      "Exact publisher asset and version pinned",
+      "Local SHA-256 matches published digest",
+      "Static complete archive inventory and safe paths",
+      "Both archive license/attribution files identified and retained"
+    ],
+    "Deferred": [
+      "Package lifecycle and explicit firewall-policy preservation/recovery implementation",
+      "Windows 11 lifecycle acceptance"
+    ],
+    "WindowsServerSupport": "Unsupported by publisher and not selected"
+  },
+  "Changes": [
+    "Acquired the user-selected asset from the official publisher URL.",
+    "Performed static ZIP inspection only; did not execute any payload.",
+    "No package implementation, Defender, VM, or Windows state changed."
+  ],
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "50-65",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

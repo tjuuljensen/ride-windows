@@ -1,0 +1,30 @@
+{
+  "RecordedAtUtc": "2026-10-25T05:12:00Z",
+  "Target": [
+    "RIDE-Win11-Test",
+    "RIDE-Srv2025Test"
+  ],
+  "Command": "Import-Module Hyper-V; Get-VM -Name RIDE-Win11-Test,RIDE-Srv2025Test",
+  "Result": "Failed before VM or checkpoint inspection: Access to a CIM resource was not available to the client.",
+  "Elevation": {
+    "FreshUacRequested": false,
+    "Session": "Current repository PowerShell session; elevation status not independently queried"
+  },
+  "StateChanged": false,
+  "Disposition": {
+    "VmAcceptanceStarted": false,
+    "ExistingControllerCheckpointInspected": false,
+    "DeferredScenariosChanged": false,
+    "MigrationEstimateChanged": false,
+    "NextStep": "Resume registered VM acceptance from the approved elevated controller session when available; continue independent local/source-review work meanwhile."
+  },
+  "MigrationEstimates": {
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "AccountsFiles": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

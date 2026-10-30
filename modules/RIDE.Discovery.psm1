@@ -77,7 +77,7 @@ function Get-RideCatalogViews {
     [string] $CatalogPath = (Join-Path $PSScriptRoot '../catalog/operations.psd1')
   )
   if ($null -eq $Catalog) { $Catalog = Import-RideCatalogData -Path $CatalogPath -ErrorAction Stop }
-  $views = @('all', 'packages', 'artifacts', 'groups', 'settings', 'store-apps')
+  $views = @('all', 'packages', 'artifacts', 'groups', 'settings', 'store-apps', 'components')
   if ($IncludeProfiles) { $views += 'profiles' }
   foreach ($entry in @($Catalog.Operations) + @($Catalog.Groups)) {
     $parts = @(([string]$entry.Category) -split '\s*/\s*')
@@ -119,6 +119,9 @@ function Get-RideCatalogRows {
       Path = ''
       Description = $entry.Description
       SupportedTargets = @(if ($entry.ContainsKey('SupportedTargets')) { $entry.SupportedTargets })
+      CandidateTargets = @(if ($entry.ContainsKey('CandidateTargets')) { $entry.CandidateTargets })
+      PendingAcceptance = if ($entry.ContainsKey('PendingAcceptance')) { [bool]$entry.PendingAcceptance } else { $false }
+      RequiredCapabilityName = if ($entry.ContainsKey('RequiredCapabilityName')) { [string]$entry.RequiredCapabilityName } else { $null }
       Variants = @(if ($entry.Variants) { $entry.Variants.Keys | Sort-Object } elseif ($entry.Kind -eq 'Package') { 'installed' })
       DefaultVariant = if ($entry.DefaultVariant) { $entry.DefaultVariant } elseif ($entry.Kind -eq 'Package') { 'installed' } else { $null }
       ProductUri = $entry.ProductUri
@@ -184,7 +187,8 @@ function Select-RideCatalogView {
       'artifacts' { $row.Type -eq 'Operation' -and $row.Kind -eq 'Artifact'; break }
       'groups' { $row.Type -eq 'Group'; break }
       'store-apps' { $row.Type -eq 'Operation' -and $row.Kind -eq 'StoreApp'; break }
-      'settings' { $row.Type -eq 'Operation' -and $row.Kind -notin @('Package', 'Artifact', 'StoreApp'); break }
+      'settings' { $row.Type -eq 'Operation' -and $row.Kind -notin @('Package', 'Artifact', 'StoreApp', 'WindowsCapability') -and -not ($row.Kind -eq 'WindowsService' -and $row.RequiredCapabilityName); break }
+      'components' { $row.Type -eq 'Operation' -and ($row.Kind -in @('WindowsCapability', 'StoreApp') -or ($row.Kind -eq 'WindowsService' -and [bool]$row.RequiredCapabilityName)); break }
       default {
         $parts = @(([string]$row.Category) -split '\s*/\s*' | ForEach-Object { ConvertTo-RideViewKey $_ })
         $row.Type -ne 'Profile' -and ($viewKey -in $parts -or

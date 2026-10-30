@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T18:42:09Z",
+  "batch": "Current repository and catalog validation after migration review",
+  "command": "pwsh.exe -NoLogo -NoProfile -File .\\tools\\validate.ps1 -Root .",
+  "runtime": {
+    "powershell": "7.6.5"
+  },
+  "result": {
+    "status": "Passed",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 301,
+    "generatedOperationDocumentation": "Current"
+  },
+  "currentCatalogCounts": {
+    "operationsWithSettingPresentation": 300,
+    "pendingSettingPresentationCandidates": 39,
+    "packageOperations": 119,
+    "pendingAcceptancePackages": 49,
+    "storeAppDeclarations": 22,
+    "standaloneArtifacts": 4
+  },
+  "coverageBoundary": {
+    "pesterAssertionsRun": false,
+    "vmOrCheckpointAccessed": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; validation and refreshed catalog counts close no legacy outcome."
+  },
+  "runtimeNote": "PowerShell emitted an InitializeDefaultDrives FileSystem-provider warning at startup; repository validation completed successfully."
+}

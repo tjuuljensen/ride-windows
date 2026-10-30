@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:52:55Z",
+  "batch": "Wireshark retained MSI digest and Authenticode recheck",
+  "artifact": {
+    "path": ".local/wireshark-review/cache/wireshark/4.6.9/Wireshark-4.6.9-x64.msi",
+    "sourceUri": "https://www.wireshark.org/download/win64/all-versions/Wireshark-4.6.9-x64.msi",
+    "bytes": 80433152,
+    "sha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "catalogPinMatch": true,
+    "officialPublisherChecksumMatch": true,
+    "authenticodeStatus": "Valid",
+    "signer": "CN=Wireshark Foundation, O=Wireshark Foundation, L=Davis, S=California, C=US",
+    "signerThumbprint": "2A47694B41567B4D0D58DCA5289393C0A84F0EA4",
+    "timestampSigner": "CN=Microsoft Public RSA Time Stamping Authority, OU=nShield TSS ESN:7D00-05E0-D947, OU=Microsoft America Operations, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+  },
+  "handling": {
+    "fileReadForHash": true,
+    "msiDatabaseOpened": false,
+    "installerExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The retained official MSI still matches its catalog SHA-256 and current official publisher checksum; Authenticode validates under Wireshark Foundation with a Microsoft timestamp signature."
+    ],
+    "partial": [
+      "Artifact identity and signature are current, but Windows install/repeat/remove/saved-state recovery and existing-installation transitions remain incomplete."
+    ],
+    "deferred": [
+      "Complete Windows 11 and Server 2025 lifecycle acceptance, including shared Visual C++ runtime behavior, associations, user data, and broader recovery."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; current artifact verification resolves no missing Windows lifecycle outcome."
+    }
+  },
+  "relatedEvidence": [
+    "wireshark-4.6.9-publisher-checksum-recheck-2026-10-28-0951.json",
+    "wireshark-4.6.9-msi-database-inspection-2026-10-25-1548.json"
+  ]
+}

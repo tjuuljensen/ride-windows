@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-24T20:01:11Z",
+  "runId": "e0b7da88f3854430a5a98a1b53ccac88",
+  "controller": "RIDESrv2025Test",
+  "target": "RIDE-S25-Test",
+  "checkpoint": "RIDE-clean-test-base",
+  "suite": "ApplicationsBatch8",
+  "request": {
+    "source": "Local",
+    "unitOnly": false,
+    "timeoutMinutes": 180,
+    "submittedAtUtc": "2026-10-24T19:59:14.4841898Z"
+  },
+  "sourceSnapshot": {
+    "modules/RIDE-Packages.psm1": {
+      "sha256": "0CA86FE41EEA2721B1298ED5CE40B53287135EC173433A96303820616C9545C5",
+      "matchesCurrentWorktree": true
+    },
+    "tests/ApplicationPackages.Tests.ps1": {
+      "sha256": "54AB16D20E3B5C1DF0A508BB1C028119461361F79E0270A408FDDFDCC8D5599E",
+      "matchesCurrentWorktree": true
+    },
+    "tests/integration/Invoke-RideApplicationBatch.ps1": {
+      "sha256": "F15B25FD5D2D66CF1B0C5B443A9E4DA184CB2FF47B1C748AA40F1FB81BFD0C59",
+      "matchesCurrentWorktree": true
+    }
+  },
+  "observedState": {
+    "queueState": "running",
+    "controllerLastActivityLocal": "2026-10-24T22:01:57",
+    "controllerActivity": "Waiting for completion of the guest lab command",
+    "controllerErrorsLength": 0,
+    "guestResultPresent": false,
+    "runtimeBlockedMarkerPresent": false
+  },
+  "disposition": "Preserve the existing serialized request; do not duplicate or interrupt it. Keep production Server target support unset pending full acceptance.",
+  "estimateImpact": "No migration outcome has closed; all estimate ranges remain unchanged."
+}

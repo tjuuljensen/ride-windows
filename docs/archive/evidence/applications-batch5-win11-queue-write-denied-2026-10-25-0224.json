@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T02:24:58Z",
+  "Batch": "ApplicationsBatch5 Microsoft Visual C++ v14 Windows 11 acceptance submission",
+  "Controller": {
+    "VmName": "RIDE-Win11-Test",
+    "ConfigurationPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\configuration.json",
+    "Capabilities": ["GitHubPatGuestV1", "FocusedPortableV1"],
+    "RecoveryBlockPresentBeforeSubmission": false,
+    "PendingAndRunningQueuesEmptyBeforeSubmission": true,
+    "WorkerLockFreeBeforeSubmission": true
+  },
+  "Request": {
+    "IntegrationSuite": "ApplicationsBatch5",
+    "ClientRequestId": "44da5eeb8e34495db5ab350286d98ef5",
+    "Outcome": "Denied before enqueue while creating the queue temporary request file",
+    "Error": "Access to C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\queue\\pending\\44da5eeb8e34495db5ab350286d98ef5.json.ce0af82c6b4f458da3f9cb2170d535f2.tmp was denied.",
+    "ElevationRequested": false
+  },
+  "PostAttempt": {
+    "PendingRequestExists": false,
+    "RunningRequestExists": false,
+    "TemporaryRequestFileExists": false,
+    "PendingQueueCount": 0,
+    "RunningQueueCount": 0,
+    "RecoveryBlockPresent": false,
+    "WorkerLockFree": true
+  },
+  "SideEffects": {
+    "VmTaskCreated": false,
+    "VmOrCheckpointChanged": false,
+    "InstallerDownloadedOrExecuted": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false
+  },
+  "Acceptance": {
+    "Package": "package.vcredist-v14-x64",
+    "CandidateTarget": "Windows 11",
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Deferred": ["Install/repeat/remove and exact recovery; safe baseline and shared-runtime preservation checks; Windows 11 target acceptance."]
+  },
+  "MigrationAccounting": {
+    "Resolved": ["The request was denied before creation; the protected runner's pending/running queues remain empty and the disposable VM was not touched."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["ApplicationsBatch5 guest acceptance requires the existing controller queue write permission."],
+    "Partial": ["No legacy outcome closes."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

@@ -194,6 +194,9 @@ Describe 'RIDE metadata libraries' {
       New-Item -ItemType Directory -Path (Join-Path $isolated 'modules'), (Join-Path $isolated 'catalog'), (Join-Path $isolated 'profiles'), (Join-Path $isolated 'components') | Out-Null
       Copy-Item -LiteralPath $script:Runner -Destination $isolated
       Copy-Item -LiteralPath (Join-Path $script:Root 'catalog/operations.psd1') -Destination (Join-Path $isolated 'catalog/operations.psd1')
+      if (Test-Path -LiteralPath (Join-Path $script:Root 'catalog/notices')) {
+        Copy-Item -LiteralPath (Join-Path $script:Root 'catalog/notices') -Destination (Join-Path $isolated 'catalog') -Recurse
+      }
       Copy-Item -LiteralPath (Join-Path $script:Root 'components/profiles') -Destination (Join-Path $isolated 'components') -Recurse
       foreach ($module in @('RIDE.CatalogData.psm1', 'RIDE.CatalogValidation.psm1', 'RIDE.LibrarySchema.psm1', 'RIDE.Libraries.psm1', 'RIDE.Discovery.psm1', 'RIDE.SettingPresentation.psm1')) {
         Copy-Item -LiteralPath (Join-Path $script:Root "modules/$module") -Destination (Join-Path $isolated 'modules')

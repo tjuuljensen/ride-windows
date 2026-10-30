@@ -1,0 +1,41 @@
+{
+  "recordedAtUtc": "2026-10-25T08:39:00Z",
+  "scope": "Current VM controller, split ApplicationsBatch1 dispatch and result-collection regression",
+  "validation": {
+    "file": "tests/TestAutomation.Tests.ps1",
+    "result": "Passed",
+    "discovered": 131,
+    "passed": 129,
+    "failed": 0,
+    "skipped": 2,
+    "warnings": [
+      "Partial evidence unavailable: transcript.log (repeated in negative-path tests)"
+    ],
+    "whatIfOperationsOnly": true
+  },
+  "vmAccess": {
+    "win11Queue": {
+      "pending": 0,
+      "running": 0
+    },
+    "server2025Queue": {
+      "pending": 0,
+      "running": 0
+    },
+    "getVmCimAccess": "Denied: Access to a CIM resource was not available to the client",
+    "vmOrCheckpointInspected": false,
+    "stateChanged": false
+  },
+  "boundary": "The regression verifies local task dispatch, suite capability guards and collection failure paths only. It does not run guest acceptance.",
+  "legacyOutcome": "No legacy outcome closed.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "accountsConfigurationFiles": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  },
+  "nextAction": "From elevated PowerShell, refresh both registered controllers and run current-source Windows 11 split ApplicationsBatch1, PSScriptTools, ApplicationsBatch3 and ApplicationsBatch3AllUsers suites. Keep Server 2025 target acceptance on its own controller."
+}

@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T09:04:21Z",
+  "Batch": "Portable package prerequisite operational-selection fix and license-plan regression",
+  "Environment": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryPluginEnabled": false,
+    "PesterTempRoot": ".local/pester-current"
+  },
+  "Discovery": {
+    "InitialFocusedFiles": [
+      "tests/SysinternalsSuitePackage.Tests.ps1",
+      "tests/SysinternalsProductPackages.Tests.ps1",
+      "tests/LicenseReviews.Tests.ps1"
+    ],
+    "InitialDiscovered": 104,
+    "InitialPassed": 103,
+    "InitialFailed": 1,
+    "InitialSkipped": 0,
+    "Failure": "LicenseReviews pending-package planning case reached Get-RideInstalledPackage with a metadata-only portable prerequisite selection, which lacked its resolved product directory and failed the portable-state boundary."
+  },
+  "Implementation": {
+    "Change": "Package dependency expansion now resolves the selected prerequisite operationally, with preferences ignored, before installed-state inspection and plan emission. It no longer passes a metadata-only selection to an operational package-state handler.",
+    "Regression": "PackageDependencyPlanning asserts the ThreadJob prerequisite in the PSScriptTools plan retains its resolved tools root and exact product install directory."
+  },
+  "FinalFocusedResults": {
+    "PackageDependencyPlanning.Tests.ps1": { "Discovered": 14, "Passed": 14, "Failed": 0, "Skipped": 0 },
+    "LicenseReviews.Tests.ps1": { "Discovered": 21, "Passed": 21, "Failed": 0, "Skipped": 0 },
+    "Combined": { "Discovered": 35, "Passed": 35, "Failed": 0, "Skipped": 0 },
+    "PriorSameTurnSysinternalsSuites": {
+      "SysinternalsSuitePackage.Tests.ps1": { "Passed": 7, "Failed": 0, "Skipped": 0 },
+      "SysinternalsProductPackages.Tests.ps1": { "Passed": 72, "Failed": 0, "Skipped": 0 }
+    },
+    "RepositoryValidation": "Passed: 413 operations, 8 groups, 5 profiles and 277 PowerShell files; generated operation documentation current.",
+    "GitDiffCheck": "Passed"
+  },
+  "Boundaries": {
+    "InstallerRun": false,
+    "PackageDownloaded": false,
+    "ExecutableRun": false,
+    "NetworkAccessed": false,
+    "VmUsed": false,
+    "WindowsStateChanged": false,
+    "DefenderChanged": false,
+    "LicenseGateApplied": false
+  },
+  "MigrationDisposition": {
+    "Resolved": [
+      "Package planning preserves operational portable paths when inspecting the declared ThreadJob prerequisite.",
+      "NeedsReview remains informational for pending package planning; Sysinternals install plans remain ungated."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["PSScriptTools Windows runtime acceptance and remaining package/VM lifecycle checks."],
+    "Partial": ["No full legacy product outcome closes."],
+    "Estimate": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155",
+      "Adjustment": "Unchanged; dependency planning reliability improved, but no full legacy outcome closed."
+    }
+  }
+}

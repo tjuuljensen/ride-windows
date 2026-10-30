@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T16:12:53Z",
+  "batch": "Remaining pending MiTeC product page/version recheck",
+  "products": [
+    {"id":"package.mitec-dfm-editor","catalogVersions":{"delphi-11":"8.3.1.0","delphi-12":"8.4.0.0"},"publisherVersion":"8.4.0; separate Delphi 11 and Delphi 12 variants","sourcePage":"https://www.mitec.cz/wp/mdfme/","downloadUri":"https://www.mitec.cz/wp/files/DFMEdit.zip","versionAssessment":"Matches the declared Delphi-version mapping; no new version identified"},
+    {"id":"package.mitec-xml-viewer","catalogVersion":"6.5.0.0","publisherVersion":"6.5.0","versionDate":"2024-01-18","sourcePage":"https://www.mitec.cz/wp/mxmlv/","downloadUri":"https://www.mitec.cz/wp/files/XMLView.zip","versionAssessment":"Match; catalog retains four-part file version"},
+    {"id":"package.mitec-interbase-query","catalogVersion":"9.5.0","publisherVersion":"9.5.0","versionDate":"2020-12-15","sourcePage":"https://www.mitec.cz/wp/mibq/","downloadUri":"https://www.mitec.cz/wp/files/IBQ.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-ssview","catalogVersion":"4.1.2","publisherVersion":"4.1.2","versionDate":"2022-10-31","sourcePage":"https://www.mitec.cz/wp/mssv/","downloadUri":"https://www.mitec.cz/wp/files/SSView.zip","versionAssessment":"Match"},
+    {"id":"package.mitec-tapi-monitor","catalogVersion":"1.2.0","publisherVersion":"1.2.0","versionDate":"2025-07-25","sourcePage":"https://www.mitec.cz/wp/mtapimon/","downloadUri":"https://www.mitec.cz/wp/files/TAPIMon.zip","versionAssessment":"Match"}
+  ],
+  "catalogAndLocalReviewAudit": {
+    "allFivePendingTechnicalAcceptance": true,
+    "allExactVersionsHaveNeedsReviewUnassignedRecords": true,
+    "reviewRecordsAreMigrationGates": false
+  },
+  "technicalNotes": [
+    "DFM Editor can edit/create Delphi forms and extract forms from executables; variants remain isolated and no form or executable was opened.",
+    "Interbase Query can edit database objects/users/roles, grants, database state and SQL; no database connection or query was made.",
+    "Structured Storage Viewer can add, edit, remove, rename and save embedded streams; no user document was opened or modified.",
+    "TAPI Monitor can initiate or control calls; no telephone line, provider or call was accessed."
+  ],
+  "acquisition": {
+    "sharedPublisherHost": "www.mitec.cz",
+    "priorHeadAttemptsForThisHost": "Four direct MiTeC ZIP HEAD requests in the preceding 12-product batch all failed before response with DNS resolution failure.",
+    "requestsRepeated": false,
+    "payloadsAcquired": false,
+    "archiveHashesOrInventoriesVerified": false
+  },
+  "hostAndVmState": {"packageExecuted":false,"installerExecuted":false,"databaseOrTelephonyAccessed":false,"vmUsed":false,"windowsStateChanged":false,"defenderStateChanged":false,"elevationPrompted":false},
+  "migrationEffect": "The official publisher page/version mapping is rechecked for all remaining five pending MiTeC product identities. Together with the preceding 12-product batch, all 17 pending catalog package identities in this MiTeC group now have current official page/version evidence. All exact owner-version NeedsReview records are administrative and no gate was added. Payload bytes, notices, hashes, selected-member inventories, package lifecycles and Windows acceptance remain open. No legacy outcome closed and no estimate deducted.",
+  "estimates": {"settings":"37-57","packages":"40-55","components":"19-24","filesAndAssets":"25-35","maintenance":"8-12","exactTotal":"129-183","roundedTotal":"130-185/about 155"}
+}

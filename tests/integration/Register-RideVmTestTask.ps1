@@ -40,8 +40,17 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.4.0
+  Version: 0.13.0
   Changelog:
+    0.13.0: Install the supervised request entry point and advertise HostPreparationWatchdogV1.
+    0.12.0: Register ApplicationsBatch11InteractiveV1 for the HashCheck interactive guest route.
+    0.11.0: Register the ApplicationsBatch12NtcoreExplorerSuiteV1 capability for focused Explorer Suite acceptance.
+    0.10.0: Register the ApplicationsBatch11HashCheckV1 capability for HashCheck lifecycle acceptance.
+    0.9.0: Register the MiTeCSystemAndTelephonyV1 capability for the System Information and TAPI staging batch.
+    0.8.0: Register the MiTeCAnalysisToolsV1 capability for EXE Explorer and HexEdit lifecycle acceptance.
+    0.7.0: Register the ApplicationsBatch10ProjectMakerV1 capability for Project Maker lifecycle acceptance.
+    0.6.0: Register the ApplicationsBatch9InfoBarV1 controller capability for InfoBar lifecycle acceptance.
+    0.5.0: Register the ApplicationsBatch1SplitV1 controller capability for fail-fast suite selection.
     0.4.0: Refresh the protected controller for ImageMagick synthetic feature acceptance.
     0.3.0: Install fixed focused-acceptance runner and capability for queued batches.
     0.2.0: Add explicit GitHub PAT selection and credential-safe acceptance boundaries.
@@ -65,7 +74,7 @@ param(
   [ValidateSet('Register', 'Remove')][string] $Action = 'Register',
   [switch] $Version
 )
-$script:ScriptVersion = '0.4.0'
+$script:ScriptVersion = '0.13.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -101,7 +110,7 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $guestGitHubReference = $config.GuestGitHubCredentialReference
 $config = [ordered]@{
   SchemaVersion = 2; Name = $config.Name; IsDisposable = $true
-  Capabilities = @('GitHubPatGuestV1','FocusedPortableV1')
+  Capabilities = @('HostPreparationWatchdogV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1')
   LabName = $config.LabName; VMName = $config.VMName; VMId = $target.VM.Id.ToString()
   CheckpointName = $config.CheckpointName; CheckpointId = $target.Snapshot.Id.ToString()
   GuestRepositoryPath = $config.GuestRepositoryPath
@@ -142,7 +151,7 @@ foreach ($folder in @('bin', 'runtime', 'queue', 'queue\pending', 'queue\running
   New-Item -ItemType Directory -Path $path -Force | Out-Null
   Set-ControllerDirectoryAccess $path -Writable:($folder -ne 'bin')
 }
-foreach ($file in @('RIDE.TestAutomation.psm1', 'RIDE.GitHubVmAuthentication.psm1', 'Invoke-RideVmTestTaskWorker.ps1', 'Invoke-RideVmTest.ps1', 'Invoke-RideVmTestTask.ps1', 'Export-RideVmTestEvidence.ps1', 'Invoke-RidePortableVmAcceptance.ps1', 'RIDE.PortableAcceptance.psm1')) {
+foreach ($file in @('RIDE.TestAutomation.psm1', 'RIDE.GitHubVmAuthentication.psm1', 'Invoke-RideVmTestTaskWorker.ps1', 'Invoke-RideVmTestRequest.ps1', 'Invoke-RideVmTest.ps1', 'Invoke-RideVmTestTask.ps1', 'Export-RideVmTestEvidence.ps1', 'Invoke-RidePortableVmAcceptance.ps1', 'RIDE.PortableAcceptance.psm1')) {
   Copy-Item -LiteralPath (Join-Path $PSScriptRoot $file) -Destination (Join-Path $root "bin\$file") -Force
 }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot '../../modules/RIDE.GitHubAuthentication.psm1') -Destination (Join-Path $root 'bin\RIDE.GitHubAuthentication.psm1') -Force

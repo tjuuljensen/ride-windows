@@ -1,0 +1,125 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T13:44:46.1784466Z",
+  "Status": "Prepared; Windows acceptance pending",
+  "IntegrationSuite": "MiTeCAnalysisTools",
+  "Source": "Local",
+  "TimeoutMinutes": 20,
+  "SelectedProducts": [
+    "EXE Explorer 3.7.5",
+    "HexEdit 7.1.0"
+  ],
+  "SelectedMembers": [
+    "EXE.exe",
+    "EXE64.exe",
+    "HEXEdit.exe"
+  ],
+  "InputManifest": ".local/acceptance-input/MiTeCAnalysisTools.json",
+  "InputManifestSha256": "63401acb81048ef20e8f3ad756d2cf5a5e0d1324076a6f1659654dbe26dd3e53",
+  "Payloads": [
+    {
+      "Id": "package.mitec-exe-explorer",
+      "File": "EXE.zip",
+      "Bytes": 12837437,
+      "Sha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78"
+    },
+    {
+      "Id": "package.mitec-hexedit",
+      "File": "HEXEdit.zip",
+      "Bytes": 2100697,
+      "Sha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788"
+    }
+  ],
+  "FocusedTests": {
+    "PowerShell": "5.1.26100.9818",
+    "Pester": "5.7.1",
+    "Result": "Passed",
+    "Total": 10,
+    "Passed": 10,
+    "Failed": 0,
+    "Skipped": 0,
+    "Failures": [],
+    "ContainerErrors": []
+  },
+  "ProtectedCopies": [
+    {
+      "File": "RIDE.TestAutomation.psm1",
+      "MatchesCheckout": true,
+      "Sha256": "1f0e8325114e3c3402e9b71663ae9148a83858fdb2663dcc41c6a4763e86b8ec"
+    },
+    {
+      "File": "Invoke-RideVmTestTaskWorker.ps1",
+      "MatchesCheckout": true,
+      "Sha256": "cacc121c6420bbe79d3b3872198cf87a9afa9cfc43700a58f1c308304362c943"
+    },
+    {
+      "File": "Invoke-RideVmTestRequest.ps1",
+      "MatchesCheckout": true,
+      "Sha256": "c45edd8880a971420a9b8c2f18388a98dc3638ad2c9f63d25afddf01e71cab2d"
+    },
+    {
+      "File": "Invoke-RideVmTest.ps1",
+      "MatchesCheckout": true,
+      "Sha256": "7bb4ae7a9e3277ae5229309ebe1b31cf3f9b672592b233ff65d513ad55336b1c"
+    },
+    {
+      "File": "Invoke-RideVmTestTask.ps1",
+      "MatchesCheckout": true,
+      "Sha256": "8c54dd5c100b406f4ed800d11dc8726079dfff807b25e77183764f9864a29b32"
+    },
+    {
+      "File": "Invoke-RidePortableVmAcceptance.ps1",
+      "MatchesCheckout": true,
+      "Sha256": "0ca47229742167922e54b20b019ef5ef04e88d56e21ef6eac7488f881085f267"
+    },
+    {
+      "File": "RIDE.PortableAcceptance.psm1",
+      "MatchesCheckout": true,
+      "Sha256": "5f59c9b95381ba01f9b18cbdd482cd13a8524d9ab654cf8b4a321f0e396b4f6d"
+    }
+  ],
+  "Capabilities": [
+    "HostPreparationWatchdogV1",
+    "GitHubPatGuestV1",
+    "FocusedPortableV1",
+    "ApplicationsBatch1SplitV1",
+    "ApplicationsBatch9InfoBarV1",
+    "ApplicationsBatch10ProjectMakerV1",
+    "ApplicationsBatch11HashCheckV1",
+    "ApplicationsBatch11InteractiveV1",
+    "ApplicationsBatch12NtcoreExplorerSuiteV1",
+    "MiTeCAnalysisToolsV1",
+    "MiTeCSystemAndTelephonyV1"
+  ],
+  "PendingRequests": 0,
+  "RunningRequests": 0,
+  "RecoveryBlockPresent": false,
+  "LastOperatorReportedState": "VM Off/Operating normally; task Ready",
+  "VmChanged": false,
+  "ToolExecuted": false,
+  "AcceptanceCriteria": [
+    "Both portable cases passed",
+    "ToolExecuted=false",
+    "Evidence collected",
+    "Cleanup=ResetAndOff",
+    "Terminal Passed",
+    "Final VM Off and task Ready"
+  ],
+  "ExcludedScope": [
+    "Product analysis and editing features",
+    "VirusTotal/API use",
+    "Raw disks and process memory",
+    "Support declaration promotion"
+  ],
+  "LegacyOutcomeClosed": false,
+  "Estimates": {
+    "Exact": "126-180",
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "Rounded": "125-180",
+    "Approximate": 155,
+    "FilesAndAssets": "25-35",
+    "Settings": "37-57",
+    "Packages": "37-52"
+  }
+}

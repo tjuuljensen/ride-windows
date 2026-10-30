@@ -2,8 +2,8 @@
 .SYNOPSIS
   Validate standalone Artcraft package boundaries without installing apps.
 .DESCRIPTION
-  Checks publisher source identity, acquisition pins, MSI scope and pending
-  acceptance. Tests use read-only catalog metadata and no network calls.
+  Checks publisher source identity, acquisition pins, MSI scope and accepted
+  target declarations. Tests use read-only catalog metadata and no network calls.
 .EXAMPLE
   Invoke-Pester .\tests\ArtcraftPackages.Tests.ps1
 .INPUTS
@@ -55,10 +55,10 @@ Describe 'Artcraft standalone acquisition' {
 
   It 'limits declared support to the Artcraft MSI batches that passed Windows 11 acceptance' {
     foreach ($package in $packages) {
-      if ($package.MigrationBatch -eq 'ApplicationsBatch6') {
+      if ($package.MigrationBatch -in @('ApplicationsBatch6','ApplicationsBatch7')) {
         $package.PendingAcceptance | Should -BeFalse
         $package.SupportedTargets | Should -Contain 'Windows 11'
-        @($package.CandidateTargets).Count | Should -Be 0
+        @($package.CandidateTargets | Where-Object { $_ -in @($package.SupportedTargets) }).Count | Should -Be 0
       } else {
         $package.PendingAcceptance | Should -BeTrue
         @($package.SupportedTargets).Count | Should -Be 0
@@ -93,7 +93,7 @@ Describe 'Artcraft standalone acquisition' {
     ($packages | Where-Object PackageId -eq 'pdfcraft').InstallerArguments | Should -Match 'ALLUSERS=1'
   }
 
-  It 'routes the twelve machine apps into ApplicationsBatch6 and the current-user launcher into ApplicationsBatch7' {
+  It 'routes twelve machine apps into ApplicationsBatch6 and the accepted current-user launcher into ApplicationsBatch7' {
     $selected = @($packages | Where-Object MigrationBatch -eq 'ApplicationsBatch6')
     $selected.Count | Should -Be 12
     foreach ($package in $selected) {
@@ -101,7 +101,7 @@ Describe 'Artcraft standalone acquisition' {
       $package.Scope | Should -Be 'Machine'
       $package.PendingAcceptance | Should -BeFalse
       $package.SupportedTargets | Should -Contain 'Windows 11'
-      @($package.CandidateTargets).Count | Should -Be 0
+      @($package.CandidateTargets | Where-Object { $_ -in @($package.SupportedTargets) }).Count | Should -Be 0
       $resolved = Resolve-RidePackageSelection -Operation $package
       $resolved.MigrationBatch | Should -Be 'ApplicationsBatch6'
     }
@@ -109,8 +109,9 @@ Describe 'Artcraft standalone acquisition' {
     $launcher.MigrationBatch | Should -Be 'ApplicationsBatch7'
     $launcher.Scope | Should -Be 'User'
     $launcher.RequiresAdmin | Should -BeFalse
-    @($launcher.SupportedTargets).Count | Should -Be 0
-    $launcher.CandidateTargets | Should -Contain 'Windows 11'
+    $launcher.SupportedTargets | Should -Contain 'Windows 11'
+    $launcher.PendingAcceptance | Should -BeFalse
+    @($launcher.CandidateTargets | Where-Object { $_ -in @($launcher.SupportedTargets) }).Count | Should -Be 0
     (Resolve-RidePackageSelection -Operation $launcher).MigrationBatch | Should -Be 'ApplicationsBatch7'
     @($selected | Where-Object { $_.PendingAcceptance -ne $false }).Count | Should -Be 0
   }

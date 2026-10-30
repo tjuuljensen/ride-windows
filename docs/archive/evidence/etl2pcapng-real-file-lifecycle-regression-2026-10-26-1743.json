@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T17:43:54Z",
+  "packageId": "package.etl2pcapng",
+  "version": "1.11.0",
+  "artifact": {
+    "path": ".local/acquisition/etl2pcapng-v1.11.0/etl2pcapng.exe",
+    "sha256": "c2d03aac43ea0f5626fc8d909e6688393feaf71bd6facd39aaf8a637382d9043",
+    "authenticode": "Valid",
+    "requiredFiles": 2,
+    "licenseNotice": {
+      "path": "catalog/notices/etl2pcapng-v1.11.0-license.txt",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+    }
+  },
+  "runtime": {
+    "powershell": "7.6.5",
+    "mode": "Offline local artifact lifecycle; no network or Authenticode-provider request"
+  },
+  "result": {
+    "status": "Passed",
+    "initialInstallHealthy": true,
+    "repeatInstallHealthy": true,
+    "uninstallRemovedOwnedFiles": true,
+    "presentSnapshotRestoredHealthy": true,
+    "priorAbsenceRestored": true,
+    "operatorContentPreserved": true
+  },
+  "boundaries": {
+    "ConverterExecuted": false,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointChanged": false,
+    "SyntheticEtlConversionTested": false,
+    "WindowsTargetSupportPromoted": false
+  },
+  "scratchRoot": ".local/etl2pcapng-real-file-lifecycle-20261026-1744",
+  "migrationOutcome": {
+    "resolved": ["ETL2PCAPNG pinned real-file local lifecycle and notice staging regression"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["ETL2PCAPNG package remains a Windows 11 candidate pending trace conversion and target acceptance"],
+    "deferred": ["Synthetic ETL conversion behavior", "Windows 11 package lifecycle and recovery acceptance"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

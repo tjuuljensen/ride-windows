@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T06:43:00Z",
+  "Target": "RIDE-Win11-Test",
+  "ReadOnlyChecks": {
+    "Vm": {
+      "Commands": [
+        "Import-Module Hyper-V",
+        "Get-VM -Name RIDE-Win11-Test",
+        "Get-VMSnapshot -VMName RIDE-Win11-Test"
+      ],
+      "Result": "Failed before VM or checkpoint inspection.",
+      "ErrorType": "Microsoft.HyperV.PowerShell.VirtualizationException",
+      "Error": "Access to a CIM resource was not available to the client."
+    },
+    "RegisteredTask": {
+      "Command": "Get-ScheduledTask -TaskName RIDEWin11Test -TaskPath \\RIDE\\",
+      "Result": "Failed before task inspection.",
+      "ErrorType": "System.Management.Automation.MethodInvocationException",
+      "Error": "Access to a CIM resource was not available to the client."
+    }
+  },
+  "StateChanges": {
+    "Vm": false,
+    "Checkpoint": false,
+    "Task": false,
+    "Guest": false,
+    "HostService": false,
+    "Windows": false,
+    "Defender": false
+  },
+  "ElevationRequested": false,
+  "Disposition": "Native Windows acceptance remains deferred; continue local source, catalog, documentation and mocked regression work that does not require VM access.",
+  "NoLegacyOutcomeClosed": true,
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Adjustment": "None."
+  }
+}

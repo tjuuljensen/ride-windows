@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:39:00Z",
+  "scope": "MiTeC multiple package-candidate source/variant and offline lifecycle regression",
+  "testRun": {
+    "runner": "PowerShell 7 / Pester 5.7.1",
+    "result": "Passed",
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "testRegistryEnabled": false,
+    "temporaryRoot": ".local/pester-current",
+    "files": [
+      "tests/MiTeCNetworkScanner.Tests.ps1",
+      "tests/MiTeCInterbaseQuery.Tests.ps1",
+      "tests/MiTeCReviewDataTools.Tests.ps1",
+      "tests/MiTeCSystemInformationTapiMonitor.Tests.ps1",
+      "tests/MiTeCDFMEditor.Tests.ps1"
+    ]
+  },
+  "products": [
+    "MiTeC Network Scanner x64/x86",
+    "MiTeC Interbase Query x64/x86",
+    "MiTeC OLE/COM Object Explorer",
+    "MiTeC Windows Registry Recovery",
+    "MiTeC SMBIOS Explorer",
+    "MiTeC System Information eXtra",
+    "MiTeC TAPI Monitor",
+    "MiTeC DFM Editor Delphi 11/12 variants"
+  ],
+  "checks": [
+    "catalog pins, versions, publisher and license references, variant member selection, or retained archive/member hash as applicable",
+    "inert synthetic ZIP owned-file install/remove/repeat/restore and operator-file preservation",
+    "DFM Editor keeps Delphi 11 and Delphi 12 runtime families separate"
+  ],
+  "exclusions": "No MiTeC utility ran. No real database, network scan, process/service/account data, Registry hive, SMBIOS report, telephone call, DFM project or host artifact was accessed. No VM or Windows state changed.",
+  "acceptance": "Local source and package lifecycle evidence only. Feature behavior and Windows target acceptance remain pending; catalog target support was not promoted.",
+  "license": "Publisher references are checked by the candidate tests; any owner-specific review remains in the local review store and is not a migration gate.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

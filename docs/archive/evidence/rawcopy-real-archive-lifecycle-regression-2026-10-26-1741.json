@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T17:41:33Z",
+  "packageId": "package.rawcopy",
+  "version": "1.0.0.22",
+  "artifact": {
+    "path": ".local/acquisition/rawcopy-1.0.0.22/RawCopy-0d8d690c0f0fe9d2c68c5fce02d26d0efa53459c.zip",
+    "sha256": "f5daf2c74a4b5a29dbd188e36f003535ab39aa80a5f86a564725a5a1642841df",
+    "selectedMembers": 4,
+    "requiredFiles": 4
+  },
+  "runtime": {
+    "powershell": "7.6.5",
+    "mode": "Offline local artifact lifecycle; no network or Authenticode-provider request"
+  },
+  "result": {
+    "status": "Passed",
+    "initialInstallHealthy": true,
+    "repeatInstallHealthy": true,
+    "uninstallRemovedOwnedFiles": true,
+    "presentSnapshotRestoredHealthy": true,
+    "priorAbsenceRestored": true,
+    "operatorContentPreserved": true
+  },
+  "boundaries": {
+    "RawCopyExecutableExecuted": false,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointChanged": false,
+    "SyntheticNtfsBehaviorTested": false,
+    "WindowsTargetSupportPromoted": false
+  },
+  "scratchRoot": ".local/rawcopy-real-archive-lifecycle-20261026-1740",
+  "migrationOutcome": {
+    "resolved": ["RawCopy pinned real-archive local file lifecycle regression"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["RawCopy package remains a Windows 11 candidate pending synthetic NTFS behavior and target acceptance"],
+    "deferred": ["Synthetic NTFS read-only behavior", "Windows 11 package lifecycle and recovery acceptance"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

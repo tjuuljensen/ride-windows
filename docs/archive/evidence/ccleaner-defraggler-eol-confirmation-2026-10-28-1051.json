@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:51:00Z",
+  "batch": "Defraggler publisher lifecycle source confirmation",
+  "sources": {
+    "publisherAnnouncement": "https://community.ccleaner.com/t/defraggler-end-of-life/166405",
+    "publisherSupportArticle": "https://support.ccleaner.com/s/article/end-of-life-announcement-for-defraggler?language=en_US",
+    "announcementDate": "2026-09-11",
+    "publisherStatement": "The last build shipped in August 2020; the publisher says product, download and support pages were removed and that it will no longer distribute, sell or support Defraggler."
+  },
+  "interpretation": {
+    "sourceStatus": "Publisher confirms end of life and discontinued distribution.",
+    "currentPublisherArtifactRoute": "Not available in the reviewed announcement; historical builds-page results are superseded by the later publisher EOL notice.",
+    "legacyOutcome": "Retain the user's selected Defraggler outcome as open scope; this source review does not retire it or add a package candidate.",
+    "blockerType": "Upstream lifecycle/source availability and user disposition, not a legal or license migration gate."
+  },
+  "localArtifactSearch": {
+    "searchRoot": ".local",
+    "filenamePatterns": ["defraggler", "dfsetup"],
+    "method": "PowerShell Get-ChildItem -Recurse -File -Force with case-insensitive filename filters",
+    "verifiedAtUtc": "2026-10-28T10:55:45Z",
+    "matches": [],
+    "payloadContentsOpened": false
+  },
+  "handling": {
+    "payloadDownloaded": false,
+    "installerOrUtilityRun": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The official publisher's 2026-09-11 notice confirms Defraggler reached end of life and is no longer distributed, sold or supported."
+    ],
+    "partial": [
+      "The user's selected legacy product outcome remains open; exact final publisher artifact, pin and a supported acquisition route are unavailable in this source review."
+    ],
+    "deferred": [
+      "Keep Defraggler acquisition and package implementation deferred until its selected disposition or a publisher-authorized retained artifact/source is established."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; lifecycle status is clarified but the selected legacy outcome remains open and no migration outcome is closed."
+    }
+  },
+  "relatedEvidence": [
+    "ccleaner-family-current-official-source-and-artifact-acquisition-recheck-2026-10-28-1046.json",
+    "ccleaner-family-distribution-source-review-2026-10-23-1547.json"
+  ]
+}

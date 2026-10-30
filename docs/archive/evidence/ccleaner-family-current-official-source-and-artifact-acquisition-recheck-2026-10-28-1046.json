@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:46:40Z",
+  "batch": "CCleaner family official version, download-route and license-review source recheck",
+  "products": {
+    "CCleaner": {
+      "homepageVersion": "7.13",
+      "versionHistory": "7.13.1573",
+      "releaseDate": "2026-10-21",
+      "buildsPageVersion": "7.12.1526",
+      "portable": "6.41.11567",
+      "portableReleaseDate": "2026-06-23",
+      "fullInstallerUri": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_FULL/build_RELEASE",
+      "portableUri": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "publisherNote": "Advanced builds are not for distribution or mirroring."
+    },
+    "Recuva": {
+      "version": "1.55.133",
+      "releaseDate": "2026-06-22",
+      "productPage": "https://www.ccleaner.com/recuva",
+      "downloadPage": "https://www.ccleaner.com/recuva/download",
+      "downloadButtonOpensJsOnlyStandardRoute": true,
+      "publisherUseNote": "Recuva Free and Professional are for home use only."
+    },
+    "Speccy": {
+      "version": "1.34.84",
+      "releaseDate": "2026-06-22",
+      "productPage": "https://www.ccleaner.com/speccy",
+      "downloadPage": "https://www.ccleaner.com/speccy/download",
+      "downloadButtonOpensJsOnlyStandardRoute": true,
+      "publisherUseNote": "Speccy Free and Professional are for home use only."
+    },
+    "Defraggler": {
+      "currentExactVersionAndPayload": "Not established in this recheck",
+      "followUp": "Retain prior finding that official page redirects without a current artifact until exact publisher source can be rendered."
+    }
+  },
+  "acquisition": {
+    "result": "No payload acquired",
+    "deniedDns": [
+      "bits.avcdn.net",
+      "download.ccleaner.com"
+    ],
+    "recuvaSpeccyRoutes": "Official download pages render only a JavaScript download shell in the available web reader.",
+    "downloadedFiles": [],
+    "bytesOrHashVerified": false,
+    "binaryMetadataOrSignatureVerified": false,
+    "reason": "Official payload-host DNS queries returned Access is denied; available page responses expose no bytes or hash."
+  },
+  "licensing": {
+    "status": "Informational local review needed",
+    "notes": [
+      "CCleaner advanced offline/portable builds state no distribution or mirroring.",
+      "Recuva Free/Professional and Speccy Free/Professional pages state home use only."
+    ],
+    "migrationGate": false,
+    "basis": "User directs direct download-and-install migration to proceed and any license concern to be marked for review, not used as a migration gate.",
+    "exactCatalogCandidatesOrReviewMarkersCreated": false,
+    "reason": "No payload bytes or exact catalog pins have been verified yet."
+  },
+  "handling": {
+    "installerOrUtilityRun": false,
+    "payloadDownloaded": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current publisher version pages identify CCleaner 7.13.1573, Recuva 1.55.133 and Speccy 1.34.84; CCleaner portable is separately versioned 6.41.11567. License-review notes are captured without a technical block."
+    ],
+    "partial": [
+      "CCleaner builds page is stale at 7.12.1526; CCleaner/Recuva/Speccy exact payload bytes, pins, signers and inventories remain unverified; Defraggler current exact version/source is unresolved."
+    ],
+    "deferred": [
+      "Acquire exact publisher artifacts after DNS/source access returns, verify hashes/signatures/inventories and add candidates plus local review markers."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; publisher page metadata and license notes do not establish verified package artifacts or close legacy outcomes."
+    }
+  },
+  "relatedEvidence": [
+    "ccleaner-family-official-source-recheck-and-dns-block-2026-10-26-1639.json",
+    "ccleaner-current-official-version-source-and-artifact-acquisition-dns-block-2026-10-28-1045.json"
+  ],
+  "sourcePageChange": "This current review supersedes the 2026-10-26 source note that the builds page agreed with version history: today the rendered builds page labels 7.12.1526, while the homepage and version history show 7.13 / 7.13.1573."
+}

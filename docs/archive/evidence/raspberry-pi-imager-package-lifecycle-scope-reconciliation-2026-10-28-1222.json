@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T12:22:05Z",
+  "batch": "Raspberry Pi Imager package lifecycle scope reconciliation",
+  "sourceEvidence": "raspberry-pi-imager-v2.0.12-package-candidate-source-review-2026-10-28-1219.json",
+  "decision": {
+    "publisherInstallAndRemovalEffects": "The rpiboot WinUSB driver changes and deletion of the app's cached OS image and customization credentials are explicit publisher installer/uninstaller behavior.",
+    "rideLifecycleModel": "Use the normal compensating package presence lifecycle. Do not add a RIDE data-preservation subsystem to undo the publisher's documented uninstall behavior.",
+    "acceptanceBoundary": "On disposable Windows 11, verify install, repeat install, uninstall, expected publisher-owned driver and per-user cleanup behavior, and restoration of the VM checkpoint. Support remains undeclared until that evidence exists."
+  },
+  "resolved": [
+    "Removed the proposed RIDE-specific data/driver preservation design as a migration prerequisite; this package can use the existing compensating package lifecycle once actual acceptance passes.",
+    "Updated candidate wording and focused metadata assertions to describe the publisher cleanup behavior and the required VM checkpoint acceptance.",
+    "Confirmed the candidate remains PendingAcceptance with no supported targets and Compensating rollback."
+  ],
+  "remainingBlockers": [
+    "Fresh RIDE-Win11-Test access is blocked before inspection by host CIM/controller access, so no installer run or checkpoint acceptance can occur in this turn.",
+    "The exact local installer bytes, Authenticode result, install/repeat/uninstall behavior, and checkpoint restoration remain unverified.",
+    "Only Pester 3.4.0 is available; the focused Pester 5 suite remains unrun."
+  ],
+  "validation": {
+    "catalogExport": "Generated docs/OPERATIONS.md.",
+    "repositoryValidation": "Passed at 2026-10-28 12:22 UTC: 442 operations, 8 groups, 5 profiles, 300 PowerShell files.",
+    "windowsPowerShell51Parser": "Focused Pester source parsed with zero syntax errors.",
+    "candidateSelectionSmoke": "Metadata-only selection retained PendingAcceptance=true and Rollback=Compensating."
+  },
+  "observations": {
+    "installerDownloaded": false,
+    "installerOpenedOrExecuted": false,
+    "imageWriterLaunched": false,
+    "removableMediaWritten": false,
+    "driverOrWindowsStateChanged": false,
+    "vmStateChanged": false,
+    "freshElevationRequested": false
+  },
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this is a v3 package acceptance-scope clarification, not a legacy outcome."
+    }
+  }
+}

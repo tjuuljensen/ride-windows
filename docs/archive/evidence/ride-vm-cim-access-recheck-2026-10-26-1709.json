@@ -1,0 +1,20 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T17:09:28Z",
+  "Batch": "RIDE-Win11-Test and preregistered task CIM access recheck",
+  "Queries": {
+    "GetVM": {"Target":"RIDE-Win11-Test","Result":"Denied before VM inspection.","Error":"Access to a CIM resource was not available to the client."},
+    "GetScheduledTask": {"Task":"\\RIDE\\RIDEWin11Test","Result":"Denied before task inspection.","Error":"Access to a CIM resource was not available to the client."}
+  },
+  "StateChanges": {"GuestRequestSubmitted":false,"CheckpointChanged":false,"VMChanged":false,"HostServiceChanged":false,"DefenderChanged":false,"ElevationPromptRequested":false},
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Read-only Hyper-V and ScheduledTasks access paths were rechecked and both failed before inspection."],
+    "Deferred": ["RIDE-Win11-Test VM/checkpoint inspection and registered acceptance dispatch."],
+    "LegacyOutcomeClosed": false,
+    "RangesChanged": false,
+    "Ranges": {"Settings":"37-57","Packages":"40-55","Components":"19-24","FilesAndAssets":"25-35","Maintenance":"8-12","Exact":"129-183","Rounded":"130-185/about 155"}
+  }
+}

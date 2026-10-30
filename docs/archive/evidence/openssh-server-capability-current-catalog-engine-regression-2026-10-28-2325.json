@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T23:25:34Z",
+  "batch": "OpenSSH Server capability catalog and engine source integration regression",
+  "testFiles": [
+    "tests/Catalog.Tests.ps1",
+    "tests/NetworkAndSoundControls.Tests.ps1",
+    "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+    "tests/OpenSshServerObservation.Tests.ps1"
+  ],
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9818",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "windowsIntegrationTaggedTest": "excluded",
+    "processExecutionPolicy": "Bypass; process only"
+  },
+  "tests": {
+    "discovered": 136,
+    "passed": 135,
+    "failed": 0,
+    "notRun": 1,
+    "notRunReason": "Catalog.Tests WindowsIntegration-tagged registry test excluded from this non-VM run."
+  },
+  "implementationVerified": [
+    "Catalog classifies component.openssh-server-capability as a WindowsCapability component, not a setting or package.",
+    "Engine exposes bounded WindowsCapability desired-state planning, testing, captured-state reporting, apply/remove guards and saved-run restore paths.",
+    "Capability observation/install/remove is guarded and tested with mocked providers; service activation and TCP/22 firewall exposure remain separate operations.",
+    "Catalog operation documentation now describes the integrated source lifecycle and retains empty SupportedTargets pending native acceptance."
+  ],
+  "staticValidation": {
+    "passed": true,
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 301,
+    "generatedOperationDocumentation": "Current"
+  },
+  "sideEffects": {
+    "windowsCapabilityProviderCalled": false,
+    "dismCalled": false,
+    "serviceOrFirewallChanged": false,
+    "sshDataOrHostKeysAccessed": false,
+    "defenderStateChanged": false,
+    "vmOrCheckpointAccessed": false,
+    "elevationRequested": false
+  },
+  "acceptanceBoundary": {
+    "resolved": "Catalog and engine source integration, discovery classification, lifecycle guards and generated operation docs validated locally.",
+    "pending": [
+      "Disposable Windows 11 and Server 2025 capability install/remove, exact saved-run restore and repeat acceptance",
+      "Native service/firewall/data preservation and partial-failure recovery",
+      "Current host CIM access blocks VM state/checkpoint/task confirmation and guest dispatch"
+    ],
+    "supportedTargets": [],
+    "legacyOutcomeClosed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180; about 155",
+    "adjustment": "None; candidate integration/source tests do not establish native acceptance or close a legacy component outcome."
+  }
+}

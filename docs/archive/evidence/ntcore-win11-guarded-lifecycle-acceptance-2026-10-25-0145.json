@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "runId": "382d9f94682b4fa4a489690aee9a2d53",
+  "suite": "NTCore",
+  "target": "Windows 11",
+  "build": "26300",
+  "status": "Passed",
+  "expectedCases": 3,
+  "completedCases": 3,
+  "passedCases": 3,
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "payloadExecution": false,
+  "toolExecuted": true,
+  "functionalAcceptance": "Passed",
+  "runtimeAcceptance": "NotSelected",
+  "activationAcceptance": "Pending",
+  "cases": [
+    {"id": "package.ntcore-pe-detective", "status": "Passed", "lifecycleRecovery": true, "toolExecuted": false},
+    {"id": "package.ntcore-cff-explorer", "status": "Passed", "lifecycleRecovery": true, "toolExecuted": false},
+    {"id": "package.ntcore-4gb-patch", "status": "Passed", "lifecycleRecovery": true, "toolExecuted": true, "functionalAcceptance": "Passed", "fixture": "owned synthetic x86 PE", "checks": ["refused occupied backup without mutation", "preserved collision sentinel", "created exact original-byte backup", "set large-address-aware flag", "recomputed PE checksum", "restored exact synthetic input"]}
+  ],
+  "vm": "RIDE-Win11-Test",
+  "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "sourceEvidence": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\382d9f94682b4fa4a489690aee9a2d53\\focused\\evidence"
+}

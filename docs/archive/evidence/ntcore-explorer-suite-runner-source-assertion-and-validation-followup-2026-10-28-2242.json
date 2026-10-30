@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:42:00Z",
+  "batch": "NTCore Explorer Suite guarded-runner follow-up validation",
+  "packageId": "package.ntcore-explorer-suite",
+  "integrationSuite": "ApplicationsBatch12",
+  "correction": "The static test checks the actual VM task client capability-helper call and the controller module capability token; it does not expect that token to be duplicated inside the client script.",
+  "validation": {
+    "sourceAssertions": "Seven direct source assertions passed for the exact package ValidateSet, batch 12 requirement, catalog ID equality selector, guest dispatch, task-client guard call and suite entry, and controller capability.",
+    "windowsPowerShellParser": "5.1.26100.9818 accepted all eight changed PowerShell files.",
+    "powerShell7RepositoryValidation": "7.6.5 passed: 447 operations, 8 groups, 5 profiles and 301 PowerShell files; catalog documentation current.",
+    "pester": "Not run. PowerShell 7 has Pester 3.4.0 only. Windows PowerShell 5.1 has Pester 5.7.1 installed, but Import-Module fails while loading its format file with AuthorizationManager check failed. No policy bypass was used."
+  },
+  "state": {
+    "vmQueried": false,
+    "vmRequestSubmitted": false,
+    "installerRun": false,
+    "utilityRun": false,
+    "networkAccess": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertFileAccessed": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false
+  },
+  "blocker": "RIDE-Win11-Test acceptance remains deferred pending restored host CIM access and an elevated controller refresh to install ApplicationsBatch12NtcoreExplorerSuiteV1.",
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The focused runner and its exact-selection/capability guards are prepared and statically validated."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Pester lifecycle tests and native Windows 11 package acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  }
+}

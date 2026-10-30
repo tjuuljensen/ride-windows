@@ -1,0 +1,30 @@
+{
+  "recordedAtUtc": "2026-10-29T00:51:37Z",
+  "targets": ["RIDE-Win11-Test", "RIDE-S25-Test"],
+  "query": "Get-VM -Name RIDE-Win11-Test,RIDE-S25-Test",
+  "result": "Failed before returning state",
+  "error": "Access to a CIM resource was not available to the client.",
+  "inspection": {
+    "vmStateReturned": false,
+    "checkpointStateQueried": false,
+    "registeredTaskQueried": false,
+    "controllerQueueInspected": false,
+    "guestRequestSubmitted": false
+  },
+  "sideEffects": {
+    "vmOrCheckpointChanged": false,
+    "windowsOrDefenderChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": "Defer native Windows acceptance for settings and packages until existing host CIM access is restored. Continue independent local source and synthetic regression work; do not bypass the registered task queue or request fresh elevation in this batch.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "The VM state could not be inspected and no guest test ran; no legacy outcome closed."
+  }
+}

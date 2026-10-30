@@ -1,0 +1,67 @@
+{
+  "recordedAtUtc": "2026-10-28T20:42:04Z",
+  "batch": "Artcraft current-source Pester cross-shell regression and VM access recheck",
+  "test": {
+    "path": "tests/ArtcraftPackages.Tests.ps1",
+    "powerShell7": {
+      "version": "7.6.5",
+      "pester": "5.7.1",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell": {
+      "version": "5.1.26100.9818",
+      "pester": "5.7.1",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "executionPolicy": "Process-only Bypass"
+    },
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "scope": "Read-only catalog/package metadata and test source; no network calls, MSI execution or Windows state changes."
+  },
+  "initialPowerShell5Invocation": "The first Windows PowerShell invocation without an execution-policy override was rejected by AuthorizationManager before discovery; rerun with process-only Bypass passed.",
+  "vm": {
+    "checkedAtUtc": "2026-10-28T20:41:59Z",
+    "target": "RIDE-Win11-Test",
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateRetrieved": false,
+    "guestRequestSubmitted": false
+  },
+  "sideEffects": {
+    "installerExecuted": false,
+    "networkRequest": false,
+    "registryChanged": false,
+    "windowsChanged": false,
+    "defenderChanged": false,
+    "elevationRequested": false
+  },
+  "migration": {
+    "resolved": [
+      "Cross-shell Artcraft package metadata regression passed."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Artcraft Windows 11 package acceptance remains pending VM access"
+    ],
+    "partial": [
+      "No legacy outcome closed."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

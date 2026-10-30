@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T16:07:29Z",
+  "scope": "Real retained archive file-lifecycle regression for MiTeC System Information eXtra and TAPI Monitor",
+  "archives": [
+    {
+      "id": "package.mitec-system-information",
+      "path": ".local/remaining-collections-20261017/MSIX.zip",
+      "version": "16.0.0",
+      "bytes": 10635839,
+      "sha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+      "selectedFiles": ["MSIX.exe", "GetSys.exe", "MSIX64.exe", "GetSys64.exe"]
+    },
+    {
+      "id": "package.mitec-tapi-monitor",
+      "path": ".local/remaining-collections-20261017/TAPIMon.zip",
+      "version": "1.2.0",
+      "bytes": 2015874,
+      "sha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914",
+      "selectedFiles": ["TAPIMon.exe"]
+    }
+  ],
+  "lifecycle": ["catalog SHA-256 match", "exact archive member inventory", "repeat offline install", "healthy installed state", "owned-file removal", "saved snapshot restore", "operator note preserved across remove and restore"],
+  "executionBoundaries": {"payloadsExecuted": false, "systemReportCreated": false, "hostInventoryQueried": false, "tapiProviderAccessed": false, "telephoneOrCallAccessed": false, "networkTransfer": false, "windowsStateChanged": false, "defenderChanged": false, "freshUacPromptRequested": false},
+  "validation": {
+    "testFile": "tests/MiTeCSystemInformationTapiMonitor.Tests.ps1",
+    "pesterVersion": "5.7.1",
+    "total": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "explicitArchiveInputs": ["RIDE_MITEC_SYSTEM_INFORMATION_FIXTURE_ARCHIVE", "RIDE_MITEC_TAPI_MONITOR_FIXTURE_ARCHIVE"],
+    "workspaceLocalTemp": ".local/pester-mitec-retained-archives-20261027"
+  },
+  "windowsAcceptance": {"status": "Deferred", "vm": "RIDE-Win11-Test", "latestBlock": "Read-only Get-VM failed at CIM before VM/checkpoint inspection", "controllerCapability": "MiTeCSystemAndTelephonyV1", "controllerRefresh": "Later elevated session; not attempted"},
+  "legacyOutcomeAccounting": {
+    "resolved": ["Exact retained archive identity and local owned-file lifecycle recovery for both package candidates"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["No whole legacy product outcome is accepted"],
+    "deferred": ["Windows 11 package behavior and target acceptance", "system report field/redaction review", "simulated TAPI provider behavior"],
+    "legacyOutcomesClosed": []
+  },
+  "migrationImpact": {"estimateRangesChanged": false, "estimates": {"settings": "37-57", "packages": "38-53", "components": "19-24", "filesAssets": "25-35", "maintenance": "8-12", "exact": "127-181", "rounded": "125-180/about 155"}}
+}

@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "psscripttools-real-archive-current-source-lifecycle-and-controller-queue-block-2026-10-27-0804",
+  "RecordedAtUtc": "2026-10-27T08:04:53Z",
+  "Repository": "ride-windows",
+  "CheckoutPath": "C:/Users/tjuuljensen/git/ride-windows",
+  "Scope": "Current-source PSScriptTools real-archive local lifecycle regression and authorized registered-controller dispatch attempt.",
+  "Artifact": {
+    "PackageIds": [
+      "package.psscripttools",
+      "package.microsoft-powershell-threadjob"
+    ],
+    "Path": ".local/b08-psscripttools/PSScriptTools-549fa3e3d769532320054fc0b3c8f42df0452361.zip",
+    "Version": "3.2.0",
+    "Sha256": "05c86295a0846ae4f51ecfa6f38ef71ba8173be83eb0adc8627525a4c6ee72bd",
+    "Members": 360
+  },
+  "LocalPester": {
+    "Status": "Passed",
+    "Passed": 7,
+    "Failed": 0,
+    "Skipped": 0,
+    "DurationSeconds": 681.99,
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "ArchiveFixtureUsed": true,
+    "UpstreamModuleImported": false,
+    "UpstreamCodeExecuted": false,
+    "Boundary": "Inert package staging/repeat/remove/saved-state recovery in Pester TestDrive using the retained archive; TEMP/TMP were scoped to .local."
+  },
+  "Controller": {
+    "Name": "RIDEWin11Test",
+    "VMName": "RIDE-Win11-Test",
+    "CheckpointName": "RIDE-clean-test-base",
+    "FocusedPortableV1": true,
+    "HostAccountMatched": true,
+    "RecoveryBlockedMarker": false,
+    "RequestRunId": "9f7d1fffdf9e42e7bb0dd3bf27c942ef",
+    "DispatchStatus": "BlockedBeforeEnqueue",
+    "Failure": "Access denied creating the request's temporary file in the protected queue/pending directory.",
+    "PendingRequestExistsAfterFailure": false,
+    "RunningRequestExistsAfterFailure": false,
+    "ResultExistsAfterFailure": false,
+    "ScheduledTaskStarted": false,
+    "ElevationPromptRequested": false,
+    "WindowsVmCheckpointOrDefenderChanged": false
+  },
+  "VmAccess": {
+    "CheckedThisRun": true,
+    "GetVmAndCheckpoint": "CIM denied access for RIDE-Win11-Test and RIDE-Srv2025Test before inspection.",
+    "ScheduledTask": "Get-ScheduledTask failed at CIM; schtasks query returned ERROR: The network address is invalid."
+  },
+  "MigrationOutcome": {
+    "Resolved": [
+      "Current-source PSScriptTools 3.2.0 real-archive local file lifecycle regression."
+    ],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": [
+      "PSScriptTools and its ThreadJob prerequisite remain pending Windows 11 acceptance and runtime/dependency verification."
+    ],
+    "Deferred": [
+      "Registered Windows 11 package acceptance/runtime batch due protected queue write access denial before enqueue.",
+      "Windows Server acceptance."
+    ],
+    "LegacyOutcomeClosed": false
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "38-53",
+    "Components": "19-24",
+    "FilesAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "127-181",
+    "RoundedTotal": "125-180/about 155",
+    "Adjustment": "None; local archive lifecycle does not resolve Windows runtime acceptance or close the legacy package outcome."
+  }
+}

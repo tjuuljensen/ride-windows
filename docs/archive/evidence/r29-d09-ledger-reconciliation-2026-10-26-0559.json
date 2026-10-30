@@ -1,0 +1,39 @@
+{
+  "RecordedAtUtc": "2026-10-26T05:59:12Z",
+  "Scope": "Reconcile the active settings decision ledger with the accepted Q31/D09 disposition for the unidentified User .NET assemblies label",
+  "AuthoritativeDecision": {
+    "Reference": "docs/migrations/decision-session-2026-10-17.md#q31--d09-close-unsubstantiated-user-net-assemblies-bookkeeping-entry",
+    "Disposition": "Close as unsubstantiated bookkeeping, not an implemented feature or a claim that all possible historical sources have been exhausted.",
+    "ReopenCondition": "Reopen only if an actual source or use case is identified."
+  },
+  "ReconciledLedger": "docs/migrations/remaining-settings-decisions.md",
+  "RetainedAudit": "docs/migrations/settings-post-migration-review.md#unidentified-entry-source-audit-and-closure-path-2026-10-11",
+  "Changes": [
+    "Changed the active User .NET assemblies row from open provenance issue to closed unsubstantiated bookkeeping.",
+    "Updated the implementation/acceptance queue and final walkthrough to retain the audit and reopen condition without treating it as pending work."
+  ],
+  "MigrationAccounting": {
+    "ResolvedAdministrativeDisposition": [
+      "R29/D09 bookkeeping label closed as unsubstantiated."
+    ],
+    "LegacyFeatureOutcomesResolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [],
+    "Partial": [
+      "No assembly deployment/removal feature or migration is claimed."
+    ],
+    "EstimateDeduction": 0,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "WindowsOrVmStateChanged": false,
+  "ElevationRequested": false
+}

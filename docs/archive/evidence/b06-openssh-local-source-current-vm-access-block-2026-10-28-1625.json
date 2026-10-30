@@ -1,0 +1,40 @@
+{
+  "recordedAtUtc": "2026-10-28T16:25:29Z",
+  "batch": "B06 LocalSource guard implementation and VM acceptance recheck",
+  "implementationEvidence": "See b06-openssh-local-source-reparse-path-guard-2026-10-28-1624.json for the 0.4.2 path guard, parser results, direct helper probe and Pester limitation.",
+  "vmPreflight": {
+    "target": "RIDE-Win11-Test",
+    "result": "blocked before inspection",
+    "error": "Access to a CIM resource was not available to the client",
+    "checkpointInspected": false,
+    "guestDispatched": false
+  },
+  "safety": {
+    "vmChanged": false,
+    "windowsChanged": false,
+    "defenderChanged": false,
+    "passwordScanAccessed": false
+  },
+  "migration": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "B06 native Windows 11/Server acceptance; effective DISM source fallback and payload/dependency recovery"
+    ],
+    "partial": [
+      "Mapped-drive and reparse-point path guards implemented; Pester assertions unverified"
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "reason": "Fresh read-only VM preflight failed before inspection; no acceptance ran and estimate ranges remain unchanged."
+  }
+}

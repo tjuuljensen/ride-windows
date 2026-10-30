@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "dateUtc": "2026-10-25T05:50:00Z",
+  "runtime": "Windows PowerShell 5.1",
+  "pesterVersion": "5.7.1",
+  "testRegistryPluginEnabled": false,
+  "initialCombinedAttempt": {
+    "discovered": 243,
+    "passed": 187,
+    "failed": 54,
+    "skipped": 2,
+    "failureCause": "TestAutomation TestDrive writes were denied while the fixture was rooted under the sandboxed AppData temp path; package suites passed."
+  },
+  "results": [
+    {
+      "tests": [
+        "tests/ApplicationPackages.Tests.ps1",
+        "tests/ArtcraftPackages.Tests.ps1"
+      ],
+      "status": "Passed",
+      "discovered": 124,
+      "passed": 124,
+      "failed": 0,
+      "skipped": 0,
+      "note": "Both suites passed in the combined run; no package install or VM action occurred."
+    },
+    {
+      "tests": ["tests/TestAutomation.Tests.ps1"],
+      "status": "Passed",
+      "discovered": 119,
+      "passed": 117,
+      "failed": 0,
+      "skipped": 2,
+      "note": "The first attempt hit sandbox access denial while writing Pester TestDrive files under the default AppData temp path. Rerun with TEMP and TMP redirected to a unique repository-local .local fixture directory passed."
+    }
+  ],
+  "combinedCurrentSourceCounts": {
+    "discovered": 243,
+    "passed": 241,
+    "failed": 0,
+    "skipped": 2
+  },
+  "environmentBoundary": "Mocked unit/orchestration checks only. No installer, VM, Windows state, registry or Defender state changed. This does not replace ApplicationsBatch1 Windows 11 runtime acceptance or prove user-data preservation by every vendor uninstaller."
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T17:51:13Z",
+  "batch": "Current-source component inventory, client servicing and OpenSSH Server regression",
+  "runtime": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "tempDirectory": ".local/pester-components-ps7-20261028-1751"
+  },
+  "testFiles": [
+    "tests/ComponentInventory.Tests.ps1",
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1",
+    "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+    "tests/OpenSshServerLifecycle.Tests.ps1",
+    "tests/OpenSshServerObservation.Tests.ps1"
+  ],
+  "result": {
+    "discovered": 109,
+    "passed": 109,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "durationSeconds": 35.23
+  },
+  "harnessHistory": [
+    "The first invocation stopped before discovery because -PassThru cannot be combined with -Configuration in the installed Pester parameter set.",
+    "A second invocation discovered 109 tests but all failed before test bodies while Pester's default TestRegistry fixture attempted a denied HKCU\\Software\\Pester write.",
+    "The final invocation used New-PesterConfiguration with TestRegistry.Enabled and TestResult.Enabled false; all 109 tests passed."
+  ],
+  "coverageBoundary": {
+    "nativeServicingOrWindowsProvidersInvoked": false,
+    "testProvidersMockedOrSynthetic": true,
+    "realVmOrCheckpointAccessed": false,
+    "defenderBlockedToolsSelectedOrTouched": false,
+    "defenderOrWindowsStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false,
+    "nativeWindows11Acceptance": "Pending; target VM is running but checkpoint membership and task readiness remain unconfirmed."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; mocked local regression closes no legacy component outcome."
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "recordedAtUtc": "2026-10-28T20:51:08Z",
+  "batch": "Package dependency planning and acquisition evidence cross-shell regression",
+  "suites": [
+    {
+      "path": "tests/PackageDependencyPlanning.Tests.ps1",
+      "total": 11,
+      "powerShell7": {
+        "version": "7.6.5",
+        "pester": "5.7.1",
+        "passed": 11,
+        "failed": 0,
+        "skipped": 0
+      },
+      "windowsPowerShell": {
+        "version": "5.1.26100.9818",
+        "pester": "5.7.1",
+        "passed": 11,
+        "failed": 0,
+        "skipped": 0,
+        "executionPolicy": "Process-only Bypass"
+      }
+    },
+    {
+      "path": "tests/PackageEvidence.Tests.ps1",
+      "total": 29,
+      "powerShell7": {
+        "version": "7.6.5",
+        "pester": "5.7.1",
+        "passed": 29,
+        "failed": 0,
+        "skipped": 0
+      },
+      "windowsPowerShell": {
+        "version": "5.1.26100.9818",
+        "pester": "5.7.1",
+        "passed": 29,
+        "failed": 0,
+        "skipped": 0,
+        "executionPolicy": "Process-only Bypass"
+      }
+    }
+  ],
+  "boundaries": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "HttpCallsMocked": true,
+    "AuthenticodeCallsMocked": true,
+    "PackageInstallersExecuted": false,
+    "NetworkRequestsMade": false,
+    "WindowsChanged": false,
+    "DefenderChanged": false,
+    "ElevationRequested": false,
+    "SyntheticFixtureRootsCleaned": true
+  },
+  "validation": {
+    "repositoryValidator": "Passed",
+    "operations": 447,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 301
+  },
+  "vm": {
+    "checkedAtUtc": "2026-10-28T20:51:08Z",
+    "target": "RIDE-Win11-Test",
+    "result": "Access to a CIM resource was not available to the client.",
+    "stateRetrieved": false,
+    "guestRequestSubmitted": false
+  },
+  "disposition": "Package planning/dependency/evidence regression passes locally; Windows package acceptance and artifact-specific checks remain pending.",
+  "migration": {
+    "resolved": [
+      "Cross-shell package dependency planning and acquisition evidence regression."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Three ApplicationPackages retained-artifact checks for RawCopy, ETL2PCAPNG and AdMod.",
+      "Windows acceptance requiring the RIDE-Win11-Test VM."
+    ],
+    "partial": [
+      "No legacy outcome closed."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

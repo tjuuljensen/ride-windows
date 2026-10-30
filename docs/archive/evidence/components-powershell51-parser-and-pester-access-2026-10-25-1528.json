@@ -1,0 +1,52 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:28:22Z",
+  "Scope": "Windows PowerShell 5.1 compatibility check for component inventory/preparation/lifecycle",
+  "Parser": {
+    "Engine": "Windows PowerShell 5.1.26100.9711",
+    "Files": [
+      "modules/RIDE.ComponentInventory.psm1",
+      "modules/RIDE.ClientComponentPreparation.psm1",
+      "modules/RIDE.ClientComponentLifecycle.psm1",
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1"
+    ],
+    "Parsed": 6,
+    "SyntaxErrors": 0
+  },
+  "Pester": {
+    "Version": "5.7.1",
+    "TestsStarted": 0,
+    "Result": "Blocked before discovery",
+    "Reason": "Import-Module Pester was rejected while loading Pester.Format.ps1xml and PesterConfiguration.Format.ps1xml: AuthorizationManager check failed. Reading execution policy was also denied by registry access. No policy or module change attempted."
+  },
+  "PowerShell7Evidence": {
+    "Reference": "components-local-regression-2026-10-25-1523.json",
+    "Passed": 67,
+    "Failed": 0
+  },
+  "Safety": {
+    "NativeServicingCalled": false,
+    "WindowsStateChanged": false,
+    "ExecutionPolicyChanged": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Windows PowerShell 5.1 Pester execution remains unavailable in this host session; native VM component acceptance remains blocked separately at CIM."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

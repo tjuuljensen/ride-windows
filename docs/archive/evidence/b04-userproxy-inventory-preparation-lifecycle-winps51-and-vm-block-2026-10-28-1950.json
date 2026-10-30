@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:50:45Z",
+  "batch": "B04 UserProxy current-source Windows PowerShell 5.1 regression and VM access recheck",
+  "command": "Windows PowerShell 5.1 with Pester 5.7.1; tests/UserProxyInventory.Tests.ps1, tests/UserProxyPreparation.Tests.ps1, tests/UserProxyLifecycle.Tests.ps1; TestRegistry disabled; process TEMP/TMP scoped to workspace-local .local.",
+  "results": {
+    "discovered": 103,
+    "passed": 103,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "inconclusive": 0,
+    "durationSeconds": 12.46,
+    "exitCode": 0
+  },
+  "coverage": [
+    "Fake native API query/write buffer contracts and observation identity.",
+    "Owned-field preparation, serialization, snapshot consistency and refusal cases.",
+    "Mocked WinINet policy checks, ShouldProcess/WhatIf behavior, identity validation, apply/readback/compensation and restore lifecycle."
+  ],
+  "safety": {
+    "allWinINetCallsMocked": true,
+    "registryCallsMocked": true,
+    "networkCallsMade": false,
+    "windowsProxyStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "vmReadOnlyPreflight": {
+    "target": "RIDE-Win11-Test",
+    "command": "Get-VM -Name RIDE-Win11-Test",
+    "result": "Blocked before returning VM state: Access to a CIM resource was not available to the client.",
+    "checkpointInspected": false,
+    "guestRunnerDispatched": false
+  },
+  "outcome": {
+    "localCurrentSourceRegression": "Resolved for the 103 tests in the three UserProxy suites on Windows PowerShell 5.1.",
+    "catalogSupportedTargets": "Empty; candidate remains pending native acceptance.",
+    "remaining": "Effective policy, PAC consumers, RAS/GUI behavior and disposable Windows apply/repeat/status/restore acceptance remain open.",
+    "legacyOutcomeClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no legacy setting outcome closed."
+  }
+}

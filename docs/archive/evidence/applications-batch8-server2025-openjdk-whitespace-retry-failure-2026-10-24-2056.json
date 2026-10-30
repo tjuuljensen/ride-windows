@@ -1,0 +1,94 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "0d6cb028efec4b5491e2aa706c68f8c7",
+  "SubmittedAtUtc": "2026-10-24T20:43:43Z",
+  "StartedAtUtc": "2026-10-24T20:43:46Z",
+  "FinishedAtUtc": "2026-10-24T20:56:13Z",
+  "Suite": "ApplicationsBatch8",
+  "Target": "Windows Server 2025 build 26100",
+  "Status": "Failed",
+  "Pester": {
+    "Passed": 354,
+    "Failed": 0,
+    "Skipped": 1,
+    "ValidationPassed": true
+  },
+  "PackageCases": [
+    {
+      "Id": "package.microsoft-openjdk",
+      "Version": "25.0.4.101",
+      "JavaOutput": "openjdk version \"25.0.4.1\" 2026-08-18 LTS",
+      "InstallDirectoryExists": true,
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "Registration": "Microsoft Build of OpenJDK  25.0.4.1+1 (x64)"
+    },
+    {
+      "Id": "package.microsoft-openjdk-21",
+      "Version": "21.0.12.101",
+      "JavaOutput": "openjdk version \"21.0.12.1\" 2026-08-18 LTS",
+      "InstallDirectoryExists": true,
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "Registration": "Microsoft Build of OpenJDK  21.0.12.1+1 (x64)"
+    },
+    {
+      "Id": "package.microsoft-openjdk-17",
+      "Version": "17.0.20.101",
+      "JavaOutput": "openjdk version \"17.0.20.1\" 2026-08-18 LTS",
+      "InstallDirectoryExists": true,
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "Registration": "Microsoft Build of OpenJDK  17.0.20.1+1 (x64)"
+    },
+    {
+      "Id": "package.microsoft-openjdk-11",
+      "Version": "11.0.32.101",
+      "JavaOutput": "openjdk version \"11.0.32.1\" 2026-08-18 LTS",
+      "InstallDirectoryExists": true,
+      "JavaExecutableExists": true,
+      "JavacExecutableExists": true,
+      "Registration": "Microsoft Build of OpenJDK  11.0.32.1+1 (x64)"
+    }
+  ],
+  "FailureDetails": {
+    "FailureStage": "Not recorded by the 0d6cb runner snapshot",
+    "ExceptionMessage": "Windows PowerShell 5.1 treated native java.exe -version stderr as a terminating error under ErrorActionPreference=Stop; the output contained the expected pinned version.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "RecoveryBlockPresent": false
+  },
+  "FollowUp": {
+    "FailedRunRunnerSha256": "2bd7e5ce7a0bb5a1ee64ee9edcc842834bbc5de83d7849d4f5a88b32c7096cad",
+    "CurrentRunnerVersion": "0.14.9",
+    "Change": "Capture Java stdout/stderr/exit status through System.Diagnostics.Process and record the bounded failure stage, exception type and script stack.",
+    "FocusedValidation": "10 selected ApplicationPackages Pester tests passed; tools/validate.ps1 passed 410 operations, 8 groups, 5 profiles and 273 PowerShell files.",
+    "QueueSubmissionAttempt": {
+      "Status": "Denied before request creation",
+      "AttemptId": "c0ead21d56ee48c8b29c9b468f08e507",
+      "Reason": "Access denied creating the temporary file under the protected RIDESrv2025Test pending queue."
+    },
+    "SeparateRun": {
+      "RunId": "0171b830ce4f4aa3b38c3e92b11b6c4e",
+      "StatusAtObservation": "Running",
+      "SubmittedAtUtc": "2026-10-24T20:57:14Z",
+      "RunnerSnapshotVersion": "0.14.8",
+      "RunnerSnapshotSha256": "6938958fa30b3207dff8fd2be7bba52564335626f80fd0beA71EB5C512A23144",
+      "CodeUnderTest": "System.Diagnostics.Process Java output capture; stage diagnostics are absent from this snapshot.",
+      "CurrentRunnerVersion": "0.14.9",
+      "NoDuplicateSubmitted": true
+    }
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "OpenJDK lifecycle/recovery and Server target acceptance.",
+      "A follow-up run using runner 0.14.9 diagnostics until the protected request queue can be written."
+    ],
+    "Partial": ["All four OpenJDK package outcomes remain partial."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

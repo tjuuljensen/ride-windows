@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-27",
+  "timeUtc": "08:58",
+  "packageId": "hashcheck-shell-extension",
+  "packageVersion": "2.6.3",
+  "source": {
+    "uri": "https://github.com/idrassi/HashCheck/releases/download/v2.6.3/HashCheckSetup-v2.6.3.0.exe",
+    "sourceType": "catalog-declared official publisher release URL",
+    "expectedSha256": "cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa",
+    "localDestination": ".local/artifacts/hashcheck-2.6.3/HashCheckSetup-v2.6.3.0.exe"
+  },
+  "attempt": {
+    "result": "blocked-before-transfer",
+    "client": "PowerShell Invoke-WebRequest",
+    "error": "No such host is known.",
+    "partialFileCreated": false,
+    "existingArtifactOverwritten": false
+  },
+  "safety": {
+    "installerExecuted": false,
+    "packageInstalled": false,
+    "registryOrExplorerStateChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "status": {
+    "resolved": [
+      "Publisher asset URL and SHA-256 remain catalog-pinned; tagged installer source and /S semantics were reviewed previously.",
+      "Publisher license is BSD-3-Clause; the local NeedsReview/Unassigned marker is administrative and does not block package planning or migration."
+    ],
+    "deferred": [
+      "Exact installer bytes and local digest comparison",
+      "Authenticode signer identity",
+      "RIDE-managed install/remove/recovery and Explorer/sparse-package intended-user acceptance",
+      "Windows 11 disposable-target acceptance"
+    ],
+    "legacyOutcomeClosed": false,
+    "estimateChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

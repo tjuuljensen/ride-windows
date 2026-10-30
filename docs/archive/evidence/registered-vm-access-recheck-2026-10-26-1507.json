@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T15:07:58Z",
+  "checks": [
+    {
+      "target": "RIDE-Win11-Test",
+      "command": "Get-VM",
+      "result": "Failed before inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "target": "RIDE-S25-Test",
+      "command": "Get-VM",
+      "result": "Failed before inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "target": "RIDE-Win11-Test",
+      "command": "Get-VMCheckpoint",
+      "result": "Failed before inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "target": "RIDEWin11Test",
+      "command": "schtasks.exe /Query /TN '\\RIDE\\RIDEWin11Test' /FO LIST",
+      "result": "Failed before dispatch",
+      "error": "ERROR: The network address is invalid."
+    }
+  ],
+  "stateChanges": {
+    "requestDispatched": false,
+    "guestInspected": false,
+    "checkpointChanged": false,
+    "serviceChanged": false,
+    "defenderChanged": false,
+    "elevationPromptRequested": false
+  },
+  "migrationEffect": "None; keep Windows integration acceptance deferred and continue independent local/source work.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

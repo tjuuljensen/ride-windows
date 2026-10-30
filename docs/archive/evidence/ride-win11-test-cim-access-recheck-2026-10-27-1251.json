@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "RideWin11TestCimAccessRecheck",
+  "RecordedAtUtc": "2026-10-27T12:51:22Z",
+  "Target": "RIDE-Win11-Test",
+  "Checks": [
+    {
+      "Command": "Get-VM -Name RIDE-Win11-Test",
+      "Result": "failed before VM/checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "RelatedTaskInspection": "not attempted after VM CIM failure",
+  "PesterAvailability": {
+    "Version": "5.7.1",
+    "Path": "C:\\Users\\tjuuljensen\\OneDrive\\Dokumenter\\WindowsPowerShell\\Modules\\Pester\\5.7.1\\Pester.psd1",
+    "Available": true
+  },
+  "Effects": {
+    "DefenderChanged": false,
+    "HostServiceChanged": false,
+    "AcceptanceDispatched": false,
+    "CheckpointChanged": false,
+    "ElevationRequested": false,
+    "VMChanged": false,
+    "WindowsChanged": false
+  },
+  "Acceptance": {
+    "Blocker": "Host CIM access prevents VM/checkpoint inspection and test dispatch",
+    "NextStep": "Retry read-only host VM/task access before dispatch; continue local/source batches meanwhile.",
+    "Status": "blocked"
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Estimates": {
+      "Packages": "38-53",
+      "Maintenance": "8-12",
+      "Rounded": "125-180/about 155",
+      "Settings": "37-57",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Exact": "127-181"
+    },
+    "Excluded": [],
+    "EstimateReason": "Access recheck adds current blocker evidence but resolves no legacy outcome; rounded estimates remain unchanged.",
+    "Deferred": [
+      "Windows 11 native package, setting and component acceptance"
+    ]
+  }
+}

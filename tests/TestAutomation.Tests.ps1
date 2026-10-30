@@ -28,6 +28,8 @@
   Author: RIDE-Windows maintainers.
   Version: Repository test fixture; no independent released version.
   Changelog:
+    2026-10-27: Give each guest-suite preview isolated generated checkout and result paths.
+    2026-10-27: Verify reconnect arguments avoid capturing unrelated typed values from the caller scope.
     2026-10-24: Count decoded JSON-array rows consistently on Windows PowerShell 5.1 and PowerShell 7.
     2026-10-13: Retain valid UTC queue timestamps under Danish culture on both PowerShell editions.
     2026-10-13: Verify controller execution does not inspect host UAC; preserve elevation and recovery checks.
@@ -45,6 +47,32 @@ BeforeDiscovery {
   Import-Module (Join-Path $PSScriptRoot 'integration\RIDE.TestAutomation.psm1') -Force
 }
 
+Describe 'Collected interactive guest evidence' {
+  BeforeEach {
+    $taskRecord = @{ RunId='interactive-probe'; LastTaskResult=0; TaskRemoved=$true; Error=$null; CleanupError=$null; ExpectedUserSid='S-1-5-21-1-2-3-1000'; ExpectedSessionId=1 }
+    $workerRecord = @{ RunId='interactive-probe'; Status='Passed'; Error=$null; Context=@{SID='S-1-5-21-1-2-3-1000';SessionId=1;Elevated=$true;UserInteractive=$true} }
+  }
+  It 'accepts correlated successful task removal and worker context' {
+    $taskRecord | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $TestDrive 'interactive-task.json')
+    $workerRecord | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $TestDrive 'interactive-worker.json')
+    { Assert-RideAutomationInteractiveEvidence -Path $TestDrive -RunId 'interactive-probe' } | Should -Not -Throw
+  }
+  It 'rejects <Failure> even when the lifecycle summary could have passed' -ForEach @(
+    @{Failure='task cleanup'}, @{Failure='exit code'}, @{Failure='correlation'}, @{Failure='worker context'}, @{Failure='missing worker'}
+  ) {
+    switch($Failure) {
+      'task cleanup' {$taskRecord.TaskRemoved=$false; $taskRecord.CleanupError='Task remains'}
+      'exit code' {$taskRecord.LastTaskResult=1}
+      'correlation' {$workerRecord.RunId='another-run'}
+      'worker context' {$workerRecord.Context.SessionId=0}
+    }
+    $taskRecord | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $TestDrive 'interactive-task.json')
+    if($Failure -ne 'missing worker') {$workerRecord | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $TestDrive 'interactive-worker.json')}
+    else { Remove-Item (Join-Path $TestDrive 'interactive-worker.json') -ErrorAction SilentlyContinue }
+    { Assert-RideAutomationInteractiveEvidence -Path $TestDrive -RunId 'interactive-probe' } | Should -Throw
+  }
+}
+
 Describe 'Controller JSON write failures' {
   It 'stops the caller when the destination parent is missing' {
     $path = Join-Path $TestDrive 'missing-parent/result.json'
@@ -58,6 +86,51 @@ Describe 'Controller JSON write failures' {
     $continued | Should -BeFalse
     $writeError | Should -Not -BeNullOrEmpty
     Test-Path -LiteralPath $path | Should -BeFalse
+  }
+}
+
+Describe 'Guest result export session recovery' {
+  It 'reuses a connected, available guest session' {
+    $session = [pscustomobject]@{ State = 'Opened'; Availability = 'Available' }
+    $reconnect = { throw 'A healthy result session should be reused.' }
+
+    $actual = Get-RideAutomationResultSession -Session $session -Reconnect $reconnect
+
+    $actual | Should -Be $session
+  }
+
+  It 'reconnects after the guest session is disconnected' {
+    $session = [pscustomobject]@{ State = 'Disconnected'; Availability = 'None' }
+    $replacement = [pscustomobject]@{ State = 'Opened'; Availability = 'Available' }
+    $tracker = [pscustomobject]@{ Calls = 0 }
+    $reconnect = { $tracker.Calls++; $replacement }.GetNewClosure()
+
+    $actual = Get-RideAutomationResultSession -Session $session -Reconnect $reconnect
+
+    $actual | Should -Be $replacement
+    $tracker.Calls | Should -Be 1
+  }
+
+  It 'passes reconnect arguments without closing over caller variables' {
+    $session = [pscustomobject]@{ State = 'Disconnected'; Availability = 'None' }
+    $reconnect = {
+      param([string] $ComputerName)
+      [pscustomobject]@{ State = 'Opened'; Availability = 'Available'; ComputerName = $ComputerName }
+    }
+
+    $actual = Get-RideAutomationResultSession -Session $session -Reconnect $reconnect -ReconnectArgumentList @('RIDE-Win11-Test')
+
+    $actual.State | Should -BeExactly 'Opened'
+    $actual.ComputerName | Should -BeExactly 'RIDE-Win11-Test'
+  }
+
+  It 'does not replace a session that still has a command running' {
+    $session = [pscustomobject]@{ State = 'Opened'; Availability = 'Busy' }
+    $tracker = [pscustomobject]@{ Calls = 0 }
+    $reconnect = { $tracker.Calls++; [pscustomobject]@{ State = 'Opened'; Availability = 'Available' } }.GetNewClosure()
+
+    { Get-RideAutomationResultSession -Session $session -Reconnect $reconnect } | Should -Throw '*still busy*'
+    $tracker.Calls | Should -Be 0
   }
 }
 
@@ -142,9 +215,33 @@ Describe 'Task configuration and read-only watch selection' {
     $client = Get-Command (Join-Path $PSScriptRoot 'integration\Invoke-RideVmTestTask.ps1')
     $setup = Get-Command (Join-Path $PSScriptRoot 'integration\Register-RideVmTestTask.ps1')
     ($client.Parameters.Source.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Local', 'CI')
-    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'GitHubAuthentication', 'NTCore', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick')
+    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem')
     ($client.Parameters.GuestGitHubAuthentication.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Anonymous','PAT')
     ($setup.Parameters.Action.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Register', 'Remove')
+  }
+
+  It 'requires a registered split-suite capability before accepting the client request' {
+    $current=[pscustomobject]@{Capabilities=@('ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1')}
+    $stale=[pscustomobject]@{Capabilities=@('FocusedPortableV1')}
+    { Assert-RideAutomationSuiteCapability -Configuration $current -Suite 'ApplicationsBatch1Machine' } | Should -Not -Throw
+    { Assert-RideAutomationSuiteCapability -Configuration $stale -Suite 'ApplicationsBatch1User' } | Should -Throw '*ApplicationsBatch1SplitV1*'
+    { Assert-RideAutomationSuiteCapability -Configuration $current -Suite 'ApplicationsBatch9' } | Should -Not -Throw
+    { Assert-RideAutomationSuiteCapability -Configuration $stale -Suite 'ApplicationsBatch9' } | Should -Throw '*ApplicationsBatch9InfoBarV1*'
+    { Assert-RideAutomationSuiteCapability -Configuration $current -Suite 'ApplicationsBatch10' } | Should -Not -Throw
+    { Assert-RideAutomationSuiteCapability -Configuration $stale -Suite 'ApplicationsBatch10' } | Should -Throw '*ApplicationsBatch10ProjectMakerV1*'
+    { Assert-RideAutomationSuiteCapability -Configuration $current -Suite 'ApplicationsBatch11' } | Should -Not -Throw
+    { Assert-RideAutomationSuiteCapability -Configuration $stale -Suite 'ApplicationsBatch11' } | Should -Throw '*ApplicationsBatch11HashCheckV1*'
+    { Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('ApplicationsBatch11HashCheckV1')}) -Suite 'ApplicationsBatch11' } | Should -Throw '*ApplicationsBatch11InteractiveV1*'
+    { Assert-RideAutomationSuiteCapability -Configuration $current -Suite 'ApplicationsBatch12' } | Should -Not -Throw
+    { Assert-RideAutomationSuiteCapability -Configuration $stale -Suite 'ApplicationsBatch12' } | Should -Throw '*ApplicationsBatch12NtcoreExplorerSuiteV1*'
+    { Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('MiTeCAnalysisToolsV1')}) -Suite 'MiTeCAnalysisTools' } | Should -Not -Throw
+    { Assert-RideAutomationSuiteCapability -Configuration $stale -Suite 'MiTeCAnalysisTools' } | Should -Throw '*MiTeCAnalysisToolsV1*'
+    { Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('MiTeCSystemAndTelephonyV1')}) -Suite 'MiTeCSystemAndTelephony' } | Should -Not -Throw
+    { Assert-RideAutomationSuiteCapability -Configuration $stale -Suite 'MiTeCSystemAndTelephony' } | Should -Throw '*MiTeCSystemAndTelephonyV1*'
+    $client=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTestTask.ps1') -Raw
+    $client | Should -Match 'Assert-RideAutomationSuiteCapability -Configuration \$config -Suite \$IntegrationSuite'
+    $register=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Register-RideVmTestTask.ps1') -Raw
+    $register | Should -Match "Capabilities = @\('HostPreparationWatchdogV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1'\)"
   }
 
   It 'rejects implicit non-disposable configurations' {
@@ -186,6 +283,17 @@ Describe 'Task configuration and read-only watch selection' {
     & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Match '^\d+\.\d+\.\d+$'
   }
 
+  It 'selects focused catalog, lifecycle, presentation and controller tests for remaining-settings VM batches' {
+    $guestTests=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Raw
+    $suitePattern=[regex]::Escape("IntegrationSuite -in @('SettingsRemainingBatch1', 'SettingsRemainingBatch2')")
+    $guestTests | Should -Match $suitePattern
+    foreach($name in @('Catalog.Tests.ps1','CliShouldProcess.Tests.ps1','HashValueContextMenu.Tests.ps1','RemainingSettings.Tests.ps1','SettingPresentation.Tests.ps1','TestAutomation.Tests.ps1')){
+      $pathPattern=[regex]::Escape(".\tests\$name")
+      $guestTests | Should -Match $pathPattern
+    }
+    $guestTests | Should -Match "Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression"
+  }
+
   It 'dispatches <Suite> to its requested scenario without real integration calls' -ForEach @(
     @{ Suite='Full'; Expected='Full' },
     @{ Suite='SettingsBatch40'; Expected='Batch40' },
@@ -196,6 +304,10 @@ Describe 'Task configuration and read-only watch selection' {
     @{ Suite='ApplicationsBatch1'; Expected='Applications/1' },
     @{ Suite='ApplicationsBatch2'; Expected='Applications/2' },
     @{ Suite='ApplicationsBatch8'; Expected='Applications/8' },
+    @{ Suite='ApplicationsBatch9'; Expected='Applications/9' },
+    @{ Suite='ApplicationsBatch10'; Expected='Applications/10' },
+    @{ Suite='ApplicationsBatch11'; Expected='Applications/11' },
+    @{ Suite='ApplicationsBatch12'; Expected='Applications/12' },
     @{ Suite='GitHubAuthentication'; Expected='Authentication/Anonymous/Acquire' }
   ) {
     $tokens=$null; $errors=$null
@@ -229,11 +341,11 @@ Describe 'Task configuration and read-only watch selection' {
     finally { $env:RIDE_TEST_GUEST = $previousMarker }
   }
 
-  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }, @{ Suite = 'SettingsBatch60' }, @{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }) {
-    $source = Join-Path $TestDrive 'guest-preview-checkout'
+  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }, @{ Suite = 'SettingsBatch60' }, @{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch1Machine' }, @{ Suite = 'ApplicationsBatch1User' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'ApplicationsBatch9' }, @{ Suite = 'ApplicationsBatch10' }, @{ Suite = 'ApplicationsBatch11' }, @{ Suite = 'ApplicationsBatch12' }) {
+    $source = Join-Path $TestDrive ('guest-preview-checkout-{0}' -f $Suite)
     $null = New-Item -ItemType Directory -Path (Join-Path $source 'tools') -Force
     'throw "Preview must not run validation"' | Set-Content -LiteralPath (Join-Path $source 'tools/validate.ps1')
-    $results = Join-Path $TestDrive 'guest-preview-results'
+    $results = Join-Path $TestDrive ('guest-preview-results-{0}' -f $Suite)
     $previousMarker = $env:RIDE_TEST_GUEST
     try {
       $env:RIDE_TEST_GUEST = '1'
@@ -337,6 +449,67 @@ Add-RideApplicationBatchResult -Results $results -JsonRecords $jsonRecords -Resu
   }
 }
 
+Describe 'ApplicationsBatch1 vendor user-data preservation fixtures' {
+  BeforeAll {
+    $path=Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'
+    $tokens=$null;$errors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$errors)
+    $errors | Should -BeNullOrEmpty
+    $script:FixtureHelper=@($ast.FindAll({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'New-RideApplicationUserDataFixtures'},$true))[0]
+    $script:AssertHelper=@($ast.FindAll({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Assert-RideApplicationUserDataPreserved'},$true))[0]
+  }
+
+  It 'provides isolated synthetic user-data fixtures for every selected vendor package' {
+    $create=[scriptblock]::Create("param([string]`$PackageId,[hashtable]`$Roots)`n$($FixtureHelper.Extent.Text)`nNew-RideApplicationUserDataFixtures -PackageId `$PackageId -Roots `$Roots")
+    $roots=@{}
+    foreach($name in @('Roaming','Local','Profile','Documents')){$roots[$name]=Join-Path $TestDrive $name;New-Item -ItemType Directory -Path $roots[$name] -Force | Out-Null}
+    $expected=@('package.vscode','package.firefox','package.sqlitebrowser','package.autopsy','package.chrome','package.wireshark','package.signal','package.thunderbird','package.tmog','package.phoenix-protector','package.gpg4win')
+    $actual=@()
+    foreach($id in $expected){
+      $fixtures=@(& $create -PackageId $id -Roots $roots)
+      $fixtures.Count | Should -BeGreaterThan 0 -Because "$id must have a user-data fixture"
+      foreach($fixture in $fixtures){
+        Test-Path -LiteralPath $fixture.Path -PathType Leaf | Should -BeTrue
+        (Get-FileHash -LiteralPath $fixture.Path -Algorithm SHA256).Hash | Should -BeExactly $fixture.Sha256
+        $fixture.Path.StartsWith([IO.Path]::GetFullPath($roots[$fixture.Root]) + [IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase) | Should -BeTrue
+      }
+      $actual += $id
+    }
+    $actual | Should -Be $expected
+  }
+
+  It 'detects deleted or modified vendor data at the uninstall checkpoint' {
+    $create=[scriptblock]::Create("param([string]`$PackageId,[hashtable]`$Roots)`n$($FixtureHelper.Extent.Text)`nNew-RideApplicationUserDataFixtures -PackageId `$PackageId -Roots `$Roots")
+    $assert=[scriptblock]::Create("param([object[]]`$Fixtures,[string]`$Stage)`n$($AssertHelper.Extent.Text)`nAssert-RideApplicationUserDataPreserved -Fixtures `$Fixtures -Stage `$Stage")
+    $roots=@{}
+    foreach($name in @('Roaming','Local','Profile','Documents')){$roots[$name]=Join-Path $TestDrive $name;New-Item -ItemType Directory -Path $roots[$name] -Force | Out-Null}
+    $fixtures=@(& $create -PackageId 'package.firefox' -Roots $roots)
+    { & $assert -Fixtures $fixtures -Stage 'Vendor uninstall' } | Should -Not -Throw
+    [IO.File]::WriteAllText($fixtures[0].Path,'modified')
+    { & $assert -Fixtures $fixtures -Stage 'Vendor uninstall' } | Should -Throw '*modified user data fixture*'
+    Remove-Item -LiteralPath $fixtures[0].Path -Force
+    { & $assert -Fixtures $fixtures -Stage 'Vendor uninstall' } | Should -Throw '*removed user data fixture*'
+  }
+
+  It 'keeps the TMOG fixture under LocalAppData and detects changed bytes' {
+    $create=[scriptblock]::Create("param([string]`$PackageId,[hashtable]`$Roots)`n$($FixtureHelper.Extent.Text)`nNew-RideApplicationUserDataFixtures -PackageId `$PackageId -Roots `$Roots")
+    $assert=[scriptblock]::Create("param([object[]]`$Fixtures,[string]`$Stage)`n$($AssertHelper.Extent.Text)`nAssert-RideApplicationUserDataPreserved -Fixtures `$Fixtures -Stage `$Stage")
+    $localRoot=Join-Path $TestDrive 'Local'
+    New-Item -ItemType Directory -Path $localRoot -Force | Out-Null
+    $fixtures=@(& $create -PackageId 'package.tmog' -Roots @{Local=$localRoot})
+    $fixtures.Count | Should -Be 1
+    $fixtures[0].Root | Should -BeExactly 'Local'
+    $fixtures[0].Name | Should -BeExactly 'TMOG user data'
+    $fixtures[0].RelativePath | Should -Match '^TMOG\\ride-preservation-[0-9a-f]{32}\.txt$'
+    $expectedRoot=[IO.Path]::GetFullPath((Join-Path $localRoot 'TMOG')) + [IO.Path]::DirectorySeparatorChar
+    $fixtures[0].Path.StartsWith($expectedRoot,[StringComparison]::OrdinalIgnoreCase) | Should -BeTrue
+    (Get-FileHash -LiteralPath $fixtures[0].Path -Algorithm SHA256).Hash | Should -BeExactly $fixtures[0].Sha256
+    { & $assert -Fixtures $fixtures -Stage 'TMOG vendor uninstall' } | Should -Not -Throw
+    [IO.File]::WriteAllText($fixtures[0].Path,'modified TMOG user data')
+    { & $assert -Fixtures $fixtures -Stage 'TMOG vendor uninstall' } | Should -Throw '*modified user data fixture*'
+  }
+}
+
 Describe 'Controller host preflight' -Skip:($PSVersionTable.PSEdition -ne 'Desktop' -or -not [Environment]::Is64BitProcess) {
   InModuleScope RIDE.TestAutomation {
     BeforeAll {
@@ -407,10 +580,10 @@ Describe 'Correlated execution, failures and VM recovery' {
       Mock Copy-RideAutomationSnapshot { @(@{ Path = 'ride.ps1'; SHA256 = 'abc' }) }
       Mock Start-Process {
         $suite = if ($script:request.PSObject.Properties.Name -contains 'IntegrationSuite') { $script:request.IntegrationSuite } else { 'Full' }
-        if ($suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) {
+        if ($suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
           $focused = Join-Path $script:testRoot "results\$($script:request.RunId)\focused"
           $null = New-Item -ItemType Directory $focused -Force
-          @{ RunId = $script:request.RunId; Batch = $suite; Status = 'Passed'; Cleanup = 'ResetAndOff'; EvidenceCollected = $true; ToolExecuted = ($suite -eq 'ImageMagick') } | ConvertTo-Json | Set-Content (Join-Path $focused 'result.json')
+          @{ RunId = $script:request.RunId; Batch = $suite; Status = 'Passed'; Cleanup = 'ResetAndOff'; EvidenceCollected = $true; ToolExecuted = ($suite -in @('ImageMagick','NTCore','RawCopy')) } | ConvertTo-Json | Set-Content (Join-Path $focused 'result.json')
         } else {
           $guest = Join-Path $script:testRoot "results\$($script:request.RunId)\guest"
           $null = New-Item -ItemType Directory $guest -Force
@@ -494,21 +667,61 @@ Describe 'Correlated execution, failures and VM recovery' {
       Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match ' -IntegrationSuite Full$' }
     }
 
-    It 'forwards <Suite> and correlates its acceptance evidence' -ForEach @(@{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'SysinternalsSuite' }, @{ Suite = 'SysinternalsProducts' }, @{ Suite = 'ImageMagick' }) {
+    It 'records possible VM changes before reset and retains supervised phase order' {
+      Mock Reset-RideAutomationVm {
+        $phase=Get-Content (Join-Path $script:testRoot "results/$($script:request.RunId)/host-phase.json") -Raw|ConvertFrom-Json
+        $phase.VmMayHaveChanged|Should -BeTrue
+      }
+      $result=Invoke-RideAutomationRequest $script:config $script:request $script:testRoot -Supervised
+      $result.Status|Should -Be 'Passed'
+      $stages=@(Get-Content (Join-Path $script:testRoot "results/$($script:request.RunId)/host-progress.jsonl")|ForEach-Object{$_|ConvertFrom-Json})
+      ($stages.Phase|Select-Object -Unique) -join ','|Should -Be 'Preparation,Execution,Recovery'
+      Should -Invoke Reset-RideAutomationVm -Exactly 2
+    }
+
+      It 'forwards <Suite> and correlates its acceptance evidence' -ForEach @(@{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch1Machine' }, @{ Suite = 'ApplicationsBatch1User' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'ApplicationsBatch9' }, @{ Suite = 'ApplicationsBatch10' }, @{ Suite = 'ApplicationsBatch11' }, @{ Suite = 'ApplicationsBatch12' }, @{ Suite = 'SysinternalsSuite' }, @{ Suite = 'SysinternalsProducts' }, @{ Suite = 'ImageMagick' }, @{ Suite = 'RawCopy' }, @{ Suite = 'WinPmem' }, @{ Suite = 'MiTeCMailHistoryViewers' }, @{ Suite = 'MiTeCAnalysisTools' }, @{ Suite = 'MiTeCSystemAndTelephony' }) {
       $script:request | Add-Member NoteProperty IntegrationSuite $Suite
-      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) {
-        $script:config | Add-Member NoteProperty Capabilities @('FocusedPortableV1')
+      if ($Suite -in @('ApplicationsBatch1Machine','ApplicationsBatch1User')) {
+        $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch1SplitV1')
+      }
+      if ($Suite -eq 'ApplicationsBatch9') {
+        $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch9InfoBarV1')
+      }
+      if ($Suite -eq 'ApplicationsBatch10') {
+        $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch10ProjectMakerV1')
+      }
+      if ($Suite -eq 'ApplicationsBatch11') {
+        $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1')
+      }
+      if ($Suite -eq 'ApplicationsBatch12') {
+        $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch12NtcoreExplorerSuiteV1')
+      }
+      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
+        $capabilities = if ($Suite -eq 'MiTeCAnalysisTools') { @('FocusedPortableV1','MiTeCAnalysisToolsV1') } elseif ($Suite -eq 'MiTeCSystemAndTelephony') { @('FocusedPortableV1','MiTeCSystemAndTelephonyV1') } else { @('FocusedPortableV1') }
+        $script:config | Add-Member NoteProperty Capabilities $capabilities
         Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Off' }; Snapshot = 'clean' } }
       }
       $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
       $result.Status | Should -Be 'Passed'
       $result.IntegrationSuite | Should -Be $Suite
-      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) {
+      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
         Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match 'Invoke-RidePortableVmAcceptance.ps1' -and $ArgumentList -match "-Batch $Suite" -and $ArgumentList -notmatch ' -IntegrationSuite ' }
       } else {
         Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList.EndsWith(" -IntegrationSuite $Suite") }
       }
-      Should -Invoke Reset-RideAutomationVm -Times $(if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick')) { 1 } else { 2 }) -Exactly
+      Should -Invoke Reset-RideAutomationVm -Times $(if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) { 1 } else { 2 }) -Exactly
+    }
+
+    It 'rejects a split suite against a stale registered controller before VM import or snapshot' {
+      $script:request | Add-Member NoteProperty IntegrationSuite 'ApplicationsBatch1Machine'
+      $script:config | Add-Member NoteProperty Capabilities @('FocusedPortableV1')
+      $result=Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
+      $result.Status | Should -Be 'Failed'
+      $result.Error | Should -Match 'ApplicationsBatch1SplitV1'
+      Should -Invoke Import-RideAutomationLab -Times 0 -Exactly
+      Should -Invoke Copy-RideAutomationSnapshot -Times 0 -Exactly
+      Should -Invoke Start-Process -Times 0 -Exactly
+      Should -Invoke Reset-RideAutomationVm -Times 0 -Exactly
     }
 
     It 'rejects arbitrary suite strings before launching a controller' {
@@ -544,14 +757,14 @@ Describe 'Correlated execution, failures and VM recovery' {
 
     Context 'Fixed preregistered portable batches' {
       BeforeEach {
-        $script:config|Add-Member NoteProperty Capabilities @('FocusedPortableV1')
+        $script:config|Add-Member NoteProperty Capabilities @('FocusedPortableV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1')
         $script:request|Add-Member NoteProperty IntegrationSuite 'PSScriptTools'
         Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Off' }; Snapshot = 'clean' } }
         $script:focusedOverride=@{}
         Mock Start-Process {
           $path=Join-Path $script:testRoot ('results/'+$script:request.RunId+'/focused')
           $null=New-Item -ItemType Directory -Path $path -Force
-          $result=@{RunId=$script:request.RunId;Batch=$script:request.IntegrationSuite;Status='Passed';Cleanup='ResetAndOff';EvidenceCollected=$true;ToolExecuted=($script:request.IntegrationSuite -in @('NTCore','ImageMagick'))}
+          $result=@{RunId=$script:request.RunId;Batch=$script:request.IntegrationSuite;Status='Passed';Cleanup='ResetAndOff';EvidenceCollected=$true;ToolExecuted=($script:request.IntegrationSuite -in @('NTCore','ImageMagick','RawCopy'))}
           foreach($key in $script:focusedOverride.Keys){$result[$key]=$script:focusedOverride[$key]}
           $result|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $path 'result.json')
           $process=[pscustomobject]@{Handle=[intptr]1;ExitCode=0;Id=123}
@@ -560,7 +773,7 @@ Describe 'Correlated execution, failures and VM recovery' {
           $process
         }
       }
-      It 'dispatches <Suite> without RunAs or acquiring the worker lock again' -ForEach @(@{Suite='NTCore'},@{Suite='PSScriptTools'},@{Suite='OfflineCaffeine'},@{Suite='SQLiteQuery'},@{Suite='MiTeCUtilityFiles'}) {
+      It 'dispatches <Suite> without RunAs or acquiring the worker lock again' -ForEach @(@{Suite='NTCore'},@{Suite='NTCoreAdditional'},@{Suite='MiTeCMailHistoryViewers'},@{Suite='MiTeCAnalysisTools'},@{Suite='MiTeCSystemAndTelephony'},@{Suite='PSScriptTools'},@{Suite='OfflineCaffeine'},@{Suite='SQLiteQuery'},@{Suite='MiTeCUtilityFiles'},@{Suite='WinPmem'}) {
         $script:request.IntegrationSuite=$Suite
         (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Status|Should -Be Passed
         Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter {$ArgumentList -match 'Invoke-RidePortableVmAcceptance.ps1' -and $ArgumentList -match "-ControllerRunId $($script:request.RunId) -Batch $Suite" -and $Verb -ne 'RunAs'}

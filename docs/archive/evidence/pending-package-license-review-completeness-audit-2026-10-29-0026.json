@@ -1,0 +1,38 @@
+{
+  "recordedAtUtc": "2026-10-29T00:26:20Z",
+  "batch": "Read-only pending package license-review completeness audit",
+  "sources": {
+    "catalog": "catalog/operations.psd1",
+    "localReviewStore": ".local/license-reviews.json"
+  },
+  "method": "Compared every Package operation with PendingAcceptance=true against an exact local review-store ID and PackageVersion pair.",
+  "result": {
+    "pendingPackageVersions": 53,
+    "exactVersionMarkers": 53,
+    "missingMarkers": 0,
+    "statusAndOwnerCounts": {
+      "NeedsReview/Unassigned": 53
+    },
+    "totalLocalReviewRecords": 94
+  },
+  "reviewIsMigrationGate": false,
+  "sideEffects": {
+    "catalogOrStoreChanged": false,
+    "downloadOrInstallerExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false,
+    "migrationEstimatesChanged": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "reasonUnchanged": "The read-only completeness audit changes no package acceptance or legacy outcome."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:01:48Z",
+  "batch": "OpenSSH Client/Telnet candidate and component-inventory local regression",
+  "runtime": {
+    "powershell": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "processExecutionPolicy": "Bypass for this process only to import Pester; no persistent policy change.",
+    "optionalPlugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "scratchRoot": ".local/pester-client-components-winps51"
+  },
+  "suites": [
+    {
+      "path": "tests/ClientComponentPreparation.Tests.ps1",
+      "passed": 28
+    },
+    {
+      "path": "tests/ClientComponentLifecycle.Tests.ps1",
+      "passed": 23
+    },
+    {
+      "path": "tests/ComponentInventory.Tests.ps1",
+      "passed": 19
+    }
+  ],
+  "result": {
+    "discovered": 70,
+    "passed": 70,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0
+  },
+  "coverage": [
+    "OpenSSH Client/Telnet preparation, source mode and finite-state guards.",
+    "CAB identity/build/hash validation, exact saved-state recovery and drift refusal with mocked servicing providers.",
+    "No-change and WhatIf behavior with no native DISM call.",
+    "Windows component provider inventory bounds, target validation, unknown-state handling, partial-row rejection and saved-inventory completion.",
+    "Read-only export preview and existing evidence preservation."
+  ],
+  "boundaries": {
+    "nativeDismInvoked": false,
+    "nativeComponentProvidersInvoked": false,
+    "registryChanged": false,
+    "vmInspected": false,
+    "defenderQueriedOrChanged": false,
+    "windowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": "Local current-source candidate regression passed. OpenSSH Client and Telnet remain unregistered and unsupported pending source/media completeness, dependencies, effective target policy, exact payload recovery and native Windows acceptance.",
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "Candidate regression adds source confidence but closes no legacy component outcome; ranges unchanged."
+    }
+  }
+}

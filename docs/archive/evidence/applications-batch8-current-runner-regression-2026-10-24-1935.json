@@ -1,0 +1,22 @@
+{
+  "RecordedAtUtc": "2026-10-24T19:35:00Z",
+  "Scope": "ApplicationsBatch8 static candidate-target runner regression",
+  "Source": "Local current worktree",
+  "RunnerSha256": "F15B25FD5D2D66CF1B0C5B443A9E4DA184CB2FF47B1C748AA40F1FB81BFD0C59",
+  "TestFile": "tests/ApplicationPackages.Tests.ps1",
+  "Pester": {
+    "Version": "5.7.1",
+    "PowerShell": "7.6.5",
+    "Discovered": 111,
+    "Selected": 9,
+    "Passed": 9,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 102,
+    "TestRegistryPlugin": "Disabled because the sandbox denied HKCU access; the focused tests are catalog/source assertions and do not require the plugin."
+  },
+  "Coverage": "Static checks assert that ApplicationsBatch8's OpenJDKCompatibility operations and variants enter the test-only in-memory target overlay and that the runner selects the four exact package IDs.",
+  "Limitations": "This does not execute the runner, acquire or install an MSI, or prove Windows Server behavior. The correlated Server VM acceptance request remains active.",
+  "LegacyOutcomesClosed": 0,
+  "EstimateImpact": "No legacy scope closed; ranges remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact 139-193, rounded 140-195/about 170."
+}

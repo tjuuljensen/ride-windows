@@ -2,12 +2,18 @@
 .SYNOPSIS
   Validate one application migration batch in a disposable Windows guest.
 .DESCRIPTION
-  Exercises previews, install/repeat/remove and saved-run recovery. Portable
-  scenarios also preserve user files and recover an explicit uninstall.
+  Exercises previews, install/repeat/remove and saved-run recovery. Selected
+  application scenarios preserve user files and recover an explicit uninstall.
+  With an evidence directory, appends closed-handle lifecycle progress records.
+  Project Maker also retains its Inno Setup log for timeout diagnosis.
 .PARAMETER Batch
-  Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), or side-by-side Microsoft OpenJDK versions on Server 2025 (8).
+  Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), side-by-side Microsoft OpenJDK versions on Server 2025 (8), MiTeC InfoBar on Windows 11 (9), MiTeC Project Maker on Windows 11 (10), HashCheck on Windows 11 (11), or NTCore Explorer Suite on Windows 11 (12).
+.PARAMETER PackageId
+  For batch 12, the exact package ID package.ntcore-explorer-suite. No other package is accepted.
 .PARAMETER Variant
   Limit batch 3 to one Docker Desktop variant. all-users runs only the elevated system-wide edition.
+.PARAMETER PackageScope
+  For ApplicationsBatch1, select all packages, packages that do not require an unelevated user, or packages that require an unelevated user.
 .PARAMETER Version
   Print the script version without running scenarios.
 .PARAMETER UnelevatedChild
@@ -24,6 +30,15 @@
 .EXAMPLE
   .\Invoke-RideApplicationBatch.ps1 -Batch 8
   Exercise the four pinned Microsoft OpenJDK MSIs on Windows Server 2025.
+.EXAMPLE
+  .\Invoke-RideApplicationBatch.ps1 -Batch 9
+  Exercise MiTeC InfoBar installation, removal, and saved-state recovery without launching it.
+.EXAMPLE
+  .\Invoke-RideApplicationBatch.ps1 -Batch 10
+  Exercise MiTeC Project Maker installation, removal, and saved-state recovery without launching it.
+.EXAMPLE
+  .\Invoke-RideApplicationBatch.ps1 -Batch 12 -PackageId package.ntcore-explorer-suite
+  Exercise only the pinned NTCore Explorer Suite installer lifecycle on Windows 11 without launching suite utilities.
 .INPUTS
   None.
 .OUTPUTS
@@ -32,8 +47,20 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.14.8.
-  Changelog: 0.14.8: Check exact OpenJDK package IDs; test launcher MSI registration without ARP entries.
+  Owner: RIDE-Windows maintainers. Version: 0.19.4.
+  Changelog: 0.19.4: Retain machine lifecycle stage progress and Project Maker installer diagnostics on timeout.
+    0.19.3: Admit the exact Batch 12 candidate to the guest-only catalog and include its removal/recovery checks.
+    0.19.2: Check HashCheck's observed four-part installed version without changing its release pin.
+    0.19.1: Retain the HashCheck publisher installer log in collected guest evidence.
+    0.19.0: Add exact-package Windows 11 acceptance selection for NTCore Explorer Suite.
+    0.18.0: Add focused Windows 11 HashCheck ApplicationsBatch11 install/remove/recovery acceptance.
+    0.16.0: Add Windows 11 MiTeC InfoBar ApplicationsBatch9 install/remove/recovery acceptance.
+    0.15.3: Split ApplicationsBatch1 machine/user acceptance and retain user-worker phase diagnostics.
+    0.15.2: Verify in-place uninstall preserves synthetic user data for every ApplicationsBatch1 vendor package.
+    0.15.1: Exercise TMOG uninstall/recovery and preserve synthetic user data under LocalAppData.
+    0.15.0: Exercise OpenJDK removal, repeat removal and removal recovery on Server 2025.
+    0.14.9: Capture bounded failure stage and exception details for OpenJDK lifecycle diagnostics.
+    0.14.8: Check exact OpenJDK package IDs; test launcher MSI registration without ARP entries.
     0.14.7: Capture bounded launcher registration and MSI event evidence when installation detection fails.
     0.14.6: Verify Artcraft MSI uninstallation preserves user profile data.
     0.14.5: Verify pinned Artcraft versions and full install/uninstall recovery in ApplicationsBatch6 and ApplicationsBatch7.
@@ -63,12 +90,14 @@
     0.1.0: Add two package-only migration suites.
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
-param([ValidateSet(1,2,3,4,5,6,7,8)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.14.8'
+param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
+$script:ScriptVersion='0.19.4'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
 if($Variant -and $Batch -ne 3){throw 'Variant selection is supported only by application batch 3.'}
+if($Batch -eq 12 -and $PackageId -cne 'package.ntcore-explorer-suite'){throw 'ApplicationsBatch12 requires exactly -PackageId package.ntcore-explorer-suite.'}
+if($Batch -ne 12 -and $PackageId){throw '-PackageId is supported only by ApplicationsBatch12.'}
 $workerIdentity=[Security.Principal.WindowsIdentity]::GetCurrent()
 $workerElevated=([Security.Principal.WindowsPrincipal]::new($workerIdentity)).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if($UnelevatedChild -and ($workerElevated -or $workerIdentity.User.Value -cne $ExpectedUserSid)){throw 'Limited worker identity or elevation does not match the authorized guest context.'}
@@ -116,6 +145,26 @@ function Assert-RideOpenJdkPreservation {
   if($actual -cne $Expected){throw "OpenJDK $Stage changed JAVA_HOME, PATH or .jar association state."}
 }
 
+function Invoke-RideOpenJdkVersionCommand {
+  param([Parameter(Mandatory)][string]$Path)
+  $startInfo=New-Object System.Diagnostics.ProcessStartInfo
+  $startInfo.FileName=$Path
+  $startInfo.Arguments='-version'
+  $startInfo.UseShellExecute=$false
+  $startInfo.CreateNoWindow=$true
+  $startInfo.RedirectStandardOutput=$true
+  $startInfo.RedirectStandardError=$true
+  $process=New-Object System.Diagnostics.Process
+  $process.StartInfo=$startInfo
+  try {
+    if(-not $process.Start()){throw "Could not start '$Path'."}
+    $standardOutput=$process.StandardOutput.ReadToEnd()
+    $standardError=$process.StandardError.ReadToEnd()
+    $process.WaitForExit()
+    [pscustomobject]@{ExitCode=$process.ExitCode;StandardOutput=$standardOutput;StandardError=$standardError}
+  } finally { $process.Dispose() }
+}
+
 function Add-RideApplicationBatchResult {
   param(
     [Parameter(Mandatory)][AllowEmptyCollection()][System.Collections.Generic.List[object]]$Results,
@@ -133,12 +182,70 @@ function Add-RideApplicationBatchResult {
   }
 }
 
+function New-RideApplicationUserDataFixtures {
+  param(
+    [Parameter(Mandatory)][string]$PackageId,
+    [Parameter(Mandatory)][hashtable]$Roots
+  )
+  $token = [guid]::NewGuid().ToString('N')
+  $definitions = switch ($PackageId) {
+    'package.vscode' { @(@{ Name='VS Code user settings'; Root='Roaming'; RelativePath="Code\User\RIDE-Acceptance-{token}\settings.json"; Content='{"rideAcceptance":"preserve"}' }, @{ Name='VS Code user extensions'; Root='Profile'; RelativePath=".vscode\extensions\ride.acceptance-{token}\package.json"; Content='{"name":"ride-acceptance","version":"1.0.0"}' }) }
+    'package.firefox' { @(@{ Name='Firefox profile preferences'; Root='Roaming'; RelativePath="Mozilla\Firefox\Profiles\ride-acceptance-{token}.default-release\prefs.js"; Content='user_pref("ride.acceptance.preserve", true);' }) }
+    'package.sqlitebrowser' { @(@{ Name='User-selected SQLite Browser data'; Root='Documents'; RelativePath="RIDE Acceptance Data\DB Browser\{token}\user-data.txt"; Content='Synthetic user-selected database data; do not delete.' }) }
+    'package.autopsy' { @(@{ Name='Autopsy user settings'; Root='Roaming'; RelativePath="autopsy\config\ride-acceptance-{token}.properties"; Content='ride.acceptance.preserve=true' }, @{ Name='Autopsy case data'; Root='Documents'; RelativePath="RIDE Acceptance Data\Autopsy\case-{token}\case.aut"; Content='Synthetic case data; do not delete.' }) }
+    'package.chrome' { @(@{ Name='Chrome user profile'; Root='Local'; RelativePath="Google\Chrome\User Data\RIDE-Acceptance-{token}\Preferences"; Content='{"rideAcceptance":"preserve"}' }) }
+    'package.wireshark' { @(@{ Name='Wireshark personal configuration'; Root='Roaming'; RelativePath="Wireshark\profiles\RIDE Acceptance {token}\preferences"; Content='gui.toolbar_main_show: TRUE' }) }
+    'package.signal' { @(@{ Name='Signal user profile'; Root='Roaming'; RelativePath="Signal\ride-preservation-{token}.txt"; Content='Keep existing profile data.' }) }
+    'package.thunderbird' { @(@{ Name='Thunderbird user profile'; Root='Roaming'; RelativePath="Thunderbird\Profiles\ride-acceptance-{token}.default\prefs.js"; Content='user_pref("ride.acceptance.preserve", true);' }) }
+    'package.tmog' { @(@{ Name='TMOG user data'; Root='Local'; RelativePath="TMOG\ride-preservation-{token}.txt"; Content='Keep existing profile data.' }) }
+    'package.phoenix-protector' { @(@{ Name='Phoenix Protector user project data'; Root='Documents'; RelativePath="RIDE Acceptance Data\Phoenix Protector\sample-project-{token}.txt"; Content='Synthetic user project data; do not delete.' }) }
+    'package.gpg4win' { @(@{ Name='GnuPG user configuration'; Root='Roaming'; RelativePath="gnupg\ride-acceptance-{token}.conf"; Content='# RIDE synthetic user configuration; no keys or certificates.' }) }
+    default { @() }
+  }
+  $fixtures = [System.Collections.Generic.List[object]]::new()
+  foreach ($definition in $definitions) {
+    if (-not $Roots.ContainsKey($definition.Root)) { throw "Missing user-data root '$($definition.Root)' for $PackageId." }
+    $root = [IO.Path]::GetFullPath([string]$Roots[$definition.Root])
+    $relativePath = ([string]$definition.RelativePath).Replace('{token}', $token)
+    $path = [IO.Path]::GetFullPath((Join-Path $root $relativePath))
+    $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    if (-not $path.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { throw "User-data fixture escaped its declared root for $PackageId." }
+    $null = New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force
+    [IO.File]::WriteAllText($path, [string]$definition.Content, [Text.UTF8Encoding]::new($false))
+    $fixtures.Add([pscustomobject]@{
+      Name = [string]$definition.Name
+      Path = $path
+      RelativePath = $relativePath
+      Root = [string]$definition.Root
+      Sha256 = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
+    })
+  }
+  return $fixtures.ToArray()
+}
+
+function Assert-RideApplicationUserDataPreserved {
+  param(
+    [Parameter(Mandatory)][object[]]$Fixtures,
+    [Parameter(Mandatory)][string]$Stage
+  )
+  foreach ($fixture in $Fixtures) {
+    if (-not (Test-Path -LiteralPath $fixture.Path -PathType Leaf)) { throw "$Stage removed user data fixture '$($fixture.Name)'." }
+    $actualHash = (Get-FileHash -LiteralPath $fixture.Path -Algorithm SHA256).Hash
+    if ($actualHash -cne $fixture.Sha256) { throw "$Stage modified user data fixture '$($fixture.Name)'." }
+  }
+}
+
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.Engine.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PackageSelection.psm1') -Force
 $target=Get-RidePlatform
 if($target -notin @('Windows 11','Windows Server 2025')){throw "Application acceptance requires the declared Windows 11/Server 2025 guests; found $target."}
 if($Batch -in @(5,6,7) -and $target -ne 'Windows 11'){throw "Application candidate batch $Batch is limited to Windows 11; Server support has not been selected."}
 if($Batch -eq 8 -and $target -ne 'Windows Server 2025'){throw 'ApplicationsBatch8 is limited to Windows Server 2025.'}
+if($Batch -eq 9 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch9 is limited to Windows 11.'}
+if($Batch -eq 10 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch10 is limited to Windows 11.'}
+if($Batch -eq 11 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch11 is limited to Windows 11.'}
+if($Batch -eq 12 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch12 is limited to Windows 11.'}
+if($PackageScope -ne 'All' -and $Batch -ne 1){throw 'PackageScope is supported only for ApplicationsBatch1.'}
 $guestOs=Get-CimInstance Win32_OperatingSystem
 $installationType=(Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name InstallationType -ErrorAction Stop).InstallationType
 $catalog=Get-RideCatalog
@@ -148,7 +255,7 @@ foreach($package in $catalog.Operations | Where-Object Kind -eq 'Package'){
   $names=if($package.Variants){@($package.Variants.Keys)}else{@('installed')}
   foreach($packageVariant in $names){
     $selected=Resolve-RidePackageSelection -Operation $package -Variant $packageVariant
-    $batchMatch=if($Batch -eq 8){$selected.MigrationBatch -eq 'OpenJDKCompatibility'}else{$selected.MigrationBatch -eq "ApplicationsBatch$Batch"}
+    $batchMatch=if($Batch -eq 8){$selected.MigrationBatch -eq 'OpenJDKCompatibility'}elseif($Batch -eq 12){$package.Id -ceq $PackageId}else{$selected.MigrationBatch -eq "ApplicationsBatch$Batch"}
     if($batchMatch -and (-not $Variant -or $packageVariant -eq $Variant)){
       if(Test-RidePackageTargetEligibility -Operation $selected -Target $target){$scenarios+=@{Id=$package.Id;Variant=$packageVariant;Selected=$selected}}
       else{$targetExcluded+=@{Id=$package.Id;Variant=$packageVariant;Selected=$selected}}
@@ -156,6 +263,9 @@ foreach($package in $catalog.Operations | Where-Object Kind -eq 'Package'){
   }
 }
 if(-not $scenarios.Count){throw 'No application scenarios were selected.'}
+if($PackageScope -eq 'Machine'){$scenarios=@($scenarios|Where-Object {-not $_.Selected.RequiresUnelevatedUser})}
+elseif($PackageScope -eq 'User'){$scenarios=@($scenarios|Where-Object {$_.Selected.RequiresUnelevatedUser})}
+if(-not $scenarios.Count){throw "ApplicationsBatch$Batch has no packages in the selected '$PackageScope' scope."}
 if($Batch -eq 5 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.vcredist-v14-x64')){throw 'ApplicationsBatch5 must select exactly the Microsoft Visual C++ v14 x64 package.'}
 if($Batch -eq 6){
   $expectedIds=@('package.photocraft','package.vectorcraft','package.filmcraft','package.lightcraft','package.pdfcraft','package.effectcraft','package.designcraft','package.wordcraft','package.soundcraft','package.deckcraft','package.cadcraft','package.gridcraft')
@@ -168,6 +278,10 @@ if($Batch -eq 8){
   $actualIds=@($scenarios | ForEach-Object {$_.Selected.PackageId} | Sort-Object)
   if($actualIds.Count -ne $expectedIds.Count -or (@($actualIds) -join '|') -cne (@($expectedIds | Sort-Object) -join '|')){throw 'ApplicationsBatch8 must select exactly the four pinned Microsoft OpenJDK compatibility packages.'}
 }
+if($Batch -eq 9 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.mitec-infobar')){throw 'ApplicationsBatch9 must select exactly MiTeC InfoBar 4.6.2.'}
+if($Batch -eq 10 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.mitec-project-maker')){throw 'ApplicationsBatch10 must select exactly MiTeC Project Maker 1.9.0.'}
+if($Batch -eq 11 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.hashcheck-shell-extension')){throw 'ApplicationsBatch11 must select exactly HashCheck Shell Extension 2.6.3.'}
+if($Batch -eq 12 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.ntcore-explorer-suite')){throw 'ApplicationsBatch12 must select exactly the pinned NTCore Explorer Suite candidate.'}
 $results=New-Object System.Collections.Generic.List[object]
 $jsonResults=New-Object System.Collections.Generic.List[string]
 $evidenceFile=if($UnelevatedChild){"applications-batch$Batch-user.json"}else{"applications-batch$Batch.json"}
@@ -175,7 +289,7 @@ $evidencePath=if($env:RIDE_TEST_EVIDENCE_PATH){Join-Path $env:RIDE_TEST_EVIDENCE
 if(-not $UnelevatedChild){
   $targetExcluded | ForEach-Object {
     $eligibleTargets=@($_.Selected.SupportedTargets)+@($_.Selected.CandidateTargets)
-    Add-RideApplicationBatchResult -Results $results -JsonRecords $jsonResults -Result ([pscustomobject][ordered]@{Id=$_.Id;Variant=$_.Variant;Target=$target;OS=$guestOs.Caption;Build=$guestOs.BuildNumber;InstallationType=$installationType;Applicability="Not selected: catalog supports or candidates this package only for $($eligibleTargets -join ', ').";Status='NotApplicable';Version=$null;Error=$null;Recovery=$true;ProfilePreservation=$null;RemovalRecoveryVersion=$null;RecoveryMode='No lifecycle actions performed for an ineligible target'}) -EvidencePath $evidencePath
+    Add-RideApplicationBatchResult -Results $results -JsonRecords $jsonResults -Result ([pscustomobject][ordered]@{Id=$_.Id;Variant=$_.Variant;Target=$target;OS=$guestOs.Caption;Build=$guestOs.BuildNumber;InstallationType=$installationType;Applicability="Not selected: catalog supports or candidates this package only for $($eligibleTargets -join ', ').";Status='NotApplicable';Version=$null;Error=$null;Recovery=$true;ProfilePreservation=$null;UserDataPreservation=$null;UserDataFixtures=@();RemovalRecoveryVersion=$null;RecoveryMode='No lifecycle actions performed for an ineligible target'}) -EvidencePath $evidencePath
   }
 }
 if($UnelevatedChild){
@@ -271,7 +385,7 @@ namespace RideTest {
     $command="try{[IO.File]::WriteAllText('$workerEvidencePath/application-user-bootstrap.log', [Security.Principal.WindowsIdentity]::GetCurrent().User.Value);`$env:RIDE_INTEGRATION_VM='1';`$env:RIDE_TEST_EVIDENCE_PATH='$workerEvidencePath';`$env:RIDE_TEST_RUN_ID='$($env:RIDE_TEST_RUN_ID)'; & '$scriptPath' -Batch $Batch -UnelevatedChild -ExpectedUserSid '$($testUser.SID.Value)' -ExpectedLocalAppData '$localAppData' *> '$workerEvidencePath/application-user-worker.log';exit 0}catch{[IO.File]::AppendAllText('$workerEvidencePath/application-user-worker.log',(`$_ | Out-String));exit 1}"
     $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
     $action=New-ScheduledTaskAction -Execute (Join-Path $PSHOME 'powershell.exe') -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand $encoded" -WorkingDirectory (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
-    $workerTimeoutMinutes=if($Batch -in @(1,3)){45}else{20}
+    $workerTimeoutMinutes=if($Batch -eq 1){60}elseif($Batch -eq 3){45}else{20}
     $settings=New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes $workerTimeoutMinutes) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
     $childPath=Join-Path $workerRoot "applications-batch$Batch-user.json"
     # Enable diagnostic history only inside this disposable guest; checkpoint
@@ -326,7 +440,7 @@ namespace RideTest {
         Unregister-ScheduledTask -TaskName $taskName -TaskPath '\RIDE\' -Confirm:$false -ErrorAction Stop
       }
       if($workerRoot){
-        foreach($name in @('application-user-bootstrap.log','application-user-worker.log','application-user-observations.json',"applications-batch$Batch-user.json")){
+        foreach($name in @('application-user-bootstrap.log','application-user-worker.log','application-user-progress.jsonl','application-user-observations.json',"applications-batch$Batch-user.json")){
           $source=Join-Path $workerRoot $name
           if(Test-Path -LiteralPath $source){Copy-Item -LiteralPath $source -Destination (Join-Path $env:RIDE_TEST_EVIDENCE_PATH $name)}
         }
@@ -358,16 +472,25 @@ function Get-SavedRunId($Output){
   $id=($Output | Where-Object {$_ -is [string] -and $_ -match '^Run ID: '} | Select-Object -Last 1)-replace '^Run ID: ',''
   if(-not $id){throw 'Scenario did not return a saved run.'};$id
 }
+
+function Write-RideApplicationProgress {
+  param([Parameter(Mandatory)][string]$PackageId,[Parameter(Mandatory)][string]$Stage)
+  if(-not $env:RIDE_TEST_EVIDENCE_PATH){return}
+  $fileName=if($UnelevatedChild){'application-user-progress.jsonl'}else{'application-progress.jsonl'}
+  $path=Join-Path $env:RIDE_TEST_EVIDENCE_PATH $fileName
+  $entry=[ordered]@{AtUtc=[datetime]::UtcNow.ToString('o');PackageId=$PackageId;Stage=$Stage}
+  [IO.File]::AppendAllText($path,($entry|ConvertTo-Json -Compress)+[Environment]::NewLine)
+}
 # Test-only support metadata lives in memory inside this guarded guest. It is
 # never written back to the production catalog or used as acceptance evidence.
 $testCatalog=Get-RideCatalog
 foreach($package in $testCatalog.Operations | Where-Object Kind -eq 'Package'){
-  if($package.MigrationBatch -like 'ApplicationsBatch*' -and (Test-RidePackageTargetEligibility -Operation $package -Target $target)){
+  if(($package.MigrationBatch -like 'ApplicationsBatch*' -or $package.MigrationBatch -eq 'OpenJDKCompatibility' -or ($Batch -eq 12 -and $package.Id -ceq 'package.ntcore-explorer-suite')) -and (Test-RidePackageTargetEligibility -Operation $package -Target $target)){
     $package.SupportedTargets=@($package.SupportedTargets)+@($target) | Select-Object -Unique
     $package.PendingAcceptance=$false
   }
   foreach($catalogVariant in $package.Variants.Values){
-    if($catalogVariant.MigrationBatch -like 'ApplicationsBatch*' -and (Test-RidePackageTargetEligibility -Operation $catalogVariant -Target $target)){
+    if(($catalogVariant.MigrationBatch -like 'ApplicationsBatch*' -or $catalogVariant.MigrationBatch -eq 'OpenJDKCompatibility') -and (Test-RidePackageTargetEligibility -Operation $catalogVariant -Target $target)){
       $catalogVariant.SupportedTargets=@($catalogVariant.SupportedTargets)+@($target) | Select-Object -Unique
       $catalogVariant.PendingAcceptance=$false
     }
@@ -376,13 +499,27 @@ foreach($package in $testCatalog.Operations | Where-Object Kind -eq 'Package'){
 & (Get-Module RIDE.Engine) {param($candidateCatalog) $script:RideLibraryContext=@{Catalog=$candidateCatalog}} $testCatalog
 foreach($scenario in $scenarios){
   $operation=Get-RideOperation $scenario.Id
+  $scenarioStage='Build installation plan'
+  Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
   $phoenixMsiLog=$null
+  if($scenario.Id -eq 'package.mitec-project-maker' -and $env:RIDE_TEST_EVIDENCE_PATH){
+    # Inno Setup's documented LOG switch changes diagnostics only. Keep the
+    # log outside TEMP so partial collection can retain it after a timeout.
+    $projectMakerLog=Join-Path $env:RIDE_TEST_EVIDENCE_PATH 'project-maker-install.log'
+    $operation.InstallerArguments=[string]$operation.InstallerArguments+' /LOG="'+$projectMakerLog+'"'
+  }
+  if($scenario.Id -eq 'package.hashcheck-shell-extension' -and $env:RIDE_TEST_EVIDENCE_PATH){
+    # The publisher supports /LOG=; keep its diagnostic outside guest TEMP so
+    # controller collection retains the failed step before checkpoint recovery.
+    $hashCheckLog=Join-Path $env:RIDE_TEST_EVIDENCE_PATH 'hashcheck-install.log'
+    $operation.InstallerArguments=[string]$operation.InstallerArguments+' /LOG="'+$hashCheckLog+'"'
+  }
   if($scenario.Id -eq 'package.phoenix-protector' -and $env:RIDE_TEST_EVIDENCE_PATH){
     $phoenixMsiLog=Join-Path $env:RIDE_TEST_EVIDENCE_PATH 'phoenix-protector-install.msi.log'
     $operation.InstallerArguments=[string]$operation.InstallerArguments+' /L*v "'+$phoenixMsiLog+'"'
   }
   $package=Resolve-RidePackageSelection $operation -Variant $scenario.Variant
-  $scenarioResult=[ordered]@{Id=$scenario.Id;Variant=$scenario.Variant;Target=$target;OS=$guestOs.Caption;Build=$guestOs.BuildNumber;InstallationType=$installationType;Scope=$package.Scope;Provider=$package.DownloadProvider;Applicability='Applicable to deployment lifecycle';Status='Failed';Version=$null;Error=$null;Recovery=$false;ProfilePreservation=$null;RemovalRecoveryVersion=$null;Checks=@();RecoveryMode=if($package.InstallerType -eq 'Portable'){'Exact owned-file recovery'}else{'Compensating presence recovery; previous-version recovery unavailable'}}
+  $scenarioResult=[ordered]@{Id=$scenario.Id;Variant=$scenario.Variant;Target=$target;OS=$guestOs.Caption;Build=$guestOs.BuildNumber;InstallationType=$installationType;Scope=$package.Scope;Provider=$package.DownloadProvider;Applicability='Applicable to deployment lifecycle';Status='Failed';Version=$null;Error=$null;Recovery=$false;ProfilePreservation=$null;UserDataPreservation=$null;UserDataFixtures=@();RemovalRecoveryVersion=$null;Checks=@();RecoveryMode=if($package.InstallerType -eq 'Portable'){'Exact owned-file recovery'}else{'Compensating presence recovery; previous-version recovery unavailable'}}
   $scenarioResult.ExecutionSid=$workerIdentity.User.Value
   $scenarioResult.Elevated=$workerElevated
   $scenarioResult.LocalAppData=[Environment]::GetFolderPath('LocalApplicationData')
@@ -391,6 +528,8 @@ foreach($scenario in $scenarios){
     Add-RideApplicationBatchResult -Results $results -JsonRecords $jsonResults -Result ([pscustomobject]$scenarioResult) -EvidencePath $evidencePath;continue
   }
   try{
+    $scenarioStage='Read pre-install state'
+    Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
     $openJdkBaseline=if($Batch -eq 8){Get-RideOpenJdkPreservationSnapshot}else{$null}
     $plan=@(Get-RideSingleOperationPlan -Id $scenario.Id -Action Install -Variant $scenario.Variant)
     $before=Get-RideCurrentState $plan[0].Operation
@@ -417,10 +556,27 @@ foreach($scenario in $scenarios){
     if($before.Present){throw 'Clean application test guest unexpectedly contains this edition.'}
     if($scenario.Id -eq 'package.vcredist-v14-x64'){$scenarioResult.OriginalVersion=$before.DisplayVersion}
     $profileFixture=$null
+    $userDataFixtures=@()
     $sessionFixture=$null
     $sessionFile=$null
-    if($scenario.Id -in @('package.chrome','package.signal','package.thunderbird','package.slack','package.discord')){
+    if($Batch -eq 1){
+      $dataRoots=@{
+        Roaming=[Environment]::GetFolderPath('ApplicationData')
+        Local=[Environment]::GetFolderPath('LocalApplicationData')
+        Profile=[Environment]::GetFolderPath('UserProfile')
+        Documents=[Environment]::GetFolderPath('MyDocuments')
+      }
+      $userDataFixtures=@(New-RideApplicationUserDataFixtures -PackageId $scenario.Id -Roots $dataRoots)
+      if(-not $userDataFixtures.Count){throw "ApplicationsBatch1 package '$($scenario.Id)' has no user-data preservation fixture."}
+      $profileFixture=$userDataFixtures[0].Path
+      $scenarioResult.UserDataFixtures=@($userDataFixtures | ForEach-Object { [pscustomobject]@{Name=$_.Name;Root=$_.Root;RelativePath=$_.RelativePath;Sha256=$_.Sha256} })
+    }elseif($scenario.Id -in @('package.chrome','package.signal','package.thunderbird','package.slack','package.discord')){
       $profileRoot=if($scenario.Id -eq 'package.chrome'){Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'Google/Chrome/User Data'}elseif($scenario.Id -eq 'package.thunderbird'){Join-Path ([Environment]::GetFolderPath('ApplicationData')) 'Thunderbird'}elseif($scenario.Id -eq 'package.slack'){Join-Path ([Environment]::GetFolderPath('ApplicationData')) 'Slack'}elseif($scenario.Id -eq 'package.discord'){Join-Path ([Environment]::GetFolderPath('ApplicationData')) 'discord'}else{Join-Path ([Environment]::GetFolderPath('ApplicationData')) 'Signal'}
+      New-Item -ItemType Directory -Path $profileRoot -Force | Out-Null
+      $profileFixture=Join-Path $profileRoot ('ride-preservation-'+[guid]::NewGuid().ToString('N')+'.txt')
+      [IO.File]::WriteAllText($profileFixture,'Keep existing profile data.')
+    }elseif($scenario.Id -eq 'package.tmog'){
+      $profileRoot=Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'TMOG'
       New-Item -ItemType Directory -Path $profileRoot -Force | Out-Null
       $profileFixture=Join-Path $profileRoot ('ride-preservation-'+[guid]::NewGuid().ToString('N')+'.txt')
       [IO.File]::WriteAllText($profileFixture,'Keep existing profile data.')
@@ -437,19 +593,29 @@ foreach($scenario in $scenarios){
       $profileFixture=Join-Path $profileRoot ('ride-preservation-'+[guid]::NewGuid().ToString('N')+'.txt')
       [IO.File]::WriteAllText($profileFixture,'Keep existing profile data.')
     }
-    if($profileFixture){$scenarioResult.ProfilePreservationPath=$profileRoot}
+    if($profileFixture -and $Batch -ne 1){$scenarioResult.ProfilePreservationPath=$profileRoot}
+    $scenarioStage='Preview installation'
+    Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
     $null=Invoke-RidePlan $plan -WhatIf -Confirm:$false
     if((Get-RideCurrentState $plan[0].Operation).Present){throw 'Install preview changed package state.'}
+    $scenarioStage='Install package'
+    Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
     $runId=Get-SavedRunId @(Invoke-RidePlan $plan -Confirm:$false)
+    $scenarioStage='Verify installed package state'
+    Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
     $installed=Get-RideCurrentState $plan[0].Operation
     if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Installation did not establish the desired state.'}
-    if($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Installation changed existing profile data.'}
+    if($userDataFixtures.Count){Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Package installation'}elseif($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Installation changed existing profile data.'}
     $scenarioResult.Version=$installed.DisplayVersion
-    if($Batch -in @(6,7)){
-      if([string]$installed.DisplayVersion -cne [string]$package.PackageVersion){throw "Installed Artcraft version '$($installed.DisplayVersion)' does not match pinned version '$($package.PackageVersion)'."}
+    if($Batch -in @(6,7,9,10,11)){
+      # HashCheck release 2.6.3 registers DisplayVersion 2.6.3.0; retain an
+      # exact assertion rather than loosening version checks for other packages.
+      $expectedInstalledVersion=if($Batch -eq 11){'2.6.3.0'}else{[string]$package.PackageVersion}
+      if([string]$installed.DisplayVersion -cne $expectedInstalledVersion){throw "Installed package version '$($installed.DisplayVersion)' does not match expected installed version '$expectedInstalledVersion' for release '$($package.PackageVersion)'."}
       $scenarioResult.Checks+=@('RIDEManagedInstall','PinnedPackageVersion')
     }
     if($Batch -eq 8){
+      $scenarioStage='Verify OpenJDK install directory and executables'
       $installedDirectory=([IO.Path]::GetFullPath([string]$installed.InstallLocation)).TrimEnd('\')
       $expectedDirectory=([IO.Path]::GetFullPath([string]$package.InstallDirectory)).TrimEnd('\')
       if($installedDirectory -ine $expectedDirectory){throw "OpenJDK installed outside its dedicated directory: $($installed.InstallLocation)"}
@@ -457,18 +623,27 @@ foreach($scenario in $scenarios){
       $javaPath=Join-Path $javaBin 'java.exe'
       $javacPath=Join-Path $javaBin 'javac.exe'
       if(-not(Test-Path -LiteralPath $javaPath -PathType Leaf) -or -not(Test-Path -LiteralPath $javacPath -PathType Leaf)){throw 'OpenJDK runtime and compiler executables were not both installed in the dedicated directory.'}
-      $javaOutput=@(& $javaPath -version 2>&1);$javaExitCode=$LASTEXITCODE
-      $javacOutput=@(& $javacPath -version 2>&1);$javacExitCode=$LASTEXITCODE
+      $scenarioStage='Run java.exe -version'
+      $javaResult=Invoke-RideOpenJdkVersionCommand -Path $javaPath
+      $scenarioStage='Run javac.exe -version'
+      $javacResult=Invoke-RideOpenJdkVersionCommand -Path $javacPath
+      $javaOutput=@(($javaResult.StandardOutput+$javaResult.StandardError) -split '\r?\n' | Where-Object {$_})
+      $javacOutput=@(($javacResult.StandardOutput+$javacResult.StandardError) -split '\r?\n' | Where-Object {$_})
+      $javaExitCode=$javaResult.ExitCode
+      $javacExitCode=$javacResult.ExitCode
       $javaVersionText=$javaOutput -join "`n"
       $javacVersionText=$javacOutput -join "`n"
       $expectedVersion=[string]$package.PackageVersion
+      $scenarioStage='Validate java.exe -version output'
       if($javaExitCode -ne 0 -or $javaVersionText -notmatch ('"'+[regex]::Escape($expectedVersion)+'"')){throw "OpenJDK java -version did not report the pinned version $expectedVersion."}
+      $scenarioStage='Validate javac.exe -version output'
       if($javacExitCode -ne 0 -or $javacVersionText -notmatch ([regex]::Escape($expectedVersion))){throw "OpenJDK javac -version did not report the pinned version $expectedVersion."}
+      $scenarioStage='Compare shared JAVA_HOME, PATH and association state'
       Assert-RideOpenJdkPreservation -Expected $openJdkBaseline -Stage 'installation'
       $scenarioResult.InstallDirectory=$package.InstallDirectory
       $scenarioResult.JavaVersionOutput=$javaOutput
       $scenarioResult.JavacVersionOutput=$javacOutput
-      $scenarioResult.Checks=@('RIDEManagedInstall','DedicatedInstallDirectory','JavaRuntimeVersion','JavaCompilerVersion','SharedJavaDefaultsPreserved')
+      $scenarioResult.Checks=@('RIDEManagedInstall','DedicatedInstallDirectory','JavaRuntimeVersion','JavaCompilerVersion','SharedJavaDefaultsPreserved','RepeatInstall')
     }
     if($scenario.Id -eq 'package.vcredist-v14-x64'){
       $minimum=[version]$package.MinimumInstalledVersion
@@ -495,9 +670,10 @@ foreach($scenario in $scenarios){
       if(@($members | Where-Object {$_.RelativePath -in @('WinSCP.exe','WinSCP.com') -and ($_.AuthenticodeStatus -ne 'Valid' -or -not $_.SignerThumbprint)}).Count){throw 'WinSCP executable signature evidence is incomplete.'}
       $scenarioResult.FileEvidence=$members
     }
+    Write-RideApplicationProgress -PackageId $scenario.Id -Stage 'Repeat installation'
     $repeat=@(Invoke-RidePlan $plan -Confirm:$false)
     if('No changes were needed; no state record was created.' -notin $repeat){throw 'Repeat installation was not idempotent.'}
-    if($Batch -in @(6,7)){$scenarioResult.Checks+='RepeatInstall'}
+    if($Batch -in @(6,7,9,10,11,12)){$scenarioResult.Checks+='RepeatInstall'}
     $null=Restore-RideRun -RunId $runId -WhatIf -Confirm:$false
     if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Restore preview changed presence.'}
     if($package.InstallerType -eq 'Portable'){
@@ -520,27 +696,34 @@ foreach($scenario in $scenarios){
       $null=Restore-RideRun -RunId $removeRunId -Confirm:$false
       if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Portable uninstall recovery failed.'}
     }
-    if($profileFixture -or $scenario.Id -eq 'package.vcredist-v14-x64' -or $Batch -in @(6,7)){
+    if($userDataFixtures.Count -or $profileFixture -or $scenario.Id -eq 'package.vcredist-v14-x64' -or $Batch -in @(6,7,8,9,10,11,12)){
       $remove=@(Get-RideSingleOperationPlan -Id $scenario.Id -Action Remove -Variant $scenario.Variant)
       $null=Invoke-RidePlan $remove -WhatIf -Confirm:$false
       if(-not(Test-RideDesiredState $plan[0].Operation Present)){throw 'Removal preview changed presence.'}
-      if($Batch -in @(6,7)){$scenarioResult.Checks+='RemovalPreview'}
+      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='RemovalPreview'}
+      $scenarioStage='Run vendor uninstaller'
+      Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
       $removeRunId=Get-SavedRunId @(Invoke-RidePlan $remove -Confirm:$false)
       if((Get-RideCurrentState $plan[0].Operation).Present){throw 'Removal did not establish absence.'}
-      if($Batch -in @(6,7)){$scenarioResult.Checks+='RIDERemoval'}
-      if($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Removal changed existing profile data.'}
+      if($Batch -eq 8 -and ((Test-Path -LiteralPath $javaPath -PathType Leaf) -or (Test-Path -LiteralPath $javacPath -PathType Leaf))){throw 'OpenJDK uninstall left its managed runtime or compiler executable behind.'}
+      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='RIDERemoval'}
+      if($userDataFixtures.Count){Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Vendor uninstall'}elseif($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Removal changed existing profile data.'}
       $repeatRemove=@(Invoke-RidePlan $remove -Confirm:$false)
       if('No changes were needed; no state record was created.' -notin $repeatRemove){throw 'Repeat removal was not idempotent.'}
-      if($Batch -in @(6,7)){$scenarioResult.Checks+='RepeatRemoval'}
+      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='RepeatRemoval'}
+      $scenarioStage='Recover after vendor uninstall'
+      Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
       $null=Restore-RideRun -RunId $removeRunId -Confirm:$false
       if(-not(Test-RideDesiredState $plan[0].Operation Present)){throw 'Compensating removal recovery did not establish presence.'}
-      if($Batch -in @(6,7)){$scenarioResult.Checks+='SavedRemovalRecovery'}
+      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='SavedRemovalRecovery'}
       $scenarioResult.RemovalRecoveryVersion=(Get-RideCurrentState $plan[0].Operation).DisplayVersion
       if($Batch -eq 8){Assert-RideOpenJdkPreservation -Expected $openJdkBaseline -Stage 'removal'}
       if($scenario.Id -eq 'package.vcredist-v14-x64'){
         $scenarioResult.Checks+=@('RepeatInstall','RemovalPreview','RIDERemoval','RepeatRemoval','SavedRemovalRecovery','SavedInstallRecovery')
       }
     }
+    $scenarioStage='Restore saved pre-install state'
+    Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
     $null=Restore-RideRun -RunId $runId -Confirm:$false
     $restoredOriginal=Get-RideCurrentState $plan[0].Operation
     $preserveNewerRuntime=$false
@@ -553,8 +736,12 @@ foreach($scenario in $scenarios){
       if(-not $restoredOriginal.Present -or -not [version]::TryParse([string]$restoredOriginal.DisplayVersion,[ref]$restoredVersion) -or $restoredVersion -lt $minimumVersion){throw 'Recovery did not retain the usable shared v14 runtime after an outdated baseline.'}
       $scenarioResult.RecoveryMode='Retained newer shared v14 runtime; exact downgrade is unavailable'
     }elseif($restoredOriginal.Present){throw 'Restoration did not recover original absence.'}
-    if($Batch -in @(6,7)){$scenarioResult.Checks+='SavedInstallRecovery'}
-    if($profileFixture){
+    if($Batch -in @(6,7,9,10,11,12)){$scenarioResult.Checks+='SavedInstallRecovery'}
+    if($userDataFixtures.Count){
+      Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Saved-state recovery'
+      $scenarioResult.UserDataPreservation=$true
+      $scenarioResult.Checks+=@('UserDataPreservedAfterInstall','UserDataPreservedAfterVendorUninstall','UserDataPreservedAfterRecovery')
+    }elseif($profileFixture){
       if(-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.'){throw 'Recovery changed existing profile data.'}
       $scenarioResult.ProfilePreservation=$true
     }
@@ -569,6 +756,11 @@ foreach($scenario in $scenarios){
     $scenarioResult.Status='Passed'
   }catch{
     $scenarioResult.Error=$_.Exception.Message
+    if($Batch -eq 8){
+      $scenarioResult.FailureStage=$scenarioStage
+      $scenarioResult.ExceptionType=$_.Exception.GetType().FullName
+      $scenarioResult.ScriptStackTrace=[string]$_.ScriptStackTrace
+    }
     if($phoenixMsiLog -and (Test-Path -LiteralPath $phoenixMsiLog -PathType Leaf)){
       $scenarioResult.MsiDiagnostic=[string[]]@(Get-Content -LiteralPath $phoenixMsiLog | Where-Object {$_ -match 'LaunchCondition|Return value 3|\.NET|NetFx|DotNet|Error 1[0-9]{3}'} | Select-Object -Last 60 | ForEach-Object {[string]$_})
     }
@@ -597,6 +789,39 @@ foreach($scenario in $scenarios){
         DefaultInstallDirectoryExists=(Test-Path -LiteralPath $launcherDirectory -PathType Container)
         DefaultInstallFiles=$launcherFiles
         MatchingUninstallEntries=@(Get-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue | Where-Object {$_.DisplayName -match 'ArtCraft|Craft Launcher'} | Select-Object -First 8 DisplayName,DisplayVersion,InstallLocation,UninstallString,QuietUninstallString)
+        RecentMsiInstallerEvents=$installerEvents
+      }
+    }
+    if($Batch -eq 8){
+      # RIDE presence detection failed after the pinned MSI returned. Capture only
+      # matching machine uninstall records and the declared install directory.
+      $openJdkRoots=@('HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*','HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*')
+      $openJdkRegistrations=@(foreach($root in $openJdkRoots){
+        Get-ItemProperty -Path $root -ErrorAction SilentlyContinue |
+          Where-Object {$_.DisplayName -match 'OpenJDK'} |
+          Select-Object -First 12 DisplayName,DisplayVersion,Publisher,InstallLocation,InstallSource,UninstallString
+      })
+      $openJdkDirectory=[string]$package.InstallDirectory
+      $openJdkFiles=@()
+      if(Test-Path -LiteralPath $openJdkDirectory -PathType Container){
+        $openJdkFiles=@(Get-ChildItem -LiteralPath $openJdkDirectory -File -ErrorAction SilentlyContinue | Select-Object -First 12 Name,Length)
+      }
+      $installerEvents=@()
+      try {
+        $installerEvents=@(Get-WinEvent -FilterHashtable @{LogName='Application';ProviderName='MsiInstaller';StartTime=(Get-Date).AddMinutes(-10)} -ErrorAction Stop |
+          Where-Object {$_.Message -match 'OpenJDK|Microsoft JDK'} |
+          Select-Object -First 12 TimeCreated,Id,Message)
+      } catch { }
+      $scenarioResult.FailureRegistration=[ordered]@{
+        ExecutionSid=$workerIdentity.User.Value
+        Elevated=$workerElevated
+        ExpectedDisplayNamePattern=[string]$package.DisplayNamePattern
+        DeclaredInstallDirectory=$openJdkDirectory
+        InstallDirectoryExists=(Test-Path -LiteralPath $openJdkDirectory -PathType Container)
+        JavaExecutableExists=(Test-Path -LiteralPath (Join-Path $openJdkDirectory 'bin/java.exe') -PathType Leaf)
+        JavacExecutableExists=(Test-Path -LiteralPath (Join-Path $openJdkDirectory 'bin/javac.exe') -PathType Leaf)
+        InstallDirectoryFiles=$openJdkFiles
+        MatchingUninstallEntries=$openJdkRegistrations
         RecentMsiInstallerEvents=$installerEvents
       }
     }

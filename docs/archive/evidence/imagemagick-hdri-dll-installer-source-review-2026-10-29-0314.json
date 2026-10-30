@@ -1,0 +1,47 @@
+{
+  "recordedAtUtc": "2026-10-29T03:14:00Z",
+  "legacyOperation": "InstallImageMagick",
+  "userSelectedVariant": "x64 Q16-HDRI dynamic DLL installer, machine scope with PATH integration",
+  "officialSources": {
+    "downloadPage": "https://imagemagick.org/download/",
+    "binaryArchiveIndex": "https://download.imagemagick.org/archive/binaries/",
+    "license": "https://imagemagick.org/license/"
+  },
+  "publisherMetadata": {
+    "latestStableAtReview": "7.1.2-34",
+    "exactAsset": "ImageMagick-7.1.2-34-Q16-HDRI-x64-dll.exe",
+    "officialAssetUri": "https://download.imagemagick.org/archive/binaries/ImageMagick-7.1.2-34-Q16-HDRI-x64-dll.exe",
+    "officialDetachedSignatureListed": true,
+    "officialIndexSize": "23M",
+    "officialIndexModified": "2026-10-14 19:59",
+    "publisherHashAvailableInReadSource": false
+  },
+  "legacyBehavior": {
+    "selectsLatestByScrapingDownloadPage": true,
+    "downloadsToUsersDownloadsBootstrapImageMagick": true,
+    "silentArguments": "/SILENT /NORESTART",
+    "legacyRemoveOperationFound": false
+  },
+  "acquisition": {
+    "localExactInstallerFound": false,
+    "dnsResult": "Could not resolve host download.imagemagick.org.",
+    "artifactAcquired": false,
+    "sha256Verified": false,
+    "detachedSignatureVerified": false,
+    "installerInspectedOrExecuted": false
+  },
+  "disposition": "The explicit variant decision is resolved. Continue with this exact version and publisher asset when source access is available; implement fixed version/hash, detection, machine PATH ownership and safe uninstall/recovery instead of latest-page scraping. Record the exact-version license marker as NeedsReview/Unassigned when the package operation exists; it is administrative and not a migration gate. The existing portable Q16 package is a separate operation.",
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

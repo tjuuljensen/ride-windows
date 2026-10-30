@@ -1,0 +1,218 @@
+{
+    "SchemaVersion":  1,
+    "ReviewDate":  "2026-10-30",
+    "RunId":  "a30a4f653eec4a7891b6a9839be6c458",
+    "Status":  "TimedOut; lifecycle phase unresolved; diagnostic retry prepared",
+    "Result":  {
+                   "SchemaVersion":  1,
+                   "RunId":  "a30a4f653eec4a7891b6a9839be6c458",
+                   "Source":  "Local",
+                   "UnitOnly":  false,
+                   "IntegrationSuite":  "ApplicationsBatch10",
+                   "Status":  "TimedOut",
+                   "StartedAtUtc":  "2026-10-30T07:11:38.8325894Z",
+                   "FinishedAtUtc":  "2026-10-30T08:42:23.5639984Z",
+                   "Error":  "Test controller exceeded its timeout; process tree terminated.",
+                   "CleanupError":  null,
+                   "CollectionError":  null,
+                   "GuestGitHubAuthentication":  "Anonymous",
+                   "GitHubTestScenario":  "Acquire",
+                   "CredentialCleanupVerified":  null,
+                   "EvidenceExportError":  null
+               },
+    "Progress":  [
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:46.7718037Z",
+                         "Phase":  "Guest initialization",
+                         "State":  "Started",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:47.8315504Z",
+                         "Phase":  "Guest initialization",
+                         "State":  "Completed",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:47.8356799Z",
+                         "Phase":  "Pester import",
+                         "State":  "Started",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:50.9356494Z",
+                         "Phase":  "Pester import",
+                         "State":  "Completed",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:50.9394028Z",
+                         "Phase":  "Catalog export",
+                         "State":  "Started",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:52.4346944Z",
+                         "Phase":  "Catalog export",
+                         "State":  "Completed",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:52.4370206Z",
+                         "Phase":  "Repository validation",
+                         "State":  "Started",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:57.7669173Z",
+                         "Phase":  "Repository validation",
+                         "State":  "Completed",
+                         "Message":  ""
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:16:57.7747602Z",
+                         "Phase":  "Pester",
+                         "State":  "Started",
+                         "Message":  "Application lifecycle, catalog, acquisition and controller regression"
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:20:30.9170581Z",
+                         "Phase":  "Pester",
+                         "State":  "Completed",
+                         "Message":  "432 tests passed."
+                     },
+                     {
+                         "TimestampUtc":  "2026-10-30T07:20:30.9190955Z",
+                         "Phase":  "Windows integration",
+                         "State":  "Started",
+                         "Message":  "ApplicationsBatch10"
+                     }
+                 ],
+    "ArtifactObservations":  [
+                                 {
+                                     "ObservationId":  "3b868419a0d348deb93a3ab9d3fcd21d",
+                                     "RunId":  "a30a4f653eec4a7891b6a9839be6c458",
+                                     "PackageId":  "mitec-project-maker",
+                                     "ArtifactId":  null,
+                                     "Version":  "1.9.0",
+                                     "Architecture":  "x86",
+                                     "FileName":  "PMInstall.exe",
+                                     "OriginUri":  "https://www.mitec.cz/wp/pm/",
+                                     "SourceUri":  "https://www.mitec.cz/wp/files/PMInstall.exe",
+                                     "ReleaseUri":  "https://www.mitec.cz/wp/files/PMInstall.exe",
+                                     "ReleaseMetadata":  null,
+                                     "Variant":  "installed",
+                                     "Provider":  "DirectHttps",
+                                     "License":  "MiTeC proprietary software; publisher lists a 30-day trial and paid license tiers. Exact-version owner-specific review is recorded locally and is informational, not a package migration gate.",
+                                     "LicenseUri":  "https://www.mitec.cz/wp/support/",
+                                     "TermsUri":  "https://www.mitec.cz/wp/support/",
+                                     "ObservedAtUtc":  "2026-10-30T07:20:33.5930523Z",
+                                     "Route":  "direct",
+                                     "AcquisitionKind":  "Download",
+                                     "Sha256":  "ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+                                     "ProviderDigest":  "sha256:ee2a74e34c0c0ad97c58163b2f4f114876252317cb52fffbf9fa11e2afe13419",
+                                     "PublisherSha256":  null,
+                                     "PublisherChecksumUri":  null,
+                                     "PublisherChecksumResult":  "Unavailable",
+                                     "ChecksumUris":  [
+
+                                                      ],
+                                     "SignatureUris":  [
+
+                                                       ],
+                                     "AuthenticodeStatus":  "UnknownError",
+                                     "AuthenticodeSigner":  "E=michal.mutl@mitec.cz, C=CZ, S=Praha, O=ing. Michal Mutl, CN=ing. Michal Mutl",
+                                     "AuthenticodeIssuer":  "E=michal.mutl@mitec.cz, C=CZ, S=Praha, O=ing. Michal Mutl, CN=ing. Michal Mutl",
+                                     "AuthenticodeThumbprint":  "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C",
+                                     "TimestampSigner":  "CN=Sectigo Public Time Stamping Signer R36, O=Sectigo Limited, S=West Yorkshire, C=GB",
+                                     "TimestampThumbprint":  "38C914811044B4DC663E93D4744B814186A9B5B1",
+                                     "FileSize":  9944720,
+                                     "FileVersion":  "1.9.0               ",
+                                     "ProductVersion":  "1.9.0                                             ",
+                                     "Contents":  [
+
+                                                  ]
+                                 }
+                             ],
+    "CollectionOmissions":  {
+                                "value":  [
+                                              {
+                                                  "Path":  "transcript.log",
+                                                  "Error":  "The file \u0027C:\\RIDE\\TestResults\\a30a4f653eec4a7891b6a9839be6c458\\transcript.log\u0027 cannot be read: The process cannot access the file \u0027C:\\RIDE\\TestResults\\a30a4f653eec4a7891b6a9839be6c458\\transcript.log\u0027 because it is being used by another process."
+                                              }
+                                          ],
+                                "Count":  1
+                            },
+    "Pester":  {
+                   "Failed":  0,
+                   "Errors":  0,
+                   "Skipped":  4,
+                   "Total":  436,
+                   "Passed":  432
+               },
+    "Findings":  [
+                     "Validation and 432 tests passed before Windows integration.",
+                     "The exact Project Maker installer was downloaded at 07:20:33 UTC and matched its pin.",
+                     "No application summary was collected; the transcript was locked. Machine lifecycle stages were not logged by runner 0.19.3.",
+                     "The evidence does not distinguish installation, removal or recovery as the stalled operation.",
+                     "Controller cleanup, collection and evidence-export errors are null; one transcript omission is explicitly retained."
+                 ],
+    "Change":  "Runner 0.19.4 logs machine lifecycle stages with closed file handles and adds Project Maker Inno Setup /LOG diagnostics. No catalog, package handler or silent install/uninstall behavior was changed.",
+    "LocalRegression":  {
+                            "PowerShell":  "5.1.26100.9818",
+                            "Pester":  "5.7.1",
+                            "Result":  "Passed",
+                            "Total":  138,
+                            "Passed":  14,
+                            "Failed":  0,
+                            "Skipped":  0,
+                            "Failures":  [
+
+                                         ],
+                            "ContainerErrors":  [
+
+                                                ]
+                        },
+    "Source":  "https://jrsoftware.org/ishelp/topic_setupcmdline.htm",
+    "Next":  "One Source Local ApplicationsBatch10 diagnostic retry capped at 20 minutes controller execution, plus evidence collection/cleanup. Confirm idle Off/Ready state first. No re-registration or separate UnitOnly run. Inspect evidence before further retry.",
+    "Migration":  {
+                      "Components":  "19-24",
+                      "ExactTotal":  "126-180",
+                      "Retired":  0,
+                      "Reason":  "Timeout and diagnostic preparation close no legacy outcome; all other partial/deferred scope remains unchanged.",
+                      "FilesAndAssets":  "25-35",
+                      "Resolved":  0,
+                      "Partial":  "Project Maker installation lifecycle unresolved",
+                      "Packages":  "37-52",
+                      "NewExclusions":  0,
+                      "RoundedTotal":  "125-180; about 155",
+                      "Maintenance":  "8-12",
+                      "Settings":  "37-57"
+                  },
+    "Files":  [
+                  {
+                      "SHA256":  "BC9668862DBDF0E0DFA926F96D4E30E952E329333E58792723BB41C9FC0C8FEC",
+                      "Path":  "result.json"
+                  },
+                  {
+                      "SHA256":  "6601947A7F9278A62C7A5914A8009CC28ADCEE7637C4108B274B5808BD5624BE",
+                      "Path":  "controller.log"
+                  },
+                  {
+                      "SHA256":  "74902DEF2ABF134CE745C4196504541E8141154B825B721F3CBC510B65573895",
+                      "Path":  "guest/progress.jsonl"
+                  },
+                  {
+                      "SHA256":  "BF341588656368E05A3E850F21D6673CC64B38B451D4DD8AB391E2A3D189E344",
+                      "Path":  "guest/pester.xml"
+                  },
+                  {
+                      "SHA256":  "1B888A1711E24A13B652C82201110D4776A90AF841B059965994391602E31A77",
+                      "Path":  "guest/artifact-observations.json"
+                  },
+                  {
+                      "SHA256":  "34D998FDB24E10779211B51719399DBB609A01AB4C044CD4B3F0481AB661A869",
+                      "Path":  "guest/collection-omissions.json"
+                  }
+              ]
+}

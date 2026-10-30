@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:07:09Z",
+  "batch": "PSScriptTools Windows 11 acceptance dispatch preflight",
+  "source": "Existing preregistered task client, registered configuration/manifest, queue listing",
+  "registeredConfiguration": {
+    "vmName": "RIDE-Win11-Test",
+    "checkpointName": "RIDE-clean-test-base",
+    "capability": "FocusedPortableV1",
+    "isDisposable": true
+  },
+  "manifest": {
+    "packages": [
+      "package.psscripttools",
+      "package.microsoft-powershell-threadjob"
+    ],
+    "defenderBlockedMembersIncluded": false
+  },
+  "dispatch": {
+    "requestId": "dde0b4da13794f6c8dcab6c7ac4c665e",
+    "result": "Failed before enqueue: Set-Content was denied while writing the pending request temporary file under C:/ProgramData/RIDE/TestAutomation/RIDEWin11Test/queue/pending.",
+    "pendingQueueAfterAttempt": [],
+    "runningQueueAfterAttempt": [],
+    "requestFoundInPending": false,
+    "vmInspected": false,
+    "checkpointInspected": false,
+    "guestDispatched": false
+  },
+  "handling": {
+    "vmOrCheckpointChanged": false,
+    "guestRunnerDispatched": false,
+    "defenderQueriedOrChanged": false,
+    "passwordscanPathAccessed": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The existing registered PSScriptTools acceptance route is confirmed to fail before enqueue due to pending-queue write access."
+    ],
+    "deferred": [
+      "PSScriptTools/ThreadJob Windows 11 lifecycle and runtime acceptance remain pending until the registered task client can write its request; no queue permission or elevation was changed."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the request was not queued and no guest or package state changed."
+    }
+  },
+  "relatedEvidence": [
+    "psscripttools-inert-360-member-full-local-regression-2026-10-28-1543.json",
+    "migration-static-validation-and-task-cli-block-2026-10-28-1200.json"
+  ]
+}

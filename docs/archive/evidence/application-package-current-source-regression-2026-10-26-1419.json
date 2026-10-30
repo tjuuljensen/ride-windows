@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T14:19:47Z",
+  "run": {
+    "host": "Windows PowerShell 5.1.26100.9444",
+    "pester": "5.7.1",
+    "suites": [
+      "tests/ApplicationPackages.Tests.ps1",
+      "tests/PackageDependencyPlanning.Tests.ps1",
+      "tests/PackageEvidence.Tests.ps1"
+    ],
+    "discovered": 164,
+    "passed": 164,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 106.43,
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "temporaryRoot": ".local unique run-scoped directory, removed after completion"
+  },
+  "observedTestBehavior": "One passing package-evidence scenario emitted its expected warning that a newly created user-data directory was retained while the original user data was restored; the unique fixture root was removed after the run.",
+  "vmAccess": {
+    "target": "RIDE-Win11-Test",
+    "checkedAtUtc": "2026-10-26T14:19:47Z",
+    "getVm": "Blocked: Access to a CIM resource was not available to the client.",
+    "getCheckpoint": "Blocked: Access to a CIM resource was not available to the client.",
+    "taskQuery": "Blocked: schtasks.exe returned ERROR: The network address is invalid.",
+    "requestDispatched": false,
+    "vmOrCheckpointChanged": false,
+    "defenderStateChanged": false,
+    "elevationPrompted": false
+  },
+  "migration": {
+    "scope": "Local package planning, acquisition-evidence and dependency regressions only; no native installer or package behavior acceptance.",
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  }
+}

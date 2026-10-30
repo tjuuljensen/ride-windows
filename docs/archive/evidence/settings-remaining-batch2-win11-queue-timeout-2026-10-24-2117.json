@@ -1,0 +1,27 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "3f89f9225e324b22a6127318f62b86ca",
+  "Suite": "SettingsRemainingBatch2",
+  "Target": "RIDEWin11Test",
+  "TimeoutMinutes": 180,
+  "SubmittedAtUtc": "2026-10-24T18:16:29.2331068Z",
+  "ControllerStartedAtUtc": "2026-10-24T21:13:24.0172971Z",
+  "FinishedAtUtc": "2026-10-24T21:17:55.2463577Z",
+  "Status": "TimedOut",
+  "Error": "Test controller exceeded its timeout; process tree terminated.",
+  "QueueBudget": "The 180-minute timeout included about 176 minutes of serialized queue waiting, leaving about 3 minutes for execution.",
+  "ControllerLog": "AutomatedLab imported the registered RIDE-Win11-Test VM and waited for the session; no guest command or guest result was produced before timeout.",
+  "GuestResults": null,
+  "CleanupError": null,
+  "CollectionError": null,
+  "EvidenceExportError": null,
+  "RecoveryBlock": false,
+  "MigrationDisposition": {
+    "SettingsAcceptance": "Not run; no setting scenario reached the guest.",
+    "LegacyOutcomeClosed": false
+  },
+  "Sources": [
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\3f89f9225e324b22a6127318f62b86ca\\result.json",
+    "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\3f89f9225e324b22a6127318f62b86ca\\controller.log"
+  ]
+}

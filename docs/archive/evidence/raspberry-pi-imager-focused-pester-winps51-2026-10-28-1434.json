@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T14:34:53Z",
+  "batch": "Raspberry Pi Imager v2.0.12 metadata and pending-acceptance regression",
+  "suite": "tests/RaspberryPiImagerPackage.Tests.ps1",
+  "runtime": "Windows PowerShell 5.1.26100.9711",
+  "pesterVersion": "5.7.1",
+  "result": {
+    "discovered": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 3.47
+  },
+  "configuration": {
+    "testRegistry": "Disabled",
+    "testResult": "Disabled",
+    "tempRoot": "Unique workspace-local .local/pester-temp directory with process-scoped TEMP/TMP"
+  },
+  "coverage": [
+    "Pinned v2.0.12 Windows x64 publisher artifact, digest, product URI, license metadata and catalog validity.",
+    "PendingAcceptance, empty SupportedTargets, Windows 11 CandidateTargets, machine scope, elevation requirement and Compensating rollback.",
+    "Declared publisher uninstaller arguments and description of driver/cache/credential cleanup and checkpoint recovery.",
+    "Metadata-only package selection preserves PendingAcceptance and the RequestedV3Additions batch."
+  ],
+  "testSourceCorrection": "Updated the test case description to match the 2026-10-28 lifecycle-scope decision: use the publisher's normal compensating uninstall behavior and require actual disposable Windows lifecycle/checkpoint acceptance; do not imply that RIDE needs a separate driver-ownership or destructive-data-recovery subsystem.",
+  "observations": {
+    "installerDownloadedOrRun": false,
+    "imageWriterLaunched": false,
+    "removableMediaWritten": false,
+    "driverOrWindowsStateChanged": false,
+    "vmOrCheckpointInspectedOrChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "legacyOutcomeClosed": false,
+    "remainingAcceptance": "The package remains unsupported until disposable Windows 11 install, repeat install, uninstall, documented publisher effects and existing checkpoint restoration are verified.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this is a v3 addition and does not close a legacy outcome."
+    }
+  }
+}

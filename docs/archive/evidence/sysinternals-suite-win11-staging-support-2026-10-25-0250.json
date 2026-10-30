@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T03:03:39Z",
+  "batch": "Sysinternals Suite Windows 11 package-staging support promotion and regression",
+  "sourceAcceptance": {
+    "evidence": "sysinternals-suite-win11-current-lifecycle-acceptance-2026-10-25-0201.json",
+    "runId": "3134ed10d9294180a8a642849f4df6dc",
+    "target": "Windows 11",
+    "build": "26300",
+    "status": "Passed",
+    "cases": "1/1",
+    "checks": [
+      "exact-member selection",
+      "install and repeat install",
+      "remove and repeat remove",
+      "saved-state restore",
+      "restore original absence",
+      "unowned-file preservation",
+      "collision refusal",
+      "modified-file preservation"
+    ],
+    "cleanup": "ResetAndOff",
+    "evidenceCollected": true
+  },
+  "catalogDisposition": {
+    "operation": "package.sysinternals-suite",
+    "supportedTargets": ["Windows 11"],
+    "pendingAcceptance": false,
+    "candidateTargetsRemoved": true,
+    "meaning": "Supported only for the pinned 164-member portable package install/remove lifecycle."
+  },
+  "localRegression": {
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryFixtureEnabled": false,
+    "WindowsIntegrationExcluded": true,
+    "TemporaryFiles": "Workspace-local .local/pester-sysinternals-support-20261025/temp",
+    "tests/SysinternalsSuitePackage.Tests.ps1": { "Discovered": 7, "Passed": 7, "Failed": 0, "NotRun": 0, "DurationSeconds": 536.18 },
+    "tests/Catalog.Tests.ps1": { "Discovered": 84, "Passed": 83, "Failed": 0, "NotRun": 1, "DurationSeconds": 34.42 },
+    "Total": { "Discovered": 91, "Passed": 90, "Failed": 0, "NotRun": 1, "DurationSeconds": 570.63 }
+  },
+  "ScopeLimits": {
+    "SysinternalsUtilityExecuted": false,
+    "FunctionalOrActivationAcceptance": "Not established or required for file-staging package support.",
+    "ServerSupport": "Not declared.",
+    "ProfilesChanged": false,
+    "DefenderDisposition": "Defender-detected utilities remain separately excluded.",
+    "LicenseGate": false
+  },
+  "MigrationAccounting": {
+    "Resolved": ["The GetSysinternalsSuite/RemoveSysinternalsSuite legacy selector pair is migrated to a pinned, owned-file portable package with accepted Windows 11 install/remove/recovery lifecycle."],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Windows Server package support is not declared; individual utility behavior is outside this file-staging operation."],
+    "Partial": [],
+    "EstimateRangesAfter": "37-57 / 49-64 / 19-24 / 25-35 / 8-12; exact 138-192; rounded 140-195/about 170"
+  }
+}

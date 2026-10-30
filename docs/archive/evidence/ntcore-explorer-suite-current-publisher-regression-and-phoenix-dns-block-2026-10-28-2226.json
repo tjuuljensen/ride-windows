@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:26:27Z",
+  "batch": "NTCore Explorer Suite publisher version regression and Phoenix current-artifact acquisition attempt",
+  "explorerSuite": {
+    "publisherPage": "https://ntcore.com/explorer-suite/",
+    "currentPublisherVersion": "III (18/11/2012)",
+    "publisherSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+    "catalogVersion": "III-2012-11-18",
+    "catalogSha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d",
+    "retainedArtifact": {
+      "path": ".local/remaining-collections-20261017/ExplorerSuite.exe",
+      "length": 3613174,
+      "sha256": "94f4348ec573b05990b1e19542986e46dc30a87870739f5d5430b60072d5144d"
+    },
+    "embeddedInstallerLabel": "IV",
+    "focusedRegression": {
+      "testFile": "tests/NtcorePackages.Tests.ps1",
+      "test": "Explorer Suite publisher version identity: uses the current publisher version and exact artifact digest as the package pin",
+      "shell": "Windows PowerShell 5.1.26100.9818",
+      "pester": "5.7.1",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistryEnabled": false,
+      "testResultEnabled": false
+    },
+    "migrationStatus": "Publisher version and exact-hash artifact identity are confirmed. The embedded IV installer label remains distinct from the publisher's III release identity. Full-suite install scope, repeat, uninstall, recovery and Windows acceptance remain pending. The versioned NeedsReview marker is administrative and is not a package-planning or migration gate."
+  },
+  "phoenixProtector": {
+    "publisherPage": "https://ntcore.com/phoenix-protector/",
+    "currentPageVersion": "1.8.0.1",
+    "currentDownloadUri": "https://ntcore.com/files/Phoenix_Protector.msi",
+    "existingPinnedMsi": {
+      "path": ".local/remaining-collections-20261017/Phoenix_Protector.msi",
+      "length": 1357312,
+      "sha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+      "productVersion": "1.7.1"
+    },
+    "containedExecutableVersion": "1.9.0.1",
+    "currentArtifactAttempt": {
+      "method": "Windows PowerShell Invoke-WebRequest to the publisher's linked HTTPS MSI URL",
+      "result": "Failed before bytes were received: DNS resolution returned 'No such host is known' for ntcore.com:443.",
+      "separateReviewFileCreated": false,
+      "partialFileRetained": false
+    },
+    "migrationStatus": "Keep the existing exact 1.7.1 hash pin and version fields distinct; no current download bytes were obtained to map the page's 1.8.0.1 label. Its NeedsReview/Unassigned marker remains administrative and does not block technical migration."
+  },
+  "stateChanges": {
+    "catalogOrHandlerCode": false,
+    "packageInstalledOrExecuted": false,
+    "vmOrCheckpoint": false,
+    "windowsOrRegistry": false,
+    "defender": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": ["Current NTCore Explorer Suite publisher version, published digest, catalog pin and retained artifact hash agree; the focused version assertion passed."],
+    "partial": ["Phoenix current publisher page and existing pinned MSI remain different version labels; the current MSI bytes could not be fetched to establish a mapping."],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["NTCore Explorer Suite install/repeat/remove/recovery and Windows acceptance on the disposable checkpoint.", "Phoenix current publisher MSI bytes and page/MSI/executable version mapping; Windows package acceptance."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; source validation adds no new whole legacy outcome closure."
+    }
+  },
+  "relatedEvidence": [
+    "ntcore-explorer-suite-publisher-version-reconciliation-2026-10-28-1601.json",
+    "ntcore-explorer-suite-vm-access-recheck-2026-10-28-1603.json",
+    "ntcore-phoenix-explorer-current-version-source-recheck-2026-10-28-1021.json",
+    "phoenix-current-publisher-route-recheck-2026-10-28-1604.json"
+  ]
+}

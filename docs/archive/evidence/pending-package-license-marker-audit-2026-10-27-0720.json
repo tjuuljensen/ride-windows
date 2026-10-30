@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T07:20:00Z",
+  "audit": "Exact-version owner-review marker coverage for packages pending acceptance",
+  "store": ".local/license-reviews.json",
+  "storeLastModifiedUtc": "2026-10-27T05:40:08Z",
+  "storeRecordCount": 75,
+  "pendingPackageCount": 38,
+  "matchedPendingPackageCount": 38,
+  "exactNeedsReviewUnassignedCount": 38,
+  "missingDuplicateOrWrongStatusCount": 0,
+  "sysinternals": {
+    "additionalReviewRequired": false,
+    "disposition": "Settled under prior RIDE v2 license-specialist approval for RIDE direct download-and-install",
+    "migrationGate": false
+  },
+  "focusedPester": {
+    "Shell": "PowerShell 7.6.5",
+    "Pester": "5.7.1",
+    "Suites": [
+      "ApplicationPackages.Tests.ps1",
+      "LicenseReviews.Tests.ps1"
+    ],
+    "Passed": 148,
+    "Failed": 0,
+    "Skipped": 0,
+    "RegistryAndTestResultPlugins": false
+  },
+  "packageExecuted": false,
+  "catalogChanged": false,
+  "reviewStoreChanged": false,
+  "legacyOutcomeClosed": false,
+  "estimateRangesChanged": false,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155"
+  },
+  "note": "NeedsReview / Unassigned is owner/version administration only and does not block planning, acquisition, implementation or technical acceptance. Defender-blocked utilities remain separate exclusions."
+}

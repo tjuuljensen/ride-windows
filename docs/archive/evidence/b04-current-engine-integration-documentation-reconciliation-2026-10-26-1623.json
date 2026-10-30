@@ -1,0 +1,44 @@
+{
+  "EvidenceType": "B04.CurrentIntegrationDocumentationReconciliation",
+  "ObservedAtUtc": "2026-10-26T16:23:40Z",
+  "AuthoritativeSourceInspection": {
+    "CatalogOperation": {
+      "Id": "windows.proxy-auto-detect",
+      "Kind": "UserProxy",
+      "Handler": "UserProxy",
+      "Actions": ["Get", "Test", "Set", "Restore"],
+      "SupportedTargets": [],
+      "CandidateTargets": ["Windows 11"],
+      "PendingAcceptance": true
+    },
+    "EngineIntegration": {
+      "LifecycleModuleImported": "modules/RIDE.Engine.psm1 imports RIDE.UserProxyLifecycle.psm1",
+      "Apply": "Engine creates the automatic-detection patch and passes its generated run ID to Set-RideUserProxyConfigurationPatch before native writes.",
+      "Restore": "Engine restores the captured run through Restore-RideUserProxyConfigurationSnapshot using the run ID and recorded machine/user/session identity."
+    },
+    "Lifecycle": "The current lifecycle persists a create-new snapshot before the setter, performs fresh identity/state/policy checks, reads back after writes, attempts compensation after verified partial changes, and records restore completion."
+  },
+  "DocumentationCorrection": "The operator guide and active queue had stale statements that engine/catalog integration and a future lifecycle wrapper were still outstanding. They now describe the engine-integrated candidate accurately.",
+  "AcceptanceStillDeferred": [
+    "Complete effective proxy-policy inventory",
+    "Snapshot authenticity and cross-process concurrency limits",
+    "Controlled PAC-consumer behavior and visible GUI effect",
+    "Disposable Windows 11 apply/repeat/status/restore acceptance"
+  ],
+  "ActionsTaken": {
+    "TestsRun": false,
+    "NativeSetterCalled": false,
+    "WindowsStateChanged": false,
+    "LegacyOutcomesClosed": 0,
+    "EstimatesChanged": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

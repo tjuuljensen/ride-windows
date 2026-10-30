@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T18:50:22Z",
+  "package": {
+    "id": "package.regripper",
+    "version": "3.0-ec96dd4a6a5c",
+    "sourceArchive": ".local/b08-regripper/RegRipper3.0-ec96dd4a6a5c3ea70d8fece9b47a374f83582335.zip",
+    "expectedSha256": "a1a13f6742990ca413e1763b90176d22ed4a9d663c4b37cb3f66e46f296acb43",
+    "observedSha256": "a1a13f6742990ca413e1763b90176d22ed4a9d663c4b37cb3f66e46f296acb43",
+    "managedFiles": 282,
+    "requiredFilesPresent": true
+  },
+  "localLifecycle": {
+    "result": "Passed",
+    "installHealthy": true,
+    "repeatHealthy": true,
+    "uninstallCompleted": true,
+    "presentSnapshotRestoreHealthy": true,
+    "priorAbsenceRestored": true,
+    "operatorContentPreserved": true,
+    "runDirectory": ".local/regripper-real-archive-lifecycle-20261026-1942",
+    "executablesLaunched": false,
+    "registryHivesParsed": false
+  },
+  "focusedRegression": {
+    "testFile": "tests/RegRipperPackage.Tests.ps1",
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0
+  },
+  "vmAccess": {
+    "observedAtUtc": "2026-10-26T18:50:22Z",
+    "vmQueryError": "Access to a CIM resource was not available to the client.",
+    "taskQueryError": "Access to a CIM resource was not available to the client.",
+    "schtasksExitCode": 1,
+    "schtasksOutput": "ERROR: The network address is invalid.",
+    "guestRequestDispatched": false,
+    "stateChanged": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "resolved": [
+      "Exact retained archive hash verified against the catalog",
+      "Current-source local owned-file install/repeat/uninstall and present/absence recovery",
+      "Focused RegRipper package regression"
+    ],
+    "deferred": [
+      "Disposable Windows 11 install/recovery acceptance",
+      "Runtime/parser behavior against a synthetic hive fixture",
+      "Defender and application compatibility observations on the target VM"
+    ],
+    "licenseDisposition": "The catalog retains the project notice and exact-source MIT terms. License administration is not an acceptance gate.",
+    "estimateRanges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

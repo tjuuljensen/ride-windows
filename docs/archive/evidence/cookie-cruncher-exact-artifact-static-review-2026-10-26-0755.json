@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T08:14:26Z",
+  "product": "Google Analytic Cookie Cruncher",
+  "source": {
+    "repository": "https://github.com/mdegrazia/Google-Analytic-Cookie-Cruncher",
+    "commit": "b384f8610475b7a04a3b4f48e98c8a82d3b771a6",
+    "path": "Google-Analytic-Cookie-Cruncher_v_2_0_0_0_1.zip",
+    "gitBlobSha": "9294b931150532697f4b619df854177d98918ef5",
+    "acquisition": "GitHub Contents API at the immutable commit; bytes were returned as base64 and saved unchanged to the ignored local acquisition review cache."
+  },
+  "artifact": {
+    "sizeBytes": 533817,
+    "sha256": "5a27c94887b25cb159f8f3477cb3cf73658dbcd1f77acba5643a88a1127b3922",
+    "version": "2.0.0.1",
+    "architecture": "x86",
+    "managedExecutable": true,
+    "targetFramework": ".NETFramework,Version=v4.0",
+    "frameworkReferences": ["mscorlib 4.0", "Microsoft.VisualBasic 10.0", "System.Windows.Forms 4.0", "System.Xml.Linq 4.0", "System 4.0", "System.Xml 4.0", "System.Core 4.0", "System.Drawing 4.0", "System.Data.SQLite 1.0.89"],
+    "metadataReadMode": "Windows PowerShell 5.1 ReflectionOnlyLoadFrom; no assembly code was executed.",
+    "authenticodeStatus": "NotSigned",
+    "entries": [
+      { "path": "GA Cookie Cruncher.exe", "sizeBytes": 91136 },
+      { "path": "License.txt", "sizeBytes": 373 },
+      { "path": "System.Data.SQLite.dll", "sizeBytes": 984576, "fileVersion": "1.0.89.0" }
+    ],
+    "uncompressedBytes": 1076085,
+    "duplicatePaths": [],
+    "unsafePaths": [],
+    "symlinks": []
+  },
+  "license": {
+    "file": "License.txt",
+    "finding": "The embedded notice states the program is free software and may be redistributed as the recipient sees fit; it retains a no-warranty disclaimer.",
+    "migrationDisposition": "No legal or license-review gate. Retain License.txt in the staged owned files."
+  },
+  "migration": {
+    "candidateAdded": "package.google-analytic-cookie-cruncher",
+    "packageState": "Pending acceptance; Windows 11 is a candidate target and no supported target is declared.",
+    "resolved": ["Immutable publisher source and exact archive identity/hash", "Three-member archive inventory and upstream notice", "Embedded product version and x86 architecture", "Portable owned-file package declaration"],
+    "deferred": ["Runtime prerequisites and GUI behavior", "Disposable Windows 11 repeat/remove/exact restore acceptance"],
+    "notPerformed": ["Executable launch", "Browser profile inspection or cookie access", "VM request or Windows/Defender configuration change", "Legacy outcome closure"],
+    "verification": {
+      "focusedPester": "3/3 passed using a writable repository-local scratch directory; the first run was blocked before assertions by sandbox ACLs on Pester's default temporary directory.",
+      "realArchiveLocalLifecycle": "Passed repeated install, exact three-file ownership, output preservation through removal, and exact saved-state restore using the acquired archive bytes; the executable was not launched.",
+      "repositoryValidation": "Passed: 416 operations, 8 groups, 5 profiles, 279 PowerShell files; generated operation documentation is current."
+    },
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

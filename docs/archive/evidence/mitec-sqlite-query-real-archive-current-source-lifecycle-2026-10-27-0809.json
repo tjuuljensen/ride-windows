@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27 08:09 UTC",
+  "batch": "MiTeC SQLite Query local current-source real-archive lifecycle",
+  "package": {
+    "id": "package.mitec-sqlite-query",
+    "version": "3.2.0",
+    "archive": ".local/remaining-collections-20261017/SQLiteQ.zip",
+    "sha256": "7f979a622de9e97b9682dc09a5156a1bd872139a9dd56ba60616fb824e77ab16",
+    "selectedMembers": [
+      "SQLiteQuery.exe",
+      "sqlite3.dll",
+      "sqlite3.exe"
+    ]
+  },
+  "validation": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testFile": "tests/MiTeCSqliteQuery.Tests.ps1",
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "repositoryValidation": "tools/validate.ps1 passed: 429 operations, 8 groups, 5 profiles, 294 PowerShell files"
+  },
+  "scope": {
+    "realArchiveLifecycle": "Passed; offline selected-member staging, repeat, health/member inventory, snapshot, operator-note preservation, uninstall and saved-state restore",
+    "productExecuted": false,
+    "databaseOpened": false,
+    "sqlExecuted": false,
+    "vmChanged": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false
+  },
+  "licenseReview": {
+    "status": "NeedsReview",
+    "owner": "Unassigned",
+    "effectOnMigration": "Informational administrative marker only; not a migration gate"
+  },
+  "acceptance": {
+    "windowsFunctionalBehavior": "Pending",
+    "nativeVmAcceptance": "Blocked by current VM/task access",
+    "next": "Rerun focused Windows batch when registered controller queue access and VM inspection are available; exercise application behavior only with an approved synthetic database fixture"
+  },
+  "controller": {
+    "existingConfiguration": "RIDEWin11Test",
+    "vm": "RIDE-Win11-Test",
+    "checkpoint": "RIDE-clean-test-base",
+    "psscripttoolsDispatch": "Blocked before enqueue: protected queue temporary file creation denied",
+    "taskAndVmInspection": "Blocked before inspection at CIM; schtasks returned network address invalid",
+    "freshUac": false,
+    "requestEnqueued": false
+  },
+  "defenderBlockedTools": "Excluded; no blocked utility acquired, executed, or included in acceptance",
+  "estimate": {
+    "groups": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12"
+    },
+    "exactTotal": "127-181",
+    "roundedTotal": "125-180/about 155",
+    "legacyOutcomesClosed": 0
+  }
+}

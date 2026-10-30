@@ -1,0 +1,46 @@
+{
+  "RecordedAtUtc": "2026-10-25T15:21:29Z",
+  "Scope": "Current-source independent Sysinternals package lifecycle regression",
+  "TestRun": {
+    "PesterVersion": "5.7.1",
+    "TestFile": "tests/SysinternalsProductPackages.Tests.ps1",
+    "Discovered": 72,
+    "Passed": 72,
+    "Failed": 0,
+    "Skipped": 0,
+    "DurationSeconds": 189.16,
+    "TestRegistryEnabled": false,
+    "TemporaryRoot": "Workspace-local .local/test-temp/sysinternals-a17785c072ce4e0bad3b103b2db3be0b",
+    "Coverage": "Nine independent pinned products; inert ZIP members, hash and owned-file lifecycle, repeat install, recovery, collision and modified-file preservation; no product execution."
+  },
+  "Harness": {
+    "InitialAttempt": "Stopped after sandbox redirected Pester TestDrive outside the writable workspace and filesystem operations failed with Access denied.",
+    "Rerun": "Passed after process-local TEMP and TMP were redirected to a fresh workspace-local test directory. The earlier sandbox-reported retained temporary files were left untouched."
+  },
+  "SysinternalsDisposition": "Prior RIDE v2 license-specialist approval covers direct Microsoft download-and-install. RIDE does not transfer or publish Sysinternals. No legal or licensing migration gate applies. Defender alerts remain separate exclusions.",
+  "VmAcceptance": "Not run; current read-only VM/CIM checks at 15:11 UTC failed before VM/checkpoint inspection.",
+  "Safety": {
+    "UtilitiesExecuted": false,
+    "WindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "VM acceptance and any technical behavior outside inert package-file lifecycle remain pending."
+    ],
+    "Partial": [],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  }
+}

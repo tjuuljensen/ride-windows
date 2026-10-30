@@ -1,0 +1,28 @@
+{
+  "recordedAtUtc": "2026-10-29T00:07:55Z",
+  "check": "Fresh non-elevated read-only Get-VM recheck",
+  "targets": [
+    "RIDE-Win11-Test",
+    "RIDE-S25-Test"
+  ],
+  "result": "Both names failed before any VM state was returned: Access to a CIM resource was not available to the client.",
+  "checkpointOrTaskState": "Not inspected",
+  "queueState": "Not inspected",
+  "guestRequestDispatched": false,
+  "elevationRequested": false,
+  "windowsOrVmStateChanged": false,
+  "defenderQueriedOrChanged": false,
+  "packageOrToolExecuted": false,
+  "acceptance": "Defer native Windows 11 and Server 2025 acceptance until host CIM read access and exact checkpoint/task readiness can be confirmed.",
+  "otherAuthorizedLocalWork": "Continue independent package, settings, and component source implementation and mocked regression work.",
+  "legacyOutcomeClosed": false,
+  "estimates": {
+    "packages": "37-52",
+    "settings": "37-57",
+    "maintenance": "8-12",
+    "filesAndAssets": "25-35",
+    "components": "19-24",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T07:32:54Z",
+  "validation": {
+    "command": ".\\tools\\validate.ps1",
+    "status": "Passed",
+    "operations": 415,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 278,
+    "output": "Operation documentation is current.",
+    "scope": "Repository/catalog/profile/script validation; no Windows integration behavior established."
+  },
+  "vmAccess": {
+    "readOnly": true,
+    "targets": [
+      "RIDE-Win11-Test",
+      "RIDE-Srv2025Test"
+    ],
+    "getVmResult": "Access to a CIM resource was not available to the client; no VM/checkpoint state was inspected.",
+    "registeredTaskResult": "schtasks.exe /Query /TN \\RIDE\\RIDEWin11Test returned ERROR: The network address is invalid.",
+    "guestRequestSubmitted": false,
+    "elevationPromptRequested": false,
+    "hostServiceChanged": false,
+    "vmOrWindowsStateChanged": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Disposable Windows package, settings, component and user-context acceptance pending VM/controller access."
+    ],
+    "partial": [
+      "RIDE migration remains incomplete; source-ready and local validation do not establish native acceptance."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

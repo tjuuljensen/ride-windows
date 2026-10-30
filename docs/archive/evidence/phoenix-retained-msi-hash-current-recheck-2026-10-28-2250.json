@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:50:00Z",
+  "batch": "Phoenix Protector retained MSI integrity recheck",
+  "artifact": ".local/remaining-collections-20261017/Phoenix_Protector.msi",
+  "present": true,
+  "length": 1357312,
+  "sha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369",
+  "catalog": {
+    "packageVersion": "1.7.1",
+    "expectedSha256": "15a7dbbf90ce66fb302a322c6809fafd897808096069dfecededf78e51b16369"
+  },
+  "result": "The retained candidate still matches the exact catalog hash pin. This does not prove it is the current artifact behind the publisher page URL.",
+  "publisherIdentity": {
+    "pageVersion": "1.8.0.1",
+    "containedExecutableVersion": "1.9.0.1",
+    "currentBytesReceived": false,
+    "directPublisherFetch": "Failed with Unicode decoding error before any bytes, see linked 22:49 evidence."
+  },
+  "boundary": {
+    "fileHashRead": true,
+    "fileContentExtracted": false,
+    "installerRun": false,
+    "publisherNetwork": false,
+    "vmQueried": false,
+    "defenderQueriedOrChanged": false,
+    "passwordScanAlertPathAccessed": false,
+    "windowsStateChanged": false,
+    "elevationPrompt": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "The retained Phoenix MSI still matches the catalog SHA-256 pin."
+    ],
+    "partial": [
+      "Current publisher-link byte identity and page/MSI/executable version mapping remain unresolved."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Obtain and inspect current publisher MSI bytes and run Windows lifecycle acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; retained-byte integrity does not close an installed package outcome."
+    }
+  }
+}

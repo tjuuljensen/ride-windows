@@ -1,0 +1,47 @@
+{
+  "recordedAtUtc": "2026-10-28T16:21:30Z",
+  "batch": "B06 OpenSSH Client LocalSource boundary",
+  "change": {
+    "module": "modules/RIDE.ClientComponentLifecycle.psm1",
+    "version": "0.4.1",
+    "summary": "Reject mapped network drives for an OpenSSH Client LocalSource before CAB metadata inspection, state capture, or servicing. Record the observed drive type. DISM configured-source fallback and end-to-end network isolation remain unverified."
+  },
+  "coverage": {
+    "testFile": "tests/ClientComponentLifecycle.Tests.ps1",
+    "addedCase": "Mocks a network drive type and asserts refusal before package metadata inspection, native transition, and state capture."
+  },
+  "validation": {
+    "powershellParser": {
+      "module": "passed",
+      "testFile": "passed"
+    },
+    "gitDiffCheck": "passed",
+    "pesterAssertions": "not run; Windows PowerShell 5.1 Pester import was blocked by AuthorizationManager format-file checks; PowerShell 7 has no discoverable Pester."
+  },
+  "acceptance": {
+    "vm": "RIDE-Win11-Test Get-VM preflight failed before VM/checkpoint inspection with Value cannot be null (Parameter name: name); FileSystem provider initialization also failed.",
+    "defender": "PasswordScan architectures remain excluded; no flagged executable, stage, or Defender state was accessed or changed."
+  },
+  "migration": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "B06 Windows guest acceptance; configured DISM source fallback/network isolation; exact payload/dependency recovery semantics"
+    ],
+    "partial": [
+      "OpenSSH Client LocalSource drive guard implementation"
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "reason": "Implementation guard and parser checks do not close a legacy outcome or establish Windows behavior; ranges remain unchanged."
+  }
+}

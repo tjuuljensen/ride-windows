@@ -1,0 +1,41 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T23:38:00Z",
+  "FullLocalPester": {
+    "Version": "5.7.1",
+    "Total": 3264,
+    "Passed": 3256,
+    "Failed": 5,
+    "Skipped": 3,
+    "DurationSeconds": 4677.56,
+    "XmlPath": ".local/full-pester-2026-10-24.xml",
+    "XmlContainsCaseDetails": false,
+    "NUnitEnvironmentExport": "Failed because Get-CimInstance access was denied while collecting environment information."
+  },
+  "FailureReview": {
+    "ArtcraftCandidateTargetAssertions": "Two stale assertions were changed to verify candidate targets do not overlap supported targets; focused suite passed 6/6.",
+    "PackageDependencyConfigurationMock": "The mock did not intercept the imported function; the current test now checks the install path derived from read-only machine configuration; focused suite passed 9/9.",
+    "PhoenixPrerequisiteExpectation": "The stale assertion expected a missing optional .NET prerequisite to block planning; current source now checks prerequisite metadata and permits planning; LicenseReviews suite passed 22/22.",
+    "LicenseReviewSuite": "Current-source LicenseReviews suite passed 22/22.",
+    "CatalogLiveRegistry": "The live HKCU check was denied by the local sandbox and was not rerun."
+  },
+  "FocusedCurrentSource": {
+    "ArtcraftPackages": { "Passed": 6, "Failed": 0, "Skipped": 0 },
+    "PackageDependencyPlanning": { "Passed": 9, "Failed": 0, "Skipped": 0 },
+    "LicenseReviews": { "Passed": 22, "Failed": 0, "Skipped": 0 },
+    "Total": { "Passed": 37, "Failed": 0, "Skipped": 0 }
+  },
+  "WindowsStateChanged": false,
+  "VMAccessed": false,
+  "DefenderChanged": false,
+  "LegacyOutcomeClosed": false,
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "50-65",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

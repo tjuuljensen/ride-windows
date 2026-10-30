@@ -1,0 +1,35 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "B06OpenSshClientLocalSourceRemovalGuard",
+  "RecordedAtUtc": "2026-10-27T21:15:00Z",
+  "Implementation": {
+    "RemovalRequires": "LocalSource with exact native-architecture OpenSSH Client CAB and CBS package identity matching target Windows build",
+    "SnapshotCaptures": ["source mode", "source path", "package identity", "architecture", "SHA-256"],
+    "Restore": "Revalidates source identity, architecture and digest for both prior-present and prior-absent states",
+    "SourceValidatedMeaning": "The lifecycle flag reflects the exact CAB identity, architecture, build and digest check only; it does not prove complete media, dependencies or network isolation.",
+    "CandidateRegistered": false,
+    "SupportedTargets": []
+  },
+  "RegressionCasesAdded": [
+    "LocalSource removal followed by restore to captured Installed state",
+    "LocalSource installation followed by restore to prior NotPresent state",
+    "Online removal refused before snapshot or servicing",
+    "Wrong-build LocalSource removal refused before snapshot or servicing"
+  ],
+  "Validation": {
+    "RepositoryValidator": "passed",
+    "Operations": 438,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 297,
+    "FocusedPester": "not run; only Pester 3.4.0 is installed in this shell, suite requires Pester 5.7.1"
+  },
+  "NotPerformed": ["DISM servicing", "CAB acquisition", "VM inspection or acceptance", "Defender changes", "elevation"],
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["source completeness and dependencies", "configured-source fallback", "exact payload/version recovery", "Windows 11 and Windows Server acceptance"],
+    "Estimates": {"Settings": "37-57", "Packages": "38-53", "Components": "19-24", "FilesAssets": "25-35", "Maintenance": "8-12", "Exact": "127-181", "Rounded": "125-180/about 155"}
+  }
+}

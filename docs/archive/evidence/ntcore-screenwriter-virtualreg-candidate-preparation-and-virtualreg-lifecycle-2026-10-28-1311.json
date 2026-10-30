@@ -1,0 +1,153 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-28T13:11:20Z",
+  "Scope": "Current official NTCore publisher-list reconciliation and preparation of retained VirtualReg Manager and ScreenWriter package candidates.",
+  "PublisherListing": {
+    "Uri": "https://ntcore.com/download/",
+    "CurrentUtilities": [
+      "Explorer Suite",
+      "Rebel.NET",
+      "Phoenix Protector",
+      "Filter Monitor",
+      "Driver List",
+      "VirtualReg Manager",
+      "DynLogger",
+      "Vista4Experts",
+      "4GB Patch",
+      "PE Detective",
+      "WIM Installer",
+      "ScreenWriter",
+      ".NET Generic Unpacker",
+      "SNSRemover",
+      "NoDel",
+      "AntiMida 1.0"
+    ],
+    "SeparateExternalProduct": "Cerbero Suite",
+    "SourcesSectionExcludedByExistingInventoryDecision": true
+  },
+  "Candidates": {
+    "VirtualRegManager": {
+      "Id": "package.ntcore-virtualreg-manager",
+      "PackageVersion": "1.0.0.1",
+      "Archive": ".local/source-review-batches2-20261017/VirtualRegManager.zip",
+      "ArchiveLength": 32709,
+      "ArchiveSha256": "7e807d1106e91c898733a00da01dfa860e468fb14bbe3852fea9892a377d5fa6",
+      "SelectedMember": "VirtualReg Manager.exe",
+      "SelectedMemberSha256": "6ef5dab0991dbb739424d11154bd16ca61830d50c5e09005c62c7861f8724c85",
+      "LicenseObservation": "Publisher download list says VirtualReg Manager may be included in freeware; local owner-specific review is NeedsReview/Unassigned and does not block migration.",
+      "Target": {
+        "Candidate": [
+          "Windows 11"
+        ],
+        "Supported": [],
+        "PendingAcceptance": true
+      },
+      "HandlerResult": {
+        "PowerShell": "7.6.5",
+        "Passed": 1,
+        "RepeatInstall": true,
+        "ExactMemberHealth": true,
+        "UninstallRestore": true,
+        "OperatorNotePreserved": true,
+        "ExecutableLaunched": false,
+        "WindowsRegistryChanged": false
+      }
+    },
+    "ScreenWriter": {
+      "Id": "package.ntcore-screenwriter",
+      "CatalogPackageVersion": "1.0.0",
+      "PublisherPageAndExecutableVersion": "1.1.0.1",
+      "MsiProductCode": "{0D75586D-610A-41E3-9278-9D4860DFA99F}",
+      "Archive": ".local/source-review-batches2-20261017/ScreenWriter.msi",
+      "ArchiveLength": 435200,
+      "ArchiveSha256": "e1bae80b9f7934c14d498a827bb15f8fb963a6fe9de9d7d18223049fb62563ab",
+      "FrameworkVersion": "2.0.50727",
+      "AllowLaterFrameworkVersions": false,
+      "CustomActionCount": 6,
+      "LicenseObservation": "Retained readme calls product free software; no explicit redistribution grant found. NeedsReview/Unassigned is informational.",
+      "Target": {
+        "Candidate": [
+          "Windows 11"
+        ],
+        "Supported": [],
+        "PendingAcceptance": true
+      },
+      "WindowsInstallerExecuted": false,
+      "NativeLifecycleRun": false
+    }
+  },
+  "CatalogAndSourceGaps": {
+    "CurrentCatalogValidation": {
+      "Operations": 444,
+      "Groups": 8,
+      "Profiles": 5,
+      "Errors": 0
+    },
+    "GeneratedOperationsReferenceCurrent": true,
+    "TestFileParserErrors": {
+      "PowerShell 7.6.5": 0,
+      "Windows PowerShell 5.1": 0
+    },
+    "Pester5Available": false,
+    "RemainingCurrentListItems": [
+      "Filter Monitor",
+      "Vista4Experts",
+      "AntiMida 1.0",
+      "Full Explorer Suite package; current CFF Explorer candidate covers only the standalone CFF component."
+    ],
+    "SourceArchiveStatus": {
+      "FilterMonitor": "No exact archive pin available; publisher download was DNS-blocked in prior evidence.",
+      "Vista4Experts": "Only retained product HTML found, no payload archive.",
+      "AntiMida": "Prior inventory records a mixed source/research bundle; standalone executable scope not reconciled."
+    }
+  },
+  "LicenseReviews": {
+    "Store": ".local/license-reviews.json",
+    "TotalRecords": 85,
+    "NewMarkers": [
+      {
+        "Id": "package.ntcore-screenwriter",
+        "ReviewedVersion": "1.0.0",
+        "ReviewOwner": "Unassigned",
+        "LicenseReviewStatus": "NeedsReview",
+        "DistributionNotes": "Retained readme calls the product free software but states no explicit redistribution grant; publisher page and executable report 1.1.0.1 while MSI ProductVersion is 1.0.0. This owner-specific review is administrative and does not block migration."
+      },
+      {
+        "Id": "package.ntcore-virtualreg-manager",
+        "ReviewedVersion": "1.0.0.1",
+        "ReviewOwner": "Unassigned",
+        "LicenseReviewStatus": "NeedsReview",
+        "DistributionNotes": "Publisher states freeware packages may include this utility; owner-specific review is retained for administrative tracking and does not block migration."
+      }
+    ]
+  },
+  "Boundaries": {
+    "NoUtilityExecuted": true,
+    "NoDefenderBlockedFileTouched": true,
+    "DefenderQueriedOrChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "NetworkUsedForCandidateLifecycle": false,
+    "FreshUacPrompts": 0,
+    "WindowsPowerShellHandlerRun": false,
+    "Reason": "Windows PowerShell script body was blocked before execution by AuthorizationManager; no policy bypass was attempted."
+  },
+  "RemainingAcceptance": [
+    "Windows 11 lifecycle and feature behavior for both candidates.",
+    "ScreenWriter .NET Framework feature, MSI custom-action, scope, shortcuts and uninstall/recovery behavior.",
+    "VirtualReg Manager CLR prerequisite, GUI/CLI behavior and output ownership using synthetic data only.",
+    "Read access to the registered Windows 11 VM/checkpoint/controller before dispatch."
+  ],
+  "MigrationAccounting": {
+    "LegacyOutcomesClosed": 0,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "126-180",
+      "RoundedTotal": "125-180/about 155"
+    },
+    "EstimateReason": "Two exact package candidates were prepared and one local portable handler lifecycle passed. Windows acceptance remains pending, so legacy outcome counts and estimate ranges do not change."
+  }
+}

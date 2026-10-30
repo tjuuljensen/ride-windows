@@ -29,6 +29,10 @@ BeforeAll {
 
 Describe 'MiTeC DFM Editor package variants' {
   It 'matches the retained archive and all exact member hashes' {
+    if (-not (Test-Path -LiteralPath $Archive -PathType Leaf)) {
+      Set-ItResult -Skipped -Because 'The retained publisher archive is local acquisition evidence and is not included in transferred source snapshots.'
+      return
+    }
     (Get-FileHash -LiteralPath $Archive -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $Evidence.Archive.Sha256
     $zip=[IO.Compression.ZipFile]::OpenRead($Archive)
     try {
@@ -38,7 +42,7 @@ Describe 'MiTeC DFM Editor package variants' {
         $entry=$files|Where-Object FullName -CEQ $expected.Path
         $entry.Count|Should -Be 1
         $stream=$entry.Open();$sha=[Security.Cryptography.SHA256]::Create()
-        try{$digest=[Convert]::ToHexString($sha.ComputeHash($stream)).ToLowerInvariant()}finally{$stream.Dispose();$sha.Dispose()}
+        try{$digest=[BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant()}finally{$stream.Dispose();$sha.Dispose()}
         $digest|Should -BeExactly $expected.Sha256
       }
     } finally {$zip.Dispose()}
@@ -128,5 +132,37 @@ Describe 'MiTeC DFM Editor inert lifecycle <Variant>' -ForEach @(
     Restore-RidePortableSnapshot $operation $snapshot
     (Get-RidePortableState $operation).Healthy|Should -BeTrue
     [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'user-note.txt'))|Should -BeExactly 'preserve'
+  }
+
+  It 'stages the actual retained publisher archive and restores only this Delphi runtime family' {
+    if(-not (Test-Path -LiteralPath $Archive -PathType Leaf)){
+      Set-ItResult -Skipped -Because 'The retained DFMEdit.zip is local acquisition evidence and is unavailable in this checkout.'
+      return
+    }
+    (Get-FileHash -LiteralPath $Archive -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $Evidence.Archive.Sha256
+    $operation=Resolve-RidePackageSelection -Operation ($Catalog.Operations|Where-Object Id -CEQ 'package.mitec-dfm-editor') -Variant $Variant -MetadataOnly
+    $operation.ResolvedToolsDirectory=Join-Path $CaseRoot 'real-archive'
+    $operation.InstallDirectory=Join-Path $operation.ResolvedToolsDirectory $operation.PackageId
+    $null=New-Item -ItemType Directory -Path $operation.ResolvedToolsDirectory -Force
+    $artifact=[pscustomobject]@{Path=$Archive;Sha256=$Evidence.Archive.Sha256;Version=$Version}
+    $expected=@($Evidence.Members|Where-Object Path -like "$Prefix/*")
+    $expected.Count|Should -Be 9
+
+    Install-RidePortablePayload $operation $artifact -Offline
+    Install-RidePortablePayload $operation $artifact -Offline
+    $state=Get-RidePortableState $operation
+    $state.Healthy|Should -BeTrue
+    (@($state.Files.RelativePath|Sort-Object) -join '|')|Should -BeExactly ((@($expected.Path|Sort-Object)) -join '|')
+    foreach($member in $expected){
+      (Get-FileHash -LiteralPath (Join-Path $operation.InstallDirectory $member.Path) -Algorithm SHA256).Hash.ToLowerInvariant()|Should -BeExactly $member.Sha256
+    }
+    @($state.Files.RelativePath|Where-Object {$_ -notlike "$Prefix/*"}).Count|Should -Be 0
+
+    $snapshot=Save-RidePortableSnapshot $operation (Join-Path $CaseRoot 'real-archive-backup')
+    [IO.File]::WriteAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'),'preserve')
+    Uninstall-RidePortablePayload $operation
+    Restore-RidePortableSnapshot $operation $snapshot
+    (Get-RidePortableState $operation).Healthy|Should -BeTrue
+    [IO.File]::ReadAllText((Join-Path $operation.InstallDirectory 'operator-note.txt'))|Should -BeExactly 'preserve'
   }
 }

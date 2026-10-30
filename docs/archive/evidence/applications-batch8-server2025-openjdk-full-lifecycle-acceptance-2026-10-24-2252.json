@@ -1,0 +1,93 @@
+{
+  "SchemaVersion": 1,
+  "RunId": "48dd3fcc164f465fad6c83f440b68aee",
+  "Source": "Local",
+  "Status": "Passed",
+  "StartedAtUtc": "2026-10-24T22:38:42.9833248Z",
+  "FinishedAtUtc": "2026-10-24T22:52:11.0314020Z",
+  "IntegrationSuite": "ApplicationsBatch8",
+  "Guest": {
+    "OperatingSystem": "Microsoft Windows Server 2025 Standard Evaluation",
+    "BuildNumber": "26100",
+    "PowerShell": "5.1.26100.33438",
+    "Account": "RIDE-S25-TEST\\bob",
+    "Elevated": true
+  },
+  "FocusedPester": {
+    "Version": "5.7.1",
+    "Total": 356,
+    "Passed": 355,
+    "Failed": 0,
+    "Skipped": 1,
+    "Selection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Packages": [
+    {
+      "Id": "package.microsoft-openjdk",
+      "PinnedVersion": "25.0.4.1",
+      "RegisteredVersion": "25.0.4.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-25",
+      "JavaVersion": "25.0.4.1",
+      "JavacVersion": "25.0.4.1",
+      "Status": "Passed",
+      "Checks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved", "RepeatInstall", "RemovalPreview", "RIDERemoval", "RepeatRemoval", "SavedRemovalRecovery"],
+      "RemovalRecoveryVersion": "25.0.4.101",
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.microsoft-openjdk-21",
+      "PinnedVersion": "21.0.12.1",
+      "RegisteredVersion": "21.0.12.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-21",
+      "JavaVersion": "21.0.12.1",
+      "JavacVersion": "21.0.12.1",
+      "Status": "Passed",
+      "Checks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved", "RepeatInstall", "RemovalPreview", "RIDERemoval", "RepeatRemoval", "SavedRemovalRecovery"],
+      "RemovalRecoveryVersion": "21.0.12.101",
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.microsoft-openjdk-17",
+      "PinnedVersion": "17.0.20.1",
+      "RegisteredVersion": "17.0.20.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-17",
+      "JavaVersion": "17.0.20.1",
+      "JavacVersion": "17.0.20.1",
+      "Status": "Passed",
+      "Checks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved", "RepeatInstall", "RemovalPreview", "RIDERemoval", "RepeatRemoval", "SavedRemovalRecovery"],
+      "RemovalRecoveryVersion": "17.0.20.101",
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    },
+    {
+      "Id": "package.microsoft-openjdk-11",
+      "PinnedVersion": "11.0.32.1",
+      "RegisteredVersion": "11.0.32.101",
+      "InstallDirectory": "C:\\Program Files\\Microsoft\\RIDE\\OpenJDK\\jdk-11",
+      "JavaVersion": "11.0.32.1",
+      "JavacVersion": "11.0.32.1",
+      "Status": "Passed",
+      "Checks": ["RIDEManagedInstall", "DedicatedInstallDirectory", "JavaRuntimeVersion", "JavaCompilerVersion", "SharedJavaDefaultsPreserved", "RepeatInstall", "RemovalPreview", "RIDERemoval", "RepeatRemoval", "SavedRemovalRecovery"],
+      "RemovalRecoveryVersion": "11.0.32.101",
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable"
+    }
+  ],
+  "ControllerCleanup": "Passed",
+  "EvidenceCollection": "Passed",
+  "EvidenceExport": "Passed",
+  "UnitOnlyFullRepositoryRegression": {
+    "RunId": "172df6c2fe76491ba63145cbbdff2dc3",
+    "Status": "Failed",
+    "PesterVersion": "5.7.1",
+    "Total": 3258,
+    "Passed": 3211,
+    "Failed": 46,
+    "Skipped": 1,
+    "OpenJdkTestFailures": 0
+  },
+  "SupportDecision": {
+    "SupportedTargets": ["Windows Server 2025"],
+    "CandidateTargets": ["Windows 11"],
+    "Windows11Acceptance": "Pending",
+    "StandardImageDefault": "Absent"
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T20:33:40.0843153Z",
+  "guestRun": {
+    "SchemaVersion": 1,
+    "RunId": "b54cfc79499d4e56a0d7bafda51b4179",
+    "Source": "Local",
+    "UnitOnly": true,
+    "IntegrationSuite": "Full",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-10-28T17:38:35.6700058Z",
+    "FinishedAtUtc": "2026-10-28T19:05:34.4770795Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "guestSummary": {
+    "SchemaVersion": 1,
+    "RunId": "b54cfc79499d4e56a0d7bafda51b4179",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 17,
+      "Result": "Failed",
+      "Total": 3528,
+      "Passed": 3477
+    },
+    "Error": "Pester did not pass: 17 failing test(s).",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9444",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Full repository regression"
+  },
+  "guestSkipped": 34,
+  "postRestart": {
+    "fileInspection": {
+      "recoveryBlock": false,
+      "running": 0,
+      "pending": 0
+    },
+    "operatorObserved": {
+      "winrm": "Stopped",
+      "vmStatus": "Operating normally",
+      "vmState": "Off",
+      "taskState": "Ready",
+      "vmms": "Running"
+    },
+    "restartCause": "Not investigated",
+    "manualRecoveryPerformed": false
+  },
+  "failureGroups": {
+    "winPmemTestExpectations": 2,
+    "missingDeveloperCacheArchiveCases": 12,
+    "staleCatalogCount": 1,
+    "staleVersionOutputs": 2
+  },
+  "repairs": [
+    "Separate NTCore catalog pin assertions and synthetic file lifecycle from six explicitly configured publisher ZIP checks.",
+    "Align portable guest/host and task client version outputs with documented current versions.",
+    "Include WinPmem in completion expectations and mock focused-result creation.",
+    "Assert nonempty setting selection and presentation metadata for every selected operation rather than a frozen count."
+  ],
+  "focusedValidation": {
+    "windowsIntegrationNotRunPerEdition": 1,
+    "additionalPowerShell7HostPreflightSkips": 2,
+    "powerShell7": {
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 315,
+      "Passed": 306,
+      "Failed": 0,
+      "Skipped": 8,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "windowsPowerShell": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 315,
+      "Passed": 308,
+      "Failed": 0,
+      "Skipped": 6,
+      "Failures": [],
+      "ContainerErrors": []
+    },
+    "skippedRetainedArtifacts": 6,
+    "syntaxChecks": "Passed",
+    "focusedDiffWhitespace": "Passed"
+  },
+  "harness": {
+    "temporaryRoot": ".local/acceptance-repair",
+    "pester": "5.7.1",
+    "retainedNtcoreFixtureDirectory": "Unset in test subprocesses",
+    "excludedTags": [
+      "WindowsIntegration"
+    ],
+    "testRegistryEnabled": false,
+    "executionPolicy": "Process-only Bypass; no persistent policy change",
+    "testResultEnabled": false
+  },
+  "postRunSourceHashes": [
+    {
+      "path": "tests/Catalog.Tests.ps1",
+      "sha256": "0f01fc22ae6205681a7bdd2527c400597003b8cf2c5b787e14e602cb3ed8e13a"
+    },
+    {
+      "path": "tests/NtcoreUnpackerDynLogger.Tests.ps1",
+      "sha256": "a8d0215b446a80f270e12e9ad20f7b5aa6391598edf1834dde8f0580a3bd7e7d"
+    },
+    {
+      "path": "tests/PortableAcceptanceAutomation.Tests.ps1",
+      "sha256": "d67b9abd2bad03b8936305f24138ca3e09ee2f35deaa35c2d089fb000a839e50"
+    },
+    {
+      "path": "tests/TestAutomation.Tests.ps1",
+      "sha256": "72edad22e0a8e48edd347186284ba9338f1ff65b54281c396531ddfe9d6e0988"
+    },
+    {
+      "path": "tests/integration/Invoke-RidePortableAcceptance.ps1",
+      "sha256": "6e1b17afe1a055de0b50751a1f6924effa0d14ba5edaf25dfac39b29a8426a2b"
+    },
+    {
+      "path": "tests/integration/Invoke-RidePortableVmAcceptance.ps1",
+      "sha256": "0ca47229742167922e54b20b019ef5ef04e88d56e21ef6eac7488f881085f267"
+    },
+    {
+      "path": "tests/integration/Invoke-RideVmTestTask.ps1",
+      "sha256": "dee88256f2660ab2f45f5f71254cc11f18b70e7bbf71b71e2e785517bdee68eb"
+    }
+  ],
+  "boundaries": {
+    "fullGuestRerun": "Pending",
+    "hostRegistryIntegrationExecuted": false,
+    "publisherBytesAcquiredOrExtracted": false,
+    "defenderChanged": false,
+    "utilitiesOrDriversExecuted": false,
+    "acceptanceStatus": "NotValidated",
+    "vmDispatchedDuringRepair": false,
+    "realCredentialsUsed": false
+  },
+  "migration": {
+    "maintenance": "8-12",
+    "packages": "37-52",
+    "partial": "Full guest regression failed; focused repairs passed locally",
+    "rounded": "125-180/about 155",
+    "excluded": 0,
+    "deferred": "Fresh full guest run, native feature acceptance and broader certification",
+    "exact": "126-180",
+    "settings": "37-57",
+    "reason": "No feature/product outcome closes through a unit-test repair.",
+    "components": "19-24",
+    "resolved": 0,
+    "filesAndAssets": "25-35",
+    "retired": 0
+  }
+}

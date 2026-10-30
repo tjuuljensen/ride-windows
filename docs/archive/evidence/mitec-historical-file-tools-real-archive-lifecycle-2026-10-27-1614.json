@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "MiTeCHistoricalFileToolsRealArchiveLifecycle",
+  "RecordedAtUtc": "2026-10-27T16:14:25Z",
+  "Packages": [
+    {
+      "Id": "package.mitec-windows-file-analyzer",
+      "Version": "2.10.0",
+      "Archive": ".local/remaining-collections-20261017/WFA.zip",
+      "ArchiveLength": 2099639,
+      "ArchiveSha256": "57acae30ea14576e06822703c6211c8f0c675286c989ee0cdafec23578e7a9c6",
+      "SelectedMember": "WFA.exe",
+      "MemberLength": 2195296,
+      "MemberSha256": "2fdfb29599db66a8c8c91b139e6842551a6dbe8c4fa82f2daf2c9fcfd62707b6"
+    },
+    {
+      "Id": "package.mitec-icon-explorer",
+      "Version": "5.3.0",
+      "Archive": ".local/remaining-collections-20261017/IconExplorer.zip",
+      "ArchiveLength": 1525935,
+      "ArchiveSha256": "b7f71cee4664638a7ee24ee1091e8c604283adb3781e39ee2d5514cf1a0458f0",
+      "SelectedMember": "IconExplorer.exe",
+      "MemberLength": 3793232,
+      "MemberSha256": "da678c0473d335690d68c4dece3e303972d85c96641e856ff6dd163a14d16451"
+    }
+  ],
+  "Validation": {
+    "Test": "tests/MiTeCHistoricalFileTools.Tests.ps1",
+    "Pester": "5.7.1",
+    "PowerShell7": { "Edition": "PowerShell 7.6.5", "Passed": 6, "Failed": 0, "Skipped": 0 },
+    "WindowsPowerShell51": { "Edition": "Windows PowerShell 5.1.26100.9711", "Passed": 6, "Failed": 0, "Skipped": 0 },
+    "OptionalPlugins": { "TestRegistry": false, "TestResult": false },
+    "ScratchRoots": [
+      ".local/pester-mitec-historical-real-archives-20261027",
+      ".local/pester-mitec-historical-real-archives-winps51-20261027"
+    ],
+    "InitialAttempt": "The default optional TestRegistry extension failed before discovery because sandbox registry access denied its HKCU fixture; reruns disabled TestRegistry and TestResult and all tests passed."
+  },
+  "Coverage": [
+    "Rechecked each retained archive SHA-256 and exact selected-member length and SHA-256",
+    "Repeated offline install from each actual retained publisher archive",
+    "Verified only the declared member was managed and staged state was healthy",
+    "Saved state, removed owned files, restored the snapshot and preserved an unrelated operator note"
+  ],
+  "Boundaries": {
+    "UtilitiesLaunched": false,
+    "HostForensicArtifactsOpened": false,
+    "IconExtractionPerformed": false,
+    "PublisherNetworkAccess": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "Deferred": [
+      "Windows 11 package lifecycle acceptance",
+      "Windows File Analyzer behavior with synthetic disposable forensic artifacts only",
+      "Icon extraction collision and cleanup behavior with synthetic files only"
+    ],
+    "Blocker": "Get-VM -Name RIDE-Win11-Test returned CIM access unavailable before VM/checkpoint inspection."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Partial": ["Exact retained-archive managed-file lifecycle and saved-state recovery now pass in both PowerShell editions; Windows and product behavior acceptance remain open."],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No whole legacy outcome closes before Windows 11 lifecycle and separate synthetic behavior acceptance; retained-archive evidence adds confidence only."
+  }
+}

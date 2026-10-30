@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T17:03:00Z",
+  "scope": "Selected NTCore publisher-listed items without pinned package candidates",
+  "current_official_sources": [
+    {
+      "product": "Filter Monitor",
+      "version": "1.1.0",
+      "product_uri": "https://ntcore.com/filter-monitor/",
+      "download_uri": "https://ntcore.com/files/FilterMon.zip",
+      "publisher_claims": [
+        "Lists and can unregister kernel-mode filters.",
+        "Publisher claims Vista RTM through Windows 7 RTM and disclaims guaranteed compatibility on future versions because it relies on system internals.",
+        "Driver is unsigned; publisher instructs boot-time disabling of driver-signature enforcement."
+      ],
+      "technical_disposition": "Selected review continues. No Windows 11 support claim; compatibility and driver behavior remain open."
+    },
+    {
+      "product": "Vista4Experts",
+      "version": "1.2.0.1",
+      "product_uri": "https://ntcore.com/vista4experts/",
+      "download_uri": "https://ntcore.com/files/Vista4Experts.zip",
+      "publisher_claims": [
+        "Describes changing UAC prompts, Defender scans, automatic updates and other Vista behavior.",
+        "Says changes can be reversed but provides no per-setting map in the current product page.",
+        "Calls the product free software and disclaims warranty."
+      ],
+      "technical_disposition": "Selected review continues. Exact setting effects, Windows 11 behavior and recovery mappings remain unverified."
+    },
+    {
+      "product": "AntiMida",
+      "version": "1.0",
+      "product_uri": "https://ntcore.com/files/antimida_1.0.htm",
+      "download_uri": "https://ntcore.com/files/antimida_1.0.zip",
+      "publisher_claims": [
+        "Official download index dates the entry 2005-04-10 and describes project files plus a compiled executable.",
+        "Article describes user-mode DLL injection, process-memory access, a companion kernel driver, and hooks or patches to operating-system internals.",
+        "Article says the methods are obsolete and do not work with PAE."
+      ],
+      "technical_disposition": "Selected review continues under the full-collection decision; compatibility and safe operational behavior remain unresolved, with no Windows 11 support claim."
+    }
+  ],
+  "acquisition_attempts": {
+    "filter_monitor": "Official ZIP link returned Cache miss through the web reader.",
+    "vista4experts": "Official ZIP link was rejected by the web reader as application/zip.",
+    "antimida": "Official ZIP link was rejected by the web reader as application/zip.",
+    "archive_bytes_obtained": false,
+    "hashes_or_member_inventories_obtained": false
+  },
+  "licensing": "No license-based exclusion or planning gate is applied. These unpinned items do not yet have catalog operation IDs and exact archive identities for version-keyed local review-store entries; add owner/version NeedsReview markers when package candidates are pinned if terms remain unresolved.",
+  "safety": {
+    "utility_or_driver_executed": false,
+    "archive_downloaded_or_extracted": false,
+    "defender_state_changed": false,
+    "windows_or_vm_state_changed": false
+  },
+  "migration_outcomes": {
+    "resolved": [
+      "Current official product-page versions, claims and direct ZIP URLs rechecked."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred_or_partial": [
+      "No bytes, hash or member inventory for any of the three archives.",
+      "Windows compatibility, behavior and lifecycle acceptance remain open."
+    ],
+    "legacy_outcome_closed": false,
+    "estimate_adjustment": "None; page/source review does not close any legacy product outcome."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "files_and_assets": "25-35",
+    "maintenance": "8-12",
+    "exact_total": "126-180",
+    "rounded_total": "125-180; about 155 outcomes"
+  }
+}

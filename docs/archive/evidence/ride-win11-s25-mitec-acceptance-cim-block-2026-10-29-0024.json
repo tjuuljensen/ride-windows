@@ -1,0 +1,25 @@
+{
+  "recordedAtUtc": "2026-10-29T00:24:17Z",
+  "source": "Read-only Hyper-V host VM preflight",
+  "purpose": "Check availability of registered Windows targets for the pending Paradox Data Editor and Mail Checker acceptance batches.",
+  "targets": [
+    { "name": "RIDE-Win11-Test", "result": "Failed before state retrieval", "error": "Access to a CIM resource was not available to the client." },
+    { "name": "RIDE-S25-Test", "result": "Failed before state retrieval", "error": "Access to a CIM resource was not available to the client." }
+  ],
+  "checkpointTaskOrQueueStateInspected": false,
+  "guestRequestDispatched": false,
+  "installerOrProductExecuted": false,
+  "vmWindowsOrDefenderStateChanged": false,
+  "elevationRequested": false,
+  "disposition": "Keep both pending package candidates and their Windows target acceptance deferred. Continue independent source and synthetic work.",
+  "legacyOutcomesClosed": 0,
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

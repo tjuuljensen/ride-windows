@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T17:34:14Z",
+  "packageId": "package.microsoft-powershell-threadjob",
+  "version": "2.2.0",
+  "artifact": {
+    "path": ".local/threadjob-2.2.0-acquisition/Microsoft.PowerShell.ThreadJob.2.2.0.nupkg",
+    "sha256": "1678c5a5a5cf8ae65e127ecc77dfb7241513a61a1a398a4f79f44f12767108bc",
+    "requiredFiles": 10
+  },
+  "runtime": {
+    "powershell": "7.6.5",
+    "mode": "Offline local artifact lifecycle; no network or Authenticode-provider request"
+  },
+  "result": {
+    "status": "Passed",
+    "initialInstallHealthy": true,
+    "repeatInstallHealthy": true,
+    "uninstallRemovedOwnedFiles": true,
+    "presentSnapshotRestoredHealthy": true,
+    "priorAbsenceRestored": true,
+    "operatorContentPreserved": true
+  },
+  "boundaries": {
+    "UpstreamCodeImported": false,
+    "PackageCodeExecuted": false,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointChanged": false,
+    "WindowsTargetSupportPromoted": false
+  },
+  "scratchRoot": ".local/threadjob-real-archive-lifecycle-20261026-1734",
+  "migrationOutcome": {
+    "resolved": ["ThreadJob real-archive local file lifecycle regression"],
+    "retired": [],
+    "excluded": [],
+    "partial": ["ThreadJob runtime behavior remains pending disposable Windows acceptance as the selected PSScriptTools prerequisite"],
+    "deferred": ["PSScriptTools runtime acceptance with ThreadJob present on Windows 11"],
+    "estimateRangesUnchanged": true,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

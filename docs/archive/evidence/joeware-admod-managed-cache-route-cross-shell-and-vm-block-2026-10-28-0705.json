@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T07:05:21Z",
+  "batch": "JoeWare AdMod retained-cache managed-route cross-shell regression and VM access recheck",
+  "candidate": {
+    "packageId": "joeware-admod",
+    "version": "1.29.00",
+    "sha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+    "source": ".local/joeware-admod-acquisition-be07559413184229b567f4bd3d2b6a38/AdMod.zip"
+  },
+  "localRegression": {
+    "testFile": "tests/JoeWareAdModEngineRoute.Tests.ps1",
+    "pester": "5.7.1",
+    "powerShell7": {
+      "version": "7.6.5",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "windowsPowerShell51": {
+      "version": "5.1.26100.9711",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "plugins": {
+      "TestRegistry": false,
+      "TestResult": false
+    },
+    "coverage": [
+      "Real Save-RidePackageArtifact validates a retained pinned archive already present in the canonical package/version cache path.",
+      "Artifact observation and sidecar record AcquisitionKind=Cache, SHA-256 and provider digest in the unique test fixture.",
+      "Install-RidePackage receives that verified artifact under the declared offline capability and the real portable handler stages only AdMod.exe.",
+      "Network cmdlet is mocked to throw; offline routing does not request acquisition. The utility is not executed."
+    ],
+    "initialAssertion": "The first Pester attempt reached artifact validation but incorrectly expected AcquisitionKind on the returned summary object; the field is recorded in the artifact sidecar and shared observation. The assertion was corrected and both focused cases passed in both shells.",
+    "preservedFailedFixture": ".local/application-package-tests/joeware-admod-managed-cache-323025d70e734eb2b6df3e16abff59c0; the assertion stopped before Install-RidePackage, so this fixture contains a copied archive/evidence but no staged executable. It was not inspected or cleaned."
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-28T07:07:04Z",
+    "RIDE_Win11_Test": "Get-VM denied before inspection: Access to a CIM resource was not available to the client.",
+    "RIDE_Server2025_Test": "Get-VM denied before inspection: Access to a CIM resource was not available to the client.",
+    "initialNameCorrection": "An earlier recheck used the shorthand RIDE-Srv2025Test; this was corrected to the documented RIDE-Server2025-Test name before reporting the target blocker.",
+    "checkpointsInspected": false,
+    "taskDispatched": false
+  },
+  "safety": {
+    "publisherNetworkRequested": false,
+    "retainedArchiveModified": false,
+    "AdModExecuted": false,
+    "WindowsChanged": false,
+    "VMChanged": false,
+    "DefenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Current-source managed-cache validation and the offline package-handler route now have cross-shell coverage using the pinned retained archive."
+    ],
+    "partial": [
+      "The test stages the package in an isolated local fixture; it does not prove Windows target behavior or a full guest lifecycle."
+    ],
+    "deferred": [
+      "Windows 11 and Server 2025 package lifecycle acceptance remains blocked before VM inspection by host CIM access."
+    ],
+    "retired": [],
+    "excluded": [],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; local package-route evidence does not close an end-user legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "joeware-admod-offline-engine-route-cross-shell-and-vm-block-2026-10-28-0653.json",
+    "joeware-admod-cache-validation-license-audit-2026-10-28-0511.json"
+  ]
+}

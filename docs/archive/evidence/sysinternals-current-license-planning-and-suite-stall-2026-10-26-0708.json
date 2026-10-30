@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T07:08:30Z",
+  "scope": "Current-source Sysinternals license-planning regression and inert portable-staging regression",
+  "environment": {
+    "operatingSystem": "Windows",
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "tempRoot": "workspace-local .local directories"
+  },
+  "licensePlanning": {
+    "testFile": "tests/LicenseReviews.Tests.ps1",
+    "discovered": 24,
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "result": "Passed",
+    "durationSeconds": 65.04,
+    "verifiedBehavior": "All ten RIDE v2-approved Sysinternals package install plans remain available without a license gate; pending package NeedsReview markers remain informational."
+  },
+  "portableStaging": {
+    "testFile": "tests/SysinternalsSuitePackage.Tests.ps1",
+    "discovered": 8,
+    "completedPassed": 6,
+    "completedFailed": 0,
+    "interruptedDuring": "stages repeats removes and restores owned members while preserving operator data",
+    "result": "Incomplete",
+    "note": "The 164-member synthetic lifecycle case produced no terminal result before the test process was manually interrupted. A prior four-file combined run discovered 115 tests but was also interrupted before an aggregate. Neither run is counted as a pass or failure."
+  },
+  "executionBoundaries": {
+    "sysinternalsUtilitiesLaunched": false,
+    "installersRun": false,
+    "vmAccessAttempted": false,
+    "windowsStateChanged": false,
+    "defenderStateChanged": false,
+    "freshUacRequested": false
+  },
+  "migrationDisposition": {
+    "sysinternalsLicenseGate": "None; prior RIDE v2 specialist approval and user decision settle direct Microsoft download-and-install use.",
+    "defenderBlockedTools": "Remain separately excluded for security reasons.",
+    "nativeAcceptance": "Deferred; VM/controller access remains the recorded blocker.",
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

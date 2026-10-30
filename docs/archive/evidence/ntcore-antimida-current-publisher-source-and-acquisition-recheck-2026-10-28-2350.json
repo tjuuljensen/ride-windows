@@ -1,0 +1,45 @@
+{
+  "recordedAtUtc": "2026-10-28T23:50:00Z",
+  "package": "NTCore AntiMida",
+  "publisherPage": "https://ntcore.com/files/antimida_1.0.htm",
+  "publisherListedVersion": "AntiMida 1.0",
+  "publishedArtifactDescription": "Project files and compiled executable.",
+  "publisherDescribedBehavior": [
+    "Injects a DLL into a selected process and hooks functions to redirect operations through a kernel driver.",
+    "The described driver interface includes process-memory read/write and process/thread operations.",
+    "The article describes patching or hooking Windows kernel structures for its process-analysis use case and warns that the techniques would become obsolete."
+  ],
+  "compatibilityEvidence": "No current Windows support claim was found in the reviewed publisher article. It describes old Windows kernel internals and does not establish Windows 11 compatibility.",
+  "artifact": {
+    "officialDownloadUrl": "https://ntcore.com/files/antimida_1.0.zip",
+    "webReaderResult": "400 Unsupported content-type: application/zip; no archive bytes returned.",
+    "archiveBytesRetrieved": false,
+    "hashOrMemberInventoryVerified": false
+  },
+  "licenseDisposition": "The reviewed publisher page did not provide a license grant or license text. Record administrative license review after an exact candidate/version exists; it is not a migration gate.",
+  "migrationDisposition": {
+    "remainsSelectedForNtcoreReview": true,
+    "candidatePinned": false,
+    "catalogOperationAdded": false,
+    "windows11SupportClaimed": false,
+    "utilityOrDriverRun": false,
+    "legacyOutcomeClosed": false,
+    "technicalCompatibilityAndAcquisitionRemainOpen": true
+  },
+  "sideEffects": {
+    "archiveDownloaded": false,
+    "utilityOrDriverExecuted": false,
+    "vmOrWindowsStateAccessedOrChanged": false,
+    "defenderQueriedOrChanged": false,
+    "alertReportedPasswordScanFileAccessed": false
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155"
+  }
+}

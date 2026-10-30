@@ -1,0 +1,68 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T17:58:00Z",
+  "Scope": "Read-only registered disposable-VM access and migration estimate recheck",
+  "VmAccess": [
+    {
+      "Name": "RIDE-Win11-Test",
+      "Result": "Blocked before VM or checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "Name": "RIDE-Srv2025Test",
+      "Result": "Blocked before VM or checkpoint inspection",
+      "Error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "Actions": {
+    "GetVmQueries": "Read-only",
+    "AcceptanceRequestsSubmitted": 0,
+    "CheckpointsChanged": false,
+    "GuestStateChanged": false,
+    "HostStateChanged": false,
+    "FreshElevationRequested": false
+  },
+  "MigrationAccounting": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "All remaining target-specific package, setting, component and file/path Windows acceptance requiring these registered VMs."
+    ],
+    "Partial": [],
+    "EstimateChanged": false,
+    "RemainingRanges": {
+      "Settings": "37-57",
+      "Packages": "40-55",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "129-183",
+      "RoundedTotal": "130-185/about 155"
+    }
+  },
+  "CompatibilityChecks": {
+    "PowerShell51": "5.1.26100.9711 parsed 6 current component source/test files without parser errors.",
+    "Pester": "Pester 5.7.1 is discoverable, but Import-Module failed before test discovery because Pester.Format.ps1xml and PesterConfiguration.Format.ps1xml were rejected by AuthorizationManager. No Pester test cases ran under Windows PowerShell 5.1.",
+    "PriorPowerShell7Evidence": "ComponentInventory, ClientComponentPreparation and ClientComponentLifecycle Pester suites passed 67/67 on PowerShell 7.6.5 at 2026-10-25 15:23 UTC; see components-local-regression-2026-10-25-1523.json."
+  },
+  "ComponentPesterRecheck": {
+    "RecordedAtUtc": "2026-10-25T18:03:00Z",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestFiles": [
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1"
+    ],
+    "Passed": 67,
+    "Failed": 0,
+    "Skipped": 0,
+    "Total": 67,
+    "TestRegistryEnabled": false,
+    "TemporaryRoot": "Workspace-local .local directory; removed after run.",
+    "NoNativeDismOrServerManager": true,
+    "NoWindowsRegistryWrite": true,
+    "HarnessNote": "The initial attempt with Pester default TestRegistry enabled failed before test cases because HKCU registry access is denied in this session. Rerun with TestRegistry.Enabled=false passed."
+  }
+}

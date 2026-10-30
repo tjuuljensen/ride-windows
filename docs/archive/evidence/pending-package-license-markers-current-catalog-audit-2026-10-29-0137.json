@@ -1,0 +1,36 @@
+{
+  "recordedAtUtc": "2026-10-29T01:37:42Z",
+  "source": "Read-only current catalog and local license-review-store audit",
+  "catalog": {
+    "packageOperationCount": 123,
+    "packageOperationsWithEmptySupportedTargets": 53,
+    "emptySupportedTargetsMeaning": "No Windows acceptance target is currently declared for these package operations."
+  },
+  "localReviewStore": {
+    "path": ".local/license-reviews.json",
+    "exactIdAndVersionNeedsReviewMatches": 53,
+    "pendingPackageOperationsMissingExactNeedsReviewMarker": 0,
+    "recordsAddedOrChanged": false
+  },
+  "interpretation": "NeedsReview is owner-specific administrative tracking only. The audit does not establish legal permission or entitlement and does not block package migration or planning.",
+  "sideEffects": {
+    "installerOrUtilityRun": false,
+    "publisherArtifactAccessed": false,
+    "networkAccessed": false,
+    "vmWindowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "migration": {
+    "legacyOutcomesClosed": 0,
+    "estimatesChanged": false,
+    "remainingEstimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    }
+  }
+}

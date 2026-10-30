@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T05:47:33Z",
+  "followUpValidatedAtUtc": "2026-10-28T05:51:30Z",
+  "batch": "Registered disposable VM access recheck",
+  "source": "Read-only host PowerShell Get-VM queries",
+  "targets": [
+    {
+      "name": "RIDE-Win11-Test",
+      "query": "Get-VM -Name RIDE-Win11-Test",
+      "result": "Blocked before VM inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-Server2025-Test",
+      "query": "Get-VM -Name RIDE-Server2025-Test",
+      "result": "Blocked before VM inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "actions": {
+    "checkpointInspected": false,
+    "registeredTaskMetadataRead": false,
+    "taskDispatched": false,
+    "vmStateChanged": false,
+    "hostWinRmChanged": false,
+    "guestWinRmChanged": false,
+    "elevationRequested": false
+  },
+  "alternateHostTaskAccess": {
+    "schtasksQuery": {
+      "targets": ["\\RIDEWin11Test", "\\RIDE-Server2025Test"],
+      "result": "Both queries exited 1 before returning task metadata.",
+      "error": "ERROR: The network address is invalid."
+    },
+    "TaskSchedulerCom": {
+      "result": "Local Schedule.Service Connect failed before task enumeration.",
+      "error": "Access is denied. (0x80070005)"
+    }
+  },
+  "repositoryValidation": {
+    "command": ".\\tools\\validate.ps1 -Root .",
+    "result": "Passed",
+    "operations": 440,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 298,
+    "operationDocumentation": "Current",
+    "handlersOrInstallersInvoked": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "partial": [
+      "The same host CIM access block was reproduced for both registered test VMs before inspection."
+    ],
+    "deferred": [
+      "Disposable Windows 11 and Server 2025 acceptance remains pending restored host CIM access and, where required, guest elevation. Independent source review, mocked checks and static package work can continue."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this failed pre-inspection access check closes no legacy outcome."
+    }
+  }
+}

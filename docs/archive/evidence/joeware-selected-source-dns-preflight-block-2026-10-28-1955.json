@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:55:25Z",
+  "batch": "JoeWare selected-product acquisition DNS preflight",
+  "query": {
+    "command": "Resolve-DnsName -Name www.joeware.net -Type A",
+    "result": "Access is denied.",
+    "lookupCompleted": false
+  },
+  "acquisition": {
+    "products": [
+      "UserDump",
+      "DNSSrvRec",
+      "ELDLLEx"
+    ],
+    "downloadAttempted": false,
+    "bytesReceived": 0,
+    "filesCreated": 0,
+    "archivesOpened": false,
+    "executablesRun": false,
+    "AdFindSelected": false
+  },
+  "safety": {
+    "defenderQueriedOrChanged": false,
+    "windowsOrVmStateChanged": false,
+    "elevationRequested": false
+  },
+  "blocker": "Local DNS access denied while resolving www.joeware.net; exact publisher archives remain unavailable from this host.",
+  "outcome": {
+    "legacyOutcomesClosed": 0,
+    "deferred": "Selected JoeWare exact archive identity, SHA-256/member inventory, lifecycle and Windows acceptance; AdFind remains excluded."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no artifact or legacy package outcome was acquired/closed."
+  },
+  "relatedEvidence": [
+    "joeware-download-preview-winps51-and-version-source-recheck-2026-10-28-1954.json",
+    "joeware-userdump-acquisition-dns-retry-2026-10-28-1154.json"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T08:49:00Z",
+  "repository": "EricZimmerman/Get-ZimmermanTools",
+  "defaultBranch": "master",
+  "commit": {
+    "sha": "6e57e22030aee1c4e4369a87ed0f7f6ca0d76c73",
+    "verification": {
+      "verified": false,
+      "reason": "unknown_key"
+    }
+  },
+  "files": {
+    "Get-ZimmermanTools.ps1": {
+      "path": "Get-ZimmermanTools.ps1",
+      "gitBlobSha": "3defabe82b5ebd4ac7c365c22b41adf94c4ec788",
+      "characters": 18643,
+      "lines": 595,
+      "observations": [
+        "Defaults to the .NET 10 set; NetVersion 9 is accepted as an alias for 10, and NetVersion 4 selects the other publisher path.",
+        "Self-update runs by default from the mutable download.ericzimmermanstools.com Get-ZimmermanTools.zip route; -NoUpdate disables it, and a .git directory beside the running script prevents replacement.",
+        "Discovers ZIP/TXT links by regex from the live tools.ericzimmerman.github.io page, excludes KAPE and All archives, and selects up to six concurrent conditional GETs.",
+        "Stores HTTP ETag values in the CSV column named SHA1; the value is not a payload SHA-1 or SHA-256 verification.",
+        "Extracts ZIP contents over existing destination files. The current extractor checks destination containment against zip-slip paths, but overwrite behavior remains and no member allowlist, archive digest, or signature verification is present.",
+        "-Sync recursively finds EvtxECmd, SQLECmd, and RECmd executables under Dest and executes each with --sync; this is a separate code-execution action and was not run."
+      ]
+    },
+    "LICENSE": {
+      "path": "LICENSE",
+      "gitBlobSha": "d6106bfbed0026d5f36c38b0ba56f21b1496c7c1",
+      "license": "MIT",
+      "copyrightNotice": "Copyright (c) Eric R. Zimmerman 2027",
+      "note": "The copyright year is future-dated relative to this review. Preserve the upstream notice if adapting this helper; this observation is not a legal or migration gate."
+    }
+  },
+  "acquisition": {
+    "officialArtifactUri": "https://download.ericzimmermanstools.com/net/AmcacheParser.zip",
+    "attempt": "HEAD",
+    "result": "dns_failure_before_response",
+    "error": "No such host is known. (download.ericzimmermanstools.com:443)",
+    "artifactBytesAcquired": false,
+    "packageExecuted": false
+  },
+  "effects": {
+    "catalogChanged": false,
+    "windowsOrDefenderChanged": false,
+    "vmOrCheckpointChanged": false,
+    "elevationPrompt": false
+  },
+  "validation": {
+    "recordedAtUtc": "2026-10-26T08:52:03Z",
+    "repositoryValidator": {
+      "status": "Passed",
+      "operations": 416,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 279
+    },
+    "focusedDiffCheck": "Passed"
+  },
+  "migration": {
+    "resolved": [
+      "Pinned and reviewed the exact current helper source and its source-repository license at commit 6e57e22030aee1c4e4369a87ed0f7f6ca0d76c73."
+    ],
+    "partial": [
+      "The immutable helper-source revision is not an artifact/version/member pin for the 26 selected product archives."
+    ],
+    "deferred": [
+      "Exact publisher ZIP acquisition, payload digests, member inventories, signatures/notices, framework decisions, package lifecycle, and target acceptance for the selected products.",
+      "Do not use the helper as an automated RIDE updater: it discovers mutable page links, overwrites extracted files, and its Sync option executes product binaries."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

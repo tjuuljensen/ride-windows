@@ -1,0 +1,92 @@
+{
+  "SchemaVersion": 1,
+  "Kind": "NirsoftFilteredCurrentSourceCrossShellRegression",
+  "RecordedAtUtc": "2026-10-27T13:45:06Z",
+  "Test": {
+    "Path": "tests/NirsoftCollectionPackages.Tests.ps1",
+    "Coverage": "Both filtered package inventories, exact frozen source metadata, explicit omission of Defender-alerted executable names, and inert synthetic package stage/repeat/saved-state/uninstall/restore lifecycle for both candidates.",
+    "PowerShell7": {
+      "Edition": "PowerShell 7.6.5",
+      "Pester": "5.7.1",
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 1675.59,
+      "DisabledOptionalPlugins": ["TestRegistry", "TestResult"],
+      "Scratch": ".local/pester-nirsoft-current-20261027"
+    },
+    "WindowsPowerShell51": {
+      "Edition": "Windows PowerShell 5.1.26100.9711",
+      "Pester": "5.7.1",
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 509.67,
+      "ProcessExecutionPolicy": "Bypass",
+      "DisabledOptionalPlugins": ["TestRegistry", "TestResult"],
+      "Scratch": ".local/pester-nirsoft-current-winps51-20261027"
+    }
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 432,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 296,
+    "GeneratedOperationDocumentationCurrent": true
+  },
+  "Packages": [
+    {
+      "Id": "package.nirsoft-launcher",
+      "Version": "1.30.26",
+      "SelectedMemberCount": 660,
+      "ExcludedAlertedExecutables": [
+        "NirSoft/chromecookiesview.exe",
+        "NirSoft/bulletspassview.exe",
+        "ProduKey.exe",
+        "WirelessKeyView.exe"
+      ],
+      "SupportedTargets": []
+    },
+    {
+      "Id": "package.nirsoft-x64-tools",
+      "Version": "snapshot-2026-10-17",
+      "SelectedMemberCount": 47,
+      "ExcludedAlertedExecutables": [
+        "ProduKey.exe",
+        "WirelessKeyView.exe"
+      ],
+      "SupportedTargets": []
+    }
+  ],
+  "Boundaries": {
+    "PublisherArchiveAccessed": false,
+    "DefenderAlertedExecutableReadExtractedOrStaged": false,
+    "NirsoftUtilityExecuted": false,
+    "VMOrWindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "ElevationRequested": false
+  },
+  "Acceptance": {
+    "Deferred": [
+      "Native Windows 11 lifecycle and runtime acceptance for both filtered package candidates"
+    ],
+    "Blocker": "RIDE-Win11-Test inspection and acceptance dispatch remain blocked by host CIM access; no VM was queried in this local test run."
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Partial": [
+      "Current-source filtered candidate inventory and synthetic file lifecycle pass in both PowerShell editions; native Windows acceptance remains open."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "No legacy outcome closes before native acceptance; this cross-shell regression validates current-source behavior only."
+  }
+}

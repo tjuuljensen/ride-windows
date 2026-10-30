@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T09:30:43Z",
+  "batch": "Current component and Explorer F1 focused local regression",
+  "tests": {
+    "runtime": "Windows PowerShell host with Pester 5.7.1",
+    "files": [
+      "tests/ClientComponentPreparation.Tests.ps1",
+      "tests/ClientComponentLifecycle.Tests.ps1",
+      "tests/ComponentInventory.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1",
+      "tests/F1Help.Tests.ps1"
+    ],
+    "total": 92,
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0,
+    "testRegistry": false,
+    "testResult": false,
+    "scratchRoot": ".local/pester-components-current-20261026"
+  },
+  "repositoryValidation": {
+    "passed": true,
+    "operations": 417,
+    "groups": 8,
+    "profiles": 5,
+    "powershellFiles": 279
+  },
+  "vmAccess": {
+    "GetVm": "Access to a CIM resource was not available to the client.",
+    "registeredTaskQuery": "ERROR: The network address is invalid.",
+    "guestRequestDispatched": false,
+    "checkpointInspected": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationPrompted": false
+  },
+  "migration": {
+    "legacyOutcomeClosed": false,
+    "estimateRangesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    },
+    "deferred": [
+      "Native component collection and lifecycle acceptance on registered Windows targets",
+      "OpenSSH Client FoD matching-source and servicing behavior",
+      "OpenSSH Server service/firewall behavior and recovery",
+      "Telnet LocalSource availability and exact payload recovery",
+      "Explorer F1 behavior and exact state restoration on the physical Windows target"
+    ]
+  }
+}

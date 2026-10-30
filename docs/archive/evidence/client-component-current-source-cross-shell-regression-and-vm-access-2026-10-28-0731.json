@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T07:31:29Z",
+  "batch": "OpenSSH Client and Telnet Client component current-source regression",
+  "testFiles": [
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1",
+    "tests/ComponentInventory.Tests.ps1"
+  ],
+  "results": [
+    {
+      "edition": "Windows PowerShell 5.1.26100.9711",
+      "pester": "5.7.1",
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    },
+    {
+      "edition": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 70,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 0
+    }
+  ],
+  "testBoundary": {
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "servicingAndInventoryProvidersMocked": true,
+    "nativeServicingCommandRun": false,
+    "capabilityOrFeatureChanged": false,
+    "whatIfOutputObserved": true,
+    "vmOrCheckpointChanged": false
+  },
+  "vmAccess": [
+    {
+      "name": "RIDE-Win11-Test",
+      "result": "Get-VM failed before VM or checkpoint inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    {
+      "name": "RIDE-Server2025-Test",
+      "result": "Get-VM failed before VM or checkpoint inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "acceptance": {
+    "legacyOutcomeClosed": false,
+    "deferred": [
+      "Exact matching media/source, servicing-policy and dependency behavior, exact recovery, and native disposable Windows 11/Server 2025 acceptance remain open."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; mocked preparation/lifecycle/inventory checks do not close a legacy outcome or prove native target behavior."
+    }
+  }
+}

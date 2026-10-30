@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T12:33:00Z",
+  "batch": "Durable multi-operation apply progress and safe continuation",
+  "implementation": {
+    "runManifest": "Each scoped _manifest.json now includes ordered per-operation desired state, status, snapshot-presence flag, update time, and failure detail when applicable.",
+    "statuses": ["Pending", "AlreadyDesired", "SnapshotSaved", "Completed", "Failed"],
+    "writes": "Manifest updates use a same-directory temporary file and atomic replacement with cleanup of the transient backup.",
+    "errorReport": "Failures after a run manifest exists report the RunId, saved operations, completed operations, failed operation, unfinished operations, and recovery command. The catch boundary includes pre-handler package checks and live-state inspection as well as handlers.",
+    "recovery": "Restore the reported RunId, review restore warnings, then reapply the same profile from the restored state; the implementation does not retry a potentially drifted partial handler in place. Package presence may be recovered with current upstream when exact-version recovery is unavailable.",
+    "compatibility": "Existing snapshot records and restore semantics are unchanged; manifests retain their existing schema version and add an optional progress property."
+  },
+  "tests": {
+    "environment": {"PowerShell": "7.6.5", "Pester": "5.7.1", "TestRegistryFixtureEnabled": false},
+    "focusedProgressAndFailure": {"discovered": 88, "selected": 3, "passed": 3, "failed": 0, "skipped": 0},
+    "catalogSuite": {
+      "discovered": 88,
+      "passed": 87,
+      "failed": 1,
+      "skipped": 0,
+      "failure": "The existing registry subtree capture/restore test was denied direct HKCU access by the sandbox before it could verify its registry fixture."
+    },
+    "packageEngineAndPortableLifecycleSelection": {"discovered": 124, "selected": 49, "passed": 49, "failed": 0, "notRun": 75},
+    "priorAdjacentLifecycleRegression": {"suites": ["ApplicationPackages", "UserProxyLifecycle", "UserProxyPreparation"], "passed": 179, "failed": 0, "note": "Passed immediately before the final catch-boundary widening; selected package engine/lifecycle tests passed afterward."},
+    "repositoryValidation": {"result": "Passed", "operations": 415, "groups": 8, "profiles": 5, "powerShellFiles": 277},
+    "diffCheck": "Passed"
+  },
+  "vmAccess": {
+    "checkedAtUtc": "2026-10-25T12:33:00Z",
+    "targets": ["RIDE-Win11-Test", "RIDE-Srv2025Test"],
+    "result": "Get-VM was denied at CIM for both targets before VM state or checkpoint inspection."
+  },
+  "migrationAccounting": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Native Windows integration acceptance remains independently deferred where a VM is required."],
+    "partial": [],
+    "additionalLegacyOutcomeClosed": false,
+    "estimateRangesAfter": "37-57 / 40-55 / 19-24 / 25-35 / 8-12; exact 129-183; rounded 130-185/about 155",
+    "adjustment": "No estimate change: this engine recovery improvement closed no legacy feature outcome."
+  }
+}

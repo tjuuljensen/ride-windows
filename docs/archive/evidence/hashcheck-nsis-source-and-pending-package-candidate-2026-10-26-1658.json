@@ -1,0 +1,50 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-26T16:58:00Z",
+  "Batch": "HashCheck v2.6.3 official installer source review and pending package candidate",
+  "Sources": {
+    "ReleaseApi": "https://api.github.com/repos/idrassi/HashCheck/releases/tags/v2.6.3",
+    "InstallerScript": "https://github.com/idrassi/HashCheck/blob/v2.6.3/installer/HashCheck.nsi",
+    "RegistrationSource": "https://github.com/idrassi/HashCheck/blob/v2.6.3/HashCheckInstall.c",
+    "WinGetNotes": "https://github.com/idrassi/HashCheck/blob/v2.6.3/installer/winget/README.md",
+    "NsisSilentCommandLine": "https://nsis.sourceforge.io/Docs/Chapter3.html#3.2.1"
+  },
+  "Installer": {
+    "InstallerFramework": "NSIS",
+    "SilentInstallSwitch": "/S (case-sensitive per NSIS documentation)",
+    "Elevation": "The publisher script requests administrator execution level.",
+    "InstallationEffects": ["Writes x64 shell-extension DLL and helper under Program Files on x64 Windows", "Installs/registers the x86 companion DLL on x64 Windows", "Registers shell extension DLLs with regsvr32", "Installs TBB runtime and license", "Cleans up legacy System32/SysWOW64 DLL locations", "Schedules locked shell DLL replacements/deletions for reboot", "On Windows 11, attempts signed sparse-package registration using Add-AppxPackage in installer process context"],
+    "UninstallIdentity": "HKLM uninstall key idrassi.HashCheckShellExtension; QuietUninstallString invokes regsvr32.exe /u /i:\"NoRebootPrompt\" /n /s against the registered DLL.",
+    "LegacyMigration": "Writes the new uninstall identity before deleting the former HashCheck Shell Extension key; the 32-bit companion uses NoUninstall so it does not delete the native entry.",
+    "CrossUserLimit": "The Windows 11 sparse package registration runs in the installer process context. SYSTEM deployment and registration for a different intended user are not established."
+  },
+  "CatalogCandidate": {
+    "Id": "package.hashcheck-shell-extension",
+    "PackageVersion": "2.6.3",
+    "AssetName": "HashCheckSetup-v2.6.3.0.exe",
+    "PublisherApiSha256": "cd890774839177b234a1165fd459ddeb830274ef7d81b289ddb70d43ae5983fa",
+    "License": "BSD-3-Clause",
+    "SupportedTargets": [],
+    "CandidateTargets": ["Windows 11"],
+    "PendingAcceptance": true,
+    "InstallerArguments": "/S"
+  },
+  "LicenseReview": {
+    "Status": "NeedsReview",
+    "Owner": "Unassigned",
+    "Disposition": "Owner/version administration reminder only. The publisher license is identified as BSD-3-Clause; this does not create a legal blocker or migration gate."
+  },
+  "Outstanding": ["Acquire EXE and checksum-sidecar bytes and compare local SHA-256", "Verify Authenticode signer", "Verify package lifecycle and recovery through RIDE", "Disposable Windows 11 install/repeat/remove/recovery and Explorer integration", "Validate sparse-package behavior for intended user and execution context", "Verify reboot-required reporting and modified/legacy installation behavior"],
+  "MigrationAccounting": {
+    "Resolved": ["Publisher release digest and tagged NSIS source now establish /S behavior", "Pending catalog package metadata added with no supported targets"],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": ["Payload byte/signature verification and all native lifecycle/Explorer acceptance"],
+    "Partial": ["Optional HashCheck candidate implemented but not accepted; no legacy outcome closed"],
+    "LegacyOutcomeClosed": false,
+    "RangesChanged": false,
+    "Ranges": {"Settings":"37-57","Packages":"40-55","Components":"19-24","FilesAndAssets":"25-35","Maintenance":"8-12","Exact":"129-183","Rounded":"130-185/about 155"}
+  },
+  "TestStatus": "Focused catalog, package-planning and license-planning regressions to be recorded after validation.",
+  "StateChanges": {"InstallerRun":false,"UtilityRun":false,"DefenderChanged":false,"VmRequestSubmitted":false,"FreshUacPromptRequested":false}
+}

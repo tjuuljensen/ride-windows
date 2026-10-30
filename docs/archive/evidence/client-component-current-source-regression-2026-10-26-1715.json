@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-26T17:15:54Z",
+  "scope": [
+    "tests/ClientComponentLifecycle.Tests.ps1",
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ComponentInventory.Tests.ps1"
+  ],
+  "runtime": "PowerShell 7.6.5",
+  "pester": "5.7.1",
+  "result": {
+    "discovered": 67,
+    "passed": 67,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "configuration": {
+    "testRegistryPlugin": "disabled after host HKCU access denial before assertions",
+    "testResultPlugin": "disabled",
+    "resultFileWritten": false
+  },
+  "boundaries": "Mocks and synthetic fixtures only. No DISM servicing, component change, VM request, Defender change, elevation, or target-support promotion.",
+  "earlierAttempts": [
+    "Initial default run failed before test bodies because Pester TestRegistry could not create its HKCU key in the sandbox; no assertions executed.",
+    "An intermediate rerun command used incompatible Invoke-Pester parameter sets and did not execute tests."
+  ],
+  "vmAcceptance": "Still deferred: latest Get-VM query for RIDE-Win11-Test failed at CIM before VM/checkpoint inspection at 2026-10-26T17:11:14Z.",
+  "migrationOutcome": "No legacy outcome closed; estimates unchanged."
+}

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "reviewedAtUtc": "2026-10-28T17:37:19Z",
+  "batch": "Ophcrack and steghide selected package current-source review",
+  "source": "Official project and publisher-linked SourceForge pages",
+  "products": [
+    {
+      "id": "Ophcrack",
+      "productUri": "https://ophcrack.sourceforge.io/",
+      "publisherDownloadUri": "https://ophcrack.sourceforge.io/download.php",
+      "exactArtifactUri": "https://sourceforge.net/projects/ophcrack/files/ophcrack/3.8.0/ophcrack-3.8.0-bin.zip/download",
+      "version": "3.8.0",
+      "releaseDate": "2018-03-06",
+      "sourceForgeLastUpdated": "2019-09-11",
+      "format": "Portable Windows ZIP",
+      "publisherSupportedWindows": [
+        "Windows 2000",
+        "Windows XP",
+        "Windows Vista",
+        "Windows 7",
+        "Windows 8",
+        "Windows 10"
+      ],
+      "publisherMd5": "e8cb96786f5180a796465d73c5189495",
+      "sourceForgeSha256": "36a35b2f84fe4ebc4652776abb55256f371998d8044253d062858e7ed77545db",
+      "publisherLicenseDescription": "GPL, per project home page; record exact-version NeedsReview/Unassigned owner metadata when catalog ID exists.",
+      "licenseIsMigrationGate": false,
+      "localAcquisition": "Invoke-WebRequest failed before transfer because local DNS could not resolve sourceforge.net.",
+      "localBytesRetained": false,
+      "localHashVerified": false,
+      "memberInventoryComplete": false,
+      "windows11Acceptance": "Not established; official support list ends at Windows 10."
+    },
+    {
+      "id": "steghide",
+      "productUri": "https://steghide.sourceforge.net/",
+      "publisherDownloadUri": "https://steghide.sourceforge.net/download.php",
+      "exactArtifactUri": "https://sourceforge.net/projects/steghide/files/steghide/0.5.1/steghide-0.5.1-win32.zip/download",
+      "version": "0.5.1",
+      "releaseDate": "2003-10-15",
+      "sourcePageLastChanged": "2003-12-24",
+      "format": "Windows ZIP, publisher says unzip into a chosen directory",
+      "publisherListedSize": "1.8 MB",
+      "publisherSha256": null,
+      "license": "GNU GPL, per official project home page",
+      "dependencies": "Publisher says required Windows libraries are included in the package.",
+      "licenseIsMigrationGate": false,
+      "localAcquisitionAttempted": false,
+      "localBytesRetained": false,
+      "localHashVerified": false,
+      "memberInventoryComplete": false,
+      "windows11Acceptance": "Not established; project/source is legacy and requires current Windows validation."
+    }
+  ],
+  "migrationOutcome": {
+    "catalogCandidatesAdded": [],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; version/source review closes no package outcome and licenses do not gate migration."
+    }
+  },
+  "nextStep": "Continue independent migration batches. When source access permits, acquire exact publisher-linked ZIPs, verify hashes and inventory members; create catalog candidates and exact-version local NeedsReview/Unassigned owner records. Test only on an authorized disposable Windows target.",
+  "handling": {
+    "executablesRun": false,
+    "packagesInstalled": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  }
+}

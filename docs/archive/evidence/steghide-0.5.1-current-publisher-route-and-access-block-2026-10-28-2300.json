@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T23:00:35Z",
+  "batch": "steghide 0.5.1 publisher route and acquisition access recheck",
+  "publisherPage": "https://steghide.sourceforge.net/download.php",
+  "reportedVersion": "0.5.1",
+  "publisherWindowsLink": "https://prdownloads.sourceforge.net/steghide/steghide-0.5.1-win32.zip?download=",
+  "webFetch": {
+    "result": "The available web reader followed the publisher link to a SourceForge mirror URL but could not access that mirror.",
+    "mirrorUrl": "https://sourceforge.net/projects/steghide/files/steghide/0.5.1/steghide-0.5.1-win32.zip/download?use_mirror=altushost-swe&download=",
+    "payloadBytesReceived": false
+  },
+  "localNetworkPreflight": {
+    "hosts": ["prdownloads.sourceforge.net", "sourceforge.net"],
+    "result": "Resolve-DnsName returned Access is denied for both hosts."
+  },
+  "review": {
+    "archiveAcquired": false,
+    "hashVerified": false,
+    "membersInspected": false,
+    "catalogCandidateAdded": false,
+    "utilityExtractedOrExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "elevationRequested": false
+  },
+  "disposition": {
+    "resolved": ["Current official download page still identifies version 0.5.1 and its direct Windows ZIP link."],
+    "partial": ["Exact Windows archive bytes, digest, inventory and candidate remain unavailable."],
+    "excluded": [],
+    "deferred": ["Publisher archive acquisition and static inventory pending restored access to the linked SourceForge download."],
+    "legacyOutcomeClosed": false,
+    "licenseReview": "GPL owner-review status is administrative and does not gate migration; add the exact-version marker when a pinned catalog candidate exists.",
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; no legacy outcome closed."
+    }
+  },
+  "relatedEvidence": [
+    "steghide-official-download-dns-retry-2026-10-28-1746.json",
+    "ophcrack-steghide-current-source-review-and-acquisition-2026-10-28-1737.json"
+  ]
+}

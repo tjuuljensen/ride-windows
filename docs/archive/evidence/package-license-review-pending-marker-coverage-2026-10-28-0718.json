@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T07:18:42Z",
+  "batch": "Pending package-version license-review marker coverage refresh",
+  "catalogScope": {
+    "pendingPackageVersions": 45,
+    "exactNeedsReviewUnassignedBefore": 17,
+    "missingExactVersionMarkersBefore": 28,
+    "exactNeedsReviewUnassignedAfter": 45,
+    "markersAdded": 28
+  },
+  "store": {
+    "path": "%LOCALAPPDATA%/RIDE/license-reviews.json",
+    "backupPath": "%LOCALAPPDATA%/RIDE/license-reviews-before-migration-20261028-0714.json",
+    "backupRecordCount": 32,
+    "finalRecordCount": 60,
+    "existingRecordsPreserved": true,
+    "newRecordOwner": "Unassigned",
+    "newRecordStatus": "NeedsReview",
+    "catalogOrSharedMetadataChanged": false
+  },
+  "verification": {
+    "directStoreCoverage": "45/45 pending package IDs have an exact PackageVersion NeedsReview/Unassigned record.",
+    "testFile": "tests/LicenseReviews.Tests.ps1",
+    "pester": "5.7.1",
+    "powerShell7": { "version": "7.6.5", "passed": 24, "failed": 0, "skipped": 0 },
+    "windowsPowerShell51": { "version": "5.1.26100.9711", "passed": 24, "failed": 0, "skipped": 0 },
+    "plugins": { "TestRegistry": false, "TestResult": false },
+    "testScope": "The Pester suite uses isolated fixtures; the separate direct read verified the user-local store without printing private rows."
+  },
+  "migrationOutcome": {
+    "resolved": ["The current pending-package review store now has exact-version administrative markers for every pending package."],
+    "partial": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Package-specific technical acquisition, installer lifecycle, Windows behavior and VM acceptance remain tracked independently; NeedsReview is informational and does not block planning or migration."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; review-marker completeness is administrative bookkeeping and closes no legacy product outcome."
+    }
+  },
+  "sysinternalsDisposition": "No Sysinternals license marker or legal gate was added by this batch; its prior RIDE v2 specialist approval and the user's direct-download/install disposition remain authoritative.",
+  "planFile": ".local/license-review-missing-pending-20261028.json"
+}

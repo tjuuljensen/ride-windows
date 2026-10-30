@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T15:48:00Z",
+  "scope": "Read-only Windows Installer database inspection of the retained official Wireshark 4.6.9 x64 MSI",
+  "artifact": {
+    "path": ".local/wireshark-review/cache/wireshark/4.6.9/Wireshark-4.6.9-x64.msi",
+    "sourceUri": "https://www.wireshark.org/download/win64/all-versions/Wireshark-4.6.9-x64.msi",
+    "sizeBytes": 80433152,
+    "sha256": "1975dfc96581a9b674fda3f41ac1585963b4ba52ea9459f3b6d9cedfac3a7217",
+    "hashMatchesCatalogPin": true,
+    "authenticodeStatus": "Valid",
+    "signer": "Wireshark Foundation",
+    "inspectionMode": "Windows Installer COM database opened read-only; no MSI action was run"
+  },
+  "databaseFindings": {
+    "properties": {
+      "ProductName": "Wireshark",
+      "ProductVersion": "4.6.9.0",
+      "ProductCode": "{B9717009-0193-4E75-A6F4-A4B95F2856A9}",
+      "UpgradeCode": "{0D67AACE-269A-4264-81A3-DA8055C1C79C}",
+      "Manufacturer": "The Wireshark developer community",
+      "ALLUSERS": "1"
+    },
+    "launchConditions": [
+      "The MSI states Wireshark 4.6.9 requires Windows 10 version 1809 or Windows Server 2019, or later.",
+      "Earlier Windows versions are rejected by separate launch conditions."
+    ],
+    "features": [
+      "Fe.Wireshark",
+      "Fe.TShark",
+      "Fe.Plugins",
+      "Fe.Tools",
+      "VCRedist (feature level 8)"
+    ],
+    "runtimeComponents": "The VCRedist feature maps AMD64 and ARM64 Visual C++ runtime components into System64Folder with architecture conditions. Exact feature selection and system runtime effects remain to be verified on disposable Windows targets.",
+    "fileTable": {
+      "rows": 983,
+      "NpcapNamedFiles": 0,
+      "USBPcapNamedFiles": 0
+    },
+    "customActions": [
+      "WixUIValidatePath",
+      "WixUIPrintEula",
+      "System64Folder architecture-property assignment"
+    ],
+    "packageArguments": "/qn /norestart WIRESHARK_FILE_EXTENSIONS=0"
+  },
+  "assessment": {
+    "Npcap": "Not included in the MSI file table; live packet capture enrollment remains a separate interactive workflow.",
+    "Associations": "The catalog disables Wireshark file-extension associations for its selected install.",
+    "HistoricalAcceptedSlice": "The 2026-10-22 ApplicationsBatch1 evidence records clean-absence install, repeat, remove and saved-run recovery passing for Wireshark 4.6.9.0 on RIDE-Win11-Test (Windows 11 build 26300) and RIDE-S25-Test (Windows Server 2025 build 26100).",
+    "TargetSupport": "No target is currently promoted. The recorded clean-absence lifecycle passes do not cover existing-install transitions, association/shared-runtime preservation or broader recovery; MSI launch conditions alone do not establish support.",
+    "MigrationOutcome": "The clean-absence install/repeat/remove/recovery slice is accepted on the two recorded images. The whole legacy outcome remains partial until existing-installation, association/shared-runtime and broader recovery acceptance passes.",
+    "LicenseBlocker": false
+  },
+  "vmAccess": {
+    "RIDE-Win11-Test": "Get-VM denied at CIM before VM or checkpoint inspection.",
+    "RIDE-Srv2025Test": "Get-VM denied at CIM before VM or checkpoint inspection."
+  },
+  "safety": {
+    "InstallerExecuted": false,
+    "MSIInstalled": false,
+    "WindowsStateChanged": false,
+    "DefenderStateChanged": false,
+    "CaptureFilesAccessed": false,
+    "FreshElevationRequested": false
+  },
+  "migrationAccounting": {
+    "resolved": 0,
+    "retired": 0,
+    "excluded": 0,
+    "deferred": [
+      "Wireshark existing-installation transitions",
+      "Shared Visual C++ runtime feature selection and recovery",
+      "Global and per-user data and file-association preservation",
+      "Windows 11 and Windows Server 2025 lifecycle/recovery acceptance"
+    ],
+    "partial": ["Wireshark remains an unaccepted machine-MSI candidate"],
+    "estimatesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

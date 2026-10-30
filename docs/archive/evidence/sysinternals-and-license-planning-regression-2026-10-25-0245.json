@@ -1,0 +1,40 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T02:45:49Z",
+  "Batch": "Sysinternals package and license-planning current-source regression",
+  "Environment": {
+    "OperatingSystem": "Windows host checkout",
+    "PowerShell": "7.6.5",
+    "Pester": "5.7.1",
+    "TestRegistryFixtureEnabled": false,
+    "ExcludedTags": ["WindowsIntegration"],
+    "TemporaryFiles": "Workspace-local .local/pester-sysinternals-review-20261025/temp"
+  },
+  "Tests": {
+    "tests/SysinternalsSuitePackage.Tests.ps1": { "Discovered": 7, "Passed": 7, "Failed": 0, "Skipped": 0, "DurationSeconds": 511.69 },
+    "tests/SysinternalsProductPackages.Tests.ps1": { "Discovered": 72, "Passed": 72, "Failed": 0, "Skipped": 0, "DurationSeconds": 192.88 },
+    "tests/LicenseReviews.Tests.ps1": { "Discovered": 23, "Passed": 23, "Failed": 0, "Skipped": 0, "DurationSeconds": 104.76 },
+    "Total": { "Discovered": 102, "Passed": 102, "Failed": 0, "Skipped": 0, "DurationSeconds": 809.36 }
+  },
+  "LicenseDisposition": {
+    "PriorRIDEv2SpecialistApproval": "Covers RIDE's direct download-and-install workflow from Microsoft.",
+    "UserDetermination": "There are no legal issues using Sysinternals in RIDE; RIDE does not publish or transfer copies.",
+    "MigrationGate": false,
+    "DefenderDetectedUtilities": "Remain separately excluded as a security decision."
+  },
+  "SideEffects": {
+    "SysinternalsUtilityExecuted": false,
+    "InstallerExecuted": false,
+    "NetworkAccess": false,
+    "VmOrWindowsStateChanged": false,
+    "DefenderStateChanged": false
+  },
+  "MigrationAccounting": {
+    "Resolved": ["Current-source Sysinternals Suite/product lifecycle and install-planning regressions pass 79/79.", "License review and pending-package planning regressions pass 23/23; NeedsReview remains informational and does not block planning."],
+    "Retired": [],
+    "Excluded": ["Defender-detected utilities remain separately excluded."],
+    "Deferred": ["Native utility behavior, activation and remaining target acceptance remain in the application migration ledger."],
+    "Partial": ["No legacy outcome closes in this local regression."],
+    "EstimateRangesUnchanged": "37-57 / 50-65 / 19-24 / 25-35 / 8-12; exact 139-193; rounded 140-195/about 170"
+  }
+}

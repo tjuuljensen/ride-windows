@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:00:36Z",
+  "batch": "B06 OpenSSH Client and Telnet guarded lifecycle cross-shell regression",
+  "source": "Current repository source and focused Pester suite",
+  "testFile": "tests/ClientComponentLifecycle.Tests.ps1",
+  "sourceVersion": "modules/RIDE.ClientComponentLifecycle.psm1 0.4.4",
+  "results": [
+    {
+      "shell": "PowerShell 7.6.5",
+      "pester": "5.7.1",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 14.34
+    },
+    {
+      "shell": "Windows PowerShell 5.1.26100.9711",
+      "pester": "5.7.1",
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 11.36
+    }
+  ],
+  "testConfiguration": {
+    "testRegistryEnabled": false,
+    "testResultEnabled": false
+  },
+  "preliminaryAttempt": "The initial default Pester invocation reported 26 framework failures before assertions because Pester could not create its optional HKCU TestRegistry key in this restricted environment. The rerun disabled TestRegistry and TestResult using the repository-documented configuration and passed all 26 assertions.",
+  "boundaries": {
+    "elevationRequested": false,
+    "registryOrSettingsStateChanged": false,
+    "vmOrCheckpointAccessed": false,
+    "defenderStateChanged": false,
+    "windowsComponentStateChanged": false,
+    "dismOrServicingCalled": false
+  },
+  "migrationOutcome": {
+    "resolved": [],
+    "legacyOutcomeClosed": false,
+    "partial": [
+      "Current mocked lifecycle assertions pass in both PowerShell editions, including LocalSource Group Policy fallback guards for apply/restore."
+    ],
+    "estimates": {
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "filesAndAssets": "25-35",
+      "components": "19-24",
+      "packages": "37-52",
+      "settings": "37-57",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; mocked regression closes no legacy component outcome."
+    },
+    "excluded": [],
+    "deferred": [
+      "Native DISM/source behavior, OpenSSH payload recovery on Windows, Telnet source validation, and Windows 11 VM acceptance remain open; current RIDE-Win11-Test CIM access is blocked."
+    ],
+    "retired": []
+  },
+  "relatedEvidence": [
+    "b06-openssh-local-source-fallback-result-reporting-2026-10-28-1703.json",
+    "ride-win11-test-cim-access-block-2026-10-28-1849.json"
+  ]
+}

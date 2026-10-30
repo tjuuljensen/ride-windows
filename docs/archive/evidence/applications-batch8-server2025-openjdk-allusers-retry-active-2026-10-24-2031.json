@@ -1,0 +1,82 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-24T20:31:00Z",
+  "PreviousRunId": "05b88a9e29fa4f9d867962759c2c3a82",
+  "RetryRunId": "e6507fc825cf421181bae2ebe754696a",
+  "Controller": "RIDESrv2025Test",
+  "Target": "RIDE-S25-Test",
+  "Checkpoint": "RIDE-clean-test-base",
+  "PreviousRun": {
+    "Status": "Failed",
+    "StartedAtUtc": "2026-10-24T20:16:01Z",
+    "FinishedAtUtc": "2026-10-24T20:28:29Z",
+    "Pester": {
+      "Version": "5.7.1",
+      "Passed": 352,
+      "Failed": 0,
+      "Skipped": 1
+    },
+    "IntegrationPassed": false,
+    "Packages": [
+      "package.microsoft-openjdk",
+      "package.microsoft-openjdk-21",
+      "package.microsoft-openjdk-17",
+      "package.microsoft-openjdk-11"
+    ],
+    "Failure": "All four installer processes completed, but RIDE's machine-scoped presence observer did not detect the installed packages.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "EvidenceExportError": null,
+    "RecoveryBlocked": false,
+    "LegacyOutcomesClosed": 0
+  },
+  "Diagnosis": {
+    "Finding": "The machine-scoped package observer checks HKLM uninstall registrations. The MSI arguments omitted ALLUSERS=1.",
+    "Basis": "Microsoft documents that when ALLUSERS is unset Windows Installer uses the per-user installation context; ALLUSERS=1 specifies per-machine context.",
+    "Confidence": "Likely cause; the next Server retry will verify this installation-mode correction."
+  },
+  "Repair": {
+    "Catalog": "All four Microsoft OpenJDK MSI operations now pass ALLUSERS=1 while retaining the selected FeatureMain component and dedicated INSTALLDIR.",
+    "FocusedPester": {
+      "Runtime": "PowerShell 7.6.5",
+      "PesterVersion": "5.7.1",
+      "Selection": "Microsoft OpenJDK",
+      "Passed": 9,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "RepositoryValidation": {
+      "Runtime": "Windows PowerShell 5.1",
+      "Result": "Passed",
+      "Operations": 410,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 273,
+      "GeneratedOperationDocumentationCurrent": true
+    }
+  },
+  "Retry": {
+    "IntegrationSuite": "ApplicationsBatch8",
+    "TimeoutMinutes": 180,
+    "Source": "Local",
+    "SubmittedAtUtc": "2026-10-24T20:30:31.0234466Z",
+    "AcceptanceResult": "Pending",
+    "ProductionServerSupport": "Undeclared pending complete lifecycle and recovery acceptance"
+  },
+  "Sources": [
+    "https://learn.microsoft.com/en-us/java/openjdk/install",
+    "https://learn.microsoft.com/en-us/windows/win32/msi/allusers"
+  ],
+  "Estimate": {
+    "Ranges": [
+      "37-57",
+      "50-65",
+      "19-24",
+      "25-35",
+      "8-12"
+    ],
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170",
+    "LegacyOutcomesClosed": 0
+  }
+}

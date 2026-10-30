@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "runId": "bb9f14e375df456fbe5850ea3a7db807",
+  "suite": "ApplicationsBatch5",
+  "target": "Windows 11",
+  "build": "26300",
+  "status": "Passed",
+  "startedAtUtc": "2026-10-25T03:05:29.3241180Z",
+  "finishedAtUtc": "2026-10-25T03:15:09.1480604Z",
+  "pester": {
+    "version": "5.7.1",
+    "total": 358,
+    "passed": 357,
+    "failed": 0,
+    "skipped": 1
+  },
+  "package": {
+    "id": "package.vcredist-v14-x64",
+    "version": "14.51.36247.0",
+    "status": "Passed",
+    "originalVersion": null,
+    "removalRecoveryVersion": "14.51.36247.0",
+    "runtimeFileVersion": "14.51.36247.0",
+    "checks": ["RIDE-managed install", "minimum registered version", "minimum System32 DLL version", "repeat install", "removal preview", "RIDE removal", "repeat removal", "saved removal recovery", "saved install recovery"],
+    "recovery": true
+  },
+  "cleanup": "ResetAndOff",
+  "evidenceCollected": true,
+  "cleanupError": null,
+  "collectionError": null,
+  "evidenceExportError": null,
+  "vm": "RIDE-Win11-Test",
+  "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+  "checkpointId": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9",
+  "sourceEvidence": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\bb9f14e375df456fbe5850ea3a7db807\\guest"
+}

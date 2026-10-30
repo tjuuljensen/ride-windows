@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-25T09:28:00Z",
+  "scope": "Sysinternals license disposition and focused migration regression",
+  "licenseDisposition": "The prior RIDE v2 license-specialist assessment remains settled for RIDE direct-download-and-install from Microsoft. RIDE does not transfer or publish Sysinternals. No new legal review or generalized redistribution analysis is a migration gate.",
+  "userDirection": "The user reaffirmed that there are no legal issues using Sysinternals in RIDE and rejected strict reasoning that blocks package migration.",
+  "focusedTests": {
+    "file": "tests/LicenseReviews.Tests.ps1",
+    "result": "Passed",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "highlights": [
+      "all pending package install plans remain available with NeedsReview markers",
+      "Sysinternals Suite and all nine standalone products remain install-plannable without a license gate"
+    ]
+  },
+  "suiteFixtureRerun": {
+    "file": "tests/SysinternalsSuitePackage.Tests.ps1",
+    "outcome": "No result; interrupted after over two minutes without test progress",
+    "interpretation": "Not a test failure and not acceptance evidence; prior recorded package-fixture and Windows 11 staging evidence remain authoritative."
+  },
+  "defender": "User-reported Defender detections remain separate security exclusions; no exclusions were changed and no detected utility was executed.",
+  "windowsAcceptance": "No VM was queried or modified in this run. Existing RIDE-Win11-Test Suite staging acceptance remains valid; activation, tool behavior and other targets remain separate technical acceptance.",
+  "estimateImpact": {
+    "resolvedLegacyOutcomes": 0,
+    "rangesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "39-54",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "128-182",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "RecordedAtUtc": "2026-10-25T08:35:00Z",
+  "Scope": "ExifTool selected Windows artifact source recheck and exact acquisition retry",
+  "PublisherSourceObservation": {
+    "FilesPage": "https://sourceforge.net/projects/exiftool/files/",
+    "WindowsArtifactPage": "https://sourceforge.net/projects/exiftool/files/exiftool-13.59_64.zip/download",
+    "WindowsInstallPage": "https://exiftool.sourceforge.net/install.html",
+    "VersionHistory": "https://exiftool.sourceforge.net/history.html",
+    "Artifact": "exiftool-13.59_64.zip",
+    "PackageVersion": "13.59",
+    "PublisherListedSize": "11.2 MB",
+    "PublisherListedSha256": "44b512b25af500724ba579d0a53c8fc5851628b692dd5e5d94ae4a15c2cba9ec",
+    "ReleaseTrack": "The Windows install page offers 13.59; history labels 13.59 a development release and identifies 13.55 as the latest production release. Keep the catalog candidate on the selected current Windows artifact and retain this caveat."
+  },
+  "AcquisitionAttempt": {
+    "Result": "Failed before transfer",
+    "Error": "No such host is known. (sourceforge.net:443)",
+    "PartialFile": false,
+    "ThirdPartyMirrorUsed": false
+  },
+  "Boundaries": [
+    "The publisher-listed hash is still not locally computed or corroborated against downloaded bytes.",
+    "Archive members, Authenticode signatures and lifecycle remain unverified.",
+    "No ExifTool executable, user media, VM, Windows setting or Defender state was accessed or changed."
+  ],
+  "SysinternalsDisposition": "No legal or licensing blocker. The prior RIDE v2 specialist approval covers direct Microsoft download-and-install; Defender-blocked utilities remain separate security exclusions.",
+  "LegacyOutcome": "No legacy outcome closed.",
+  "Estimates": {
+    "settings": "37-57", "packages": "40-55", "components": "19-24", "accountsConfigurationFiles": "25-35", "maintenance": "8-12",
+    "exactTotal": "129-183", "roundedTotal": "130-185/about 155",
+    "changeReason": "Source listing was reaffirmed but the payload could not be acquired or verified; no outcome changed."
+  }
+}

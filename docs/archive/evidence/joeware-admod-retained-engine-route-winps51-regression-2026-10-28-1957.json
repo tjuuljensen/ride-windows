@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:57:31Z",
+  "batch": "JoeWare AdMod retained-artifact offline engine route regression",
+  "command": "Windows PowerShell 5.1 with Pester 5.7.1; tests/JoeWareAdModEngineRoute.Tests.ps1; TestRegistry disabled; RIDE_ADMOD_FIXTURE_DIRECTORY set to the retained reviewed archive directory.",
+  "results": {
+    "discovered": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "inconclusive": 0,
+    "durationSeconds": 6.43,
+    "exitCode": 0
+  },
+  "retainedArchive": {
+    "relativePath": ".local/joeware-admod-acquisition-be07559413184229b567f4bd3d2b6a38/AdMod.zip",
+    "length": 811771,
+    "sha256": "45cf050eec76d7f1c736b613616bcbf4c3dea872d3d5f7398fd276b1fc369235",
+    "matchesCatalogAndTestPin": true
+  },
+  "coverage": [
+    "Managed artifact-cache digest/provider metadata route validates from the retained ZIP without a publisher request.",
+    "Offline Install-RidePackage routes the declared AdMod.exe member through the portable package handler and verifies installed file ownership."
+  ],
+  "safety": {
+    "adModExecuted": false,
+    "publisherNetworkRequested": false,
+    "machineElevationPerformed": false,
+    "machineExecutionContextCheck": "Mocked",
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrCheckpointAccessed": false,
+    "testFixtureCleanedAfterPass": true
+  },
+  "acceptance": {
+    "localEngineRoute": "Passed 2/2 with the retained publisher archive and inert install target.",
+    "windows11Lifecycle": "Still requires disposable VM acceptance; host Get-VM at 19:53 UTC was blocked by CIM.",
+    "adFind": "Remains excluded from acquisition and acceptance.",
+    "legacyOutcomeClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; route regression closes no legacy package outcome."
+  },
+  "relatedEvidence": [
+    "joeware-download-preview-winps51-and-version-source-recheck-2026-10-28-1954.json",
+    "joeware-selected-source-dns-preflight-block-2026-10-28-1955.json",
+    "joeware-admod-offline-engine-route-cross-shell-and-vm-block-2026-10-28-0653.json"
+  ]
+}

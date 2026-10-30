@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T18:51:53Z",
+  "batch": "CCleaner family current official build-page source-route recheck",
+  "publisher": "Gen Digital / CCleaner",
+  "pages": {
+    "ccleaner": "https://www.ccleaner.com/ccleaner/builds",
+    "recuva": "https://www.ccleaner.com/recuva/builds",
+    "speccy": "https://www.ccleaner.com/speccy/builds",
+    "defraggler": "https://www.ccleaner.com/defraggler/builds"
+  },
+  "observed": {
+    "ccleaner": {
+      "pageLabel": "CCleaner Free 7.13.1573; latest official release",
+      "onlineInstaller": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_ONLINE/build_RELEASE",
+      "offlineInstaller": "https://bits.avcdn.net/productfamily_CCLEANER7/insttype_FREE/platform_WIN/installertype_FULL/build_RELEASE",
+      "portable": "https://download.ccleaner.com/portable/ccsetup641.zip",
+      "pageHasPortable": true
+    },
+    "recuva": {
+      "listed": "Standard installer",
+      "resolvedArtifact": "https://download.ccleaner.com/rcsetup155.exe",
+      "versionShownOnPage": false,
+      "portableListed": false
+    },
+    "speccy": {
+      "listed": "Standard installer",
+      "resolvedArtifact": "https://download.ccleaner.com/spsetup134.exe",
+      "versionShownOnPage": false,
+      "portableListed": false
+    },
+    "defraggler": {
+      "buildsPageRedirectsTo": "https://www.ccleaner.com/defraggler",
+      "currentBuildArtifactFound": false
+    }
+  },
+  "observation": "Official build-page links were inspected; binary downloads returned unsupported-content-type responses from the web reader. No local bytes, hashes, Authenticode signatures, archive inventories or package versions were independently checked in this batch.",
+  "decisions": {
+    "retainAllFourProducts": true,
+    "keepVariantsPublisherOffers": true,
+    "doNotInventPortableRecuvaOrSpeccy": true,
+    "doNotSubstituteThirdPartyOrSelfConvertedPackages": true,
+    "licenseDispositionChanged": false,
+    "licenseGateAdded": false,
+    "legacyOutcomeClosed": false,
+    "estimatesChanged": false
+  },
+  "next": "Acquire exact publisher artifacts and verify hashes/signatures when publisher endpoints are reachable from the repository host; preserve CCleaner full and portable as separately versioned variants, and record publisher availability accurately for the other three products."
+}

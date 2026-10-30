@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-27T15:05:10Z",
+  "decision": "Sysinternals direct-download-and-install migration scope",
+  "userDirection": {
+    "priorRideV2LicenseSpecialistApproval": "Controlling",
+    "rideWorkflow": "RIDE downloads Sysinternals from Microsoft and installs it as a normal deployment tool",
+    "rideTransfersOrPublishesCopies": false,
+    "legalIssuesForRideUse": false,
+    "additionalLicenseReviewRequired": false,
+    "licensingMigrationBlocker": false,
+    "strictRedistributionAnalysisAsMigrationGate": false,
+    "defenderBlockedUtilities": "Remain separately excluded for security reasons"
+  },
+  "migrationImpact": {
+    "catalogOrPackageChanges": false,
+    "legacyOutcomesClosed": [],
+    "estimateRangesChanged": false,
+    "remainingSysinternalsWork": "Only separately identified technical implementation or acceptance work; no legal or licensing review is required"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-28T12:56:12Z",
+  "Scope": "Current PowerShell 7.6.5 direct portable-handler regression against retained NTCore archives, without utility or driver execution.",
+  "Cases": [
+    {
+      "Package": "package.ntcore-net-generic-unpacker",
+      "Variant": "portable-x86",
+      "Archive": "NETUnpack.zip",
+      "ArchiveSha256": "e46bd2ecdd1cc72c011406fa07d239f1ad8d8cd5e6c5e9945d186078c3e24278",
+      "SelectedMemberCount": 1,
+      "RepeatInstall": true,
+      "OwnedFileHealth": true,
+      "UninstallAndRestore": true,
+      "OperatorNotePreserved": true
+    },
+    {
+      "Package": "package.ntcore-net-generic-unpacker",
+      "Variant": "portable-x64",
+      "Archive": "NETUnpack_x64.zip",
+      "ArchiveSha256": "af7f2ca052855d6c1613eb6901897ab9c1ffa4eda17b115e71651fbdcec13852",
+      "SelectedMemberCount": 1,
+      "RepeatInstall": true,
+      "OwnedFileHealth": true,
+      "UninstallAndRestore": true,
+      "OperatorNotePreserved": true
+    },
+    {
+      "Package": "package.ntcore-dynlogger",
+      "Variant": "portable-x86",
+      "Archive": "DynLogger_x86.zip",
+      "ArchiveSha256": "416e92b91b05ecbcf622476da538785ecfa30910cd42ee1a508361f22a1ccaa5",
+      "SelectedMemberCount": 3,
+      "RepeatInstall": true,
+      "OwnedFileHealth": true,
+      "UninstallAndRestore": true,
+      "OperatorNotePreserved": true
+    },
+    {
+      "Package": "package.ntcore-dynlogger",
+      "Variant": "portable-x64",
+      "Archive": "DynLogger_x64.zip",
+      "ArchiveSha256": "a5e17491696d36f5c9b17f0e73ed33cfb9bf0f14fb035bb40c868ab5b6c0be3c",
+      "SelectedMemberCount": 3,
+      "RepeatInstall": true,
+      "OwnedFileHealth": true,
+      "UninstallAndRestore": true,
+      "OperatorNotePreserved": true
+    },
+    {
+      "Package": "package.ntcore-snsremover",
+      "Variant": "portable",
+      "Archive": "SNSRemover.zip",
+      "ArchiveSha256": "c6405c5ec5ec8646a02a46bcfdf74e05457addabdc58fe78da84ea28d69ca7cd",
+      "SelectedMemberCount": 1,
+      "RepeatInstall": true,
+      "OwnedFileHealth": true,
+      "UninstallAndRestore": true,
+      "OperatorNotePreserved": true
+    },
+    {
+      "Package": "package.ntcore-wim-installer",
+      "Variant": "portable",
+      "Archive": "WIM_Installer.zip",
+      "ArchiveSha256": "071e2aa6c57478b53e99d45ca588f8b36f9fc673907b3769884112078f357264",
+      "SelectedMemberCount": 1,
+      "RepeatInstall": true,
+      "OwnedFileHealth": true,
+      "UninstallAndRestore": true,
+      "OperatorNotePreserved": true
+    }
+  ],
+  "FocusedResult": {
+    "Passed": 6,
+    "Failed": 0,
+    "Checks": [
+      "Catalog-pinned archive SHA-256",
+      "Repeat staging",
+      "Exact selected-member set and owned-file health",
+      "Uninstall and saved-state restore",
+      "Operator-note preservation"
+    ]
+  },
+  "CandidateStatus": [
+    {
+      "Id": "package.ntcore-net-generic-unpacker",
+      "SupportedTargets": [],
+      "CandidateTargets": [
+        "Windows 11"
+      ],
+      "PendingAcceptance": true
+    },
+    {
+      "Id": "package.ntcore-dynlogger",
+      "SupportedTargets": [],
+      "CandidateTargets": [
+        "Windows 11"
+      ],
+      "PendingAcceptance": true
+    },
+    {
+      "Id": "package.ntcore-snsremover",
+      "SupportedTargets": [],
+      "CandidateTargets": [
+        "Windows 11"
+      ],
+      "PendingAcceptance": true
+    },
+    {
+      "Id": "package.ntcore-wim-installer",
+      "SupportedTargets": [],
+      "CandidateTargets": [
+        "Windows 11"
+      ],
+      "PendingAcceptance": true
+    }
+  ],
+  "Boundaries": {
+    "NoDelDriverArchiveTouched": true,
+    "UtilityOrDriverExecuted": false,
+    "DefenderBlockedItemsTouched": false,
+    "DefenderQueriedOrChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "NetworkUsed": false,
+    "FreshUacPrompts": 0,
+    "ScratchCleanedAfterEvidence": true,
+    "Pester5Available": false
+  },
+  "RemainingAcceptance": [
+    "Windows 11 package acceptance remains pending for the four catalog candidates.",
+    "Driver List and Rebel.NET acceptance/feature questions remain separate.",
+    "NoDel driver archive remains outside this run and requires its own bounded acceptance decision.",
+    "Fresh VM inspection/dispatch remains subject to the existing host-CIM access blocker."
+  ],
+  "MigrationAccounting": {
+    "LegacyOutcomesClosed": 0,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "ExactTotal": "126-180",
+      "RoundedTotal": "125-180/about 155"
+    },
+    "EstimateReason": "No legacy outcome closes on local package-file handler evidence without Windows acceptance."
+  }
+}

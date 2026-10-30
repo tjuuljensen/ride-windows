@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-28T17:09:00Z",
+  "workstream": "B06 OpenSSH Client LocalSource guard operator guidance",
+  "change": {
+    "module": "modules/RIDE.ClientComponentLifecycle.psm1",
+    "version": "0.4.4",
+    "details": [
+      "Updated module help to describe the Group Policy LocalSourcePath fail-closed guard and its saved/result status.",
+      "Updated the version changelog for consistent fallback-status reporting and restore revalidation."
+    ]
+  },
+  "validation": {
+    "windows_powershell_parser_module": "passed",
+    "windows_powershell_parser_focused_tests": "passed",
+    "repository_validator": "passed: 447 operations, 8 groups, 5 profiles, 301 PowerShell files; operation documentation current",
+    "git_diff_check_focused_files": "passed",
+    "pester_assertions": "not run; only Pester 3.4.0 is available in the current shell",
+    "native_servicing": "not run",
+    "vm_acceptance": "not run"
+  },
+  "safety": {
+    "registry_or_cab_access": false,
+    "dism_invoked": false,
+    "vm_or_checkpoint_changed": false,
+    "defender_state_changed": false,
+    "defender_blocked_tools_touched": false
+  },
+  "migration_outcomes": {
+    "resolved": [
+      "Corrected stale operator help and reconciled the lifecycle module version."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred_or_partial": [
+      "B06 source completeness, dependencies, exact payload recovery, complete network isolation, catalog integration, Pester assertions and Windows acceptance remain open.",
+      "Telnet LocalSource validation remains unimplemented."
+    ],
+    "legacy_outcome_closed": false,
+    "estimate_adjustment": "None; help/version reconciliation does not establish migrated Windows behavior."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "files_and_assets": "25-35",
+    "maintenance": "8-12",
+    "exact_total": "126-180",
+    "rounded_total": "125-180; about 155 outcomes"
+  }
+}

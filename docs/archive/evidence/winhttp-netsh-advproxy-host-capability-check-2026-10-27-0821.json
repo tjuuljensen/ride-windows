@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27 08:21 UTC",
+  "scope": "Read-only diagnostic of local WinHTTP advanced proxy command availability",
+  "host": {
+    "osVersion": "10.0.26300.0",
+    "netshPath": "C:\\Windows\\System32\\netsh.exe",
+    "command": "netsh winhttp show advproxy",
+    "exitCode": 1,
+    "sanitizedOutput": "The following command was not found: winhttp show advproxy."
+  },
+  "observation": {
+    "module": "RIDE.WinHttpProxyInventory.psm1",
+    "result": "Failed before returning an observation",
+    "diagnostic": "netsh winhttp show advproxy failed with exit code 1",
+    "proxyValuesCaptured": false,
+    "proxyValuesRecorded": false
+  },
+  "acceptance": {
+    "developerWorkstation": "Diagnostic only; not integration acceptance",
+    "registeredVm": "Not queried this run; latest inspection blocked at CIM",
+    "mutationAttempted": false,
+    "stateChanged": false,
+    "freshUac": false,
+    "defenderChanged": false
+  },
+  "disposition": {
+    "WinHttpNativeCapture": "Blocked on this host because the documented advanced subcommand is unavailable",
+    "next": "Verify read-only command availability on RIDE-Win11-Test when VM access is available; do not infer setting values or apply from this host",
+    "legacyOutcomesClosed": 0
+  },
+  "estimate": {
+    "settings": "37-57",
+    "packages": "38-53",
+    "components": "19-24",
+    "filesAssets": "25-35",
+    "maintenance": "8-12",
+    "exact": "127-181",
+    "rounded": "125-180/about 155",
+    "changed": false
+  }
+}

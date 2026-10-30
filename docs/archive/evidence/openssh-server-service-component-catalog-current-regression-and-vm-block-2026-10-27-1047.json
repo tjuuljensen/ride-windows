@@ -1,0 +1,67 @@
+{
+  "date_utc": "2026-10-27T10:47:00Z",
+  "purpose": "Record the OpenSSH Server service as a separate, pending selectable component operation, validate its catalog/engine projection, and recheck the existing Windows VM access blocker.",
+  "sysinternals_license_disposition": {
+    "status": "settled; no licensing blocker",
+    "basis": "The prior RIDE v2 license-specialist approval covers RIDE's direct download-and-install workflow. The user reiterates that RIDE does not transfer or publish Sysinternals and that there are no legal issues.",
+    "migration_effect": "No Sysinternals package migration is deferred for licensing. Defender-blocked utilities remain separate security exclusions."
+  },
+  "implementation": {
+    "operation_id": "windows.openssh-server-service",
+    "separation": "The sshd service is independently selectable and bound to the OpenSSH Server capability. Installing the capability does not activate the service. No firewall operation is registered in this candidate; any future firewall choice remains independent.",
+    "supported_targets": [],
+    "candidate_targets": ["Windows 11", "Windows Server 2025"],
+    "pending_acceptance": true
+  },
+  "checks": [
+    {
+      "name": "Focused OpenSSH catalog and engine projection tests",
+      "result": "passed",
+      "passed": 4,
+      "failed": 0,
+      "not_run": 90,
+      "test_file": "tests/Catalog.Tests.ps1",
+      "filter": "*OpenSSH*",
+      "pester_version": "5.7.1",
+      "test_registry": false,
+      "test_result": false
+    },
+    {
+      "name": "Catalog documentation generation",
+      "result": "passed",
+      "output": "docs/OPERATIONS.md generated from the current catalog"
+    },
+    {
+      "name": "Repository validation",
+      "result": "passed",
+      "operations": 431,
+      "groups": 8,
+      "profiles": 5,
+      "powershell_files": 294
+    }
+  ],
+  "vm_access": {
+    "target": "RIDE-Win11-Test",
+    "get_vm": "failed before inspection: Access to a CIM resource was not available to the client.",
+    "registered_task_query": "failed before inspection: Access to a CIM resource was not available to the client.",
+    "dispatch": "not attempted",
+    "state_changes": "none; no guest, checkpoint, host service, Windows, or Defender state changed"
+  },
+  "migration_accounting": {
+    "resolved_legacy_outcomes": [],
+    "retired_legacy_outcomes": [],
+    "excluded_legacy_outcomes": [],
+    "deferred": ["OpenSSH Server Windows 11 and Windows Server 2025 native acceptance pending VM/controller access"],
+    "partial": ["OpenSSH Server capability/service component integration is catalog- and source-validated; inbound firewall remains an independent choice and native behavior is not accepted"],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "files_assets": "25-35",
+      "maintenance": "8-12",
+      "exact_total": "127-181",
+      "rounded_total": "125-180/about 155",
+      "reason_unchanged": "No legacy outcome closed; source integration and local tests add evidence but do not complete a legacy migration outcome."
+    }
+  }
+}

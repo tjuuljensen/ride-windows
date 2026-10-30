@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:44:16Z",
+  "batch": "PSScriptTools ThreadJob dependency plan and removal guard probe",
+  "method": "Direct read-only RIDE.Engine calls in module scope; installed-package state stubbed in memory for the removal guard; no Pester available",
+  "plan": {
+    "request": "package.psscripttools Install",
+    "orderedIds": [
+      "package.microsoft-powershell-threadjob",
+      "package.psscripttools"
+    ],
+    "prerequisiteReason": "Required by package.psscripttools: PowerShell module Microsoft.PowerShell.ThreadJob version 2.2.0 or later",
+    "variant": "portable",
+    "resolvedDirectories": [
+      "C:\\Tools\\microsoft-powershell-threadjob",
+      "C:\\Tools\\psscripttools"
+    ]
+  },
+  "removalGuard": {
+    "request": "Remove package.microsoft-powershell-threadjob",
+    "dependent": "package.psscripttools",
+    "dependentInstalledState": "in-memory stub returned Present",
+    "result": "Plan rejected removal with the expected dependent-package guard",
+    "windowsOrRegistryStateQueried": false
+  },
+  "handling": {
+    "packageOrInstallerRun": false,
+    "networkUsed": false,
+    "registryQueried": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "limits": [
+    "This directly exercises package plan expansion and the prerequisite-removal guard but is not the Pester regression suite.",
+    "The current PSScriptTools import/runtime runner requires an attested disposable VM and was not run on the workstation. Actual dependent install state, managed target behavior, Pester 5 suite, ThreadJob runtime and Windows acceptance remain open."
+  ],
+  "migrationOutcome": {
+    "resolved": [
+      "Current package plan orders ThreadJob before PSScriptTools; controlled in-memory dependency state causes the prerequisite-removal guard to refuse ThreadJob removal."
+    ],
+    "partial": [
+      "Read-only plan/guard probes and real archive file lifecycle pass, but Pester regression and target/runtime acceptance remain outstanding."
+    ],
+    "deferred": [
+      "Pester 5 package regression; actual managed dependent presence/removal guard on disposable Windows; runtime import and exact VM acceptance."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this closes a planning/guard code-path check, not a legacy package migration outcome."
+    }
+  }
+}

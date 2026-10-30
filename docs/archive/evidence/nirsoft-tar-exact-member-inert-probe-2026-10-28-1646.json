@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T16:46:09Z",
+  "batch": "Windows inbox tar exact-member inert selection probe",
+  "method": "Created a temporary ZIP containing two inert text entries and invoked Windows System32/tar.exe with the same exact-member argument shape used by the portable encrypted-ZIP helper, without a passphrase. Verified the requested member was extracted and the unselected member was absent, then removed only the unique probe directory after checking its resolved path was under the repository workspace.",
+  "result": {
+    "tarPath": "C:\\WINDOWS\\System32\\tar.exe",
+    "selectedInertMember": "NirSoft/x64/selected-fixture.txt",
+    "unselectedInertMember": "NirSoft/x64/unselected-fixture.txt",
+    "selectedExtracted": true,
+    "unselectedExtracted": false,
+    "probeDirectoryRemoved": true
+  },
+  "limits": [
+    "The probe used an unencrypted ZIP and inert text entries; it does not validate password handling or extraction behavior for retained encrypted publisher archives.",
+    "It does not identify the creating execution for the user-reported PasswordScan Defender alert or prove exact filtering against the real archives."
+  ],
+  "handling": {
+    "retainedPublisherArchivesAccessed": false,
+    "reportedExecutableAccessedOrExecuted": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsConfigurationChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Windows inbox tar exact-member argument selection was observed with a two-entry inert ZIP."
+    ],
+    "partial": [
+      "Encrypted ZIP/password behavior and actual NirSoft exact-member extraction remain unverified."
+    ],
+    "retired": [],
+    "excluded": [
+      "PasswordScan x86 and x64 remain excluded from package selection and acceptance."
+    ],
+    "deferred": [
+      "Retained NirSoft encrypted archive lifecycle and stage provenance pending safe encrypted-selection verification."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the isolated tar argument probe closes no legacy outcome."
+    }
+  },
+  "relatedEvidence": [
+    "nirsoft-retained-archive-inventory-only-test-guard-2026-10-28-1642.json",
+    "nirsoft-passwordscan-user-defender-alert-2026-10-28-1639.json"
+  ]
+}

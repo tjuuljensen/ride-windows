@@ -902,6 +902,11 @@ dynamic Store policy until existing selection validation; specialized Office
 activation modes. Retired: planned Volatility 2 and ImproHound deployments.
 Closed as unsubstantiated bookkeeping: User .NET assemblies, with audit retained.
 
+**Superseding decisions, 2026-10-27:** the legacy Neo4j/APOC stack bound to old
+BloodHound and the Arsenal MEGAcmd helper are retired. For Store apps, validate
+the existing reviewed selection; dynamic discovery remains deferred. See the
+[current scope decision](#legacy-bloodhound-stack-and-megacmd-helper-retired-store-validation-retained-2026-10-27).
+
 Office/Visio/Teams product, channel, architecture, activation and language policies
 are now selected. Remaining product compatibility, availability, preservation,
 recovery and native acceptance are technical work; unsupported combinations must
@@ -2625,6 +2630,10 @@ claim guest-tools compatibility, add Linux support to RIDE, or accept package
 behavior. VirtIO/SPICE and optional WebDAV remain separate according to the
 [existing guest-integration decision](#wsl-net-35-and-qemu-guest-integration-decisions-2026-10-23).
 
+The later 2026-10-24 04:20 UTC follow-up supersedes that pre-pin instruction;
+record the actual Debian/Ubuntu releases and installed Boxes build when the
+matching guest is prepared, and do not treat their advance pinning as a gate.
+
 These answers change no legacy outcome disposition and authorize no runtime
 changes beyond their stated scope. Estimate ranges remain **38-58 / 52-67 /
 19-24 / 25-35 / 8-12**, exact **142-196**, rounded **145-200/about 170**.
@@ -2717,6 +2726,11 @@ installed Boxes version as observations. The latest GNOME Boxes release
 verified during this decision was version 50.0; this is a current-source
 observation, not a required pin ([GNOME Apps](https://apps.gnome.org/Boxes/),
 [Flathub](https://flathub.org/en/apps/org.gnome.Boxes)).
+
+This later follow-up supersedes the earlier instruction in the 2026-10-24
+03:00 UTC decision summary to pin Debian/Ubuntu releases and the Boxes build
+before acceptance. Use the actual observed environments when preparing the
+matching guest; do not create artificial pre-pin blockers.
 
 For TPM/boot recovery-changing acceptance, allow the user to save the key to a
 USB drive or a password manager. Before proceeding, ask the user to confirm
@@ -2885,3 +2899,389 @@ no firewall or Windows state changed, and no whole legacy outcome closes.
 All estimate ranges remain 37-57 / 50-65 / 19-24 / 25-35 / 8-12, exact
 139-193 and rounded 140-195/about 170. Current publisher source:
 [WFN Nightlies](https://github.com/wokhan/WFN/releases/tag/nightlies).
+
+## peStudio Pro user-supplied archive flow, 2026-10-25
+
+The user selected a RIDE-managed peStudio Pro package flow from a user-supplied
+local ZIP and password. The current publisher source review identifies Pro
+9.61 as a professional-use product delivered as a password-protected ZIP after
+purchase, with no public direct artifact URL or publisher hash. Do not substitute
+the Basic edition for this professional-use scenario.
+
+Keep the supplied archive, password and user-specific license or entitlement
+outside the shared catalog and shared acquisition evidence. The implementation
+must obtain the password through protected run-time input, avoid persisting it
+in logs, plans, manifests or saved-run state, and validate the archive and its
+selected members before staging. Record any local artifact identity only in an
+appropriate user-local review/evidence store. This scope choice does not assert
+that the user has purchased or is entitled to Pro, and does not authorize
+acquiring, activating or running the product. Exact archive handling, lifecycle,
+recovery and Windows acceptance remain technical work. No package, license,
+VM or Windows state changed; no legacy outcome or estimate changed.
+
+## ExifTool Windows artifact and TMOG base-package scope, 2026-10-25
+
+The publisher's SourceForge home page is the current ExifTool site while its
+primary host is unavailable. It offers Windows x64 ZIP 13.59; the version
+history calls 13.55 the latest production release, but the Windows download
+page does not offer a 13.55 Windows ZIP. Keep 13.59 as the Windows artifact
+candidate rather than treating 13.55 as an available Windows package. The
+publisher-reported digest and the exact local archive/member verification remain
+separate gates.
+
+The user confirmed that RIDE may install TMOG as the common base application:
+users may continue using its free features under the applicable terms, or
+individually enter a paid PRO license key in TMOG after installation. RIDE does
+not collect, activate, log, or store those keys. This resolves package edition
+presentation and allows direct publisher-download/install planning; it does not
+transfer entitlement to an organization or alter any user's paid-license
+limits. Keep application-data preservation in uninstall/recovery acceptance.
+The existing Windows 11 lifecycle, exact recovery, and screensaver acceptance
+gates still apply. No legacy outcome or estimate changes.
+
+The user also queued a manual physical Lenovo Windows 11 Pro acceptance of the
+F1 setting's enabled and disabled behavior. Test current Explorer and desktop
+behavior, unrelated-application F1, both setting states, and exact restoration
+of typed prior values and operation-created keys. Record Windows build and
+intended-user context. The per-user TypeLib implementation remains experimental
+until this evidence and collateral-consumer checks pass; do not substitute
+IFEO, file permissions, remapping, or a persistent helper. No test or device
+change occurred in this planning update.
+
+## User decisions on retained custom forensic tools, 2026-10-25
+
+The user confirmed that `GetRawCopy` / `RemoveRawCopy` remains in scope for
+forensic acquisition on older systems. Retain it as a specialist candidate;
+modern Windows compatibility, exact source/member identity, licensing and any
+target declaration remain technical evidence gates.
+
+The user also retained `InstallMagnetRAMCapture` / `RemoveMagnetRAMCapture` for
+the same older-system forensic acquisition need. This does not establish support
+for Windows 11 or Server 2025, approve a driver, or authorize capture. Exact
+artifact identity, driver behavior, VBS/HVCI compatibility and recovery remain
+technical gates.
+
+The user retained `InstallEncryptedDiskDetector` / `RemoveEncryptedDiskDetector`
+for its third-party encryption detection purpose, which is not fully covered by
+BitLocker inspection. A current official dedicated source/version and Windows
+compatibility remain unverified.
+
+The user retained USB Detective as an optional Community-edition candidate,
+possibly delivered as a user-supplied/sideloaded ZIP. The [publisher Community
+download page](https://usbdetective.com/community-download/) requires
+registration. No registration was submitted and no archive was acquired. Keep
+the exact edition/version, archive identity, applicable terms and safe
+user-supplied archive flow as technical preparation gates; do not automate
+registration or imply Windows acceptance.
+
+The user reaffirmed `package.exiftool` 13.59 as the Windows artifact candidate.
+Keep its development-channel label explicit; exact local hash/member verification
+and package lifecycle acceptance remain pending.
+
+These scope decisions retire no legacy outcome and change no estimate. No
+package was acquired, registered, installed, executed or tested; no VM, Defender
+or Windows state changed. The package estimate remains 40-55, with exact total
+129-183 and rounded total 130-185/about 155.
+
+## Defraggler retirement and forensic-tool deployment host, 2026-10-25
+
+The user retired the Defraggler legacy package outcome from RIDE. Do not add or
+retain a Defraggler package or substitute another defragmentation product. This
+removes the product from RIDE's migration scope; it does not uninstall or alter
+any existing Defraggler installation.
+
+For RawCopy and Magnet RAM Capture, the user selected Windows 11 as the RIDE
+deployment/staging host target. These downloads are intended for transfer on
+forensic USB media or by other means, such as RDP, for use on external systems.
+Describe that boundary in operator guidance: Windows 11 support concerns package
+staging and lifecycle on the RIDE host, not the external system or a claim that
+RIDE performs forensic acquisition. Keep actual catalog support empty until
+source, package lifecycle/recovery, and applicable Windows 11 acceptance pass;
+do not infer external-system compatibility, driver behavior, or capture
+acceptance from the staging target.
+
+Resolved: Defraggler retirement and the intended Windows 11 deployment-host
+scope for RawCopy and Magnet RAM Capture. Retired: one package legacy outcome.
+No artifact was acquired, tool executed, VM used, or Windows state changed.
+The package estimate is now **39-54**, exact total **128-182**, rounded total
+**130-185/about 155**; all other group ranges are unchanged.
+
+## CCleaner variants, Defraggler retention and F1 default-profile decision, 2026-10-25
+
+The user confirmed that portable software need not be identical to its full
+installer counterpart. Keep support for both full and portable distributions
+for CCleaner, Defraggler, Recuva and Speccy, using the artifacts each publisher
+actually offers. Do not treat version differences as a reason to omit a
+portable variant or silently substitute one artifact for another. The current
+CCleaner portable link's older version remains an explicit artifact/version
+identity to document during package preparation.
+
+The user reaffirmed Defraggler support despite the publisher's end-of-life
+notice. Keep the product in scope and include a clear note that the publisher
+announced it no longer distributes, sells or supports the product. Do not
+present it as currently supported by its publisher.
+
+The user confirmed that they use the F1 setting from RIDE v1 and that it works
+as intended. Retain the F1 setting in the default profile. Its v3 removal and
+exact rollback behavior have not been tested; remove it from the default
+profile only if testing shows it cannot be rolled back successfully. This
+records the user's design decision and does not establish v3 lifecycle
+acceptance or change Windows state.
+
+These decisions supersede the 2026-10-25 Defraggler-retirement decision above.
+They change scope/presentation only: no package was acquired or installed, no
+profile or catalog was changed, and no Windows, VM or Defender state changed.
+The F1 rollback test and package lifecycle/acceptance remain separate technical
+gates. See the [current CCleaner-family source evidence](../archive/evidence/ccleaner-family-current-source-recheck-2026-10-25-0512.json),
+the [F1 candidate lifecycle review](settings-post-migration-review.md#experimental-file-explorer-f1-help-lifecycle-candidate-2026-10-25),
+and the [F1 operation](../../catalog/operations.psd1).
+
+## ETL2PCAPNG real-artifact local lifecycle, 2026-10-25 11:24 UTC
+
+The official Microsoft-signed v1.11.0 executable passed two local staging installs,
+owned-file verification, snapshot capture, uninstall, exact snapshot restore of
+both executable and license notice, and final removal. Its Authenticode signature
+was valid. The converter was not run and no trace was accessed. This closes only
+the local package lifecycle check; synthetic ETL conversion and Windows 11 VM
+acceptance remain deferred. Read-only VM access was denied at CIM before VM or
+checkpoint inspection. No legacy package outcome closed; estimates remain
+**37-57 / 39-54 / 19-24 / 25-35 / 8-12**, exact **128-182**, rounded
+**130-185/about 155**. See [structured evidence](../archive/evidence/etl2pcapng-real-artifact-local-lifecycle-2026-10-25-1124.json).
+
+## Rufus real-artifact local lifecycle, 2026-10-25 11:27 UTC
+
+The retained, official Rufus 4.15 x64 portable executable matched its pinned SHA-256
+and a valid Akeo Consulting Authenticode signature. Two local installs, manifest
+ownership checks, snapshot capture, uninstall, exact restore and final removal
+passed using the real artifact. Rufus was not launched and no USB device was
+accessed. Disposable Windows 11 staging and application/hardware acceptance remain
+open; no supported target or legacy outcome is declared. Estimates remain
+**37-57 / 39-54 / 19-24 / 25-35 / 8-12**, exact **128-182**, rounded
+**130-185/about 155**. See [structured evidence](../archive/evidence/rufus-real-artifact-local-lifecycle-2026-10-25-1127.json).
+
+## Rufus lifecycle progress and VM access recheck, 2026-10-25 11:29 UTC
+
+Rufus 4.15's retained official executable passed real-artifact local install,
+repeat, ownership, exact snapshot restore and final removal. Rufus was not run
+and no USB device was accessed. A read-only `Get-VM` for `RIDE-Win11-Test` again
+failed at CIM before VM/checkpoint inspection; no request or state change and no
+fresh elevation occurred. Keep Windows 11 staging and Rufus application/hardware
+acceptance deferred. No legacy outcome closed; estimates remain
+**37-57 / 39-54 / 19-24 / 25-35 / 8-12**, exact **128-182**, rounded
+**130-185/about 155**. See [Rufus lifecycle evidence](../archive/evidence/rufus-real-artifact-local-lifecycle-2026-10-25-1127.json)
+and [VM access evidence](../archive/evidence/ride-win11-vm-access-recheck-2026-10-25-1129.json).
+
+## RawCopy real-artifact local lifecycle, 2026-10-25 11:31 UTC
+
+The pinned official RawCopy ZIP passed two local installs, exact selected-member
+ownership, snapshot capture, uninstall, restore of all four owned files and final
+removal. Only `RawCopy64.exe`, `LICENSE.md`, `readme.txt` and `changelog.txt` were
+staged; x86 and AutoIt source members were excluded. RawCopy was not run and no
+evidence or system data was accessed. Windows 11 lifecycle and synthetic NTFS
+behavior acceptance remain deferred. No supported target or legacy outcome closes;
+estimates remain **37-57 / 39-54 / 19-24 / 25-35 / 8-12**, exact **128-182**,
+rounded **130-185/about 155**. See [structured evidence](../archive/evidence/rawcopy-real-artifact-local-lifecycle-2026-10-25-1131.json).
+
+## USB Detective local ZIP flow and Defraggler scope reconciliation, 2026-10-25 11:51 UTC
+
+The user selected an operator-supplied local ZIP path for USB Detective Community
+as an optional v3 package candidate. The operator obtains the archive through the
+publisher's registration process outside RIDE. RIDE must not automate registration
+or collect account credentials or serials. Before staging, implementation must
+validate the selected edition/version identity, archive structure and selected
+members, and record the local artifact identity. No archive was acquired or
+registration submitted. Applicable terms, exact artifact review, lifecycle,
+recovery and Windows acceptance remain open; this decision does not declare
+package support.
+
+The user's later 2026-10-25 decision to retain Defraggler supersedes the earlier
+same-day retirement entry. Keep Defraggler selected, disclose the publisher's
+end-of-life status, and do not characterize its stale installer listing as
+current publisher support. This restores one package outcome to the active scope;
+with all other ranges unchanged, the package range is 40-55 and exact total
+129-183 (rounded 130-185/about 155). No legacy outcome is technically accepted
+by this scope correction.
+
+No publisher archive, installer, VM, Defender setting or Windows state was used
+or changed. VM-dependent and elevated acceptance remain deferred.
+
+## WFN Nightly real-artifact local lifecycle, 2026-10-25 11:53 UTC
+
+The pinned user-selected Nightly archive `20250719-ac02df` matched its SHA-256 and
+passed two local installs, 531-member ownership checks, snapshot capture, uninstall,
+exact restore and final removal. The WFN GPL notice and bundled GeoLite2/GeoNames
+notices were retained. WFN was not launched and Windows Firewall policy was not
+changed. This closes only local archive/file recovery; disposable Windows 11
+staging and WFN application/firewall behavior acceptance remain open. No legacy
+outcome closes; estimates remain **37-57 / 40-55 / 19-24 / 25-35 / 8-12**, exact
+**129-183**, rounded **130-185/about 155**, reflecting the 11:51 scope reinstatement. See [structured evidence](../archive/evidence/wfn-nightly-real-artifact-local-lifecycle-2026-10-25-1153.json).
+
+## Legacy BloodHound stack and MEGAcmd helper retired; Store validation retained, 2026-10-27
+
+The user explicitly retired the legacy `InstallNeo4j` outcome, including its
+Neo4j Community ZIP, separately downloaded APOC JAR, service and configuration
+behavior. It was bound to the old BloodHound deployment and is not a standalone
+v3 requirement. Preserve existing installations, databases, configuration and
+service state; this decision authorizes no cleanup or data change. This
+supersedes Q20's prior conditional deferral of the Neo4j/APOC outcome.
+
+The user also retired the separate MEGAcmd helper outcome that the legacy Arsenal
+selector used to download Arsenal tools. It is not needed for the selected v3
+Arsenal package workflow. Preserve existing MEGAcmd installations and data; do
+not uninstall or change them. Arsenal product selection and migration continue
+independently.
+
+For Store apps, continue validating the existing reviewed selection. Dynamic
+discovery/selection remains deferred as a separate extension; no app identities
+or target support are added by this decision.
+
+Retired: two legacy outcomes (`InstallNeo4j`/APOC stack and Arsenal's MEGAcmd
+helper). The package estimate decreases by two, from **40-55** to **38-53**;
+settings **37-57**, components **19-24**, files/assets **25-35** and maintenance
+**8-12** are unchanged. The exact total decreases from **129-183** to **127-181**;
+rounded total becomes **125-180/about 155**. Store-list validation closes no
+additional legacy outcome. No existing software, database, user data, Windows,
+VM or Defender state changed.
+
+## Sysinternals direct download-and-install license disposition reaffirmed, 2026-10-27
+
+The user reaffirmed the prior RIDE v2 license-specialist approval for RIDE's
+Sysinternals download-and-install workflow. RIDE downloads Sysinternals for
+installation and does not transfer or publish copies. The user's determination
+is that there are no legal issues using Sysinternals in RIDE. Do not apply
+generalized redistribution analysis or additional license review as a package
+migration or acceptance gate. Keep Defender-detected utilities separately
+excluded; this decision does not change their status or close any technical
+acceptance work. No migration estimate changes.
+
+## BitLocker encryption-method coverage and unattended OpenSSH Server setup, 2026-10-27
+
+The user directed RIDE to investigate and implement support for multiple
+BitLocker encryption methods on Windows 11, with particular attention to
+improving default security settings. The user's [NinjaOne encryption-method
+article](https://www.ninjaone.com/blog/change-the-bitlocker-drive-encryption-method/)
+is a starting reference, not the authority for RIDE's Windows policy mapping or
+defaults. Verify method names, policy applicability, and defaults against current
+Microsoft documentation and target evidence. Preserve the stable legacy
+`windows.bitlocker-encryption-method` ID while determining whether the Windows 11
+interface should expose multiple policy choices or a reviewed set of distinct
+operations. Do not infer current-drive conversion from a policy that controls
+future encryption, and do not change a RIDE default until its security and
+compatibility effects are verified.
+
+For OpenSSH Server, the user selected availability as an explicit choice in
+unattended RIDE setup while keeping installation separate from activation.
+Implement capability installation independently from starting `sshd` and
+firewall exposure, using separately selectable catalog operations or equivalent
+profile-composable desired states that fit the RIDE lifecycle. Installing the
+capability must not start `sshd` or expose inbound SSH. Keep activation and
+firewall access opt-in and off in defaults; a profile may request them
+independently. Preserve pre-existing service, firewall, configuration, and
+host-key state, and verify exact recovery before claiming target support.
+
+## Windows component scope and OpenSSH Server removal guard, 2026-10-27
+
+The user selected all four larger Windows components named in Q05 for v3
+migration review: RSAT, Hyper-V, Windows Sandbox and WSL. Review each as a
+separate, individually selectable outcome with its own dependencies,
+configuration, side effects and recovery requirements. This scope decision does
+not authorize enabling, installing or adding any component to a default profile.
+
+For OpenSSH Server, retain the removal guard: RIDE-managed removal is unavailable
+when service, firewall or `%ProgramData%/ssh` state existed before RIDE installed
+the capability. Do not remove a pre-existing server installation through the
+generic lifecycle. Native recovery and Windows acceptance remain required before
+supported targets are declared.
+
+The user's third answer, retiring the legacy Neo4j/APOC stack and Arsenal's
+MEGAcmd helper while retaining validation of the selected Store list and
+deferring dynamic discovery, is already recorded in [the 2026-10-27 scope
+decision](#legacy-bloodhound-stack-and-megacmd-helper-retired-store-validation-retained-2026-10-27).
+That decision is reflected in the current package estimate and is not repeated
+or counted again here.
+
+## Full MiTeC and NTCore collections and retained analyst tools, 2026-10-27
+
+The user expanded the selected migration scope to the full MiTeC collection on
+the publisher's Apps & Tools pages and the full NTCore tools collection. Review
+the current publisher-listed products and individually selectable artifacts;
+include products unless the product is end-of-life or a reproducible material
+source or product error makes migration unsuitable. Record exclusions and
+temporary holds by product with evidence. This supersedes the earlier deferral
+of complete MiTeC/NTCore collection enumeration. It authorizes migration and
+package-preparation work, not installing the whole collection automatically,
+adding all products to a default profile, or running the tools. The MiTeC
+publisher page is [Apps & Tools](https://www.mitec.cz/wp/apps/).
+
+For NTCore, if Defender blocks staged files, the user authorizes an exclusion
+for the dedicated RIDE-managed NTCore directory. Capture the exact prior
+exclusion state and remove only an exclusion introduced by RIDE. Defer
+individual-file exclusions and allow actions to v3.1. Do not exclude the shared
+tools root, `C:\Tools`, Downloads, or any directory shared with unrelated
+packages. A directory exclusion is not a false-positive classification, does
+not authorize restoring quarantined files, and does not replace product and
+Windows lifecycle acceptance. Do not generalize this exception to MiTeC, other
+collections, or products with separately reported Defender detections.
+
+The user also selected Hash Suite Free, Ophcrack, and steghide for v3 migration
+review because they were installed from RIDE v2 and used before. Remove their
+prior first-bundle/use-case holds. Keep each an explicit optional package;
+verify current supported source, product status, artifact identity, dependencies,
+and lifecycle before declaring support. Any evidenced end-of-life status or
+reproducible material product/source error must be documented with a concrete
+reason before exclusion. This selection does not authorize execution or change
+the default profile.
+
+These scope decisions close no legacy outcomes and do not establish Windows
+support. Continue recording product-level acquisition, behavior, recovery, and
+target acceptance separately. No package was downloaded or installed, no tool
+was run, and no Defender or Windows state changed.
+
+Resolved legacy outcomes from these two decisions: none. No Windows setting,
+BitLocker volume, protector, key, service, firewall rule, VM, or recovery data
+was changed. Estimates remain settings **37-57**, packages **38-53**,
+components **19-24**, files/assets **25-35**, maintenance **8-12** (exact
+**127-181**, rounded **125-180/about 155**). Implementation and Windows
+acceptance remain separate.
+
+## BloodHound backend, package integrations, and user-setting boundaries, 2026-10-27
+
+The user selected Docker Desktop on a dedicated Windows 11 machine for the
+BloodHound Community Edition backend. RIDE v3 does not support a Windows Server
+backend. Keep the backend separate from collector deployment and do not infer
+Docker installation, backend provisioning, data migration, or service/network
+activation from this choice. Windows acceptance and the dedicated-machine
+deployment/recovery contract remain open.
+
+The user approved minimum product-specific reviewed integrations for drivers
+and nested installers. Keep service, driver, and reboot requirements explicit;
+do not enable optional integrations by default. The user also approved a pinned
+core rules/plugin deployment with separate explicit update actions and broader
+analyst extras selectable independently; do not run arbitrary network content
+during installation.
+
+For the deferred user-setting boundaries, the user approved: migrate user-bin
+as PowerShell startup-only, select an existing discovered Terminal profile,
+keep browser preference fields distinct from managed policy, use a
+user-supplied reviewed asset manifest starting at per-user scope where
+supported, and import Wi-Fi profiles for an explicit current-user profile and
+interface without connecting. Persistent user PATH, machine/default-user asset
+deployment, managed browser policy, and all-user Wi-Fi provisioning remain
+separate outcomes.
+
+These choices close no legacy outcomes and do not establish Windows support.
+VM/controller access, fresh-UAC constraints, source and artifact work, and
+native lifecycle acceptance remain technical blockers. No package, rule,
+driver, backend, Windows setting, network connection, or VM state was changed.
+
+## BitLocker future-encryption default, 2026-10-27
+
+The user selected XTS-AES 256-bit as the intended RIDE default for future
+encryption. Keep XTS-AES 128-bit available as an explicit alternative where
+the verified Windows policy supports it. This choice does not authorize a
+BitLocker change, conversion of an already encrypted drive, or a claim that
+the current legacy `windows.bitlocker-encryption-method` operation implements
+the applicable Windows 11 policy. Verify Microsoft's policy mapping and
+drive-type applicability, then retain the default only after applicable
+Windows acceptance. Until then, do not change the catalog or profile default.
+See the [settings review](settings-post-migration-review.md#bitlocker-future-encryption-default-2026-10-27).

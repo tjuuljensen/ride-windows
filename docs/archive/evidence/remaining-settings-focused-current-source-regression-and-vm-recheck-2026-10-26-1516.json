@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "timestampUtc": "2026-10-26T15:16:19Z",
+  "suite": {
+    "path": "tests/RemainingSettings.Tests.ps1",
+    "runtime": "Windows PowerShell 5.1.26100.9711",
+    "pester": "5.7.1",
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "temporaryRoot": ".local/pester-remaining-settings-current-20261026",
+    "discovered": 77,
+    "passed": 77,
+    "failed": 0,
+    "skipped": 0,
+    "result": "Passed"
+  },
+  "coverage": "Mocked remaining-setting catalog/discovery, legacy reconciliation, supported-state preview, saved-run capture, repeat application and exact restore. No host settings or registry were changed.",
+  "harness": "An initial invocation failed before test bodies because Pester TestRegistry could not create HKCU\\Software\\Pester. A subsequent configuration-enabled invocation without PassThru also stopped before running tests. The final invocation disabled TestRegistry and TestResult, redirected temporary files into .local, and passed all 77 tests.",
+  "vmAccess": {
+    "GetVm": "Access to a CIM resource was not available to the client for RIDE-Win11-Test and RIDE-S25-Test.",
+    "GetVmCheckpoint": "Access to a CIM resource was not available to the client for RIDE-Win11-Test.",
+    "registeredTaskQuery": "ERROR: The network address is invalid.",
+    "guestInspected": false,
+    "requestDispatched": false,
+    "checkpointChanged": false,
+    "hostServiceChanged": false,
+    "defenderChanged": false,
+    "elevationPromptRequested": false
+  },
+  "migrationEffect": "Local remaining-settings regression passed; no legacy outcome closed and no estimate deducted. Windows behavior acceptance remains deferred by VM/controller access.",
+  "estimates": {
+    "settings": "37-57",
+    "packages": "40-55",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "129-183",
+    "roundedTotal": "130-185/about 155"
+  },
+  "sysinternalsDisposition": "The prior RIDE v2 specialist approval remains settled for RIDE's direct download-and-install workflow; no licensing gate applies. Defender-blocked tools remain separately excluded."
+}

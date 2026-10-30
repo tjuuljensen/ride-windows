@@ -1,0 +1,85 @@
+{
+  "RecordedAtUtc": "2026-10-25T14:49:00Z",
+  "Kind": "SelectedAncillarySourceAndUpdatePathReview",
+  "Scope": "User-selected Zimmerman ancillary maps and RECmd batch examples associated with the accepted 26-tool collection",
+  "Sources": [
+    {
+      "Repository": "https://github.com/EricZimmerman/evtx",
+      "Path": "evtx/Maps",
+      "OfficialUse": "EvtxECmd event maps",
+      "Format": "YAML .map files",
+      "PublisherRefresh": "EvtxECmd --sync downloads current maps into the adjacent Maps folder",
+      "SourceRevisionPinned": false,
+      "FilesAcquired": false
+    },
+    {
+      "Repository": "https://github.com/EricZimmerman/SQLECmd",
+      "Path": "SQLMap/Maps",
+      "OfficialUse": "SQLECmd database identification/query maps",
+      "Format": "YAML .smap files",
+      "PublisherRefresh": "SQLECmd --sync downloads current maps into the adjacent Maps folder",
+      "SourceRevisionPinned": false,
+      "FilesAcquired": false
+    },
+    {
+      "Repository": "https://github.com/EricZimmerman/RECmd",
+      "Path": "BatchExamples",
+      "OfficialUse": "RECmd registry batch definitions",
+      "Format": ".reb batch files",
+      "PublisherCharacterization": "README describes these as mostly community-maintained and says --sync updates local files",
+      "SourceRevisionPinned": false,
+      "FilesAcquired": false
+    }
+  ],
+  "Findings": [
+    "Each ancillary collection is separate from the tool executable versions and is mutable on its repository branch; a content refresh can change without a new tool release.",
+    "The published Get-ZimmermanTools -Sync implementation recursively discovers EvtxECmd, SQLECmd and RECmd executables under its destination and invokes each with --sync. Do not run it as part of package installation or staging.",
+    "EvtxECmd maps define event field extraction and descriptions; SQLECmd maps identify SQLite database types and queries; RECmd batches enumerate selected Registry keys/values. These are processing configuration, not tools, and their inclusion does not authorize processing evidence.",
+    "RECmd documentation says DFIRBatch.reb is also used by KAPE. This does not admit KAPE as a selected RIDE tool; exact batch inclusion and the KAPE relationship must be reviewed member by member.",
+    "SQLECmd 2026.10 documents that evidence databases are copied with WAL/journal files and only the copy is opened; this behavior is not acceptance evidence because SQLECmd was not run."
+  ],
+  "CurrentOfficialReferences": {
+    "EvtxMaps": "https://github.com/EricZimmerman/evtx/tree/master/evtx/Maps",
+    "EvtxSyncDocs": "https://github.com/EricZimmerman/evtx",
+    "SqlMaps": "https://github.com/EricZimmerman/SQLECmd/tree/master/SQLMap/Maps",
+    "SqlSyncDocs": "https://github.com/EricZimmerman/SQLECmd",
+    "RecmdBatches": "https://github.com/EricZimmerman/RECmd/tree/master/BatchExamples",
+    "RecmdSyncDocs": "https://github.com/EricZimmerman/RECmd",
+    "HelperSource": "https://github.com/EricZimmerman/Get-ZimmermanTools/blob/master/Get-ZimmermanTools.ps1"
+  },
+  "Acquisition": {
+    "HostDnsDenied": true,
+    "FileListAndImmutableRevisionsVerified": false,
+    "BytesAcquired": false,
+    "HashesVerified": false,
+    "LicenseNoticesInspected": false
+  },
+  "Boundaries": {
+    "ToolExecuted": false,
+    "SyncCommandExecuted": false,
+    "EvidenceProcessed": false,
+    "WindowsOrVmStateChanged": false,
+    "DefenderStateChanged": false,
+    "CatalogChanged": false,
+    "LicenseStoreChanged": false
+  },
+  "MigrationDisposition": "Preserve the selected ancillary-content intent. Implement a separate explicit refresh workflow over pinned revisions with exact member inventory, compatibility, hashes, notices, custom-file preservation and recovery. Owner-specific license review markers are administrative and do not gate package migration.",
+  "Deferred": [
+    "Resolve host network access to inspect current files and immutable commits",
+    "Enumerate selected map and batch members and retain upstream notices",
+    "Verify compatibility against exact tool versions and framework variants",
+    "Implement package-scoped explicit refresh with staging, modified-file conflict handling, ownership and recovery",
+    "Add inert source/member tests; do not invoke tools or process evidence"
+  ],
+  "LegacyProductOutcomesClosed": 0,
+  "EstimateImpact": {
+    "RangesChanged": false,
+    "Settings": "37-57",
+    "Packages": "40-55",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "129-183",
+    "RoundedTotal": "130-185/about 155"
+  }
+}

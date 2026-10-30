@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "checkedAtUtc": "2026-10-26T07:23:05Z",
+  "publisher": "Exterro",
+  "currentOfficialReleasePage": "https://www.exterro.com/ftk-downloads/ftk-imager-8-3",
+  "officialVersion": "8.3.0.27",
+  "downloadUri": "https://d1kpmuwb7gvu1i.cloudfront.net/8.3/Imager/FTK%20Imager%208.3.0.27.zip",
+  "officialDeclaredTargets": [
+    "Windows 10",
+    "Windows 11",
+    "Windows Server 2025",
+    "Windows Server 2022"
+  ],
+  "localRetainedArtifact": {
+    "path": ".local/ftk-review/FTK-Imager-8.3.0.27.zip",
+    "length": 405808295,
+    "sha256": "0f717d0d91c94af94107775ae37c2e330cc2a2312a8eecc91a344c8010e82afe",
+    "matchesAcquisitionRecord": true
+  },
+  "mainInstaller": {
+    "path": ".local/ftk-review/Exterro_FTK_Imager_(x64).exe",
+    "fileVersion": "8.3.0.27",
+    "authenticodeStatus": "Valid",
+    "signer": "CN=\"ACCESSDATA GROUP, INC.\", O=\"ACCESSDATA GROUP, INC.\", L=Orem, S=Utah, C=US",
+    "thumbprint": "9AF60429533652EE23D1FAE209CD89F9B7C84B31"
+  },
+  "staticFindings": {
+    "installShieldBundle": true,
+    "codemeterRuntimeIncluded": true,
+    "driverPayloadPresent": true,
+    "documentedSilentSwitchFound": false,
+    "installerExecuted": false,
+    "utilityExecuted": false
+  },
+  "imagerLite": {
+    "officialInfoPage": "https://www.exterro.com/ftk-downloads/how-to-run-ftk-imager-from-a-flash-drive-imager-lite",
+    "osTargets": [
+      "Windows 10",
+      "Windows 11",
+      "Windows Server 2022",
+      "Windows Server 2019",
+      "Windows Server 2016"
+    ],
+    "supportGuideLink": "https://exterro.freshdesk.com/support/home",
+    "linkResult": "404 Not Found",
+    "exactVersionOrArtifactPublished": false
+  },
+  "licenseDisposition": "No license gate added. If the selected exact-version package candidate is cataloged, retain a user-local NeedsReview record as requested; it is informational and does not block migration.",
+  "disposition": {
+    "candidateAdded": false,
+    "reason": "Current source does not establish a documented unattended path or a reproducible independent driver/CodeMeter lifecycle. Imager Lite offers no accessible guide or exact artifact in the checked publisher page.",
+    "vmAcceptance": "Deferred; VM/controller access recheck at 2026-10-26T07:19:07Z failed before inspection.",
+    "estimatesChanged": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAssets": "25-35",
+      "maintenance": "8-12",
+      "exact": "129-183",
+      "rounded": "130-185/about 155"
+    }
+  }
+}

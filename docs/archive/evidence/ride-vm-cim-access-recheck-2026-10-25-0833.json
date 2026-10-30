@@ -1,0 +1,18 @@
+{
+  "RecordedAtUtc": "2026-10-25T08:33:00Z",
+  "Scope": "Read-only access check for registered RIDE Windows test VMs",
+  "Targets": [
+    { "Name": "RIDE-Win11-Test", "Access": "Denied", "Error": "Access to a CIM resource was not available to the client." },
+    { "Name": "RIDE-Srv2025Test", "Access": "Denied", "Error": "Access to a CIM resource was not available to the client." }
+  ],
+  "InspectedVmOrCheckpoint": false,
+  "ChangedVmOrGuestState": false,
+  "RequestedFreshElevation": false,
+  "MigrationImpact": "Windows package/component/settings acceptance remains deferred; continue source review and local regressions that do not require VM access.",
+  "SysinternalsDisposition": "License-specialist approval for RIDE v2 covers RIDE's direct Microsoft download-and-install workflow. There is no legal migration blocker; Defender-blocked tools remain excluded separately.",
+  "Estimates": {
+    "settings": "37-57", "packages": "40-55", "components": "19-24", "accountsConfigurationFiles": "25-35", "maintenance": "8-12",
+    "exactTotal": "129-183", "roundedTotal": "130-185/about 155",
+    "changeReason": "Access denial deferred native acceptance but resolved no legacy outcome."
+  }
+}

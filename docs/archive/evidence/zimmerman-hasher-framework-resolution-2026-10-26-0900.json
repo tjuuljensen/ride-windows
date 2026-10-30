@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T09:00:00Z",
+  "decisionBasis": {
+    "publisherRepository": "EricZimmerman/ericzimmerman.github.io",
+    "commit": "f3947d47f72070c2b7695859d4f746a48aca2845",
+    "file": "docs/index.md",
+    "blobSha": "38d71093176767ec50922d6f70f4351914119e82",
+    "exactPublisherRow": "| 🖥️&nbsp;Hasher | - &vert; [2026.10.0](https://download.ericzimmermanstools.com/net/hasher.zip) | Hash all the things",
+    "publisherFrameworkNote": "All GUI tools are .NET 10 only, except TimeApp, which is also built for .NET 4.",
+    "commitSignatureVerified": false
+  },
+  "resolved": {
+    "package": "Zimmerman Hasher",
+    "version": "2026.10.0",
+    "framework": ".NET 10",
+    "artifactUri": "https://download.ericzimmermanstools.com/net/hasher.zip",
+    "reason": "The latest pinned publisher index lists Hasher only in the .NET 10 column and gives the /net/ archive route. This is the publisher clarification permitted by the prior decision to defer only until exact bytes or clarification resolve the framework mapping."
+  },
+  "artifactStatus": {
+    "headAttemptResult": "dns_failure_before_response",
+    "error": "No such host is known. (download.ericzimmermanstools.com:443)",
+    "bytesAcquired": false,
+    "sha256Verified": false,
+    "membersInspected": false,
+    "packageImplemented": false,
+    "packageExecuted": false
+  },
+  "validation": {
+    "recordedAtUtc": "2026-10-26T09:04:06Z",
+    "repositoryValidator": {
+      "status": "Passed",
+      "operations": 416,
+      "groups": 8,
+      "profiles": 5,
+      "powershellFiles": 279
+    },
+    "focusedDiffCheck": "Passed"
+  },
+  "migration": {
+    "resolved": [
+      "Hasher framework mapping is .NET 10 based on the latest pinned publisher index."
+    ],
+    "partial": [
+      "Product version/source selection is identified, but the exact ZIP and contents remain unverified."
+    ],
+    "deferred": [
+      "Acquire the exact official ZIP, verify its digest/signature and notice, inspect members/dependencies, and implement/test the package lifecycle."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

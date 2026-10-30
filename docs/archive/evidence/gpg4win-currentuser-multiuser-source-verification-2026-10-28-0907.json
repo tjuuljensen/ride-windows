@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T09:07:51Z",
+  "batch": "Gpg4win 5.1.1 current-user installer-switch source verification",
+  "source": "Retained official Gpg4win source archive plus official NSIS MultiUser source",
+  "retainedGpg4winSource": {
+    "path": ".local/results/installed-next-samples/gpg4win-5.1.1.tar.xz",
+    "sha256": "b486d80ae235dcc1aab72c276291a989bcc1ee947055565f5bae8842cfe8d907",
+    "sourceFiles": [
+      "gpg-source-selected/gpg4win.nsi",
+      "gpg-source-selected/installer.nsi"
+    ],
+    "findings": [
+      "The retained Gpg4win 5.1.1 installer source comments that user-mode installation is supported, though system-wide installation is preferred.",
+      "The source defines MULTIUSER_EXECUTIONLEVEL Highest and MULTIUSER_INSTALLMODE_COMMANDLINE, then includes MultiUser.nsh. This enables command-line install-mode selection in the built outer installer."
+    ]
+  },
+  "nsisUpstream": {
+    "uri": "https://github.com/NSIS-Dev/nsis/blob/master/Contrib/MultiUser/MultiUser.nsh",
+    "rawUri": "https://raw.githubusercontent.com/NSIS-Dev/nsis/master/Contrib/MultiUser/MultiUser.nsh",
+    "findings": [
+      "The NSIS MultiUser implementation checks the /CurrentUser argument when MULTIUSER_INSTALLMODE_COMMANDLINE is defined and calls MultiUser.InstallMode.CurrentUser.",
+      "The current-user branch sets the install mode to CurrentUser and uses current-user shell context."
+    ],
+    "reviewedAtUtc": "2026-10-28T09:07:51Z"
+  },
+  "outcome": {
+    "catalogSwitch": "/CurrentUser is supported by the MultiUser command-line mode configured by the retained Gpg4win 5.1.1 installer source.",
+    "unresolved": [
+      "This source check does not reproduce the installer build dependency version or prove runtime behavior on the Windows target.",
+      "The prior Windows 11 limited-user exit 0xC0000005 remains unexplained.",
+      "Actual installer invocation, nested GnuPG current-user scope, component selection, repeat/remove, and exact user-data recovery remain pending disposable-VM acceptance."
+    ]
+  },
+  "handling": {
+    "installerExecuted": false,
+    "utilityExecuted": false,
+    "userRegistryQueriedOrChanged": false,
+    "defenderQueriedOrChanged": false,
+    "vmStateChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": [
+      "Static source support for the catalog /CurrentUser switch is confirmed."
+    ],
+    "partial": [
+      "Gpg4win 5.1.1 current-user package candidate and mocked lifecycle remain partial pending Windows runtime acceptance."
+    ],
+    "deferred": [
+      "Investigate the existing 0xC0000005 on an accessible disposable target and verify install/repeat/remove/exact recovery."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; this source finding validates the selected switch but closes no package runtime or legacy product outcome."
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-26T10:11:01Z",
+  "targets": [
+    "RIDE-Win11-Test",
+    "RIDE-Srv2025Test"
+  ],
+  "inspection": {
+    "getVm": {
+      "status": "blocked-before-inspection",
+      "error": "Access to a CIM resource was not available to the client."
+    },
+    "registeredTask": {
+      "path": "\\RIDE\\RIDEWin11Test",
+      "status": "blocked-before-dispatch",
+      "error": "The network address is invalid."
+    },
+    "checkpointInspection": "not reached"
+  },
+  "guestRequestDispatched": false,
+  "checkpointInspectedOrChanged": false,
+  "hostServiceChanged": false,
+  "windowsOrDefenderStateChanged": false,
+  "elevationPrompted": false,
+  "nextAction": "Continue independent source/local work; resume native acceptance when existing VM or controller access is restored."
+}

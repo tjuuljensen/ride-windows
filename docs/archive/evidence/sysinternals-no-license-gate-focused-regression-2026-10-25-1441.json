@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-25T14:41:00Z",
+  "scope": "Sysinternals license-plan regression and current-source local package regression",
+  "userDirection": "The prior RIDE v2 license-specialist approval governs Sysinternals in RIDE. RIDE downloads directly from Microsoft for installation and does not transfer or publish Sysinternals. The user states there are no legal issues using Sysinternals in RIDE; do not apply a licensing or generalized redistribution gate to package migration.",
+  "licenseDisposition": "Settled; no further review is required for migration. Defender-detected files remain separate security exclusions.",
+  "licenseReviewPester": {
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "total": 24,
+    "sysinternalsPlanCases": 10,
+    "testRegistry": "Disabled"
+  },
+  "broaderPesterAttempt": {
+    "discovered": 104,
+    "status": "Interrupted without aggregate during the synthetic 164-member Suite lifecycle case after all nine independent-product groups had run without reported failure",
+    "testRegistry": "Disabled"
+  },
+  "safety": {
+    "sysinternalsToolsExecuted": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderStateChanged": false,
+    "packageOrLicenseStoreChanged": false
+  },
+  "vmAccess": "Not checked in this run. Latest recorded Get-VM access for RIDE-Win11-Test is denied at CIM before VM/checkpoint inspection.",
+  "legacyOutcomeImpact": {
+    "resolved": 0,
+    "retired": 0,
+    "excluded": 0,
+    "deferred": 0,
+    "partial": 0,
+    "estimatesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

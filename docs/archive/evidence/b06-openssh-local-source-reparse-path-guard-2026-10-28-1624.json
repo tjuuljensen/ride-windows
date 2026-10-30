@@ -1,0 +1,46 @@
+{
+  "recordedAtUtc": "2026-10-28T16:24:42Z",
+  "batch": "B06 OpenSSH Client LocalSource path-boundary follow-up",
+  "change": {
+    "module": "modules/RIDE.ClientComponentLifecycle.psm1",
+    "version": "0.4.2",
+    "summary": "The LocalSource guard now walks the full drive-root-to-source path and rejects any reparse-point component, in addition to requiring a ready non-network drive and checking the direct-child CAB itself. DISM policy fallback and network isolation beyond those path checks remain explicitly unverified."
+  },
+  "coverage": {
+    "testFile": "tests/ClientComponentLifecycle.Tests.ps1",
+    "addedCase": "Mocks the reparse-path assertion to throw and verifies refusal before CAB metadata inspection, native servicing, or state capture."
+  },
+  "validation": {
+    "powershell51Parser": "passed for module and test file",
+    "gitDiffCheck": "passed",
+    "directHelperProbe": "passed for the current repository path with no reparse-point components",
+    "pester": "not run; Pester import blocked by AuthorizationManager; PowerShell 7 has no discoverable Pester",
+    "reparseFixture": "not created; no junction/symlink was created or required"
+  },
+  "acceptance": {
+    "vm": "RIDE-Win11-Test remains inaccessible before VM/checkpoint inspection; no guest acceptance ran.",
+    "defender": "PasswordScan remains excluded; no flagged executable, staging path or Defender state was accessed or changed."
+  },
+  "migration": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "B06 Windows guest acceptance; effective DISM source fallback; repository completeness/dependency and exact payload recovery"
+    ],
+    "partial": [
+      "OpenSSH Client LocalSource rejects mapped drives and reparse-point path components"
+    ],
+    "legacyOutcomesClosed": 0,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155"
+    },
+    "reason": "Parser and direct helper checks validate implementation syntax/path traversal behavior but do not verify Windows servicing or close a legacy outcome; estimates unchanged."
+  }
+}

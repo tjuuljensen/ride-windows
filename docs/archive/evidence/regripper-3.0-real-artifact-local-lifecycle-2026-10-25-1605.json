@@ -1,0 +1,28 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-25T16:05:40Z",
+  "Package": "package.regripper",
+  "ArtifactPath": ".local/b08-regripper/RegRipper3.0-ec96dd4a6a5c3ea70d8fece9b47a374f83582335.zip",
+  "Status": "Passed",
+  "PassedChecks": [
+    "Pinned full archive staged; managed file count matches archive file entries",
+    "Repeat install is idempotent",
+    "Uninstall removed owned files and preserved unowned plugin/report",
+    "Saved-run restore recovered all pinned owned bytes and preserved unowned content",
+    "Modified owned member blocks upgrade and remains preserved on uninstall"
+  ],
+  "FailedChecks": [],
+  "Safety": {
+    "ProgramExecuted": false,
+    "InputHiveOpened": false,
+    "RegistryAccessed": false,
+    "SystemPackageInstalled": false,
+    "WindowsStateChanged": false
+  },
+  "ArtifactSha256": "a1a13f6742990ca413e1763b90176d22ed4a9d663c4b37cb3f66e46f296acb43",
+  "ArchiveFileEntries": 282,
+  "ManagedFilesAfterInstall": 282,
+  "HostPowerShell": "7.6.5",
+  "ToolExecutablesLaunched": 0,
+  "EvidencePath": "docs/archive/evidence/regripper-3.0-real-artifact-local-lifecycle-2026-10-25-1605.json"
+}

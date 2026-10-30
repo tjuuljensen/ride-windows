@@ -408,6 +408,9 @@ Describe 'Authoring after an update in an existing console' {
   BeforeEach {
     $script:CacheRoot = Join-Path $TestDrive ('cached-checkout-' + [guid]::NewGuid().ToString('N'))
     foreach ($directory in @('modules', 'catalog', 'tools', 'profiles', 'components')) { $null = New-Item -ItemType Directory -Path (Join-Path $script:CacheRoot $directory) -Force }
+    if (Test-Path -LiteralPath (Join-Path $script:Root 'catalog/notices')) {
+      Copy-Item -LiteralPath (Join-Path $script:Root 'catalog/notices') -Destination (Join-Path $script:CacheRoot 'catalog') -Recurse
+    }
     foreach ($module in @('RIDE.CatalogData', 'RIDE.LibrarySchema', 'RIDE.CatalogValidation', 'RIDE.Libraries', 'RIDE.LibraryAuthoring', 'RIDE.InstallerInspection')) {
       Copy-Item -LiteralPath (Join-Path $script:Root ('modules/' + $module + '.psm1')) -Destination (Join-Path $script:CacheRoot 'modules')
     }

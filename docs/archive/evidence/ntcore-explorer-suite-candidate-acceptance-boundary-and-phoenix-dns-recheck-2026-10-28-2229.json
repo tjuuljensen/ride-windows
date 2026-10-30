@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T22:29:20Z",
+  "batch": "NTCore Explorer Suite candidate metadata coverage and Phoenix publisher DNS recheck",
+  "explorerSuite": {
+    "testFile": "tests/NtcorePackages.Tests.ps1",
+    "testName": "keeps the full-suite installer, administrative license review, and acceptance boundary explicit",
+    "result": {
+      "shell": "Windows PowerShell 5.1.26100.9818",
+      "pester": "5.7.1",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "testRegistryEnabled": false,
+      "testResultEnabled": false
+    },
+    "verifiedCandidateMetadata": [
+      "InstallerType Exe, machine scope, and elevation requirement",
+      "Declared quiet install and uninstall arguments",
+      "Publisher download URI, version III-2012-11-18, and expected digest",
+      "NeedsReview is an administrative marker and does not block migration",
+      "SupportedTargets remains empty, Windows 11 is a candidate target, and PendingAcceptance remains true",
+      "Compensating rollback and explicit unaccepted install/component/shortcut/recovery boundary"
+    ],
+    "licenseReviewRecord": {
+      "store": ".local/license-reviews.json",
+      "id": "package.ntcore-explorer-suite",
+      "reviewedVersion": "III-2012-11-18",
+      "status": "NeedsReview",
+      "owner": "Unassigned",
+      "technicalMigrationGate": false
+    },
+    "limits": "The focused test validates catalog metadata only. It does not install the suite, verify package detection/uninstall identity, or accept Windows behavior."
+  },
+  "phoenixProtector": {
+    "hostsChecked": ["ntcore.com", "www.ntcore.com"],
+    "dnsPreflight": "Both Resolve-DnsName A lookups returned Access is denied.",
+    "publisherDownloadAttemptedThisBatch": false,
+    "newBytesOrPartialFile": false,
+    "existingVersionIdentities": {
+      "publisherPage": "1.8.0.1",
+      "catalogAndRetainedMsi": "1.7.1",
+      "containedExecutable": "1.9.0.1"
+    },
+    "licenseReview": "The exact-version NeedsReview/Unassigned record is an administrative marker and does not block technical migration."
+  },
+  "stateChanges": {
+    "repositoryTestCoverage": true,
+    "catalogOrHandlerImplementation": false,
+    "packageInstalledOrExecuted": false,
+    "vmOrCheckpoint": false,
+    "windowsOrRegistry": false,
+    "defender": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": ["A focused current-source test now covers the full Explorer Suite candidate installer arguments, exact publisher identity, administrative license marker and pending-acceptance boundary."],
+    "partial": ["The Explorer Suite remains a pending package candidate without Windows lifecycle acceptance; Phoenix page/MSI/executable version identities remain unmapped."],
+    "retired": [],
+    "excluded": [],
+    "deferred": ["Explorer Suite install, repeat, component inventory, shortcut/uninstaller scope, removal and recovery on the disposable Windows 11 VM.", "Phoenix current publisher-linked MSI bytes and version mapping.", "Windows acceptance for both candidates."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; test coverage improved but no whole legacy outcome closed."
+    }
+  },
+  "relatedEvidence": [
+    "ntcore-explorer-suite-current-publisher-regression-and-phoenix-dns-block-2026-10-28-2226.json",
+    "ntcore-explorer-suite-vm-access-recheck-2026-10-28-1603.json",
+    "phoenix-current-publisher-route-recheck-2026-10-28-1604.json"
+  ]
+}

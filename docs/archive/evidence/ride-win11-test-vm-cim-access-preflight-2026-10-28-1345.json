@@ -1,0 +1,38 @@
+{
+  "checkedAtUtc": "2026-10-28T13:45:14Z",
+  "target": "RIDE-Win11-Test",
+  "checks": [
+    {
+      "command": "Get-VM -Name RIDE-Win11-Test",
+      "result": "blocked",
+      "error": "Access to a CIM resource was not available to the client."
+    }
+  ],
+  "checkpointInspection": "not reached; Get-VM failed first",
+  "guestRunnerDispatched": false,
+  "scheduledTaskQueried": false,
+  "vmOrCheckpointChanged": false,
+  "windowsOrDefenderStateChanged": false,
+  "elevationRequested": false,
+  "legacyOutcomes": {
+    "resolved": [],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "Current Windows acceptance that depends on RIDE-Win11-Test guest/checkpoint access."
+    ],
+    "partial": [],
+    "closed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; no guest test ran and no legacy outcome closed."
+  },
+  "nextAction": "Resume the existing checkpoint-based acceptance runner after read-only host CIM access works again; continue source-ready local batches meanwhile."
+}

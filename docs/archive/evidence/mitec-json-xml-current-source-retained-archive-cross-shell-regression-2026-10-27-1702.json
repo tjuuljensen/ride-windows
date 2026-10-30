@@ -1,0 +1,119 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-27T17:02:00Z",
+  "Scope": "Current-source retained-archive lifecycle regression for MiTeC JSON Viewer and XML Viewer",
+  "TestFile": "tests/MitecViewerPackages.Tests.ps1",
+  "Pester": "5.7.1",
+  "Environment": {
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "WindowsPowerShell51": {
+      "Version": "5.1.26100.9711",
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    "OptionalPluginsDisabled": [
+      "TestRegistry",
+      "TestResult"
+    ],
+    "RetainedArchiveDirectory": ".local/collection-inventory-20261017"
+  },
+  "Packages": [
+    {
+      "Id": "package.mitec-json-viewer",
+      "Version": "3.2.2.0",
+      "Archive": "JSONView.zip",
+      "ArchiveLength": 8428524,
+      "ArchiveSha256": "9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21",
+      "SelectedVariants": [
+        {
+          "Variant": "portable",
+          "Member": "JSONView64.exe",
+          "Sha256": "3f607389f6ee2e6679022a32db8c24f4dc75fcee1356ab3afc2d64eabc577f33",
+          "Architecture": "x64"
+        },
+        {
+          "Variant": "portable-x86",
+          "Member": "JSONView.exe",
+          "Sha256": "394f6919e446e5a191905dbe6dd41d55a731b4177d45e0392dc06c92f0b23513",
+          "Architecture": "x86"
+        }
+      ]
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "Version": "6.5.0.0",
+      "Archive": "XMLView.zip",
+      "ArchiveLength": 6255339,
+      "ArchiveSha256": "c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960",
+      "SelectedVariants": [
+        {
+          "Variant": "portable",
+          "Member": "XMLView64.exe",
+          "Sha256": "f32c4416c2a6adddd3769bc67234f45aea2e14132cacb22b0533695b8cea3d20",
+          "Architecture": "x64"
+        },
+        {
+          "Variant": "portable-x86",
+          "Member": "XMLView.exe",
+          "Sha256": "d498af4595aeb982450b4f3aa1d16c6be1c7efe24c71873779cb233a92e25dc2",
+          "Architecture": "x86"
+        }
+      ]
+    }
+  ],
+  "Verified": [
+    "Each retained publisher archive matched the checked-in exact length and SHA-256 pin",
+    "Each selected x64/x86 member matched its recorded PE architecture and file version evidence",
+    "Only the selected executable was staged for each variant",
+    "Repeat installation, snapshot/remove/restore, modified-file protection and unowned-file collision checks passed",
+    "Synthetic licence/configuration files survived repeat/remove/restore"
+  ],
+  "Safety": {
+    "ViewerLaunched": false,
+    "ActivationPerformed": false,
+    "JsonOrXmlDocumentOpened": false,
+    "UpdateCheckPerformed": false,
+    "NetworkAccessedByViewer": false,
+    "DefenderChanged": false,
+    "VmOrWindowsStateChanged": false,
+    "UacRequested": false
+  },
+  "Acceptance": {
+    "SupportedTargets": [],
+    "Pending": [
+      "Windows 11 current-source acceptance; the historical v2 run does not establish current-source target acceptance",
+      "GUI launch, document parsing, activation preservation and updater/network behavior remain untested"
+    ]
+  },
+  "VmAccess": {
+    "LatestReadOnlyGetVm": "Access to a CIM resource was not available to the client before inspection.",
+    "InspectionOrAcceptanceDispatched": false
+  },
+  "MigrationAccounting": {
+    "ResolvedLegacyOutcomes": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Current-source Windows 11 acceptance"
+    ],
+    "Partial": [
+      "Current-source real-archive x86/x64 staging and file recovery verified for two viewers; no legacy outcome closed."
+    ],
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "38-53",
+      "Components": "19-24",
+      "FilesAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "127-181",
+      "Rounded": "125-180/about 155"
+    },
+    "EstimateReason": "Cross-shell retained-archive lifecycle evidence closes no legacy functional outcome, so estimates remain unchanged."
+  }
+}

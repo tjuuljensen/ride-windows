@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-25T15:54:00Z",
+  "scope": "Current-source ApplicationsBatch1 machine-scope acceptance dispatch preflight and focused local regression",
+  "dispatch": {
+    "integrationSuite": "ApplicationsBatch1Machine",
+    "controller": "RIDEWin11Test preregistered task",
+    "result": "Blocked before enqueue",
+    "error": "Registered controller lacks ApplicationsBatch1SplitV1; no request was queued.",
+    "requiredNextStep": "Refresh the protected controller once from an elevated PowerShell session, then rerun the saved machine-scope batch against its existing clean checkpoint.",
+    "freshElevationRequested": false,
+    "vmOrCheckpointAccessed": false
+  },
+  "localRegression": {
+    "powerShell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryEnabled": false,
+    "suites": [
+      {"file": "tests/PhoenixPackage.Tests.ps1", "passed": 4, "failed": 0},
+      {"file": "tests/WiresharkPackage.Tests.ps1", "passed": 8, "failed": 0},
+      {"file": "tests/LicenseReviews.Tests.ps1", "passed": 24, "failed": 0}
+    ],
+    "total": 36,
+    "passed": 36,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 65.81
+  },
+  "licenseDisposition": {
+    "sysinternals": "No legal or licensing blocker. Prior RIDE v2 specialist approval governs RIDE's direct Microsoft download-and-install workflow; all ten package plans remain available without a license gate.",
+    "otherNeedsReviewMarkers": "Informational owner/version administration; they do not block package planning."
+  },
+  "safety": {
+    "installerExecuted": false,
+    "packageUtilityExecuted": false,
+    "windowsOrDefenderStateChanged": false,
+    "testTemporaryDirectoriesRemoved": true,
+    "defenderBlockedToolsIncluded": false
+  },
+  "migrationAccounting": {
+    "resolved": 0,
+    "retired": 0,
+    "excluded": 0,
+    "deferred": ["ApplicationsBatch1Machine Windows acceptance; controller refresh requires one later elevated session"],
+    "partial": ["Phoenix Protector and Wireshark remain candidates pending native acceptance; no whole legacy outcome closed"],
+    "estimatesChanged": false,
+    "ranges": {
+      "settings": "37-57",
+      "packages": "40-55",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "129-183",
+      "roundedTotal": "130-185/about 155"
+    }
+  }
+}

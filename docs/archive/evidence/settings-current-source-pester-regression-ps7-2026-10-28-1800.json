@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "completedAtUtc": "2026-10-28T18:00:37Z",
+  "batch": "Current-source remaining settings, BitLocker workflow and F1 regression",
+  "runtime": {
+    "powershell": "7.6.5",
+    "pester": "5.7.1",
+    "testRegistryPlugin": "disabled",
+    "testResultPlugin": "disabled",
+    "tempDirectory": ".local/pester-settings-ps7-20261028-1752"
+  },
+  "testFiles": [
+    "tests/RemainingSettings.Tests.ps1",
+    "tests/BitLockerWorkflows.Tests.ps1",
+    "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+    "tests/F1Help.Tests.ps1"
+  ],
+  "result": {
+    "discovered": 113,
+    "passed": 113,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "durationSeconds": 451.24
+  },
+  "coverageBoundary": {
+    "registryAndNativeSettingCallsMocked": true,
+    "bitLockerAndTpmCommandsMockedOrSynthetic": true,
+    "nativeProviderOrRegistryStateChanged": false,
+    "bitLockerVolumeOrProtectorStateChanged": false,
+    "realVmOrCheckpointAccessed": false,
+    "defenderBlockedToolsSelectedOrTouched": false,
+    "defenderStateChanged": false,
+    "elevationRequested": false,
+    "legacyOutcomeClosed": false,
+    "nativeWindows11Acceptance": "Pending; target VM checkpoint membership and task readiness remain unconfirmed."
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; mocked local regression closes no legacy setting outcome."
+  }
+}

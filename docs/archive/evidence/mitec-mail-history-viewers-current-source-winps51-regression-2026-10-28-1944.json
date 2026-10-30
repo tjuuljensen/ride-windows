@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T19:44:05Z",
+  "batch": "MiTeC Mail and History Viewer current-source PowerShell 5.1 regression",
+  "command": "Windows PowerShell 5.1 with Pester 5.7.1; tests/MiTeCMailHistoryViewers.Tests.ps1; TestRegistry disabled; TEMP/TMP scoped to a workspace-local directory.",
+  "results": {
+    "discovered": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "durationSeconds": 31.25,
+    "exitCode": 0
+  },
+  "coverage": [
+    "Catalog metadata for all four packages matches reviewed source evidence and the prior Windows 11 lifecycle acceptance record.",
+    "The four retained publisher ZIPs and selected member inventories were checked against their pins; no archive was extracted into the test staging path.",
+    "Synthetic inert fixtures covered selected-member staging, repeat installation, uninstall, snapshot restore and preservation of user files."
+  ],
+  "safety": {
+    "utilitiesOrPayloadsExecuted": false,
+    "personalMailBrowserOrMessagingDataOpened": false,
+    "defenderBlockedFilesSelected": false,
+    "defenderQueriedOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "elevationRequested": false
+  },
+  "acceptance": {
+    "priorWindows11PackageLifecycle": "The existing 2026-10-25 RIDE-Win11-Test run records all four package lifecycle/recovery cases passed; this regression verifies that record against current catalog metadata but is not a new VM run.",
+    "functionalAndActivationAcceptance": "Still pending; no utility or payload was executed and no personal data was opened.",
+    "legacyOutcomesClosed": 0
+  },
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "adjustment": "None; current-source regression closes no legacy outcome."
+  },
+  "relatedEvidence": [
+    "mitec-mail-history-viewers-win11-lifecycle-acceptance-2026-10-25-0409.json",
+    "mitec-mail-history-acceptance-scope-reconciliation-2026-10-28-1136.json",
+    "mitec-mail-history-viewer-candidates-2026-10-23.json"
+  ]
+}

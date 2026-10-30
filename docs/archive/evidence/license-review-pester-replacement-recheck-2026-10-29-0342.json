@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-29T03:42:29Z",
+  "batch": "License review Pester replacement failure recheck",
+  "environment": {
+    "platform": "Windows",
+    "shell": "Windows PowerShell 5.1",
+    "pesterVersion": "5.7.1",
+    "testRegistryEnabled": false,
+    "testResultEnabled": false,
+    "licenseStore": "Each test used an explicit unique workspace-local store; no default owner review store was read or written."
+  },
+  "pesterRuns": [
+    {"scope":"tests/LicenseReviews.Tests.ps1","passed":23,"failed":1,"skipped":0,"failure":"IOException from System.IO.File.Replace in Write-ReviewDocument, surfaced at LicenseReviews.Tests.ps1:74."},
+    {"scope":"tests/LicenseReviews.Tests.ps1 rerun","passed":21,"failed":3,"skipped":0,"failure":"File.Replace failed in three store-update cases at LicenseReviews.Tests.ps1 lines 74, 181 and 214."},
+    {"scope":"isolated NeedsReview non-gating test","passed":1,"failed":0,"skipped":0},
+    {"scope":"read-only unknown-review test followed by NeedsReview non-gating test","passed":1,"failed":1,"skipped":0,"failure":"The second test again encountered the File.Replace IOException."}
+  ],
+  "diagnostics": {
+    "standaloneFileReplaceProbe": "Passed in a unique .local scratch directory.",
+    "directTwentyRecordStoreSequence": "All 20 Set/Get/plan iterations passed using an explicit unique workspace-local review store.",
+    "productCodeChanged": false,
+    "rootCause": "Unresolved; the failure occurs in some Pester suite contexts, while isolated and direct writer probes pass. No claim is made that the cause is antivirus or external contention.",
+    "existingLicenseTestDirectories": "Four pre-existing child directories were preserved untouched."
+  },
+  "safety": {"publisherSoftwareOrUtilityRun":false,"networkUsed":false,"defenderQueriedOrChanged":false,"productionLicenseStoreChanged":false,"windowsOrVmStateChanged":false,"elevationRequested":false},
+  "migrationOutcome": {
+    "resolved":[],"retired":[],"excluded":[],
+    "partial":["Isolated license review and planning behavior passed, but the full Pester suite is not reliable because File.Replace failures remain unresolved in some test contexts."],
+    "deferred":["Diagnose and repair the Pester-context license-store replacement failures; rerun the full license review suite."],
+    "legacyOutcomeClosed":false,
+    "estimates":{"settings":"37-57","packages":"37-52","components":"19-24","filesAndAssets":"25-35","maintenance":"8-12","exactTotal":"126-180","roundedTotal":"125-180/about 155","adjustment":"None; no legacy outcome closed."}
+  }
+}

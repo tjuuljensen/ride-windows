@@ -1,0 +1,22 @@
+{
+  "RecordedAtUtc": "2026-10-24T22:35:00Z",
+  "Decision": "The prior RIDE v2 license-specialist approval controls Sysinternals use through RIDE's direct Microsoft download-and-install workflow.",
+  "UserScope": "RIDE does not transfer or publish Sysinternals. The user states there are no legal issues using Sysinternals in RIDE.",
+  "MigrationDisposition": "No separate legal review or generalized redistribution analysis blocks package migration or acceptance.",
+  "MetadataAndPayloadIntegrity": "Catalog license identifiers and expected upstream notice files remain descriptive metadata and pinned-payload completeness checks; they are not unresolved legal-risk gates.",
+  "DefenderDisposition": "Defender detections remain separate security exclusions and are not a licensing disposition.",
+  "Changes": [
+    "Clarified two test descriptions so required-member validation is identified as pinned archive completeness, not a legal gate.",
+    "No handler behavior, package selection, target support, runtime state, or legacy outcome changed."
+  ],
+  "FocusedValidation": "Not run for description-only test edits.",
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "50-65",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "139-193",
+    "RoundedTotal": "140-195/about 170"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T04:30:03Z",
+  "batch": "BitLocker wizard desktop shortcut metadata resolution",
+  "operationId": "windows.bitlocker-wizard-shortcut",
+  "finding": "The current-user desktop shortcut path resolver expanded environment variables by assigning the resolved paths back into the catalog operation hashtable. Read-only state inspection could therefore mutate in-memory operation metadata.",
+  "change": {
+    "module": "modules/RIDE-DesktopShortcuts.psm1",
+    "version": "0.1.1",
+    "behavior": "Return a resolved shortcut descriptor containing destination path, target, arguments, description and working directory. State inspection and creation consume the descriptor without changing the operation hashtable.",
+    "regressionTest": "tests/DesktopShortcuts.Tests.ps1 checks catalog metadata preservation, resolved paths and rejection of unsupported shortcut metadata without opening COM or writing a shortcut."
+  },
+  "validation": {
+    "powershell7": {
+      "moduleParser": "Passed",
+      "testParser": "Passed",
+      "syntheticResolverCheck": "Passed",
+      "catalogMetadataUnchanged": true,
+      "shortcutPathResolved": true
+    },
+    "windowsPowerShell51": {
+      "moduleParser": "Passed",
+      "testParser": "Passed",
+      "syntheticResolverCheck": "Passed",
+      "catalogMetadataUnchanged": true,
+      "shortcutPathResolved": true
+    },
+    "pester": {
+      "status": "Not run",
+      "reason": "PowerShell 7 exposes Pester 3.4.0; Pester 5.7.1 import remains blocked in Windows PowerShell by AuthorizationManager."
+    },
+    "windowsVm": {
+      "status": "Deferred",
+      "reason": "RIDE-Win11-Test access failed at host CIM before VM or checkpoint inspection."
+    }
+  },
+  "safety": {
+    "shortcutComAccessed": false,
+    "desktopFilesEnumeratedOrChanged": false,
+    "bitlockerStateReadOrChanged": false,
+    "vmOrWindowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "migrationOutcome": {
+    "resolved": ["Path normalization no longer mutates catalog metadata during shortcut-state inspection."],
+    "partial": ["DesktopShortcut engine lifecycle, shortcut ownership behavior and disposable Windows 11 acceptance remain pending."],
+    "deferred": ["Pester regression execution and actual Windows Script Host shortcut create, inspect, remove and recovery acceptance on RIDE-Win11-Test."],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; the resolver defect is corrected, but native shortcut lifecycle acceptance and the legacy outcome remain open."
+    }
+  }
+}

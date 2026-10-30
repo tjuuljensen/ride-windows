@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-10-28T10:41:19Z",
+  "batch": "PSScriptTools ThreadJob current publisher source and real-archive portable handler lifecycle",
+  "publisher": {
+    "product": "Microsoft.PowerShell.ThreadJob",
+    "version": "2.2.0",
+    "versionPage": "https://www.powershellgallery.com/packages/Microsoft.PowerShell.Threadjob/2.2.0",
+    "pageStatesCurrentVersion": true,
+    "lastPublished": "2025-03-06",
+    "catalogDownloadUri": "https://www.powershellgallery.com/api/v2/package/Microsoft.PowerShell.ThreadJob/2.2.0"
+  },
+  "artifact": {
+    "path": ".local/threadjob-2.2.0-acquisition/Microsoft.PowerShell.ThreadJob.2.2.0.nupkg",
+    "length": 49678,
+    "sha256": "1678c5a5a5cf8ae65e127ecc77dfb7241513a61a1a398a4f79f44f12767108bc",
+    "matchesCatalogPin": true,
+    "packageFileCount": 10,
+    "manifestVersion": "2.2.0",
+    "nuspecVersion": "2.2.0",
+    "hasSignatureEntry": true,
+    "hasLicense": true,
+    "hasThirdPartyNotices": true,
+    "cryptographicSignatureVerified": false
+  },
+  "lifecycle": {
+    "realPinnedArchive": true,
+    "install": true,
+    "repeatInstall": true,
+    "healthyOwnedFiles": 10,
+    "uninstall": true,
+    "installedSnapshotRecovery": true,
+    "priorAbsenceRecovery": true,
+    "operatorOwnedSentinelPreserved": true,
+    "scratchCleaned": true,
+    "runner": "Direct local RIDE portable handler invocation in isolated .local scratch; Pester unavailable."
+  },
+  "execution": {
+    "ThreadJobModuleImported": false,
+    "ThreadJobCommandInvoked": false,
+    "DllLoaded": false,
+    "installerExecuted": false,
+    "networkSourceUsed": false,
+    "windowsStateChanged": false,
+    "defenderQueriedOrChanged": false,
+    "elevationRequested": false
+  },
+  "limitations": [
+    "This validates the current pinned archive, archive metadata and file-only lifecycle/recovery. It does not verify the .signature.p7s cryptographically, invoke ThreadJob, prove module health/version through the application runtime, verify dependency removal guards with the Pester mock suite, exercise engine install/remove dispatch, or establish Windows VM acceptance.",
+    "The current focused ApplicationPackages Pester suite is still unrun because Pester 5 is not discoverable in the current shell environment."
+  ],
+  "migrationOutcome": {
+    "resolved": [
+      "Publisher page still reports catalog-pinned ThreadJob 2.2.0 as current; retained nupkg bytes match the catalog SHA-256 and package metadata; direct real-archive portable handler install/repeat/remove/recovery passes."
+    ],
+    "partial": [
+      "Local file lifecycle is verified; module invocation, engine dispatch, dependent-removal guard and target acceptance remain open."
+    ],
+    "deferred": [
+      "Cryptographic NuGet signature verification; Pester 5 regression; managed Windows 11 and Server 2025 lifecycle; PSScriptTools-to-ThreadJob runtime behavior and dependency removal guard."
+    ],
+    "legacyOutcomeClosed": false,
+    "estimates": {
+      "settings": "37-57",
+      "packages": "38-53",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "127-181",
+      "roundedTotal": "125-180/about 155",
+      "adjustment": "None; implementation-level package file lifecycle advances one partial outcome but does not close the legacy package/runtime outcome."
+    }
+  }
+}
