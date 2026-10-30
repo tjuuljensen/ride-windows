@@ -180,6 +180,9 @@ for use and limitations, and the [impact evaluation](docs/screen-lock-impact.md)
 for the measurement procedure and pending acceptance. No comparative memory/write
 ranking is established; preventing sleep does not prove idle-lock prevention.
 
+For standalone network diagnostics, see the [MAC vendor lookup](docs/mac-vendor.md)
+and [public IP comparison](docs/what-is-my-ip.md) guides.
+
 ## Development
 
 The `-Library` interface loads separate local catalogs and profiles using
