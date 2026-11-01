@@ -1,0 +1,83 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T14:35:32Z",
+  "ReviewDate": "2026-11-01",
+  "Outcome": "Bootstrap source selection and execution boundaries corrected; focused synthetic regression passed",
+  "Changes": [
+    "Bootstrap requires exactly one explicit release tag or source branch; no mutable branch is implicit.",
+    "Default profile selection now plans without applying. Apply and remove require an explicit command and are the only commands that trigger elevation.",
+    "Non-elevated child execution passes a PowerShell argument array; elevated relaunch arguments use Windows command-line quoting and wait for/report the child exit code.",
+    "README pins the bootstrap script and downloaded repository archive to the same explicit release tag. No v3.0 tag has been published yet."
+  ],
+  "Validation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "Pester": "5.7.1",
+    "Command": "Invoke-Pester with tests/Bootstrap.Tests.ps1; TestRegistry and TestResult disabled",
+    "Result": "Passed",
+    "Total": 9,
+    "Passed": 9,
+    "Failed": 0,
+    "Skipped": 0,
+    "StandaloneLayout": "Copied docs/bootstrap.ps1 and modules/RIDE.Bootstrap.psm1 into the documented relative layout and passed the download-only invocation.",
+    "RepositoryValidation": {
+      "Status": "Passed",
+      "Command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/validate.ps1",
+      "Operations": 452,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 323
+    },
+    "Cases": [
+      "Explicit release-tag download-only flow",
+      "Standalone script with its matching helper module in the documented layout",
+      "Reject missing/conflicting source selections before download",
+      "Explicit branch and profile paths with spaces; plan default",
+      "Explicit apply boundary",
+      "Nonzero child-exit reporting",
+      "Windows command-line quoting for empty strings, embedded quotes and trailing backslashes"
+    ]
+  },
+  "VM": {
+    "Run": false,
+    "HostPreflight": "Get-VM is unavailable because host CIM access is denied; checkpoint state was not queried."
+  },
+  "SystemStateChanged": false,
+  "InstallerOrRIDECommandRun": false,
+  "ElevationPrompt": false,
+  "NetworkAccess": false,
+  "DefenderStateAccessed": false,
+  "DefenderBlockedPasswordScan": "Remains excluded from staging/selection; this batch did not materialize or inspect the alert file.",
+  "LegacyEstimate": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "Bootstrap maintenance and mocked command-boundary tests close no legacy feature or product outcome."
+  },
+  "RemainingReleaseItems": [
+    "Verify the actual published bootstrap source and archive; no v3.0 tag exists yet.",
+    "Complete requested transferable offline delivery.",
+    "Run final-source CI and bounded disposable-VM workflow where current evidence is missing.",
+    "Prepare and publish the versioned release through the approved release workflow."
+  ],
+  "SourceFiles": [
+    "README.md",
+    "docs/bootstrap.ps1",
+    "docs/migrations/powershell-script-walkthrough.md",
+    "modules/RIDE.Bootstrap.psm1",
+    "tests/Bootstrap.Tests.ps1"
+  ],
+  "RepeatRun": {
+    "RecordedAt": "2026-11-01T14:58:44Z",
+    "PowerShell": "Windows PowerShell 5.1",
+    "Pester": "5.7.1",
+    "Passed": 9,
+    "Failed": 0,
+    "Skipped": 0,
+    "Command": "Invoke-Pester with tests/Bootstrap.Tests.ps1; TestRegistry and TestResult disabled"
+  }
+}

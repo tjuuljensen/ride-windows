@@ -3,12 +3,12 @@
   Download a selected RIDE source archive and optionally run its profile command.
 
 .DESCRIPTION
-  Downloads a GitHub tag when Release is supplied, otherwise Branch (master by
-  default). Extracts below InstallRoot or a new temporary directory. NoRun only
-  downloads/extracts. Default, Edit, Profile, or an explicit non-apply command
-  select execution; the default command is apply. Execution normally relaunches
-  with elevation. Edit copies the default profile and waits for Notepad.
-  This bootstrapper has no ShouldProcess preview; selecting apply changes Windows.
+  Downloads an explicitly selected GitHub tag or branch and extracts below
+  InstallRoot or a new temporary directory. NoRun only downloads and extracts.
+  Selecting Default, Edit, or Profile defaults to the read-only plan command;
+  apply and remove require an explicit command. Machine-changing commands may
+  relaunch with elevation and wait for the child exit code. Edit copies the
+  default profile and waits for Notepad.
 
 .PARAMETER Author
   GitHub repository owner; defaults to tjuuljensen.
@@ -17,7 +17,7 @@
   Repository name; defaults to ride-windows.
 
 .PARAMETER Branch
-  Branch archive used when Release is empty; defaults to master.
+  Explicit branch archive. Select either Branch or Release; neither is implicit.
 
 .PARAMETER Release
   Optional Git tag archive. Prefer a reviewed tagged release for distribution.
@@ -39,7 +39,7 @@
   Suppress the normal elevated relaunch. Machine operations still require elevation.
 
 .PARAMETER Command
-  list, plan, apply, status, or remove; defaults to apply. Use an explicit run selector for apply.
+  list, plan, apply, status, or remove; defaults to plan. Pass apply explicitly to change Windows.
 
 .PARAMETER Profile
   Explicit profile path; relative paths resolve from the caller working directory.
@@ -51,8 +51,17 @@
   Print the script version and return before operational work.
 
 .EXAMPLE
-  .\docs\bootstrap.ps1 -NoRun -Branch master
-  Download the branch source without running it; use -Release with a reviewed tag for distribution.
+  .\docs\bootstrap.ps1 -Release '<published-v3.0-tag>' -NoRun
+  Download and extract the exact published v3.0 tag without launching RIDE.
+
+.EXAMPLE
+  .\docs\bootstrap.ps1 -Release '<published-v3.0-tag>' -Default
+  Preview the default profile from the exact published v3.0 tag. Applying it requires
+  the explicit -Command apply parameter.
+
+.EXAMPLE
+  .\docs\bootstrap.ps1 -Release '<published-v3.0-tag>' -Default -Command apply
+  Explicitly apply the default profile from the exact published v3.0 tag.
 
 .EXAMPLE
   .\docs\bootstrap.ps1 -Help
@@ -69,18 +78,22 @@
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows; system integration remains
   unverified in this walkthrough.
-  Prerequisites: GitHub HTTPS access, Expand-Archive, powershell.exe, and permissions to the
-  extraction directory; elevation for machine application.
+  Prerequisites: An explicit reviewed GitHub release tag or source branch, HTTPS access,
+  the adjacent modules/RIDE.Bootstrap.psm1 helper, Expand-Archive, powershell.exe, and
+  extraction-directory write access; elevation for machine apply/remove unless NoAdmin.
   File/environment inputs: GitHub archive selection and optional profile file; launches Windows
   PowerShell with -NoProfile.
   Recovery: Retain extracted sources for inspection. Use RIDE saved state for applied operations;
   archive extraction itself has no rollback.
   Author: RIDE-Windows maintainers.
-  Version: 0.1.0
+  Version: 0.2.0
   Changelog:
+    0.2.0: Require an explicit source, make plan the default, quote and wait for
+    child processes, and report child exit codes.
     0.1.0: Establish the versioned PowerShell help contract during the 2026-10-08 walkthrough.
-  Known limitation: see docs/migrations/powershell-script-walkthrough.md for child-process argument
-  handling and preview boundaries.
+  Standalone copies must preserve the docs/bootstrap.ps1 and modules/RIDE.Bootstrap.psm1
+  relative layout. The v3.0 entry point uses the published tag explicitly; do not use a
+  mutable branch for release installation.
 
 .LINK
   docs/migrations/powershell-script-walkthrough.md
@@ -92,7 +105,7 @@
 param(
   [string] $Author = 'tjuuljensen',
   [string] $Repo = 'ride-windows',
-  [string] $Branch = 'master',
+  [string] $Branch = '',
   [string] $Release = '',
   [string] $InstallRoot = '',
   [switch] $Default,
@@ -100,17 +113,19 @@ param(
   [Alias('Stop')][switch] $NoRun,
   [switch] $NoAdmin,
   [ValidateSet('list', 'plan', 'apply', 'status', 'remove')]
-  [string] $Command = 'apply',
+  [string] $Command = 'plan',
   [string] $Profile = '',
   [switch] $Help,
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.1.0'
+$script:ScriptVersion = '0.2.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 
 $ErrorActionPreference = 'Stop'
+$bootstrapRoot = Split-Path -Parent (Split-Path -Parent $PSCommandPath)
+Import-Module (Join-Path $bootstrapRoot 'modules/RIDE.Bootstrap.psm1') -Force -ErrorAction Stop
 try {
   [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 }
@@ -122,13 +137,6 @@ function Test-IsAdministrator {
   $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Quote-ProcessArgument {
-  param([string] $Argument)
-  if ($null -eq $Argument) { return '""' }
-  if ($Argument -notmatch '[\s"`]') { return $Argument }
-  '"' + ($Argument -replace '"', '\"') + '"'
-}
-
 function New-TemporaryDirectory {
   $path = Join-Path ([IO.Path]::GetTempPath()) ('ride-windows-' + [guid]::NewGuid().ToString('N'))
   New-Item -ItemType Directory -Path $path -Force | Out-Null
@@ -136,15 +144,19 @@ function New-TemporaryDirectory {
 }
 
 function Get-RepositoryArchiveUrl {
-  if ($Release) { return "https://github.com/$Author/$Repo/archive/refs/tags/$Release.zip" }
-  "https://github.com/$Author/$Repo/archive/refs/heads/$Branch.zip"
+  if ($Release -and $Branch) { throw 'Select exactly one source: -Release <tag> or -Branch <branch>.' }
+  if (-not $Release -and -not $Branch) { throw 'Select a reviewed release tag with -Release or an explicit source branch with -Branch.' }
+  $ref = if ($Release) { $Release } else { $Branch }
+  $escapedRef = (($ref -split '/') | ForEach-Object { [Uri]::EscapeDataString($_) }) -join '/'
+  if ($Release) { return "https://github.com/$Author/$Repo/archive/refs/tags/$escapedRef.zip" }
+  "https://github.com/$Author/$Repo/archive/refs/heads/$escapedRef.zip"
 }
 
 function Get-RepositoryPath {
   if (-not $InstallRoot) { $script:InstallRoot = New-TemporaryDirectory }
   New-Item -ItemType Directory -Path $InstallRoot -Force | Out-Null
   $archivePath = Join-Path $InstallRoot ($Repo + '.zip')
-  Invoke-WebRequest -Uri (Get-RepositoryArchiveUrl) -OutFile $archivePath -UseBasicParsing -ErrorAction Stop
+  Invoke-WebRequest -Uri $script:ArchiveUrl -OutFile $archivePath -UseBasicParsing -ErrorAction Stop
   Expand-Archive -Path $archivePath -DestinationPath $InstallRoot -Force
   Remove-Item -LiteralPath $archivePath -Force -ErrorAction SilentlyContinue
   $scriptPath = Get-ChildItem -Path $InstallRoot -Filter 'ride.ps1' -Recurse -File | Select-Object -First 1
@@ -153,7 +165,7 @@ function Get-RepositoryPath {
 }
 
 function Start-RideAsAdministrator {
-  $arguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Quote-ProcessArgument $PSCommandPath))
+  $arguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath)
   foreach ($key in $PSBoundParameters.Keys) {
     $value = $PSBoundParameters[$key]
     if ($value -is [switch]) {
@@ -161,25 +173,31 @@ function Start-RideAsAdministrator {
     }
     elseif ($null -ne $value -and $value -ne '') {
       $arguments += "-$key"
-      $arguments += (Quote-ProcessArgument ([string]$value))
+      $arguments += [string]$value
     }
   }
-  Start-Process -FilePath 'powershell.exe' -ArgumentList ($arguments -join ' ') -Verb RunAs | Out-Null
-  exit
+  $process = Start-Process -FilePath 'powershell.exe' -ArgumentList (Join-RideWindowsCommandLine $arguments) -Verb RunAs -WorkingDirectory (Get-Location).Path -Wait -PassThru -ErrorAction Stop
+  if ($null -eq $process.ExitCode) { throw 'The elevated bootstrap process did not return an exit code.' }
+  [int]$process.ExitCode
 }
 
-$hasRunMode = $Default -or $Edit -or ($Profile -ne '') -or ($Command -ne 'apply')
+$hasRunMode = $Default -or $Edit -or ($Profile -ne '') -or ($Command -ne 'plan')
 if ($NoRun) { $hasRunMode = $false }
 if (-not $hasRunMode -and -not $NoRun) {
-  Write-Output 'Usage: bootstrap.ps1 -Default | -Edit | -Profile .\my-profile.psd1 [-Command list|plan|apply|status|remove] | -NoRun'
-  exit 1
+  throw 'Select -NoRun or a profile mode (-Default, -Edit or -Profile); source selection is also required.'
 }
-if ($hasRunMode -and -not $NoAdmin -and -not (Test-IsAdministrator)) { Start-RideAsAdministrator }
+$script:ArchiveUrl = Get-RepositoryArchiveUrl
+$requiresElevation = $hasRunMode -and -not $NoAdmin -and $Command -in @('apply', 'remove')
+if ($requiresElevation -and -not (Test-IsAdministrator)) {
+  $exitCode = Start-RideAsAdministrator
+  if ($exitCode -ne 0) { throw "Elevated bootstrap process exited with code $exitCode." }
+  return
+}
 
 $repositoryPath = Get-RepositoryPath
 if ($NoRun) {
   Write-Output "No installation tasks performed. Repository extracted to: $repositoryPath"
-  exit 0
+  return
 }
 
 $selectedProfile = $Profile
@@ -189,13 +207,15 @@ if ($Default -or $Edit -or -not $selectedProfile) {
 if ($Edit) {
   $selectedProfile = Join-Path $repositoryPath 'profiles/custom.profile.psd1'
   Copy-Item -LiteralPath (Join-Path $repositoryPath 'profiles/default.psd1') -Destination $selectedProfile -Force
-  Start-Process -FilePath 'notepad.exe' -ArgumentList (Quote-ProcessArgument $selectedProfile) -Wait
+  Start-Process -FilePath 'notepad.exe' -ArgumentList (ConvertTo-RideWindowsCommandLineArgument $selectedProfile) -WorkingDirectory (Get-Location).Path -Wait
 }
 elseif ($Profile -and -not [IO.Path]::IsPathRooted($Profile)) {
   $selectedProfile = Join-Path (Get-Location).Path $Profile
 }
 
 $rideScript = Join-Path $repositoryPath 'ride.ps1'
-$rideArguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Quote-ProcessArgument $rideScript), $Command, '-Profile', (Quote-ProcessArgument $selectedProfile))
-& powershell.exe ($rideArguments -join ' ')
-if ($LASTEXITCODE -ne 0) { throw "ride.ps1 exited with code $LASTEXITCODE." }
+$rideArguments = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $rideScript, $Command, '-Profile', $selectedProfile)
+& powershell.exe @rideArguments
+$rideExitCode = $LASTEXITCODE
+if ($null -eq $rideExitCode) { throw 'The RIDE child process did not return an exit code.' }
+if ($rideExitCode -ne 0) { throw "ride.ps1 exited with code $rideExitCode." }

@@ -11,13 +11,27 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 plan
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 apply
 ```
 
-The default profile shows file extensions, disables Autoplay, Autorun, and inking and typing data collection, and installs 7-Zip. Package and machine policy operations require an elevated PowerShell session. To download the repository and run the default profile on a new machine:
+The default profile shows file extensions, disables Autoplay, Autorun, and inking and typing data collection, and installs 7-Zip. Package and machine policy operations require an elevated PowerShell session. To download and preview a published release on a new machine, use the same reviewed
+tag for the bootstrap script, its command-line helper module and the RIDE archive.
+Replace `<release-tag>` with
+the exact tag published for the version being installed. The v3.0 release tag has not
+been published yet:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri https://raw.githubusercontent.com/tjuuljensen/ride-windows/master/docs/bootstrap.ps1 -OutFile $env:TEMP\ride-bootstrap.ps1; & $env:TEMP\ride-bootstrap.ps1 -Default"
+$releaseTag = '<release-tag>'
+$bootstrapRoot = Join-Path $env:TEMP 'ride-bootstrap'
+$null = New-Item -ItemType Directory -Path (Join-Path $bootstrapRoot 'docs'), (Join-Path $bootstrapRoot 'modules') -Force
+$rawRoot = "https://raw.githubusercontent.com/tjuuljensen/ride-windows/$releaseTag"
+Invoke-WebRequest -Uri "$rawRoot/docs/bootstrap.ps1" -OutFile (Join-Path $bootstrapRoot 'docs/bootstrap.ps1')
+Invoke-WebRequest -Uri "$rawRoot/modules/RIDE.Bootstrap.psm1" -OutFile (Join-Path $bootstrapRoot 'modules/RIDE.Bootstrap.psm1')
+& (Join-Path $bootstrapRoot 'docs/bootstrap.ps1') -Release $releaseTag -Default
 ```
 
-Use `-NoRun` to download and inspect the files without applying anything, or `-Edit` to copy and edit the default profile before running it.
+The bootstrapper runs `plan` by default. Review the plan before applying it with
+`-Command apply`. Use `-NoRun` to download and inspect the release files without
+launching RIDE, or `-Edit` to copy and edit the default profile before planning.
+For development from a branch, pass `-Branch <branch>` explicitly; branch archives
+are mutable and should not be treated as published releases.
 
 For a Windows installation that uses a local sign-in, see the
 [Windows local-account setup guide](docs/windows-local-account-setup.md), which

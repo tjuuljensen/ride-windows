@@ -79,7 +79,8 @@ passed in both engines. Runtime state-changing behavior was not exercised.
 | File | Disposition and verified contract | Version; checks | Exception or remaining work |
 | --- | --- | --- | --- |
 | [ride.ps1](../../ride.ps1) | Native command/parameter help, planning/recovery limits, manual usage and early version exit. | 0.1.0; P H V Q | Windows support remains per catalog operation; exact prior package version recovery is not guaranteed. |
-| [docs/bootstrap.ps1](../bootstrap.ps1) | Archive selectors, explicit run selection, download-only/elevation behavior, extraction and recovery documented. | 0.1.0; P H V Q | Child-process argument handling, mutable default branch, integrity, extraction overwrite, and absent preview need a separate tested correction. |
+| [docs/bootstrap.ps1](../bootstrap.ps1) | Explicit tag/branch selection, download-only behavior, read-only plan default, deliberate apply/remove, child argument quoting and exit reporting documented. | 0.2.0; focused Pester 5.7.1 9/9 | Actual release artifact integrity, extraction collision/recovery behavior, published v3.0 tag and final-source runtime acceptance remain open. |
+| [modules/RIDE.Bootstrap.psm1](../../modules/RIDE.Bootstrap.psm1) | Windows command-line quoting helper used by elevated bootstrap relaunch; empty arguments, embedded quotes and trailing backslashes covered. | 0.1.0; focused Pester 5.7.1 9/9 | Pester coverage is synthetic; no elevated process or machine-changing command was started. |
 | [tools/Export-RideCatalog.ps1](../../tools/Export-RideCatalog.ps1) | Generator inputs/output, Check mode, native help and early exits. | 0.1.0; P H V Q | Generated OPERATIONS content remains unchanged and current. |
 | [tools/validate.ps1](../../tools/validate.ps1) | Read-only catalog/profile/parser/generated-document checks, root default, early exits. | 0.1.0; P H V Q | Static checks do not establish Windows integration support. |
 | [tools/Deploy-SSHCopyId.ps1](../../tools/Deploy-SSHCopyId.ps1) | Local destination/backup/overwrite behavior, native help and early exits. | 0.1.0; P H V Q | Existing mixed line endings retained; operational writes not run. |
@@ -184,10 +185,12 @@ The safe help rewrite is complete; it does not certify the historical helpers
 for production use. Follow-up implementation work should be focused and
 validated independently:
 
-1. Correct bootstrap child-process argument handling: the current non-elevated
-   call passes a joined argument string to the PowerShell executable. Add tests
-   for spaces/quoting, tagged download-only selection, preview/application
-   boundaries, archive integrity, extraction overwrite, and recovery.
+1. Complete bootstrap release hardening: the 0.2.0 correction now passes child
+   arguments as an array, reports child failures, requires an explicit tag or
+   branch, defaults to read-only planning and quotes elevated command lines.
+   Focused synthetic Pester coverage passes. Still verify the exact published
+   release source, archive integrity, extraction collision/recovery behavior,
+   and the bounded disposable-VM workflow before claiming end-to-end acceptance.
 2. Harden VHD existing-file detection/replacement and Clean-Disk's service and
    cleanmgr cleanup paths. Add literal-path validation, preview and clear
    failure handling before VM integration; do not test these on a workstation.

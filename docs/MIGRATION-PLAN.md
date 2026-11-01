@@ -8,8 +8,8 @@
 | Packages | 37-52 | 2026-11-01; Range reviewed and unchanged; offline preparation planning is partial, and Defender-affected NirSoft routes remain excluded. No package product outcome closed. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome or native acceptance changed in this batch. |
 | Files and assets | 25-35 | 2026-11-01; Offline preparation planner source checks passed 12/12; no bundle assembly, delivery or whole legacy file/asset outcome closed. |
-| Maintenance | 8-12 | 2026-11-01; Planner tests 12/12; repository validation 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM continues to block VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after offline package preparation planning; all five ranges reviewed and unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
+| Maintenance | 8-12 | 2026-11-01; Bootstrap 0.2.0 repeat regression passed 9/9; offline bundle regression passed 129/129; offline preparation planner passed 12/12; repository validation passed 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM continues to block VM acceptance. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the bootstrap source regression repeat; all five ranges remain unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
 
 ## Read-only offline package preparation planner, 2026-11-01
 
@@ -34,6 +34,21 @@ See [planner evidence](archive/evidence/offline-preparation-planner-source-regre
 and [operator instructions](offline-bundles.md#plan-package-payload-preparation).
 Next: continue with the next authorized source-only batch; VM acceptance remains
 blocked at host CIM.
+## Bootstrap source regression repeat, 2026-11-01
+
+The focused Windows PowerShell 5.1/Pester 5.7.1 suite passed 9/9 on the current
+source. It covers explicit tag/branch selection, plan-by-default behavior,
+argument forwarding, elevated command-line quoting and child exit-code reporting.
+This is synthetic source validation only; no network, release archive, RIDE
+command, installer, elevation, VM, Defender state or Windows state was used.
+
+Resolved/retired/excluded: none. Partial: bootstrap source boundaries are covered;
+no release or legacy outcome closes. Deferred: published-source/archive integrity,
+extraction collision/recovery and release VM acceptance. The five estimates remain
+37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180 and rounded 125-180/about 155.
+
+See [bootstrap evidence](archive/evidence/bootstrap-source-plan-boundaries-focused-regression-2026-11-01.json).
+Next: continue the next authorized test batch; VM acceptance remains blocked at host CIM.
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 
 Next run one Source Local MiTeCSystemAndTelephony request with TimeoutMinutes 20
