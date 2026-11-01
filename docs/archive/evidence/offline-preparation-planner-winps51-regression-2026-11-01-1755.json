@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T17:55:39Z",
+  "Suite": "tests/OfflinePreparationPlan.Tests.ps1",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818",
+  "Pester": "5.7.1",
+  "Invocation": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "TestsDiscovered": 12,
+    "Result": { "Passed": 12, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 4.79 }
+  },
+  "Coverage": [
+    "Profile-selected and full-set expansion with prerequisites",
+    "Explicit version pins, ambiguity handling and hash mismatch refusal",
+    "Candidate and target-status reporting",
+    "Defender-reported NirSoft packages excluded before cache probing",
+    "Informational license status",
+    "Explicit-input command wrapper with no Windows-state query"
+  ],
+  "SafetyBoundary": {
+    "NetworkUsed": false,
+    "PublisherPayloadUsed": false,
+    "PackageInstalled": false,
+    "WindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell planner coverage improves source validation but does not acquire payloads, assemble a transferable bundle or establish disconnected/native acceptance.",
+    "Blockers": [
+      "Offline source acquisition, engine/profile packaging and disconnected Windows delivery remain deferred.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
