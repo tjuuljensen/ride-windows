@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T20:12:00Z",
+  "Pester": "5.7.1",
+  "Suite": "tests/StoreApps.Tests.ps1",
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 33,
+      "Passed": 33,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 26.86
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 33,
+      "Passed": 33,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 34.12
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "SafetyBoundary": {
+    "AppxCallsMocked": true,
+    "NativeRemovalMocked": true,
+    "DesktopHandoffMocked": true,
+    "ShouldProcessPreviewOnly": true,
+    "LiveStoreRegistrationChanged": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell Store registration, intent and partial-group tests validate mocked source behavior; Windows app registration and real user-session acceptance remain open.",
+    "Blockers": [
+      "Native Store registration and desktop-session acceptance remain VM-bound.",
+      "Host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
