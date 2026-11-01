@@ -47,9 +47,9 @@
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
 
 .PARAMETER AllowCandidate
-  Opt into pending operations on declared candidate targets for apply, install,
-  set, unset, remove and restore, including WhatIf. Does not promote support or
-  bypass target, build, privilege, offline acceptance or handler checks.
+  Opt into actual changes or restoration on declared candidate targets. Read-only
+  WhatIf previews need no opt-in and still report pending acceptance. Does not
+  promote support or bypass target, build, privilege, offline acceptance or handler checks.
 
 .PARAMETER StateScope
   State store for prune-state: User, Machine, or Both. Machine records require elevation.
@@ -139,8 +139,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.15.0
-  Changelog: 0.15.0: Add explicit candidate opt-in for changes, preview and restore.
+  Version: 0.15.1
+  Changelog: 0.15.1: Allow read-only candidate previews without acceptance opt-in.
+    0.15.0: Add explicit candidate opt-in for changes and restore.
     0.14.0: Complete optional hibernation file modes and percentage states from the catalog.
     0.13.2: Add explicit previewable cleanup for old completed run recovery records.
     0.13.1: Document the gated catalog BitLocker workflow entry point.
@@ -445,7 +446,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.15.0'
+$script:ScriptVersion = '0.15.1'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -496,9 +497,9 @@ Options:
                       RunId completion is available in the actual user's session.
   -Destination <path>  Retain a downloaded artifact under this directory.
   -WhatIf              Preview apply, download, install, set, unset, remove, restore or prune-state.
-  -AllowCandidate      Opt into pending declared candidate targets for apply/install/set/unset/
-                       remove/restore, including -WhatIf. Other checks remain in force.
-                       Supply again for restore; no catalog support or acceptance is changed.
+  -AllowCandidate      Opt into pending declared candidate targets for actual apply/install/
+                       set/unset/remove/restore. Read-only -WhatIf previews need no opt-in.
+                       Other target, build and privilege checks remain in force.
   -Confirm             Ask before each supported change.
   -Help                Display this help.
   -Variant <name>      Select a declared package edition; Tab completes its variants.
@@ -592,7 +593,7 @@ Examples:
 $ErrorActionPreference = 'Stop'
 $candidateParameters = @{}
 if ($PSBoundParameters.ContainsKey('AllowCandidate')) {
-  if ($Command -notin @('apply','install','set','unset','remove','restore')) { throw '-AllowCandidate is supported by apply, install, set, unset, remove and restore, including -WhatIf.' }
+  if ($Command -notin @('apply','install','set','unset','remove','restore')) { throw '-AllowCandidate is supported by apply, install, set, unset, remove and restore; read-only -WhatIf previews do not require it.' }
   $candidateParameters.AllowCandidate = [bool]$AllowCandidate
 }
 $offlineParameters = @{}

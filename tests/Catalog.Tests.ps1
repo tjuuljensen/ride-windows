@@ -835,10 +835,12 @@ Describe 'RIDE profile planning' {
     { Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Invalid } | Should -Throw
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows 11' }
-      Mock Get-RideUserProxyCurrentState { throw 'The unsupported candidate must not query WinINet during apply preflight.' }
+      Mock Get-RideUserProxyCurrentState { [pscustomobject]@{ Available = $false; Reason = 'fixture unavailable'; Observation = $null; Identity = $null } }
       $plan=@(Get-RideSingleOperationPlan -Id 'windows.proxy-auto-detect' -Action Set -State Disabled)
-      { Invoke-RidePlan -Plan $plan -WhatIf } | Should -Throw '*does not support Windows 11*'
-      Should -Invoke Get-RideUserProxyCurrentState -Exactly 0
+      { Invoke-RidePlan -Plan $plan -WhatIf } | Should -Throw '*unavailable on this device*'
+      Should -Invoke Get-RideUserProxyCurrentState -Exactly 1
+      { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*does not support Windows 11*'
+      Should -Invoke Get-RideUserProxyCurrentState -Exactly 1
     }
   }
 
@@ -859,10 +861,12 @@ Describe 'RIDE profile planning' {
     { Get-RideSingleOperationPlan -Id $operation.Id -Action Set -State Custom } | Should -Throw
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows 11' }
-      Mock Get-RideWinHttpProxyObservation { throw 'Unsupported candidates must fail before native WinHTTP inspection.' }
+      Mock Get-RideWinHttpProxyObservation { throw 'fixture unavailable' }
       $plan = @(Get-RideSingleOperationPlan -Id 'windows.winhttp-automatic-proxy-detection' -Action Set -State Disabled)
-      { Invoke-RidePlan -Plan $plan -WhatIf } | Should -Throw '*does not support Windows 11*'
-      Should -Invoke Get-RideWinHttpProxyObservation -Exactly 0
+      { Invoke-RidePlan -Plan $plan -WhatIf } | Should -Throw '*unavailable on this device*'
+      Should -Invoke Get-RideWinHttpProxyObservation -Exactly 1
+      { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*does not support Windows 11*'
+      Should -Invoke Get-RideWinHttpProxyObservation -Exactly 1
     }
   }
 

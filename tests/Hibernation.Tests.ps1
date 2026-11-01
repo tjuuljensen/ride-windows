@@ -233,7 +233,7 @@ Describe 'Hibernation catalog and engine integration' {
       Mock Set-RideHibernationState {}
       Mock Initialize-RideStateRoot { throw 'must not create state' }
       $plan = @(Get-RideSingleOperationPlan -Id windows.hibernation -Action Set -State Reduced)
-      { Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
+      { Invoke-RidePlan -Plan $plan -Confirm:$false } | Should -Throw '*does not support*'
       Should -Invoke Get-RideCurrentState -Times 0
       Should -Invoke Set-RideHibernationState -Times 0
       Should -Invoke Initialize-RideStateRoot -Times 0
@@ -278,8 +278,9 @@ Describe 'Hibernation catalog and engine integration' {
       Mock Get-ItemProperty { @{ CurrentBuildNumber = '26100' } }
       { Restore-RideRun -RunId $runId -AllowCandidate -WhatIf } | Should -Throw '*requires Windows build 99999*'
       $script:HiberEngineOperation.Remove('MinimumBuild')
-      { Restore-RideRun -RunId $runId -WhatIf -Confirm:$false } | Should -Throw '*acceptance is pending*AllowCandidate*'
-      Restore-RideRun -RunId $runId -AllowCandidate -WhatIf -Confirm:$false | Out-Null
+      $restoreWarnings = @()
+      Restore-RideRun -RunId $runId -WhatIf -Confirm:$false -WarningVariable restoreWarnings | Out-Null
+      ($restoreWarnings -join ' ') | Should -Match 'acceptance remains pending'
       Should -Invoke Restore-RideHibernationState -Times 0 -ParameterFilter { -not $ValidateOnly }
       Restore-RideRun -RunId $runId -AllowCandidate -Confirm:$false | Out-Null
       Should -Invoke Restore-RideHibernationState -Times 1 -Exactly -ParameterFilter { -not $ValidateOnly }

@@ -25,17 +25,25 @@ Describe 'Explicit candidate execution' {
     }
   }
 
-  It 'explains pending acceptance and requires explicit opt-in for preview as well as apply' {
+  It 'previews a declared candidate without opt-in and still requires opt-in for a real change' {
     InModuleScope RIDE.Engine {
-      { Invoke-RidePlan $script:CandidatePlan -WhatIf } | Should -Throw '*acceptance is pending*AllowCandidate*'
+      $warnings = @()
+      Invoke-RidePlan $script:CandidatePlan -WhatIf -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 1
+      Should -Invoke Set-RideHibernationState -Times 0
+      Should -Invoke Initialize-RideStateRoot -Times 0
       { Invoke-RidePlan $script:CandidatePlan -AllowCandidate:$false -Confirm:$false } | Should -Throw '*acceptance is pending*'
-      Should -Invoke Get-RideCurrentState -Times 0
+      Should -Invoke Get-RideCurrentState -Times 1
+      Should -Invoke Set-RideHibernationState -Times 0
       Should -Invoke Initialize-RideStateRoot -Times 0
     }
   }
   It 'previews a declared candidate without native changes or state creation' {
     InModuleScope RIDE.Engine {
-      Invoke-RidePlan $script:CandidatePlan -AllowCandidate -WhatIf | Out-Null
+      $warnings = @()
+      Invoke-RidePlan $script:CandidatePlan -AllowCandidate -WhatIf -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
       Should -Invoke Get-RideCurrentState -Times 1
       Should -Invoke Set-RideHibernationState -Times 0
       Should -Invoke Initialize-RideStateRoot -Times 0
@@ -71,6 +79,30 @@ Describe 'Explicit candidate execution' {
       $script:CandidateOp.SupportedTargets = @('Windows 11')
       $script:CandidateOp.PendingAcceptance = $false
       { Assert-RidePlanAllowed $script:CandidatePlan } | Should -Not -Throw
+    }
+  }
+  It 'permits an already installed package no-op outside its declared target without widening support' {
+    InModuleScope RIDE.Engine {
+      $package = (Get-RideOperation -Id 'package.7zip').Clone()
+      $package.SupportedTargets = @()
+      $package.PendingAcceptance = $false
+      Mock Get-RideInstalledPackage { [pscustomobject]@{ Present = $true } }
+      $plan = @([pscustomobject]@{ Operation = $package; State = 'Present' })
+      { Assert-RidePlanAllowed -Plan $plan } | Should -Not -Throw
+      Should -Invoke Get-RideInstalledPackage -Times 1
+      $package.SupportedTargets.Count | Should -Be 0
+      $package.PendingAcceptance | Should -BeFalse
+    }
+  }
+  It 'does not permit an uninstalled package on an undeclared target' {
+    InModuleScope RIDE.Engine {
+      $package = (Get-RideOperation -Id 'package.7zip').Clone()
+      $package.SupportedTargets = @()
+      $package.PendingAcceptance = $false
+      Mock Get-RideInstalledPackage { [pscustomobject]@{ Present = $false } }
+      $plan = @([pscustomobject]@{ Operation = $package; State = 'Present' })
+      { Assert-RidePlanAllowed -Plan $plan } | Should -Throw '*does not support Windows 11*'
+      Should -Invoke Get-RideInstalledPackage -Times 1
     }
   }
   It 'still enforces machine elevation for actual changes' {

@@ -60,6 +60,7 @@
     - 0.17.1: Use the registry reader's key-existence capture in saved scalar snapshots.
     - 0.17.0: Display separate read-only policy conflicts and enforce declared minimum builds.
     - 0.16.0: Integrate pending local/effective firewall profiles and coordinated enable-all recovery.
+    - 0.15.1: Permit read-only previews on declared pending candidate targets without opt-in.
     - 0.15.0: Match/display service delay and capture versioned SCM/literal recovery state.
     - 0.14.0: Integrate reversible per-runtime PowerShell profile settings.
     - 0.13.1: Reload the library resolver when importing the engine.
@@ -1286,11 +1287,15 @@ function Set-RideRunOperationProgress {
 }
 
 function Assert-RideOperationTarget {
-  param([hashtable] $Operation, [string] $Target, [switch] $AllowCandidate)
+  param([hashtable] $Operation, [string] $Target, [switch] $AllowCandidate, [switch] $Preview)
   if ($Target -in $Operation.SupportedTargets) { return }
   if ($Operation.PendingAcceptance -and $Target -in $Operation.CandidateTargets) {
+    if ($Preview) {
+      Write-Warning "'$($Operation.Id)' is previewed on declared candidate target $Target; acceptance remains pending. No support or activation is established."
+      return
+    }
     if ($AllowCandidate) { return }
-    throw "'$($Operation.Id)' does not support $Target yet: acceptance is pending. Use -AllowCandidate for explicit candidate execution, preview or restore on this declared target. This does not establish support."
+    throw "'$($Operation.Id)' does not support $Target yet: acceptance is pending. Use -AllowCandidate for actual candidate execution or restore on this declared target. This does not establish support."
   }
   $supported = if (@($Operation.SupportedTargets).Count) { $Operation.SupportedTargets -join ', ' } else { '<none>' }
   $candidates = if (@($Operation.CandidateTargets).Count) { $Operation.CandidateTargets -join ', ' } else { '<none>' }
@@ -1298,7 +1303,7 @@ function Assert-RideOperationTarget {
 }
 
 function Assert-RidePlanAllowed {
-  param([object[]] $Plan, [switch] $AllowCandidate)
+  param([object[]] $Plan, [switch] $AllowCandidate, [switch] $Preview)
   $target = Get-RidePlatform
   foreach ($item in $Plan) {
     if ($item.Operation.RequiresDesktopExperience -and $target -like 'Windows Server*') {
@@ -1307,7 +1312,7 @@ function Assert-RidePlanAllowed {
     }
     if ($target -notin $item.Operation.SupportedTargets) {
       $alreadyInstalled = $item.Operation.Kind -eq 'Package' -and $item.State -eq 'Present' -and (Get-RideInstalledPackage -Operation $item.Operation).Present
-      if (-not $alreadyInstalled) { Assert-RideOperationTarget -Operation $item.Operation -Target $target -AllowCandidate:$AllowCandidate }
+      if (-not $alreadyInstalled) { Assert-RideOperationTarget -Operation $item.Operation -Target $target -AllowCandidate:$AllowCandidate -Preview:$Preview }
     }
     if ($item.Operation.MinimumBuild) {
       $build = [int](Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name CurrentBuildNumber -ErrorAction Stop).CurrentBuildNumber
@@ -1635,7 +1640,8 @@ function Invoke-RidePlan {
     Ordered operation/state objects returned by Get-RidePlan or Get-RideSingleOperationPlan.
 
   .PARAMETER AllowCandidate
-    Opt into pending operations on their declared CandidateTargets, including preview.
+    Opt into actual changes for pending operations on their declared CandidateTargets.
+    Read-only WhatIf previews need no opt-in and warn that acceptance remains pending.
     Target, build, privilege, offline acceptance and handler checks still apply.
 
   .PARAMETER GitHubAuthentication
@@ -1690,7 +1696,7 @@ function Invoke-RidePlan {
     if ($GitHubAuthentication -ne 'Anonymous' -or $GitHubCredentialReference) { throw 'Offline execution does not accept network authentication.' }
     $offlineContext = Get-RideOfflinePlanContext -Plan $Plan -ManifestPath $OfflineBundle -ProfileId $OfflineProfileId -CatalogFileId $OfflineCatalogFileId
   }
-  Assert-RidePlanAllowed -Plan $Plan -AllowCandidate:$AllowCandidate
+  Assert-RidePlanAllowed -Plan $Plan -AllowCandidate:$AllowCandidate -Preview:$WhatIfPreference
   $runId = [guid]::NewGuid().ToString('N')
   $savedOperationIds = New-Object System.Collections.Generic.List[string]
   $completedOperationIds = New-Object System.Collections.Generic.List[string]
@@ -2501,8 +2507,9 @@ function Restore-RideRun {
     32 hexadecimal characters identifying a saved run; machine-scoped records require elevation.
 
   .PARAMETER AllowCandidate
-    Explicitly permit recovery on declared pending candidate targets. Supply again
-    for restore, including preview; approval is not inherited from the saved run.
+    Explicitly permit recovery on declared pending candidate targets. Read-only
+    restore previews need no opt-in and report that acceptance remains pending.
+    Actual recovery requires a fresh opt-in; approval is not inherited from the run.
 
   .PARAMETER GitHubAuthentication
     Anonymous (default) or explicit PAT for GitHub release discovery only.
@@ -2588,7 +2595,7 @@ function Restore-RideRun {
       if (-not $currentPath.Available) { throw "User PATH is unavailable for recovery: $($currentPath.Reason)" }
       $null = Restore-RideUserBinPathPatch -Observation $currentPath.Observation -Snapshot $record.Snapshot.UserPathSnapshot
     }
-    Assert-RideOperationTarget -Operation $operation -Target $target -AllowCandidate:$AllowCandidate
+    Assert-RideOperationTarget -Operation $operation -Target $target -AllowCandidate:$AllowCandidate -Preview:$WhatIfPreference
     if ($operation.MinimumBuild) {
       $build = [int](Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name CurrentBuildNumber -ErrorAction Stop).CurrentBuildNumber
       if ($build -lt $operation.MinimumBuild) { throw "Cannot restore '$($operation.Id)': requires Windows build $($operation.MinimumBuild) or later; detected $build." }

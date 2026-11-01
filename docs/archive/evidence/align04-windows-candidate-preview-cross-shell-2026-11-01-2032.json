@@ -1,0 +1,76 @@
+{
+  "title": "ALIGN-04 Windows candidate preview and target-boundary regression",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T20:32:00Z",
+  "scope": "Windows-side ALIGN-04 implementation and focused source regression. No VM acceptance or Fedora changes.",
+  "environments": [
+    {
+      "shell": "Windows PowerShell",
+      "version": "5.1",
+      "pesterVersion": "5.7.1",
+      "tests": [
+        "tests/CandidateExecution.Tests.ps1",
+        "tests/Hibernation.Tests.ps1",
+        "tests/Catalog.Tests.ps1"
+      ],
+      "passed": 129,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 1
+    },
+    {
+      "shell": "PowerShell",
+      "version": "7.6.5",
+      "pesterVersion": "5.7.1",
+      "tests": [
+        "tests/CandidateExecution.Tests.ps1",
+        "tests/Hibernation.Tests.ps1",
+        "tests/Catalog.Tests.ps1"
+      ],
+      "passed": 129,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 1
+    }
+  ],
+  "filtering": {
+    "excludedTag": "WindowsIntegration",
+    "reason": "The existing HKCU registry lifecycle test is blocked by sandbox registry access; no registry state was changed."
+  },
+  "resolved": [
+    "Declared candidate targets can be previewed without -AllowCandidate; preview warns that acceptance remains pending and creates no run or state.",
+    "Actual candidate changes and restore still require explicit per-invocation opt-in and retain target/build/privilege checks.",
+    "Already-installed package desired-state no-ops retain the existing target exception; an uninstalled package on the same undeclared target is rejected.",
+    "Hibernation operation documentation and generated operations reference now describe the preview/acceptance boundary."
+  ],
+  "testBoundaries": {
+    "systemHandlers": "mocked",
+    "packagePresence": "mocked",
+    "catalogDownloadPreview": "ShouldProcess preview; acquisition boundary mocked",
+    "windowsStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderAccessed": false,
+    "defenderBlockedToolsIncluded": false
+  },
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "No legacy feature or product outcome closes in this alignment batch.",
+    "Fedora download eligibility and iBus restore-preview differences remain open under ALIGN-04."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome was closed; estimates are unchanged."
+  },
+  "blockers": [
+    "RIDE-Win11-Test acceptance remains blocked before VM state retrieval by host CIM access.",
+    "Defender-blocked tools remain excluded.",
+    "One WindowsIntegration test is unrun because sandbox access to HKCU is denied."
+  ]
+}
