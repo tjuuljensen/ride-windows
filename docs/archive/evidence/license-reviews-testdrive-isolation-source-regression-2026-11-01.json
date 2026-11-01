@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "Suite": "tests/LicenseReviews.Tests.ps1",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "Result": {
+    "Passed": 24,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "Change": "Isolated each license-review test case under Pester TestDrive instead of the repository .local directory, avoiding cross-run replacement failures and retained user fixtures.",
+  "Boundary": {
+    "LicenseStore": "Synthetic TestDrive files only",
+    "RegistryOrWindowsStateChanged": false,
+    "InstallerOrNetworkUsed": false,
+    "RetainedPackageOrDefenderFileAccessed": false,
+    "VmAcceptanceRun": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The local review-store test fixture repair closes no legacy feature or product outcome.",
+    "Blockers": [
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert; the PasswordScan file was not accessed."
+    ]
+  }
+}

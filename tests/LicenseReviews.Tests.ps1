@@ -15,13 +15,13 @@
 BeforeAll {
   $script:RepositoryRoot = Split-Path -Parent $PSScriptRoot
   $script:ReviewTool = Join-Path (Split-Path -Parent $PSScriptRoot) 'tools/Manage-RideLicenseReviews.ps1'
-  $script:ReviewTempRoot = Join-Path $script:RepositoryRoot '.local/pester-license-review'
   Import-Module (Join-Path $script:RepositoryRoot 'modules/RIDE.Engine.psm1') -Force
   $script:ReviewCatalog = Get-RideCatalog
 }
 
 Describe 'Local user/company license reviews' {
   BeforeEach {
+    $script:ReviewTempRoot = Join-Path $TestDrive 'license-review'
     $script:reviewTestRoot = Join-Path $script:ReviewTempRoot ([guid]::NewGuid().ToString('N'))
     $script:store = Join-Path $script:reviewTestRoot 'reviews.json'
   }
