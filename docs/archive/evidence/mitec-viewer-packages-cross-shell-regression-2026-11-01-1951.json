@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:51:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/MitecViewerPackages.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 16,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 15.44
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 16,
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 37.62
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "FixtureSource": "Synthetic inert ZIPs; RIDE_MITEC_FIXTURE_DIRECTORY unset",
+  "SafetyBoundary": {
+    "PublisherArchiveRead": false,
+    "NetworkAccess": false,
+    "ViewerLaunched": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Synthetic portable ownership and recovery fixtures do not establish publisher archive activation, target acceptance, or native install behavior.",
+    "Blockers": [
+      "MiTeC JSON/XML viewers remain pending Windows package candidates.",
+      "Host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
