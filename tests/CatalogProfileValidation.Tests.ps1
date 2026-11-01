@@ -36,6 +36,19 @@ BeforeAll {
 }
 
 Describe 'version-1 profile parameter validation' {
+  It 'keeps pending or unsupported operations out of expanded Windows 11 release profiles' {
+    Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.Engine.psm1') -Force
+    foreach ($file in Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../profiles') -Filter '*.psd1') {
+      $profile = Get-RideProfile -Path $file.FullName
+      $plan = @(Get-RidePlan -Profile $profile)
+      $plan.Count | Should -BeGreaterThan 0
+      foreach ($item in $plan) {
+        $item.Operation.PendingAcceptance | Should -Not -BeTrue -Because "$($file.Name) selects $($item.Operation.Id)"
+        $item.Operation.SupportedTargets | Should -Contain 'Windows 11' -Because "$($file.Name) selects $($item.Operation.Id)"
+      }
+    }
+  }
+
   It 'accepts a profile with the declared root and selection fields' {
     @(Get-ProfileFixtureErrors $ValidProfile | Where-Object { $_ -like '*validation-profile.psd1*' }).Count | Should -Be 0
   }

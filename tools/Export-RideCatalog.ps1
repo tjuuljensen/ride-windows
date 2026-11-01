@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.16.0
+  Version: 0.17.0
   Changelog:
+    0.17.0: Render optional coordinated hibernation-file choices and recovery limits.
     0.16.0: Render exact reviewed portable ZIP member selections.
     0.15.2: Distinguish user-bin startup PATH from color-only metadata.
     0.15.1: Keep Store app registrations outside reversible setting presentation.
@@ -84,7 +85,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.16.0'
+$script:ScriptVersion = '0.17.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -192,8 +193,9 @@ $lines.Add('These settings use Windows management cmdlets, powercfg or NetBIOS/s
 $lines.Add('')
 $lines.Add('| Operation | Managed target | States |')
 $lines.Add('| --- | --- | --- |')
-foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') } | Sort-Object { $_.Id })) {
+foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation') } | Sort-Object { $_.Id })) {
   $target = switch ($operation.Kind) {
+    Hibernation { 'Machine hibernation file; sizing is percent of RAM; conditional configuration recovery' }
     LocalPasswordMaximumAge { 'Local SAM maximum age in seconds; domain controllers refused' }
     FirewallProfile { 'PersistentStore Enabled: ' + ($operation.FirewallProfiles -join ', ') }
     OwnedPowerPlan { 'Owned inactive copy of source ' + $operation.SourcePowerPlanGuid }
@@ -205,7 +207,7 @@ foreach ($operation in ($catalog.Operations | Where-Object { $_.Kind -in @('Sche
     SoundScheme { 'Current-user AppEvents selector and existing event mappings' }
     default { $operation.Preference }
   }
-  $states = if ($operation.Kind -eq 'LocalPasswordMaximumAge') { 'NoExpiry=Never expires; Days{0}..Days{1}=explicit days' -f $operation.StateRange.Minimum, $operation.StateRange.Maximum } else { @($operation.States.Keys | Sort-Object | ForEach-Object { '{0}={1}' -f $_, $operation.States[$_] }) -join '; ' }
+  $states = if ($operation.Kind -eq 'Hibernation') { 'Off; Full (no explicit resize); Reduced (OS-managed, Fast Startup only); Size50..Size100 (full, percent of RAM)' } elseif ($operation.Kind -eq 'LocalPasswordMaximumAge') { 'NoExpiry=Never expires; Days{0}..Days{1}=explicit days' -f $operation.StateRange.Minimum, $operation.StateRange.Maximum } else { @($operation.States.Keys | Sort-Object | ForEach-Object { '{0}={1}' -f $_, $operation.States[$_] }) -join '; ' }
   $lines.Add("| $($operation.Id) | $target | $states |")
 }
 $lines.Add('')

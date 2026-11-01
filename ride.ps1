@@ -41,9 +41,15 @@
   Default and unset remove only the managed profile block; restore uses captured prior content.
   Owned power-plan candidates offer Create only; creation never selects a plan.
   Local password-age candidates offer NoExpiry and Days1 through Days999.
+  Hibernation candidates offer Off, Full, Reduced and Size50 through Size100 (percent of RAM).
 
 .PARAMETER RunId
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
+
+.PARAMETER AllowCandidate
+  Opt into pending operations on declared candidate targets for apply, install,
+  set, unset, remove and restore, including WhatIf. Does not promote support or
+  bypass target, build, privilege, offline acceptance or handler checks.
 
 .PARAMETER StateScope
   State store for prune-state: User, Machine, or Both. Machine records require elevation.
@@ -133,8 +139,10 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.13.2
-  Changelog: 0.13.2: Add explicit previewable cleanup for old completed run recovery records.
+  Version: 0.15.0
+  Changelog: 0.15.0: Add explicit candidate opt-in for changes, preview and restore.
+    0.14.0: Complete optional hibernation file modes and percentage states from the catalog.
+    0.13.2: Add explicit previewable cleanup for old completed run recovery records.
     0.13.1: Document the gated catalog BitLocker workflow entry point.
   Changelog:
     0.13.0: Enforce explicit offline portable bundle gates before install/apply.
@@ -348,7 +356,7 @@ param(
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root (Split-Path -Parent (Split-Path -Parent $catalogPath)) -Library $fakeBoundParameters.Library).Catalog
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-    if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'WindowsService', 'WindowsCapability', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge')) {
+    if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'WindowsService', 'WindowsCapability', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation')) {
         $states = @($operation.States.Keys)
         if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder', 'ProfileSetting') -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }
@@ -396,6 +404,7 @@ param(
     }
   })]
   [string] $RunId = '',
+  [switch] $AllowCandidate,
   [ValidateSet('User', 'Machine', 'Both')][string] $StateScope = 'User',
   [ValidateRange(30, 36500)][int] $OlderThanDays = 365,
   [ValidateSet('Current','Desktop')][string] $UserContext = 'Current',
@@ -436,7 +445,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.13.2'
+$script:ScriptVersion = '0.15.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -487,6 +496,9 @@ Options:
                       RunId completion is available in the actual user's session.
   -Destination <path>  Retain a downloaded artifact under this directory.
   -WhatIf              Preview apply, download, install, set, unset, remove, restore or prune-state.
+  -AllowCandidate      Opt into pending declared candidate targets for apply/install/set/unset/
+                       remove/restore, including -WhatIf. Other checks remain in force.
+                       Supply again for restore; no catalog support or acceptance is changed.
   -Confirm             Ask before each supported change.
   -Help                Display this help.
   -Variant <name>      Select a declared package edition; Tab completes its variants.
@@ -537,10 +549,10 @@ In an interactive PowerShell session, press Tab after a command or value to
 complete commands, operation and group IDs, profiles, and saved run IDs.
 Put -Library before the value being completed to include its external metadata.
 Search also completes field names, views/categories, and catalog ID suggestions.
-Owned power-plan candidates complete Create; normal apply remains blocked until
+Owned power-plan candidates complete Create; use -AllowCandidate while awaiting
 target acceptance. Creation and existing-plan selection are separate operations.
 Local maximum password age completes NoExpiry and Days1..Days999 from catalog
-range metadata; candidates remain blocked pending target acceptance.
+range metadata; use -AllowCandidate while awaiting target acceptance.
 Search treats backslashes, wildcard and regex punctuation literally. Quote phrases
 and paths; backslashes need no doubling. Missing/blank queries are errors; no
 matches returns an empty collection. Multiple -Field values use OR matching.
@@ -578,6 +590,11 @@ Examples:
 }
 
 $ErrorActionPreference = 'Stop'
+$candidateParameters = @{}
+if ($PSBoundParameters.ContainsKey('AllowCandidate')) {
+  if ($Command -notin @('apply','install','set','unset','remove','restore')) { throw '-AllowCandidate is supported by apply, install, set, unset, remove and restore, including -WhatIf.' }
+  $candidateParameters.AllowCandidate = [bool]$AllowCandidate
+}
 $offlineParameters = @{}
 if (@('OfflineBundle','OfflineProfileId','OfflineCatalogFileId' | Where-Object {$PSBoundParameters.ContainsKey($_)}).Count) {
   if ($Command -notin @('install','apply')) { throw 'Offline bundle options are supported by install and apply only.' }
@@ -631,7 +648,7 @@ if ($UserContext -eq 'Desktop') {
     $handoff.Profile=if($Profile){(Resolve-Path -LiteralPath $Profile -ErrorAction Stop).ProviderPath}else{Join-Path $PSScriptRoot 'profiles/default.psd1'}
   }
   Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.UserHandoff.psm1') -Force -ErrorAction Stop
-  Start-RideDesktopUserHandoff @handoff @shouldProcessParameters
+  Start-RideDesktopUserHandoff @handoff @shouldProcessParameters @candidateParameters
   return
 }
 if (-not $Profile) { $Profile = Join-Path $PSScriptRoot 'profiles/default.psd1' }
@@ -655,7 +672,7 @@ switch ($Command) {
     $loadedProfile = Get-RideProfile -Path $Profile
     $plan = @(Get-RidePlan -Profile $loadedProfile)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters @offlineParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters @offlineParameters @candidateParameters
   }
   'download' {
     if (-not $Id) { throw 'The download command requires a package or artifact ID.' }
@@ -669,7 +686,7 @@ switch ($Command) {
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The install command accepts one package ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Install -Variant $Variant)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters @offlineParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters @offlineParameters @candidateParameters
   }
   'set' {
     if (-not $Id) { throw 'The set command requires a setting ID.' }
@@ -677,14 +694,14 @@ switch ($Command) {
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The set command accepts one setting ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Set -State $State)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @candidateParameters
   }
   'unset' {
     if (-not $Id) { throw 'The unset command requires a setting ID.' }
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The unset command accepts one setting ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Unset)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @candidateParameters
   }
   'status' {
     $statusView = if ($Id) { $Id } else { 'all' }
@@ -700,7 +717,7 @@ switch ($Command) {
   }
   'restore' {
     if (-not $RunId) { throw 'The restore command requires -RunId.' }
-    Restore-RideRun -RunId $RunId @shouldProcessParameters @githubParameters
+    Restore-RideRun -RunId $RunId @shouldProcessParameters @githubParameters @candidateParameters
   }
   'prune-state' {
     $unsupported = @('Id', 'Profile', 'State', 'RunId', 'Variant', 'Destination', 'OfflineBundle', 'OfflineProfileId', 'OfflineCatalogFileId', 'GitHubAuthentication', 'GitHubCredentialReference') | Where-Object { $PSBoundParameters.ContainsKey($_) }
@@ -718,6 +735,6 @@ switch ($Command) {
     }
     if ($plan.Count -eq 0) { throw 'The selected profile contains no removable package operations.' }
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
-    Invoke-RidePlan -Plan $plan @shouldProcessParameters
+    Invoke-RidePlan -Plan $plan @shouldProcessParameters @candidateParameters
   }
 }

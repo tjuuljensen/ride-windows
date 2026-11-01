@@ -1,0 +1,106 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T15:09:03Z",
+  "ReviewDate": "2026-11-01",
+  "Outcome": "Hibernation candidate and explicit target opt-in source implementation passed focused regression",
+  "Implementation": {
+    "CandidateOptIn": "AllowCandidate gates pending-target preview, execution and saved-run recovery; no acceptance or SupportedTargets declaration is promoted.",
+    "Hibernation": "Optional Windows 11 candidate with read-only inspection, explicit states, conditional snapshot recovery and a bounded disposable acceptance runner.",
+    "Profile": "Hibernation remains out of bundled profiles; pending package/settings targets remain unchanged."
+  },
+  "TestRuns": [
+    {
+      "Suites": [
+        "tests/Hibernation.Tests.ps1",
+        "tests/HibernationAcceptance.Tests.ps1",
+        "tests/SettingsFixtureData.Tests.ps1",
+        "tests/CliShouldProcess.Tests.ps1"
+      ],
+      "NotRun": 0,
+      "Skipped": 0,
+      "Failed": 0,
+      "Passed": 102
+    },
+    {
+      "NotRun": 1,
+      "Passed": 145,
+      "Failed": 0,
+      "Skipped": 0,
+      "Suites": [
+        "tests/CandidateExecution.Tests.ps1",
+        "tests/UserHandoff.Tests.ps1",
+        "tests/Catalog.Tests.ps1",
+        "tests/CatalogProfileValidation.Tests.ps1"
+      ],
+      "ExcludedTags": [
+        "WindowsIntegration"
+      ]
+    },
+    {
+      "Suites": [
+        "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+        "tests/ProfileSettings.Tests.ps1",
+        "tests/F1Help.Tests.ps1"
+      ],
+      "NotRun": 0,
+      "Skipped": 0,
+      "Failed": 0,
+      "Passed": 49
+    }
+  ],
+  "Pester": "5.7.1",
+  "PowerShell": "Windows PowerShell 5.1",
+  "TotalPassed": 296,
+  "TotalFailed": 0,
+  "TotalSkipped": 0,
+  "ExcludedWindowsIntegration": 1,
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 452,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 326
+  },
+  "Safety": {
+    "WindowsStateChanged": false,
+    "PowercfgRun": false,
+    "RegistryChanged": false,
+    "VmRun": false,
+    "InstallerRun": false,
+    "NetworkUsed": false,
+    "DefenderStateAccessed": false,
+    "PasswordScanFileAccessed": false,
+    "ElevationPrompt": false
+  },
+  "Acceptance": {
+    "HibernationNativeLifecycle": "Deferred",
+    "PowerTransitions": "Deferred",
+    "ExactRecovery": "Deferred",
+    "CandidateTargetsPromoted": [],
+    "VmAccess": "Blocked at host CIM"
+  },
+  "LegacyOutcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Native hibernation lifecycle, power transitions and conditional recovery",
+      "Current disposable-VM acceptance while host CIM access is unavailable"
+    ],
+    "Partial": [
+      "Candidate execution framework and hibernation implementation are source-ready only; no legacy setting or feature outcome closes"
+    ]
+  },
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "The source changes add guarded candidate execution and a pending optional hibernation implementation, without native acceptance or legacy outcome closure."
+  },
+  "DefenderBlocker": "PasswordScan x86/x64 remains excluded from package staging and selection; no alert file was touched."
+}

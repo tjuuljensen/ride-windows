@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
-  Run the experimental current-user F1 Help lifecycle acceptance on a Lenovo T480.
+  Run current-user File Explorer F1 Help lifecycle acceptance on a Lenovo T480.
 .DESCRIPTION
-  Temporarily enables the pending Windows 11 candidate in the in-memory RIDE
-  catalog, then exercises Blocked, WindowsDefault, and exact saved-run restore.
-  The built-in catalog remains pending acceptance and is not changed. The user
-  must observe Explorer/Desktop and unrelated-application F1 behavior manually.
+  Uses the accepted Windows 11 catalog operation to exercise Blocked,
+  WindowsDefault and exact saved-run restore without bypassing target/build gates.
+  The user observes File Explorer and unrelated-application F1 behavior manually.
+  The recorded T480 test already covers this workflow; rerun only for a relevant change.
 .EXAMPLE
   .\tests\integration\Invoke-RideF1HelpAcceptance.ps1
 .INPUTS
@@ -19,8 +19,9 @@
   This test writes only the declared current-user TypeLib values and RIDE state
   records; every captured run is restored in reverse order, including on error.
   Do not run alongside another RIDE setting operation for the same user.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Initial test-only F1 candidate lifecycle runner.
+  Version: 0.2.0.
+  Changelog: 0.2.0: Use accepted catalog scope without an in-memory support bypass.
+    0.1.0: Initial test-only F1 candidate lifecycle runner.
 #>
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
 param(
@@ -86,7 +87,7 @@ try {
   }
   Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.Engine.psm1') -Force
   Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE-RegistryValueSet.psm1') -Force
-  if ((Get-RidePlatform) -ne 'Windows 11') { throw 'The experimental candidate is limited to a Windows 11 test target.' }
+  if ((Get-RidePlatform) -ne 'Windows 11') { throw 'F1 acceptance is limited to a Windows 11 test target.' }
   $computer = Get-CimInstance -ClassName Win32_ComputerSystem
   $manufacturer = [string]$computer.Manufacturer
   if ($manufacturer -notmatch 'Lenovo') {
@@ -102,21 +103,12 @@ try {
 
   $catalog = Get-RideCatalog
   $operation = @($catalog.Operations | Where-Object Id -EQ $operationId)
-  if ($operation.Count -ne 1 -or -not $operation[0].PendingAcceptance -or 'Windows 11' -notin @($operation[0].CandidateTargets)) {
-    throw 'The reviewed pending Windows 11 candidate is missing or has an unexpected target declaration.'
+  if ($operation.Count -ne 1 -or $operation[0].PendingAcceptance -or 'Windows 11' -notin @($operation[0].SupportedTargets)) {
+    throw 'The accepted Windows 11 operation is missing or has an unexpected target declaration.'
   }
 
-  # Enable this candidate for this process only. Do not change published support.
-  $operation[0].SupportedTargets = @('Windows 11')
-  $operation[0].PendingAcceptance = $false
-  $engineModule = Get-Module RIDE.Engine
-  & $engineModule {
-    param($CandidateCatalog)
-    $script:RideLibraryContext = @{ Catalog = $CandidateCatalog; Libraries = @(); ProfileFiles = @() }
-  } $catalog
-
   $target = "$operationId on this unelevated T480 user session"
-  if (-not $PSCmdlet.ShouldProcess($target, 'Temporarily apply F1 Help candidate, test both states, and restore captured registry state')) {
+  if (-not $PSCmdlet.ShouldProcess($target, 'Temporarily apply F1 Help, test both states, and restore captured registry state')) {
     return
   }
 
@@ -151,7 +143,7 @@ try {
 
   Restore-F1Run -RunId $defaultRunId
   if (-not (Test-RideDesiredState -Operation $effectiveOperation -State 'Blocked')) {
-    throw 'Restoring the WindowsDefault run did not return the candidate to Blocked state.'
+    throw 'Restoring the WindowsDefault run did not return the setting to Blocked state.'
   }
   Write-Output 'Exact restore of the WindowsDefault run returned the setting to Blocked.'
 
@@ -180,7 +172,7 @@ finally {
       '',
       ('- Collected: {0}' -f (Get-Date).ToString('yyyy-MM-dd HH:mm:ss K')),
       ('- RIDE operation: `{0}`' -f $operationId),
-      '- Test scope: experimental current-user TypeLib candidate; no Windows support claim.',
+      '- Test scope: current-user File Explorer TypeLib override on the catalog-supported Windows build; no global F1 suppression claim.',
       ('- Saved RIDE run IDs: {0}' -f ($runIds -join ', ')),
       ('- Exact original state restored: {0}' -f [bool]($initialStateJson -and $exactRestore)),
       ('- Restore errors: {0}' -f $(if ($restoreErrors.Count) { $restoreErrors -join '; ' } else { 'None reported' })),

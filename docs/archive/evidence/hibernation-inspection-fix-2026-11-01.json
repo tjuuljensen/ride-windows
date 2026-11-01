@@ -1,0 +1,107 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedOn": "2026-11-01",
+  "Topic": "Windows PowerShell 5.1 hibernation read-only inspection correction",
+  "Source": {
+    "BaseCommit": "d91c44bebdb5af20ee858bf32e8433a9d0e713d1",
+    "Files": [
+      {
+        "SHA256": "F82C20CC58666E2540CD0008A263C287B3FED049F0A01AF64D0FCA8E1BC31111",
+        "Path": "modules/RIDE-Hibernation.psm1"
+      },
+      {
+        "SHA256": "BDA8DE6E71081BA87AF62EC84F0DC54CBDF028D5B10728CE6E43F9753700E1F5",
+        "Path": "tests/Hibernation.Tests.ps1"
+      },
+      {
+        "SHA256": "4264A5B572F1912C507B1D9B704E0DD28A37B38A7877774808D5F675FAD16F96",
+        "Path": "docs/hibernation.md"
+      },
+      {
+        "SHA256": "64BFE23911CCDEF3EC213219669156CFA7690D7636495B0C8A46B6C44BD3CD62",
+        "Path": "docs/MIGRATION-PLAN.md"
+      },
+      {
+        "SHA256": "E7BB5D727447A4E205B2C2325E991907E1D801FE0B30D1780E3205191B8F7157",
+        "Path": "docs/migrations/settings-post-migration-review.md"
+      }
+    ],
+    "WorkingTreeChanges": true
+  },
+  "Reproduction": {
+    "DirectoryEnumeration": "Reported the existing file and length.",
+    "GetItemForce": "Incorrectly reported existing C:\\hiberfil.sys as missing.",
+    "WindowsPowerShell": "5.1.26100.9818",
+    "OriginalPowerShell7Reader": "Succeeded."
+  },
+  "Fix": "Use FileInfo.get_Length() without opening contents; explicit method invocation preserves missing/unreadable metadata errors.",
+  "Validation": {
+    "RepositoryValidation": {
+      "Passed": true,
+      "Profiles": 5,
+      "Groups": 8,
+      "Operations": 452,
+      "GeneratedOperationsCurrent": true,
+      "PowerShellFiles": 323
+    },
+    "MissingFileTest": "Synthetic nonexistent file must throw.",
+    "ExcludedTags": [
+      "WindowsIntegration"
+    ],
+    "Runs": [
+      {
+        "PowerShell": "5.1.26100.9818",
+        "Passed": 95,
+        "Failed": 0,
+        "Skipped": 0,
+        "Result": "Passed"
+      },
+      {
+        "PowerShell": "7.6.5",
+        "Passed": 95,
+        "Failed": 0,
+        "Skipped": 0,
+        "Result": "Passed"
+      }
+    ],
+    "Pester": "5.7.1",
+    "LockedFileTest": "Synthetic hidden/system file in TestDrive, held open with FileShare.None.",
+    "InitialRegressionFailure": "94/95 in both runtimes: ordinary .Length property access suppressed the missing-file exception. Explicit get_Length() corrected this; final 95/95.",
+    "TestRegistryEnabled": false,
+    "Tests": [
+      "Hibernation.Tests.ps1",
+      "HibernationAcceptance.Tests.ps1",
+      "SettingsFixtureData.Tests.ps1",
+      "CliShouldProcess.Tests.ps1"
+    ]
+  },
+  "LiveReadOnlyVerification": {
+    "FileBytes": 27366187008,
+    "Mode": "Full",
+    "Passed": true,
+    "Command": ".\\ride.ps1 show windows.hibernation",
+    "CanRestoreConfiguration": true,
+    "Runtime": "Windows PowerShell 5.1",
+    "HibernateAvailable": true,
+    "Limit": "Single-machine read-only observation, not default, restoration or lifecycle acceptance.",
+    "SizePercent": 0
+  },
+  "Activation": {
+    "PromotionReady": false,
+    "PowercfgInvoked": false,
+    "VmRun": false,
+    "PowerSettingsChanged": false,
+    "NormalApplyEnabled": false
+  },
+  "Remaining": "Run the prepared disposable Windows 11 configuration matrix on current source, followed by separate power-transition/defaults/native-fault review; Server and legacy menu/mirror remain deferred.",
+  "Estimates": {
+    "ExactTotal": "126-180",
+    "FilesAndAssets": "25-35",
+    "CompleteLegacyOutcomesClosed": 0,
+    "Settings": "37-57",
+    "RoundedTotal": "125-180",
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "Packages": "37-52"
+  }
+}

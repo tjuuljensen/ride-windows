@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.31.0.
-  Changelog: 0.31.0: Validate explicit EXE installer completion modes.
+  Owner: RIDE-Windows maintainers. Version: 0.32.0.
+  Changelog: 0.32.0: Validate coordinated hibernation choices and pending acceptance boundaries.
+    0.31.0: Validate explicit EXE installer completion modes.
     0.30.0: Validate explicit staged BitLocker OS-volume workflows.
     0.29.0: Validate repository-bound, hash-pinned portable notice files.
     0.28.0: Accept NuGet containers as ZIP-format portable package assets.
@@ -43,7 +44,7 @@
 
 $script:CatalogRepositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 
-$script:ModuleVersion = '0.31.0'
+$script:ModuleVersion = '0.32.0'
 
 
 function Get-RideCatalogValidationErrors {
@@ -150,7 +151,7 @@ function Get-RideCatalogValidationErrors {
       }
     }
     if ($operation.ContainsKey('MinimumBuild') -and ($operation.MinimumBuild -isnot [int] -or $operation.MinimumBuild -lt 1)) { Add-Error "MinimumBuild must be a positive integer: $($operation.Id)" }
-    $pendingCandidate = $operation.Kind -in @('Package', 'StoreApp', 'ProfileSetting', 'FirewallProfile', 'RemoteDesktopFirewall', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge', 'UserPath', 'UserProxy', 'WinHttpProxy', 'DesktopShortcut', 'BitLockerWorkflow', 'WindowsCapability') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
+    $pendingCandidate = $operation.Kind -in @('Package', 'StoreApp', 'ProfileSetting', 'FirewallProfile', 'RemoteDesktopFirewall', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge', 'Hibernation', 'UserPath', 'UserProxy', 'WinHttpProxy', 'DesktopShortcut', 'BitLockerWorkflow', 'WindowsCapability') -and $operation.PendingAcceptance -eq $true -and @($operation.SupportedTargets).Count -eq 0
     if ($operation.ContainsKey('PendingAcceptance') -and ($operation.PendingAcceptance -isnot [bool] -or ($operation.PendingAcceptance -and -not $pendingCandidate))) { Add-Error "Pending acceptance requires a supported candidate kind with no supported targets: $($operation.Id)" }
     if ($pendingCandidate -and (-not $operation.CandidateTargets -or @($operation.CandidateTargets | Where-Object { $_ -notin @('Windows 11', 'Windows Server 2025') }).Count)) { Add-Error "Pending operation requires explicit candidate targets: $($operation.Id)" }
     if (@($operation.SupportedTargets).Count -eq 0 -and -not $pendingCandidate) { Add-Error "No supported target declared for $($operation.Id)" }
@@ -682,6 +683,17 @@ function Get-RideCatalogValidationErrors {
       }
       if ('Get' -notin $operation.Actions -or 'Test' -notin $operation.Actions -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { Add-Error "Network profile lifecycle is incomplete: $($operation.Id)" }
     }
+    elseif ($operation.Kind -eq 'Hibernation') {
+      if ($operation.Handler -ne 'Hibernation' -or $operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.Rollback -ne 'Conditional') { Add-Error "Hibernation requires a machine/admin handler with conditional configuration recovery: $($operation.Id)" }
+      if ($operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState')) { Add-Error "Hibernation cannot invent a baseline or override-removal state: $($operation.Id)" }
+      if (-not $operation.PendingAcceptance -or @($operation.SupportedTargets).Count -ne 0 -or @($operation.CandidateTargets).Count -ne 1 -or $operation.CandidateTargets[0] -ne 'Windows 11') { Add-Error "Hibernation must remain a Windows 11 candidate pending acceptance: $($operation.Id)" }
+      if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 54 -or $operation.States.Off -cne 'Off' -or $operation.States.Full -cne 'Full' -or $operation.States.Reduced -cne 'Reduced') { Add-Error "Hibernation requires Off, Full, Reduced and Size50..Size100: $($operation.Id)" }
+      foreach ($percent in 50..100) {
+        if ($operation.States['Size'+$percent] -cne ('Full:'+$percent)) { Add-Error "Invalid hibernation full-file percentage: $($operation.Id) / Size$percent"; break }
+      }
+      if (@($operation.Actions).Count -ne 4 -or @(@('Get','Test','Set','Restore') | Where-Object { $_ -notin $operation.Actions }).Count) { Add-Error "Hibernation requires the captured settings lifecycle: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri,[UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Hibernation requires Microsoft HTTPS documentation: $($operation.Id)" }
+    }
     elseif ($operation.Kind -eq 'LocalPasswordMaximumAge') {
       if ($operation.Handler -ne $operation.Kind -or $operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true) { Add-Error "Local password age requires the machine/admin focused handler: $($operation.Id)" }
       $range = $operation.StateRange
@@ -1003,7 +1015,7 @@ function Get-RideCatalogValidationErrors {
       if ($operation -and $operation.Kind -eq 'WindowsCapability' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid Windows capability state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'WindowsCapability' -and $operation.PendingAcceptance) { Add-Error "$($profileFile.Name) cannot select pending Windows capability '$($selection.Id)' before target acceptance" }
       if ($operation -and $operation.Kind -eq 'WinHttpProxy' -and $operation.PendingAcceptance) { Add-Error "$($profileFile.Name) cannot select pending WinHTTP proxy operation '$($selection.Id)' before target acceptance" }
-      if ($operation -and $operation.Kind -in @('FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge') -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid focused setting state for '$($selection.Id)'" }
+      if ($operation -and $operation.Kind -in @('FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation') -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid focused setting state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'BackgroundAppOverrides' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid background app state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'BootConfiguration' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid boot configuration state for '$($selection.Id)'" }
       if ($operation -and $operation.Kind -eq 'NetworkProfile' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid network-profile state for '$($selection.Id)'" }

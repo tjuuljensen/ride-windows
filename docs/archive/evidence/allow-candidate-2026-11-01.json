@@ -1,0 +1,187 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedOn": "2026-11-01",
+  "Topic": "Explicit candidate opt-in for Windows CLI changes, preview and recovery",
+  "Source": {
+    "BaseCommit": "d91c44bebdb5af20ee858bf32e8433a9d0e713d1",
+    "WorkingTreeChanges": true,
+    "Files": [
+      {
+        "Path": "ride.ps1",
+        "SHA256": "FDD98D39394132CC31EA8245600CC8B6458B52E4F9FC550A8F288AA97FF7BD29"
+      },
+      {
+        "Path": "modules/RIDE.Engine.psm1",
+        "SHA256": "D2335DB79A06CE1AA6BC410112C09D028A28F061D93FC6E22435DF8A3AF1D130"
+      },
+      {
+        "Path": "modules/RIDE.UserHandoff.psm1",
+        "SHA256": "0532A0F456D5A2C2FB119326A9EFB6DA144EF5EA9FE5A160DEE82E41180BD7CA"
+      },
+      {
+        "Path": "modules/RIDE-Hibernation.psm1",
+        "SHA256": "F82C20CC58666E2540CD0008A263C287B3FED049F0A01AF64D0FCA8E1BC31111"
+      },
+      {
+        "Path": "catalog/operations.psd1",
+        "SHA256": "7CEE259DE86B7DA9E141F170692BD46966C836B4D4EA667A039B37C4F2C30CF5"
+      },
+      {
+        "Path": "tests/CandidateExecution.Tests.ps1",
+        "SHA256": "BAC4F9171735E657DDC757EA063472EC49332062D608AE9583B33A3063776991"
+      },
+      {
+        "Path": "tests/Hibernation.Tests.ps1",
+        "SHA256": "87E5772AF4274A5EC9DB5B199C6E30D910392E2884ECAA977FD11E3BFBD7B9A1"
+      },
+      {
+        "Path": "tests/CliShouldProcess.Tests.ps1",
+        "SHA256": "3CCDF70E1CF863F36B04A43007A5E75281650248B8E1F33A6CE29A0EEBBCB707"
+      },
+      {
+        "Path": "tests/UserHandoff.Tests.ps1",
+        "SHA256": "CB25BC1B40CC83ADA890CC691EE220EF1821547AAB525DEBBA2D962F543E4FBB"
+      },
+      {
+        "Path": "tests/HibernationAcceptance.Tests.ps1",
+        "SHA256": "FC158FBAFF8A5C7C418DA8545C8F6FBA0FCFB67B320F891387B93892968D882C"
+      },
+      {
+        "Path": "README.md",
+        "SHA256": "C2452A6DAA321E8DDCA754B50D2B295F85B9239A0E3E1DC349F7BDF4538F4B53"
+      },
+      {
+        "Path": "docs/hibernation.md",
+        "SHA256": "5BEC23B9222D8BBF5772513518083BBD8A4BC0CD9749ED031CC6EBA4A8A0146F"
+      },
+      {
+        "Path": "docs/intended-user-handoff.md",
+        "SHA256": "45A3AC63AA728D8BDCC6C92A2CBAE51578570C63B3EA722D7EB1BD188F6C2F96"
+      },
+      {
+        "Path": "docs/migrations/settings-post-migration-review.md",
+        "SHA256": "81F20A1311699F4330F668EF73787848F726DF1CB2605888675290F41337CA43"
+      }
+    ]
+  },
+  "Decisions": {
+    "Commands": [
+      "apply",
+      "install",
+      "set",
+      "unset",
+      "remove",
+      "restore"
+    ],
+    "Gate": "AllowCandidate permits only PendingAcceptance operations on declared CandidateTargets; supported targets keep existing behavior.",
+    "Preview": "Windows requires explicit opt-in for candidate WhatIf; Fedora permits candidate dry-runs without its flag.",
+    "Recovery": "Restore requires a fresh explicit opt-in; saved runs do not persist acceptance approval.",
+    "PreservedChecks": [
+      "Declared target",
+      "Minimum build (also enforced on restore)",
+      "Server Desktop Experience",
+      "Machine elevation",
+      "Required unelevated user",
+      "Dependencies",
+      "Ownership and handler checks",
+      "Independent offline acceptance"
+    ],
+    "Handoff": "Schema 2 carries a required Boolean AllowCandidate. Schema 1 remains accepted with opt-in false; identity and source checks remain.",
+    "Unchanged": [
+      "SupportedTargets",
+      "Bundled profile selection",
+      "Candidate acceptance status",
+      "Discovery and plan",
+      "Separate download acquisition workflow",
+      "Saved-run schemas",
+      "Existing installed-package no-op exception"
+    ]
+  },
+  "Validation": {
+    "PesterVersion": "5.7.1",
+    "ExcludedTags": [
+      "WindowsIntegration"
+    ],
+    "TestRegistryEnabled": false,
+    "FocusedPaths": [
+      "tests/CandidateExecution.Tests.ps1",
+      "tests/Hibernation.Tests.ps1",
+      "tests/CliShouldProcess.Tests.ps1",
+      "tests/UserHandoff.Tests.ps1",
+      "tests/F1Help.Tests.ps1",
+      "tests/PackageDependencyPlanning.Tests.ps1"
+    ],
+    "FocusedResults": [
+      {
+        "Runtime": "5.1.26100.9818",
+        "Passed": 123,
+        "Failed": 0,
+        "Skipped": 0,
+        "Result": "Passed"
+      },
+      {
+        "Runtime": "7.6.5",
+        "Passed": 123,
+        "Failed": 0,
+        "Skipped": 0,
+        "Result": "Passed"
+      }
+    ],
+    "FollowupPaths": [
+      "tests/UserHandoff.Tests.ps1",
+      "tests/HibernationAcceptance.Tests.ps1"
+    ],
+    "FollowupResults": [
+      {
+        "Runtime": "5.1.26100.9818",
+        "Passed": 37,
+        "Failed": 0,
+        "Result": "Passed"
+      },
+      {
+        "Runtime": "7.6.5",
+        "Passed": 37,
+        "Failed": 0,
+        "Result": "Passed"
+      }
+    ],
+    "RepositoryValidation": {
+      "Passed": true,
+      "Operations": 452,
+      "Groups": 8,
+      "Profiles": 5,
+      "PowerShellFiles": 325,
+      "GeneratedOperationsCurrent": true,
+      "Note": "Counts at validation time; unrelated concurrent source work may increase file count."
+    },
+    "FinalFocusedParser": "Passed after help and version metadata updates.",
+    "DiffCheck": "Passed",
+    "PublicReadOnlyPreview": {
+      "Runtime": "Windows PowerShell 5.1.26100.9818",
+      "Command": ".\\ride.ps1 set windows.hibernation Reduced -AllowCandidate -WhatIf",
+      "ExitCode": 0,
+      "ObservedMode": "Full",
+      "DesiredMode": "Reduced",
+      "ChangesApplied": false
+    }
+  },
+  "Limits": [
+    "No native hibernation mutation or powercfg execution",
+    "No disposable VM lifecycle or power-transition acceptance",
+    "Mocked handler success is not native Windows acceptance",
+    "No candidate promoted"
+  ],
+  "Migration": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "126-180",
+    "RoundedTotal": "125-180",
+    "ApproximateTotal": 155,
+    "LegacyOutcomesClosed": 0,
+    "Reason": "An explicit opt-in mechanism closes no legacy outcome."
+  },
+  "Next": "Use the documented disposable Windows 11 hibernation acceptance procedure on current source before declaring support."
+}

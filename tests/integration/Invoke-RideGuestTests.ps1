@@ -10,6 +10,8 @@
   ResultsPath is supplied.
   A request-bound settings-validation.fixture.psd1 can explicitly select one
   setting instead of a named settings batch; Full/application suites refuse it.
+  The HibernationMatrix fixture selects isolated hibernation tests and the
+  dedicated configuration-only acceptance route, without power transitions.
 
 .PARAMETER GuestPath
   Staged repository directory inside the disposable guest.
@@ -64,10 +66,12 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025 guests.
   Prerequisites: Elevated guest; Pester 5.7.1; the VM host runner.
   File/environment inputs: Staged checkout; RIDE_TEST_GUEST must be 1.
-  Recovery: The host controller restores the clean disposable-VM checkpoint.
+  Recovery: The host controller, or the attended operator using the manual VM
+  runner, must restore the clean disposable-VM checkpoint independently.
   Author: RIDE-Windows maintainers.
-  Version: 1.9.0
+  Version: 1.10.0
   Changelog:
+    1.10.0: Select focused unit and guest acceptance for the hibernation candidate.
     1.9.0: Dispatch the exact-package NTCore Explorer Suite ApplicationsBatch12 lifecycle acceptance.
     1.8.0: Dispatch focused HashCheck ApplicationsBatch11 lifecycle acceptance.
     1.7.0: Dispatch MiTeC Project Maker ApplicationsBatch10 lifecycle acceptance.
@@ -110,7 +114,7 @@ param(
   [ValidatePattern('^[0-9a-f]{32}$')][string] $ResultRunId,
   [switch] $Version
 )
-$script:ScriptVersion = '1.9.0'
+$script:ScriptVersion = '1.10.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1') { throw 'Use the disposable-VM host runner; this entry point must not run on a developer workstation.' }
@@ -187,6 +191,7 @@ try {
     $names = @('Catalog.Tests.ps1','SettingsFixtureData.Tests.ps1','CliShouldProcess.Tests.ps1')
     if($fixture.Scenario -in @('StoreAppPreflight','StoreDesktopProbe','StoreDesktopPlan')){$names += @('StoreAppReview.Tests.ps1','StoreApps.Tests.ps1','SettingPresentation.Tests.ps1')}elseif($fixture.Scenario -in @('StoreInventory','StoreReferenceInventory')){$names += 'StoreAppReview.Tests.ps1'}else{
     switch ($fixtureData.Operation.Kind) {
+      Hibernation { $names = @('Hibernation.Tests.ps1','HibernationAcceptance.Tests.ps1','SettingsFixtureData.Tests.ps1','CliShouldProcess.Tests.ps1') }
       WindowsService { $names += @('ServiceSettings.Tests.ps1','AudioService.Tests.ps1') }
       FirewallProfile { $names += 'FirewallProfiles.Tests.ps1' }
       LocalPasswordMaximumAge { $names += 'LocalPasswordAge.Tests.ps1' }

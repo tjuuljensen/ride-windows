@@ -1,3 +1,368 @@
+## Explicit candidate execution and recovery, 2026-11-01
+
+The user requested `-AllowCandidate` after comparing Fedora's `--allow-candidate`.
+The public Windows CLI now forwards it for apply, install, set, unset, remove and
+restore, including WhatIf and applicable desktop-user handoff. This supersedes
+the earlier fixture-only execution boundary; no candidate is promoted and no
+bundled profile or SupportedTargets declaration changes. Runtime application was
+not requested as part of implementation and no setting was applied.
+
+The shared target check permits an unsupported target only when PendingAcceptance
+is true, that target appears in CandidateTargets, and the invocation explicitly
+opts in. Other targets still fail. Existing accepted-target behavior and the
+already-installed package no-op exception remain. Minimum build, Server Desktop
+Experience, privilege, dependency, ownership and handler checks remain active;
+restore also verifies a declared minimum build. Offline bundle acceptance remains
+an independent gate. The pending error explains the opt-in instead of presenting
+an empty Supported list; unsupported-target errors show the declared candidates.
+
+Windows requires explicit opt-in for candidate mutation previews as well as actual
+changes. Fedora permits candidate dry-runs without its flag; this change preserves
+Windows' default preview refusal while adding an explicit path. Discovery and plan
+need no flag. Download remains the existing separate acquisition workflow and does
+not accept this switch. No other Fedora/Windows action differences are changed.
+
+Saved-run restoration requires a fresh opt-in; there is no persistent approval or
+catalog rewrite. Failure recovery hints include the switch when it was used.
+Desktop request schema 2 carries a required Boolean AllowCandidate; schema 1 is
+still accepted with opt-in false, retaining identity/source checks. Existing saved
+run schemas and recovery paths remain unchanged. Read the [operator examples](../../README.md)
+and [hibernation recovery guidance](../hibernation.md#capture-and-recovery).
+
+Resolved: explicit candidate execution/preview/recovery and misleading pending
+error. Partial: implementation and mocked validation only. Deferred: disposable
+hibernation lifecycle/power transitions, candidate-specific native acceptance,
+Server and legacy menu/mirror semantics. Retired/excluded legacy outcomes: none.
+All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180,
+rounded 125-180/about 155; an opt-in mechanism closes no legacy outcome.
+Next: preview the desired candidate using the new CLI, then follow the existing
+disposable acceptance procedure on current source before declaring support.
+
+Validation: 123 focused tests passed on each of Windows PowerShell 5.1 and
+PowerShell 7, followed by 37 handoff/acceptance-fixture checks on each runtime.
+Repository validation passed (452 operations, 8 groups, 5 profiles and 325
+PowerShell files at that validation point). A public Windows PowerShell 5.1
+hibernation preview with the switch succeeded without applying a change.
+See [candidate opt-in evidence](../archive/evidence/allow-candidate-2026-11-01.json).
+
+## Hibernation inspection correction, 2026-11-01
+
+The user reported that read-only `show windows.hibernation` failed in Windows
+PowerShell 5.1 with `Get-Item` claiming the active file did not exist. Reproduced
+the failure: directory enumeration and FileInfo metadata returned the existing
+file while `Get-Item -Force` failed; the original reader worked in PowerShell 7.
+This is an inspection compatibility defect, not the candidate target gate.
+The unrelated WinHttpProxyLifecycle unapproved-verb warning is not its cause.
+
+Handler version 0.1.1 reads length through `FileInfo.get_Length()` without opening
+file contents. Explicit getter invocation preserves exceptions for genuinely
+missing/unreadable metadata; ordinary PowerShell property access suppressed the
+missing-file exception during the first regression run. Added isolated TestDrive
+coverage for a hidden/system file held with FileShare.None and a missing file.
+The native power-capability query, sizing semantics and write gates are unchanged.
+The [FileInfo reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.fileinfo)
+documents metadata/Length; the PowerShell-version difference was observed locally.
+
+Read-only Windows PowerShell 5.1 `show` now succeeds with Mode Full, configured
+percentage 0, file length 27366187008 and S4 available. This is one-machine
+inspection evidence only, not a verified Windows default or lifecycle acceptance.
+No powercfg command, setting change, suspend/restart or VM run occurred. The prior
+preparation hashes remain historical; use current source for the future VM batch.
+
+Resolved: Windows PowerShell 5.1 file-inspection failure. Partial: native inspection
+only. Deferred: the existing disposable configuration matrix, power transitions,
+native fault cases, target defaults, other builds, Server and legacy menu/mirror
+scope. Retired/excluded outcomes: none. All five reviewed ranges remain 37-57 /
+37-52 / 19-24 / 25-35 / 8-12, exact 126-180, rounded 125-180/about 155: no complete
+legacy outcome closes. Next: rerun read-only show, then use the existing
+[disposable batch procedure](../hibernation.md#disposable-windows-11-acceptance)
+for lifecycle acceptance before target promotion. Validation is retained in
+[inspection correction evidence](../archive/evidence/hibernation-inspection-fix-2026-11-01.json).
+
+## Hibernation acceptance preparation, 2026-11-01
+
+The user requested preparation of disposable Windows 11 acceptance before normal
+apply can be enabled. Implemented the bounded schema-2 `HibernationMatrix` route
+for exactly `windows.hibernation`, `SettingsBatch60`, Windows 11 and the six ordered
+choices Off/Full/Reduced/Size50/Size75/Size100. The unbound template is rejected.
+The fixture substitutes this single operation for the broader suite. Source
+catalog `SupportedTargets` remains empty, `PendingAcceptance` true, with no new
+profile selection. This run authorized preparation only; no guest/controller
+dispatch, checkpoint change or native powercfg command occurred.
+
+The private guest engine exercises 18 cases from Off, Reduced and Size75. It
+checks preview without commands/new runs, desired state, repeat no-op, predecessor
+snapshot, restore preview and repeated recovery. A controlled interruption after
+successful native size reset leaves an observable partial change whose saved run
+must recover. Reports retain build/RAM/disk space, source hashes, raw capabilities,
+command outcomes, file observations and independent preferences. Failure unwinds
+saved runs in reverse order, records remaining IDs and preserves the private
+candidate copy. Host evidence export and checkpoint recovery remain independent
+requirements, documented in the [operator batch procedure](../hibernation.md#disposable-windows-11-acceptance).
+
+Recovery is ConditionalConfiguration, not exact file bytes/contents or dormant
+Off preferences. The report leaves ExactRecovery, PowerTransitionPassed and
+PromotionReady false even on a configuration pass. A VM without S4 can provide
+only the configuration/refusal evidence it actually supports. It cannot establish
+hibernate/resume. Native access-denial and disk-exhaustion behavior are not induced;
+local tests simulate unavailable state, low capacity, mutating preview and failed
+recovery without altering Windows. The native-command tracing wrapper is also
+tested with a substituted inert command boundary.
+
+The existing manual runner accepts the same bound RunId; registered queue/task
+submission would generate a different ID and is not used. The procedure requires
+exclusive VM access, a clean checkpoint before testing, exported evidence and an
+explicit reset afterward. It does not leave a bound fixture in the developer
+checkout. Guest execution remains Windows PowerShell 5.1 in a fresh process.
+
+Resolved: fixture routing, conditional lifecycle harness, template and actionable
+batch/recovery procedure. Partial: legacy file provisioning remains a source-ready
+candidate. Deferred: native execution, actual power transitions, native resource/
+access faults, managed precedence/defaults, other builds, Server and legacy
+menu/mirror semantics. Retired/excluded legacy outcomes: none. No full legacy
+outcome closes; all five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12,
+exact 126-180, rounded 125-180/about 155. Optional acceptance adds no v3.0 blocker.
+
+Next: execute the prepared procedure on a reserved disposable Windows 11 VM,
+review correlated reports and checkpoint recovery, then plan the remaining
+power-transition acceptance before any normal-catalog promotion. Static/mocked
+checks and limitations are retained in the [preparation evidence](../archive/evidence/hibernation-acceptance-preparation-2026-11-01.json).
+
+### Revalidation and continuation
+
+Archive handoff reviewed 2026-11-01. The retained preparation results are 93/93
+mocked tests passing separately on Windows PowerShell 5.1.26100.9818 and PowerShell
+7.6.5 with Pester 5.7.1. Repository validation passed for 452 operations, eight
+groups, five profiles and 321 PowerShell files. These are source checks; no native
+hibernation or VM acceptance has run. The handoff review changes documentation
+only, closes no legacy outcome and leaves all five estimate ranges unchanged.
+
+To reproduce the focused checks, start at the repository root in each Windows
+PowerShell runtime and run the following. This does not require the temporary
+local test launcher used during preparation. Keep the registry fixture disabled
+and exclude WindowsIntegration tests on the developer machine.
+
+```powershell
+$ErrorActionPreference = 'Stop'
+Import-Module Pester -RequiredVersion 5.7.1
+$configuration = New-PesterConfiguration
+$configuration.Run.Path = @(
+    './tests/Hibernation.Tests.ps1'
+    './tests/HibernationAcceptance.Tests.ps1'
+    './tests/SettingsFixtureData.Tests.ps1'
+    './tests/CliShouldProcess.Tests.ps1'
+)
+$configuration.Filter.ExcludeTag = @('WindowsIntegration')
+$configuration.TestRegistry.Enabled = $false
+$configuration.Run.PassThru = $true
+$result = Invoke-Pester -Configuration $configuration
+if ($result.Result -ne 'Passed' -or $result.TotalCount -lt 1) { throw 'Focused checks failed.' }
+.\tools\validate.ps1
+```
+
+Resume native work from the linked operator batch procedure, with a new request
+ID and staged source copy. Preserve the tested source and exported evidence;
+review configuration results and checkpoint recovery before considering the
+separate power-transition tests. Normal apply remains gated throughout this
+preparation, and neither a configuration pass nor archival of this record promotes
+the candidate. The earlier evidence hashes identify the preparation snapshot;
+this handoff adds no implementation change or new test result.
+
+## Hibernation file control candidate, 2026-11-01
+
+The user requested optional v3 hibernation provisioning, full/reduced file types
+and custom size percentages, then selected implementation as an optional
+candidate. Added `windows.hibernation` with a focused Hibernation handler. It
+remains Windows 11 candidate-only, with no supported targets or bundled-profile
+selection. No workstation or VM power setting was changed.
+
+### Source review and mapping
+
+Legacy `EnableHibernation` and `DisableHibernation` each combine powercfg provisioning
+with a `Session Manager\Power\HibernateEnabled` registry write and the Explorer
+`ShowHibernateOption` menu override. Neither selector had a v3 hibernation-file
+operation in this checkout. This candidate maps only the file provisioning
+outcome and adds the requested type/size controls. The menu preference and legacy
+registry mirror are explicitly deferred, without copying unverified writes.
+The legacy Server/Hyper-V warning is not promoted to a current support claim;
+Server requires its own evidence and remains outside CandidateTargets.
+
+Microsoft's [powercfg reference](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#hibernate-or-h)
+documents on/off, full/reduced, percentage sizing, automatic enabling through
+size, and the size-0 reset needed before reduced mode with custom sizing.
+The [system power-state reference](https://learn.microsoft.com/en-us/windows/win32/power/system-power-states#hibernation-file-types)
+distinguishes full hibernation/hybrid sleep/Fast Startup from reduced Fast Startup
+only. It lists 40%/20% defaults, while the command reference states a 50% minimum
+for custom sizing. Expose Size50..Size100 conservatively; do not turn either page
+into a universal clean-image default or silently accept arbitrary numeric inputs.
+The native observation uses GetPwrCapabilities and the
+[SYSTEM_POWER_CAPABILITIES contract](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-system_power_capabilities);
+type constants and modern field layout were cross-checked against Microsoft's
+[Windows SDK header](https://github.com/microsoft/win32metadata/blob/main/generation/WinSDK/RecompiledIdlHeaders/um/winnt.h).
+Registry size is read-only; file type is not guessed from translated powercfg text.
+
+One operation owns the coupled state: Off; Full without an explicit resize;
+Reduced with size reset; Size50..Size100, which explicitly request a full file.
+Independent operations cannot fight over enablement/type/size or take incomplete
+snapshots. Catalog state completion supplies named/positional choices. Existing
+state-store, elevation, target and ShouldProcess gates remain in force. No package,
+group, generic command handler or new CLI parameter is needed.
+
+Snapshot version 1 binds the prior active mode and observed size to the operation.
+Native exit codes and postconditions detect partial failures; the pre-command
+snapshot remains available. Restore is Conditional: it cannot restore file
+contents, hibernated sessions, physical byte allocation or dormant registry
+preferences when the prior state was Off. Unknown active size configurations fail
+closed before application. Observation ranges and Windows-default recovery
+uncertainty are documented in the [operator guide](../hibernation.md#capture-and-recovery).
+
+### Batch acceptance, recovery and next action
+
+Source readiness is separate from native activation. Mocked tests cover modes,
+sizes, preview, idempotence, bounded input, drift, serialized recovery, partial
+native failures, failed postconditions, catalog/profile gates, completion and
+durable capture before failure. Repository parser/catalog/profile/generator
+validation and retained results are linked from the run evidence.
+
+Next, extend the request-bound disposable settings-fixture family to route this
+single Hibernation candidate (its current kind allowlist does not include it).
+Use a checkpointed Windows 11 target with applicable power capabilities; no
+normal-catalog target promotion or developer-machine test. Follow the
+[acceptance matrix](../hibernation.md#acceptance-still-required): all starting
+modes, boundary/custom sizes, preview/repeat, failure/recovery, unchanged
+independent preferences, native observation and actual supported power transitions.
+Revert the checkpoint on failed recovery and retain the failed run/snapshot.
+A VM lacking S4 can establish only that unavailable case. Fast Startup preference,
+menu visibility, hardware behavior and Server acceptance remain separate.
+Do not bypass the target gate in ordinary operator use.
+
+Resolved: requested optional source implementation and architectural fit.
+Partial: legacy provisioning now has a candidate, without native acceptance.
+Deferred: legacy menu/mirror semantics, disposable fixture routing, actual
+hibernate/resume/hybrid/Fast Startup behavior, Server and platform-default evidence.
+Retired/excluded legacy outcomes: none. Candidate exclusion from default profiles
+is a safety boundary, not retirement. No complete legacy outcome closes and all
+five estimate ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180,
+rounded 125-180/about 155. New type/size choices are one requested capability,
+not extra completed legacy outcomes. This optional candidate is not a new v3.0
+release blocker.
+
+Evidence: [source and mocked validation](../archive/evidence/hibernation-candidate-2026-11-01.json).
+
+## Release-profile cleanup completed, 2026-10-31
+
+Release checklist item 1 is implemented at the source/profile boundary. The default
+now contains 70 selections and no pending operation; the other four profiles also
+expand without pending or unsupported Windows 11 selections. F1 is retained in the
+default and promoted to Windows 11 with MinimumBuild 26300, matching the T480
+observation. Its name/presentation now claim File Explorer browser-help behavior,
+not desktop/global F1 suppression. Earlier builds and Server are refused. Literal
+defaults remain PlatformDefined; an observed absence is not a universal default.
+The supplied reports omit source revision; this provenance limit remains explicit.
+No repeat T480 test was requested. The maintained acceptance script uses ordinary
+catalog gates, without the former in-memory support bypass.
+
+The three BitLocker drive-type method policies remain pending candidates and are
+removed from release defaults. Their earlier XtsAes256 intent is preserved in the
+ledger/catalog choices; existing machine policies are untouched. Registry lifecycle
+evidence does not establish effective future-encryption behavior. No candidate
+code, published ID or recovery operation was deleted.
+
+PowerShell 5.1 colors now match the already accepted Windows 11/Server 2025 metadata
+and optional two-runtime profile. Existing retained runs cd91b3d8ed31438f9cb331dc25a8a2b4
+and 236988fcb1284353b35c84fc43560bfc both report Passed and ResetAndOff; the archived
+color report records lifecycle, identity and visual acceptance. The current module's
+later user-bin extension remains separately pending; it is not promoted here.
+README describes the actual 70 selections, packages, material policy effects,
+minimum build and execution-account user scope. Generated operations are current.
+
+Validation: parser/catalog/profile/document checks passed for 451 operations,
+8 groups, 5 profiles and 317 PowerShell files. Four focused suites passed; the
+corrected ProfileSettings suite passed all 37 tests on its focused rerun. Initial
+failures and corrections are retained in the linked evidence. Tests cover expanded
+profiles, F1 target/build refusal,
+retained BitLocker candidate gates and profile-settings behavior. No handler was
+applied to Windows, no VM ran and no new manual acceptance was required.
+
+Resolved: release-profile candidate/metadata mismatch and misleading default
+summary. Deferred: BitLocker effective-policy acceptance, other F1 contexts and
+optional candidate tools. Retired/excluded: none; removing a default selection is
+not deleting an operation. No complete legacy selector bundle is newly closed;
+F1 desktop scope remains partial and colors are a separate requested outcome.
+All five whole-legacy ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12,
+exact 126-180, rounded 125-180/about 155. Four release items remain: bootstrap,
+requested offline delivery, final-source verification and publication. Source
+cleanup does not replace the final combined release-workflow check.
+
+Evidence: [cleanup and focused validation](../archive/evidence/release-profile-cleanup-2026-10-31.json).
+
+## T480 F1 preflight correlation and acceptance boundary, 2026-10-31
+
+The user supplied the companion read-only preflight report collected 2026-10-26
+at 11:31:11 +01:00, 28 minutes 29 seconds before the F1 report. It identifies
+Windows 11 Pro, version 10.0.26300/build 26300 on the Lenovo T480. Correlation
+uses the user's identification of these as companion reports and their timestamps;
+there is no shared machine/run identifier or source-revision hash in the reports.
+The preflight does not record the build revision (UBR).
+
+Together, these reports are sufficient to accept the narrow operator-observed
+File Explorer F1 Blocked/WindowsDefault behavior and exact registry recovery on
+the reported T480 Windows 11 build. The build-context gap in the previous entry
+is resolved. No repeat manual acceptance or additional preflight is required for
+that outcome. Source revision remains unrecorded; preserve that provenance limit
+without treating it as a reason to repeat this manual exercise. Do not infer
+global F1 suppression, Server behavior or other-build coverage. The preflight is
+read-only and supplies no separate BitLocker, boot or virtualization acceptance.
+
+Next reconcile catalog/profile declarations against this accepted narrow evidence
+and existing source checks during release-profile cleanup. This evidence review
+does not itself change SupportedTargets or PendingAcceptance. F1 manual testing
+is no longer an open task for the selected T480 outcome.
+
+No whole legacy outcome is newly closed, retired or excluded; other partial and
+deferred scope remains. All five whole-legacy ranges remain 37-57 / 37-52 /
+19-24 / 25-35 / 8-12, exact 126-180, rounded 125-180/about 155. Release checklist
+count remains five; profile reconciliation can reuse the completed manual check.
+No test or system change was performed. The retained preflight matches the
+supplied file SHA-256: e8f80ad3482a4259bdf22dae4b5faaf175e42d431cbd9c740d7b37c42c8342ac.
+
+Evidence: [companion preflight](../archive/evidence/t480-ride-preflight-20261026-113111.md) and [F1 result](../archive/evidence/t480-f1-acceptance-20261026-115940.md).
+
+## T480 F1 observed behavior and recovery evidence received, 2026-10-31
+
+The operator supplied the sanitized report collected 2026-10-26 at 11:59:40
++01:00 for windows.explorer-f1-help. Saved run IDs are
+a8655fb3f87a4fa09c0d382395203a82 and 59d730a6d3844cb899bcd11de0bb2aff.
+Blocked prevented File Explorer from opening browser help; WindowsDefault
+restored Explorer's Edge help search. Under Blocked, Notepad still opened nothing
+and Edge opened its own help page. This supports Explorer-specific observed
+behavior, not a global F1-key suppression claim. Exact original state restored is
+True, no restore errors were reported, and both Win32/Win64 override values were
+absent before and after.
+
+Accept this as operator-reported T480 feature/recovery evidence and reuse it;
+do not request another manual test merely to reproduce these observations.
+The report does not identify OS build or source revision, and does not separately
+record desktop observations or repeat-apply assertions. The current harness has
+repeat checks, but its current source alone does not prove which revision ran.
+Keep these provenance/coverage limits explicit without making them another
+optional-tool acceptance gate. The report itself labels the run experimental.
+No Windows-wide support declaration, catalog promotion or profile change was made.
+For the release-profile correction, this evidence must replace the earlier
+assumption that visible F1 behavior was entirely unverified. Reconcile its limited
+scope against existing source evidence or leave F1 candidate-only outside the
+recommended profile; no automatic expansion of support is justified.
+
+Resolved: recorded T480 Explorer behavior and exact recovery observation. Partial:
+source/build attribution and broader support scope. Retired/excluded: none; no
+whole legacy outcome newly closed. All five ranges remain 37-57 / 37-52 /
+19-24 / 25-35 / 8-12, exact 126-180 and rounded 125-180/about 155. The five-item
+release checklist is unchanged; this supplies evidence for profile reconciliation.
+No tests or Windows changes were performed. Only the named sanitized report was
+copied; its SHA-256 is eacb3ef446ae618a87be4cd0b6c268e73c491f0ef28b8cbc61c635f11fbe2b39.
+
+Evidence: [original operator report](../archive/evidence/t480-f1-acceptance-20261026-115940.md).
+
 ## Remaining settings batch 2 native lifecycle pass, 2026-10-29 07:45 UTC
 
 Registered run `37649311827142d0b459e876824f175d` passed from 07:27:15 to 07:45:36 UTC (08:27-08:45 Europe/Copenhagen). Repository validation and all 398 focused Pester tests passed. Native batch 2 verified 18 operations across 43 named states, with zero failures and zero unavailable state variants. Preview, apply, repeated apply, restore preview and exact captured-state recovery passed. IntegrationPassed=true and final guest summary, transcript and Pester XML were collected. Cleanup, collection and export reported no errors. Queues are empty and no recovery block is present; elevated operator output confirms VM Off / Operating normally and controller task Ready for this request.

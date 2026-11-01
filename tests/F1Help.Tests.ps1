@@ -6,14 +6,14 @@ BeforeAll {
   $script:Operation = @($script:Catalog.Operations | Where-Object Id -EQ 'windows.explorer-f1-help')[0]
 }
 
-Describe 'Experimental File Explorer F1 Help operation' {
-  It 'is an explicitly pending per-user Windows 11 candidate selected by the default profile only' {
+Describe 'Accepted File Explorer F1 Help operation' {
+  It 'declares the evidenced Windows 11 scope and remains selected by the default profile only' {
     $script:Operation.Kind | Should -Be 'RegistryValueSet'
     $script:Operation.Scope | Should -Be 'User'
     $script:Operation.RequiresAdmin | Should -BeFalse
-    $script:Operation.SupportedTargets | Should -BeNullOrEmpty
-    $script:Operation.CandidateTargets | Should -Contain 'Windows 11'
-    $script:Operation.PendingAcceptance | Should -BeTrue
+    $script:Operation.SupportedTargets | Should -Be @('Windows 11')
+    $script:Operation.MinimumBuild | Should -Be 26300
+    $script:Operation.PendingAcceptance | Should -BeFalse
     $script:Operation.BaselineState | Should -Be 'WindowsDefault'
     $script:Operation.DocumentationUri | Should -Match '^https://support\.microsoft\.com/'
     $defaultProfile = Import-PowerShellDataFile -LiteralPath (Join-Path $PSScriptRoot '../profiles/default.psd1')
@@ -24,7 +24,7 @@ Describe 'Experimental File Explorer F1 Help operation' {
     }
   }
 
-  It 'keeps default-profile application blocked on Windows 11 until the candidate is accepted' {
+  It 'allows the accepted build but refuses earlier builds and Server before handlers' {
     $profile = Get-RideProfile -Path (Join-Path $PSScriptRoot '../profiles/default.psd1')
     $plan = @(Get-RidePlan -Profile $profile | Where-Object { $_.Operation.Id -eq $script:Operation.Id })
     $plan.Count | Should -Be 1
@@ -32,8 +32,12 @@ Describe 'Experimental File Explorer F1 Help operation' {
     InModuleScope RIDE.Engine -Parameters @{ Plan = $plan; OperationId = $script:Operation.Id } {
       param($Plan, $OperationId)
       Mock Get-RidePlatform { 'Windows 11' }
-      { Assert-RidePlanAllowed -Plan $Plan } | Should -Throw "*$OperationId*does not support Windows 11*"
-      Should -Invoke Get-RidePlatform -Times 1 -Exactly
+      Mock Get-ItemProperty { @{ CurrentBuildNumber = '26300' } }
+      { Assert-RidePlanAllowed -Plan $Plan } | Should -Not -Throw
+      Mock Get-ItemProperty { @{ CurrentBuildNumber = '26100' } }
+      { Assert-RidePlanAllowed -Plan $Plan } | Should -Throw '*requires Windows build 26300*'
+      Mock Get-RidePlatform { 'Windows Server 2025' }
+      { Assert-RidePlanAllowed -Plan $Plan } | Should -Throw "*$OperationId*does not support Windows Server 2025*"
     }
   }
 

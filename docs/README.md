@@ -13,6 +13,7 @@ declares each operation's support, actions, references and recovery limits.
 | Read-only profile reference for observation consumers | [Desired-configuration export](desired-configuration-reference.md), with explicit target inputs and pending consumer acceptance |
 | Offline installation source preparation | [Offline bundle preflight](offline-bundles.md), accepted version/omission rules and pending assembly/install integration |
 | Settings and their individual guides | [Windows settings](windows-settings.md), [scope, defaults and recovery](setting-presentation.md) |
+| Hibernation file type and size | [Optional hibernation candidate](hibernation.md), coupled modes/percentages and conditional recovery |
 | Explicit current-desktop user actions | [Intended-user handoff](intended-user-handoff.md), including pending native acceptance and mixed-profile recovery |
 | Existing Terminal default-profile selection | [Native profile workflow](windows-terminal-profile.md), with manual recovery and pending writer/GUI acceptance; [JSONC preparation API](terminal-jsonc-preparation.md) for supplied bytes only |
 | BitLocker enrollment and recovery | [Enrollment, decryption, recovery-key backup and retrieval](bitlocker-recovery.md); catalog workflows and the desktop shortcut remain pending Windows 11 disposable-target acceptance |
@@ -34,6 +35,7 @@ declares each operation's support, actions, references and recovery limits.
 | Physical Lenovo T480 acceptance | [T480 RIDE test plan](test-plans/t480-ride-acceptance.md) and [read-only preflight script](../tests/integration/Invoke-RideT480Preflight.ps1) |
 | Workflow diagrams | [Controller workflow](../tests/integration/automatedlab-tasks.md#controller-workflow), [GitHub cache and backoff](github-release-discovery.md#anonymous-cache-and-backoff-flow) |
 | Maintainer conventions | [Script model](models/script-repository-model.md), [documentation model](models/documentation-model.md), [configuration ownership](decisions/0001-configuration-ownership.md) |
+| Windows/Fedora behavior alignment | [Current CLI comparison and proposed alignment workflow](fedora-alignment.md), including candidate preview, recovery and drift prevention |
 
 ## Active work and evidence
 

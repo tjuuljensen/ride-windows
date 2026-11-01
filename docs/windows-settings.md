@@ -15,22 +15,36 @@ The [media and privacy comparison](setting-presentation.md#media-and-privacy-cho
 explains AutoPlay preferences versus drive policy, clipboard history versus sync,
 and the separate location/advertising policy recovery boundaries.
 
+## File Explorer F1 Help
+
+`windows.explorer-f1-help` supports Windows 11 build 26300 or later for the current
+user's File Explorer browser-help behavior. The T480 Windows 11 Pro build 26300
+[preflight](archive/evidence/t480-ride-preflight-20261026-113111.md) and
+[manual result](archive/evidence/t480-f1-acceptance-20261026-115940.md) record Blocked,
+WindowsDefault and exact registry recovery without restore errors. Edge kept its
+own F1 help. Desktop behavior, restart requirements and other applications/builds
+were not established by those observations; the reports omit the source revision.
+The catalog excludes earlier builds and Windows Server.
+
+Blocked writes two current-user TypeLib overrides; WindowsDefault removes them.
+Saved-run restore recovers the captured prior values. This is not a global key
+blocker. Microsoft documents the F1 shortcut, not this registry mapping. The
+default profile selects Blocked; review the plan in the intended user's account.
+
 ## BitLocker encryption method policies
 
-The default workstation profile selects **XTS-AES 256-bit** for future
-operating-system, fixed-data and removable-data drive encryption through three
-separate policy operations. Microsoft recommends XTS-AES and says the choice
-between 128-bit and 256-bit depends on device performance. The profile keeps the
-user-approved 256-bit default; choose XTS-AES 128-bit on a less performant device
-when performance is the priority.
+The three drive-type policies remain candidates and are excluded from the release
+default profile. Their registry lifecycle passed on Windows 11, but effective
+encryption-policy behavior remains pending. The previously selected **XTS-AES
+256-bit** intent is retained in the migration record and remains a declared choice
+for future acceptance; this cleanup does not alter an existing machine's policy.
 
 - **windows.bitlocker-encryption-method-os**
 - **windows.bitlocker-encryption-method-fixed-data**
 - **windows.bitlocker-encryption-method-removable-data**
 
 Each operation can instead select AES-CBC 128/256 or XTS-AES 128/256, or remove
-its local policy override with **WindowsDefault**. The default profile maps the
-previous AES-CBC 256-bit intent to XTS-AES 256-bit for all three drive types.
+its local policy override with **WindowsDefault** once its target is accepted.
 Microsoft says the policy applies when encryption starts; it does not change an
 already encrypted volume. It also does not apply to hardware-based encryption.
 RIDE changes only the local policy values and does not encrypt/decrypt drives,

@@ -75,12 +75,12 @@ Describe 'Windows 11 BitLocker drive-type encryption method policies' {
     @($script:Cases | ForEach-Object { (Get-RideOperation -Id $_.Id).ValueName } | Where-Object { $_ -eq $legacy.ValueName }).Count | Should -Be 0
   }
 
-  It 'maps the default workstation profile AES-256 intent to modern XTS-AES 256 policy values' {
+  It 'keeps pending drive-type policies outside release defaults while retaining XTS-AES 256 choices' {
     $profile = Get-RideProfile -Path (Join-Path $PSScriptRoot '../profiles/default.psd1')
     foreach ($case in $script:Cases) {
       $selection = @($profile.Operations | Where-Object Id -ceq $case.Id)
-      $selection.Count | Should -Be 1
-      $selection[0].State | Should -BeExactly 'XtsAes256'
+      $selection.Count | Should -Be 0
+      (Get-RideOperation -Id $case.Id).States.XtsAes256 | Should -Be 7
     }
     @($profile.Operations | Where-Object Id -ceq 'windows.bitlocker-encryption-method').Count | Should -Be 0
   }

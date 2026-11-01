@@ -1,0 +1,172 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedOn": "2026-11-01",
+  "Topic": "Disposable Windows 11 hibernation acceptance preparation",
+  "Status": "SourceReadyNativeAcceptancePending",
+  "Source": {
+    "BaseCommit": "d91c44bebdb5af20ee858bf32e8433a9d0e713d1",
+    "WorkingTreeChanges": true,
+    "ExistingUserChangesPreserved": true,
+    "ProductionCandidateUnchangedSincePriorEvidence": true,
+    "Files": [
+      {
+        "Path": "modules/RIDE.SettingsFixtureData.psm1",
+        "Sha256": "7483e5a25ca448e70b22e4ca2efa71b8733d6b06bea5a9f3a17a489e91edc7a4"
+      },
+      {
+        "Path": "tests/integration/RIDE.HibernationAcceptance.psm1",
+        "Sha256": "76252d7fabb7de697453a95d53cc548bfa4a50df93a4f4982b1910dcef46f5b8"
+      },
+      {
+        "Path": "tests/integration/Invoke-RideSettingsFixture.ps1",
+        "Sha256": "3f43f5fbd9bf0d3f8f30c05f08c36a047a6c2f142acf7601ed07812fbd3c86fd"
+      },
+      {
+        "Path": "tests/integration/Invoke-RideGuestTests.ps1",
+        "Sha256": "929435662d5918a4c927cf5013edaaef0623e7a8c2dfb273d1f8212a2bfc6bb9"
+      },
+      {
+        "Path": "tests/integration/fixtures/hibernation.fixture.psd1",
+        "Sha256": "c012b179132cfb2207d6e1ead62b45c48d1c7df9cebc1dea5788d43a17e04b5c"
+      },
+      {
+        "Path": "tests/HibernationAcceptance.Tests.ps1",
+        "Sha256": "fc158fbaff8a5c7c418da8545c8f6fba0fcfb67b320f891387b93892968d882c"
+      },
+      {
+        "Path": "tests/SettingsFixtureData.Tests.ps1",
+        "Sha256": "2f4c67e9c0f0fe1dcdf28251b07a3d8e748dad3122d98f935d554197a680a3d9"
+      },
+      {
+        "Path": "docs/hibernation.md",
+        "Sha256": "e4d218cccf7af473d1dc7d93c16c55d01c005e20b71b4d1357e75d74a9a0129a"
+      },
+      {
+        "Path": "tests/integration/README.md",
+        "Sha256": "ec4505a87279096e0b483fd5d5bd0dc39c269a1001fe0a5830e10270370f8e38"
+      },
+      {
+        "Path": "docs/MIGRATION-PLAN.md",
+        "Sha256": "9eaf21da3a3890d81fddf669d86d8540cebcea2e25fbe5a7321416910165e085"
+      },
+      {
+        "Path": "docs/migrations/settings-post-migration-review.md",
+        "Sha256": "77527e9ec3164131fe87cdba64e046bf9f9d0f49673a8d022905c7f19e7d1ed6"
+      },
+      {
+        "Path": "catalog/operations.psd1",
+        "Sha256": "e089c32527563a1c91182d7e338755df9ee873dcc97edfbaff4f422ddbea18f8"
+      },
+      {
+        "Path": "modules/RIDE-Hibernation.psm1",
+        "Sha256": "a41b6cb6a6a9f88b578a2a7d75a6524fca495077aee60693c5b30f22a5954d68"
+      },
+      {
+        "Path": "modules/RIDE.Engine.psm1",
+        "Sha256": "183a850b86641ef5f0214f8ee37d1beb550f12492d428c75d721df1a78e70836"
+      }
+    ]
+  },
+  "OperationId": "windows.hibernation",
+  "Fixture": {
+    "Scenario": "HibernationMatrix",
+    "SchemaVersion": 2,
+    "IntegrationSuite": "SettingsBatch60",
+    "Target": "Windows 11",
+    "Template": "tests/integration/fixtures/hibernation.fixture.psd1",
+    "UnboundTemplateRejected": true,
+    "StartingStates": [
+      "Off",
+      "Reduced",
+      "Size75"
+    ],
+    "RequestedStates": [
+      "Off",
+      "Full",
+      "Reduced",
+      "Size50",
+      "Size75",
+      "Size100"
+    ],
+    "CaseCount": 18,
+    "ControlledFailure": "Interrupt after successful native /hibernate /size 0 before reduced type change; require observed partial change and saved-run recovery.",
+    "RecoveryMode": "ConditionalConfiguration",
+    "FailedPrivateCandidatePreserved": true,
+    "HostCheckpointRecovery": "Required separately after evidence export; manual runner does not reset the VM."
+  },
+  "Validation": {
+    "Platform": "Windows filesystem checkout; Windows-native PowerShell and Git",
+    "Pester": "5.7.1",
+    "TestFiles": [
+      "tests/Hibernation.Tests.ps1",
+      "tests/HibernationAcceptance.Tests.ps1",
+      "tests/SettingsFixtureData.Tests.ps1",
+      "tests/CliShouldProcess.Tests.ps1"
+    ],
+    "Configuration": {
+      "ExcludeTag": [
+        "WindowsIntegration"
+      ],
+      "RunPassThru": true,
+      "TestRegistryEnabled": false
+    },
+    "Runs": [
+      {
+        "PowerShell": "5.1.26100.9818",
+        "Passed": 93,
+        "Failed": 0,
+        "Skipped": 0,
+        "Result": "Passed"
+      },
+      {
+        "PowerShell": "7.6.5",
+        "Passed": 93,
+        "Failed": 0,
+        "Skipped": 0,
+        "Result": "Passed"
+      }
+    ],
+    "InitialFailure": "Initial simulated preview test expected an unrecovered ID even though rollback succeeded; corrected to require successful recovery. Initial 49/50, then 51/51 with tracing coverage; final exact guest selection 93/93 in both runtimes.",
+    "EvidencePreparationCorrection": "Direct Import-PowerShellDataFile could not read the large catalog; used the existing Import-RideCatalogData reader. No system action was attempted.",
+    "RepositoryValidation": {
+      "PowerShellFiles": 321,
+      "Profiles": 5,
+      "GeneratedOperationsCurrent": true,
+      "Operations": 452,
+      "Groups": 8,
+      "Passed": true
+    },
+    "FinalFocusedParserAndLfCheckPassed": true
+  },
+  "Activation": {
+    "VmRun": false,
+    "ControllerRequest": false,
+    "CheckpointMutation": false,
+    "NativePowercfgInvoked": false,
+    "WorkstationPowerSettingsChanged": false,
+    "BoundFixtureInDevelopmentCheckout": false,
+    "SupportedTargets": [],
+    "PendingAcceptance": true,
+    "PowerTransitionPassed": false,
+    "PromotionReady": false,
+    "ExactRecoveryClaimed": false
+  },
+  "Pending": [
+    "Execute the correlated matrix on a reserved disposable Windows 11 VM and retain actual native results.",
+    "Observe hibernate/resume, hybrid-sleep recovery and Fast Startup separately on suitable disposable hardware.",
+    "Native access denial, disk exhaustion, unexpected native sizing and managed precedence/defaults.",
+    "Other Windows builds, Server and legacy Hibernate menu/mirror semantics.",
+    "Review native evidence and checkpoint recovery before any normal-catalog support change."
+  ],
+  "Migration": {
+    "Settings": "37-57",
+    "ExactTotal": "126-180",
+    "RoundedTotal": "125-180",
+    "FilesAndAssets": "25-35",
+    "Components": "19-24",
+    "Packages": "37-52",
+    "ApproximateMidpoint": 155,
+    "Maintenance": "8-12",
+    "CompleteLegacyOutcomesClosed": 0
+  }
+}

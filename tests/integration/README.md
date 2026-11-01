@@ -18,6 +18,16 @@ probe passes to activate the independent request watchdog.
 
 ## What this pilot covers
 
+### Hibernation file configuration candidate
+
+The request-bound `HibernationMatrix` fixture covers 18 mode/size transitions,
+preview, repeat, captured configuration recovery and a controlled interruption
+after a native size reset. Follow the [hibernation acceptance procedure](../../docs/hibernation.md#disposable-windows-11-acceptance)
+for source staging, request correlation, the manual Windows 11 VM runner,
+evidence review and explicit checkpoint recovery. This preparation does not
+establish native acceptance or enable normal apply. Actual power transitions
+remain separate; no suspend or restart is issued by the matrix.
+
 ### Persistent user PATH candidate
 
 `Invoke-RideProfileVmAcceptance.ps1 -Scenario PersistentUserPath` runs the

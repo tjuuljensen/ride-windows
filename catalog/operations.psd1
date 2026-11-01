@@ -224,19 +224,19 @@
     }
     @{
       Id = 'windows.explorer-f1-help'
-      Name = 'File Explorer and desktop F1 Help behavior (experimental)'
+      Name = 'File Explorer F1 Help behavior'
       Kind = 'RegistryValueSet'
       Category = 'Windows settings / Explorer'
-      Description = 'Experimental advanced per-user TypeLib override intended to stop F1 from opening Windows Help in File Explorer and on the desktop. Windows documents F1 as a common app Help shortcut, but does not document this registry mapping. Effectiveness, refresh requirements and other consumers are unverified; test on Windows 11 and preserve F1 behavior in unrelated applications. WindowsDefault removes only these two overrides and does not guarantee Help opens if another policy or registration changes behavior. The default profile requests Blocked, but profile application remains unavailable until Windows 11 behavior and exact v3 rollback are accepted.'
+      Description = 'Per-user TypeLib override that blocks File Explorer F1 browser help. Blocked, WindowsDefault and exact registry recovery were observed on T480 Windows 11 Pro build 26300. Edge retained its own F1 help; this is not global key suppression. Desktop behavior and other applications/builds were not established by that report. Microsoft documents F1 behavior, not this registry mapping. WindowsDefault removes only these two overrides; other policies or registrations can affect Help.'
       DocumentationUri = 'https://support.microsoft.com/en-us/windows/hardware/input-devices/windows-keyboard-tips-and-tricks'
-      SupportedTargets = @()
-      CandidateTargets = @('Windows 11')
-      PendingAcceptance = $true
+      SupportedTargets = @('Windows 11')
+      PendingAcceptance = $false
+      MinimumBuild = 26300
       Scope = 'User'
       RequiresAdmin = $false
       Actions = @('Get', 'Test', 'Set', 'Unset', 'Restore')
       Handler = 'RegistryValueSet'
-      TargetDefaults = @{}
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'Image-dependent registrations and policy. The T480 build 26300 observation had no TypeLib overrides and File Explorer F1 opened browser help.' } }
       Rollback = 'Exact'
       BaselineState = 'WindowsDefault'
       MigrationBatch = '2026-10-25-f1-help'
@@ -246,11 +246,11 @@
         @{ Key = 'Win64'; RegistryPath = 'HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0\win64'; ValueName = ''; ValueType = 'String' }
       )
       SettingPresentation = @{
-        AppliesTo = 'Current user; File Explorer and desktop F1 Help behavior through two TypeLib registration overrides'
-        Behavior = 'Unverified'
-        GuiEffect = 'Experimental attempt to suppress F1 Help in File Explorer and on the desktop; mapping and effects in other applications are unverified'
-        GuiPath = 'File Explorer or Windows desktop > press F1'
-        Requirements = @('Intended-user context; no elevation; capture and restore both exact per-user values', 'Windows 11 behavior and refresh requirements remain unverified; test Explorer and desktop separately', 'Check an unrelated application before and after; the default profile selects this pending candidate, but application remains unsupported until acceptance')
+        AppliesTo = 'Current user; File Explorer F1 browser help through two TypeLib registration overrides'
+        Behavior = 'Preference'
+        GuiEffect = 'Blocked suppresses File Explorer browser help; WindowsDefault removes the two overrides. Desktop and global application F1 behavior are outside the accepted scope.'
+        GuiPath = 'File Explorer > press F1'
+        Requirements = @('Intended-user context; no elevation; capture and restore both exact per-user values', 'Windows 11 build 26300 or later; observed acceptance is Windows 11 Pro build 26300 on T480', 'No Windows Server or earlier-build support; the report does not identify its source revision or establish restart/refresh requirements')
         OtherSupportedChoices = @('Blocked writes empty-string Win32 and Win64 TypeLib overrides', 'WindowsDefault removes only these overrides and cannot guarantee that another policy or registration will restore Windows Help behavior', 'Microsoft documents F1 as a common application Help shortcut, not this registry mapping')
         ReferenceUris = @('https://support.microsoft.com/en-us/windows/hardware/input-devices/windows-keyboard-tips-and-tricks')
       }
@@ -786,6 +786,90 @@
       ReinstallSource = 'RetainedManifestOnly'
       Rollback = 'BestEffort'
       MigrationBatch = 'StoreConsumerApps20261014'
+    }
+    @{
+      Id = 'windows.hibernation'
+      Name = 'Hibernation file mode and size (experimental)'
+      Kind = 'Hibernation'
+      Category = 'Windows settings / Power'
+      Description = 'Optional coupled hiberfil.sys configuration through powercfg. Off removes the file and prevents hibernation, hybrid-sleep recovery and Fast Startup. Full enables a full file without requesting a new size. Reduced resets sizing to Windows management and supports Fast Startup only, not session hibernation or hybrid sleep. Size50 through Size100 explicitly enable a full file at the requested percentage of physical RAM, not GB. Capture prior active mode and configured percentage before any command; conditional restore verifies the observed result. No file contents, exact byte allocation, inactive sizing preferences or hibernated session are restored. No Fast Startup preference, Hibernate menu preference, sleep timer, reboot or suspend action is changed. Native lifecycle and power-transition acceptance remain pending; apply, preview and restore require explicit -AllowCandidate on declared candidate targets.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#hibernate-or-h'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      Handler = 'Hibernation'
+      States = @{
+        Off = 'Off'
+        Full = 'Full'
+        Reduced = 'Reduced'
+        Size50 = 'Full:50'
+        Size51 = 'Full:51'
+        Size52 = 'Full:52'
+        Size53 = 'Full:53'
+        Size54 = 'Full:54'
+        Size55 = 'Full:55'
+        Size56 = 'Full:56'
+        Size57 = 'Full:57'
+        Size58 = 'Full:58'
+        Size59 = 'Full:59'
+        Size60 = 'Full:60'
+        Size61 = 'Full:61'
+        Size62 = 'Full:62'
+        Size63 = 'Full:63'
+        Size64 = 'Full:64'
+        Size65 = 'Full:65'
+        Size66 = 'Full:66'
+        Size67 = 'Full:67'
+        Size68 = 'Full:68'
+        Size69 = 'Full:69'
+        Size70 = 'Full:70'
+        Size71 = 'Full:71'
+        Size72 = 'Full:72'
+        Size73 = 'Full:73'
+        Size74 = 'Full:74'
+        Size75 = 'Full:75'
+        Size76 = 'Full:76'
+        Size77 = 'Full:77'
+        Size78 = 'Full:78'
+        Size79 = 'Full:79'
+        Size80 = 'Full:80'
+        Size81 = 'Full:81'
+        Size82 = 'Full:82'
+        Size83 = 'Full:83'
+        Size84 = 'Full:84'
+        Size85 = 'Full:85'
+        Size86 = 'Full:86'
+        Size87 = 'Full:87'
+        Size88 = 'Full:88'
+        Size89 = 'Full:89'
+        Size90 = 'Full:90'
+        Size91 = 'Full:91'
+        Size92 = 'Full:92'
+        Size93 = 'Full:93'
+        Size94 = 'Full:94'
+        Size95 = 'Full:95'
+        Size96 = 'Full:96'
+        Size97 = 'Full:97'
+        Size98 = 'Full:98'
+        Size99 = 'Full:99'
+        Size100 = 'Full:100'
+      }
+      TargetDefaults = @{}
+      Rollback = 'Conditional'
+      MigrationBatch = 'SettingsHibernation20261101'
+      LegacySelectors = @('EnableHibernation', 'DisableHibernation')
+      SettingPresentation = @{
+        AppliesTo = 'Whole device; hibernation file provisioning, type and configured size'
+        Behavior = 'Configuration'
+        GuiEffect = 'Full allows supported hibernation features; Reduced supports Fast Startup only; Off removes the file. Availability also depends on hardware, policy and other preferences.'
+        GuiPath = 'Administrative powercfg; Hibernate menu and Fast Startup checkboxes are separate preferences'
+        Requirements = @('Administrator; readable native power capabilities and recoverable size observation; enough system-drive space', 'Windows 11 candidate only. Server, actual hibernate/resume and managed-device effects require separate acceptance.', 'Custom sizes use a conservative 50..100 percent range. Microsoft separately documents a 40 percent full default; that is not a universal custom-size minimum.')
+        OtherSupportedChoices = @('Full requests the type without an explicit resize; existing full-file sizing is unchanged. Reduced first resets size to 0 for Windows management. SizeNN always requests a full file.', 'No baseline/unset or universal factory default is declared. Restore recovers captured active configuration conditionally; Off does not replay inactive registry values.', 'The legacy Hibernate menu override and Session Manager registry mirror remain unmigrated; Fast Startup preference stays independently selectable.')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#hibernate-or-h', 'https://learn.microsoft.com/en-us/windows/win32/power/system-power-states#hibernation-file-types', 'https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-system_power_capabilities')
+      }
     }
     @{
       Id = 'windows.local-password-maximum-age'
@@ -1441,9 +1525,8 @@
       Category = 'Profile settings / PowerShell'
       Description = 'Manage a current-user ConsoleHost startup block. Recommended applies Campbell in normal Windows Terminal sessions and Campbell PowerShell blue when the actual shell token is elevated. AdminBlue changes only elevated sessions. Default removes only this RIDE block; restore recovers captured profile content. Does not edit Terminal settings, PATH, execution policy or tab titles. Existing sessions and other shells are unaffected.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_profiles'
-      SupportedTargets = @()
-      PendingAcceptance = $true
-      CandidateTargets = @('Windows 11', 'Windows Server 2025')
+      SupportedTargets = @('Windows 11', 'Windows Server 2025')
+      PendingAcceptance = $false
       Scope = 'User'
       RequiresAdmin = $false
       Actions = @('Get', 'Test', 'Set', 'Restore')

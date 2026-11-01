@@ -17,7 +17,8 @@
   Recovery: Pester removes only its own isolated fixtures.
   Author: RIDE-Windows maintainers.
   Version: Repository test fixture; no independent CLI version.
-  Changelog: 2026-10-12: Add per-edition profile color lifecycle coverage.
+  Changelog: 2026-10-31: Reconcile accepted color metadata and resolve completion from the repository.
+    2026-10-12: Add per-edition profile color lifecycle coverage.
 #>
 
 
@@ -44,7 +45,7 @@ Describe 'PowerShell profile setting files' {
     }
   }
 
-  It 'keeps per-runtime candidate acceptance and defaults explicit' {
+  It 'keeps accepted per-runtime targets and defaults explicit' {
     $script:ColorOperations.Count | Should -Be 2
     foreach ($operation in $script:ColorOperations) {
       $operation.Scope | Should -Be User
@@ -53,16 +54,10 @@ Describe 'PowerShell profile setting files' {
         $operation.TargetDefaults[$target].DefaultValue | Should -Be Default
         $operation.TargetDefaults[$target].EffectiveDefault | Should -Match 'No RIDE startup override'
       }
-      if ($operation.ProfileRuntime -eq 'WindowsPowerShell51') {
-        $operation.PendingAcceptance | Should -BeTrue
-        $operation.SupportedTargets | Should -BeNullOrEmpty
-        foreach ($target in @('Windows 11','Windows Server 2025')) { $operation.CandidateTargets | Should -Contain $target }
-      } else {
-        $operation.ProfileRuntime | Should -Be 'PowerShell7'
-        $operation.PendingAcceptance | Should -BeFalse
-        $operation.SupportedTargets.Count | Should -Be 2
-        foreach ($target in @('Windows 11','Windows Server 2025')) { $operation.SupportedTargets | Should -Contain $target }
-      }
+      $operation.ProfileRuntime | Should -BeIn @('WindowsPowerShell51', 'PowerShell7')
+      $operation.PendingAcceptance | Should -BeFalse
+      $operation.SupportedTargets.Count | Should -Be 2
+      foreach ($target in @('Windows 11','Windows Server 2025')) { $operation.SupportedTargets | Should -Contain $target }
       $operation.BaselineState | Should -Be Default
       $operation.UnsetState | Should -Be Default
       $operation.AdminColorScheme | Should -Be 'Campbell PowerShell'
@@ -339,10 +334,13 @@ Describe 'Profile settings engine and discovery' {
     @(Get-RideSingleOperationPlan $id -Action Unset)[0].State | Should -Be Default
     { Get-RideSingleOperationPlan $id -Action Set -State Invalid } | Should -Throw '*not supported*'
     Mock Get-RideCurrentState -ModuleName RIDE.Engine { throw 'completion must not inspect profiles' }
-    foreach ($line in @('.\ride.ps1 set powershell.windows-powershell51-terminal-colors ', '.\ride.ps1 set powershell.windows-powershell51-terminal-colors -State ')) {
-      $matches = (TabExpansion2 -InputScript $line -CursorColumn $line.Length).CompletionMatches.CompletionText
-      foreach ($value in @('Recommended', 'AdminBlue', 'Default', 'Baseline')) { $matches | Should -Contain $value }
-    }
+    Push-Location -LiteralPath $script:RepositoryRoot
+    try {
+      foreach ($line in @('.\ride.ps1 set powershell.windows-powershell51-terminal-colors ', '.\ride.ps1 set powershell.windows-powershell51-terminal-colors -State ')) {
+        $matches = (TabExpansion2 -InputScript $line -CursorColumn $line.Length).CompletionMatches.CompletionText
+        foreach ($value in @('Recommended', 'AdminBlue', 'Default', 'Baseline')) { $matches | Should -Contain $value }
+      }
+    } finally { Pop-Location }
     Should -Invoke Get-RideCurrentState -ModuleName RIDE.Engine -Times 0 -Exactly
   }
 

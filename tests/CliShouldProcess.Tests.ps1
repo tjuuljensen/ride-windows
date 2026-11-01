@@ -49,10 +49,11 @@ function New-SpyRecord {
     ConfirmBound = $Bound.ContainsKey('Confirm'); Confirm = [bool]$Bound['Confirm']
     GitHubAuthentication = $Bound['GitHubAuthentication']; GitHubCredentialReference = $Bound['GitHubCredentialReference']
     OfflineBundle = $Bound['OfflineBundle']; OfflineProfileId = $Bound['OfflineProfileId']; OfflineCatalogFileId = $Bound['OfflineCatalogFileId']
+    AllowCandidate = [bool]$Bound['AllowCandidate']; AllowCandidateBound = $Bound.ContainsKey('AllowCandidate')
   }
 }
 function Invoke-RidePlan {
-  [CmdletBinding(SupportsShouldProcess)] param($Plan, $GitHubAuthentication, $GitHubCredentialReference, $OfflineBundle, $OfflineProfileId, $OfflineCatalogFileId)
+  [CmdletBinding(SupportsShouldProcess)] param($Plan, $GitHubAuthentication, $GitHubCredentialReference, $OfflineBundle, $OfflineProfileId, $OfflineCatalogFileId, [switch]$AllowCandidate)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic target', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'plan'
 }
@@ -62,7 +63,7 @@ function Save-RidePackage {
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'download'
 }
 function Restore-RideRun {
-  [CmdletBinding(SupportsShouldProcess)] param($RunId, $GitHubAuthentication, $GitHubCredentialReference)
+  [CmdletBinding(SupportsShouldProcess)] param($RunId, $GitHubAuthentication, $GitHubCredentialReference, [switch]$AllowCandidate)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic restore', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'restore'
 }
@@ -86,6 +87,21 @@ Describe 'CLI ShouldProcess forwarding' {
     # for later files in a combined Pester run.
     Import-Module (Join-Path $script:Root 'modules/RIDE.Engine.psm1') -Force
     foreach ($modulePath in $script:OriginalRideModules) { if ([IO.Path]::GetFileName($modulePath) -ne 'RIDE.Engine.psm1') { Import-Module $modulePath -Global } }
+  }
+
+  It 'forwards candidate opt-in and preview for <Command>' -TestCases @($commandCases | Where-Object Command -ne download) {
+    param($Command, $Arguments)
+    $record = & $script:Runner @Arguments -AllowCandidate -WhatIf | Where-Object Stage -eq Engine
+    $record.AllowCandidate | Should -BeTrue
+    $record.WhatIf | Should -BeTrue
+    $record.Performed | Should -BeFalse
+    $record = & $script:Runner @Arguments -AllowCandidate:$false -WhatIf | Where-Object Stage -eq Engine
+    $record.AllowCandidate | Should -BeFalse
+  }
+  It 'refuses candidate opt-in on commands without the change or restore gate' {
+    foreach ($command in @('list','show','search','plan','status','download','prune-state')) {
+      { & $script:Runner $command -AllowCandidate } | Should -Throw '*AllowCandidate is supported by*'
+    }
   }
 
   It 'forwards explicit PAT selection for <Command> without resolving credentials during preview' -TestCases @(
@@ -132,6 +148,7 @@ Describe 'CLI ShouldProcess forwarding' {
     $record.Preference | Should -BeFalse
     $record.Performed | Should -BeTrue
     $record.ConfirmBound | Should -BeFalse
+    $record.AllowCandidateBound | Should -BeFalse
     @($rows | Where-Object Stage -eq Plan).Count | Should -Be 0
   }
 

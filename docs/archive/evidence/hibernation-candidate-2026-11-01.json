@@ -1,0 +1,153 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedOn": "2026-11-01",
+  "Topic": "Optional hibernation file mode and size candidate",
+  "Source": {
+    "BaseCommit": "d91c44bebdb5af20ee858bf32e8433a9d0e713d1",
+    "WorkingTreeChanges": true,
+    "ExistingUserChangesPreserved": true,
+    "Files": [
+      {
+        "Path": "catalog/operations.psd1",
+        "Sha256": "e089c32527563a1c91182d7e338755df9ee873dcc97edfbaff4f422ddbea18f8"
+      },
+      {
+        "Path": "modules/RIDE-Hibernation.psm1",
+        "Sha256": "a41b6cb6a6a9f88b578a2a7d75a6524fca495077aee60693c5b30f22a5954d68"
+      },
+      {
+        "Path": "modules/RIDE.Engine.psm1",
+        "Sha256": "183a850b86641ef5f0214f8ee37d1beb550f12492d428c75d721df1a78e70836"
+      },
+      {
+        "Path": "modules/RIDE.CatalogValidation.psm1",
+        "Sha256": "47f1d7672be141ac0e2d899970b56155befd58bd8cd5411056aa9cc593e9666e"
+      },
+      {
+        "Path": "ride.ps1",
+        "Sha256": "c2b8e8b10589ac1109e8ddb039a81f663d8c97de833283ee8c6d00a7e7347da4"
+      },
+      {
+        "Path": "tools/Export-RideCatalog.ps1",
+        "Sha256": "af324c9fb88be99bf11ca12aa857df4d5bc667e355b1941aa23ae2922a625a58"
+      },
+      {
+        "Path": "tests/Hibernation.Tests.ps1",
+        "Sha256": "c0f48333d089e75dc4fb6d7a9b7e019352ceb5fbdd213a654461628d3d6df7c8"
+      },
+      {
+        "Path": "tests/Catalog.Tests.ps1",
+        "Sha256": "bacfeaae1ec16aa924df001478a1fabd19af5b6ad3aa3f2c1f47ca7ce355120c"
+      }
+    ]
+  },
+  "OperationId": "windows.hibernation",
+  "States": [
+    "Off",
+    "Full",
+    "Reduced",
+    "Size50..Size100"
+  ],
+  "StateCount": 54,
+  "CandidateTargets": [
+    "Windows 11"
+  ],
+  "SupportedTargets": [],
+  "Rollback": "Conditional configuration recovery",
+  "Tests": [
+    {
+      "Pass": "Regression",
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Passed": 87,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "Result": "Passed"
+    },
+    {
+      "Pass": "Focused",
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "Passed": 16,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "Result": "Passed"
+    },
+    {
+      "Pass": "Catalog",
+      "PowerShell": "7.6.5",
+      "Pester": "5.7.1",
+      "Passed": 24,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 75,
+      "Result": "Passed"
+    }
+  ],
+  "Validation": {
+    "Operations": 452,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 319,
+    "GeneratedDocumentation": "Current",
+    "Whitespace": "git diff --check passed",
+    "LineEndings": "Edited tracked files remain LF; no global Git changes",
+    "Help": "State parameter exposes modes, RAM percentages and catalog completion"
+  },
+  "EarlierAttempts": [
+    "Initial focused hibernation tests passed 16/16 in Windows PowerShell 5.1 and PowerShell 7.",
+    "A broader catalog run found the existing pending-kind test allowlist missing Hibernation; corrected the allowlist without replacing prior user edits.",
+    "The broader run also selected an existing WindowsIntegration-tagged HKCU registry fixture; the sandbox denied registry access. That run was interrupted. Final runs explicitly exclude WindowsIntegration. No pass or native recovery claim is made for that case.",
+    "Two direct source writes briefly failed because files had user-mapped sections open; focused patches succeeded and generated documentation was refreshed."
+  ],
+  "Runtime": {
+    "HibernationPowercfgExecuted": false,
+    "NativePowerCapabilitiesQueried": false,
+    "NativeInterop": "Types compiled and layout checked; API invocation mocked",
+    "DisposableVmRun": false,
+    "NormalApply": "Blocked by empty SupportedTargets",
+    "BundledProfilesChanged": false,
+    "ExecutionPolicy": "Process-only Bypass for test processes; no persistent policy change"
+  },
+  "Legacy": {
+    "Selectors": [
+      "EnableHibernation",
+      "DisableHibernation"
+    ],
+    "Partial": "File provisioning now has an optional source candidate; native acceptance not established.",
+    "Deferred": [
+      "ShowHibernateOption preference",
+      "Legacy Session Manager registry mirror",
+      "Request-bound disposable Hibernation fixture routing",
+      "Actual hibernate/resume, hybrid sleep and Fast Startup behavior",
+      "Server acceptance and target default evidence"
+    ],
+    "Resolved": [
+      "Requested candidate source implementation",
+      "Coordinated enable/type/size architecture",
+      "Catalog completion and lifecycle integration"
+    ],
+    "Retired": [],
+    "ExcludedOutcomes": [],
+    "CompletedOutcomes": 0
+  },
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "ExactTotal": "126-180",
+    "RoundedTotal": "125-180",
+    "MidpointApproximation": 155,
+    "Reason": "Candidate source work closes no complete legacy feature outcome; all five ranges unchanged."
+  },
+  "References": [
+    "https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/powercfg-command-line-options#hibernate-or-h",
+    "https://learn.microsoft.com/en-us/windows/win32/power/system-power-states#hibernation-file-types",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-system_power_capabilities",
+    "https://github.com/microsoft/win32metadata/blob/main/generation/WinSDK/RecompiledIdlHeaders/um/winnt.h"
+  ]
+}

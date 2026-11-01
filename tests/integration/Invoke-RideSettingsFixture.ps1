@@ -15,6 +15,8 @@
   start a session, actor, task or app; shell presence is not desktop acceptance.
   Schema 7 uses one RunId-owned Interactive/Limited task to inspect Plan in an
   existing guest desktop. It cleans only that task and never applies app changes.
+  HibernationMatrix uses a dedicated conditional-recovery matrix and native
+  interruption test; it never claims hibernate/resume or exact file recovery.
 .PARAMETER FixturePath
   Literal path to the request-bound PowerShell data fixture in the staged checkout.
 .PARAMETER EvidencePath
@@ -29,13 +31,14 @@
   String. Focused lifecycle progress; structured evidence is written separately.
 .NOTES
   Compatibility: Windows PowerShell 5.1; target behavior awaits disposable acceptance.
-  Prerequisites: Pinned elevated Hyper-V guest through the existing controller;
+  Prerequisites: Pinned elevated Hyper-V guest through the existing VM runner;
     RIDE_TEST_GUEST=1, RIDE_INTEGRATION_VM=1 and a correlated RIDE_TEST_RUN_ID.
   File/environment inputs: Explicit fixture, staged catalog/modules and evidence path.
   Recovery: Captured setting state in finally; inventory has no Windows mutation.
     The host's pinned clean checkpoint remains an independent required boundary.
-  Owner: RIDE-Windows maintainers. Version: 0.12.0.
-  Changelog: 0.12.0: Seed/recover only minimum age for a native maximum-age refusal test.
+  Owner: RIDE-Windows maintainers. Version: 0.13.0.
+  Changelog: 0.13.0: Route the private Windows 11 hibernation acceptance matrix.
+    0.12.0: Seed/recover only minimum age for a native maximum-age refusal test.
     0.11.1: Retain bounded task console diagnostics, including worker startup failures.
     0.11.0: Add isolated same-desktop Plan worker with owned task cleanup.
     0.10.0: Observe bounded existing guest desktop-shell candidates without changes.
@@ -77,7 +80,7 @@
 #>
 [CmdletBinding()]
 param([string] $FixturePath, [string] $EvidencePath, [switch] $Version)
-$script:ScriptVersion = '0.12.0'
+$script:ScriptVersion = '0.13.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1' -or $env:RIDE_INTEGRATION_VM -ne '1' -or $env:RIDE_TEST_RUN_ID -notmatch '^[0-9a-f]{32}$') { throw 'Use only the correlated disposable-VM controller.' }
@@ -294,7 +297,7 @@ if($scenario -in @('StoreInventory','StoreReferenceInventory')){
   return
 }
 $operation = Get-RideOperation -Id $fixture.OperationId
-if ($operation.Kind -notin @('RegistryValue','RegistryValueSet','WindowsService','FirewallProfile','LocalPasswordMaximumAge','OwnedPowerPlan') -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { throw 'This fixture supports only implemented captured setting families.' }
+if ($operation.Kind -notin @('RegistryValue','RegistryValueSet','WindowsService','FirewallProfile','LocalPasswordMaximumAge','OwnedPowerPlan','Hibernation') -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { throw 'This fixture supports only implemented captured setting families.' }
 $states = @($fixture.States)
 if ($states.Count -lt 1 -or $states.Count -gt 16 -or @($states | Select-Object -Unique).Count -ne $states.Count) { throw 'Fixture states must be a nonempty bounded unique list.' }
 foreach ($state in $states) { if ($state -isnot [string] -or -not $operation.States.ContainsKey($state)) { throw 'Fixture state is not declared by the catalog.' } }
@@ -308,7 +311,7 @@ $originalText = $null
 $seedSnapshot = $null
 $powerInventory = $null
 $creationFaultModule=$null
-$report['RecoveryMode']=if($operation.Kind -eq 'OwnedPowerPlan'){'Compensating'}else{'Exact'}
+$report['RecoveryMode']=if($operation.Kind -eq 'OwnedPowerPlan'){'Compensating'}elseif($operation.Kind -eq 'Hibernation'){'ConditionalConfiguration'}else{'Exact'}
 $report['RecoveryPassed']=$false
 $report['Scenario']=$scenario
 $report['GuardValidationPassed']=$false
@@ -843,6 +846,11 @@ try {
     Import-Module (Join-Path $privateRoot 'modules/RIDE.Engine.psm1') -Force
     $operation=Get-RideOperation -Id $fixture.OperationId
   }
+  if ($operation.Kind -eq 'Hibernation') {
+    $report['PrivateCandidateRoot'] = $privateRoot
+    Import-Module (Join-Path $PSScriptRoot 'RIDE.HibernationAcceptance.psm1') -Force
+    Invoke-RideHibernationAcceptance -Operation $operation -PrivateRoot $privateRoot -Report $report -EvidencePath $EvidencePath
+  } else {
   $original=Get-RideCurrentState -Operation $operation
   if($operation.Kind -eq 'OwnedPowerPlan'){
     if($original.OriginalOwned -or $original.DestinationExists){throw 'Owned-copy fixture requires absent ownership; never adopt an existing plan.'}
@@ -923,6 +931,7 @@ try {
   if($scenario -notin @('SettingDrift','InterruptedCreation')){$report.LifecyclePassed=$true}
   }
   }
+  }
 }
 catch { $report.Error=$_.Exception.Message }
 finally {
@@ -967,7 +976,7 @@ finally {
   }
   if((($report.LifecyclePassed -and $report.RecoveryPassed) -or ($report.GuardValidationPassed -and $report.RecoveryMode -eq 'CheckpointOnly') -or ($report.GuardValidationPassed -and $report.RecoveryMode -eq 'ExactFixtureSeed' -and $report.MinimumAgeConflict.MinimumSeedRecoveryPassed -and $report.MinimumAgeConflict.FailedRunRecoveryPassed -and $report.MinimumAgeConflict.MaximumNativeWrites -eq 0)) -and -not $report.Error -and -not $report.RecoveryError){$report.Status='Passed'}
   $report | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath $EvidencePath -Encoding UTF8
-  if ($privateRoot) {
+  if ($privateRoot -and -not ($operation.Kind -eq 'Hibernation' -and $report.Status -ne 'Passed')) {
     $expected=[IO.Path]::GetFullPath((Join-Path $env:TEMP ('RIDE-settings-fixture-'+$fixture.RunId)))
     if ([IO.Path]::GetFullPath($privateRoot) -cne $expected -or $expected -notlike ([IO.Path]::GetFullPath($env:TEMP).TrimEnd('\')+'\RIDE-settings-fixture-*')) { throw 'Private fixture cleanup path escaped its owned temporary root.' }
     Remove-Item -LiteralPath $privateRoot -Recurse -Force
@@ -978,6 +987,8 @@ if($report.RecoveryMode -eq 'ExactFixtureSeed'){
   Write-Output 'Minimum-age conflict refusal passed with zero maximum writes and exact fixture-seed recovery; no successful primary apply lifecycle claimed.'
 }elseif($report.RecoveryMode -eq 'CheckpointOnly'){
   Write-Output "Setting fixture passed $scenario refusal guard; RIDE recovery did not occur and host checkpoint cleanup is required: $($operation.Id)"
+}elseif ($operation.Kind -eq 'Hibernation') {
+  Write-Output 'Hibernation configuration matrix and controlled interruption recovery passed; power-transition acceptance and normal apply remain gated.'
 }else{
   Write-Output "Setting fixture passed lifecycle and captured recovery; feature/GUI and deliberate partial-failure evidence remain pending: $($operation.Id)"
 }

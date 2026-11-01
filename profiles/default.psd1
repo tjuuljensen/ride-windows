@@ -5,7 +5,7 @@
 @{
   SchemaVersion = 1
   Name = 'Default workstation'
-  Description = 'A small starter configuration for a new Windows workstation.'
+  Description = 'Windows 11 workstation preferences, security/network policies and 7-Zip, Git and Sysmon. Requires build 26300 or later; preview the full selection before applying.'
   Operations = @(
     @{ Id = 'windows.edge-friendly-url-format'; State = 'PlainText' }
     @{ Id = 'windows.start-run-as-different-user'; State = 'Enabled' }
@@ -28,9 +28,7 @@
     @{ Id = 'windows.dotnet-strong-crypto-32bit'; State = 'Enabled' }
     @{ Id = 'windows.f8-boot-menu-policy'; State = 'Legacy' }
     @{ Id = 'windows.dep-boot-policy'; State = 'OptOut' }
-    @{ Id = 'windows.bitlocker-encryption-method-os'; State = 'XtsAes256' }
-    @{ Id = 'windows.bitlocker-encryption-method-fixed-data'; State = 'XtsAes256' }
-    @{ Id = 'windows.bitlocker-encryption-method-removable-data'; State = 'XtsAes256' }
+    # BitLocker drive-type method policies remain candidates outside release defaults.
     @{ Id = 'windows.current-network-category'; State = 'Private' }
     @{ Id = 'windows.remote-assistance-policy'; State = 'Disabled' }
     @{ Id = 'windows.microsoft-product-updates'; State = 'Enabled' }

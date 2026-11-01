@@ -4,12 +4,12 @@
 
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
-| Settings | 37-57 | 2026-11-01; Additional F1 help, BitLocker policy and PowerShell profile-setting source tests passed 49/49; no native target outcome was accepted. |
-| Packages | 37-52 | 2026-11-01; Range reviewed and unchanged by the setting/profile regression; Defender-affected NirSoft routes remain excluded. |
+| Settings | 37-57 | 2026-11-01; Explicit candidate execution and hibernation source implementation are covered by 296 passing focused tests. Native hibernation acceptance remains deferred. |
+| Packages | 37-52 | 2026-11-01; Range unchanged by this settings batch; Defender-affected NirSoft routes remain excluded from staging and selection. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
-| Files and assets | 25-35 | 2026-11-01; Offline bundle regression remains 129/129 and planner 12/12; no file/asset outcome changed in the settings test run. |
-| Maintenance | 8-12 | 2026-11-01; Repository validation remains passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files; VM acceptance remains blocked at host CIM. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after remaining settings source regression; all five ranges unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
+| Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
+| Maintenance | 8-12 | 2026-11-01; Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed after the settings implementation source batch; all five ranges unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
 
 ## Read-only offline package preparation planner, 2026-11-01
 
@@ -101,6 +101,36 @@ estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180 and rounded
 
 See [remaining settings regression evidence](archive/evidence/remaining-settings-source-regression-2026-11-01.json).
 Next: continue remaining source-only test batches; VM acceptance remains blocked at host CIM.
+
+## Candidate execution and hibernation source implementation, 2026-11-01
+
+Implemented the explicit `-AllowCandidate` path for preview, apply and saved-run
+recovery while keeping pending acceptance, supported targets, profile defaults,
+privilege/build gates and offline acceptance independent. Added the optional
+`windows.hibernation` source handler and a bounded disposable acceptance runner;
+it remains excluded from bundled profiles and its target remains pending.
+
+The current focused Windows PowerShell 5.1/Pester 5.7.1 source suites passed
+296/296 with no failures or skips across candidate execution, hibernation and
+recovery orchestration, user handoff, catalog/profile validation, BitLocker
+policy metadata, PowerShell profile settings and File Explorer F1. Repository
+validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell
+files. One WindowsIntegration-tagged test was excluded.
+
+Resolved: source implementation and explicit preview/recovery gating. Retired or
+excluded legacy outcomes: none. Partial: source validation only; no legacy setting
+outcome closes. Deferred: native hibernation lifecycle, power transitions and
+conditional recovery on a disposable VM; current RIDE-Win11-Test acceptance remains
+blocked at host CIM. No setting was applied, no powercfg command ran, and no
+PasswordScan file, Defender state, installer or external network was accessed.
+The five estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180,
+rounded 125-180/about 155.
+
+See [implementation source evidence](archive/evidence/hibernation-candidate-source-implementation-2026-11-01.json),
+[candidate review](migrations/settings-post-migration-review.md#explicit-candidate-execution-and-recovery-2026-11-01)
+and [hibernation procedure](hibernation.md#disposable-windows-11-acceptance).
+Next: run the prepared procedure only when VM/CIM access is available; preserve
+Defender exclusions and the documented acceptance blocker.
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 
 Next run one Source Local MiTeCSystemAndTelephony request with TimeoutMinutes 20

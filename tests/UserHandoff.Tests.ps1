@@ -84,11 +84,15 @@ Describe 'Desktop-user launch preparation' {
     InModuleScope RIDE.UserHandoff {
       Mock Get-RideHandoffPlan {@([pscustomobject]@{Operation=$script:FixtureOp;State='quote"; Write-Error injected'})}
       Mock Start-RideHandoffShellProcess {param($Context,$Arguments)$script:CapturedArguments=$Arguments}
-      $null=Start-RideDesktopUserHandoff set -Id fixture -State fixture -Confirm:$false
+      $null=Start-RideDesktopUserHandoff set -Id fixture -State fixture -AllowCandidate -Confirm:$false
       $script:CapturedArguments|Should -Match '^-NoProfile -NoExit -EncodedCommand [A-Za-z0-9+/=]+$'
       $code=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(($script:CapturedArguments -split ' ')[-1]))
       $code|Should -Not -Match 'Write-Error injected'
       $code|Should -Not -Match 'ExecutionPolicy|Credential|runas'
+      $encodedRequest=[regex]::Match($code,"FromBase64String\('([A-Za-z0-9+/=]+)'\)").Groups[1].Value
+      $request=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($encodedRequest))|ConvertFrom-Json
+      $request.SchemaVersion|Should -Be 2
+      $request.AllowCandidate|Should -BeTrue
     }
   }
 }
@@ -106,6 +110,17 @@ Describe 'Desktop worker preflight and recovery' {
   It 'applies the validated user plan with saved-run output' {
     InModuleScope RIDE.UserHandoff {
       Invoke-RideDesktopUserRequest (New-HandoffTestRequest)|Should -Match '^Run ID:'
+      Should -Invoke Invoke-RidePlan -Exactly 1
+      Should -Invoke Invoke-RidePlan -Exactly 1 -ParameterFilter { -not $AllowCandidate }
+    }
+  }
+  It 'forwards schema-2 candidate opt-in and rejects a non-Boolean opt-in' {
+    InModuleScope RIDE.UserHandoff {
+      $r=New-HandoffTestRequest;$r.SchemaVersion=2;$r|Add-Member NoteProperty AllowCandidate $true
+      Invoke-RideDesktopUserRequest $r | Out-Null
+      Should -Invoke Invoke-RidePlan -Exactly 1 -ParameterFilter { $AllowCandidate }
+      $r.AllowCandidate='true'
+      {Invoke-RideDesktopUserRequest $r}|Should -Throw '*Invalid desktop handoff request*'
       Should -Invoke Invoke-RidePlan -Exactly 1
     }
   }
@@ -191,8 +206,9 @@ Describe 'Desktop worker preflight and recovery' {
       @{SchemaVersion=1;RunId=$id;Scopes=@('User');OperationIds=@($script:FixtureOp.Id)}|ConvertTo-Json|Set-Content (Join-Path $dir '_manifest.json')
       $recordPath=Join-Path $dir ($script:FixtureOp.Id+'.json')
       @{SchemaVersion=1;RunId=$id;OperationId=$script:FixtureOp.Id;Kind=$script:FixtureOp.Kind;Scope='User'}|ConvertTo-Json|Set-Content $recordPath
-      $r=New-HandoffTestRequest;$r.Command='restore';$r.RunId=$id;$r.Items=@()
+      $r=New-HandoffTestRequest;$r.Command='restore';$r.RunId=$id;$r.Items=@();$r.SchemaVersion=2;$r|Add-Member NoteProperty AllowCandidate $true
       Invoke-RideDesktopUserRequest $r;Should -Invoke Restore-RideRun -Exactly 1
+      Should -Invoke Restore-RideRun -Exactly 1 -ParameterFilter {$AllowCandidate}
       @{RunId=$id;Scopes=@('User','Machine')}|ConvertTo-Json|Set-Content (Join-Path $dir '_manifest.json')
       {Invoke-RideDesktopUserRequest $r}|Should -Throw '*user-only saved manifest*'
       Should -Invoke Restore-RideRun -Exactly 1
@@ -219,8 +235,8 @@ Describe 'CLI desktop-user routing' {
     $spy=@'
 function Start-RideDesktopUserHandoff {
  [CmdletBinding(SupportsShouldProcess)]
- param($Command,$Id,$State,$RunId,$Library,$Profile)
- [pscustomobject]@{Command=$Command;Id=$Id;State=$State;WhatIf=[bool]$WhatIfPreference;ConfirmBound=$PSBoundParameters.ContainsKey('Confirm');Confirm=[bool]$PSBoundParameters['Confirm']}
+ param($Command,$Id,$State,$RunId,$Library,$Profile,[switch]$AllowCandidate)
+ [pscustomobject]@{Command=$Command;Id=$Id;State=$State;WhatIf=[bool]$WhatIfPreference;ConfirmBound=$PSBoundParameters.ContainsKey('Confirm');Confirm=[bool]$PSBoundParameters['Confirm'];AllowCandidate=[bool]$AllowCandidate}
 }
 Export-ModuleMember -Function Start-RideDesktopUserHandoff
 '@
@@ -230,9 +246,10 @@ Export-ModuleMember -Function Start-RideDesktopUserHandoff
     Get-Module -All|Where-Object {$_.Path -and $_.Path.StartsWith($script:CliRoot+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)}|Remove-Module -Force
   }
   It 'routes a user setting and preview without loading an operational engine' {
-    $r=& $script:Cli set windows.show-known-extensions Enabled -UserContext Desktop -WhatIf -Confirm:$false
+    $r=& $script:Cli set windows.show-known-extensions Enabled -UserContext Desktop -AllowCandidate -WhatIf -Confirm:$false
     $r.Command|Should -Be set;$r.Id|Should -Be windows.show-known-extensions;$r.State|Should -Be Enabled
     $r.WhatIf|Should -BeTrue;$r.ConfirmBound|Should -BeTrue;$r.Confirm|Should -BeFalse
+    $r.AllowCandidate|Should -BeTrue
   }
   It 'refuses unsupported commands before importing the handoff' {
     {& $script:Cli install package.7zip -UserContext Desktop}|Should -Throw '*supports set*'

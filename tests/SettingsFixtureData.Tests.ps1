@@ -81,7 +81,7 @@ Describe 'Request-bound settings fixtures' {
   }
   It 'refuses owned guards for another handler family and enumerates the same finite choices' {
     {Read-RideSettingsFixture -Path (New-FixtureDataFile -Schema 2 -Extra "Scenario='ActiveRefusal'") -RunId $runId -IntegrationSuite SettingsBatch60 -CatalogPath $catalogPath} | Should -Throw '*owned power*'
-    @(Get-RideSettingsFixtureScenario).Count | Should -Be 10
+    @(Get-RideSettingsFixtureScenario).Count | Should -Be 11
   }
   It 'accepts only identity-bound no-operation inventory schema 3' {
     $path=Join-Path $TestDrive 'inventory.psd1'

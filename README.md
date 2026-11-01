@@ -4,14 +4,32 @@ RIDE (Remove, Install, Disable, Enable) is a PowerShell engine for setting up an
 
 ## Quick start
 
-Run the default profile from a local checkout:
+From a local checkout, preview the Windows 11 workstation profile before applying it
+(build 26300 or later). Use an elevated PowerShell session belonging to the user
+whose desktop settings should change:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 plan
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\ride.ps1 apply
 ```
 
-The default profile shows file extensions, disables Autoplay, Autorun, and inking and typing data collection, and installs 7-Zip. Package and machine policy operations require an elevated PowerShell session. To download and preview a published release on a new machine, use the same reviewed
+The [default profile](profiles/default.psd1) contains 70 selections covering Explorer,
+taskbar, privacy, security and network behavior, and installs 7-Zip, Git for Windows
+and Sysmon. It also configures Defender exclusions, notification visibility, local
+network discovery and boot/DEP policies; it is not a minimal or universal baseline.
+Review the complete plan and edit a copy when those choices do not suit the machine.
+Pending BitLocker method policies are excluded. F1 help control is accepted for
+File Explorer on the documented Windows 11 build; it is not global F1 suppression.
+See [Windows settings](docs/windows-settings.md) for evidence and limitations.
+
+User settings affect the execution account, including when elevated. Using another
+administrator's credentials changes that account's user settings. Automatic mixed
+profile handoff to a different desktop user is not supported. Retain saved run IDs
+for recovery with `restore -RunId <id>`; see [user context](docs/intended-user-handoff.md).
+Other [profiles](profiles/) are explicit selections, not a declaration that this
+workstation default applies to Windows Server.
+
+To download and preview a published release on a new machine, use the same reviewed
 tag for the bootstrap script, its command-line helper module and the RIDE archive.
 Replace `<release-tag>` with
 the exact tag published for the version being installed. The v3.0 release tag has not
@@ -105,6 +123,25 @@ Use `.\ride.ps1 search desktop-folder`, `.\ride.ps1 search 'File Explorer'`, or
 Search includes declared registry paths, including nested value sets. Quote paths;
 backslashes need no doubling. See the [catalog search guide](docs/catalog-search.md)
 for fields, completion and pipeline examples.
+
+Optional [hibernation file control](docs/hibernation.md) is a Windows 11 candidate:
+`windows.hibernation` offers `Off`, `Full`, `Reduced` and `Size50` through `Size100`
+(percent of RAM). Tab completes these states from the catalog. It is excluded
+from bundled profiles and remains pending native acceptance. Explicit development
+use requires `-AllowCandidate`, including with `-WhatIf` and saved-run restore.
+
+`-AllowCandidate` works with `apply`, `install`, `set`, `unset`, `remove` and
+`restore`. It permits only pending operations whose `CandidateTargets` include
+the current Windows target; build, edition, privilege, offline-bundle acceptance
+and handler checks remain. It does not change supported targets or mark acceptance
+complete. Supply it again when restoring a candidate run. Discovery and `plan`
+do not need it; `download` retains its separate acquisition behavior.
+
+```powershell
+.\ride.ps1 set windows.hibernation Reduced -AllowCandidate -WhatIf
+.\ride.ps1 set windows.hibernation Reduced -AllowCandidate
+.\ride.ps1 restore -RunId <saved-run-id> -AllowCandidate -WhatIf
+```
 
 Packages may declare alternate distributions. Use `install`, `remove`,
 `download` or `show` with `-Variant <name>`; profiles use a package-entry

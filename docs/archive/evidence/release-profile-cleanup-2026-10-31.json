@@ -1,0 +1,176 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-10-31T05:35:02.1690790+01:00",
+  "ReviewDate": "2026-10-31",
+  "Outcome": "Release-profile cleanup complete; final release-workflow acceptance remains separate",
+  "Changes": [
+    "Default profile reduced from 73 to 70 selections by excluding three pending BitLocker encryption-method policies; IDs and candidate implementations retained.",
+    "File Explorer F1 accepted for Windows 11 with MinimumBuild 26300 using supplied T480 observations; no global or desktop F1 claim.",
+    "Windows PowerShell 5.1 color metadata reconciled with retained Windows 11 and Windows Server 2025 acceptance.",
+    "README, settings guide, acceptance runner and generated catalog updated."
+  ],
+  "ProfileAudit": [
+    {
+      "UnsupportedWindows11": 0,
+      "Selections": 1,
+      "Profile": "analyst-basics",
+      "Pending": 0,
+      "Expanded": 2
+    },
+    {
+      "UnsupportedWindows11": 0,
+      "Selections": 1,
+      "Profile": "baseline",
+      "Pending": 0,
+      "Expanded": 1
+    },
+    {
+      "UnsupportedWindows11": 0,
+      "Selections": 70,
+      "Profile": "default",
+      "Pending": 0,
+      "Expanded": 70
+    },
+    {
+      "UnsupportedWindows11": 0,
+      "Selections": 1,
+      "Profile": "git-development",
+      "Pending": 0,
+      "Expanded": 2
+    },
+    {
+      "UnsupportedWindows11": 0,
+      "Selections": 2,
+      "Profile": "powershell-colors",
+      "Pending": 0,
+      "Expanded": 2
+    }
+  ],
+  "Validation": {
+    "Scope": "Windows-native PowerShell 5.1; mocked/inert-fixture tests. Reran only the corrected ProfileSettings suite. Initial run had one not-run case; do not interpret Total as all executed.",
+    "Corrections": [
+      "Updated the stale PS5.1 candidate expectation to match retained acceptance.",
+      "Resolved relative completion input from the repository root rather than the test harness scratch directory."
+    ],
+    "InitialFocusedRun": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Failed",
+      "Total": 157,
+      "Passed": 154,
+      "Failed": 2,
+      "Skipped": 0,
+      "Failures": [
+        {
+          "Name": "PowerShell profile setting files.keeps per-runtime candidate acceptance and defaults explicit",
+          "Error": [
+            "Expected $true, but got $false."
+          ]
+        },
+        {
+          "Name": "Profile settings engine and discovery.plans set, unset and baseline from declared metadata and completes states read-only",
+          "Error": [
+            "Expected 'Recommended' to be found in collection .\\bd7dda96-7a96-4963-affb-42215f3def29, but it was not found."
+          ]
+        }
+      ],
+      "ContainerErrors": []
+    },
+    "UnchangedPassingSuites": [
+      "F1Help",
+      "BitLockerEncryptionMethodPolicies",
+      "CatalogProfileValidation",
+      "Catalog"
+    ],
+    "RepositoryValidation": {
+      "Status": "Passed",
+      "PowerShellFiles": 317,
+      "Operations": 451,
+      "Command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/validate.ps1",
+      "Groups": 8,
+      "Profiles": 5
+    },
+    "ProfileSettingsRerun": {
+      "PowerShell": "5.1.26100.9818",
+      "Pester": "5.7.1",
+      "Result": "Passed",
+      "Total": 37,
+      "Passed": 37,
+      "Failed": 0,
+      "Skipped": 0,
+      "Failures": [],
+      "ContainerErrors": []
+    }
+  },
+  "RetainedEvidence": [
+    "docs/archive/evidence/t480-f1-acceptance-20261026-115940.md",
+    "docs/archive/evidence/t480-ride-preflight-20261026-113111.md",
+    "docs/archive/migrations/powershell-profile-acceptance.md"
+  ],
+  "RetainedColorRunIds": [
+    "cd91b3d8ed31438f9cb331dc25a8a2b4",
+    "236988fcb1284353b35c84fc43560bfc"
+  ],
+  "Limits": [
+    "T480 reports omit source revision and UBR; observed build is 26300 Pro. No new manual, other-build, restart, desktop or Server F1 acceptance.",
+    "Current color-module regression is local; retained runtime evidence predates later user-bin extensions.",
+    "Expanded profile support audit is catalog-level; it does not replace final combined release-workflow acceptance."
+  ],
+  "WindowsStateChanged": false,
+  "VmRun": false,
+  "NewManualAcceptance": false,
+  "RemainingReleaseItems": [
+    "Bootstrap correction",
+    "Requested offline delivery",
+    "Final-source verification",
+    "Versioned publication"
+  ],
+  "LegacyEstimate": {
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "ReasonUnchanged": "No complete legacy selector bundle newly closed; File Explorer F1 remains narrower than the desktop bundle and colors are a separate requested outcome.",
+    "Rounded": "125-180",
+    "Packages": "37-52",
+    "Settings": "37-57",
+    "Maintenance": "8-12",
+    "Exact": "126-180"
+  },
+  "SourceHashes": [
+    {
+      "Sha256": "c43e41663819a28e17dda8f4b7f52a10bf7ea273c19f4c61c9bafbe51ad70b81",
+      "Path": "catalog/operations.psd1"
+    },
+    {
+      "Sha256": "3d295f6c02af71bdf2b3543f95f4ceace5276f82d2485f3d9c439ac37b0fe471",
+      "Path": "profiles/default.psd1"
+    },
+    {
+      "Sha256": "c1a4510830cd4ab66339ca366f61c611e247c3e7a6a085f2ddc4a152a51f96a8",
+      "Path": "profiles/powershell-colors.psd1"
+    },
+    {
+      "Sha256": "7646b87e08cab9ef1f82752064101ca77621ed28d692d43bfcf404ee8bb30eff",
+      "Path": "tests/F1Help.Tests.ps1"
+    },
+    {
+      "Sha256": "8b907dc3388fb45ccc4c27b4acce8736ad4ef25ce6e67dc45ef5f5ce2c883b33",
+      "Path": "tests/BitLockerEncryptionMethodPolicies.Tests.ps1"
+    },
+    {
+      "Sha256": "65f314b9aa6a4556a2918e1d30b71592b1c31f311a054a774a028304868ef5af",
+      "Path": "tests/Catalog.Tests.ps1"
+    },
+    {
+      "Sha256": "528c8beb543ac1d1e7d9af3189b6545aafc564772995d43314ff00fca07aa230",
+      "Path": "tests/CatalogProfileValidation.Tests.ps1"
+    },
+    {
+      "Sha256": "14d3bd0d109b5bd1bddbc26e626b66c0ca79cad7e064fdbb5115e24132ec04ee",
+      "Path": "tests/ProfileSettings.Tests.ps1"
+    },
+    {
+      "Sha256": "5573dffe69bf0b725464738ea6697e7d6d2b2928a3e68ec18a6000db4c3af625",
+      "Path": "tests/integration/Invoke-RideF1HelpAcceptance.ps1"
+    }
+  ]
+}

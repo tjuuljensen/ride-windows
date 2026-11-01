@@ -7,8 +7,9 @@
   selection and unapproved candidate targets before integration can start.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7.
-  Owner: RIDE-Windows maintainers. Version: 0.10.0.
-  Changelog: 0.10.0: Bound the isolated minimum-age conflict to maximum-age Days1.
+  Owner: RIDE-Windows maintainers. Version: 0.11.0.
+  Changelog: 0.11.0: Bind the hibernation matrix to one Windows 11 candidate and six states.
+    0.10.0: Bound the isolated minimum-age conflict to maximum-age Days1.
     0.9.0: Add schema-7 isolated desktop Plan actor; no app action selection.
     0.8.0: Add schema-6 read-only disposable desktop resource probe.
     0.7.0: Add schema-5 non-mutating Store app guard preflight.
@@ -28,7 +29,7 @@ function Get-RideSettingsFixtureScenario {
   .OUTPUTS
     String. Scenario names shared by validation and optional completion.
   #>
-  'Lifecycle'; 'ActiveRefusal'; 'SettingDrift'; 'InterruptedCreation'; 'StoreInventory'; 'StoreReferenceInventory'; 'StoreAppPreflight'; 'StoreDesktopProbe'; 'StoreDesktopPlan'; 'MinimumAgeConflict'
+  'Lifecycle'; 'ActiveRefusal'; 'SettingDrift'; 'InterruptedCreation'; 'StoreInventory'; 'StoreReferenceInventory'; 'StoreAppPreflight'; 'StoreDesktopProbe'; 'StoreDesktopPlan'; 'MinimumAgeConflict'; 'HibernationMatrix'
 }
 function Read-RideSettingsFixture {
   <#
@@ -78,10 +79,19 @@ function Read-RideSettingsFixture {
   $matches=@($catalog.Operations | Where-Object Id -CEQ $fixture.OperationId)
   if ($matches.Count -ne 1) { throw 'Fixture operation is not a unique catalog ID.' }
   $operation=$matches[0]
-  if($fixture.SchemaVersion -eq 2 -and $fixture.Scenario -eq 'MinimumAgeConflict'){
+  if ($fixture.Scenario -eq 'HibernationMatrix' -or $operation.Kind -eq 'Hibernation') {
+    if ($fixture.SchemaVersion -ne 2 -or $fixture.Scenario -cne 'HibernationMatrix' -or
+        $operation.Id -cne 'windows.hibernation' -or $operation.Kind -cne 'Hibernation' -or
+        $fixture.Target -cne 'Windows 11' -or $fixture.IntegrationSuite -cne 'SettingsBatch60' -or
+        $fixture.RunId -eq ('0' * 32) -or $fixture.AllowPendingCandidate -ne $true -or -not $operation.PendingAcceptance -or
+        @($operation.SupportedTargets).Count -ne 0 -or
+        (@($fixture.States) -join ',') -cne 'Off,Full,Reduced,Size50,Size75,Size100') {
+      throw 'HibernationMatrix requires exactly the pending Windows 11 hibernation candidate, SettingsBatch60 and its six ordered states.'
+    }
+  }elseif($fixture.SchemaVersion -eq 2 -and $fixture.Scenario -eq 'MinimumAgeConflict'){
     if($operation.Id -cne 'windows.local-password-maximum-age' -or $operation.Kind -ne 'LocalPasswordMaximumAge' -or @($fixture.States).Count -ne 1 -or $fixture.States[0] -cne 'Days1'){throw 'Minimum-age conflict requires exactly the local maximum-age Days1 selection.'}
   }elseif($fixture.SchemaVersion -eq 2 -and $fixture.Scenario -ne 'Lifecycle' -and $operation.Kind -ne 'OwnedPowerPlan'){throw 'Guard scenarios require an owned power-plan operation.'}
-  if ($operation.Kind -notin @('RegistryValue','RegistryValueSet','WindowsService','FirewallProfile','LocalPasswordMaximumAge','OwnedPowerPlan') -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { throw 'Fixture requires an implemented captured settings family; packages are forbidden.' }
+  if ($operation.Kind -notin @('RegistryValue','RegistryValueSet','WindowsService','FirewallProfile','LocalPasswordMaximumAge','OwnedPowerPlan','Hibernation') -or 'Set' -notin $operation.Actions -or 'Restore' -notin $operation.Actions) { throw 'Fixture requires an implemented captured settings family; packages are forbidden.' }
   $states=@($fixture.States)
   if ($states.Count -lt 1 -or $states.Count -gt 16 -or @($states | Select-Object -Unique).Count -ne $states.Count) { throw 'Fixture states must be bounded, nonempty and unique.' }
   foreach ($state in $states) { if ($state -isnot [string] -or -not $operation.States.ContainsKey($state)) { throw 'Fixture state is not declared in the source catalog.' } }

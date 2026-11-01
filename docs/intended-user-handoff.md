@@ -34,6 +34,13 @@ run ID. A launch receipt is neither successful application nor recovery evidence
 The window remains open on success or error. `-Confirm` requests launch confirmation
 and is forwarded to the child engine for per-operation confirmation.
 
+`-AllowCandidate` is also forwarded for set, unset, apply and restore. It permits
+only declared pending targets and does not weaken the user-only, identity or
+privilege checks. Supply it again for candidate recovery. Handoff request schema
+2 carries a required Boolean opt-in; schema-1 requests remain accepted without
+candidate permission. A preview still launches no child, so it does not claim
+that the child's target or live-state checks have passed.
+
 The worker rechecks SID, session, shell process, elevation, source hashes and all
 operation contracts before engine changes. A changed checkout, inaccessible source,
 changed desktop or incompatible selection fails visibly. Source checks include

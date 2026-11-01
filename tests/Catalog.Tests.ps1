@@ -108,7 +108,7 @@ Describe 'RIDE operation catalog' {
   It 'declares support, scope, privilege, actions, and rollback for every operation' {
     foreach ($operation in $script:Catalog.Operations) {
       if ($operation.PendingAcceptance) {
-        $operation.Kind | Should -BeIn @('Package', 'StoreApp', 'ProfileSetting', 'UserPath', 'UserProxy', 'WinHttpProxy', 'FirewallProfile', 'RemoteDesktopFirewall', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge', 'DesktopShortcut', 'BitLockerWorkflow', 'WindowsCapability')
+        $operation.Kind | Should -BeIn @('Package', 'StoreApp', 'ProfileSetting', 'UserPath', 'UserProxy', 'WinHttpProxy', 'FirewallProfile', 'RemoteDesktopFirewall', 'RegistryValueSet', 'RegistryValue', 'OwnedPowerPlan', 'WindowsService', 'LocalPasswordMaximumAge', 'Hibernation', 'DesktopShortcut', 'BitLockerWorkflow', 'WindowsCapability')
         $operation.SupportedTargets.Count | Should -Be 0
         $operation.CandidateTargets.Count | Should -BeGreaterThan 0
       } else { $operation.SupportedTargets.Count | Should -BeGreaterThan 0 }
@@ -366,8 +366,7 @@ Describe 'RIDE operation catalog' {
       $futureOperation.PendingAcceptance | Should -BeTrue
     }
     $futureStates = @($defaultProfile.Operations | Where-Object Id -in $futureOperationIds)
-    $futureStates.Count | Should -Be 3
-    @($futureStates | Where-Object State -ne 'XtsAes256').Count | Should -Be 0
+    $futureStates.Count | Should -Be 0
     @($defaultProfile.Operations | Where-Object Id -eq $operation.Id).Count | Should -Be 0
   }
 

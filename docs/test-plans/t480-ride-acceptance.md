@@ -32,11 +32,11 @@ boot-recovery mutations out of scope until their separate recovery gate passes.
   Windows CI/Pester and disposable VMs.
 - Do not run the all-settings integration runner, a default profile, or package
   acquisition/installers on the T480 as part of this plan.
-- The F1 Help operation is implemented as an experimental Windows 11 candidate
-  with published support still pending. The T480 acceptance script temporarily
-  enables it in memory for this process only; it does not change catalog
-  support. The user-visible mapping remains unverified until the physical test
-  report passes. Do not edit registry values manually.
+- The supplied 2026-10-26 F1 and preflight reports establish File Explorer behavior
+  and exact recovery on T480 Windows 11 Pro build 26300. Catalog acceptance is
+  limited to File Explorer on Windows 11 with a build 26300 minimum; desktop/global
+  F1 behavior is not claimed. No repeat manual run is needed. The maintained runner
+  uses ordinary catalog gates without a support bypass. Do not edit registry values manually.
 - The automated T480 preflight is read-only. It records OS/build, model, CPU,
   memory, disk capacity, TPM, Secure Boot, firmware virtualization/SLAT,
   WSL/Virtual Machine Platform feature states, BitLocker status, and restore-point
@@ -51,7 +51,7 @@ boot-recovery mutations out of scope until their separate recovery gate passes.
 | T480-01 | Establish a safe, reproducible starting point and identify the exact source under test. | Confirm the restore point is still listed; ensure personal data has a separate backup; record the source revision and manifest supplied with the reviewed source copy, plus the built-in PowerShell version. Run `tools/validate.ps1` and focused mocked Pester tests on the development machine before preparing the copy; do not install or run Pester on the T480. | The source identity and validation results accompany the copy. The T480 needs no Git, Pester, or other installed tool. Development-machine mocked tests do not prove live T480 behavior. No package install or Windows setting change occurs. |
 | T480-02 | Verify RIDE discovery and inspection are read-only on this target. | In PowerShell 5.1, import the RIDE engine from the checkout; list settings; show each selected operation; inspect plan and status; inspect command completion. Capture the before state, then repeat status/plan and compare. | Selected IDs resolve, descriptions/states are understandable, and platform/scope are accurate. Inspection and completion do not change the captured state. Do not select a machine operation unless its target guard and elevation requirement are clear. |
 | T480-03 | Establish actual F1 behavior before evaluating a RIDE change. | With no F1 override installed, record whether F1 in File Explorer and on the desktop opens Help on this exact Windows build. Also record F1 behavior in one unrelated application where the expected result is known. Record application/build and observed result; do not use a potentially destructive document or action. | Baseline is repeatable and documented. If Explorer/Desktop F1 does not invoke Help, mark the user-visible issue absent on this build; do not enable a workaround just to force a result. |
-| T480-04 | Qualify the experimental F1 Help Blocked/WindowsDefault lifecycle without collateral effects. | Run `tests/integration/Invoke-RideF1HelpAcceptance.ps1` in the normal T480 user session. Record baseline; allow the script's preview and explicit confirmation; observe Explorer/Desktop and unrelated-app behavior under Blocked and WindowsDefault; review its sanitized report. | The script's final exact registry state matches the pre-test snapshot; no restore errors; repeat/idempotence checks pass. Record visible F1 outcomes even if the override has no effect. This remains candidate-only evidence; it does not declare Windows 11 support. |
+| T480-04 | File Explorer F1 Blocked/WindowsDefault behavior and recovery. | Completed by the supplied 2026-10-26 report on T480 Windows 11 Pro build 26300. Reuse it; do not repeat this manual exercise for release cleanup. The maintained runner is available for a relevant future change and enforces catalog target/build gates. | Explorer stopped opening browser help under Blocked and opened it under WindowsDefault; exact original registry state restored with no reported errors. Edge retained its own F1 behavior. Desktop/global F1 suppression is not claimed. |
 | T480-05 | Characterize TPM/boot readiness without changing protection state. | From the preflight report, review TPM readiness, Secure Boot state, WinRE availability if separately checked, and current BitLocker status. Use read-only Windows inspection only. Confirm recovery access arrangements before planning any encrypted-boot test. | Readiness facts are known and internally consistent. Since BitLocker is currently off, this case can qualify only read-only platform detection; it cannot qualify encrypted boot, recovery-screen, protector, or BitLocker restore behavior. |
 | T480-06 | Qualify a future BitLocker/TPM/boot recovery lifecycle, if separately approved. | Before any mutation, make a current backup and confirm the recovery key is saved and retrievable (USB or password manager are both acceptable). Review the exact RIDE operation, target scope, expected reboot, recovery route, and rollback. Then use a separately approved test procedure to capture pre-state, apply one change, reboot and observe, restore the captured state, reboot and verify. Never include the key in output. | This case remains **not ready** while BitLocker is off and the recovery procedure is not approved. A system restore point alone does not pass this gate. Do not start enrollment, protector changes, suspension, or boot-policy changes under this plan. |
 | T480-07 | Produce evidence sufficient to decide whether each tested RIDE function qualifies. | Complete the report template below for every case; attach the sanitized preflight report and development-machine validation/Pester results; record operation ID, source revision, before/after observations, run ID, reboots, restore result, and deviations. | Each claim has evidence for the named case and T480 build. Mark pass, fail, blocked, or not run explicitly. A blocked or unrun case is not a pass and does not widen target support. |
@@ -112,11 +112,12 @@ boot-recovery mutations out of scope until their separate recovery gate passes.
 4. Stop if an operation is pending acceptance, has unclear scope, requires
    unexplained elevation, or would acquire/install a package.
 
-### 4. Run the experimental F1 candidate lifecycle
+### 4. Reuse the completed F1 lifecycle
 
-1. Run `tests/integration/Invoke-RideF1HelpAcceptance.ps1` from the reviewed
-   source copy in the normal, unelevated T480 desktop session. It enables the
-   pending candidate only in its own process; catalog support remains pending.
+1. Use the retained 2026-10-26 reports for release-profile cleanup. Only for a
+   relevant future change, run `tests/integration/Invoke-RideF1HelpAcceptance.ps1`
+   from reviewed source in the normal, unelevated T480 desktop session. It uses
+   ordinary catalog target/build gates and does not bypass support checks.
 2. Confirm the baseline results before the script applies `Blocked`. Observe
    Explorer, desktop, and a known unrelated application's F1 behavior under
    both `Blocked` and `WindowsDefault`, then allow the script to restore the
@@ -197,8 +198,8 @@ personal file paths, or account names.
 The laptop's TPM/boot role and recovery-key condition are recorded in the
 [remaining settings plan](../migrations/remaining-settings-plan.md#mixed-scope-profiles-and-acceptance-resources-2026-10-24)
 and [migration follow-up](../migrations/remaining-migrations-follow-up.md#mixed-scope-profiles-and-tpm-boot-acceptance-2026-10-24).
-The F1 candidate's current evidence and pending implementation/behavior gates
-are recorded in the [settings post-migration review](../migrations/settings-post-migration-review.md#f1-help-windows-native-preference-and-source-comparison-2026-10-11).
+The F1 evidence and limited acceptance scope are recorded in the
+[Windows settings guide](../windows-settings.md#file-explorer-f1-help).
 The Docker candidate's package-only boundary and pending physical lifecycle are
 recorded in the [application package guide](../application-packages.md#docker-desktop-candidate-for-windows-11)
 and [dated review](../migrations/application-migration-review.md#docker-desktop-ready-for-physical-ride-review-2026-10-22). Current Docker

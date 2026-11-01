@@ -1,5 +1,5 @@
 # Optional PowerShell startup configuration; both runtimes must be installed.
-# Owner: RIDE-Windows maintainers. Target/visual VM acceptance remains pending.
+# Accepted on Windows 11 and Server 2025 Desktop Experience with Windows Terminal.
 @{
   SchemaVersion = 1
   Name = 'PowerShell session colors'
