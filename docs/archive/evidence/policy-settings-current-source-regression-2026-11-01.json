@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/CeipPolicy.Tests.ps1",
+    "tests/MediaPolicies.Tests.ps1",
+    "tests/ServerPolicies.Tests.ps1",
+    "tests/UpdateNotificationPolicy.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 43,
+    "Passed": 43,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 42.12
+  },
+  "Coverage": [
+    "CEIP policy inversion and recovery metadata",
+    "Separate conditional media policy mappings and saved-state behavior",
+    "Server policy explicit reverse semantics and application gates",
+    "Coordinated Windows Update notification candidate state and recovery"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveRegistryAccessed": false,
+    "PrivacyCollectionInvoked": false,
+    "MediaPlayerOrLicenseAccessed": false,
+    "WindowsUpdateScanOrInstallInvoked": false,
+    "ShutdownOrLogonActionInvoked": false,
+    "RegistryHandlersMocked": true,
+    "RegistryTestPluginEnabled": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Policy setting source regression validates catalog and mocked recovery logic; experimental meanings and native Windows outcomes remain unverified.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native settings acceptance.",
+      "Experimental mappings require current-build feature evidence before promotion.",
+      "Six unavailable setting lifecycles and feature/UI/restart checks remain open."
+    ]
+  }
+}
