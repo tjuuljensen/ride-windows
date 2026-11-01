@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/Catalog.Tests.ps1",
+    "tests/CatalogDependencyValidation.Tests.ps1",
+    "tests/CatalogProfileValidation.Tests.ps1"
+  ],
+  "InitialRun": {
+    "Passed": 112,
+    "Failed": 1,
+    "FailedCase": "captures and exactly restores registry subtree values, kinds, and security descriptors",
+    "Failure": "Sandbox denied registry access while the WindowsIntegration test created its unique HKCU subtree; its finally cleanup was also denied."
+  },
+  "FocusedRerun": {
+    "ExcludedLine": "tests/Catalog.Tests.ps1:399",
+    "Passed": 112,
+    "Failed": 0,
+    "NotRun": 1,
+    "DurationSeconds": 67.02
+  },
+  "RepositoryValidation": {
+    "Result": "Passed",
+    "Operations": 452,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 326,
+    "OperationDocumentationCurrent": true
+  },
+  "RegistryBoundary": {
+    "AttemptedTestPathPattern": "HKCU:\\Software\\RIDE-Tests\\RegistryKeySet-<random-guid>",
+    "CleanupDenied": true,
+    "ExactGeneratedGuidRecorded": false,
+    "ResidualTestKeyPresence": "Unresolved; no further registry access was attempted."
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Catalog/profile structure and repository validation passed; the only stateful registry integration case was denied and excluded from the rerun.",
+    "Blockers": [
+      "The stateful HKCU integration case cannot be completed or cleaned by the current sandbox; possible GUID-scoped test residue remains unresolved.",
+      "VM/checkpoint acceptance remains blocked before state retrieval by host CIM access.",
+      "NirSoft lifecycle tests remain excluded due to the reported Defender alert."
+    ]
+  }
+}
