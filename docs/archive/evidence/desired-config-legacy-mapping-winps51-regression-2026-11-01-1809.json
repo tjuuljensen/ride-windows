@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T18:09:55Z",
+  "Suites": [
+    "tests/DesiredConfiguration.Tests.ps1",
+    "tests/LegacyDeploymentMapping.Tests.ps1"
+  ],
+  "PowerShell": "Windows PowerShell 5.1.26100.9818",
+  "Pester": "5.7.1",
+  "Invocation": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "TestsDiscovered": 57,
+    "Result": { "Passed": 57, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 12.4 }
+  },
+  "Coverage": [
+    "Read-only desired-state reference schema, exact hashes and target boundaries",
+    "WhatIf and exclusive output-creation behavior",
+    "Versioned legacy selection metadata roundtrip and recovery boundaries",
+    "Identity and owner mismatch refusal without rewriting durable state"
+  ],
+  "SafetyBoundary": {
+    "LiveWindowsStateRead": false,
+    "RegistryChanged": false,
+    "StateStoreRewritten": false,
+    "NetworkUsed": false,
+    "InstallerUsed": false,
+    "VmAcceptanceRun": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell reference and mapping tests preserve logical data only; durable byte/store migration and native acceptance remain open.",
+    "Blockers": [
+      "Durable byte/store migration and publication decisions remain deferred.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access."
+    ]
+  }
+}
