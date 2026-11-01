@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/ApplicationPackages.Tests.ps1",
+    "tests/PackageAdoptionReview.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 163,
+    "Passed": 160,
+    "Failed": 0,
+    "Skipped": 3,
+    "NotRun": 0,
+    "DurationSeconds": 125.23
+  },
+  "SkippedCases": [
+    {
+      "Suite": "tests/ApplicationPackages.Tests.ps1",
+      "Context": "RawCopy retained publisher archive lifecycle",
+      "Reason": "No explicit retained RawCopy archive fixture was supplied."
+    },
+    {
+      "Suite": "tests/ApplicationPackages.Tests.ps1",
+      "Context": "ETL2PCAPNG retained publisher executable lifecycle",
+      "Reason": "No explicit retained ETL2PCAPNG executable fixture was supplied."
+    },
+    {
+      "Suite": "tests/ApplicationPackages.Tests.ps1",
+      "Context": "JoeWare AdMod retained archive file lifecycle",
+      "Reason": "No explicit retained publisher AdMod archive fixture was supplied."
+    }
+  ],
+  "Coverage": [
+    "Package variant selection and target eligibility",
+    "Managed portable ownership, exact file restore and modified-file protection",
+    "Synthetic package state and installer boundary checks",
+    "Metadata-only adoption review without implicit ownership or native discovery"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "PublisherPayloadDownloaded": false,
+    "RealInstallerInvoked": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderBlockedCollectionSelected": false,
+    "NirSoftOrPasswordScanFileAccessed": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Package source and ownership regression validates selection and recovery code but no publisher artifact or VM package lifecycle was accepted.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and package-level fast-track acceptance.",
+      "Defender-active/no-alert confirmation for Sysinternals remains pending.",
+      "RawCopy, ETL2PCAPNG and AdMod actual-archive cases remain skipped pending retained artifacts.",
+      "PasswordScan and other Defender-blocked utilities remain excluded."
+    ]
+  }
+}
