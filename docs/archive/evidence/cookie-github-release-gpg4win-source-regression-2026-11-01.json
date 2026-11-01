@@ -1,0 +1,62 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/CookieCruncherPackage.Tests.ps1",
+    "tests/GitHubReleaseDiscovery.Tests.ps1",
+    "tests/Gpg4winPackage.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 45,
+    "Passed": 44,
+    "Failed": 0,
+    "Skipped": 1,
+    "NotRun": 0,
+    "DurationSeconds": 30.01
+  },
+  "SkippedCases": [
+    {
+      "Suite": "tests/CookieCruncherPackage.Tests.ps1",
+      "Reason": "No explicit retained Cookie Cruncher archive fixture was supplied."
+    }
+  ],
+  "Coverage": [
+    "Cookie Cruncher selected-member package declaration and synthetic file ownership/recovery",
+    "GitHub release metadata cache, rate-limit backoff and acquisition provenance with mocked HTTP/time",
+    "Gpg4win selected package scope, mocked installer configuration, nested registration and user-data preservation boundaries"
+  ],
+  "SafetyBoundary": {
+    "HttpAndInstallerProvidersMocked": true,
+    "CookieAndGpgFixturesIsolated": true,
+    "VmOrCheckpointQueried": false,
+    "LiveWindowsStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderBlockedToolsSelected": false,
+    "DefenderStateChanged": false,
+    "Gpg4winTemporaryRoamingWarningPathExistsAfterRun": false,
+    "Gpg4winTemporaryRoamingPathWasRemovedByAgent": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "These source and synthetic package regressions used mocked HTTP/installers; the one retained-archive case was skipped and no package acceptance outcome was promoted.",
+    "Blockers": [
+      "Cookie Cruncher retained-archive lifecycle evidence remains unavailable because the fixture was not supplied.",
+      "Gpg4win warning described a temporary TestDrive roaming path as retained; a read-only post-run check found the exact path absent, and no cleanup or recreation was attempted.",
+      "Native package install/remove and Defender-active/no-alert acceptance remains separate from these source regressions.",
+      "Host CIM blocks VM/checkpoint inspection; Defender-blocked tools remain excluded."
+    ]
+  }
+}
