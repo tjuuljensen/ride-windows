@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:57:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/MiTeCHistoricalFileTools.Tests.ps1",
+    "tests/MiTeCReviewDataTools.Tests.ps1",
+    "tests/MiTecUuidGenerator.Tests.ps1",
+    "tests/MiTeCDirList.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 19,
+      "Passed": 14,
+      "Failed": 0,
+      "Skipped": 5,
+      "DurationSeconds": 22.37
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 19,
+      "Passed": 14,
+      "Failed": 0,
+      "Skipped": 5,
+      "DurationSeconds": 41.59
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "FixtureSource": "Synthetic inert ZIPs only; no explicit archive fixture environment variables supplied",
+  "SkippedCases": [
+    "Windows File Analyzer retained-archive lifecycle",
+    "Icon Explorer retained-archive lifecycle",
+    "MiTeC OLE/COM Explorer retained-archive lifecycle",
+    "Windows Registry Recovery retained-archive lifecycle",
+    "SMBIOS Explorer retained-archive lifecycle"
+  ],
+  "FixtureCleanup": {
+    "HistoricalFileTools": "Empty",
+    "ReviewDataTools": "Empty",
+    "UuidGenerator": "Empty"
+  },
+  "SafetyBoundary": {
+    "PublisherArchiveRead": false,
+    "NetworkAccess": false,
+    "ProductLaunched": false,
+    "HostArtifactsScanned": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Source metadata and synthetic portable recovery passed; five retained-archive lifecycle cases and target activation remain open.",
+    "Blockers": [
+      "Five retained-archive lifecycle cases skipped because no explicit archive fixtures were supplied.",
+      "Native Windows package acceptance remains pending; host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
