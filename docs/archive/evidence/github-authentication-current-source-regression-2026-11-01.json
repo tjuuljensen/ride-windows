@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/GitHubAuthentication.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 53,
+    "Passed": 53,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 23.84
+  },
+  "Coverage": [
+    "Explicit package acquisition authentication selection and preview boundaries",
+    "Synthetic credential reference, protection, redaction and storage behavior",
+    "Mocked HTTP and installer pathways, including recovery and error handling"
+  ],
+  "SafetyBoundary": {
+    "SyntheticCredentialsOnly": true,
+    "HttpAndInstallerProvidersMocked": true,
+    "CurrentUserDpapiUsedForFixtures": true,
+    "RealCredentialEnrolled": false,
+    "NetworkAccessed": false,
+    "VmOrCheckpointQueried": false,
+    "LiveWindowsStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderBlockedToolsSelected": false,
+    "DefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Authentication source coverage uses synthetic credentials and mocked acquisition routes; it does not establish VM authentication or package runtime acceptance.",
+    "Blockers": [
+      "VM-bound authentication acceptance remains deferred because host CIM blocks VM/checkpoint inspection.",
+      "Package install/remove acceptance and Defender-active/no-alert observation remain separate.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
