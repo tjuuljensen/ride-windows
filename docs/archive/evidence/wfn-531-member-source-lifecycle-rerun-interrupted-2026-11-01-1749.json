@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T17:49:39Z",
+  "Suite": "tests/WfnPackage.Tests.ps1",
+  "PowerShell": "PowerShell 7.6.5",
+  "Pester": "5.7.1",
+  "Change": "No source changes; repeated the outstanding full synthetic lifecycle case with TestRegistry and TestResult disabled.",
+  "Attempt": {
+    "DefaultConfiguration": "Stopped before assertions because Pester TestRegistry could not write HKCU in this sandbox; 0 passed, 4 failed during setup.",
+    "IsolatedConfiguration": {
+      "TestRegistryEnabled": false,
+      "TestResultEnabled": false,
+      "TestsDiscovered": 4,
+      "TestsReportedPassedBeforeInterruption": 2,
+      "Result": "The complete 531-member synthetic lifecycle produced no further output and was interrupted after approximately 90 seconds in that case; no Pester summary was returned.",
+      "ProcessObservation": "The test PowerShell process showed approximately 1.05 CPU seconds after about one minute in the full case."
+    }
+  },
+  "SafetyBoundary": {
+    "PublisherPayloadUsed": false,
+    "WFNExecutableRun": false,
+    "FirewallStateChanged": false,
+    "NetworkOrInstallerUsed": false,
+    "RegistryOrWindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The rerun did not complete the full member lifecycle and changes no legacy outcome.",
+    "Blockers": [
+      "WFN 531-member synthetic source lifecycle repeatedly stalls in this environment before producing a suite summary.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
