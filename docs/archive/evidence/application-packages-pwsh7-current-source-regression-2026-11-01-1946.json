@@ -1,0 +1,19 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:46:00Z",
+  "PowerShell": "PowerShell 7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suite": "tests/ApplicationPackages.Tests.ps1",
+  "Result": {"Discovered": 138, "Passed": 135, "Failed": 0, "Skipped": 3, "NotRun": 0, "DurationSeconds": 106.74},
+  "CrossShellSummary": {"PowerShell51Passed": 135, "PowerShell51Skipped": 3, "PowerShell7Passed": 135, "PowerShell7Skipped": 3, "CombinedPassed": 270, "CombinedSkipped": 6},
+  "SkippedCases": ["RawCopy retained publisher archive lifecycle: no explicit retained archive fixture.", "ETL2PCAPNG retained publisher executable lifecycle: no explicit retained executable fixture.", "JoeWare AdMod retained archive lifecycle: no explicit retained publisher archive fixture."],
+  "SafetyBoundary": {"NetworkBoundariesMocked": true, "InstallerBoundariesMocked": true, "FixturesSyntheticOrSupplied": true, "RetainedArchivesUnavailable": true, "WindowsStateChanged": false, "VmOrCheckpointQueried": false, "DefenderAlertFilesOrNirSoftTestAccessed": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "The current-source suite confirms mocked package selection/lifecycle cases; the three explicit retained-artifact cases remain unrun and no native install acceptance occurred.",
+    "Blockers": ["Three retained artifact lifecycle cases lack explicit publisher fixtures.", "Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Defender-blocked tools remain excluded."]
+  }
+}
