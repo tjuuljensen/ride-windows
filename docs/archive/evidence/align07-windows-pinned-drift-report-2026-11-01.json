@@ -1,0 +1,85 @@
+{
+  "title": "ALIGN-07 Windows pinned alignment drift report",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T20:51:24Z",
+  "scope": "Windows-side linked-change review template and read-only pinned contract/scenario drift report.",
+  "report": {
+    "script": "tools/Get-RideAlignmentDrift.ps1",
+    "testFile": "tests/AlignmentDrift.Tests.ps1",
+    "template": ".github/PULL_REQUEST_TEMPLATE.md",
+    "checks": [
+      "Canonical contract bytes against the Windows consumer SHA-256 pin.",
+      "Shared scenario contract version and digest against the Windows pin.",
+      "Capability register contract version against the Windows pin.",
+      "Optional explicitly supplied peer contract and scenario reference, without network access.",
+      "Mismatch status, actionable linked-task guidance and opt-in failure mode."
+    ],
+    "peerComparison": "Unavailable unless a peer reference file is explicitly supplied; no peer drift is inferred without it."
+  },
+  "environments": [
+    {
+      "shell": "PowerShell",
+      "version": "7.6.5",
+      "pesterVersion": "5.7.1",
+      "testFile": "tests/AlignmentDrift.Tests.ps1",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "configuration": "Pester TestRegistry disabled because the sandbox denies temporary HKCU registry access."
+    },
+    {
+      "shell": "Windows PowerShell",
+      "version": "5.1",
+      "testFile": "tools/Get-RideAlignmentDrift.ps1",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "configuration": "Parser check passed. Pester 5.7.1 module loading and script invocation were blocked by the host AuthorizationManager policy."
+    }
+  ],
+  "directChecks": {
+    "powerShell7": [
+      "Current local pins report PeerComparisonUnavailable with no issues.",
+      "Seeded peer version, digest and scenario revision mismatch reports three drift issues.",
+      "FailOnDrift throws after mismatch report generation."
+    ],
+    "powerShell7Parser": "passed",
+    "powerShell51Parser": "passed"
+  },
+  "safety": {
+    "readOnly": true,
+    "networkAccess": false,
+    "handlersOrInstallersRun": false,
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderAccessed": false,
+    "defenderBlockedToolsIncluded": false
+  },
+  "resolved": [
+    "Added a linked-change template requiring both consumer tasks, pinned version/digest, compatibility effects, platform evidence, blockers and next actions.",
+    "Added a local drift report that never fetches or silently changes pins and clearly marks peer comparison unavailable when no peer reference is supplied.",
+    "Added focused tests for the clean local state, seeded peer drift and fail-closed option."
+  ],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "No legacy feature or product outcome closes; this alignment batch does not reduce migration estimates.",
+    "Fedora-side template, reference, CI integration and execution are not available in this Windows checkout.",
+    "Windows PowerShell 5.1 Pester execution remains blocked by host AuthorizationManager; its parser check passed."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome was closed; estimates are unchanged."
+  },
+  "blockers": [
+    "RIDE-Win11-Test acceptance remains blocked before VM state retrieval by host CIM access.",
+    "Defender-blocked tools remain excluded from runtime execution.",
+    "Cross-repository comparison requires a peer reference; Fedora implementation and CI remain open."
+  ]
+}
