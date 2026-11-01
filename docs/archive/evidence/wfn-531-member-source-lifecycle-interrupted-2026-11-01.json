@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "Suite": "tests/WfnPackage.Tests.ps1",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "Change": "Moved WFN synthetic lifecycle scratch from the repository .local tree to Pester TestDrive.",
+  "Rerun": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "RetainedArchiveVariable": "Unset",
+    "TestsDiscovered": 4,
+    "TestsReportedPassedBeforeInterruption": 2,
+    "Result": "Interrupted in the synthetic 531-member install/repeat/remove/recovery case; no suite summary",
+    "Reason": "The full 531-member lifecycle case produced no output for about two minutes and showed negligible process CPU progress; the run was interrupted."
+  },
+  "FirstAttemptCleanup": {
+    "FixturePath": ".local/pester-wfn-package/79b00fa42b0944f58d316cf2d4edb26e",
+    "GeneratedByCurrentRun": true,
+    "ResolvedParentAndGuidVerified": true,
+    "Removed": true
+  },
+  "SafetyBoundary": {
+    "PublisherPayloadUsed": false,
+    "WFNExecutableRun": false,
+    "FirewallStateChanged": false,
+    "NetworkOrInstallerUsed": false,
+    "RegistryOrWindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The synthetic suite did not complete its full member lifecycle and changes no legacy outcome.",
+    "Blockers": [
+      "WFN 531-member synthetic source lifecycle did not complete in the available test environment.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}

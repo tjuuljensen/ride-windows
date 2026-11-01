@@ -12,7 +12,7 @@
   Pester results.
 .NOTES
   Compatibility: Pester 5 on Windows PowerShell 5.1 and PowerShell 7.
-  Synthetic fixtures run under .local; no WFN executable, firewall, VM, or Windows state changes.
+  Synthetic fixtures run in Pester TestDrive; no WFN executable, firewall, VM, or Windows state changes.
 #>
 BeforeAll {
   $script:RepositoryRoot=Split-Path -Parent $PSScriptRoot
@@ -21,11 +21,12 @@ BeforeAll {
   $script:Catalog=Import-RideCatalogData (Join-Path $RepositoryRoot 'catalog/operations.psd1')
   $script:Evidence=Get-Content -LiteralPath (Join-Path $RepositoryRoot 'docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json') -Raw | ConvertFrom-Json
   $script:Operation=$Catalog.Operations|Where-Object Id -eq 'package.windows-firewall-notifier'
-  $script:FixtureRoot=Join-Path $RepositoryRoot '.local/pester-wfn-package'
   Add-Type -AssemblyName System.IO.Compression
   Add-Type -AssemblyName System.IO.Compression.FileSystem
 }
 Describe 'Pinned Windows Firewall Notifier Nightly package' {
+  BeforeEach {$script:FixtureRoot=Join-Path $TestDrive 'wfn-package'}
+
   It 'matches the selected publisher ZIP, complete static inventory and bundled license files' {
     $Operation|Should -Not -BeNullOrEmpty
     $Operation.PackageId|Should -BeExactly 'windows-firewall-notifier'

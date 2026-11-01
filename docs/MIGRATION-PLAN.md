@@ -5,12 +5,31 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | 2026-11-01; Explicit candidate execution and hibernation source implementation are covered by 296 passing focused tests. Native hibernation acceptance remains deferred. |
-| Packages | 37-52 | 2026-11-01; WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
+| Packages | 37-52 | 2026-11-01; WFN inventory and small synthetic lifecycle cases passed; full 531-member synthetic lifecycle repeat interrupted after two reported passes, so no full-suite pass is claimed. WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
 | Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
 | Maintenance | 8-12 | 2026-11-01; LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after WhatIsMyIP/WinPmem/Wireshark (16/16), RegRipper/Rufus/Raspberry Pi Imager (10/10), LicenseReviews (24/24), Sysinternals product source regression (72/72) and the PSScriptTools suite interruption; no complete legacy outcome closed. All five group ranges remain unchanged; VM acceptance remains blocked at host CIM and NirSoft lifecycle runs remain excluded due to Defender. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the WFN 531-member lifecycle interruption plus the WhatIsMyIP/WinPmem/Wireshark (16/16), RegRipper/Rufus/Raspberry Pi Imager (10/10), LicenseReviews (24/24) and Sysinternals product source (72/72) batches; no complete legacy outcome closed. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; VM acceptance is blocked at host CIM and NirSoft lifecycle runs remain excluded due to Defender. |
 
+## WFN current-source repeat interrupted, 2026-11-01
+
+Moved the test's generated fixture root from `.local/pester-wfn-package` to
+Pester `TestDrive`. The inventory and smaller synthetic owned-file lifecycle
+checks passed (2 tests reported), but the full 531-member synthetic lifecycle
+produced no output for about two minutes and was interrupted without a Pester
+summary. This is not a full suite pass. The retained real archive test did not
+run because no explicit archive fixture was supplied.
+
+The initial attempt's GUID-scoped `.local` fixture was verified against its
+parent, GUID form and timestamp, then removed. The rerun used TestDrive. No WFN
+executable, publisher payload, network, installer, firewall or Windows state
+was used or changed. Resolved: test scratch isolation. Retired/excluded: none.
+Partial: two reported tests passed; full synthetic lifecycle and legacy package
+outcome remain open. Deferred: repeat the 531-member source case if useful and
+perform package-level Windows VM acceptance when host CIM is available. All five
+ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
+125-180/about 155); no legacy outcome closes. NirSoft remains separately excluded
+due to Defender. See [structured evidence](archive/evidence/wfn-531-member-source-lifecycle-interrupted-2026-11-01.json).
 ## WhatIsMyIP, WinPmem and Wireshark source regression, 2026-11-01
 
 The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 4/4 for
