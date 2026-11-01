@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/PortableManifest.Tests.ps1",
+    "tests/PortableSelection.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 34,
+    "Passed": 34,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 34.1
+  },
+  "Coverage": [
+    "Atomic portable manifest creation and recovery after injected commit conflicts",
+    "Bounded retries and preservation of original and proposed recovery evidence",
+    "Exact selected ZIP member staging and byte restoration",
+    "Invalid or missing selections rejected before product writes",
+    "Unsafe archive members and modified managed bytes preserved safely"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "InstallerOrPublisherPayloadUsed": false,
+    "WindowsOrDefenderStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "RunNotes": [
+    "An initial invocation did not reach test bodies because Pester's automatic TestRegistry setup was denied by the sandbox; the same suites passed with TestRegistry disabled.",
+    "Portable manifest failure-injection tests emitted their expected retained-staging-evidence warnings under the Pester sandbox temporary directory."
+  ],
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Portable manifest and ZIP selection source regression validates maintenance infrastructure but closes no legacy setting, package, component, or asset outcome.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and package-level fast-track acceptance.",
+      "Sysinternals Defender-active/no-alert confirmation remains pending; its package lifecycle evidence is already accepted.",
+      "NirSoft PasswordScan remains excluded due to the separate Defender alert.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved."
+    ]
+  }
+}
