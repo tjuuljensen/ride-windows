@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/RemainingSettings.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 81,
+    "Passed": 81,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 317.84
+  },
+  "Coverage": [
+    "Reconciles 40 remaining setting operations with legacy names and usable states",
+    "Checks remaining-setting catalog discovery and nonoverlapping registry values",
+    "Exercises mocked desired-state preview, snapshot capture, repeated application and exact restore for 38 Windows 11-supported operations",
+    "Retains unavailable-resource and unsupported-target behavior without writing an unrestorable saved run"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveRegistryAccessed": false,
+    "WindowsSettingChanged": false,
+    "HandlersMocked": true,
+    "StateRecordsUnderTestDrive": true,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Current-source catalog and mocked lifecycle regression validates implementation but does not establish native feature behavior, six unavailable setting lifecycles, UI/restart behavior, or a legacy outcome closure.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native settings acceptance.",
+      "Six unavailable setting lifecycles and feature/UI/restart checks remain open.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved.",
+      "Defender-blocked tools remain excluded; PasswordScan is not accessed."
+    ]
+  }
+}
