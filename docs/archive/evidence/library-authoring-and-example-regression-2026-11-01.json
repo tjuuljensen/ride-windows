@@ -1,0 +1,36 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": [
+    { "Path": "tests/Libraries.Tests.ps1", "Passed": 25, "Failed": 0 },
+    { "Path": "tests/LibraryAuthoring.Tests.ps1", "Passed": 45, "Failed": 0 },
+    { "Path": "tests/ExampleLibrary.Tests.ps1", "Passed": 10, "Failed": 0 }
+  ],
+  "Result": { "Discovered": 80, "Passed": 80, "Failed": 0, "Skipped": 0, "DurationSeconds": 236.72 },
+  "SafetyBoundary": {
+    "PackageInstallerInvoked": false,
+    "PublisherDownloadOrNetworkUsed": false,
+    "LiveRegistryOrWindowsSettingChanged": false,
+    "CustomPackageApplied": false,
+    "TemporaryLibraryFilesUsed": true,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57", "Packages": "37-52", "Components": "19-24",
+      "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180",
+      "Rounded": "125-180", "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Library and authoring regression validates custom package and recovery contracts without changing or accepting a legacy outcome.",
+    "Blockers": [
+      "Package-level VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "The stateful HKCU catalog integration test remains blocked by sandbox registry denial.",
+      "NirSoft lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}

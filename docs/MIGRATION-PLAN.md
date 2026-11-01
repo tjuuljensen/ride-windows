@@ -8,8 +8,8 @@
 | Packages | 37-52 | 2026-11-01; User-approved fast track: ordinary user-mode products require package-level source/pin, install/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; individual tool behavior is untested by design. Defender active/no-alert observation is not in the archived VM record and remains blocked by host CIM. WFN inventory and small synthetic lifecycle cases passed; full 531-member synthetic lifecycle repeat interrupted after two reported passes, so no full-suite pass is claimed. WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. Source-script packages/JoeWare current-source tests passed 18 with 3 retained-archive skips. PSScriptTools focused source-boundary checks passed 6/6; full 360-member lifecycle remains incomplete. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. HashCheck complete; NTCore and Project Maker installation lifecycles accepted. EXE Explorer and HexEdit deployment complete. System Information eXtra and TAPI Monitor deployment complete. 52 catalog packages remain pending candidates; InfoBar is deferred. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
 | Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
-| Maintenance | 8-12 | 2026-11-01; Catalog/profile/dependency regression passed 112/112 runnable tests; one HKCU WindowsIntegration case remains unrun after sandbox write/cleanup denial. LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 with the user-approved package-level acceptance method and Catalog/profile/dependency checks passed 112 with 1 HKCU case not run; repository validation passed 452/8/5/326. No legacy outcome closes. Possible random HKCU test-key residue is unresolved after sandbox cleanup denial. Sysinternals package lifecycle is accepted; Defender-active/no-alert confirmation remains pending at host CIM. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; NirSoft lifecycle runs remain excluded due to Defender. |
+| Maintenance | 8-12 | 2026-11-01; Library, authoring and maintained-example regression passed 80/80. Catalog/profile/dependency regression passed 112/112 runnable tests; one HKCU WindowsIntegration case remains unrun after sandbox write/cleanup denial. LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 with the user-approved package-level acceptance method and Library/authoring/example regression passed 80/80; no legacy outcome closes. Catalog/profile regression passed 112 with 1 HKCU case not run; repository validation passed 452/8/5/326. Possible random HKCU test-key residue is unresolved after sandbox cleanup denial. Sysinternals package lifecycle is accepted; Defender-active/no-alert confirmation remains pending at host CIM. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; NirSoft lifecycle runs remain excluded due to Defender. |
 
 ## Package-level fast-track acceptance decision, 2026-11-01
 
@@ -34,6 +34,22 @@ separate exclusion; no related file was accessed.
 This method decision changes no package implementation and closes no additional
 legacy outcome. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
 (exact 126-180; rounded 125-180/about 155). See [decision and evidence](archive/evidence/package-level-fast-track-acceptance-decision-2026-11-01.json).
+## Library, authoring and example regression, 2026-11-01
+
+The Windows PowerShell 5.1/Pester 5.7.1 suites passed 25/25 for declarative
+libraries, 45/45 for custom-library authoring, and 10/10 for the maintained
+example library. Coverage included metadata validation, package references,
+recovery identity, mocked package lifecycle, CLI authoring prompts, read-only
+completion and example-library structure. Tests used temporary files and mocks;
+no publisher downloads, installers, custom package apply, or live Windows
+setting changes occurred.
+
+Resolved: current library/authoring source regression. Retired/excluded: none.
+Partial: no legacy setting/package outcome closes. All estimates remain 37-57 /
+37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
+Package VM acceptance remains blocked by host CIM; the HKCU integration test
+and Defender-affected NirSoft suites remain separately blocked/excluded. See
+[structured evidence](archive/evidence/library-authoring-and-example-regression-2026-11-01.json).
 ## Catalog/profile validation and HKCU sandbox blocker, 2026-11-01
 
 Catalog, dependency and profile suites reported 112 passing tests. One
