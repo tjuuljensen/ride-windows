@@ -63,7 +63,8 @@ Describe 'MAC vendor lookup' {
     }
 
     It 'emits one JSON array with flags and supports quiet JSON' {
-        $result = & $utility -Offline -CacheDir $cacheDirectory -Json 02:00:00,03:00:00 |
+        $addresses = @('02:00:00', '03:00:00')
+        $result = & $utility -Offline -CacheDir $cacheDirectory -Json -Addresses $addresses |
             ConvertFrom-Json
         $result.Count | Should -Be 2
         $result[0].locally_administered | Should -BeTrue
@@ -79,7 +80,8 @@ Describe 'MAC vendor lookup' {
     }
 
     It 'rejects a batch containing an invalid query' {
-        { & $utility -Offline -CacheDir $cacheDirectory 00:1A:2B,AB } | Should -Throw
+        $addresses = @('00:1A:2B', 'AB')
+        { & $utility -Offline -CacheDir $cacheDirectory -Addresses $addresses } | Should -Throw
     }
 
     It 'keeps offline mode and preview read-only' {

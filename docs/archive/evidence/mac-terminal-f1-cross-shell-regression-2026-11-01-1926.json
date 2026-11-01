@@ -1,0 +1,22 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:26:00Z",
+  "PowerShellRuns": ["Windows PowerShell 5.1.26100.9818 Desktop", "PowerShell 7.6.5 Core"],
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/MacVendor.Tests.ps1", "tests/TerminalJsonc.Tests.ps1", "tests/F1Help.Tests.ps1"],
+  "Results": [
+    {"PowerShell": "Windows PowerShell 5.1.26100.9818", "Discovered": 70, "Passed": 70, "Failed": 0, "Skipped": 0, "DurationSeconds": 12.86},
+    {"PowerShell": "PowerShell 7.6.5", "Discovered": 70, "Passed": 70, "Failed": 0, "Skipped": 0, "DurationSeconds": 11.77}
+  ],
+  "Coverage": ["Offline IEEE MAC vendor TSV parsing and output", "Terminal JSONC parsing, TestDrive writer, exact byte recovery and instance-selection guards", "File Explorer F1 Help catalog metadata and mocked registry handler"],
+  "CompatibilityCorrection": "MAC vendor tests now pass explicit string arrays rather than relying on edition-dependent comma argument parsing.",
+  "SafetyBoundary": {"MacVendorNetworkAccessed": false, "TerminalSettingsUsedTestDrive": true, "F1RegistryHandlerMocked": true, "VmOrCheckpointQueried": false, "LiveWindowsStateChanged": false, "RegistryTestPluginEnabled": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "The cross-shell source regression validates offline parsing, file recovery and a mocked handler; no legacy asset outcome closes.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.", "Live MAC refresh, Terminal package and F1 setting behavior remain separate from source checks."]
+  }
+}
