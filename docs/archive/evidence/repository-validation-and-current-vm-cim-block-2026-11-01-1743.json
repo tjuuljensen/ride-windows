@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T17:43:48Z",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Validation": {
+    "Result": "Passed",
+    "Operations": 452,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 326,
+    "GeneratedOperationDocumentationCurrent": true
+  },
+  "VmPreflight": {
+    "Target": "RIDE-Win11-Test",
+    "Attempt": "Read-only Get-VM",
+    "Result": "Blocked",
+    "Error": "Access to a CIM resource was not available to the client.",
+    "VmStateReturned": false,
+    "CheckpointQueried": false,
+    "GuestRequestDispatched": false
+  },
+  "SafetyBoundary": {
+    "WindowsOrDefenderStateChanged": false,
+    "ElevationRequested": false,
+    "ServiceStarted": false,
+    "InstallerOrHandlerRun": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Repository static validation confirms source consistency only. The host CIM failure prevents target-state inspection and native acceptance; no legacy outcome changed.",
+    "Blockers": [
+      "Host CIM denies Get-VM before target state retrieval; checkpoint and guest acceptance remain deferred.",
+      "Host WinRM was not started and no fresh UAC request was made.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
