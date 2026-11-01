@@ -5,12 +5,48 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | 2026-11-01; Explicit candidate execution and hibernation source implementation are covered by 296 passing focused tests. Native hibernation acceptance remains deferred. |
-| Packages | 37-52 | 2026-11-01; Range unchanged by this settings batch; Defender-affected NirSoft routes remain excluded from staging and selection. |
+| Packages | 37-52 | 2026-11-01; Sysinternals independent product source regression passed 72/72; current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
 | Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
-| Maintenance | 8-12 | 2026-11-01; Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed after the settings implementation source batch; all five ranges unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
+| Maintenance | 8-12 | 2026-11-01; LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after LicenseReviews (24/24) and Sysinternals product package source regression (72/72); no complete legacy outcome closed. All five ranges remain unchanged; current Suite repeat is incomplete, and VM acceptance remains blocked at host CIM. |
 
+## License review test fixture isolation regression, 2026-11-01
+
+`tests/LicenseReviews.Tests.ps1` passed 24/24 in Windows PowerShell 5.1/Pester
+5.7.1 after each test moved its synthetic review store to Pester `TestDrive`.
+This avoids collisions from replacement operations under `.local` and leaves
+retained repository fixtures untouched. No Windows state, installer, network,
+VM, Defender state or retained package file was used.
+
+Resolved: the local test-fixture collision. Retired/excluded: none. Partial:
+license-review store source regression only; no legacy product outcome closes.
+Deferred: Windows VM acceptance remains blocked at host CIM; NirSoft lifecycle
+tests remain excluded after the Defender alert, and the reported PasswordScan
+file was not accessed. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 /
+8-12 (exact 126-180; rounded 125-180/about 155) because the fixture repair
+closes no legacy outcome. See [structured evidence](archive/evidence/license-reviews-testdrive-isolation-source-regression-2026-11-01.json).
+
+## Sysinternals package source regression repeat, 2026-11-01
+
+`tests/SysinternalsProductPackages.Tests.ps1` passed 72/72 in Windows
+PowerShell 5.1/Pester 5.7.1. The current-source `SysinternalsSuitePackage`
+repeat discovered eight tests; after six reported passes, output stopped during
+the inert 164-member synthetic archive staging/recovery case, so that invocation
+was interrupted without a suite summary. It is not counted as a completed pass;
+the earlier complete 8/8 evidence remains. The initial retry was blocked before
+test bodies by Pester's optional TestRegistry plugin and HKCU sandbox access;
+the interrupted run disabled TestRegistry and TestResult.
+
+No product or driver executed, payload was downloaded, network/install boundary
+used, or Defender state changed. The NirSoft suite and reported PasswordScan
+file were not accessed. Resolved: current independent-product package source
+regression. Retired/excluded: none. Partial: repeat Suite validation incomplete;
+no legacy package outcome closes. Deferred: suite repeat, if still needed, and
+Windows VM acceptance blocked before VM/checkpoint retrieval by host CIM. All
+five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
+rounded 125-180/about 155), because no legacy outcome changed. See [structured
+evidence](archive/evidence/sysinternals-focused-source-regression-repeat-2026-11-01.json).
 ## Read-only offline package preparation planner, 2026-11-01
 
 Added `New-RideOfflinePreparationPlan` and its explicit-input command wrapper for

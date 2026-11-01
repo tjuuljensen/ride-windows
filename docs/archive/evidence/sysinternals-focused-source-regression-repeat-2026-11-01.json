@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "Suites": [
+    {
+      "Path": "tests/SysinternalsProductPackages.Tests.ps1",
+      "Result": {
+        "Passed": 72,
+        "Failed": 0,
+        "Skipped": 0
+      },
+      "DurationSeconds": 246.66
+    },
+    {
+      "Path": "tests/SysinternalsSuitePackage.Tests.ps1",
+      "Result": "Interrupted; no suite summary",
+      "TestsDiscovered": 8,
+      "TestsReportedPassedBeforeInterruption": 6,
+      "Reason": "After the first invocation failed before test bodies because Pester TestRegistry could not access HKCU, a rerun disabled TestRegistry and TestResult. It stopped making output progress during the synthetic full-archive stage/recovery case and was interrupted. This is not a complete passing suite result."
+    }
+  ],
+  "SafetyBoundary": {
+    "ProductOrDriverExecuted": false,
+    "PayloadDownloaded": false,
+    "InstallerOrNetworkUsed": false,
+    "DefenderStateAccessedOrChanged": false,
+    "ReportedPasswordScanFileAccessed": false,
+    "NirSoftSuiteRun": false,
+    "VmAcceptanceRun": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "A source regression repeat confirms the independent product package tests; the interrupted suite repeat does not change a legacy outcome or prior 8/8 evidence.",
+    "Blockers": [
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert; the PasswordScan file was not accessed."
+    ]
+  }
+}
