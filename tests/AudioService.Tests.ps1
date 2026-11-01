@@ -155,18 +155,30 @@ Describe 'Windows Audio service' {
       Should -Invoke Set-Service -Times 1 -Exactly
     }
   }
-  It 'blocks the candidate before service inspection and completes only its declared choices' {
+  It 'previews the candidate after service inspection without invoking a mutation handler' {
     $path = Join-Path $PSScriptRoot '../ride.ps1'
     $line = "& '$path' set windows.audio-service -State man"
     @([Management.Automation.CommandCompletion]::CompleteInput($line, $line.Length, $null).CompletionMatches.CompletionText) | Should -Be @('ManualStopped')
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows 11' }
-      Mock Get-RideCurrentState { throw 'must not inspect candidate service' }
+      Mock Get-RideCurrentState {
+        [pscustomobject]@{
+          StartupType = 'Manual'
+          Status = 'Stopped'
+          DelayedAutoStart = [pscustomobject]@{ Exists = $true; Value = $false; ValueType = 'DWord'; KeyExisted = $true }
+          EffectiveDelayedAutoStart = $false
+          Dependencies = @()
+        }
+      }
+      Mock Set-RideWindowsServiceState {}
       $op = Get-RideOperation windows.audio-service
       $op.SupportedTargets.Count | Should -Be 0
       $op.States.Keys.Count | Should -Be 2
-      { Invoke-RidePlan -Plan @([pscustomobject]@{ Operation = $op; State = 'AutomaticRunning' }) -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
-      Should -Invoke Get-RideCurrentState -Times 0
+      $warnings = @()
+      Invoke-RidePlan -Plan @([pscustomobject]@{ Operation = $op; State = 'AutomaticRunning' }) -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 2 -Exactly
+      Should -Invoke Set-RideWindowsServiceState -Times 0
     }
     @(Get-RideCatalogValidationErrors (Get-RideCatalog)).Count | Should -Be 0
   }

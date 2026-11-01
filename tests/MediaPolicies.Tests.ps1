@@ -36,16 +36,18 @@ Describe 'Conditional media policies' {
     (Get-RideProfile).Operations.Id | Should -Not -Contain $Id
     @(Get-RideCatalogValidationErrors (Get-RideCatalog)).Count | Should -Be 0
   }
-  It 'blocks both candidates before any live policy inspection, including preview' {
+  It 'previews both candidates from mocked policy state without invoking registry writes' {
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows 11' }
-      Mock Get-RideCurrentState { throw 'blocked policy must not be inspected' }
+      Mock Get-RideCurrentState { [pscustomobject]@{ Exists = $false; Value = $null; ValueType = $null } }
       Mock Set-RideSettingState {}
+      $warnings = @()
       foreach ($id in @('windows.media-radio-preset-retrieval-policy', 'windows.media-drm-online-access-policy')) {
         $plan = @(Get-RideSingleOperationPlan -Id $id -Action Set -State Blocked)
-        { Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
+        Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
       }
-      Should -Invoke Get-RideCurrentState -Times 0
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 4 -Exactly
       Should -Invoke Set-RideSettingState -Times 0
     }
   }

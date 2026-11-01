@@ -213,14 +213,16 @@ Describe 'Local maximum password age catalog and engine' {
     @($matches | Sort-Object -Unique).Count | Should -Be $matches.Count
     { Get-RideSingleOperationPlan -Id windows.local-password-maximum-age -Action Unset } | Should -Throw '*no declared override-removal state*'
   }
-  It 'blocks the candidate before any native inspection or mutation' {
+  It 'previews the candidate from mocked state without invoking the native mutation handler' {
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows 11' }
-      Mock Get-RideCurrentState { throw 'candidate must not be inspected' }
+      Mock Get-RideCurrentState { [pscustomobject]@{ Available = $true; GuiCompatible = $true; Value = $null } }
       Mock Set-RideLocalPasswordAgeState {}
       $plan = @(Get-RideSingleOperationPlan -Id windows.local-password-maximum-age -Action Set -State Days90)
-      { Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
-      Should -Invoke Get-RideCurrentState -Times 0
+      $warnings = @()
+      Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 2 -Exactly
       Should -Invoke Set-RideLocalPasswordAgeState -Times 0
     }
   }

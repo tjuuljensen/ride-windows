@@ -275,14 +275,18 @@ Describe 'Owned power-plan engine and catalog' {
     @(Get-RideCatalogValidationErrors (Get-RideCatalog)).Count | Should -Be 0
     (Show-RideCatalog -View settings).Id | Should -Contain 'windows.owned-balanced-power-plan'
   }
-  It 'blocks pending candidates before live inspection even in preview' {
+  It 'previews pending candidates from mocked state without invoking the native handler' {
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows 11' }
       Mock Test-RideAdministrator { $true }
-      Mock Get-RideCurrentState { throw 'must not inspect blocked candidate' }
+      Mock Get-RideCurrentState { [pscustomobject]@{ Available = $true; Value = $false; OriginalOwned = $false; DestinationExists = $false; Stage = 'Absent' } }
+      Mock Set-RideOwnedPowerPlanState {}
       $op = Get-RideOperation windows.owned-balanced-power-plan
-      { Invoke-RidePlan -Plan @([pscustomobject]@{ Operation = $op; State = 'Create' }) -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
-      Should -Invoke Get-RideCurrentState -Times 0
+      $warnings = @()
+      Invoke-RidePlan -Plan @([pscustomobject]@{ Operation = $op; State = 'Create' }) -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 2 -Exactly
+      Should -Invoke Set-RideOwnedPowerPlanState -Times 0
     }
   }
   It 'saves the proposed destination and ownership token before mutation, including failure reporting' {

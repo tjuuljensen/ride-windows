@@ -32,16 +32,18 @@ Describe 'Server Manager startup policy' {
     (Get-RideProfile).Operations.Id | Should -Not -Contain $op.Id
     @(Get-RideCatalogValidationErrors (Get-RideCatalog)).Count | Should -Be 0
   }
-  It 'blocks the server candidate before live inspection even in preview' {
+  It 'previews the server candidate from mocked policy state without registry writes' {
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows Server 2025' }
-      Mock Get-RideCurrentState { throw 'blocked server policy must not be inspected' }
+      Mock Get-RideCurrentState { [pscustomobject]@{ Exists = $false; Value = $null; ValueType = $null } }
       Mock Set-RideSettingState {}
       $op = Get-RideOperation windows.server-manager-startup-policy
       $op.SupportedTargets.Count | Should -Be 0
       $plan = @(Get-RideSingleOperationPlan -Id $op.Id -Action Set -State Suppressed)
-      { Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
-      Should -Invoke Get-RideCurrentState -Times 0
+      $warnings = @()
+      Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 2 -Exactly
       Should -Invoke Set-RideSettingState -Times 0
     }
   }
@@ -140,14 +142,21 @@ Describe 'Shutdown Event Tracker policy' {
       Should -Invoke Set-RideSettingState -Times 0
     }
   }
-  It 'blocks candidate application before inspecting shutdown policy' {
+  It 'previews the server candidate from mocked policy state without registry writes' {
     InModuleScope RIDE.Engine {
       Mock Get-RidePlatform { 'Windows Server 2025' }
-      Mock Get-RideCurrentState { throw 'blocked policy must not be inspected' }
+      Mock Get-RideCurrentState {
+        [pscustomobject]@{ Values = @(
+          @{ Key = 'Display'; Exists = $false; Value = $null; ValueType = $null },
+          @{ Key = 'Enabled'; Exists = $false; Value = $null; ValueType = $null }
+        ) }
+      }
       Mock Set-RideRegistryValueSetState {}
       $op = Get-RideOperation windows.shutdown-event-tracker-policy
-      { Invoke-RidePlan -Plan @([pscustomobject]@{ Operation = $op; State = 'Disabled' }) -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
-      Should -Invoke Get-RideCurrentState -Times 0
+      $warnings = @()
+      Invoke-RidePlan -Plan @([pscustomobject]@{ Operation = $op; State = 'Disabled' }) -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 2 -Exactly
       Should -Invoke Set-RideRegistryValueSetState -Times 0
     }
   }

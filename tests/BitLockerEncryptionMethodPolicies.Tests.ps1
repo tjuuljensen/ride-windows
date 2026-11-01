@@ -85,21 +85,33 @@ Describe 'Windows 11 BitLocker drive-type encryption method policies' {
     @($profile.Operations | Where-Object Id -ceq 'windows.bitlocker-encryption-method').Count | Should -Be 0
   }
 
-  It 'blocks Windows 11 application before the registry handler until native target acceptance' {
+  It 'previews Windows 11 candidates without invoking the registry handler' {
     Mock Get-RidePlatform -ModuleName RIDE.Engine { 'Windows 11' }
+    Mock Get-RideCurrentState -ModuleName RIDE.Engine { [pscustomobject]@{ Exists = $false; Value = $null; ValueType = $null } }
+    Mock Set-RideSettingState -ModuleName RIDE.Engine {}
 
+    $warnings = @()
     foreach ($case in $script:Cases) {
       $plan = @(Get-RideSingleOperationPlan -Id $case.Id -Action Set -State XtsAes256)
-      { Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false } | Should -Throw "*$($case.Id)*does not support Windows 11*"
+      Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
     }
+    ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+    Should -Invoke Get-RideCurrentState -ModuleName RIDE.Engine -Times 6 -Exactly
+    Should -Invoke Set-RideSettingState -ModuleName RIDE.Engine -Times 0
   }
 
-  It 'blocks Windows Server 2025 application before the registry handler until native target acceptance' {
+  It 'previews Windows Server 2025 candidates without invoking the registry handler' {
     Mock Get-RidePlatform -ModuleName RIDE.Engine { 'Windows Server 2025' }
+    Mock Get-RideCurrentState -ModuleName RIDE.Engine { [pscustomobject]@{ Exists = $false; Value = $null; ValueType = $null } }
+    Mock Set-RideSettingState -ModuleName RIDE.Engine {}
 
+    $warnings = @()
     foreach ($case in $script:Cases) {
       $plan = @(Get-RideSingleOperationPlan -Id $case.Id -Action Set -State XtsAes256)
-      { Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false } | Should -Throw "*$($case.Id)*does not support Windows Server 2025*"
+      Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
     }
+    ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+    Should -Invoke Get-RideCurrentState -ModuleName RIDE.Engine -Times 6 -Exactly
+    Should -Invoke Set-RideSettingState -ModuleName RIDE.Engine -Times 0
   }
 }

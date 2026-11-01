@@ -1,0 +1,74 @@
+{
+  "title": "Candidate preview regression test refresh",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T21:46:10Z",
+  "scope": "Refresh stale Windows tests to match the accepted read-only preview behavior for declared pending candidate targets.",
+  "focusedRun": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testFiles": [
+      "tests/AudioService.Tests.ps1",
+      "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+      "tests/LocalPasswordAge.Tests.ps1",
+      "tests/MediaPolicies.Tests.ps1",
+      "tests/OwnedPowerPlans.Tests.ps1",
+      "tests/ProfileSettings.Tests.ps1",
+      "tests/ServerPolicies.Tests.ps1",
+      "tests/UserPathEngine.Tests.ps1"
+    ],
+    "discovered": 130,
+    "passed": 130,
+    "failed": 0,
+    "skipped": 0,
+    "configuration": "Pester TestRegistry disabled; WindowsIntegration tag excluded. Candidate observations and handlers are mocked."
+  },
+  "broadRun": {
+    "testFilesDiscovered": 154,
+    "testsDiscovered": 3714,
+    "configuration": "PowerShell 7.6.5/Pester 5.7.1; TestRegistry disabled; WindowsIntegration tag excluded.",
+    "result": "Interrupted before suite summary after a prolonged no-output stall.",
+    "findings": [
+      "Stale tests expected candidate WhatIf previews to refuse before observation; those cases were updated and now pass in the focused run.",
+      "AutomationWatchdog process-tree termination cases exceeded the ten-second sandbox timeout; one child remained active and TestDrive cleanup reported host-worker-errors.log in use.",
+      "No full-suite pass is claimed."
+    ]
+  },
+  "safety": {
+    "candidatePreviewOnly": true,
+    "syntheticObservationsUsed": true,
+    "mutationHandlersInvoked": false,
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderBlockedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Updated Windows 11 and Server 2025 candidate preview tests to allow read-only current-state inspection and verify the pending-acceptance warning.",
+    "Each corrected test asserts that its mutation handler was not invoked; filesystem, registry and service observations are mocked.",
+    "The eight focused suites pass 130/130 in PowerShell 7."
+  ],
+  "retired": [],
+  "excluded": [
+    "VM integration and all WindowsIntegration-tagged tests.",
+    "Execution of Defender-alerted utilities."
+  ],
+  "partial": [
+    "The full 154-file unit sweep was interrupted and remains incomplete; repeat it in an environment where inert child-process termination and Pester cleanup complete within bounds.",
+    "No legacy feature or product outcome closes in this test-only batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome was closed; estimates remain unchanged."
+  },
+  "blockers": [
+    "AutomationWatchdog process-tree tests exceed the ten-second sandbox termination bound and can leave a worker log locked.",
+    "RIDE-Win11-Test acceptance remains blocked before VM state retrieval by host CIM access.",
+    "Defender-blocked executables remain excluded from runtime execution."
+  ]
+}

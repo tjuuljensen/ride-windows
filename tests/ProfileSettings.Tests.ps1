@@ -401,14 +401,21 @@ Describe 'Profile settings engine and discovery' {
     }
   }
 
-  It 'blocks application to a candidate target until integration acceptance is recorded' {
+  It 'previews a candidate target from mocked state without writing the profile' {
     InModuleScope RIDE.Engine -Parameters @{ Operation = $script:ColorOperations[0] } {
       param($Operation)
       $Operation = $Operation.Clone()
       $Operation.SupportedTargets = @(); $Operation.PendingAcceptance = $true
       $Operation.CandidateTargets = @('Windows 11','Windows Server 2025')
+      Mock Get-RidePlatform { 'Windows 11' }
+      Mock Get-RideCurrentState { [pscustomobject]@{ Available = $true; State = 'Default' } }
+      Mock Set-RideProfileSettingState {}
       $plan = @([pscustomobject]@{ Operation = $Operation; State = 'Recommended' })
-      { Invoke-RidePlan $plan -WhatIf -Confirm:$false } | Should -Throw '*does not support*'
+      $warnings = @()
+      Invoke-RidePlan $plan -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 2 -Exactly
+      Should -Invoke Set-RideProfileSettingState -Times 0
     }
     Test-Path -LiteralPath $script:EngineProfilePath | Should -BeFalse
   }

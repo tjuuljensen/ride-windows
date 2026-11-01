@@ -94,9 +94,19 @@ Describe 'Persistent user PATH engine lifecycle' {
     }
   }
 
-  It 'refuses plan execution while Windows acceptance has not added a supported target' {
+  It 'previews a pending Windows candidate using a synthetic PATH observation only' {
     $plan = @(Get-RideSingleOperationPlan -Id $script:UserPathOperation.Id -Action Set -State Enabled)
-    { Invoke-RidePlan -Plan $plan -WhatIf -Confirm:$false } | Should -Throw '*does not support*Windows 11*'
+    InModuleScope RIDE.Engine -Parameters @{ Plan = $plan; Observation = (New-UserPathEngineObservation) } {
+      param($Plan, $Observation)
+      Mock Get-RidePlatform { 'Windows 11' }
+      Mock Get-RideCurrentState { [pscustomobject]@{ Available = $true; Observation = $Observation } }
+      Mock Set-RideUserBinPathPatch {}
+      $warnings = @()
+      Invoke-RidePlan -Plan $Plan -WhatIf -Confirm:$false -WarningVariable warnings | Out-Null
+      ($warnings -join ' ') | Should -Match 'acceptance remains pending'
+      Should -Invoke Get-RideCurrentState -Times 2 -Exactly
+      Should -Invoke Set-RideUserBinPathPatch -Times 0
+    }
   }
 
   It 'preflights a saved run and dispatches entry-owned recovery through the guarded helper' {
