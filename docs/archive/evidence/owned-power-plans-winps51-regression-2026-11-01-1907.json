@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:07:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/OwnedPowerPlans.Tests.ps1"],
+  "Result": {"Discovered": 29, "Passed": 29, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 32.2},
+  "Coverage": ["Owned power-plan creation intent, inactive-copy recovery and failure retention", "Catalog/engine candidate gating and explicit creation state"],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "TestDriveOwnershipFiles": true, "NativePowerCommandsMocked": true, "LivePowerPlanChanged": false, "PlanActivated": false, "RegistryTestPluginEnabled": false, "WindowsStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell mocked source checks do not verify native power-plan creation or activation; experimental plans remain target-gated.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Owned power-plan candidates require disposable Windows lifecycle acceptance before promotion."]
+  }
+}
