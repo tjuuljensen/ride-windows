@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+    "tests/BitLockerEngineProjection.Tests.ps1",
+    "tests/BitLockerWorkflows.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 31,
+    "Passed": 31,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 41.55
+  },
+  "Coverage": [
+    "Windows 11 and Windows Server 2025 BitLocker encryption-method policy metadata",
+    "Engine projection of synthetic secret-free BitLocker state",
+    "Secret-safe recovery, backup, protector, encryption and decryption workflow boundaries",
+    "ShouldProcess previews against synthetic OS-volume objects"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveBitLockerCmdletInvoked": false,
+    "LiveVolumeOrProtectorStateAccessed": false,
+    "RecoverySecretAccessed": false,
+    "WindowsOrRegistryStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "BitLocker policy/workflow source regression validates planning and secret-safe boundaries but adds no native drive, protector or recovery acceptance.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native setting acceptance.",
+      "BitLocker target behavior, encryption/decryption and recovery require disposable Windows acceptance.",
+      "Six unavailable setting lifecycles and feature/UI/restart checks remain open."
+    ]
+  }
+}
