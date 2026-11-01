@@ -1,0 +1,64 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:55:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/MiTeCAnalysisTools.Tests.ps1",
+    "tests/MiTecCertificateTools.Tests.ps1",
+    "tests/MiTeCDFMEditor.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 21,
+      "Passed": 21,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 108.43
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 21,
+      "Passed": 21,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 164.82
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "FixtureArchives": "Reviewed MiTeC publisher archives read for member/hash verification and staging in isolated fixtures; no network acquisition",
+  "FixtureCleanup": {
+    ".local/pester-mitec-analysis-tools": "Empty",
+    ".local/pester-mitec-certificate-tools": "Empty",
+    ".local/pester-mitec-dfm-editor": "Empty"
+  },
+  "SafetyBoundary": {
+    "ExecutableLaunched": false,
+    "BplLoaded": false,
+    "CertificateCreated": false,
+    "AnalysisInputOpened": false,
+    "DiskOrMemoryAccessed": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Source hash/member reconciliation and portable file recovery do not establish runtime behavior or Windows activation; migration outcome remains candidate-gated.",
+    "Blockers": [
+      "MiTeC EXE Explorer, HexEdit, certificate utilities, and DFM Editor runtime acceptance remains pending.",
+      "Host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
