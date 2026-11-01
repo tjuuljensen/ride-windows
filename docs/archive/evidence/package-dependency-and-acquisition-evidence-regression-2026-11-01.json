@@ -1,0 +1,60 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/PackageDependencyPlanning.Tests.ps1",
+    "tests/PackageEvidence.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 40,
+    "Passed": 40,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 23.56
+  },
+  "Coverage": [
+    "Catalog-driven prerequisite ordering and unmet dependency explanations",
+    "Prevention of shared prerequisite removal while dependents remain installed",
+    "Package acquisition evidence, digest validation and altered-byte rejection",
+    "Synthetic package lifecycle preservation of user-owned data"
+  ],
+  "RetainedFixture": {
+    "ReportedPath": ".local/package-evidence-tests-b9d42828d034430d974ee73fc5e5eeee/5efee90e95cc44c182f040f8d7dd4e89/.Signal.ride-created-dd6e22bb9ee34cd7b5a79e417b49099e",
+    "PesterWarning": "PackageEvidence.Tests.ps1 reported that the product-created Signal user-data directory was retained while the original data was restored.",
+    "ExistsAfterRun": false,
+    "PostRunCheck": "Test-Path returned false for the reported parent, run directory and leaf after Pester exited; no cleanup or recreation was attempted."
+  },
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "PublisherPayloadDownloaded": false,
+    "RealInstallerInvoked": false,
+    "RealPackageInstalled": false,
+    "RegistryTestPluginEnabled": false,
+    "WindowsOrDefenderStateChanged": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Package prerequisite and evidence source regression validates dependency and integrity handling but does not establish publisher payload acceptance or native package lifecycle behavior.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and package-level fast-track acceptance.",
+      "Defender-active/no-alert confirmation for Sysinternals remains pending.",
+      "PasswordScan and other Defender-blocked utilities remain excluded.",
+      "PSScriptTools and WFN full synthetic lifecycle repeats remain incomplete."
+    ]
+  }
+}
