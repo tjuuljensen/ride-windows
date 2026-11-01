@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T20:14:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/Hibernation.Tests.ps1",
+    "tests/HibernationAcceptance.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 28,
+      "Passed": 28,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 34.26
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 28,
+      "Passed": 28,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 30.47
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "SafetyBoundary": {
+    "PowercfgMocked": true,
+    "GuestCallsMocked": true,
+    "RegistryIntegrationEnabled": false,
+    "EngineMutationMocked": true,
+    "WhatIfOnly": true,
+    "LiveHibernationFileAccessed": false,
+    "VmOrCheckpointQueried": false,
+    "HostStateChanged": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell candidate and acceptance-runner tests validate fixture routing, mocked state transitions and preview behavior; native hibernation lifecycle acceptance remains open.",
+    "Blockers": [
+      "Native hibernation VM lifecycle remains pending; host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
