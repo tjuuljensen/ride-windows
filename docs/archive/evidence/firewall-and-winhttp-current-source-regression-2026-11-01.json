@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/FirewallProfiles.Tests.ps1",
+    "tests/WinHttpProxyInventory.Tests.ps1",
+    "tests/WinHttpProxyLifecycle.Tests.ps1",
+    "tests/WinHttpProxyPreparation.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 42,
+    "Passed": 42,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 23.58
+  },
+  "Coverage": [
+    "Firewall profile metadata, preview, captured-state restore and exposure boundaries",
+    "WinHTTP proxy inventory parsing and state distinctions",
+    "Advanced proxy candidate preparation, scope and mocked lifecycle restore"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveFirewallRuleReadOrChanged": false,
+    "LiveWinHttpProxyReadOrChanged": false,
+    "NetworkConnectivityChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "ProvidersMocked": true,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Firewall and WinHTTP source regression validates mocked inventory and lifecycle logic but adds no native network, connectivity, exposure or restore acceptance.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.",
+      "Firewall exposure, WinHTTP proxy consumers and connectivity behavior remain open for disposable Windows acceptance.",
+      "The unresolved sandbox-blocked HKCU integration case remains open."
+    ]
+  }
+}
