@@ -1,0 +1,49 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/OwnedPowerPlans.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 29,
+    "Passed": 29,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 46.64
+  },
+  "Coverage": [
+    "Owned power-plan creation intent, inactive-copy recovery, retry and failure retention",
+    "Catalog and engine candidate gating for experimental plans"
+  ],
+  "SafetyBoundary": {
+    "TestDriveOwnershipFiles": true,
+    "NativePowerCommandsMocked": true,
+    "VmOrCheckpointQueried": false,
+    "LiveWindowsStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Owned-plan source lifecycle and candidate-gating regressions use mocked native commands; no system power plan or legacy outcome was accepted.",
+    "Blockers": [
+      "Experimental owned power-plan candidates remain target-gated pending disposable-VM lifecycle acceptance.",
+      "Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
