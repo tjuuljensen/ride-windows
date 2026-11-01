@@ -1,0 +1,19 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:13:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/CookieCruncherPackage.Tests.ps1"],
+  "Result": {"Discovered": 4, "Passed": 3, "Failed": 0, "Skipped": 1, "NotRun": 0, "DurationSeconds": 9.69},
+  "SkippedCases": [{"Name": "stages and restores the retained real archive without launching Cookie Cruncher", "Reason": "No explicit retained Cookie Cruncher archive fixture was supplied."}],
+  "Coverage": ["Pinned publisher artifact metadata and pending target", "Synthetic ZIP member ownership, repeat apply, removal and operator-modified byte protection"],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "CookieCruncherLaunched": false, "BrowserProfilesRead": false, "CookieDataRead": false, "SyntheticArchiveUsed": true, "RegistryTestPluginEnabled": false, "WindowsStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "The retained real archive fixture is still unavailable; only synthetic lifecycle cases ran.",
+    "Blockers": ["Cookie Cruncher retained-archive lifecycle case remains skipped because no explicit fixture was supplied.", "Host CIM blocks VM/checkpoint inspection and native package acceptance.", "Defender-blocked tools remain excluded."]
+  }
+}
