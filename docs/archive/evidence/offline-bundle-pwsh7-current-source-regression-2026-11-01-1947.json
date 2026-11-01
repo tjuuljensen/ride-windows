@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:47:00Z",
+  "PowerShell": "PowerShell 7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/OfflineBundle.Tests.ps1", "tests/OfflineBundleAssembly.Tests.ps1", "tests/OfflineExecution.Tests.ps1"],
+  "Result": {"Discovered": 129, "Passed": 129, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 40.37},
+  "CrossShellSummary": {"PowerShell51Passed": 129, "PowerShell7Passed": 129, "CombinedPassed": 258},
+  "SafetyBoundary": {"NetworkAccess": false, "ExternalPackagePayloadAcquired": false, "TransferBundleAssembledOrCopied": false, "InstallerInvoked": false, "RideApplyExecuted": false, "VmOrCheckpointQueried": false, "RegistryTestPluginEnabled": false, "DefenderBlockedToolsIncluded": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell offline bundle source tests validate local integrity and execution gates only; no transfer or native disconnected deployment was accepted.",
+    "Blockers": ["Transferable bundle assembly/copy and disconnected Windows acceptance remain open.", "Host CIM blocks VM/checkpoint inspection.", "Defender-blocked tools remain excluded."]
+  }
+}
