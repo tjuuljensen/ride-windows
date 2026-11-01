@@ -1,0 +1,68 @@
+{
+  "title": "ALIGN-06 Windows capability and difference register",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T20:50:00Z",
+  "scope": "Structured Windows-side register from the dated source comparison; no Fedora source files changed.",
+  "register": {
+    "path": "docs/models/capability-differences.json",
+    "schemaVersion": 1,
+    "contractVersion": "1.0.0",
+    "entries": 16,
+    "dispositions": ["aligned", "temporary-gap", "permanent-platform-difference"],
+    "requiredFields": ["id", "owner", "reason", "ruleIds", "evidence", "linkedWork", "reviewRemovalTrigger"]
+  },
+  "environments": [
+    {
+      "shell": "Windows PowerShell",
+      "version": "5.1",
+      "pesterVersion": "5.7.1",
+      "testFile": "tests/BehaviorContract.Tests.ps1",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "shell": "PowerShell",
+      "version": "7.6.5",
+      "pesterVersion": "5.7.1",
+      "testFile": "tests/BehaviorContract.Tests.ps1",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "safety": {
+    "sourceReviewOnly": true,
+    "vmQueriedOrChanged": false,
+    "systemStateChanged": false,
+    "defenderAccessed": false,
+    "defenderBlockedToolsIncluded": false
+  },
+  "resolved": [
+    "Recorded stable IDs, contract rule links, role owners, source evidence locations, work items, disposition and review/removal triggers for 16 CLI and capability rows.",
+    "Updated the comparison's candidate-preview row to reflect the Windows ALIGN-04 implementation and linked the machine-readable register.",
+    "Added Pester structure checks so missing owners, rule references, evidence, linked-work fields, review triggers or dispositions fail."
+  ],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "The register is a Windows-side source review based on Windows commit 1622b53 and Fedora source revision 5c0ac02a32fdc2b3e7c86345e071817052ae626b; Fedora repository state and current post-baseline edits were not available for verification.",
+    "Several permanent-platform dispositions are proposed for owner review; entries with decisionStatus proposed-owner-review remain unresolved.",
+    "No legacy feature or product outcome closes in this cross-platform alignment batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome was closed; estimates are unchanged."
+  },
+  "blockers": [
+    "Fedora register integration and owner review remain open.",
+    "RIDE-Win11-Test acceptance remains blocked before VM state retrieval by host CIM access.",
+    "Defender-blocked tools remain excluded."
+  ]
+}

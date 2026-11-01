@@ -1,5 +1,8 @@
 # Windows and Fedora CLI alignment
 
+Machine-readable capability and difference dispositions are maintained in the
+[capability register](models/capability-differences.json).
+
 This is a maintainer comparison of the current local source, reviewed on
 2026-11-01 after Windows gained `-AllowCandidate`. Recommendations below are
 proposed follow-up work, not newly adopted policy or implemented behavior.
@@ -54,7 +57,7 @@ Links follow the development branch; the evidence hashes identify this review.
 | Additional verbs | `prune-state`; PowerShell completion is attached to parameters. | `completion bash`; no matching prune command. | Declare capabilities; no placeholder parity commands. |
 | Profiles and state arguments | Profile path via `-Profile`; default PSD1. `set <id> <state>` or `-State`. | Profile name or path via `--profile`; default JSON. `set <id> --state <state>`. | Document paired examples with explicit profile paths and named state options; keep published forms working. |
 | Candidate execution | `-AllowCandidate` on apply/install/set/unset/remove/restore; requires PendingAcceptance and declared CandidateTargets when not already supported. | `--allow-candidate` bypasses the non-supported status gate for mutations and download; target checks remain separate. | Same acceptance-only opt-in, no persistent approval or target widening. Reject unsupported use of a flag. |
-| Candidate preview | `-WhatIf` still needs `-AllowCandidate` for pending mutation/restore targets. | `--dry-run` takes the planning path without acceptance opt-in. | Prefer flag-free read-only candidate preview in both as a future explicit change; current Windows behavior remains as implemented. |
+| Candidate preview | `-WhatIf` previews declared pending targets without `-AllowCandidate` and reports that acceptance remains pending. | `--dry-run` takes the planning path without acceptance opt-in. | Source behavior now aligns; keep target, availability and privilege checks, and verify the paired scenarios. |
 | Download | Separate acquisition; `-Destination`, `-WhatIf`; public Save-RidePackage checks kind/action but does not use the engine acceptance/target gate. `-AllowCandidate` is rejected here. | Checks target and supported download handler; actual candidate download requires opt-in; dry-run does not. | Define acquisition eligibility separately from execution acceptance. Prefer no VM-acceptance opt-in merely to acquire; retain source, action, verification and artifact compatibility checks. |
 | Target and privilege checks | Supported/candidate Windows targets, optional build and Server edition checks; elevation for machine changes. Some user operations explicitly require unelevated context. | OS/release/architecture/optional variant; root for system and non-root for user changes. | Preserve native target dimensions and actual-user semantics. Preview must report blockers without performing changes; opt-in never grants privilege. |
 | User handoff | Explicit `-UserContext Desktop` for bounded user workflows; WhatIf previews launch only. | Run user operations from the intended non-root account; no equivalent handoff. | Keep this platform capability. A launch receipt must not imply child operation acceptance or success. |
@@ -69,9 +72,10 @@ Links follow the development branch; the evidence hashes identify this review.
 | Output and completion | PowerShell objects in parts of the engine/CLI; show/status also format output. Catalog-driven parameter completion. | JSON for show, TSV when redirected for tables; static command suggestions and local JSON completion. | Keep native human output; define a small opt-in JSON result contract for tooling. Derive or test command/option completion against the parser. |
 | Offline and extensions | Explicit local libraries; narrow offline bundle execution with independent gates. | No equivalent local-library interface or retained-artifact install path in this dispatcher. | Publish capability differences. Offline means no network fallback; do not infer it from a download cache. |
 
-The new Windows switch therefore closes the missing explicit candidate-change
-and recovery path, not all Fedora parity. The remaining preview and download
-differences should be conscious decisions rather than accidental parser behavior.
+Windows candidate changes and recovery still require explicit per-invocation
+opt-in. Candidate preview now reports pending acceptance without requiring that
+opt-in. Download eligibility remains a separate source-level difference to
+resolve under ALIGN-04.
 
 One additional Fedora review target is `ride_restore`: ordinary dry-run rows
 reach `ride_plan_entry` and its target check, but the special iBus hotkey preview

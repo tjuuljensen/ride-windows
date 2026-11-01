@@ -18,9 +18,11 @@ Describe 'Pinned shared behavior scenarios' {
     $script:ContractPath = Join-Path $script:RepositoryRoot 'docs/models/ride-behavior-contract.md'
     $script:ReferencePath = Join-Path $script:RepositoryRoot 'docs/models/ride-behavior-contract-ref.json'
     $script:AdapterMapPath = Join-Path $script:RepositoryRoot 'tests/fixtures/behavior-scenario-windows-adapter.json'
+    $script:DifferenceRegisterPath = Join-Path $script:RepositoryRoot 'docs/models/capability-differences.json'
     $script:ScenarioSet = Get-Content -LiteralPath $script:ScenarioPath -Raw | ConvertFrom-Json -ErrorAction Stop
     $script:ContractReference = Get-Content -LiteralPath $script:ReferencePath -Raw | ConvertFrom-Json -ErrorAction Stop
     $script:AdapterMap = Get-Content -LiteralPath $script:AdapterMapPath -Raw | ConvertFrom-Json -ErrorAction Stop
+    $script:DifferenceRegister = Get-Content -LiteralPath $script:DifferenceRegisterPath -Raw | ConvertFrom-Json -ErrorAction Stop
 
     $script:ValidateBehaviorScenarioEnvelope = {
       param(
@@ -69,6 +71,27 @@ Describe 'Pinned shared behavior scenarios' {
       $adapterContent = Get-Content -LiteralPath $adapterPath -Raw
       $title = [regex]::Escape([string]$mapping[0].testTitle)
       $adapterContent | Should -Match "(?m)^\s*It '$title'"
+    }
+  }
+
+  It 'requires an owner, rule, evidence, linked work and trigger for every capability disposition' {
+    $register = $script:DifferenceRegister
+    $register.schemaVersion | Should -Be 1
+    $register.contractVersion | Should -BeExactly $script:ContractReference.contractVersion
+    $register.reviewedSources.rideWindows.commit | Should -Not -BeNullOrEmpty
+    $register.reviewedSources.rideFedora.commit | Should -Not -BeNullOrEmpty
+    $entries = @($register.entries)
+    $entries.Count | Should -BeGreaterThan 0
+    @($entries.id | Sort-Object -Unique).Count | Should -Be $entries.Count
+    foreach ($entry in $entries) {
+      $entry.owner | Should -Not -BeNullOrEmpty
+      $entry.reason | Should -Not -BeNullOrEmpty
+      $entry.ruleIds | Should -Not -BeNullOrEmpty
+      $entry.evidence | Should -Not -BeNullOrEmpty
+      @($entry.PSObject.Properties.Name) | Should -Contain 'linkedWork'
+      $entry.reviewRemovalTrigger | Should -Not -BeNullOrEmpty
+      $entry.disposition | Should -BeIn @('aligned', 'temporary-gap', 'permanent-platform-difference')
+      $entry.decisionStatus | Should -BeIn @('source-reviewed', 'open', 'proposed-owner-review')
     }
   }
 }
