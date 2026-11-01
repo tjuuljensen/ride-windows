@@ -1,0 +1,44 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T17:53:00Z",
+  "Suite": "tests/PSScriptToolsPackage.Tests.ps1",
+  "PowerShell": "PowerShell 7.6.5",
+  "Pester": "5.7.1",
+  "Invocation": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Filter": "stages, repeats and restores source while preserving unowned analyst output",
+    "TestsDiscovered": 7,
+    "TestsSelected": 1,
+    "Progress": "Pester reached the selected 360-member lifecycle case but produced no completion output for approximately 60 seconds; the run was interrupted. No assertion result is claimed. The test begins by constructing and staging a synthetic 360-member archive.",
+    "ProcessObservation": "The PowerShell process showed approximately 1.17 CPU seconds after about one minute in the case."
+  },
+  "SafetyBoundary": {
+    "SyntheticFixturesOnly": true,
+    "PublisherPayloadUsed": false,
+    "UpstreamCodeExecutedOrImported": false,
+    "InstallerOrNetworkUsed": false,
+    "WindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The selected large synthetic lifecycle did not complete or report assertions and closes no legacy outcome.",
+    "Blockers": [
+      "PSScriptTools 360-member source lifecycle remains incomplete after repeated no-progress attempts.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
