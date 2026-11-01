@@ -1,0 +1,66 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "RetainedArchiveEnvironmentVariables": "Unset",
+  "Suites": [
+    {
+      "Path": "tests/SourceScriptPackages.Tests.ps1",
+      "Passed": 8,
+      "Failed": 0,
+      "Skipped": 2,
+      "SkippedBecause": "No explicit Hex2Text or ChromeSyncParser retained publisher archive fixture was supplied."
+    },
+    {
+      "Path": "tests/Download-JoeWareCollection.Tests.ps1",
+      "Passed": 9,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "Path": "tests/JoeWareAdModEngineRoute.Tests.ps1",
+      "Passed": 1,
+      "Failed": 0,
+      "Skipped": 1,
+      "SkippedBecause": "No explicit retained AdMod publisher archive directory was supplied."
+    }
+  ],
+  "Result": {
+    "Discovered": 21,
+    "Passed": 18,
+    "Failed": 0,
+    "Skipped": 3,
+    "DurationSeconds": 34.58
+  },
+  "SafetyBoundary": {
+    "JoeWareWebRequestsMocked": true,
+    "DefenderBlockedAdFindDefaultAndExplicitSelectionChecksPassed": true,
+    "PublisherArchivesAccessed": false,
+    "NetworkOrInstallerUsed": false,
+    "UpstreamCodeOrPythonExecuted": false,
+    "WindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "PasswordScanAlertFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The run passed source, preview, exclusion and synthetic ownership checks; optional retained-archive checks were skipped and no legacy outcome closes.",
+    "Blockers": [
+      "Package-level Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
