@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/UserPathEngine.Tests.ps1",
+    "tests/UserPathPreparation.Tests.ps1",
+    "tests/UserBinProfile.Tests.ps1",
+    "tests/PowerRead.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 93,
+    "Passed": 93,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 20.36
+  },
+  "Coverage": [
+    "Persistent user PATH candidate planning, captured state and guarded recovery routes",
+    "User-bin profile rendering with process PATH restoration",
+    "Typed power read identity, allocation ownership, error and AC/DC contracts using a fake API"
+  ],
+  "SafetyBoundary": {
+    "RegistryProvidersMocked": true,
+    "FakeNativePowerApiUsed": true,
+    "ProcessPathRestored": true,
+    "TestDriveOnlyPersistentFiles": true,
+    "VmOrCheckpointQueried": false,
+    "LiveWindowsStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Candidate planning and fake-provider source regressions do not establish native PATH or power behavior and close no legacy migration outcome.",
+    "Blockers": [
+      "User PATH and user-bin candidates remain target-gated pending disposable-VM acceptance.",
+      "Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.",
+      "Power-plan and setting runtime acceptance remains separate from fake power-read coverage.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
