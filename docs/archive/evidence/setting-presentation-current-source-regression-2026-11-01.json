@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/SettingPresentation.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 14,
+    "Passed": 14,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 12.68
+  },
+  "Coverage": [
+    "User and machine scope wording without inferring enforcement or privilege",
+    "Package and mixed-group lifecycle presentation",
+    "Requirements and fixed policy details in search results",
+    "Recovery contract preservation for retained Advanced state",
+    "Validation against scope, elevation, behavior evidence and schema compatibility",
+    "Mocked status, profile preview, setting detail and mixed-group detail output"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "RegistryTestPluginEnabled": false,
+    "LiveRegistryStateChanged": false,
+    "InstallerOrPublisherPayloadUsed": false,
+    "WindowsOrDefenderStateChanged": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Setting presentation source regression validates metadata and display behavior but closes no native acceptance or legacy setting outcome.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and package-level fast-track acceptance.",
+      "Feature/UI/restart and native setting restore checks remain open for the setting migration scope.",
+      "NirSoft PasswordScan remains excluded due to the separate Defender alert.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved."
+    ]
+  }
+}
