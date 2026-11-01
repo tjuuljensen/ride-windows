@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:24:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/CandidateExecution.Tests.ps1", "tests/CliShouldProcess.Tests.ps1", "tests/Search.Tests.ps1"],
+  "Result": {"Discovered": 98, "Passed": 98, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 39.76},
+  "Coverage": ["Pending-candidate opt-in, preview, target/build/elevation and profile preflight gates", "CLI ShouldProcess, confirmation, PAT and offline option forwarding through a fake engine", "Catalog search, shared views, validation and data-sourced completion with fixture catalogs"],
+  "SafetyBoundary": {"PlatformAndHandlersMocked": true, "FakeCatalogsUsed": true, "VmOrCheckpointQueried": false, "LiveWindowsStateChanged": false, "RegistryTestPluginEnabled": false, "DefenderBlockedToolsIncluded": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell CLI and candidate checks use fake handlers and catalogs; no live Windows state or legacy package outcome was changed.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Candidate operations requiring Windows acceptance remain target-gated.", "Defender-blocked tools remain excluded."]
+  }
+}
