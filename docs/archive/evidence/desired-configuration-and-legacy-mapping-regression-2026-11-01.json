@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/DesiredConfiguration.Tests.ps1",
+    "tests/LegacyDeploymentMapping.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 57,
+    "Passed": 57,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 10.94
+  },
+  "Coverage": [
+    "Read-only desired configuration preserves declared targets and unknown live state",
+    "Source bytes and digest binding, no-overwrite creation and WhatIf behavior",
+    "Baseline, absence, empty and multivalue semantics without expanding environment placeholders",
+    "Package/group order and unsupported runtime declarations remain report-only",
+    "Legacy deployment mapping preserves product/store identity and recovery fields",
+    "Malformed, ambiguous, oversized and non-finite migration records are rejected"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveStateInspected": false,
+    "InstallerOrPublisherPayloadUsed": false,
+    "WindowsOrDefenderStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Reference export and legacy mapping source regression strengthens traceability and recovery checks but closes no legacy Windows setting or package outcome.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native acceptance.",
+      "Transferable offline bundle assembly and disconnected Windows deployment acceptance remain pending.",
+      "Sysinternals Defender-active/no-alert confirmation remains pending; PasswordScan remains excluded due to the separate Defender alert.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved."
+    ]
+  }
+}
