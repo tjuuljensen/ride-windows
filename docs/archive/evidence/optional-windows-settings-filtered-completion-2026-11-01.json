@@ -1,0 +1,69 @@
+{
+  "title": "Optional Windows settings filtered source-test completion",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T22:48:17Z",
+  "scope": "Complete execution of every discovered test in tests/OptionalWindowsSettings.Tests.ps1, partitioned into non-overlapping Pester name filters after the unfiltered run's long quiet periods.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry writes are denied",
+    "windowsIntegration": "not run"
+  },
+  "partitionedRuns": [
+    { "scenario": "previews, saves, repeats and restores each setting with its original type", "passed": 60, "failed": 0, "skipped": 0, "duration": "00:02:30.083" },
+    { "scenario": "legacy mapping and optional selection", "passed": 60, "failed": 0, "skipped": 0, "duration": "00:00:17.508" },
+    { "scenario": "explicit zero, missing values and wrong types", "passed": 60, "failed": 0, "skipped": 0, "duration": "00:00:59.072" },
+    { "scenario": "plans every explicit setting state", "passed": 60, "failed": 0, "skipped": 0, "duration": "00:01:27.582" },
+    { "scenario": "preserves recoverable state when applying each setting fails", "passed": 60, "failed": 0, "skipped": 0, "duration": "00:01:50.420" },
+    { "scenario": "removes overrides and restores absent snapshots", "passed": 60, "failed": 0, "skipped": 0, "duration": "00:02:38.606" },
+    { "scenario": "single-case candidate metadata, machine elevation, explicit defaults and unknown defaults", "passed": 5, "failed": 0, "skipped": 0, "duration": "00:00:06.144" }
+  ],
+  "aggregate": {
+    "testsDiscovered": 365,
+    "testsExecuted": 365,
+    "passed": 365,
+    "failed": 0,
+    "skipped": 0,
+    "result": "passed across seven mutually exclusive filters; every discovered test was covered exactly once",
+    "fullUnfilteredInvocationCompleted": false
+  },
+  "environmentAttempt": {
+    "result": "excluded from aggregate",
+    "details": "One preliminary filtered invocation left Pester TestRegistry at its default enabled setting and failed 60 cases because sandbox registry access is denied. Repeating with TestRegistry disabled passed the same 60-case preview/restore slice."
+  },
+  "safety": {
+    "registryAndSystemHandlers": "mocked by the suite",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderAlertedExecutablesLaunched": false,
+    "networkOrInstallersInvoked": false
+  },
+  "resolved": [
+    "All 365 source tests in OptionalWindowsSettings.Tests.ps1 passed across the seven filtered runs."
+  ],
+  "retired": [],
+  "excluded": [
+    "WindowsIntegration tests and VM acceptance were not run.",
+    "Defender-blocked utilities remain excluded from runtime execution."
+  ],
+  "partial": [
+    "No legacy setting outcome closes; this is mocked source-test evidence only.",
+    "The aggregate repository-wide Pester run still lacks a completed summary."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "The repository-wide 3698-test discovery run was interrupted before its aggregate summary; this focused suite is now fully covered by filtered runs.",
+    "RIDE-Win11-Test state remains inaccessible because host CIM access is denied.",
+    "Defender-blocked utilities remain excluded from runtime execution."
+  ]
+}
