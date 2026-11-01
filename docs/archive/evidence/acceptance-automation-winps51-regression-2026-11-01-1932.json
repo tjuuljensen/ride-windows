@@ -1,0 +1,19 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:32:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/PortableAcceptanceAutomation.Tests.ps1", "tests/ProfileAcceptanceAutomation.Tests.ps1", "tests/TestAutomation.Tests.ps1", "tests/InteractiveGuestTests.Tests.ps1"],
+  "Result": {"Discovered": 233, "Passed": 233, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 67.88},
+  "CrossShellSummary": {"PowerShell7Passed": 231, "PowerShell7Skipped": 2, "PowerShell51Passed": 233, "CombinedPassed": 464, "CombinedSkipped": 2},
+  "Coverage": ["Acceptance suite selection and Defender-blocked collection exclusions", "Profile runner entry boundaries", "Controller correlation, queueing, recovery, checkpoint reset and evidence export with mocks", "Interactive worker identity, desktop session and scheduled-task cleanup boundaries", "Desktop-only host preflight checks under Windows PowerShell 5.1"],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "ControllerOrGuestDispatched": false, "HostServiceOrUacRead": false, "InstallerOrPublisherPayloadUsed": false, "WindowsOrDefenderStateChanged": false, "DefenderBlockedToolsExecuted": false, "RegistryTestPluginEnabled": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell automation tests validate mocked controller/guest behavior and selection policy; no VM or legacy package outcome was accepted.",
+    "Blockers": ["Host CIM still blocks real VM/checkpoint inspection and acceptance runs.", "Defender-blocked tools remain excluded from acceptance."]
+  }
+}
