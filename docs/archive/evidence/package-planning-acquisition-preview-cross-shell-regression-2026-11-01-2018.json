@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T20:18:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/PackageEvidence.Tests.ps1",
+    "tests/PackageDependencyPlanning.Tests.ps1",
+    "tests/Download-JoeWareCollection.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 49,
+      "Passed": 49,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 31.8
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 49,
+      "Passed": 49,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 32.24
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "SafetyBoundary": {
+    "HttpAndSignatureCallsMocked": true,
+    "PublisherContacted": false,
+    "InstallerInvoked": false,
+    "WhatIfOnly": true,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "PostRunArtifactInspection": {
+    "TwoWarningsForSyntheticSignalUserDataFixtures": true,
+    "BothReportedLeafPathsPresent": false,
+    "CleanupPerformedByAgent": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell package planning/evidence tests validate mocked acquisition, evidence handling and preview behavior; no publisher acquisition or package activation occurred.",
+    "Blockers": [
+      "Native package activation and Defender-active/no-alert acceptance remain VM-bound.",
+      "Host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
