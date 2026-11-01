@@ -5,12 +5,27 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | 2026-11-01; Explicit candidate execution and hibernation source implementation are covered by 296 passing focused tests. Native hibernation acceptance remains deferred. |
-| Packages | 37-52 | 2026-11-01; RegRipper, Rufus and Raspberry Pi Imager synthetic source suites passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
+| Packages | 37-52 | 2026-11-01; WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
 | Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
 | Maintenance | 8-12 | 2026-11-01; LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after RegRipper/Rufus/Raspberry Pi Imager (10/10), LicenseReviews (24/24), Sysinternals product source regression (72/72) and the PSScriptTools suite interruption; no complete legacy outcome closed. All five group ranges remain unchanged; VM acceptance remains blocked at host CIM and NirSoft lifecycle runs remain excluded due to Defender. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after WhatIsMyIP/WinPmem/Wireshark (16/16), RegRipper/Rufus/Raspberry Pi Imager (10/10), LicenseReviews (24/24), Sysinternals product source regression (72/72) and the PSScriptTools suite interruption; no complete legacy outcome closed. All five group ranges remain unchanged; VM acceptance remains blocked at host CIM and NirSoft lifecycle runs remain excluded due to Defender. |
 
+## WhatIsMyIP, WinPmem and Wireshark source regression, 2026-11-01
+
+The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 4/4 for
+WhatIsMyIP, 4/4 for WinPmem and 8/8 for Wireshark. HTTP requests were mocked;
+package checks used synthetic fixtures and mocked process boundaries. No live
+network request, payload, installer, driver, memory capture or Windows state
+was used.
+
+Resolved: the current-source regression for these package candidates.
+Retired/excluded: none. Partial: no legacy outcome closes. Deferred: VM
+acceptance remains blocked before VM/checkpoint state retrieval by host CIM;
+NirSoft remains excluded due to the Defender alert. All five estimates remain
+37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
+155), because the mocked source checks do not close a legacy package outcome.
+See [structured evidence](archive/evidence/whatismyip-winpmem-wireshark-current-source-regression-2026-11-01.json).
 ## RegRipper, Rufus and Raspberry Pi Imager source regression, 2026-11-01
 
 The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 4/4 for

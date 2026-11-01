@@ -1,0 +1,48 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": [
+    { "Path": "tests/WhatIsMyIp.Tests.ps1", "Passed": 4, "Failed": 0 },
+    { "Path": "tests/WinPmemPackage.Tests.ps1", "Passed": 4, "Failed": 0 },
+    { "Path": "tests/WiresharkPackage.Tests.ps1", "Passed": 8, "Failed": 0 }
+  ],
+  "Result": {
+    "Passed": 16,
+    "Failed": 0,
+    "Skipped": 0,
+    "DurationSeconds": 7.37
+  },
+  "SafetyBoundary": {
+    "WhatIsMyIpHttpRequestsMocked": true,
+    "PackageFixturesSynthetic": true,
+    "PublisherPayloadUsed": false,
+    "ProductOrInstallerExecuted": false,
+    "WinPmemDriverLoadedOrMemoryCaptured": false,
+    "NetworkUsed": false,
+    "RegistryOrWindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "These current-source regressions verify mocked HTTP behavior, package declarations and synthetic ownership boundaries without native acceptance.",
+    "Blockers": [
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
