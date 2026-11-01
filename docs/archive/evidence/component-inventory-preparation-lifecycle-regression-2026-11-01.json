@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/ComponentInventory.Tests.ps1",
+    "tests/ClientComponentPreparation.Tests.ps1",
+    "tests/ClientComponentLifecycle.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 75,
+    "Passed": 75,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 14.34
+  },
+  "Coverage": [
+    "Read-only component provider guards, namespaces and captured observations",
+    "OpenSSH Client and Telnet Client source preparation for Online and validated LocalSource paths",
+    "Pending-state, target, reparse-point, CAB identity and Group Policy source rejection",
+    "Mocked lifecycle preview, no-change, saved-state restore and recovery-source validation",
+    "State drift, update revision drift and saved provider identity guards"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "DismOrServicingInvoked": false,
+    "NativeProviderInvoked": false,
+    "WindowsComponentStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Mocked component inventory and lifecycle regression adds no native Windows target or recovery acceptance and closes no legacy component outcome.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native component acceptance.",
+      "OpenSSH and Telnet native servicing, source recovery and supported-target acceptance remain pending.",
+      "Sysinternals Defender-active/no-alert confirmation remains pending; PasswordScan remains excluded due to the separate Defender alert.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved."
+    ]
+  }
+}
