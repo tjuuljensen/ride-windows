@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T20:10:00Z",
+  "Pester": "5.7.1",
+  "Suite": "tests/LabProvisioning.Tests.ps1",
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 39,
+      "Passed": 39,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 6.33
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 39,
+      "Passed": 39,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 6.16
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Scope": "Configuration parsing, WhatIf boundary and mocked AutomatedLab preparation",
+  "SafetyBoundary": {
+    "HyperVOrAutomatedLabImported": false,
+    "VmQueried": false,
+    "VmProvisioned": false,
+    "GuestRemotingOpened": false,
+    "HostStateChanged": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Source tests validate provisioning configuration and mocked orchestration boundaries but do not establish host or guest VM acceptance.",
+    "Blockers": [
+      "RIDE-Win11-Test and Server VM acceptance remain blocked at host CIM before state inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
