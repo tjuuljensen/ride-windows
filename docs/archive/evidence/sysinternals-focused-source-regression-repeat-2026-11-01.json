@@ -1,7 +1,7 @@
 {
   "SchemaVersion": 1,
   "RecordedAt": "2026-11-01",
-  "PowerShell": "Windows PowerShell 5.1",
+  "PowerShell": "PowerShell 7.6.5",
   "Pester": "5.7.1",
   "Suites": [
     {

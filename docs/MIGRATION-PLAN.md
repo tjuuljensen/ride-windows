@@ -11,6 +11,15 @@
 | Maintenance | 8-12 | 2026-11-01; Library, authoring and maintained-example regression passed 80/80. Catalog/profile/dependency regression passed 112/112 runnable tests; one HKCU WindowsIntegration case remains unrun after sandbox write/cleanup denial. LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
 | **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 with the user-approved package-level acceptance method and Library/authoring/example regression passed 80/80; no legacy outcome closes. Catalog/profile regression passed 112 with 1 HKCU case not run; repository validation passed 452/8/5/326. Possible random HKCU test-key residue is unresolved after sandbox cleanup denial. Sysinternals package lifecycle is accepted; Defender-active/no-alert confirmation remains pending at host CIM. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; NirSoft lifecycle runs remain excluded due to Defender. |
 
+## Current Pester run environment label correction, 2026-11-01
+
+The PowerShell command host used for the current package, catalog and library
+runs was `pwsh.exe`, PowerShell 7.6.5 Core, with Pester 5.7.1. Nine evidence
+records and their dated plan summaries now use that exact environment label.
+The test outcomes and safety boundaries are unchanged. The LicenseReviews 24/24
+result was completed in the prior run and remains recorded separately as
+Windows PowerShell 5.1. No migration estimate changes. See [correction evidence](archive/evidence/pester-environment-label-correction-2026-11-01.json).
+
 ## Package-level fast-track acceptance decision, 2026-11-01
 
 The user approved package-level fast-track acceptance for ordinary user-mode
@@ -36,7 +45,7 @@ legacy outcome. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
 (exact 126-180; rounded 125-180/about 155). See [decision and evidence](archive/evidence/package-level-fast-track-acceptance-decision-2026-11-01.json).
 ## Library, authoring and example regression, 2026-11-01
 
-The Windows PowerShell 5.1/Pester 5.7.1 suites passed 25/25 for declarative
+The PowerShell 7.6.5/Pester 5.7.1 suites passed 25/25 for declarative
 libraries, 45/45 for custom-library authoring, and 10/10 for the maintained
 example library. Coverage included metadata validation, package references,
 recovery identity, mocked package lifecycle, CLI authoring prompts, read-only
@@ -68,7 +77,7 @@ rounded 125-180/about 155). VM acceptance remains blocked by host CIM and NirSof
 remains excluded due to the separate Defender alert. See [structured evidence](archive/evidence/catalog-profile-readonly-regression-and-hkcu-sandbox-block-2026-11-01.json).
 ## Source-script package and JoeWare source regression, 2026-11-01
 
-Windows PowerShell 5.1/Pester 5.7.1 passed 8/8 available source-package tests,
+PowerShell 7.6.5/Pester 5.7.1 passed 8/8 available source-package tests,
 9/9 JoeWare download-preview tests, and 1/1 JoeWare AdMod engine-route test.
 Two retained Hex2Text/ChromeSyncParser archive cases and one retained AdMod
 archive case were skipped because no explicit fixture was supplied. Preview
@@ -85,7 +94,7 @@ Windows VM acceptance is blocked at host CIM. All five estimates remain 37-57 /
 [structured evidence](archive/evidence/source-script-and-joeware-current-source-regression-2026-11-01.json).
 ## PSScriptTools focused source-boundary regression, 2026-11-01
 
-Selected six PSScriptTools tests passed in Windows PowerShell 5.1/Pester 5.7.1:
+Selected six PSScriptTools tests passed in PowerShell 7.6.5/Pester 5.7.1:
 metadata/notice declarations, refusal of an incomplete payload, modified-source
 preservation, collision refusal, changed-recovery refusal, and prior-absence
 recovery. TestRegistry and TestResult were disabled; the retained archive
@@ -121,7 +130,7 @@ ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
 due to Defender. See [structured evidence](archive/evidence/wfn-531-member-source-lifecycle-interrupted-2026-11-01.json).
 ## WhatIsMyIP, WinPmem and Wireshark source regression, 2026-11-01
 
-The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 4/4 for
+The focused PowerShell 7.6.5/Pester 5.7.1 suites passed 4/4 for
 WhatIsMyIP, 4/4 for WinPmem and 8/8 for Wireshark. HTTP requests were mocked;
 package checks used synthetic fixtures and mocked process boundaries. No live
 network request, payload, installer, driver, memory capture or Windows state
@@ -136,7 +145,7 @@ NirSoft remains excluded due to the Defender alert. All five estimates remain
 See [structured evidence](archive/evidence/whatismyip-winpmem-wireshark-current-source-regression-2026-11-01.json).
 ## RegRipper, Rufus and Raspberry Pi Imager source regression, 2026-11-01
 
-The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 4/4 for
+The focused PowerShell 7.6.5/Pester 5.7.1 suites passed 4/4 for
 RegRipper, 4/4 for Rufus and 2/2 for Raspberry Pi Imager. Synthetic inert
 fixtures exercised package metadata, candidate gates and owned-file recovery.
 No publisher payload, network, product executable, installer or Windows state
@@ -150,7 +159,7 @@ due to the reported Defender alert. All five estimates remain 37-57 / 37-52 /
 candidate regressions close no legacy outcome. See [structured evidence](archive/evidence/regripper-rufus-raspberry-pi-imager-current-source-regression-2026-11-01.json).
 ## PSScriptTools current-source repeat interrupted, 2026-11-01
 
-The focused suite discovered seven tests in Windows PowerShell 5.1/Pester
+The focused suite discovered seven tests in PowerShell 7.6.5/Pester
 5.7.1 with TestRegistry and TestResult disabled and retained-archive variables
 unset. Two metadata checks reported passes. The synthetic 360-file stage/repeat/
 uninstall/snapshot-recovery case then produced no completion output for about

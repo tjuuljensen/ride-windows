@@ -2,7 +2,7 @@
   "SchemaVersion": 1,
   "RecordedAt": "2026-11-01",
   "Suite": "tests/PSScriptToolsPackage.Tests.ps1",
-  "PowerShell": "Windows PowerShell 5.1",
+  "PowerShell": "PowerShell 7.6.5",
   "Pester": "5.7.1",
   "Invocation": {
     "TestRegistryEnabled": false,

@@ -1,0 +1,23 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "Environment": {
+    "Executable": "C:\\Users\\tjuuljensen\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "PowerShellVersion": "7.6.5",
+    "PSEdition": "Core",
+    "PesterVersion": "5.7.1"
+  },
+  "Correction": "Current-run test evidence initially mislabeled the shell as Windows PowerShell 5.1. The executable path and runtime reported by the same execution environment confirm PowerShell 7.6.5 Core. Test results and safety boundaries are unchanged; only environment labels and associated migration-plan descriptions were corrected.",
+  "CorrectedEvidenceFiles": [
+    "docs/archive/evidence/sysinternals-focused-source-regression-repeat-2026-11-01.json",
+    "docs/archive/evidence/psscripttools-test-interrupted-360-file-source-regression-2026-11-01.json",
+    "docs/archive/evidence/regripper-rufus-raspberry-pi-imager-current-source-regression-2026-11-01.json",
+    "docs/archive/evidence/whatismyip-winpmem-wireshark-current-source-regression-2026-11-01.json",
+    "docs/archive/evidence/wfn-531-member-source-lifecycle-interrupted-2026-11-01.json",
+    "docs/archive/evidence/psscripttools-focused-source-boundaries-regression-2026-11-01.json",
+    "docs/archive/evidence/source-script-and-joeware-current-source-regression-2026-11-01.json",
+    "docs/archive/evidence/catalog-profile-readonly-regression-and-hkcu-sandbox-block-2026-11-01.json",
+    "docs/archive/evidence/library-authoring-and-example-regression-2026-11-01.json"
+  ],
+  "UnaffectedPriorEvidence": "The 24/24 LicenseReviews run was completed in the prior work session and remains recorded under its prior Windows PowerShell 5.1 result."
+}
