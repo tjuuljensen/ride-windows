@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:23:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/OfficeInventory.Tests.ps1", "tests/OfficeConfigurationReview.Tests.ps1", "tests/StoreAppReview.Tests.ps1"],
+  "Result": {"Discovered": 102, "Passed": 102, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 13.45},
+  "Coverage": ["Click-to-Run metadata inventory with fake registry handles", "Historical Office configuration XML review", "Current-user AppX and online provisioning review"],
+  "SafetyBoundary": {"RegistryAppxAndDismProvidersMocked": true, "FakeRegistryHandlesUsed": true, "TestDriveOnlyFileWrites": true, "VmOrCheckpointQueried": false, "LiveWindowsStateChanged": false, "RegistryTestPluginEnabled": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell office/store review tests use fake registry and mocked AppX/DISM providers; no native state was inspected or changed.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Live Office/AppX and provisioning outcomes remain separate from this source regression.", "Defender-blocked tools remain excluded."]
+  }
+}
