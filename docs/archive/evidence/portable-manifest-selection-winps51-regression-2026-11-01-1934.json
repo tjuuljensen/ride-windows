@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:34:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/PortableManifest.Tests.ps1", "tests/PortableSelection.Tests.ps1"],
+  "Result": {"Discovered": 34, "Passed": 34, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 26.96},
+  "Coverage": ["Atomic portable manifest commit/recovery after injected conflicts", "Bounded retries and staged recovery evidence", "Exact ZIP member selection, file ownership and byte restoration", "Invalid/missing selections and unsafe archive member rejection"],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "InertSyntheticArchivesUsed": true, "InstallerInvoked": false, "LivePackageFilesChanged": false, "TestDriveOnlyFiles": true, "RegistryTestPluginEnabled": false, "WindowsStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell tests verify the portable file transaction boundary with synthetic archives; actual package installation remains separate.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Publisher-source and native package activation remain unverified.", "Defender-blocked tools remain excluded."]
+  }
+}
