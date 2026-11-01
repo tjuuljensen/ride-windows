@@ -1,0 +1,51 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/AudioService.Tests.ps1",
+    "tests/ScreenLockMeasurement.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 25,
+    "Passed": 25,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 20.36
+  },
+  "Coverage": [
+    "Windows Audio primary-service ownership, dependency refusals, transition and exact recovery through mocked providers",
+    "Screen-lock measurement guardrails, nonmutating download preview and synthetic memory/arithmetic handling"
+  ],
+  "SafetyBoundary": {
+    "ServiceCimRegistryAndNativeProvidersMocked": true,
+    "MeasurementLaunchAndNetworkBlockedByMocks": true,
+    "VmOrCheckpointQueried": false,
+    "LiveWindowsStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "These source safety and mocked lifecycle tests do not establish native Audio service transitions or screen-lock runtime behavior and close no legacy outcome.",
+    "Blockers": [
+      "Audio service native lifecycle remains unverified in a disposable VM.",
+      "Screen-lock measurement remains separate from package acceptance and performs no live sampling here.",
+      "Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
