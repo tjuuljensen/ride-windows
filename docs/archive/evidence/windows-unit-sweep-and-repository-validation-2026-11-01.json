@@ -1,0 +1,70 @@
+{
+  "title": "Windows unit sweep partial and repository validation",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T22:22:30Z",
+  "scope": "Broad Windows source/unit sweep after candidate-preview test refresh, plus the repository catalog/parser validator.",
+  "broadUnitSweep": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "filesDiscovered": 153,
+    "testsDiscovered": 3698,
+    "configuration": [
+      "Pester TestRegistry disabled because temporary HKCU access is denied in this sandbox.",
+      "WindowsIntegration tag excluded.",
+      "AutomationWatchdog.Tests.ps1 excluded after an earlier attempt exceeded the sandbox's process-tree timeout and left a worker log locked."
+    ],
+    "result": "Interrupted before suite summary after a prolonged no-output stall in the large settings WhatIf/restore matrix.",
+    "failuresBeforeInterruption": 0,
+    "passedFileSummariesObserved": "The run reported repeated per-file passes through the MiTeC/NTCore, offline, library-authoring, license-review, and earlier settings suites; it stopped before a complete aggregate result.",
+    "fullSuitePassClaimed": false
+  },
+  "repositoryValidation": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "script": "tools/validate.ps1",
+    "result": "passed",
+    "operations": 452,
+    "groups": 8,
+    "profiles": 5,
+    "powerShellFiles": 329,
+    "generatedOperationsDocumentation": "current"
+  },
+  "safety": {
+    "systemStateChanged": false,
+    "networkOrInstallersInvoked": false,
+    "vmQueriedOrChanged": false,
+    "defenderAlertedExecutablesLaunched": false,
+    "windowsIntegrationTestsRun": false
+  },
+  "resolved": [
+    "Repository validation passed for all current catalog operations, groups, profiles and PowerShell files.",
+    "The corrected candidate-preview suites passed 130/130 in the preceding focused batch and passed again per-file during this broad sweep before interruption."
+  ],
+  "retired": [],
+  "excluded": [
+    "AutomationWatchdog.Tests.ps1; its process-tree termination exceeds the sandbox's ten-second bound.",
+    "WindowsIntegration-tagged tests and all VM acceptance.",
+    "Execution of Defender-alerted utilities."
+  ],
+  "partial": [
+    "No complete aggregate Pester result is available; the broad sweep must be repeated or completed in an environment that allows the settings matrix to finish and the watchdog process tree to terminate reliably.",
+    "No legacy outcome closes in this test/validation batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome was closed; estimates remain unchanged."
+  },
+  "blockers": [
+    "The broad 153-file/3698-test sweep stalled in the settings WhatIf/restore matrix before summary.",
+    "AutomationWatchdog process termination and TestDrive cleanup remain sandbox constrained.",
+    "RIDE-Win11-Test VM state remains inaccessible before retrieval because host CIM access is denied.",
+    "Defender-blocked utilities remain excluded from runtime execution."
+  ]
+}
