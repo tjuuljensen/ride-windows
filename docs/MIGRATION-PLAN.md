@@ -5,12 +5,35 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | 2026-11-01; Explicit candidate execution and hibernation source implementation are covered by 296 passing focused tests. Native hibernation acceptance remains deferred. |
-| Packages | 37-52 | 2026-11-01; WFN inventory and small synthetic lifecycle cases passed; full 531-member synthetic lifecycle repeat interrupted after two reported passes, so no full-suite pass is claimed. WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
+| Packages | 37-52 | 2026-11-01; User-approved fast track: ordinary user-mode products require package-level source/pin, install/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; individual tool behavior is untested by design. Defender active/no-alert observation is not in the archived VM record and remains blocked by host CIM. WFN inventory and small synthetic lifecycle cases passed; full 531-member synthetic lifecycle repeat interrupted after two reported passes, so no full-suite pass is claimed. WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. HashCheck complete; NTCore and Project Maker installation lifecycles accepted. EXE Explorer and HexEdit deployment complete. System Information eXtra and TAPI Monitor deployment complete. 52 catalog packages remain pending candidates; InfoBar is deferred. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
 | Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
 | Maintenance | 8-12 | 2026-11-01; LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the WFN 531-member lifecycle interruption plus the WhatIsMyIP/WinPmem/Wireshark (16/16), RegRipper/Rufus/Raspberry Pi Imager (10/10), LicenseReviews (24/24) and Sysinternals product source (72/72) batches; no complete legacy outcome closed. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; VM acceptance is blocked at host CIM and NirSoft lifecycle runs remain excluded due to Defender. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 with the user-approved package-level acceptance method and current source-test batches; no additional legacy outcome closes. Sysinternals package lifecycle is accepted; Defender-active/no-alert confirmation remains pending at host CIM. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; NirSoft lifecycle runs remain excluded due to Defender. |
 
+## Package-level fast-track acceptance decision, 2026-11-01
+
+The user approved package-level fast-track acceptance for ordinary user-mode
+packages: verify the official source and pinned artifact, install/remove on the
+disposable Windows VM, check owned-file cleanup/recovery, and confirm Defender
+remains active without an alert. Do not require per-tool functional runs for
+included utilities unless RIDE invokes/configures them. Batch products sharing
+a publisher or installer where practical. Reserve focused checks or deferral
+for drivers/kernel components, services/persistence, credential/key-recovery
+behavior, and Defender alerts. Never bypass Defender; pause alerted artifacts.
+
+The existing Sysinternals Windows 11 run on `RIDE-Win11-Test` passed package
+install/repeat/remove and recovery, including exact member selection, collision
+refusal, and modified-file preservation. Mark the package lifecycle accepted;
+individual utility behavior remains untested by design. The archived run does
+not record a Defender-active/no-alert check, so that observation is still
+pending. Current host CIM access blocks VM/checkpoint inspection and this final
+read-only confirmation. The reported NirSoft PasswordScan alert remains a
+separate exclusion; no related file was accessed.
+
+This method decision changes no package implementation and closes no additional
+legacy outcome. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
+(exact 126-180; rounded 125-180/about 155). See [decision and evidence](archive/evidence/package-level-fast-track-acceptance-decision-2026-11-01.json).
 ## WFN current-source repeat interrupted, 2026-11-01
 
 Moved the test's generated fixture root from `.local/pester-wfn-package` to

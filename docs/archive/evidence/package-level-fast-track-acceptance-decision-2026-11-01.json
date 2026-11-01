@@ -1,0 +1,31 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "Decision": "Use package-level fast-track acceptance for remaining ordinary user-mode packages. Verify the official source and pinned artifact, install/remove on the disposable Windows VM, verify owned-file cleanup/recovery, and confirm Defender remains active without an alert. Do not require per-tool feature tests for included utilities unless RIDE itself invokes/configures them. Batch products sharing a publisher or installer where practical. Reserve focused checks or deferral for drivers/kernel components, services/persistence, credential/key-recovery behavior, and Defender alerts. Never bypass Defender; pause an alerted artifact for investigation.",
+  "SysinternalsAssessment": {
+    "Package": "package.sysinternals-suite",
+    "ExistingVmEvidence": "docs/archive/evidence/sysinternals-suite-win11-current-lifecycle-acceptance-2026-10-25-0201.json",
+    "Target": "Windows 11 build 26300 on RIDE-Win11-Test",
+    "PackageLifecycle": "Passed 1/1: exact member selection, install/repeat/remove, saved-state recovery, original absence restore, collision refusal and modified-file preservation.",
+    "ProductOrDriverExecuted": false,
+    "PackageLifecycleStatus": "Accepted",
+    "PerToolFunctionalStatus": "Not selected by user-approved package-level method; not represented as tested.",
+    "DefenderActiveNoAlertStatus": "Not present in archived VM evidence; remains pending fresh read-only confirmation after host VM/CIM access is available."
+  },
+  "SafetyAndBlockers": {
+    "HostVmAccess": "Blocked before VM/checkpoint state retrieval by host CIM access.",
+    "NirSoftPasswordScan": "Separate Defender alert blocker; keep artifact excluded, do not access or bypass Defender.",
+    "LicenseGate": "None for Sysinternals under prior RIDE v2 license-specialist approval for direct download-and-install; RIDE does not publish or transfer the suite."
+  },
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "The decision narrows acceptance evidence to the package lifecycle already passed for Sysinternals and closes no additional legacy outcome."
+  }
+}
