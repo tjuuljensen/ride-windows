@@ -1,0 +1,90 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T15:03:33Z",
+  "ReviewDate": "2026-11-01",
+  "Outcome": "Current hibernation and explicit candidate source regressions passed",
+  "FocusedPester": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Runs": [
+      {
+        "ExcludedTags": [
+          "WindowsIntegration"
+        ],
+        "Skipped": 0,
+        "Passed": 102,
+        "Failed": 0,
+        "Suites": [
+          "tests/Hibernation.Tests.ps1",
+          "tests/HibernationAcceptance.Tests.ps1",
+          "tests/SettingsFixtureData.Tests.ps1",
+          "tests/CliShouldProcess.Tests.ps1"
+        ]
+      },
+      {
+        "Passed": 145,
+        "NotRun": 1,
+        "Skipped": 0,
+        "Suites": [
+          "tests/CandidateExecution.Tests.ps1",
+          "tests/UserHandoff.Tests.ps1",
+          "tests/Catalog.Tests.ps1",
+          "tests/CatalogProfileValidation.Tests.ps1"
+        ],
+        "ExcludedTags": [
+          "WindowsIntegration"
+        ],
+        "Failed": 0
+      }
+    ],
+    "TotalPassed": 247,
+    "TotalFailed": 0,
+    "TotalSkipped": 0,
+    "ExcludedWindowsIntegration": 1
+  },
+  "RepositoryValidation": {
+    "Status": "Passed",
+    "Operations": 452,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 326
+  },
+  "GitDiffCheck": "Passed",
+  "Safety": {
+    "HostWindowsStateChanged": false,
+    "PowercfgRun": false,
+    "RegistryChanged": false,
+    "VmRun": false,
+    "InstallerRun": false,
+    "NetworkUsed": false,
+    "DefenderStateAccessed": false,
+    "PasswordScanFileAccessed": false,
+    "ElevationPrompt": false
+  },
+  "LegacyOutcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Native hibernation lifecycle, transition, and recovery acceptance",
+      "Current disposable VM acceptance while host CIM access is unavailable"
+    ],
+    "Partial": [
+      "Source validation only; no legacy setting or profile outcome closes"
+    ]
+  },
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "Source-only tests and static validation do not accept or close a legacy outcome."
+  },
+  "VmBlocker": "RIDE-Win11-Test acceptance remains blocked at host CIM; no VM state was queried during this run."
+}

@@ -4,12 +4,12 @@
 
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
-| Settings | 37-57 | 2026-11-01; Range reviewed and unchanged in this source-only package preparation batch; no setting outcome or native acceptance changed. |
-| Packages | 37-52 | 2026-11-01; Range reviewed and unchanged; offline preparation planning is partial, and Defender-affected NirSoft routes remain excluded. No package product outcome closed. |
-| Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome or native acceptance changed in this batch. |
-| Files and assets | 25-35 | 2026-11-01; Offline preparation planner source checks passed 12/12; no bundle assembly, delivery or whole legacy file/asset outcome closed. |
-| Maintenance | 8-12 | 2026-11-01; Bootstrap regression passed 9/9; offline bundle regression repeat passed 129/129; preparation planner passed 12/12; repository validation passed 452/8/5/326. Host CIM continues to block VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the offline bundle source regression repeat; all five ranges remain unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
+| Settings | 37-57 | 2026-11-01; Source regressions across hibernation, explicit candidate execution, desktop handoff and catalog/profile boundaries passed 247 tests. Native hibernation lifecycle, transition and recovery remain open. |
+| Packages | 37-52 | 2026-11-01; Range reviewed and unchanged by the settings source regression; Defender-affected NirSoft routes remain excluded from preparation. |
+| Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed in this source test batch. |
+| Files and assets | 25-35 | 2026-11-01; Offline bundle source suites remain passed 129/129 and offline planner 12/12; this run added no file/asset outcome. |
+| Maintenance | 8-12 | 2026-11-01; Repository validation passed 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM continues to block VM acceptance. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the hibernation/candidate source regression; all five ranges reviewed and unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
 
 ## Read-only offline package preparation planner, 2026-11-01
 
@@ -65,6 +65,26 @@ installation/recovery and host VM acceptance at CIM. The five estimates remain
 
 See [offline regression evidence](archive/evidence/offline-bundle-integrity-assembly-execution-regression-2026-11-01.json).
 Next: continue the next authorized test batch; VM acceptance remains blocked at host CIM.
+
+## Hibernation and candidate source regression, 2026-11-01
+
+Focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 247 tests with no
+failures or skips across hibernation handling and acceptance orchestration,
+settings fixture validation, explicit candidate execution, desktop-user handoff,
+catalog metadata and profile validation. One WindowsIntegration-tagged case was
+excluded. Repository validation passed for 452 operations, 8 groups, 5 profiles
+and 326 PowerShell files; `git diff --check` passed.
+
+Resolved/retired/excluded: none. Partial: source behavior only; no legacy setting
+or profile outcome closes. Deferred: native hibernation lifecycle, power transition
+and exact recovery on a disposable VM; current VM access remains blocked at host
+CIM. No powercfg, registry mutation, installer, network, Defender state or
+PasswordScan file was accessed. All estimates remain 37-57 / 37-52 / 19-24 /
+25-35 / 8-12, exact 126-180 and rounded 125-180/about 155.
+
+See [settings source regression evidence](archive/evidence/settings-candidate-hibernation-source-regression-2026-11-01.json)
+and [hibernation acceptance preparation](archive/evidence/hibernation-acceptance-preparation-2026-11-01.json).
+Next: continue with source-only test batches; VM acceptance remains blocked at host CIM.
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 
 Next run one Source Local MiTeCSystemAndTelephony request with TimeoutMinutes 20
