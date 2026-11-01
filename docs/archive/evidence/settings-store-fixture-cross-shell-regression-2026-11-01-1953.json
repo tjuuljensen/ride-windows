@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:53:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/SettingsFixtureData.Tests.ps1",
+    "tests/StoreSolitaireFixtureData.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 30,
+      "Passed": 30,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 19.5
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 30,
+      "Passed": 30,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 17.23
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "FixtureScope": "Pester TestDrive and in-memory catalog data",
+  "SafetyBoundary": {
+    "WindowsStateChanged": false,
+    "VmOrCheckpointQueried": false,
+    "SettingsOrPackageHandlerApplied": false,
+    "InstallerOrPublisherAccessed": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Fixture validation checks acceptance request/schema boundaries and a synthetic Store fixture transform; no native settings or Store app lifecycle was accepted.",
+    "Blockers": [
+      "RIDE-Win11-Test acceptance remains blocked at host CIM before VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
