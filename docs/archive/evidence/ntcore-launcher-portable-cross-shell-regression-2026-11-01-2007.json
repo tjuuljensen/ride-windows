@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T20:07:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/NtCore4GbPatchLauncher.Tests.ps1",
+    "tests/NtcoreUnpackerDynLogger.Tests.ps1",
+    "tests/NtcorePackages.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 46,
+      "Passed": 39,
+      "Failed": 0,
+      "Skipped": 7,
+      "DurationSeconds": 57.72
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 46,
+      "Passed": 39,
+      "Failed": 0,
+      "Skipped": 7,
+      "DurationSeconds": 158.46
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "SkippedCases": "Seven retained archive checks across Unpacker/DynLogger and ScreenWriter require RIDE_NTCORE_FIXTURE_DIRECTORY",
+  "SafetyBoundary": {
+    "PublisherDownload": false,
+    "PublisherArchivesRead": false,
+    "ToolOrPatchExecutableLaunched": false,
+    "FourGbPatchPreviewOnly": true,
+    "WindowsTargetModified": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The cross-shell run validates launcher guards and synthetic portable recovery; retained publisher archive checks and native product acceptance remain open.",
+    "Blockers": [
+      "Seven retained-archive checks skipped without RIDE_NTCORE_FIXTURE_DIRECTORY.",
+      "NTCore native acceptance remains VM-bound; host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
