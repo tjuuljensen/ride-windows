@@ -5,12 +5,26 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | 2026-11-01; Explicit candidate execution and hibernation source implementation are covered by 296 passing focused tests. Native hibernation acceptance remains deferred. |
-| Packages | 37-52 | 2026-11-01; PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
+| Packages | 37-52 | 2026-11-01; RegRipper, Rufus and Raspberry Pi Imager synthetic source suites passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. Defender-affected NirSoft routes remain excluded from staging and selection. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
 | Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
 | Maintenance | 8-12 | 2026-11-01; LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after LicenseReviews (24/24), Sysinternals product source regression (72/72) and the PSScriptTools suite interruption; no complete legacy outcome closed. The PSScriptTools case had no completed suite result and is not counted as a pass. All five group ranges remain unchanged; VM acceptance remains blocked at host CIM. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after RegRipper/Rufus/Raspberry Pi Imager (10/10), LicenseReviews (24/24), Sysinternals product source regression (72/72) and the PSScriptTools suite interruption; no complete legacy outcome closed. All five group ranges remain unchanged; VM acceptance remains blocked at host CIM and NirSoft lifecycle runs remain excluded due to Defender. |
 
+## RegRipper, Rufus and Raspberry Pi Imager source regression, 2026-11-01
+
+The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 4/4 for
+RegRipper, 4/4 for Rufus and 2/2 for Raspberry Pi Imager. Synthetic inert
+fixtures exercised package metadata, candidate gates and owned-file recovery.
+No publisher payload, network, product executable, installer or Windows state
+was used.
+
+Resolved: source regression for the three package candidates. Retired/excluded:
+none. Partial: no legacy package outcome closes. Deferred: VM acceptance remains
+blocked before VM/checkpoint state retrieval at host CIM; NirSoft remains excluded
+due to the reported Defender alert. All five estimates remain 37-57 / 37-52 /
+19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155), because these
+candidate regressions close no legacy outcome. See [structured evidence](archive/evidence/regripper-rufus-raspberry-pi-imager-current-source-regression-2026-11-01.json).
 ## PSScriptTools current-source repeat interrupted, 2026-11-01
 
 The focused suite discovered seven tests in Windows PowerShell 5.1/Pester

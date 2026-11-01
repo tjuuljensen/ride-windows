@@ -1,0 +1,58 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": [
+    {
+      "Path": "tests/RegRipperPackage.Tests.ps1",
+      "Passed": 4,
+      "Failed": 0
+    },
+    {
+      "Path": "tests/RufusPackage.Tests.ps1",
+      "Passed": 4,
+      "Failed": 0
+    },
+    {
+      "Path": "tests/RaspberryPiImagerPackage.Tests.ps1",
+      "Passed": 2,
+      "Failed": 0
+    }
+  ],
+  "Result": {
+    "Passed": 10,
+    "Failed": 0,
+    "Skipped": 0,
+    "DurationSeconds": 98.04
+  },
+  "SafetyBoundary": {
+    "SyntheticFixturesOnly": true,
+    "PublisherPayloadUsed": false,
+    "ProductOrInstallerExecuted": false,
+    "NetworkUsed": false,
+    "RegistryOrWindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The regression verifies source candidate metadata and synthetic lifecycle safeguards; it closes no whole legacy product outcome.",
+    "Blockers": [
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
