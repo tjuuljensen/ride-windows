@@ -10,8 +10,9 @@
   and prior versions. Preflight functions are read-only.
 .NOTES
   Compatibility: Native Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Version: 0.7.2.
-  Changelog: 0.7.2: Clarify byte-bound install/apply preflight consumption.
+  Version: 0.8.0.
+  Changelog: 0.8.0: Plan profile-selected/full-set package sources from explicit local evidence.
+    0.7.2: Clarify byte-bound install/apply preflight consumption.
     0.7.1: Recognize catalog-neutral portable archives during target preflight.
     0.7.0: Optionally gate assembly on byte-bound selected-profile coverage.
     0.6.0: Compare explicit catalog download sources during package coverage.
@@ -693,4 +694,199 @@ function New-RideOfflineBundle {
   $result.VerifiedFileIds=$verified.ToArray()
   $result
 }
-Export-ModuleMember -Function Test-RideOfflineBundle, Test-RideOfflineProfileCoverage, New-RideOfflineBundle
+
+function New-RideOfflinePreparationPlan {
+  <#
+  .SYNOPSIS
+    Plan requested offline package payloads from explicit local metadata.
+  .DESCRIPTION
+    Expands selected profile packages or every target-applicable package variant,
+    closes catalog prerequisites, and matches exact retained artifact observations
+    and bytes under caller-supplied cache roots. It never downloads, extracts,
+    installs, reads Windows state, or authorizes redistribution. Pending target
+    acceptance, required version pins, missing bytes and Defender exclusions stay
+    explicit in the returned plan.
+  .PARAMETER Mode
+    ProfileSelected expands the supplied effective profiles. FullSet lists each
+    supported or candidate package variant for the explicit target matrix.
+  .PARAMETER Catalog
+    Bounded declarative schema-1 catalog loaded by Import-RideCatalogData.
+  .PARAMETER Targets
+    Explicit target identity records with Id, Name, Build, EditionId and Architecture.
+  .PARAMETER Profiles
+    ProfileSelected mode records with Id and parsed Data fields.
+  .PARAMETER ArtifactObservations
+    Public acquisition observations already retained by RIDE. No network lookup occurs.
+  .PARAMETER CacheRoots
+    Exact local package-cache roots to inspect. No default user/machine cache is scanned.
+  .PARAMETER VersionSelections
+    Optional explicit version map keyed by PackageId|Variant or OperationId|Variant.
+  .PARAMETER LicenseReviewStatuses
+    Optional local informational status keyed by PackageId. Review status never gates inclusion.
+  .EXAMPLE
+    New-RideOfflinePreparationPlan -Mode FullSet -Catalog $catalog -Targets $targets -ArtifactObservations $observations -CacheRoots $cacheRoots
+  .OUTPUTS
+    PSCustomObject with ordered package requests and explicit omissions/issues.
+  .NOTES
+    Compatible with Windows PowerShell 5.1 and PowerShell 7. Local paths remain
+    in this preparation report and are not written into a transferable manifest.
+  #>
+  [CmdletBinding()]
+  param(
+    [Parameter(Mandatory)][ValidateSet('ProfileSelected','FullSet')][string]$Mode,
+    [Parameter(Mandatory)][hashtable]$Catalog,
+    [Parameter(Mandatory)][hashtable[]]$Targets,
+    [hashtable[]]$Profiles=@(),
+    [object[]]$ArtifactObservations=@(),
+    [string[]]$CacheRoots=@(),
+    [hashtable]$VersionSelections=@{},
+    [hashtable]$LicenseReviewStatuses=@{}
+  )
+  if($Catalog.SchemaVersion -ne 1 -or @($Catalog.Operations).Count -gt 2000 -or @($Catalog.Groups).Count -gt 2000){throw 'Invalid or excessive declarative catalog.'}
+  if(-not $Targets.Count -or $Targets.Count -gt 64){throw 'Supply between one and 64 explicit Windows targets.'}
+  if($Mode -eq 'ProfileSelected' -and (-not $Profiles.Count -or $Profiles.Count -gt 256)){throw 'ProfileSelected mode requires between one and 256 profiles.'}
+  if($Mode -eq 'FullSet' -and $Profiles.Count){throw 'FullSet mode does not accept profile inputs.'}
+  Import-Module (Join-Path $PSScriptRoot 'RIDE.PackageSelection.psm1') -ErrorAction Stop
+  $targetRows=[Collections.Generic.List[object]]::new();$targetIds=@{}
+  foreach($target in $Targets){
+    foreach($key in @('Id','Name','Build','EditionId','Architecture')){if(-not $target.ContainsKey($key)){throw 'Each target requires Id, Name, Build, EditionId and Architecture.'}}
+    Assert-RideBundleToken $target.Id;Assert-RideBundleToken $target.EditionId
+    if($target.Name -notin @('Windows 11','Windows Server 2025') -or [int]$target.Build -lt 1 -or $target.Architecture -notin @('x64','x86','ARM64')){throw 'Invalid explicit Windows target identity.'}
+    if($targetIds.ContainsKey($target.Id)){throw 'Duplicate target identity.'};$targetIds[$target.Id]=$true
+    $targetRows.Add([pscustomobject]@{Id=[string]$target.Id;Name=[string]$target.Name;Build=[int]$target.Build;EditionId=[string]$target.EditionId;Architecture=[string]$target.Architecture})
+  }
+  $operations=@{};$groups=@{}
+  foreach($op in $Catalog.Operations){if($op.Kind -eq 'Package'){Assert-RideBundleToken $op.Id;Assert-RideBundleToken $op.PackageId;if($operations.ContainsKey($op.Id)){throw 'Duplicate package operation ID.'};$operations[$op.Id]=$op}}
+  foreach($group in @($Catalog.Groups)){if($groups.ContainsKey($group.Id)){throw 'Duplicate catalog group ID.'};$groups[$group.Id]=$group}
+  $requests=[Collections.Generic.List[object]]::new();$issues=[Collections.Generic.List[object]]::new();$seen=@{};$visiting=@{}
+  function Add-OfflinePackageRequest {
+    param([hashtable]$Operation,[string]$Variant,[string]$TargetId,[string]$ProfileId,[string]$Origin,[bool]$Prerequisite,[int]$Depth)
+    if($Depth -gt 128){throw 'Offline package prerequisite depth exceeds 128.'}
+    $resolved=Resolve-RidePackageSelection -Operation $Operation -Variant $Variant -MetadataOnly -IgnorePreferences
+    if(-not $resolved.SelectedVariant){$resolved.SelectedVariant='installed'}
+    $key=$TargetId+'|'+$resolved.Id+'|'+$resolved.SelectedVariant
+    if($seen.ContainsKey($key)){
+      $existing=$requests[$seen[$key]]
+      if($ProfileId -and $ProfileId -notin @($existing.ProfileIds)){$existing.ProfileIds=@($existing.ProfileIds)+$ProfileId}
+      if(-not $Prerequisite){$existing.IsPrerequisite=$false}
+      return
+    }
+    if($visiting.ContainsKey($key)){throw 'Cyclic package prerequisite graph in offline plan.'}
+    $visiting[$key]=$true
+    if($resolved.PrerequisitePackageId){
+      $prerequisiteId=[string]$resolved.PrerequisitePackageId
+      if(-not $operations.ContainsKey($prerequisiteId)){throw 'Unknown package prerequisite in offline plan.'}
+      $pre=$operations[$prerequisiteId]
+      if($pre.Variants -and -not $pre.DefaultVariant){$issues.Add([pscustomobject]@{OperationId=$pre.Id;Variant=$null;TargetId=$TargetId;ProfileId=$ProfileId;Reason='PrerequisiteVariantRequiresReview'})}
+      else{Add-OfflinePackageRequest -Operation $pre -Variant ([string]$pre.DefaultVariant) -TargetId $TargetId -ProfileId $ProfileId -Origin $resolved.Id -Prerequisite $true -Depth ($Depth+1)}
+    }
+    $visiting.Remove($key)
+    $seen[$key]=$requests.Count
+    $requests.Add([pscustomobject]@{Operation=$resolved;TargetId=$TargetId;ProfileIds=$(if($ProfileId){@($ProfileId)}else{@()});Origin=$Origin;IsPrerequisite=$Prerequisite})
+  }
+  if($Mode -eq 'ProfileSelected'){
+    foreach($profileRecord in $Profiles){
+      if(-not $profileRecord.ContainsKey('Id') -or -not $profileRecord.ContainsKey('Data') -or $profileRecord.Data.SchemaVersion -ne 1){throw 'Each profile input requires Id and parsed SchemaVersion-1 Data.'}
+      $profileId=[string]$profileRecord.Id;Assert-RideBundleToken $profileId
+      $selections=@($profileRecord.Data.Operations)
+      if(-not $selections.Count -or $selections.Count -gt 2000){throw 'Profile selection list is empty or excessive.'}
+      foreach($selection in $selections){
+        $id=[string]$selection.Id;$state=[string]$selection.State
+        if($groups.ContainsKey($id)){
+          $group=$groups[$id]
+          if($group.Workflow -or $selection.Variant){$issues.Add([pscustomobject]@{OperationId=$id;Variant=$null;TargetId=$null;ProfileId=$profileId;Reason='UnsupportedGroupWorkflow'});continue}
+          foreach($member in @(Get-RideBundleIds $group.Members)){
+            if($operations.ContainsKey($member)){
+              if($state -eq 'Present'){
+                $op=$operations[$member]
+                if($op.Variants){$issues.Add([pscustomobject]@{OperationId=$member;Variant=$null;TargetId=$null;ProfileId=$profileId;Reason='ExplicitVariantRequired'});continue}
+                foreach($target in $targetRows){Add-OfflinePackageRequest -Operation $op -Variant '' -TargetId $target.Id -ProfileId $profileId -Origin $id -Prerequisite $false -Depth 0}
+              }
+            }
+          }
+          continue
+        }
+        if(-not $operations.ContainsKey($id)){continue}
+        if($state -ne 'Present'){continue}
+        $op=$operations[$id];$variant=[string]$selection.Variant
+        if($op.Variants -and -not $variant){$issues.Add([pscustomobject]@{OperationId=$id;Variant=$null;TargetId=$null;ProfileId=$profileId;Reason='ExplicitVariantRequired'});continue}
+        foreach($target in $targetRows){Add-OfflinePackageRequest -Operation $op -Variant $variant -TargetId $target.Id -ProfileId $profileId -Origin $id -Prerequisite $false -Depth 0}
+      }
+    }
+  }else{
+    foreach($op in $operations.Values){
+      foreach($target in $targetRows){
+        if($target.Name -notin @($op.SupportedTargets)+@($op.CandidateTargets)){continue}
+        $variants=if($op.Variants){@($op.Variants.Keys|Sort-Object)}else{@('installed')}
+        foreach($variant in $variants){Add-OfflinePackageRequest -Operation $op -Variant $variant -TargetId $target.Id -ProfileId '' -Origin 'FullSet' -Prerequisite $false -Depth 0}
+      }
+    }
+  }
+  $rows=[Collections.Generic.List[object]]::new()
+  foreach($request in $requests){
+    $op=$request.Operation;$target=$targetRows|Where-Object Id -CEQ $request.TargetId|Select-Object -First 1
+    $status='VersionSelectionRequired';$version='';$observation=$null;$cachePath=$null;$observedHash=$null
+    $defenderExcluded=$op.PackageId -in @('nirsoft-launcher','nirsoft-x64-tools')
+    $selectionKey=[string]$op.PackageId+'|'+[string]$op.SelectedVariant
+    if($defenderExcluded){$status='DefenderExcluded'}
+    else{
+      $pinnedVersion=[string]$op.PackageVersion
+      if(-not $pinnedVersion -and $VersionSelections.ContainsKey($selectionKey)){$pinnedVersion=[string]$VersionSelections[$selectionKey]}
+      elseif(-not $pinnedVersion -and $VersionSelections.ContainsKey([string]$op.Id+'|'+[string]$op.SelectedVariant)){$pinnedVersion=[string]$VersionSelections[[string]$op.Id+'|'+[string]$op.SelectedVariant]}
+      if($pinnedVersion){Assert-RideBundleToken $pinnedVersion}
+      $matches=@($ArtifactObservations|Where-Object {
+        $_.PackageId -ceq [string]$op.PackageId -and
+        (([string]$_.Variant -ceq [string]$op.SelectedVariant) -or (-not $_.Variant -and $op.SelectedVariant -ceq 'installed')) -and
+        (-not $_.Architecture -or $_.Architecture -ceq [string]$op.Architecture -or $_.Architecture -in @('neutral','any')) -and
+        (-not $pinnedVersion -or [string]$_.Version -ceq $pinnedVersion) -and
+        (-not $op.ProductUri -or -not $_.OriginUri -or $_.OriginUri -ceq [string]$op.ProductUri)
+      })
+      $observedVersions=@($matches|ForEach-Object {[string]$_.Version}|Where-Object {$_}|Sort-Object -Unique)
+      if(-not $pinnedVersion -and $observedVersions.Count -eq 1){$pinnedVersion=$observedVersions[0]}
+      if(-not $pinnedVersion -and $observedVersions.Count -gt 1){$status='VersionSelectionRequired'}
+      elseif(-not $pinnedVersion -and -not $matches.Count){$status='VersionSelectionRequired'}
+      else{
+        $version=$pinnedVersion
+        if($version){Assert-RideBundleToken $version}
+        $exact=@($matches|Where-Object {[string]$_.Version -ceq $version})
+        if($exact.Count -gt 1){$unique=@($exact|Select-Object Sha256,FileName,SourceUri|Sort-Object Sha256,FileName,SourceUri -Unique);if($unique.Count -gt 1){$status='ArtifactObservationAmbiguous'}else{$observation=$exact[0]}}
+        elseif($exact.Count -eq 1){$observation=$exact[0]}
+        if(-not $observation -and $op.AssetName -and $op.ExpectedSha256){$fileName=[string]$op.AssetName;$expectedHash=[string]$op.ExpectedSha256;$status='MissingLocalPayload'}
+        elseif(-not $observation){$status='MissingArtifactObservation'}
+        else{$fileName=[string]$observation.FileName;$expectedHash=[string]$observation.Sha256;$status='MissingLocalPayload'}
+        if($status -eq 'MissingLocalPayload'){
+          if(-not $fileName -or [IO.Path]::GetFileName($fileName) -cne $fileName -or $expectedHash -notmatch '^[a-fA-F0-9]{64}$'){$status='InvalidArtifactPin'}
+          else{
+            foreach($root in $CacheRoots){
+              if(-not (Test-Path -LiteralPath $root -PathType Container)){continue}
+              $candidate=Join-Path ([IO.Path]::GetFullPath($root)) (Join-Path ([string]$op.PackageId) (Join-Path $version $fileName))
+              if(Test-Path -LiteralPath $candidate -PathType Leaf){$cachePath=[IO.Path]::GetFullPath($candidate);break}
+            }
+            if($cachePath){
+              $item=Get-Item -LiteralPath $cachePath -Force -ErrorAction Stop
+              if($item.Attributes -band [IO.FileAttributes]::ReparsePoint){$status='ReparsePoint'}
+              else{
+                $cachePath=Assert-RideAssemblyLocalPath -Path $cachePath
+                $observedHash=(Get-FileHash -LiteralPath $cachePath -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
+                $catalogHash=([string]$op.ExpectedSha256).ToLowerInvariant()
+                if($observedHash -ine $expectedHash.ToLowerInvariant() -or ($catalogHash -and $observedHash -ine $catalogHash)){$status='LocalHashMismatch'}else{$status='PayloadAvailable'}
+              }
+            }
+          }
+        }
+      }
+    }
+    $targetStatus='UnsupportedTarget'
+    if($op.PendingAcceptance){$targetStatus='PendingAcceptance'}
+    elseif($target.Name -in @($op.SupportedTargets)){$targetStatus='Supported'}
+    elseif($target.Name -in @($op.CandidateTargets)){$targetStatus='CandidateOnly'}
+    if($targetStatus -eq 'Supported' -and $op.MinimumBuild -and $target.Build -lt [int]$op.MinimumBuild){$targetStatus='BuildTooOld'}
+    if($targetStatus -eq 'Supported' -and $op.Architecture -notin @('neutral','any',$target.Architecture)){$targetStatus='ArchitectureMismatch'}
+    $reviewStatus=if($LicenseReviewStatuses.ContainsKey([string]$op.PackageId)){[string]$LicenseReviewStatuses[[string]$op.PackageId]}else{'NotJoined'}
+    $rows.Add([pscustomobject]@{OperationId=[string]$op.Id;PackageId=[string]$op.PackageId;Variant=[string]$op.SelectedVariant;TargetId=$request.TargetId;Target=$target.Name;Build=$target.Build;EditionId=$target.EditionId;Architecture=[string]$op.Architecture;Version=$version;SourceUri=if($observation){[string]$observation.SourceUri}elseif($op.DownloadUri){[string]$op.DownloadUri}else{$null};Sha256=if($observation){[string]$observation.Sha256}elseif($op.ExpectedSha256){[string]$op.ExpectedSha256}else{$null};CachePath=$cachePath;CacheSha256=$observedHash;Status=$status;TargetStatus=$targetStatus;LicenseReviewStatus=$reviewStatus;IsPrerequisite=[bool]$request.IsPrerequisite;ProfileIds=@($request.ProfileIds);Origin=$request.Origin})
+  }
+  $packageRows=@($rows.ToArray())
+  [pscustomobject]@{SchemaVersion=1;Kind='RideOfflinePreparationPlan';Mode=$Mode;Targets=@($targetRows.ToArray());Packages=$packageRows;Issues=@($issues.ToArray());NetworkUsed=$false;NetworkFallbackAllowed=$false;CacheRoots=@($CacheRoots);EngineAndProfilesIncluded=$false;PackagePayloadsComplete=(@($packageRows|Where-Object { $_.Status -ne 'PayloadAvailable' -or $_.TargetStatus -ne 'Supported' }).Count -eq 0);ReadyForAssembly=$false;LicenseReviewIsInformational=$true}
+}
+
+Export-ModuleMember -Function Test-RideOfflineBundle, Test-RideOfflineProfileCoverage, New-RideOfflineBundle, New-RideOfflinePreparationPlan

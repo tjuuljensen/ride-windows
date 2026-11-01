@@ -8,9 +8,13 @@ define both profile-selected and full-set preparation, reviewed installed/portab
 variants for selected targets, explicit omissions, new versions on refresh and
 optional operator-supplied Windows servicing sources.
 
-Currently available: local manifest integrity/dependency preflight and optional
-byte-bound catalog/profile package coverage, plus explicit local-source assembly
-with an optional selected-profile package-content gate. Explicit offline
+Currently available: a read-only preparation planner for explicit profile-selected
+or target-scoped full package sets; local manifest integrity/dependency preflight
+and optional byte-bound catalog/profile package coverage; and explicit local-source
+assembly with an optional selected-profile package-content gate. The planner uses
+only retained artifact observations and cache roots supplied by the operator. It
+does not fetch, extract or execute files, assemble a bundle, package the RIDE engine
+or profiles, or establish target acceptance or air-gap readiness. Explicit offline
 `install`/`apply` enforce that gate for accepted portable packages and EXE/MSI
 installers whose artifact is declared `DeclaredNoNetwork`, including catalog
 prerequisites expanded into the same ordered plan. Each required package payload
@@ -20,11 +24,55 @@ it does not create a separate installer action. Unmatched or multi-artifact
 dependency actions remain unsupported.
 Installer execution still requires catalog target acceptance.
 Normal commands without offline options retain their online acquisition
-behavior. Automatic acquisition planning, broader dependency/installer support
-and engine packaging remain pending. The focused Caffeine portable scenario
+behavior. Automated source acquisition/download planning, broader dependency/
+installer support and engine packaging remain pending. The focused Caffeine portable scenario
 passed disconnected Windows 11 build 26300 acceptance; broader native coverage
 remains pending. Assembly or preflight alone does not establish an installable
 air-gapped bundle.
+
+## Plan package payload preparation
+
+Run from the repository root in native Windows PowerShell 5.1 or PowerShell 7.
+Create a UTF-8 target matrix JSON array containing explicit target records. Use
+the Windows target name, build, edition ID and architecture from the relevant
+acceptance environment; the planner does not query the host or a VM. For example:
+
+```json
+[
+  { "Id": "win11-test", "Name": "Windows 11", "Build": 26300,
+    "EditionId": "Professional", "Architecture": "x64" }
+]
+```
+
+For profile-selected preparation, supply one or more profile PSD1 files. Use
+`FullSet` to enumerate every package and variant declared for the explicit target
+matrix. Supply cache roots only when you want those exact locations inspected;
+the tool never scans implicit user or machine caches. Optional version-selection
+and local license-status inputs are UTF-8 JSON objects. The default artifact
+observations file is the retained catalog evidence; no network lookup or fallback
+occurs.
+
+```powershell
+.\tools\New-RideOfflinePreparationPlan.ps1 `
+    -Mode ProfileSelected `
+    -TargetMatrixPath 'C:\Preparation\targets.json' `
+    -ProfilePath '.\profiles\default.psd1' `
+    -CacheRoot 'D:\RIDE-package-cache' |
+    ConvertTo-Json -Depth 12
+
+.\tools\New-RideOfflinePreparationPlan.ps1 `
+    -Mode FullSet `
+    -TargetMatrixPath 'C:\Preparation\targets.json' |
+    ConvertTo-Json -Depth 12
+```
+
+Review `Status` separately from `TargetStatus`. Defender-excluded packages,
+missing or ambiguous version pins, unmatched observations, missing bytes and
+hash mismatches remain explicit. License review status is informational and does
+not alter package inclusion. `PackagePayloadsComplete` means only that all listed
+payload hashes matched and each package is already target-supported; it does not
+make `ReadyForAssembly` true. Preserve the local report securely because it may
+include cache paths.
 
 ## Execute an explicitly selected offline package bundle
 

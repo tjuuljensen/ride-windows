@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T14:54:03Z",
+  "ReviewDate": "2026-11-01",
+  "Outcome": "Read-only profile-selected/full-set package preparation planning implemented and focused source validation passed",
+  "Planner": "tools/New-RideOfflinePreparationPlan.ps1 with modules/RIDE.OfflineBundle.psm1 0.8.0",
+  "FocusedPester": {
+    "Path": "tests/OfflinePreparationPlan.Tests.ps1",
+    "Passed": 12,
+    "Failed": 0,
+    "Skipped": 0,
+    "PowerShell": "Windows PowerShell 5.1",
+    "Pester": "5.7.1",
+    "Coverage": [
+      "Explicit target JSON and retained artifact observations",
+      "Profile-selected and full-set planning",
+      "Prerequisite ordering and deduplication",
+      "Version pin ambiguity and local SHA-256 checks",
+      "Independent payload and target acceptance status",
+      "Defender-excluded NirSoft package routes",
+      "Informational license review status",
+      "CLI wrapper input handling",
+      "Reject path-like version pins before cache probing"
+    ]
+  },
+  "RepositoryValidation": {
+    "Operations": 452,
+    "Groups": 8,
+    "Profiles": 5,
+    "PowerShellFiles": 326,
+    "Result": "Passed"
+  },
+  "GitDiffCheck": "Passed",
+  "Safety": {
+    "NetworkUsed": false,
+    "PackagePayloadAcquired": false,
+    "CacheRootsSupplied": [],
+    "RealPayloadInspected": false,
+    "InstallerRun": false,
+    "VmRun": false,
+    "WindowsStateChanged": false,
+    "DefenderStateAccessed": false,
+    "ElevationPrompt": false,
+    "PasswordScanFileAccessed": false,
+    "DefenderExcludedPackages": [
+      "nirsoft-launcher",
+      "nirsoft-x64-tools"
+    ]
+  },
+  "LegacyOutcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [
+      "Defender-affected NirSoft package routes remain excluded from preparation planning"
+    ],
+    "Deferred": [
+      "Native VM acceptance because host CIM access is unavailable",
+      "Offline bundle assembly and disconnected install/recovery acceptance",
+      "Pinned payload preparation using operator-supplied cache evidence"
+    ],
+    "Partial": [
+      "Offline source planning only; no transferable bundle or complete legacy package outcome closed"
+    ]
+  },
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "No legacy feature or product outcome was accepted, retired, or closed by read-only preparation planning."
+  },
+  "VmBlocker": "RIDE-Win11-Test host CIM access remained unavailable in the prior read-only preflight; this run did not retry VM access."
+}

@@ -4,13 +4,36 @@
 
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
-| Settings | 37-57 | 2026-10-30; Prior 41 native lifecycles / 107 states remain passed; six unavailable and feature/UI/restart checks remain open. System/telephony deployment preparation changes no setting outcome. |
-| Packages | 37-52 | 2026-10-30; HashCheck complete; NTCore and Project Maker installation lifecycles accepted. EXE Explorer and HexEdit deployment complete. System Information eXtra and TAPI Monitor are prepared for focused deployment acceptance; MiTeC remains partial. |
-| Components | 19-24 | 2026-10-30; No component outcome changed by system/telephony deployment preparation. Existing native acceptance remains deferred; range unchanged. |
-| Files and assets | 25-35 | 2026-10-30; Two system/telephony archives verified against catalog pins; five executable files selected for deployment only. No whole legacy file/asset outcome closed. |
-| Maintenance | 8-12 | 2026-10-30; System/telephony capability and seven protected copies match. Last operator confirmation is Off/Ready; broader certification remains separate. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-10-30 after system/telephony deployment preparation. Native acceptance remains pending; no legacy outcome closed. All five ranges unchanged. See [prepared handoff](archive/evidence/mitec-system-telephony-win11-handoff-2026-10-30.json). |
+| Settings | 37-57 | 2026-11-01; Range reviewed and unchanged in this source-only package preparation batch; no setting outcome or native acceptance changed. |
+| Packages | 37-52 | 2026-11-01; Range reviewed and unchanged; offline preparation planning is partial, and Defender-affected NirSoft routes remain excluded. No package product outcome closed. |
+| Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome or native acceptance changed in this batch. |
+| Files and assets | 25-35 | 2026-11-01; Offline preparation planner source checks passed 12/12; no bundle assembly, delivery or whole legacy file/asset outcome closed. |
+| Maintenance | 8-12 | 2026-11-01; Planner tests 12/12; repository validation 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM continues to block VM acceptance. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after offline package preparation planning; all five ranges reviewed and unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
 
+## Read-only offline package preparation planner, 2026-11-01
+
+Added `New-RideOfflinePreparationPlan` and its explicit-input command wrapper for
+profile-selected and target-scoped full-set preparation. The planner expands
+catalog prerequisites, reports unresolved version pins and local hash states, and
+separates payload availability from target acceptance. Defender-affected NirSoft
+routes remain excluded before cache-path checks; license review status is
+informational. Twelve focused synthetic/source tests passed in Windows PowerShell
+5.1/Pester 5.7.1. Repository validation passed for 452 operations, 8 groups,
+5 profiles and 326 PowerShell files; `git diff --check` passed.
+
+Resolved/retired: none. Excluded: Defender-affected NirSoft package routes remain
+excluded. Partial: source planning only; no legacy product outcome closes.
+Deferred: pinned payload preparation, bundle assembly, disconnected VM install and
+recovery, and current host VM acceptance. PasswordScan alert files were not
+accessed. No cache root, real payload, network, installer, VM, Defender state,
+Windows state or elevation was used. Estimates remain 37-57 / 37-52 / 19-24 /
+25-35 / 8-12, exact 126-180, rounded 125-180/about 155.
+
+See [planner evidence](archive/evidence/offline-preparation-planner-source-regression-2026-11-01.json)
+and [operator instructions](offline-bundles.md#plan-package-payload-preparation).
+Next: continue with the next authorized source-only batch; VM acceptance remains
+blocked at host CIM.
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 
 Next run one Source Local MiTeCSystemAndTelephony request with TimeoutMinutes 20
