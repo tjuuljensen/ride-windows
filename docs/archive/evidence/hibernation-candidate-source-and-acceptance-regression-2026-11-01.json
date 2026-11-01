@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/Hibernation.Tests.ps1",
+    "tests/HibernationAcceptance.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 28,
+    "Passed": 28,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 26.17
+  },
+  "Coverage": [
+    "Hibernation state observation and captured-state recovery using mocked powercfg and native boundaries",
+    "Preview, postcondition and drift/failure handling for candidate hibernation states",
+    "Acceptance scenario routing, candidate opt-in, recovery conditions and preflight failures",
+    "Ensures no guest or controller action occurs in source-only acceptance checks"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "VmStarted": false,
+    "ControllerQueueUsed": false,
+    "PowercfgInvoked": false,
+    "LiveRegistryAccessed": false,
+    "LiveHibernationFileAccessed": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Hibernation candidate unit/runner regression verifies mocked recovery and acceptance routing but provides no native system or VM behavior evidence.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and the prepared 18-case disposable acceptance run.",
+      "Experimental hibernation mode/size states remain unverified on supported Windows builds.",
+      "Feature/UI/restart checks and six unavailable setting lifecycles remain open."
+    ]
+  }
+}
