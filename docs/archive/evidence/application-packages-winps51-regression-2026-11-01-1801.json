@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T18:01:27Z",
+  "Suite": "tests/ApplicationPackages.Tests.ps1",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818",
+  "Pester": "5.7.1",
+  "Invocation": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "TestsDiscovered": 138,
+    "Result": { "Passed": 135, "Failed": 0, "Skipped": 3, "NotRun": 0, "DurationSeconds": 90.76 },
+    "SkippedCases": [
+      "RawCopy retained publisher archive lifecycle: no explicit retained archive fixture.",
+      "ETL2PCAPNG retained publisher executable lifecycle: no explicit retained executable fixture.",
+      "JoeWare AdMod retained archive lifecycle: no explicit retained publisher archive fixture."
+    ]
+  },
+  "SafetyBoundary": {
+    "NetworkBoundariesMocked": true,
+    "InstallerBoundariesMocked": true,
+    "FixturesSyntheticOrSupplied": true,
+    "RetainedArchivesUnavailable": true,
+    "WindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The source suite passes in Windows PowerShell 5.1; retained-archive cases and Windows acceptance remain separate.",
+    "Blockers": [
+      "RawCopy, ETL2PCAPNG and AdMod exact retained-archive lifecycle cases still require their explicit retained fixtures.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
