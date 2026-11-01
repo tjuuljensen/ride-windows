@@ -1,0 +1,13 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:37:00Z",
+  "PowerShellRuns": ["Windows PowerShell 5.1.26100.9818 Desktop", "PowerShell 7.6.5 Core"],
+  "Script": "tools/validate.ps1",
+  "Result": "Passed in both editions",
+  "CountsPerEdition": {"Operations": 452, "Groups": 8, "Profiles": 5, "PowerShellFiles": 326},
+  "ReadOnly": true,
+  "HandlersOrInstallersInvoked": false,
+  "WindowsOrVMStateAccessed": false,
+  "GeneratedDocumentationCurrent": true,
+  "Migration": {"LegacyOutcomeClosed": false, "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155}, "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Defender-blocked tools remain excluded."]}
+}
