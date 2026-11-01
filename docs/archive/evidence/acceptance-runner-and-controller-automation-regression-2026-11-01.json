@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": [
+    "tests/PortableAcceptanceAutomation.Tests.ps1",
+    "tests/ProfileAcceptanceAutomation.Tests.ps1",
+    "tests/TestAutomation.Tests.ps1",
+    "tests/InteractiveGuestTests.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 233,
+    "Passed": 231,
+    "Failed": 0,
+    "Skipped": 2,
+    "NotRun": 0,
+    "DurationSeconds": 69.39
+  },
+  "SkippedCases": [
+    {
+      "Context": "Controller host preflight",
+      "Reason": "This context is guarded to run only under 64-bit Windows PowerShell Desktop; the current 64-bit PowerShell Core process does not satisfy PSEdition Desktop."
+    }
+  ],
+  "Coverage": [
+    "Acceptance suite selection and Defender-blocked collection exclusions",
+    "Package file and runtime guards, including Sysinternals Suite-only selection",
+    "Profile acceptance entry-point boundaries",
+    "Controller correlation, queueing, recovery, checkpoint reset and evidence export with mocks",
+    "Interactive worker identity, desktop-session and scheduled-task cleanup boundaries"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "ControllerOrGuestDispatched": false,
+    "HostServiceOrUacRead": false,
+    "InstallerOrPublisherPayloadUsed": false,
+    "WindowsOrDefenderStateChanged": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Mocked acceptance-runner regression adds no guest package lifecycle and closes no legacy setting/package outcome.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and package-level fast-track acceptance.",
+      "Sysinternals Defender-active/no-alert confirmation remains pending; its package lifecycle evidence is already accepted.",
+      "NirSoft PasswordScan remains excluded due to the separate Defender alert.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved."
+    ]
+  }
+}
