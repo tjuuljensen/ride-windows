@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/AdapterInventory.Tests.ps1",
+    "tests/AudioEndpointInventory.Tests.ps1",
+    "tests/RegionalInventory.Tests.ps1",
+    "tests/VisualEffectsInventory.Tests.ps1",
+    "tests/VolumeInventory.Tests.ps1",
+    "tests/WirelessInventory.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 179,
+    "Passed": 179,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 9.02
+  },
+  "Coverage": [
+    "Adapter, audio endpoint, regional provider, visual-effects, local volume and wireless profile inventory source behavior",
+    "Mocked provider boundaries, input validation, user/session identity and failure handling",
+    "Preview and export collision/recovery behavior using TestDrive fixtures"
+  ],
+  "SafetyBoundary": {
+    "NativeInventoryProvidersMocked": true,
+    "TestDriveOnlyFileWrites": true,
+    "VmOrCheckpointQueried": false,
+    "LiveWindowsStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The selected inventory regressions exercise mocked native providers and isolated export behavior; no live Windows behavior or legacy outcome was accepted.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.",
+      "Native adapter, audio, regional, volume and wireless behavior remains unverified in a disposable VM.",
+      "Defender-blocked tools remain excluded from source and runtime acceptance."
+    ]
+  }
+}
