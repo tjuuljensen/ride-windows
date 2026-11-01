@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T20:16:00Z",
+  "Pester": "5.7.1",
+  "Suite": "tests/PackageAdoptionReview.Tests.ps1",
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 25,
+      "Passed": 25,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 7.01
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 25,
+      "Passed": 25,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 7.41
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "FixtureScope": "Synthetic installed-registration inventory and synthetic catalog variants",
+  "SafetyBoundary": {
+    "NativeInventoryQueried": false,
+    "PackageConfigurationRead": false,
+    "InstallerOrUninstallerInvoked": false,
+    "WindowsStateChanged": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Package adoption inspection tests validate matching and non-ownership with synthetic observations; native identity evidence and package activation acceptance remain distinct.",
+    "Blockers": [
+      "Native installed-registration adoption evidence remains deferred.",
+      "Host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
