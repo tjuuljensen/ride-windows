@@ -1,0 +1,22 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:43:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suite": "tests/AutomationWatchdog.Tests.ps1",
+  "Result": {"Discovered": 16, "Passed": 13, "Failed": 3, "Skipped": 0, "NotRun": 0, "DurationSeconds": 128.35},
+  "Failures": [
+    {"Test": "terminates an inert preparation hang and writes a terminal timeout without a recovery block", "Error": "Process-tree termination exceeded ten seconds; RecoveryRequired was true."},
+    {"Test": "terminates an inert descendant as well as its request parent", "Error": "Process-tree termination exceeded ten seconds; RecoveryRequired was true."},
+    {"Test": "bounds a recovery hang and blocks further work after possible VM changes", "Error": "The inert child remained alive after the process-tree termination timeout."}
+  ],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "HyperVOrAutomatedLabUsed": false, "InertChildProcessesOnly": true, "InstallerOrCredentialUsed": false, "WindowsOrDefenderStateChanged": false, "TestRegistryEnabled": false, "PostRunGetProcessFoundOnlyCurrentPwshHostAndNoWindowsPowerShellChild": true, "CimProcessCommandLineInspection": "Unavailable: access to CIM was denied by the client."},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "This failed source-only watchdog run changes no migration outcome; process-tree termination is blocked in the current host environment.",
+    "Blockers": ["Watchdog process-tree termination exceeded ten seconds in three tests; full source suite did not pass.", "Host CIM process-commandline inspection was unavailable; no Windows PowerShell child appeared in the post-run process list.", "VM acceptance remains blocked at host CIM."]
+  }
+}
