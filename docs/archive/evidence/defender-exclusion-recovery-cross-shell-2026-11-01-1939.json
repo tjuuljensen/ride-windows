@@ -1,0 +1,21 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:39:00Z",
+  "PowerShellRuns": ["Windows PowerShell 5.1.26100.9818 Desktop", "PowerShell 7.6.5 Core"],
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suite": "tests/DefenderExclusionRecovery.Tests.ps1",
+  "Results": [
+    {"PowerShell": "Windows PowerShell 5.1", "Passed": 39, "Failed": 0, "Skipped": 0, "DurationSeconds": 8.09},
+    {"PowerShell": "PowerShell 7.6.5", "Passed": 39, "Failed": 0, "Skipped": 0, "DurationSeconds": 5.89}
+  ],
+  "Coverage": ["Captured-path exclusion apply/recovery planning with mocked provider membership", "Malformed recovery/path rejection and observation shape", "Versioned engine capture in isolated records"],
+  "SafetyBoundary": {"DefenderCmdletsInvoked": false, "DefenderProviderMocked": true, "LiveRegistryOrProtectionStateAccessed": false, "AlertedFilesAccessed": false, "VmOrCheckpointQueried": false, "RegistryTestPluginEnabled": false, "WindowsOrDefenderStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell mocked Defender exclusion tests validate only source recovery logic and do not verify live policy visibility or protection state.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Defender-blocked tools remain excluded; no alert-clearing or no-alert confirmation occurred."]
+  }
+}
