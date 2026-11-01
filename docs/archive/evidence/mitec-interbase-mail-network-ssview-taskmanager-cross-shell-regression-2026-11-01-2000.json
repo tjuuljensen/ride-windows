@@ -1,0 +1,75 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T20:00:00Z",
+  "Pester": "5.7.1",
+  "Suites": [
+    "tests/MiTeCParadoxDataEditor.Tests.ps1",
+    "tests/MiTeCInterbaseQuery.Tests.ps1",
+    "tests/MiTeCMailChecker.Tests.ps1",
+    "tests/MiTeCMailHistoryViewers.Tests.ps1",
+    "tests/MiTeCNetworkMeter.Tests.ps1",
+    "tests/MiTeCNetworkScanner.Tests.ps1",
+    "tests/MiTeCSSView.Tests.ps1",
+    "tests/MiTeCTaskManagerDeluxe.Tests.ps1"
+  ],
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 34,
+      "Passed": 31,
+      "Failed": 0,
+      "Skipped": 3,
+      "DurationSeconds": 73.92
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 34,
+      "Passed": 31,
+      "Failed": 0,
+      "Skipped": 3,
+      "DurationSeconds": 142.49
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "SkippedCases": [
+    "MiTeC Interbase Query retained IBQ.zip staging; no explicit archive supplied",
+    "MiTeC Network Scanner retained NetScanner.zip staging; no explicit archive supplied",
+    "MiTeC Task Manager DeLuxe retained TMX.zip staging; no explicit archive supplied"
+  ],
+  "RetainedArchivesRead": [
+    "MiTeC Mail History viewer archives",
+    "MiTeC Structured Storage Viewer SSView.zip"
+  ],
+  "SafetyBoundary": {
+    "NetworkAccess": false,
+    "ProductLaunched": false,
+    "DatabaseOrNetworkTraffic": false,
+    "HostArtifactsOrProcessesInspected": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "FixtureCleanup": {
+    "GeneratedRunDirectories": "Removed by suite cleanup",
+    "PreexistingDirectory": "One GUID directory under .local/pester-mitec-mail-history dated 2026-10-25 was preserved untouched"
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell synthetic package lifecycle and available retained archive hash checks do not establish product runtime or target acceptance.",
+    "Blockers": [
+      "Six retained-archive test skips across both editions: Interbase Query, Network Scanner and Task Manager DeLuxe.",
+      "Native product acceptance remains pending; host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
