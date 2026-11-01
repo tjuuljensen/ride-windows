@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:50:00Z",
+  "PowerShell": [
+    "Windows PowerShell 5.1.26100.9818",
+    "PowerShell 7.6.5 Core"
+  ],
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suite": "tests/PhoenixPackage.Tests.ps1",
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1",
+      "Discovered": 4,
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 2.57
+    },
+    {
+      "Edition": "PowerShell 7.6.5",
+      "Discovered": 4,
+      "Passed": 4,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 2.58
+    }
+  ],
+  "SafetyBoundary": {
+    "PublisherDownload": false,
+    "InstallerLaunched": false,
+    "DotNetFeatureInstalled": false,
+    "VmOrCheckpointQueried": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Mocked package source tests validate metadata, prerequisite gating, and MSI argument routing only; the publisher payload and native install/removal lifecycle remain unaccepted.",
+    "Blockers": [
+      "Phoenix Protector remains a pending Windows 11 package candidate.",
+      "Host CIM blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
