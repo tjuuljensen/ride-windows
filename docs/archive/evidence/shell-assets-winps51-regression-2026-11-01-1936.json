@@ -1,0 +1,19 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:36:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/DesktopShortcuts.Tests.ps1", "tests/ShellFolders.Tests.ps1", "tests/PhotoViewerOpenWith.Tests.ps1", "tests/HashValueContextMenu.Tests.ps1"],
+  "Result": {"Discovered": 38, "Passed": 38, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 46.77},
+  "CrossShellSummary": {"PowerShell7Passed": 37, "PowerShell7Skipped": 1, "PowerShell51Passed": 38, "CombinedPassed": 75, "CombinedSkipped": 1},
+  "Coverage": ["Desktop shortcut metadata and pending handoff boundaries", "God Mode folder TestDrive lifecycle and exact snapshot restore", "Photo Viewer registration candidate state without file-default changes", "Hash context-menu registry recovery and Desktop-only helper formatting"],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "ActualDesktopModified": false, "LiveRegistryAccessed": false, "ComInvoked": false, "TestDriveOnlyFiles": true, "RegistryTestPluginEnabled": false, "WindowsOrDefenderStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell source checks use metadata, TestDrive and mocked registry boundaries; live desktop and file association outcomes remain unverified.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Desktop, Photo Viewer and hash-menu native acceptance remains pending."]
+  }
+}
