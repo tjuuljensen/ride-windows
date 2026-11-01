@@ -1,0 +1,56 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T17:59:06Z",
+  "Suites": [
+    "tests/WhatIsMyIp.Tests.ps1",
+    "tests/WinPmemPackage.Tests.ps1",
+    "tests/WiresharkPackage.Tests.ps1",
+    "tests/RegRipperPackage.Tests.ps1",
+    "tests/RufusPackage.Tests.ps1",
+    "tests/RaspberryPiImagerPackage.Tests.ps1"
+  ],
+  "PowerShell": "Windows PowerShell 5.1.26100.9818",
+  "Pester": "5.7.1",
+  "Invocation": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "TestsDiscovered": 26,
+    "Result": { "Passed": 26, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 37.93 }
+  },
+  "Coverage": {
+    "WhatIsMyIP": "Provider fixtures, mocked DNS/HTTPS, IPv4/IPv6 and diagnostic output.",
+    "WinPmem": "Pinned candidate metadata and inert owned-file lifecycle; no driver or capture.",
+    "Wireshark": "Pending MSI metadata and mocked acquisition/install/remove boundaries.",
+    "RegRipper": "Synthetic portable ownership, recovery and modified-file preservation.",
+    "Rufus": "Inert lifecycle, settings/log preservation and adoption refusal.",
+    "RaspberryPiImager": "Pinned release and candidate acceptance boundary."
+  },
+  "SafetyBoundary": {
+    "NetworkUsed": false,
+    "PublisherPayloadUsed": false,
+    "PackageOrDriverExecuted": false,
+    "InstallerExecuted": false,
+    "MediaOrMemoryAccessed": false,
+    "WindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "These source suites improve cross-shell coverage; native package acceptance and legacy closure remain separate.",
+    "Blockers": [
+      "Package Windows acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
