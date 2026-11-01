@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:08:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/UserPathEngine.Tests.ps1", "tests/UserPathPreparation.Tests.ps1", "tests/UserBinProfile.Tests.ps1", "tests/PowerRead.Tests.ps1"],
+  "Result": {"Discovered": 93, "Passed": 93, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 20.84},
+  "Coverage": ["Persistent user PATH candidate planning, captured state and guarded recovery", "User-bin profile rendering with process PATH restoration", "Fake native power-read API identity, allocation ownership, error and AC/DC contracts"],
+  "SafetyBoundary": {"RegistryProvidersMocked": true, "FakeNativePowerApiUsed": true, "ProcessPathRestored": true, "TestDriveOnlyPersistentFiles": true, "VmOrCheckpointQueried": false, "LiveUserPathChanged": false, "RegistryTestPluginEnabled": false, "WindowsStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell source tests do not establish native user PATH behavior or target power-read availability.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "User PATH and optional user-bin profile candidates remain target-gated."]
+  }
+}
