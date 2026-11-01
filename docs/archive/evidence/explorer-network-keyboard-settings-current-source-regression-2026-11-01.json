@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/ExplorerSettings.Tests.ps1",
+    "tests/NetworkAndSoundControls.Tests.ps1",
+    "tests/KeyboardSettings.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 74,
+    "Passed": 74,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 94.93
+  },
+  "Coverage": [
+    "Explorer setting source mappings, state types and captured-state lifecycle previews",
+    "Network and sound control metadata and mocked restore behavior",
+    "Keyboard setting state transitions and restore previews"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveRegistryAccessed": false,
+    "LiveExplorerOrShellChanged": false,
+    "AudioOrKeyboardStateChanged": false,
+    "HandlersMocked": true,
+    "RegistryTestPluginEnabled": false,
+    "WindowsOrDefenderStateChanged": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Current-source setting regression validates mapping and mocked lifecycle code but not native UI, shell, audio or keyboard behavior.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native setting acceptance.",
+      "Feature/UI/restart and exact restore behavior remain open for the affected settings.",
+      "Six unavailable setting lifecycles remain open.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved."
+    ]
+  }
+}
