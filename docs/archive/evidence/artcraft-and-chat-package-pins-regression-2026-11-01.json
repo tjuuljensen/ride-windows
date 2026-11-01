@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/ArtcraftPackages.Tests.ps1",
+    "tests/ChatPackagePins.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 10,
+    "Passed": 10,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 4.3
+  },
+  "Coverage": [
+    "Standalone Artcraft publisher repository, MSI filename, digest and scope metadata",
+    "Artcraft product install batching and accepted target declarations",
+    "Slack and Discord x64 installer digest pins and vendor-uninstaller user-data behavior",
+    "Invalid digest fails before network acquisition"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "NetworkRequestMade": false,
+    "MsiOrInstallerInvoked": false,
+    "PublisherPayloadDownloaded": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderBlockedCollectionSelected": false,
+    "NirSoftOrPasswordScanFileAccessed": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Catalog metadata and acquisition-pin regression validates source declarations but adds no package lifecycle or native acceptance evidence.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and package-level fast-track acceptance.",
+      "Sysinternals Defender-active/no-alert confirmation remains pending.",
+      "PasswordScan and other Defender-blocked utilities remain excluded."
+    ]
+  }
+}
