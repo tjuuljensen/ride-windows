@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/MacVendor.Tests.ps1",
+    "tests/TerminalJsonc.Tests.ps1",
+    "tests/F1Help.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 70,
+    "Passed": 70,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 11.49
+  },
+  "Coverage": [
+    "Offline IEEE MAC vendor TSV parsing, input validation and preview boundaries",
+    "Terminal JSONC parsing, exact byte preservation, TestDrive writer/recovery and instance-selection guards",
+    "File Explorer F1 Help catalog metadata, build gate and focused registry-value handler contract"
+  ],
+  "SafetyBoundary": {
+    "MacVendorNetworkAccessed": false,
+    "TerminalSettingsUsedTestDrive": true,
+    "F1RegistryHandlerMocked": true,
+    "VmOrCheckpointQueried": false,
+    "LiveWindowsStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "DefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Offline lookup and file/setting handler regressions use synthetic inputs and mocked state access; no new native acceptance or legacy outcome was recorded.",
+    "Blockers": [
+      "Terminal settings integration with a live packaged instance remains unverified.",
+      "Any setting runtime acceptance requiring Windows UI or registry remains in the disposable-VM queue.",
+      "Host CIM still blocks VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
