@@ -1,0 +1,53 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T18:47:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": [
+    "tests/ServiceSettings.Tests.ps1",
+    "tests/PowerSettings.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 68,
+    "Passed": 68,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 30.05
+  },
+  "Coverage": [
+    "Coordinated service configuration, saved-state capture and exact recovery",
+    "Read-only service catalog and presentation",
+    "Preview and partial failure run snapshots",
+    "Power setting inspection, unsigned index capture, validation and exact recovery"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveServicesChanged": false,
+    "LivePowerConfigurationChanged": false,
+    "LiveRegistryAccessed": false,
+    "ServiceAndPowerHandlersMocked": true,
+    "RegistryTestPluginEnabled": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The service and power suites validate mocked source behavior. Native Windows setting and lifecycle acceptance remain unverified.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native settings acceptance.",
+      "Six unavailable setting lifecycles and feature/UI/restart checks remain open."
+    ]
+  }
+}
