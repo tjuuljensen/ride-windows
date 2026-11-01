@@ -5,11 +5,11 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | 2026-11-01; Explicit candidate execution and hibernation source implementation are covered by 296 passing focused tests. Native hibernation acceptance remains deferred. |
-| Packages | 37-52 | 2026-11-01; User-approved fast track: ordinary user-mode products require package-level source/pin, install/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; individual tool behavior is untested by design. Defender active/no-alert observation is not in the archived VM record and remains blocked by host CIM. WFN inventory and small synthetic lifecycle cases passed; full 531-member synthetic lifecycle repeat interrupted after two reported passes, so no full-suite pass is claimed. WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. PSScriptTools source lifecycle repeat interrupted in the synthetic 360-file case after two reported passes; no suite pass is claimed. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. HashCheck complete; NTCore and Project Maker installation lifecycles accepted. EXE Explorer and HexEdit deployment complete. System Information eXtra and TAPI Monitor deployment complete. 52 catalog packages remain pending candidates; InfoBar is deferred. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
+| Packages | 37-52 | 2026-11-01; User-approved fast track: ordinary user-mode products require package-level source/pin, install/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; individual tool behavior is untested by design. Defender active/no-alert observation is not in the archived VM record and remains blocked by host CIM. WFN inventory and small synthetic lifecycle cases passed; full 531-member synthetic lifecycle repeat interrupted after two reported passes, so no full-suite pass is claimed. WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16; RegRipper, Rufus and Raspberry Pi Imager passed 10/10. PSScriptTools focused source-boundary checks passed 6/6; full 360-member lifecycle remains incomplete. Sysinternals independent product source regression passed 72/72; its current suite repeat was interrupted during synthetic full-archive staging after six reported passes, while prior 8/8 evidence remains. HashCheck complete; NTCore and Project Maker installation lifecycles accepted. EXE Explorer and HexEdit deployment complete. System Information eXtra and TAPI Monitor deployment complete. 52 catalog packages remain pending candidates; InfoBar is deferred. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
 | Files and assets | 25-35 | 2026-11-01; Offline bundle regression 129/129 and preparation planner 12/12 remain passed; this batch adds no file/asset outcome. |
 | Maintenance | 8-12 | 2026-11-01; LicenseReviews source regression passed 24/24 after isolating fixtures in Pester TestDrive. Repository validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM still blocks VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 with the user-approved package-level acceptance method and current source-test batches; no additional legacy outcome closes. Sysinternals package lifecycle is accepted; Defender-active/no-alert confirmation remains pending at host CIM. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; NirSoft lifecycle runs remain excluded due to Defender. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 with the user-approved package-level acceptance method and PSScriptTools focused source-boundary checks passed 6/6; no additional legacy outcome closes. Sysinternals package lifecycle is accepted; Defender-active/no-alert confirmation remains pending at host CIM. PSScriptTools and WFN synthetic full lifecycle repeats remain incomplete; NirSoft lifecycle runs remain excluded due to Defender. |
 
 ## Package-level fast-track acceptance decision, 2026-11-01
 
@@ -34,6 +34,23 @@ separate exclusion; no related file was accessed.
 This method decision changes no package implementation and closes no additional
 legacy outcome. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
 (exact 126-180; rounded 125-180/about 155). See [decision and evidence](archive/evidence/package-level-fast-track-acceptance-decision-2026-11-01.json).
+## PSScriptTools focused source-boundary regression, 2026-11-01
+
+Selected six PSScriptTools tests passed in Windows PowerShell 5.1/Pester 5.7.1:
+metadata/notice declarations, refusal of an incomplete payload, modified-source
+preservation, collision refusal, changed-recovery refusal, and prior-absence
+recovery. TestRegistry and TestResult were disabled; the retained archive
+variable was unset. The full 360-member install/repeat/uninstall/snapshot case
+was excluded from this focused run after its separate no-progress interruption,
+so this is not a full-suite result. No publisher source or real package was used.
+
+Resolved: focused source-boundary coverage. Retired/excluded: none. Partial: no
+legacy package outcome closes. Deferred: full 360-member source lifecycle, if
+useful, and package-level Windows VM acceptance, blocked by host CIM. All five
+ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
+125-180/about 155). NirSoft remains excluded due to Defender. See [structured
+evidence](archive/evidence/psscripttools-focused-source-boundaries-regression-2026-11-01.json).
+
 ## WFN current-source repeat interrupted, 2026-11-01
 
 Moved the test's generated fixture root from `.local/pester-wfn-package` to

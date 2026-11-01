@@ -1,0 +1,35 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "Suite": "tests/PSScriptToolsPackage.Tests.ps1",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "RetainedArchiveVariable": "Unset",
+  "Filter": "Selected six metadata, incomplete-payload, ownership, collision, recovery and prior-absence tests; excluded the full 360-member source lifecycle case.",
+  "Result": { "Passed": 6, "Failed": 0, "Skipped": 0, "NotRun": 1, "DurationSeconds": 69.84 },
+  "SafetyBoundary": {
+    "SyntheticFixturesOnly": true,
+    "PublisherPayloadUsed": false,
+    "UpstreamCodeExecutedOrImported": false,
+    "InstallerOrNetworkUsed": false,
+    "WindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57", "Packages": "37-52", "Components": "19-24",
+      "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180",
+      "Rounded": "125-180", "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The selected source-boundary tests passed; full 360-member lifecycle and package-level Windows VM acceptance remain separate.",
+    "Blockers": [
+      "PSScriptTools 360-member source lifecycle case remains incomplete after a no-progress run.",
+      "Package-level Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
