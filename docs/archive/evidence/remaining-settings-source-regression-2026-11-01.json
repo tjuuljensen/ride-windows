@@ -1,0 +1,59 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T15:06:16Z",
+  "ReviewDate": "2026-11-01",
+  "Outcome": "Remaining focused setting/profile tests passed on current source",
+  "Validation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "Pester": "5.7.1",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "Suites": [
+      "tests/BitLockerEncryptionMethodPolicies.Tests.ps1",
+      "tests/ProfileSettings.Tests.ps1",
+      "tests/F1Help.Tests.ps1"
+    ],
+    "Discovered": 49,
+    "Passed": 49,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "ExcludedTags": [
+      "WindowsIntegration"
+    ]
+  },
+  "Safety": {
+    "WindowsStateChanged": false,
+    "RegistryChanged": false,
+    "PowercfgRun": false,
+    "VmRun": false,
+    "InstallerRun": false,
+    "NetworkUsed": false,
+    "DefenderStateAccessed": false,
+    "PasswordScanFileAccessed": false,
+    "ElevationPrompt": false
+  },
+  "LegacyOutcomes": {
+    "Resolved": [],
+    "Retired": [],
+    "Excluded": [],
+    "Deferred": [
+      "Native setting behavior still requires disposable-VM acceptance for pending targets"
+    ],
+    "Partial": [
+      "Focused source tests only; no legacy setting or profile outcome closes"
+    ]
+  },
+  "Estimates": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "Mocked lifecycle, profile rendering and catalog checks do not establish new native Windows acceptance or close a legacy selector."
+  },
+  "VmBlocker": "RIDE-Win11-Test VM acceptance remains blocked at host CIM; not accessed during this run."
+}

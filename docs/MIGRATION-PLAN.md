@@ -4,12 +4,12 @@
 
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
-| Settings | 37-57 | 2026-11-01; Source regressions across hibernation, explicit candidate execution, desktop handoff and catalog/profile boundaries passed 247 tests. Native hibernation lifecycle, transition and recovery remain open. |
-| Packages | 37-52 | 2026-11-01; Range reviewed and unchanged by the settings source regression; Defender-affected NirSoft routes remain excluded from preparation. |
-| Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed in this source test batch. |
-| Files and assets | 25-35 | 2026-11-01; Offline bundle source suites remain passed 129/129 and offline planner 12/12; this run added no file/asset outcome. |
-| Maintenance | 8-12 | 2026-11-01; Repository validation passed 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM continues to block VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the hibernation/candidate source regression; all five ranges reviewed and unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
+| Settings | 37-57 | 2026-11-01; Additional F1 help, BitLocker policy and PowerShell profile-setting source tests passed 49/49; no native target outcome was accepted. |
+| Packages | 37-52 | 2026-11-01; Range reviewed and unchanged by the setting/profile regression; Defender-affected NirSoft routes remain excluded. |
+| Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome changed. |
+| Files and assets | 25-35 | 2026-11-01; Offline bundle regression remains 129/129 and planner 12/12; no file/asset outcome changed in the settings test run. |
+| Maintenance | 8-12 | 2026-11-01; Repository validation remains passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell files; VM acceptance remains blocked at host CIM. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after remaining settings source regression; all five ranges unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
 
 ## Read-only offline package preparation planner, 2026-11-01
 
@@ -85,6 +85,22 @@ PasswordScan file was accessed. All estimates remain 37-57 / 37-52 / 19-24 /
 See [settings source regression evidence](archive/evidence/settings-candidate-hibernation-source-regression-2026-11-01.json)
 and [hibernation acceptance preparation](archive/evidence/hibernation-acceptance-preparation-2026-11-01.json).
 Next: continue with source-only test batches; VM acceptance remains blocked at host CIM.
+
+## Remaining setting and profile source regression, 2026-11-01
+
+The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 49/49 with no
+skips: pending BitLocker policy metadata and target gates, reversible PowerShell
+profile handling, and accepted File Explorer F1 behavior. TestRegistry and
+TestResult were disabled. No registry or profile outside TestDrive changed; no
+VM, installer, network, Defender state or PasswordScan file was accessed.
+
+Resolved/retired/excluded: none. Partial: source behavior only; no new native
+setting outcome closes. Deferred: applicable disposable-VM acceptance. The five
+estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180 and rounded
+125-180/about 155.
+
+See [remaining settings regression evidence](archive/evidence/remaining-settings-source-regression-2026-11-01.json).
+Next: continue remaining source-only test batches; VM acceptance remains blocked at host CIM.
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 
 Next run one Source Local MiTeCSystemAndTelephony request with TimeoutMinutes 20
