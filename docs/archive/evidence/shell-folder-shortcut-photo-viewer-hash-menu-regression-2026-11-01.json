@@ -1,0 +1,61 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/DesktopShortcuts.Tests.ps1",
+    "tests/ShellFolders.Tests.ps1",
+    "tests/PhotoViewerOpenWith.Tests.ps1",
+    "tests/HashValueContextMenu.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 38,
+    "Passed": 37,
+    "Failed": 0,
+    "Skipped": 1,
+    "NotRun": 0,
+    "DurationSeconds": 30.33
+  },
+  "SkippedCases": [
+    {
+      "Suite": "tests/HashValueContextMenu.Tests.ps1",
+      "Test": "passes all seven requested algorithms to Windows PowerShell 5.1 Get-FileHash",
+      "Reason": "The current PowerShell 7.6.5 Core process does not meet the suite's Windows PowerShell Desktop guard."
+    }
+  ],
+  "Coverage": [
+    "Desktop shortcut metadata resolution and pending current-user handoff boundaries",
+    "God Mode folder creation, repeat, exact snapshot restore and collision protection under TestDrive",
+    "Photo Viewer registration candidate state matching without choosing file defaults",
+    "Hash context-menu exact registry recovery and helper payload formatting"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "ActualDesktopModified": false,
+    "LiveRegistryAccessed": false,
+    "ComInvoked": false,
+    "RegistryTestPluginEnabled": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Desktop, folder and registry candidate regressions verify metadata and isolated recovery only; native shell behavior remains pending.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.",
+      "God Mode, Photo Viewer and desktop shortcut UI behavior remain unverified on Windows.",
+      "One Windows PowerShell Desktop-only hash helper case remains skipped under PowerShell Core."
+    ]
+  }
+}
