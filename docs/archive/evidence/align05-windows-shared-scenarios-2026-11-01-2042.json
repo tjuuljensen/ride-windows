@@ -1,0 +1,67 @@
+{
+  "title": "ALIGN-05 Windows adapter for pinned shared behavior scenarios",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T20:42:00Z",
+  "scope": "Windows-side shared scenario data and Pester adapter pin checks. Fedora adapter not included in this repository batch.",
+  "scenarioSet": {
+    "path": "docs/models/behavior-scenarios.json",
+    "revision": "1.0.0",
+    "scenarioCount": 10,
+    "contractVersion": "1.0.0",
+    "contractSha256": "80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645"
+  },
+  "environments": [
+    {
+      "shell": "Windows PowerShell",
+      "version": "5.1",
+      "pesterVersion": "5.7.1",
+      "testFile": "tests/BehaviorContract.Tests.ps1",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "shell": "PowerShell",
+      "version": "7.6.5",
+      "pesterVersion": "5.7.1",
+      "testFile": "tests/BehaviorContract.Tests.ps1",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "validation": {
+    "checks": [
+      "The canonical contract bytes match the consumer's pinned SHA-256.",
+      "The shared scenario revision and contract version match the consumer pin.",
+      "All ten platform-neutral scenario IDs map to named Windows Pester cases in a separate adapter map.",
+      "A seeded scenario revision mismatch fails the adapter check."
+    ],
+    "windowsCi": ".github/workflows/validate.yml runs the complete Pester test directory on Windows PowerShell and PowerShell 7.",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderAccessed": false,
+    "defenderBlockedToolsIncluded": false
+  },
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "No legacy feature or product outcome closes in this alignment batch.",
+    "The Fedora-native adapter, matching scenario/contract pin in ride-fedora, and Fedora CI execution remain open; this batch changes no peer repository files.",
+    "The complete cross-platform contract scenarios are staged as an initial ten-case revision and do not claim full ALIGN-05 scenario coverage."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome was closed; estimates are unchanged."
+  },
+  "blockers": [
+    "RIDE-Win11-Test acceptance remains blocked before VM state retrieval by host CIM access.",
+    "Defender-blocked tools remain excluded."
+  ]
+}

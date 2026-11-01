@@ -1,0 +1,16 @@
+{
+  "scenarioRevision": "1.0.0",
+  "adapter": "Windows Pester 5",
+  "mappings": [
+    { "scenarioId": "RB02-01-explicit-remove-selection", "file": "tests/CliShouldProcess.Tests.ps1", "testTitle": "rejects ambiguous direct and profile removal before planning" },
+    { "scenarioId": "RB03-01-candidate-preview-without-opt-in", "file": "tests/CandidateExecution.Tests.ps1", "testTitle": "previews a declared candidate without opt-in and still requires opt-in for a real change" },
+    { "scenarioId": "RB03-02-preview-preserves-availability-check", "file": "tests/Catalog.Tests.ps1", "testTitle": "plans default/LAN automatic proxy detection as an independent pending user setting" },
+    { "scenarioId": "RB04-01-candidate-change-requires-fresh-opt-in", "file": "tests/CandidateExecution.Tests.ps1", "testTitle": "previews a declared candidate without opt-in and still requires opt-in for a real change" },
+    { "scenarioId": "RB04-02-opt-in-does-not-widen-targets", "file": "tests/CandidateExecution.Tests.ps1", "testTitle": "does not allow an undeclared target even with preview and opt-in" },
+    { "scenarioId": "RB04-03-installed-package-desired-state-no-op", "file": "tests/CandidateExecution.Tests.ps1", "testTitle": "permits an already installed package no-op outside its declared target without widening support" },
+    { "scenarioId": "RB05-01-download-preview-does-not-acquire", "file": "tests/Catalog.Tests.ps1", "testTitle": "honors WhatIf for a CLI download without resolving or downloading an artifact" },
+    { "scenarioId": "RB06-01-unset-retains-declared-meaning", "file": "tests/Catalog.Tests.ps1", "testTitle": "maps the legacy inking and typing setting to Disabled and restores its baseline by unsetting it" },
+    { "scenarioId": "RB09-01-partial-failure-retains-recovery-identity", "file": "tests/Catalog.Tests.ps1", "testTitle": "reports a partial failure with the run ID and saved operations" },
+    { "scenarioId": "RB10-01-completion-is-read-only", "file": "tests/Search.Tests.ps1", "testTitle": "completes commands query IDs fields and catalog-derived views: <Suffix>" }
+  ]
+}
