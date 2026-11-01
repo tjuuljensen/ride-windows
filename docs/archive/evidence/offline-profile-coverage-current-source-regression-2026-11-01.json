@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    "tests/OfflineProfileCoverage.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 63,
+    "Passed": 63,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 8.24
+  },
+  "Coverage": [
+    "Byte-bound catalog and profile parsing from captured source bytes",
+    "Selected profile package coverage and explicit omissions",
+    "Dependency graph validation, declared variants, pins and source provenance",
+    "Fail-closed handling of malformed, executable, mismatched, cyclic or unsupported source declarations",
+    "Read-only CLI coverage and catalog file ID completion"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "InstallerOrPublisherPayloadUsed": false,
+    "NetworkFallbackUsed": false,
+    "WindowsOrDefenderStateChanged": false,
+    "RegistryTestPluginEnabled": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Offline profile coverage regression validates bundle-source evaluation and package-set planning but closes no legacy setting, package, component, or asset outcome.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and package-level fast-track acceptance.",
+      "Sysinternals Defender-active/no-alert confirmation remains pending; its package lifecycle evidence is already accepted.",
+      "NirSoft PasswordScan remains excluded due to the separate Defender alert.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved.",
+      "Transferable offline bundle assembly and disconnected Windows deployment acceptance remain pending."
+    ]
+  }
+}
