@@ -1,0 +1,43 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "Suite": "tests/PSScriptToolsPackage.Tests.ps1",
+  "PowerShell": "Windows PowerShell 5.1",
+  "Pester": "5.7.1",
+  "Invocation": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "FixtureArchiveVariable": "Unset",
+    "Result": "Interrupted; no suite summary",
+    "TestsDiscovered": 7,
+    "TestsReportedPassedBeforeInterruption": 2,
+    "LastOutput": "The synthetic 360-file install/repeat/uninstall/snapshot-recovery lifecycle case did not report completion after approximately two minutes without test output; the process was interrupted."
+  },
+  "SafetyBoundary": {
+    "PublisherPayloadUsed": false,
+    "PackageExecuted": false,
+    "NetworkOrInstallerUsed": false,
+    "WindowsStateChanged": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "The interrupted synthetic source suite produced no completed lifecycle result and closes no legacy product outcome.",
+    "Blockers": [
+      "PSScriptTools full synthetic lifecycle recheck remains incomplete because the 360-file fixture case did not report progress.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.",
+      "NirSoft staging and lifecycle suites remain excluded due to the reported Defender alert."
+    ]
+  }
+}
