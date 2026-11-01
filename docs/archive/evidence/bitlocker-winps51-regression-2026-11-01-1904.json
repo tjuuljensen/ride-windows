@@ -1,0 +1,22 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:04:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/BitLockerEncryptionMethodPolicies.Tests.ps1", "tests/BitLockerEngineProjection.Tests.ps1", "tests/BitLockerWorkflows.Tests.ps1"],
+  "Result": {"Discovered": 31, "Passed": 31, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 42.43},
+  "Coverage": [
+    "BitLocker encryption method policy metadata and native target acceptance gates",
+    "Synthetic engine projection without live volume state",
+    "Secret-safe protector, backup, encryption and decryption workflows with ShouldProcess previews"
+  ],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "LiveBitLockerCmdletInvoked": false, "LiveVolumeOrProtectorStateAccessed": false, "RecoverySecretAccessed": false, "BitLockerAndTPMCmdletsMocked": true, "RegistryTestPluginEnabled": false, "WindowsOrRegistryStateChanged": false, "DefenderStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell mocked workflow coverage does not establish native encryption policy or volume behavior.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "BitLocker native policy, protector enrollment, backup, encryption and recovery acceptance remains pending on disposable Windows VMs."]
+  }
+}
