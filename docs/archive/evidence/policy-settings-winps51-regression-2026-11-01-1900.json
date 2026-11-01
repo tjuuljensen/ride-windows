@@ -1,0 +1,23 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:00:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/CeipPolicy.Tests.ps1", "tests/MediaPolicies.Tests.ps1", "tests/ServerPolicies.Tests.ps1", "tests/UpdateNotificationPolicy.Tests.ps1"],
+  "Result": {"Discovered": 43, "Passed": 43, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 52.48},
+  "Coverage": [
+    "CEIP inverted wording and candidate gating",
+    "Conditional media policy scope and typed recovery",
+    "Server shutdown and startup policies with explicit reverse semantics",
+    "Windows Update notification coordinated state, observation boundaries and build guards"
+  ],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "LiveRegistryAccessed": false, "PolicyHandlersMocked": true, "PrivacyCollectionInvoked": false, "MediaPlaybackOrLicenseAccessed": false, "WindowsUpdateScanOrInstallInvoked": false, "RegistryTestPluginEnabled": false, "WindowsOrDefenderStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Policy suites validate source behavior through mocks; experimental mappings and native Windows outcomes remain unverified.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native settings acceptance.", "Experimental mappings need current-build feature evidence before promotion.", "Six unavailable setting lifecycles and feature/UI/restart checks remain open."]
+  }
+}
