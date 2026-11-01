@@ -1,0 +1,52 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:52:00Z",
+  "Pester": "5.7.1",
+  "Suite": "tests/GitHubVmAuthentication.Tests.ps1",
+  "Results": [
+    {
+      "Edition": "Windows PowerShell 5.1.26100.9818",
+      "Discovered": 23,
+      "Passed": 23,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 7.85
+    },
+    {
+      "Edition": "PowerShell 7.6.5 Core",
+      "Discovered": 23,
+      "Passed": 23,
+      "Failed": 0,
+      "Skipped": 0,
+      "DurationSeconds": 8.85
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "CredentialSource": "Synthetic canaries and mocked controller credentials/sessions",
+  "SafetyBoundary": {
+    "RealCredentialUsed": false,
+    "RealVmQueried": false,
+    "GuestSessionOpened": false,
+    "PublisherOrInstallerAccessed": false,
+    "DefenderBlockedToolsIncluded": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell authentication safety tests validate gating and synthetic evidence export only; guest authentication acceptance still requires a VM.",
+    "Blockers": [
+      "RIDE-Win11-Test acceptance remains blocked at host CIM before VM/checkpoint inspection.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
