@@ -140,6 +140,33 @@ Describe 'CLI ShouldProcess forwarding' {
     {& $script:Runner apply -OfflineBundle 'bundle.json' -OfflineProfileId p -OfflineCatalogFileId c -UserContext Desktop} | Should -Throw '*desktop handoff*'
   }
 
+  It 'refuses search-only filters and conflicting query selectors before discovery' {
+    { & $script:Runner list -Query 'synthetic' } | Should -Throw '*only supported by the search command*'
+    { & $script:Runner show fake.setting -Field Name } | Should -Throw '*only supported by the search command*'
+    { & $script:Runner status -View settings } | Should -Throw '*only supported by the search command*'
+    { & $script:Runner search positional -Query named } | Should -Throw '*either a positional search query or -Query*'
+    { & $script:Runner search } | Should -Throw '*requires a nonblank query*'
+  }
+
+  It 'refuses state-store selectors outside prune-state' {
+    { & $script:Runner list -StateScope Machine } | Should -Throw '*only supported by prune-state*'
+    { & $script:Runner remove fake.package -OlderThanDays 90 } | Should -Throw '*only supported by prune-state*'
+  }
+
+  It 'refuses package variants outside supported commands or without an ID' {
+    { & $script:Runner apply -Profile fake-profile.psd1 -Variant portable } | Should -Throw '*Variant is supported by*'
+    { & $script:Runner show -Variant portable } | Should -Throw '*Variant requires a package ID*'
+  }
+
+  It 'rejects ambiguous direct and profile removal before planning' {
+    { & $script:Runner remove fake.package -Profile fake-profile.psd1 } | Should -Throw '*either a single package ID or -Profile*'
+  }
+
+  It 'refuses unsupported prune-state selectors before invoking the cleanup handler' {
+    { & $script:Runner prune-state -Id fake.package } | Should -Throw '*does not support: Id*'
+    { & $script:Runner prune-state -RunId ('a' * 32) } | Should -Throw '*does not support: RunId*'
+  }
+
   It 'allows <Command> without an accidental preview or confirmation switch' -TestCases $commandCases {
     param($Command, $Arguments)
     $rows = @(& $script:Runner @Arguments)

@@ -1,0 +1,57 @@
+{
+  "title": "ALIGN-03 CLI option matrix and refusal regression",
+  "date": "2026-11-01",
+  "recordedAtUtc": "2026-11-01T20:20:00Z",
+  "scope": "Static CLI option matrix and focused parser refusal regression. No runtime behavior changes.",
+  "environment": [
+    {
+      "shell": "Windows PowerShell",
+      "version": "5.1",
+      "pesterVersion": "5.x",
+      "testFile": "tests/CliShouldProcess.Tests.ps1",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "shell": "PowerShell",
+      "version": "7.6.5",
+      "pesterVersion": "5.x",
+      "testFile": "tests/CliShouldProcess.Tests.ps1",
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "safety": {
+    "engineHandlers": "fake spy module",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderAccessed": false,
+    "defenderBlockedToolsIncluded": false
+  },
+  "resolved": [
+    "Documented the current command and option matrix, including known parser gaps and existing removal compatibility behavior.",
+    "Added early-refusal coverage for conflicting search selectors, misplaced search and state-store options, unsupported variants, ambiguous removal, and invalid prune-state selectors."
+  ],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "No legacy feature or product outcome closes in this source-only batch.",
+    "ALIGN-03 runtime refusal behavior remains incomplete; the matrix records current behavior and the remaining gaps."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome was closed; estimates are unchanged."
+  },
+  "blockers": [
+    "RIDE-Win11-Test acceptance remains blocked before VM state retrieval by host CIM access.",
+    "Defender-blocked tools remain excluded."
+  ]
+}
