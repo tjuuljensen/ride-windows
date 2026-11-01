@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:30:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/RunStateRetention.Tests.ps1", "tests/ScheduledTaskRecovery.Tests.ps1", "tests/UserHandoff.Tests.ps1"],
+  "Result": {"Discovered": 48, "Passed": 48, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 18.39},
+  "Coverage": ["Guarded expired run-record cleanup and malformed/recent-state retention", "Mocked scheduled-task enablement observation, transition verification and recovery", "Desktop user-handoff command discovery and CLI routing"],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "StateFilesTestDriveOnly": true, "ScheduledTaskProviderMocked": true, "TaskRegisteredOrExecuted": false, "HandoffLauncherInvoked": false, "RegistryTestPluginEnabled": false, "WindowsStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell maintenance tests use TestDrive and mocked task/handoff boundaries; no native Windows behavior was accepted.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native acceptance.", "Native scheduled-task and desktop-user handoff behavior remains separate from source tests."]
+  }
+}
