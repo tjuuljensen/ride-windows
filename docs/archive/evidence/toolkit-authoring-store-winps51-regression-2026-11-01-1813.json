@@ -1,0 +1,45 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T18:13:27Z",
+  "Suites": [
+    "tests/ToolkitUpdatePreparation.Tests.ps1",
+    "tests/CustomRegistryAuthoring.Tests.ps1",
+    "tests/StoreApps.Tests.ps1"
+  ],
+  "PowerShell": "Windows PowerShell 5.1.26100.9818",
+  "Pester": "5.7.1",
+  "Invocation": {
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "TestsDiscovered": 102,
+    "Result": { "Passed": 102, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 79.54 }
+  },
+  "SafetyBoundary": {
+    "ToolkitInputsSupplied": true,
+    "RegistryKeysFakedOrLifecycleMocked": true,
+    "AppxAndNativeBoundariesMocked": true,
+    "TestDriveUsedForFixtures": true,
+    "WindowsStateChanged": false,
+    "NetworkUsed": false,
+    "VmAcceptanceRun": false,
+    "DefenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell checks cover supplied toolkit file decisions, fake registry authoring and mocked Store lifecycle guards; no publication or native behavior is accepted.",
+    "Blockers": [
+      "Toolkit publication/writer ownership acceptance and native Store behavior remain deferred.",
+      "Windows VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access."
+    ]
+  }
+}
