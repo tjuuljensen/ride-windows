@@ -1,0 +1,22 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:05:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/Hibernation.Tests.ps1", "tests/HibernationAcceptance.Tests.ps1"],
+  "Result": {"Discovered": 28, "Passed": 28, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 28.3},
+  "Coverage": [
+    "Hibernation file metadata inspection and mocked power configuration lifecycle",
+    "Candidate gating, preview, postcondition, drift and recovery failures",
+    "Acceptance runner entry guard and safe preflight rejection"
+  ],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "VmStarted": false, "ControllerQueueUsed": false, "PowercfgInvoked": false, "LiveRegistryAccessed": false, "LiveHibernationFileAccessed": false, "RegistryTestPluginEnabled": false, "WindowsOrDefenderStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell source checks do not establish native hibernation state, restore behavior or restart acceptance.",
+    "Blockers": ["Host CIM still blocks VM/checkpoint inspection and native Windows acceptance.", "Candidate-gated hibernation requires disposable Windows lifecycle acceptance."]
+  }
+}
