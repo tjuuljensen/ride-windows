@@ -1,0 +1,70 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01",
+  "PowerShell": "7.6.5 Core",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "Suites": [
+    {
+      "Path": "tests/SixtySettings.Tests.ps1",
+      "Discovered": 130,
+      "Passed": 130,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "DurationSeconds": 558.73
+    },
+    {
+      "Path": "tests/RegistryFailures.Tests.ps1",
+      "Discovered": 7,
+      "Passed": 7,
+      "Failed": 0,
+      "Skipped": 0,
+      "NotRun": 0,
+      "DurationSeconds": 2.73
+    }
+  ],
+  "Aggregate": {
+    "Discovered": 137,
+    "Passed": 137,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 561.46
+  },
+  "Coverage": [
+    "Sixty-setting catalog identity, legacy mapping and supported state coverage",
+    "Mocked apply, preview, repeat, coordinated multi-value restore and saved-state recovery",
+    "Boot override absence and restoration semantics",
+    "Registry missing-key, access-denied, unavailable-drive, typed-write and cleanup failure handling"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveRegistryAccessed": false,
+    "RegistryHandlersMocked": true,
+    "RegistryTestPluginEnabled": false,
+    "WindowsSettingChanged": false,
+    "DefenderStateChanged": false,
+    "NirSoftOrPasswordScanFileAccessed": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Sixty-setting and registry-failure suites validate catalog and mocked recovery semantics but establish no native Windows behavior or legacy outcome closure.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native setting acceptance.",
+      "Feature/UI/restart behavior and six unavailable setting lifecycles remain open.",
+      "Unknown numeric registry channels remain experimental pending current-build feature evidence.",
+      "One stateful catalog HKCU integration test remains sandbox-blocked; possible GUID-scoped test residue is unresolved."
+    ]
+  }
+}
