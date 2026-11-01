@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T18:48:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": [
+    "tests/ExplorerSettings.Tests.ps1",
+    "tests/NetworkAndSoundControls.Tests.ps1",
+    "tests/KeyboardSettings.Tests.ps1"
+  ],
+  "Result": {
+    "Discovered": 74,
+    "Passed": 74,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "DurationSeconds": 87.53
+  },
+  "Coverage": [
+    "Explorer setting catalog metadata, lifecycle, absent-state recovery and failure snapshots",
+    "Network adapter, firewall, OpenSSH firewall rule and sound scheme recovery",
+    "Keyboard repeat-delay catalog, typed state recovery, preview and validation"
+  ],
+  "SafetyBoundary": {
+    "VmOrCheckpointQueried": false,
+    "LiveRegistryAccessed": false,
+    "LiveNetworkChanged": false,
+    "LiveFirewallChanged": false,
+    "LiveSoundConfigurationChanged": false,
+    "SettingHandlersMocked": true,
+    "RegistryTestPluginEnabled": false,
+    "WindowsOrDefenderStateChanged": false
+  },
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {
+      "Settings": "37-57",
+      "Packages": "37-52",
+      "Components": "19-24",
+      "FilesAndAssets": "25-35",
+      "Maintenance": "8-12",
+      "Exact": "126-180",
+      "Rounded": "125-180",
+      "ApproximateOutcomes": 155
+    },
+    "ReasonUnchanged": "Cross-shell source regression covers mocked settings and recovery logic; native Windows behavior remains unverified.",
+    "Blockers": [
+      "Host CIM still blocks VM/checkpoint inspection and native settings acceptance.",
+      "Six unavailable setting lifecycles and feature/UI/restart checks remain open."
+    ]
+  }
+}
