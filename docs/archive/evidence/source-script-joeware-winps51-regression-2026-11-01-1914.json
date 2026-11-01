@@ -1,0 +1,20 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:14:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "RetainedArchiveEnvironmentVariables": "Unset",
+  "Suites": ["tests/SourceScriptPackages.Tests.ps1", "tests/Download-JoeWareCollection.Tests.ps1", "tests/JoeWareAdModEngineRoute.Tests.ps1"],
+  "Result": {"Discovered": 21, "Passed": 18, "Failed": 0, "Skipped": 3, "NotRun": 0, "DurationSeconds": 16.27},
+  "SkippedCases": ["Hex2Text retained archive fixture absent", "ChromeSyncParser retained archive fixture absent", "AdMod retained publisher archive directory absent"],
+  "Coverage": ["Pinned source declarations and notices", "Synthetic source-file ownership and recovery", "Mocked JoeWare collection discovery and offline AdMod portable-handler routing"],
+  "SafetyBoundary": {"VmOrCheckpointQueried": false, "RetainedArchiveEnvironmentVariablesUnset": true, "NetworkAcquisitionPerformed": false, "ProgramsLaunched": false, "DefenderBlockedToolsIncluded": false, "TestRegistryEnabled": false, "WindowsStateChanged": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Source package checks used offline/synthetic artifacts; three retained-archive cases remain skipped and no native execution was performed.",
+    "Blockers": ["Three retained publisher archive cases remain unavailable.", "Host CIM still blocks VM/checkpoint inspection and native package acceptance.", "Defender-blocked tools remain excluded."]
+  }
+}
