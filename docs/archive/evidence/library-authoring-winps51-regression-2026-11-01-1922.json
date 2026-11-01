@@ -1,0 +1,18 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T19:22:00Z",
+  "PowerShell": "Windows PowerShell 5.1.26100.9818 Desktop",
+  "Pester": "5.7.1",
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "Suites": ["tests/Libraries.Tests.ps1", "tests/LibraryAuthoring.Tests.ps1", "tests/ExampleLibrary.Tests.ps1"],
+  "Result": {"Discovered": 80, "Passed": 80, "Failed": 0, "Skipped": 0, "NotRun": 0, "DurationSeconds": 384.19},
+  "Coverage": ["External library resolution, schema and unsafe-content rejection", "Read-only search/completion and library lifecycle recovery", "Custom library authoring, preview, append/rollback and lock handling", "Maintained example library identities, profiles, groups and package separation"],
+  "SafetyBoundary": {"PackageInstallerInvoked": false, "PublisherDownloadOrNetworkUsed": false, "LiveRegistryOrWindowsSettingChanged": false, "CustomPackageApplied": false, "TemporaryLibraryFilesUsed": true, "DefenderAlertFilesOrNirSoftTestAccessed": false, "RegistryTestPluginEnabled": false},
+  "Migration": {
+    "LegacyOutcomeClosed": false,
+    "Estimates": {"Settings": "37-57", "Packages": "37-52", "Components": "19-24", "FilesAndAssets": "25-35", "Maintenance": "8-12", "Exact": "126-180", "Rounded": "125-180", "ApproximateOutcomes": 155},
+    "ReasonUnchanged": "Cross-shell library and authoring source checks verify isolated metadata/lifecycle behavior without package application or legacy outcome acceptance.",
+    "Blockers": ["Package-level VM acceptance remains blocked before VM/checkpoint state retrieval by host CIM access.", "The stateful HKCU catalog integration test remains blocked by sandbox registry denial.", "Defender-blocked tools remain excluded."]
+  }
+}
