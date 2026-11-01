@@ -8,8 +8,8 @@
 | Packages | 37-52 | 2026-11-01; Range reviewed and unchanged; offline preparation planning is partial, and Defender-affected NirSoft routes remain excluded. No package product outcome closed. |
 | Components | 19-24 | 2026-11-01; Range reviewed and unchanged; no component outcome or native acceptance changed in this batch. |
 | Files and assets | 25-35 | 2026-11-01; Offline preparation planner source checks passed 12/12; no bundle assembly, delivery or whole legacy file/asset outcome closed. |
-| Maintenance | 8-12 | 2026-11-01; Bootstrap 0.2.0 repeat regression passed 9/9; offline bundle regression passed 129/129; offline preparation planner passed 12/12; repository validation passed 452 operations, 8 groups, 5 profiles and 326 PowerShell files. Host CIM continues to block VM acceptance. |
-| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the bootstrap source regression repeat; all five ranges remain unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
+| Maintenance | 8-12 | 2026-11-01; Bootstrap regression passed 9/9; offline bundle regression repeat passed 129/129; preparation planner passed 12/12; repository validation passed 452/8/5/326. Host CIM continues to block VM acceptance. |
+| **Total** | **126-180 exact** | **125-180 rounded; about 155 outcomes.** Review refreshed 2026-11-01 after the offline bundle source regression repeat; all five ranges remain unchanged, no legacy outcome closed, and VM acceptance remains blocked at host CIM. |
 
 ## Read-only offline package preparation planner, 2026-11-01
 
@@ -48,6 +48,22 @@ extraction collision/recovery and release VM acceptance. The five estimates rema
 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180 and rounded 125-180/about 155.
 
 See [bootstrap evidence](archive/evidence/bootstrap-source-plan-boundaries-focused-regression-2026-11-01.json).
+Next: continue the next authorized test batch; VM acceptance remains blocked at host CIM.
+
+## Offline bundle source regression repeat, 2026-11-01
+
+The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 129/129 with no
+skips: bundle integrity/dependency preflight, local assembly and selected-profile
+coverage, and offline execution. All acquisition and installer boundaries were
+synthetic or inert. No payload was acquired, cache scanned, bundle assembled for
+transfer, installer run, VM accessed, or Windows/Defender state changed.
+
+Resolved/retired/excluded: none. Partial: source-level bundle workflow only; no
+legacy package outcome closes. Deferred: transfer assembly, native disconnected
+installation/recovery and host VM acceptance at CIM. The five estimates remain
+37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180, rounded 125-180/about 155.
+
+See [offline regression evidence](archive/evidence/offline-bundle-integrity-assembly-execution-regression-2026-11-01.json).
 Next: continue the next authorized test batch; VM acceptance remains blocked at host CIM.
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 

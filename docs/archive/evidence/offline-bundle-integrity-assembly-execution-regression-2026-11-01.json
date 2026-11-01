@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T14:33:14Z",
+  "ReviewDate": "2026-11-01",
+  "Outcome": "Offline bundle integrity, local assembly, selected-profile coverage and execution gates passed focused source regression",
+  "Validation": {
+    "PowerShell": "Windows PowerShell 5.1",
+    "Pester": "5.7.1",
+    "Suites": [
+      "tests/OfflineBundle.Tests.ps1",
+      "tests/OfflineBundleAssembly.Tests.ps1",
+      "tests/OfflineExecution.Tests.ps1"
+    ],
+    "Result": "Passed",
+    "Total": 129,
+    "Passed": 129,
+    "Failed": 0,
+    "Skipped": 0,
+    "NotRun": 0,
+    "TestRegistry": "Disabled",
+    "TestResult": "Disabled"
+  },
+  "EvidenceLimits": [
+    "Tests use synthetic/local files; no external package payload was acquired.",
+    "No transfer bundle was assembled or copied to an air-gapped machine.",
+    "No installer, RIDE apply command, Windows target or VM was run.",
+    "The previously accepted Caffeine portable disconnected scenario remains the only cited native offline deployment evidence."
+  ],
+  "OutstandingRequestedScope": [
+    "Automatic acquisition planning without network fallback during offline preparation.",
+    "Profile-selected and full external-package set manifests with pinned engine/profile/package versions.",
+    "Portable and installer variants for reviewed, applicable selected targets, with explicit omissions.",
+    "Transferable engine, profiles, payloads and notices sourced from retained verified local bytes.",
+    "Current disconnected deployment and recovery acceptance."
+  ],
+  "NetworkAccess": false,
+  "InstallerRun": false,
+  "VmRun": false,
+  "WindowsStateChanged": false,
+  "DefenderStateAccessed": false,
+  "DefenderBlockedPasswordScan": "Remains excluded; these suites did not stage or inspect the alert file.",
+  "LegacyEstimate": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "Offline-bundle source regression validates infrastructure but resolves no legacy feature or package outcome."
+  },
+  "VmBlocker": "Host CIM access is denied; VM/checkpoint state was not queried.",
+  "RepeatRun": {
+    "RecordedAt": "2026-11-01T15:01:58Z",
+    "PowerShell": "Windows PowerShell 5.1",
+    "Pester": "5.7.1",
+    "Tests": [
+      "tests/OfflineBundle.Tests.ps1",
+      "tests/OfflineBundleAssembly.Tests.ps1",
+      "tests/OfflineExecution.Tests.ps1"
+    ],
+    "Passed": 129,
+    "Failed": 0,
+    "Skipped": 0,
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false
+  }
+}
