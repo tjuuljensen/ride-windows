@@ -1,0 +1,69 @@
+{
+  "title": "Windows PowerShell 5.1 source-test rerun blocked at Pester import",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:23:52Z",
+  "scope": "Cross-shell rerun attempt for the 13 Office inventory/configuration/deployment, behavior contract/alignment/registry authoring, Caffeine/discovery/search/fixture, and GitHub authentication suites that passed under PowerShell 7.6.5.",
+  "environment": {
+    "shell": "Windows PowerShell",
+    "version": "5.1.26100.9818",
+    "requestedPesterVersion": "5.7.1",
+    "testRegistry": "disabled in the prepared Pester configuration; configuration was not invoked",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/OfficeInventory.Tests.ps1",
+    "tests/OfficeConfigurationReview.Tests.ps1",
+    "tests/DeploymentIdentity.Tests.ps1",
+    "tests/BehaviorContract.Tests.ps1",
+    "tests/AlignmentDrift.Tests.ps1",
+    "tests/CustomRegistryAuthoring.Tests.ps1",
+    "tests/CaffeineLight.Tests.ps1",
+    "tests/GitHubReleaseDiscovery.Tests.ps1",
+    "tests/Search.Tests.ps1",
+    "tests/SettingsFixtureData.Tests.ps1",
+    "tests/StoreSolitaireFixtureData.Tests.ps1",
+    "tests/GitHubAuthentication.Tests.ps1",
+    "tests/GitHubVmAuthentication.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 0,
+    "testsDiscovered": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 331,
+    "status": "blocked-before-discovery"
+  },
+  "blockReason": "Import-Module Pester failed before discovery because AuthorizationManager rejected both Pester 5.7.1 format-data XML files located in the user's OneDrive Documents PowerShell module directory.",
+  "safety": {
+    "testCodeEntered": false,
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false,
+    "policyBypassAttempted": false
+  },
+  "resolved": [],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "PowerShell 7.6.5 results for all 331 cases remain valid; this PowerShell 5.1 compatibility rerun is still pending."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "The cross-shell attempt ran no cases and closes no legacy outcome; migration ranges remain unchanged."
+  },
+  "blockers": [
+    "Windows PowerShell 5.1 cannot import the installed Pester 5.7.1 module because its format-data XML fails AuthorizationManager validation.",
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "PSScriptTools and WFN full synthetic lifecycle suites remain incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
