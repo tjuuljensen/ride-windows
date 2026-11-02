@@ -1,0 +1,69 @@
+{
+  "title": "151-file Windows unit aggregate interrupted in optional-settings matrix",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T02:38:38Z",
+  "scope": "Pester unit sweep across 151 selected tests/*.Tests.ps1 files.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "selection": {
+    "filesSelected": 151,
+    "testsDiscovered": 3698,
+    "excludedFiles": [
+      "tests/NirsoftCollectionPackages.Tests.ps1 (reported Defender-alerted utilities remain excluded)",
+      "tests/PSScriptToolsPackage.Tests.ps1 (360-member lifecycle stalls; six smaller cases were run separately)",
+      "tests/WfnPackage.Tests.ps1 (531-member lifecycle stalls; smaller checks were run separately)"
+    ]
+  },
+  "run": {
+    "durationBeforeInterruption": "about 30 minutes",
+    "lastObservedTestFile": "tests/OptionalWindowsSettings.Tests.ps1",
+    "result": "Interrupted without Pester aggregate summary; no total pass/fail/skipped counts inferred",
+    "detail": "The sweep reported many completed files before entering the optional-settings matrix, then produced no test-file summary for an extended interval. The isolated OptionalWindowsSettings suite has a separate 365/365 pass record."
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "hostRegistryOrSystemSettingsChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false,
+    "nirsoftPackageTestFileSelected": false
+  },
+  "migration": {
+    "resolved": [
+      "The selected non-blocked suite set reached the OptionalWindowsSettings matrix; numerous preceding test files reported completion, but no aggregate result exists."
+    ],
+    "retired": [],
+    "excluded": [
+      "Defender-blocked NirSoft collection suite."
+    ],
+    "deferred": [
+      "The 151-file aggregate remains incomplete and needs smaller independently bounded batches around OptionalWindowsSettings.",
+      "PSScriptTools 360-member and WFN 531-member lifecycle tests remain incomplete.",
+      "RIDE-Win11-Test acceptance remains blocked at host CIM."
+    ],
+    "partial": [
+      "No legacy migration outcome closes; a passing isolated OptionalWindowsSettings run is not substituted for the interrupted aggregate."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "The aggregate produced no completion summary or legacy outcome closure; estimate ranges remain unchanged."
+    },
+    "blockers": [
+      "151-file/3698-test Pester aggregate stalls in OptionalWindowsSettings in the current sandbox run.",
+      "PSScriptTools 360-member lifecycle remains incomplete after repeated stalls.",
+      "WFN 531-member lifecycle remains incomplete in the first portable-install phase.",
+      "Host CIM access blocks RIDE-Win11-Test acceptance before checkpoint state can be read.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
