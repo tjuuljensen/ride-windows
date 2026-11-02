@@ -1,0 +1,68 @@
+{
+  "title": "User handoff and local inventory source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:50:44Z",
+  "scope": "User handoff plus visual-effects, volume and wireless inventory source suites.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "files": [
+    "tests/UserHandoff.Tests.ps1",
+    "tests/VisualEffectsInventory.Tests.ps1",
+    "tests/VolumeInventory.Tests.ps1",
+    "tests/WirelessInventory.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 4,
+    "testsDiscovered": 127,
+    "passed": 127,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:16.155",
+    "status": "passed"
+  },
+  "coverage": [
+    "User desktop handoff request and launch boundary.",
+    "Read-only visual-effects, local volume and wireless inventory output."
+  ],
+  "safety": {
+    "desktopLaunchAndInventoryProviders": "mocked",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Selected user handoff and local-inventory source regression passed 127/127."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native interactive desktop and local inventory acceptance.",
+    "WindowsIntegration and VM checks.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester aggregate remains incomplete.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "Host CIM access blocks RIDE-Win11-Test acceptance."
+  ]
+}
