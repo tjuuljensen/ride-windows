@@ -1,0 +1,84 @@
+{
+  "title": "Pre-optional unit test batch 2",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:25:48Z",
+  "scope": "Twenty test files before OptionalWindowsSettings in the bounded non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "ClientComponentLifecycle.Tests.ps1",
+    "ClientComponentPreparation.Tests.ps1",
+    "CliShouldProcess.Tests.ps1",
+    "ComponentInventory.Tests.ps1",
+    "CookieCruncherPackage.Tests.ps1",
+    "CustomRegistryAuthoring.Tests.ps1",
+    "DefenderExclusionRecovery.Tests.ps1",
+    "DeploymentIdentity.Tests.ps1",
+    "DesiredConfiguration.Tests.ps1",
+    "DesktopShortcuts.Tests.ps1",
+    "Download-JoeWareCollection.Tests.ps1",
+    "ExampleLibrary.Tests.ps1",
+    "ExplorerSettings.Tests.ps1",
+    "F1Help.Tests.ps1",
+    "FirewallProfiles.Tests.ps1",
+    "GitHubAuthentication.Tests.ps1",
+    "GitHubReleaseDiscovery.Tests.ps1",
+    "GitHubVmAuthentication.Tests.ps1",
+    "Gpg4winPackage.Tests.ps1",
+    "HashValueContextMenu.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 511,
+    "passed": 509,
+    "failed": 0,
+    "skipped": 2,
+    "duration": "00:03:45.419",
+    "skips": [
+      "One optional retained Cookie Cruncher archive fixture check was skipped because no explicit archive path was supplied.",
+      "One Windows PowerShell 5.1-specific Get-FileHash compatibility check was skipped on PowerShell 7.6.5."
+    ]
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "productExecutablesLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "resolved": [
+      "All 509 runnable selected component, authoring, Explorer, GitHub authentication/source and package source cases passed."
+    ],
+    "retired": [],
+    "excluded": [
+      "NirSoft collection suite, oversized PSScriptTools/WFN lifecycle files, and WindowsIntegration-tagged tests remained excluded."
+    ],
+    "deferred": [
+      "One publisher archive fixture check and the Windows PowerShell-specific compatibility case remain environment-dependent."
+    ],
+    "partial": [
+      "No legacy outcome closes; the remaining pre-Optional and OptionalWindowsSettings batches are still pending."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "Current source and mock-based tests close no legacy feature/product outcome; ranges remain unchanged."
+    },
+    "blockers": [
+      "The broad repository sweep remains divided into bounded batches around OptionalWindowsSettings.",
+      "PSScriptTools 360-member and WFN 531-member lifecycle tests remain incomplete.",
+      "Host CIM access blocks RIDE-Win11-Test acceptance.",
+      "Defender-blocked utilities remain excluded."
+    ]
+  }
+}
