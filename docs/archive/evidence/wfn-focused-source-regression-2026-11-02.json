@@ -1,0 +1,46 @@
+{
+  "title": "WFN focused catalog and compact package lifecycle regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:01:27Z",
+  "scope": "Run the safe WFN catalog and compact synthetic lifecycle cases while excluding the known slow 531-member lifecycle and optional retained publisher archive check.",
+  "test": {
+    "file": "tests/WfnPackage.Tests.ps1",
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "selected": [
+      "matches the selected publisher ZIP, complete static inventory and bundled license files",
+      "repeats owned-file staging and restores exact prior absence with a synthetic archive"
+    ],
+    "discovered": 4,
+    "selectedCount": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:15.346",
+    "testRegistry": "disabled because sandbox HKCU access is denied",
+    "windowsIntegration": "not selected"
+  },
+  "excluded": [
+    "Complete 531-member synthetic snapshot lifecycle previously exceeded 20 minutes and was not run in this batch.",
+    "Optional retained real archive comparison was not run; no explicit RIDE_WFN_FIXTURE_ARCHIVE was supplied."
+  ],
+  "effects": {
+    "syntheticArchiveOnly": true,
+    "productExecutableLaunched": false,
+    "networkUsed": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "legacyOutcomeClosed": false,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "windowsAcceptance": "Pending",
+    "pendingAcceptance": true
+  },
+  "blockers": [
+    "The full 531-member WFN synthetic lifecycle remains unresolved after the previous run exceeded 20 minutes.",
+    "No explicit retained WFN archive fixture was supplied for exact archive comparison.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
