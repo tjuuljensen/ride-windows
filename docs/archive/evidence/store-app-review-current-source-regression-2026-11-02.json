@@ -1,0 +1,37 @@
+{
+  "title": "Store application inventory and candidate lifecycle source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:51:40Z",
+  "tests": {
+    "files": [
+      "tests/StoreApps.Tests.ps1",
+      "tests/StoreAppReview.Tests.ps1",
+      "tests/StoreSolitaireFixtureData.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 64,
+    "passed": 64,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:35.499",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "appxAndDismProvidersMockedOrSynthetic": true,
+    "storeMutationInvoked": false,
+    "networkUsed": false,
+    "hostOrVmWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "nativeAcceptance": "Pending"
+  },
+  "blockers": [
+    "Store application candidates remain pending separate native acceptance.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
