@@ -244,6 +244,8 @@ These are not all represented by the 52 catalog candidates above:
 | Legacy component | Status and remaining work |
 | --- | --- |
 | Standard ImageMagick installer | Unimplemented. Exact installer bytes/hash/signature, machine PATH ownership, reversible install/remove and target acceptance remain open. Its separate portable Q16 package passed Windows 11 lifecycle and bounded image smoke acceptance; activation remains pending and Server support is not claimed. |
+| Microsoft OpenJDK 25/21/17/11 side-by-side packages | Partial. Server 2025 lifecycle passed for all four versions, preserving shared `JAVA_HOME`/`PATH`/`.jar` state. Windows 11 acceptance and exact previous-version recovery remain open; no Windows 11 support claim. |
+| Three Sysmon Modular profiles | Selected pinned download-only artifacts for Sysmon 15.21. Live acquisition, retained-file recovery, and user acceptance remain open. This does not authorize installing Sysmon or applying/replacing a configuration. |
 | Python runtime selectors | Partial. The auto-install setting candidate exists, but selected runtime bytes/manifests, offline-index ownership, manager/launcher coexistence, PATH/alias conflicts, recovery, and Windows acceptance remain open. |
 | CCleaner, Recuva, Speccy | Selected outcomes, no exact current publisher artifact pins/lifecycle yet. CCleaner installer route is versionless and its portable version is stale; Recuva/Speccy offer installer routes without a verified artifact. DNS/acquisition has blocked byte verification. |
 | Defraggler | User-selected legacy outcome remains unresolved; publisher EOL is confirmed and no local artifact was found. Needs a user disposition or a publisher-authorized retained source; do not invent a replacement package. |
