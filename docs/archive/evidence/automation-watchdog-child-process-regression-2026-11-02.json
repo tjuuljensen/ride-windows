@@ -1,0 +1,68 @@
+{
+  "title": "Automation watchdog child-process regression",
+  "date": "2026-11-02",
+  "scope": "Full tests/AutomationWatchdog.Tests.ps1 run after disabling Pester TestRegistry; 16 discovered cases.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "result": {
+    "testsDiscovered": 16,
+    "passed": 13,
+    "failed": 3,
+    "skipped": 0,
+    "duration": "00:02:06.210",
+    "status": "partial",
+    "frameworkTeardown": "Pester could not delete TestDrive because host-worker-errors.log was still open."
+  },
+  "failedTests": [
+    {
+      "name": "terminates an inert preparation hang and writes a terminal timeout without a recovery block",
+      "reason": "Process-tree termination exceeded the ten-second bound; RecoveryRequired was true instead of false."
+    },
+    {
+      "name": "terminates an inert descendant as well as its request parent",
+      "reason": "Process-tree termination exceeded the ten-second bound; RecoveryRequired was true instead of false."
+    },
+    {
+      "name": "bounds a recovery hang and blocks further work after possible VM changes",
+      "reason": "The worker child remained alive after process-tree termination exceeded the ten-second bound."
+    }
+  ],
+  "safety": {
+    "processesWereInertTestChildren": true,
+    "vmQueriedOrChanged": false,
+    "systemConfigurationChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Thirteen watchdog cases passed, including repeated real-child progress updates, correlated success and failure, child exit without a result, and explicit blocking when process-tree termination could not be confirmed."
+  ],
+  "retired": [],
+  "excluded": [],
+  "deferred": [
+    "The three timeout/recovery cases need process-tree termination support that completes within the watchdog bound in this host environment."
+  ],
+  "partial": [
+    "The watchdog suite is not accepted because three process termination cases failed and Pester TestDrive teardown encountered an open worker log. No migration outcome closes."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Three watchdog process termination scenarios exceed the ten-second process-tree bound in the current host environment.",
+    "Pester teardown could not remove the temporary TestDrive while host-worker-errors.log was open.",
+    "Repository-wide Pester aggregate remains incomplete.",
+    "RIDE-Win11-Test acceptance remains blocked by host CIM access.",
+    "Defender-blocked utilities remain excluded."
+  ]
+}
