@@ -384,6 +384,69 @@ latest focused component regression passed in PowerShell 7.6.5. No
 Defender-based exclusion applies to these component tests; keep Defender-blocked
 package tools separate from component acceptance.
 
+## Files, assets, accounts and configuration status at pause
+
+The plan's **25-35** band is broader than file payloads: its owner ledger also
+includes accounts and configuration. The rows below name the unfinished
+components while identifying adjacent settings/package scope to prevent double
+counting. The current overview records the most recent source evidence but no
+legacy files/assets outcome closes from those runs.
+
+| Component or outcome | Status | Remaining work / boundary |
+| --- | --- | --- |
+| Font installation (`InstallFonts`) | Unmigrated. | Select official/licensed source and intended user/machine scope; define exact font identity, collision behavior, registration, owned-file recovery and Windows acceptance. Do not overwrite existing fonts as legacy COM copy did. |
+| Default wallpaper replacement (`ReplaceDefaultWallpapers`) | Unmigrated asset workflow. | Select/own source assets and machine/default-user destination; capture exact bytes/ACLs and refuse overwriting OS/shared content. Applying the asset and changing a user's preference are separate. |
+| User lock-screen image (`SetLockScreen`) | Unmigrated. | Decide supported per-user/device policy route, preserve existing file/ACL and capture recovery. |
+| Default/new-user lock-screen image (`SetDefaultLockScreen`) | Unmigrated, separate from the user preference. | Establish machine/default-profile scope, policy precedence, owned content and exact rollback independently. |
+| Desktop shortcuts and shell-folder metadata | Source regressions exist; no native shell acceptance or legacy outcome closure is recorded. | Verify target user, exact path/metadata, Explorer visibility and recovery on Windows. The Nov. 1 combined run passed 37/38 with one PowerShell Desktop-only skip; Nov. 2 shortcut/hash suites passed 18/19 with one Windows PowerShell-only skip. |
+| Hash-value context menu | Source candidate; Nov. 2 source tests passed 18/19 across shortcut/hash suites. | Run the Desktop-only helper case when its shell can load Pester and validate Explorer invocation, intended-user registration, algorithms and exact restore on a disposable target. This is not accepted by source tests alone. |
+| Firefox preference files | Unmigrated. | Choose managed policy versus intended-user profile files; reconcile current preference meanings and preserve custom profiles/unrelated bytes on apply/restore. |
+| Chrome preference file | Unmigrated. | Replace obsolete Chromium mappings only after field-by-field current-behavior review; preserve unrelated user preferences and profile data. |
+| VMware VM directory preferences | Configuration outcome, not an installer. | Select exact preference fields/root and preserve existing VM paths; no VM relocation or overwrite. Keep this separate from the retired VMware Workstation package outcome. |
+| Sysmon Modular configuration files (three profiles) | Pinned download-only profiles are selected. | Live acquisition and retained-file recovery remain open; configuration application and consumer acceptance are separate. No Sysmon installation/config replacement is authorized by the download-only selection. |
+| Python environment, associations, plugins and symbols | Partial/adjacent to Python package/runtime migration. | Decide manager versus traditional runtime ownership, preserve current associations and independent caches, and avoid arbitrary pip/network actions on install. Track package/runtime acceptance separately. |
+| Deployment/toolkit manifests and host folder | Accepted design boundary; implementation/transfer acceptance remains partial. | Preserve per-product/distribution versions, hashes, notices and ownership in the selected profile folder. Manual transfer is allowed without USB enrollment; no implicit execution or unreviewed redistribution. |
+| Offline bundle, package cache and disconnected delivery | Source/planning checks passed; actual delivery remains open. Offline profile coverage passed 63/63; the Nov. 2 bundle/execution/profile/selection batch passed 238/238 across seven suites with inert fixtures. | Build and transfer a real selected/full-set bundle, validate pinned payloads and recovery, then perform disconnected Windows acceptance. Preparation, assembly and installation acceptance are distinct; tests did not acquire or run payloads. |
+| PowerShell profile appearance files | Requested v3 addition completed and accepted on Windows 11 and Server 2025; outside legacy estimate. | No legacy closure is counted. Existing evidence records exact recovery and 22 Terminal cases per target. |
+| Color-profile metadata and prior T480/deployment records | Existing evidence reconciled and retained; no new outcome closure in this review. | No additional files/assets acceptance claim is inferred from retained historical evidence. |
+| Local administrator creation and membership | Unmigrated account/security workflow in the shared 25-35 band. | Secure interactive enrollment, SID ownership, account collisions, last-admin protection and user-data-safe recovery; do not store passwords in profiles/logs. |
+| Language packs, regional settings, and default/new-user locale | Partial source/decision preparation; native mutation not accepted. | Preserve accepted mixed locale and full ordered language list; separate per-user display/input settings from machine locale/time zone and welcome/new-user copying. Capture affected accounts and report reboot/sign-out without automatic restart. |
+| Wi-Fi profile import | Unmigrated secure profile workflow. | Define interface/profile/user scope, protect prior XML/ACL and SSID bytes, redact PSK, and separate import from connection. Do not reproduce the legacy plaintext temporary PSK file. |
+| Windows activation and product-key inspection | Unmigrated secure reporting/activation boundary. | Report licensing state separately from activation; secure display/entry and redaction are required. Never persist product keys in normal state or logs. |
+| PowerShell startup user-bin PATH | Source candidates exist; native startup/ownership acceptance remains open. | Verify intended user/session, existing directory, inherited PATH and unmarked writers; persistent environment PATH and directory provisioning remain separate choices. |
+
+## Maintenance and execution actions status at pause
+
+The **8-12** estimate counts legacy maintenance/action outcomes, not every
+maintenance test or supporting service. Source-level runner and retention tests
+do not establish that destructive or rebooting actions are accepted on Windows.
+
+| Action | Status | Remaining work / acceptance |
+| --- | --- | --- |
+| Public Desktop cleanup (`CleanPublicDesktop`) | Unmigrated destructive cleanup. | Preview exact owned/selected shortcut paths; preserve bytes and ACLs for recovery. No blanket deletion of user files. |
+| Start menu unpinning (`UnpinStartMenuTiles`) | Unmigrated/current-build behavior unverified. | Use a supported per-user mechanism or native guidance, preserve unrelated pins, and test exact restore. No guessed shell verbs or broad reset. |
+| Taskbar unpinning (`UnpinTaskbarIcons`) | Unmigrated/current-build behavior unverified. | Same per-user/current-build requirement; preserve unrelated pins and validate on disposable Windows. |
+| Windows Update scan/download/install (`GetWindowsUpdatesWithPwsh`) | Unmigrated evaluation. | Pin and evaluate PSWindowsUpdate; separate scan, selected download/install, per-update results, pending reboot, explicit reboot, and post-reboot rescan. Test Windows 11 builds and Server editions independently; preserve WSUS/source policy. |
+| Windows Update cache cleanup (`CleanLocalWindowsUpdateCache`) | Unmigrated cleanup action. | Detect active update work, capture service identity/state, distinguish metadata from payload cleanup, and report that deleted update content is not exact restore. Do not override WSUS or source configuration. |
+| Disk Cleanup (`RunDiskCleanup`) | Unmigrated destructive action. | Require explicit volumes/data classes and preview; discarded file content cannot be restored from a settings snapshot. |
+| Product-key display (`GetWindowsProductKey`) | Unmigrated secure-output action. | Provide deliberate secure display, redact logs/manifests and keep it separate from Windows activation. |
+| Sysprep Generalize/OOBE (`RunSysprepGeneralizeOOBE`) | Unmigrated one-way machine transition. | Require explicit selection and independent recovery image/checkpoint; not a reversible setting or routine maintenance default. |
+| Hostname change (`SetHostname`) | Unmigrated machine identity action. | Validate unique name, capture prior identity, guard domain/management impact, report pending restart and never reboot automatically. No developer-host change. |
+| Wait/restart/stop (`WaitForKey`, `Restart`, `StopComputer`) | Legacy control-flow helpers; no desired-state operation is implied. | Define CLI/UI invocation, pending-work and partial-failure behavior, cancellation and restart/stop boundaries. Preserve run records across interruption. |
+| Caffeine utility | Package/source regression passed 20/20 with mocked input/wait providers; no actual input or interactive session was used. | Interactive user-session behavior remains unverified. This is a package utility, not closure of a legacy maintenance-action outcome. |
+| Run retention and scheduled-task recovery | Supporting lifecycle source checks passed 48/48 on Nov. 1; the Nov. 2 run-state/task/Defender recovery suite passed 60/60 using mocked providers. | Native task/Defender acceptance remains open; host CIM/Task Scheduler access blocks VM acceptance. These tests close no legacy maintenance outcome. |
+| Acceptance runner, bootstrap and publication support | Source coverage exists, including 231/231 runnable automation tests (two Desktop-only skips), bootstrap checks and offline source runs. | Published-source verification, real offline transfer/delivery, final-source verification and versioned publication remain. These are delivery infrastructure, not permission to execute or alter host state. |
+
+The latest related evidence is [Nov. 2 desktop shortcut/hash source regression](../archive/evidence/desktop-shortcut-hash-menu-source-regression-2026-11-02.json),
+[Nov. 2 offline bundle/portable selection regression](../archive/evidence/offline-bundle-portable-selection-source-regression-2026-11-02.json),
+[Nov. 2 run-state/task recovery regression](../archive/evidence/run-retention-defender-recovery-regression-2026-11-02.json),
+[Nov. 1 Caffeine source regression](../archive/evidence/caffeine-utilities-current-source-regression-2026-11-01.json),
+and [Nov. 1 run-retention/task/user-handoff regression](../archive/evidence/run-retention-task-recovery-handoff-regression-2026-11-01.json).
+These source results close no legacy outcome. Files/assets remains **25-35** and
+maintenance **8-12**; the total remains **126-180 exact / 125-180 rounded
+(about 155)**. Host CIM blocks native VM acceptance; actual disconnected delivery
+and Windows acceptance remain separate.
+
 ## Resume criterion
 
 Resume when the completion approach has been reviewed. Start with an explicit
