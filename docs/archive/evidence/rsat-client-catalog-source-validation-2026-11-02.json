@@ -1,0 +1,124 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T13:08:25.5272036Z",
+  "Kind": "RsatClientCatalogSourceValidation",
+  "SourceBaseCommit": "69ccbb0",
+  "Status": "SourceValidatedNativeAcceptancePending",
+  "Catalog": {
+    "Operations": 475,
+    "Groups": 9,
+    "Profiles": 5,
+    "PowerShellFiles": 337,
+    "RsatCapabilities": 22,
+    "Group": "solution.rsat-client-tools",
+    "SupportedTargets": [],
+    "CandidateTargets": [
+      "Windows 11"
+    ],
+    "ServicingSource": "WindowsUpdate"
+  },
+  "Validation": {
+    "PowerShell7": {
+      "Version": "7.6.5",
+      "FocusedLifecyclePlanningAndClient": 40,
+      "Passed": 40,
+      "Failed": 0,
+      "FinalCatalogGuardsPassed": 2
+    },
+    "WindowsPowerShell51": {
+      "Version": "5.1.26100.9818",
+      "FocusedLifecyclePlanningAndClient": 40,
+      "Passed": 40,
+      "Failed": 0,
+      "FinalCatalogGuardsPassed": 2
+    },
+    "ExistingCatalogSuite": {
+      "Passed": 98,
+      "Failed": 0,
+      "WindowsIntegrationExcluded": 1
+    },
+    "RepositoryValidator": "Passed; generated operation documentation current",
+    "TestRegistryEnabled": false,
+    "TestResultEnabled": false,
+    "ExcludedTags": [
+      "WindowsIntegration"
+    ],
+    "Execution": "Native Windows shells; mocked Windows providers and writers; inert TestDrive files",
+    "Reuse": "40 lifecycle/planning/client cases passed in each edition; only the two corrected catalog validation fixtures were rerun after their test-only correction."
+  },
+  "ResolvedFailures": [
+    "Replaced raw whole-catalog Import-PowerShellDataFile with existing bounded declarative reader after AST complexity errors.",
+    "Preserved all-observed RSAT inventory marker through shared package plan expansion; stale inventory now refuses before writers.",
+    "Made catalog validation fixture imports explicit and accepted the valid null-dependency diagnostic."
+  ],
+  "Coverage": [
+    "Full observed selection and unknown/missing/pending/duplicate inventory refusal",
+    "Transitive install prerequisites, dependency-safe removal, pre-existing member preservation",
+    "Partial failure retains per-member records and usable run identity",
+    "Restore installation and removal in dependency-safe order; refuse orphaned newly installed dependents",
+    "WhatIf creates no state and invokes no writer",
+    "Native writer checks dependencies and exact declared metadata, x64 and reviewed client editions",
+    "Catalog-only completion and invalid graph/group rejection"
+  ],
+  "Limitations": [
+    "No native VM or DISM mutation; payload acquisition and actual provider state remain unverified.",
+    "No target support or shipped profile promotion.",
+    "Conditional literal-state recovery; no exact payload/version recovery.",
+    "No fresh UAC prompt; installed controller refresh and focused native route remain outstanding.",
+    "Existing possible HKCU test-key residue from earlier OpenSSH source validation remains unresolved; this isolated RSAT batch excludes WindowsIntegration."
+  ],
+  "Estimate": {
+    "Settings": "37-57",
+    "Packages": "34-49",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "123-177",
+    "Rounded": "125-175",
+    "NewLegacyOutcomesClosed": 0
+  },
+  "SourceHashes": [
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "C313195313AD10259585B7D3286B9997FC12BBABF34A61A7178808401E597ED2"
+    },
+    {
+      "Path": "modules/RIDE.ClientCapability.psm1",
+      "Sha256": "A42872A1655BA117E93312453C8300DE2CB34D9B7129468B9E04B54E5E34A86B"
+    },
+    {
+      "Path": "modules/RIDE.RsatCapabilityPlanning.psm1",
+      "Sha256": "5CF0A349C35DAC72013AA77869D2B361319C57FF4B23AC8993022AEDB9129BF9"
+    },
+    {
+      "Path": "modules/RIDE.Engine.psm1",
+      "Sha256": "BAC00A0ADCE32D7EC8FDD806D8751C9F6C11A92079E83435618A6D348E95623A"
+    },
+    {
+      "Path": "modules/RIDE.CatalogValidation.psm1",
+      "Sha256": "3C45EF5BC2ECDC52429769F75D04BAA889BA6B005B9E03377FF32B3C5EFE2AE2"
+    },
+    {
+      "Path": "tests/RsatCapabilityEngine.Tests.ps1",
+      "Sha256": "5AF386381C90197808AD806984BB0C015A37559A608815B61D5E802AD411343D"
+    },
+    {
+      "Path": "tests/RsatCapabilityPlanning.Tests.ps1",
+      "Sha256": "3D5DBB0121A74CF3EF755068F7AED4525B1AD1FCB57BA45627C11C0CDC145DA5"
+    },
+    {
+      "Path": "tests/ClientCapability.Tests.ps1",
+      "Sha256": "5E6715BED8099729E1A211DFD3E20FBC5EB47FA84603C0B1E9C1DD4658223A27"
+    },
+    {
+      "Path": "ride.ps1",
+      "Sha256": "E7783971B9F2842D4595F6A888154CA2177D737337C64DC4423C2E472D556519"
+    },
+    {
+      "Path": "tools/Export-RideCatalog.ps1",
+      "Sha256": "B3AC9935ED7B8ED952CF3BF7C9CFF6120EB78AE00D24065427A16FF73C050DCA"
+    }
+  ],
+  "SourceHashBasis": "Tested working-tree files. RIDE.Engine.psm1 also retains a pre-existing unstaged WinHTTP warning-suppression edit, excluded from this focused commit; staged engine digest is recorded separately.",
+  "FocusedStagedEngineSha256": "CDE98B6C3271DD51459C2E79307F22878BB1CE840042466C40A0D574DBBB8D61"
+}

@@ -67,6 +67,8 @@ The [component inventory tool](docs/windows-component-inventory.md) keeps featur
 capability and Server role observations separate; names complete from saved data.
 The optional [OpenSSH Client catalog candidate](docs/windows-component-inventory.md#openssh-client-catalog-candidate)
 uses explicit Windows Update servicing and conditional saved-state recovery.
+The [client RSAT group](docs/windows-component-inventory.md#client-rsat-catalog-candidates)
+selects all observed capabilities and orders installation, removal and recovery by dependency.
 The [adapter inventory](docs/network-adapter-inventory.md) completes saved GUIDs
 without selecting or changing a network device.
 The [volume inventory](docs/volume-inventory.md) completes saved volume GUID paths

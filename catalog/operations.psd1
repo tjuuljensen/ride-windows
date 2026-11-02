@@ -15822,6 +15822,578 @@
       AcceptanceNotes = 'This is an independent service activation candidate, separate from capability installation and firewall exposure; no separate firewall operation is registered in this source candidate. Keep supported targets empty until native Windows 11 and Windows Server 2025 checks verify service state, delayed-start preservation, exact restore, missing-capability refusal and repeat behavior.'
     }
     @{
+      Id = 'component.rsat-active-directory'
+      Name = 'RSAT: Active Directory Domain Services and Lightweight Directory Services tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @('component.rsat-server-manager')
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-azure-stack-hci'
+      Name = 'RSAT: Azure Stack HCI management tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.AzureStack.HCI.Management.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-bitlocker-recovery'
+      Name = 'RSAT: BitLocker recovery administration tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.BitLocker.Recovery.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @('component.rsat-active-directory')
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-certificate-services'
+      Name = 'RSAT: Active Directory Certificate Services tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.CertificateServices.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-dhcp'
+      Name = 'RSAT: DHCP Server tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.DHCP.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-dns'
+      Name = 'RSAT: DNS Server tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.Dns.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-failover-cluster'
+      Name = 'RSAT: Failover Clustering tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.FailoverCluster.Management.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @('component.rsat-file-services')
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-file-services'
+      Name = 'RSAT: File Services tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.FileServices.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @('component.rsat-server-manager')
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-group-policy'
+      Name = 'RSAT: Group Policy Management tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-ipam'
+      Name = 'RSAT: IP Address Management client tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.IPAM.Client.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @('component.rsat-server-manager')
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-lldp'
+      Name = 'RSAT: Data Center Bridging LLDP tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.LLDP.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-network-controller'
+      Name = 'RSAT: Network Controller management tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.NetworkController.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-network-load-balancing'
+      Name = 'RSAT: Network Load Balancing tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.NetworkLoadBalancing.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-remote-access'
+      Name = 'RSAT: Remote Access management tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.RemoteAccess.Management.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @('component.rsat-server-manager', 'component.rsat-group-policy')
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-remote-desktop'
+      Name = 'RSAT: Remote Desktop Services tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.RemoteDesktop.Services.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-server-manager'
+      Name = 'RSAT: Server Manager tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.ServerManager.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-shielded-vm'
+      Name = 'RSAT: Shielded VM tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.Shielded.VM.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @('component.rsat-server-manager')
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-storage-replica'
+      Name = 'RSAT: Storage Replica tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.StorageReplica.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-volume-activation'
+      Name = 'RSAT: Volume Activation tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.VolumeActivation.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-wsus'
+      Name = 'RSAT: Windows Server Update Services tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.WSUS.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-storage-migration'
+      Name = 'RSAT: Storage Migration Service management tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.StorageMigrationService.Management.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
+      Id = 'component.rsat-system-insights'
+      Name = 'RSAT: System Insights management tools'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / RSAT'
+      Description = 'Install or remove this client RSAT capability through configured servicing sources and Windows Update. RIDE orders declared prerequisites before installation and dependents before removal, captures prior literal state, and restores conditionally. Does not configure or contact a remote server, change servicing policy or restart Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'Rsat.SystemInsights.Management.Tools~~~~0.0.1.0'
+      CapabilityFamily = 'RSAT'
+      CapabilityDependencies = @()
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat'
+      AcceptanceNotes = 'Windows 11 x64 Pro/Enterprise client candidate. Availability comes from the exact target inventory; metadata is not a presence claim. Native install/repeat/remove and conditional RIDE restore remain pending. Saved source/target/revision and state are revalidated; exact earlier payload/version recovery is not promised. No Server-role or Arm64 FOD support is claimed.'
+    }
+    @{
       Id = 'component.openssh-client-capability'
       Name = 'OpenSSH Client capability (Windows Update)'
       Kind = 'WindowsCapability'
@@ -15869,6 +16441,16 @@
     }
   )
   Groups = @(
+    @{
+      Id = 'solution.rsat-client-tools'
+      Name = 'All RSAT capabilities available on this Windows client'
+      Category = 'Windows components / RSAT'
+      Description = 'Select every RSAT capability observed on the intended client. Refuse unknown capability identities, incomplete inventories or missing prerequisites instead of silently omitting them. Uses explicit Windows Update acquisition and conditional saved-state recovery; no remote-server feature tests or server roles.'
+      Workflow = 'ClientRsatCapabilities'
+      Members = @('component.rsat-active-directory', 'component.rsat-azure-stack-hci', 'component.rsat-bitlocker-recovery', 'component.rsat-certificate-services', 'component.rsat-dhcp', 'component.rsat-dns', 'component.rsat-failover-cluster', 'component.rsat-file-services', 'component.rsat-group-policy', 'component.rsat-ipam', 'component.rsat-lldp', 'component.rsat-network-controller', 'component.rsat-network-load-balancing', 'component.rsat-remote-access', 'component.rsat-remote-desktop', 'component.rsat-server-manager', 'component.rsat-shielded-vm', 'component.rsat-storage-replica', 'component.rsat-volume-activation', 'component.rsat-wsus', 'component.rsat-storage-migration', 'component.rsat-system-insights')
+      Actions = @('Install', 'Uninstall')
+      Rollback = 'Conditional'
+    }
     @{
       Id = 'solution.store-gaming'
       Name = 'Xbox and gaming Store apps (experimental)'

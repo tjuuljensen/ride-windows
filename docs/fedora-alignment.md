@@ -259,3 +259,32 @@ servicing-source/recovery changes, RSAT integration or the release candidate.
 Promotion remains blocked until native install/repeat/remove/RIDE restore and
 client identity/version checks pass. See the
 [operator workflow](windows-component-inventory.md#openssh-client-catalog-candidate).
+
+## Client RSAT catalog lifecycle, 2026-11-02
+
+Compatible Windows-native extension; shared contract requirements are unchanged
+(RB-02/03/04/05/07/08/09/10/11). `install` and `remove` accept the explicit
+`solution.rsat-client-tools` group and individual capabilities. The group selects
+all reviewed RSAT identities observed on the target; it does not assume every
+catalog member is available. Completion remains catalog-only and read-only.
+Dependency expansion, stale-inventory refusal and per-member saved state preserve
+partial-run recovery. Recovery orders captured transitions by dependencies and
+refuses orphaned installed dependents. Source acquisition is explicitly Windows
+Update, with no LocalSource fallback, policy override or offline promise.
+Conditional literal-state recovery does not promise exact payload versions.
+
+Reviewed contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and Fedora revision `3d9406e3888122d1407652336859e6217c09bcaa`:
+`ride.sh` SHA-256 `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+`lib/v3/common.sh` SHA-256 `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+The peer's target/candidate separation remains applicable; client FoD provisioning
+is a native Windows capability, not Fedora feature parity. No shared contract
+version/digest or conformance automation claim changes. The existing saved
+OpenSSH Client records and LocalSource compatibility reader remain recoverable.
+
+Owner: RIDE Windows maintainer. Review trigger: native RSAT acceptance, changes to
+source/dependencies/recovery or the release candidate. No supported target or
+shipped profile is promoted. Follow the
+[RSAT native acceptance procedure](windows-component-inventory.md#client-rsat-catalog-candidates)
+and the [remaining test strategy](migrations/migration-completion-reassessment-2026-11-02.md#remaining-test-strategy-assessment-2026-11-02).

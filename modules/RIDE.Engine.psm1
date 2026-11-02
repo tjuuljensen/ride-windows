@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.30.0
+  Version: 0.31.0
   Changelog:
+    0.31.0: Plan all observed client RSAT capabilities with dependency-safe lifecycle and recovery order.
     0.30.0: Integrate the explicit Windows Update OpenSSH Client capability and conditional state recovery.
     0.29.0: Add explicit per-invocation target exploration with durable target audit.
     0.28.0: Allow explicit declared candidate targets for apply, preview and saved-run recovery.
@@ -130,6 +131,7 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE.BitLockerWorkflows.psm1') -Force -E
 Import-Module (Join-Path $PSScriptRoot 'RIDE.OpenSshServerObservation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.OpenSshServerCapabilityLifecycle.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.ClientCapability.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.RsatCapabilityPlanning.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-ProfileSettings.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserPathPreparation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyInventory.psm1') -Force -ErrorAction Stop
@@ -325,6 +327,11 @@ function Expand-RideProfileOperations {
     if (-not $group) { throw "Profile references unknown operation or group: $($selection.Id)" }
     if($group.Workflow -eq 'StoreApps'){throw 'Use tools/Invoke-RideStoreApps.ps1 for explicit Store group actions; profiles cannot change app registrations.'}
     if ($selection.Variant) { throw 'Select variants on individual package entries, not groups.' }
+    if ($group.Workflow -eq 'ClientRsatCapabilities') {
+      $groupState=if ($Action -eq 'Remove') {'Absent'}elseif ($selection.ContainsKey('State')) {$selection.State}else{'Present'}
+      foreach ($item in @(Get-RideRsatGroupPlan -Group $group -State $groupState)) { $expanded.Add($item) }
+      continue
+    }
     if ($Action -eq 'Remove' -or $selection.State -eq 'Absent') {
       $members = @($group.Members)
       [array]::Reverse($members)
@@ -355,6 +362,101 @@ function Get-RidePackageDependencySelections {
     } else {
       Resolve-RidePackageSelection -Operation $operation -IgnorePreferences
     }
+  }
+}
+
+function Get-RideRsatGroupPlan {
+  param([hashtable]$Group,[ValidateSet('Present','Absent')][string]$State)
+  $inventory=Get-RideRsatCapabilityInventory
+  $outline=New-RideRsatCapabilityPlan -Inventory $inventory -DesiredState $State -ServicingSource WindowsUpdate
+  $catalog=Get-RideCatalog
+  $names=@($outline.InstallOrder)
+  if ($State -eq 'Absent') { [array]::Reverse($names) }
+  foreach ($name in $names) {
+    $matches=@($catalog.Operations | Where-Object {$_.CapabilityName -ceq $name -and $_.Id -in $Group.Members -and $_.CapabilityFamily -ceq 'RSAT'})
+    if ($matches.Count -ne 1) { throw "Observed RSAT capability '$name' has no unique group member; coverage is incomplete." }
+    [pscustomobject]@{Operation=$matches[0];State=$State;RsatObservedNames=@($outline.OriginalStates.Name)}
+  }
+}
+
+function Expand-RideClientCapabilityPlan {
+  param([object[]]$Plan)
+  $items=@($Plan | Where-Object {$_.Operation.CapabilityFamily -ceq 'RSAT'})
+  if ($items.Count -eq 0) { return $Plan }
+  $inventory=Get-RideRsatCapabilityInventory
+  $outline=New-RideRsatCapabilityPlan -Inventory $inventory -DesiredState Present -ServicingSource WindowsUpdate
+  $catalog=Get-RideCatalog
+  $definitions=@($catalog.Operations | Where-Object CapabilityFamily -CEQ 'RSAT')
+  $byId=@{};$byName=@{};$observed=@{};$selected=@{}
+  foreach ($entry in $definitions) { $byId[$entry.Id]=$entry;$byName[$entry.CapabilityName]=$entry }
+  foreach ($entry in $outline.OriginalStates) { $observed[$entry.Name]=$entry.State }
+  foreach ($item in $items) {
+    if (-not $byId.ContainsKey($item.Operation.Id) -or $byId[$item.Operation.Id].CapabilityName -cne $item.Operation.CapabilityName -or (@($byId[$item.Operation.Id].CapabilityDependencies | Sort-Object) -join ',') -cne (@($item.Operation.CapabilityDependencies | Sort-Object) -join ',')) { throw 'RSAT plan identity/dependencies differ from the catalog.' }
+    if ($item.State -cnotin @('Present','Absent') -or -not $observed.ContainsKey($item.Operation.CapabilityName)) { throw "RSAT selection '$($item.Operation.Id)' is unavailable or has an invalid state." }
+    if ($selected.ContainsKey($item.Operation.Id) -and $selected[$item.Operation.Id].State -cne $item.State) { throw 'Conflicting RSAT capability states in one plan.' }
+    if ($item.PSObject.Properties['RsatObservedNames'] -and (@($item.RsatObservedNames | Sort-Object) -join ',') -cne (@($observed.Keys | Sort-Object) -join ',')) { throw 'The all-RSAT target inventory changed; rebuild the plan before applying.' }
+    $selected[$item.Operation.Id]=$item
+  }
+  $visiting=@{}
+  function Add-RideClientCapabilityPrerequisites {
+    param($Item,[int]$Depth)
+    if ($Depth -gt 64 -or $visiting.ContainsKey($Item.Operation.Id)) { throw 'RSAT prerequisite cycle or excessive graph.' }
+    $visiting[$Item.Operation.Id]=$true
+    foreach ($id in $Item.Operation.CapabilityDependencies) {
+      if (-not $byId.ContainsKey($id) -or -not $observed.ContainsKey($byId[$id].CapabilityName)) { throw "RSAT prerequisite '$id' is unavailable." }
+      if ($selected.ContainsKey($id) -and $selected[$id].State -ceq 'Absent') { throw "Cannot remove RSAT prerequisite '$id' required by '$($Item.Operation.Id)'." }
+      if (-not $selected.ContainsKey($id)) { $selected[$id]=[pscustomobject]@{Operation=$byId[$id];State='Present'} }
+      Add-RideClientCapabilityPrerequisites -Item $selected[$id] -Depth ($Depth+1)
+    }
+    $visiting.Remove($Item.Operation.Id)
+  }
+  foreach ($item in $items | Where-Object State -CEQ 'Present') { Add-RideClientCapabilityPrerequisites -Item $item -Depth 0 }
+  foreach ($item in @($selected.Values | Where-Object State -CEQ 'Absent')) {
+    foreach ($dependent in $definitions | Where-Object {$item.Operation.Id -in $_.CapabilityDependencies}) {
+      if ($observed[$dependent.CapabilityName] -ceq 'Installed' -and (-not $selected.ContainsKey($dependent.Id) -or $selected[$dependent.Id].State -cne 'Absent')) {
+        throw "Remove RSAT dependent '$($dependent.Id)' before prerequisite '$($item.Operation.Id)'."
+      }
+    }
+  }
+  $ordered=[Collections.Generic.List[object]]::new()
+  foreach ($name in $outline.InstallOrder) { $id=$byName[$name].Id;if ($selected.ContainsKey($id) -and $selected[$id].State -ceq 'Present') { $ordered.Add($selected[$id]) } }
+  $reverse=@($outline.InstallOrder);[array]::Reverse($reverse)
+  foreach ($name in $reverse) { $id=$byName[$name].Id;if ($selected.ContainsKey($id) -and $selected[$id].State -ceq 'Absent') { $ordered.Add($selected[$id]) } }
+  $emitted=$false
+  foreach ($item in $Plan) {
+    if ($item.Operation.CapabilityFamily -ceq 'RSAT') { if (-not $emitted) { $ordered.ToArray();$emitted=$true } }
+    else { $item }
+  }
+}
+
+function Sort-RideClientCapabilityRecovery {
+  param([object[]]$Records,[hashtable]$Catalog)
+  $byId=@{}
+  foreach ($operation in $Catalog.Operations | Where-Object CapabilityFamily -CEQ 'RSAT') { $byId[$operation.Id]=$operation }
+  $selected=@($Records | Where-Object {$byId.ContainsKey($_.Record.OperationId)})
+  if ($selected.Count -eq 0) { return $Records }
+  $inventory=Get-RideRsatCapabilityInventory
+  # Work on copied data. Override only recorded capabilities to prove the intended
+  # recovered set still retains prerequisites for installed consumers.
+  $target=$inventory | ConvertTo-Json -Depth 12 | ConvertFrom-Json
+  $byName=@{}
+  foreach ($entry in $selected) {
+    $name=$byId[$entry.Record.OperationId].CapabilityName
+    if ($byName.ContainsKey($name)) { throw 'Duplicate RSAT saved recovery identity.' }
+    $byName[$name]=$entry
+    $row=@($target.Providers[0].Rows | Where-Object Name -CEQ $name)
+    if ($row.Count -ne 1) { throw "RSAT recovery capability '$name' is no longer observed." }
+    $row[0].StateObserved=$entry.Record.Snapshot.CapabilityState
+  }
+  $outline=New-RideRsatCapabilityPlan -Inventory $target -DesiredState Present -ServicingSource WindowsUpdate
+  $ordered=[Collections.Generic.List[object]]::new()
+  foreach ($name in $outline.InstallOrder) { if ($byName.ContainsKey($name) -and $byName[$name].Record.Snapshot.CapabilityState -ceq 'Installed') { $ordered.Add($byName[$name]) } }
+  $reverse=@($outline.InstallOrder);[array]::Reverse($reverse)
+  foreach ($name in $reverse) { if ($byName.ContainsKey($name) -and $byName[$name].Record.Snapshot.CapabilityState -ceq 'NotPresent') { $ordered.Add($byName[$name]) } }
+  $emitted=$false
+  foreach ($entry in $Records) {
+    if ($byId.ContainsKey($entry.Record.OperationId)) { if (-not $emitted) { $ordered.ToArray();$emitted=$true } }
+    else { $entry }
   }
 }
 
@@ -456,6 +558,9 @@ function Expand-RidePackageDependencyPlan {
       return
     }
     $expandedItem = [pscustomobject]@{ Operation = $operation; State = $Item.State; Reason = $Reason }
+    if ($Item.PSObject.Properties['RsatObservedNames']) {
+      $expandedItem | Add-Member -NotePropertyName RsatObservedNames -NotePropertyValue @($Item.RsatObservedNames)
+    }
     $emitted[$key] = $expandedItem
     $ordered.Add($expandedItem)
   }
@@ -1198,7 +1303,7 @@ function Save-RideOperationSnapshot {
   }
   elseif ($Operation.Kind -eq 'WindowsCapability') {
     if ($Operation.Handler -eq 'ClientCapability') {
-      [ordered]@{ SnapshotVersion = 2; OperationId = $Operation.Id; CapabilityName = $Operation.CapabilityName; CapabilityState = [string]$CurrentState.CapabilityState; ExpectedState = $Operation.States[$DesiredState]; ServicingSource = $Operation.ServicingSource; WindowsContext = $CurrentState.Observation.WindowsContext }
+      [ordered]@{ SnapshotVersion = 2; OperationId = $Operation.Id; CapabilityName = $Operation.CapabilityName; CapabilityState = [string]$CurrentState.CapabilityState; ExpectedState = $Operation.States[$DesiredState]; ServicingSource = $Operation.ServicingSource; CapabilityDependencies = @($Operation.CapabilityDependencies); WindowsContext = $CurrentState.Observation.WindowsContext }
     } else {
       [ordered]@{ SnapshotVersion = 1; OperationId = $Operation.Id; CapabilityState = [string]$CurrentState.CapabilityState; Observation = $CurrentState.Observation }
     }
@@ -1397,6 +1502,7 @@ function Get-RidePlan {
   )
   $plan = @(Expand-RideProfileOperations -Profile $Profile -Action $Action)
   $plan = @(Expand-RidePackageDependencyPlan -Plan $plan -Action $Action)
+  $plan = @(Expand-RideClientCapabilityPlan -Plan $plan)
   foreach ($item in $plan) {
     if (-not $item.State) { throw "No state was selected for '$($item.Operation.Id)'." }
     $null = Get-RideOperationValue -Operation $item.Operation -State $item.State
@@ -1415,8 +1521,8 @@ function Get-RideSingleOperationPlan {
     Build a validated plan for one direct catalog action.
 
   .DESCRIPTION
-    Requires an appropriate operation ID rather than a group. Resolves Set, Unset, Install, or
-    Remove into a synthetic profile and returns the normal plan without applying it.
+    Requires an appropriate operation ID, or the observed-client RSAT group for
+    Install/Remove. Resolves the action into a profile without applying it.
 
   .PARAMETER Id
     Stable operation or group ID from the catalog; the command checks applicable kinds.
@@ -1452,6 +1558,11 @@ function Get-RideSingleOperationPlan {
   )
 
   $operation = Get-RideOperation -Id $Id
+  if ($operation.Workflow -eq 'ClientRsatCapabilities' -and $Action -in @('Install','Remove')) {
+    if ($Variant -or $State) { throw 'The all-RSAT group does not accept a variant or a separate state.' }
+    $groupState=if ($Action -eq 'Install') {'Present'}else{'Absent'}
+    return Get-RidePlan -Profile @{SchemaVersion=1;Name="Direct $Action for $Id";Operations=@(@{Id=$Id;State=$groupState})}
+  }
   if (-not $operation.ContainsKey('Kind')) { throw "Direct actions require an operation ID, not a group ID: $Id" }
   switch ($Action) {
     'Set' {
@@ -1728,9 +1839,13 @@ function Invoke-RidePlan {
   $offlineContext = $null
   try {
   $expandedPlan = @(Expand-RidePackageDependencyPlan -Plan $Plan -Action 'Apply')
+  $expandedPlan = @(Expand-RideClientCapabilityPlan -Plan $expandedPlan)
   $requestedShape = @($Plan | ForEach-Object { '{0}|{1}|{2}' -f $_.Operation.Id, $_.State, $_.Operation.SelectedVariant }) -join "`n"
   $expandedShape = @($expandedPlan | ForEach-Object { '{0}|{1}|{2}' -f $_.Operation.Id, $_.State, $_.Operation.SelectedVariant }) -join "`n"
-  if ($requestedShape -cne $expandedShape) { throw 'Package prerequisite plan is incomplete or stale; rebuild it with Get-RidePlan before applying.' }
+  if ($requestedShape -cne $expandedShape) {
+    $planKind=if (@($Plan | Where-Object {$_.Operation.CapabilityFamily -ceq 'RSAT'}).Count) {'RSAT'}else{'Package'}
+    throw "$planKind prerequisite plan is incomplete or stale; rebuild it with Get-RidePlan before applying."
+  }
   $Plan = $expandedPlan
   if ($PSBoundParameters.ContainsKey('OfflineBundle') -or $PSBoundParameters.ContainsKey('OfflineProfileId') -or $PSBoundParameters.ContainsKey('OfflineCatalogFileId')) {
     if ($GitHubAuthentication -ne 'Anonymous' -or $GitHubCredentialReference) { throw 'Offline execution does not accept network authentication.' }
@@ -2655,6 +2770,7 @@ function Restore-RideRun {
     if ($operation.RequiresDesktopExperience -and $target -like 'Windows Server*' -and (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name InstallationType -ErrorAction Stop).InstallationType -ne 'Server' -and -not $AllowUnsupportedTarget) { throw "Cannot restore '$($operation.Id)' without Windows Server Desktop Experience." }
     if ($AllowUnsupportedTarget) { $entry | Add-Member -NotePropertyName TargetExploration -NotePropertyValue (New-RideTargetExplorationRecord -Operation $operation -Action Restore) }
   }
+  $loadedRecords=@(Sort-RideClientCapabilityRecovery -Records $loadedRecords -Catalog $catalog)
   foreach ($entry in $loadedRecords) {
     $file = $entry.File
     $record = $entry.Record

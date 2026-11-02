@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.33.0.
-  Changelog: 0.33.0: Validate the source-explicit OpenSSH Client capability candidate.
+  Owner: RIDE-Windows maintainers. Version: 0.34.0.
+  Changelog: 0.34.0: Validate client RSAT identities, dependency graphs and full-observed selection.
+    0.33.0: Validate the source-explicit OpenSSH Client capability candidate.
     0.32.0: Validate coordinated hibernation choices and pending acceptance boundaries.
     0.31.0: Validate explicit EXE installer completion modes.
     0.30.0: Validate explicit staged BitLocker OS-volume workflows.
@@ -883,7 +884,11 @@ function Get-RideCatalogValidationErrors {
     elseif ($operation.Kind -eq 'WindowsCapability') {
       $clientCapability = $operation.Handler -ceq 'ClientCapability'
       if ($clientCapability) {
-        if ($operation.Id -cne 'component.openssh-client-capability' -or $operation.CapabilityName -cne 'OpenSSH.Client~~~~0.0.1.0' -or $operation.ServicingSource -cne 'WindowsUpdate' -or $operation.MinimumBuild -ne 22000) { Add-Error "Unsupported client capability identity, build or declared servicing source: $($operation.Id)" }
+        $rsatCapability=$operation.CapabilityFamily -ceq 'RSAT'
+        if ($rsatCapability) {
+          if ($operation.Id -cnotmatch '^component\.rsat-[a-z0-9-]+$' -or $operation.CapabilityName -cnotmatch '^Rsat\.[A-Za-z0-9.-]+\.Tools~~~~0\.0\.1\.0$' -or -not $operation.ContainsKey('CapabilityDependencies') -or @($operation.CapabilityDependencies).Count -gt 64 -or @($operation.CapabilityDependencies | Sort-Object -Unique).Count -ne @($operation.CapabilityDependencies).Count) { Add-Error "Invalid RSAT capability identity or dependency collection: $($operation.Id)" }
+        } elseif ($operation.Id -cne 'component.openssh-client-capability' -or $operation.CapabilityName -cne 'OpenSSH.Client~~~~0.0.1.0') { Add-Error "Unsupported client capability identity: $($operation.Id)" }
+        if ($operation.ServicingSource -cne 'WindowsUpdate' -or $operation.MinimumBuild -ne 22000) { Add-Error "Unsupported client capability build or declared servicing source: $($operation.Id)" }
       } elseif ($operation.Handler -ne 'OpenSshServerCapability' -or $operation.CapabilityName -cne 'OpenSSH.Server~~~~0.0.1.0') { Add-Error "Unsupported Windows capability handler or identity: $($operation.Id)" }
       if ($operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.Rollback -ne 'Conditional') { Add-Error "Windows capability requires machine scope, elevation, and conditional owned-state recovery: $($operation.Id)" }
       if (@(Compare-Object @('Get', 'Test', 'Install', 'Uninstall', 'Restore') @($operation.Actions)).Count -gt 0) { Add-Error "Windows capability lifecycle is incomplete: $($operation.Id)" }
@@ -974,10 +979,33 @@ function Get-RideCatalogValidationErrors {
     if (-not $visitState.ContainsKey($packageId)) { & $visitPackage $packageId }
   }
 
+  $rsatOperations=@($catalog.Operations | Where-Object CapabilityFamily -CEQ 'RSAT')
+  $rsatById=@{};$rsatNames=@{};$rsatVisited=@{};$rsatVisiting=@{}
+  foreach ($operation in $rsatOperations) {
+    $rsatById[$operation.Id]=$operation
+    if ($rsatNames.ContainsKey([string]$operation.CapabilityName)) { Add-Error "Duplicate RSAT native identity: $($operation.CapabilityName)" }
+    $rsatNames[[string]$operation.CapabilityName]=$true
+  }
+  function Visit-RideRsatCatalogDependency {
+    param([string]$Id,[int]$Depth)
+    if ($Depth -gt 64 -or $rsatVisiting.ContainsKey($Id)) { Add-Error "RSAT dependency cycle or excessive graph: $Id";return }
+    if ($rsatVisited.ContainsKey($Id)) { return }
+    $rsatVisiting[$Id]=$true
+    foreach ($dependency in $rsatById[$Id].CapabilityDependencies) {
+      if ($dependency -isnot [string] -or [string]::IsNullOrWhiteSpace($dependency)) { Add-Error "Invalid RSAT prerequisite identity for '$Id'";continue }
+      if (-not $rsatById.ContainsKey($dependency)) { Add-Error "Unknown RSAT prerequisite '$dependency' for '$Id'";continue }
+      Visit-RideRsatCatalogDependency -Id $dependency -Depth ($Depth+1)
+    }
+    $rsatVisiting.Remove($Id);$rsatVisited[$Id]=$true
+  }
+  foreach ($operation in $rsatOperations) { Visit-RideRsatCatalogDependency -Id $operation.Id -Depth 0 }
   foreach ($group in $catalog.Groups) {
     if ($ids.ContainsKey($group.Id)) { Add-Error "Duplicate catalog ID: $($group.Id)" }
     $ids[$group.Id] = $true
     if (@($group.Members).Count -eq 0) { Add-Error "Group has no members: $($group.Id)" }
+    if ($group.Workflow -ceq 'ClientRsatCapabilities') {
+      if ($group.Id -cne 'solution.rsat-client-tools' -or (@($group.Members | Sort-Object) -join ',') -cne (@($rsatOperations.Id | Sort-Object) -join ',') -or (@($group.Actions | Sort-Object) -join ',') -cne 'Install,Uninstall' -or $group.Rollback -cne 'Conditional') { Add-Error "RSAT group must select the complete reviewed client capability family: $($group.Id)" }
+    }
     $storeMembers=@($catalog.Operations|Where-Object {$_.Id -in $group.Members -and $_.Kind -eq 'StoreApp'})
     if($storeMembers.Count -and ($group.Workflow -cne 'StoreApps' -or $storeMembers.Count -ne @($group.Members).Count -or @($group.Members|Sort-Object -Unique).Count -ne @($group.Members).Count -or @($group.Members).Count -gt 32 -or @($group.Actions).Count -ne 2 -or 'Uninstall' -notin $group.Actions -or 'Reinstall' -notin $group.Actions -or $group.Rollback -ne 'BestEffort')){Add-Error "Store group requires a separate bounded app workflow: $($group.Id)"}
     foreach ($member in $group.Members) {
@@ -1010,6 +1038,7 @@ function Get-RideCatalogValidationErrors {
       if (-not $ids.ContainsKey($selection.Id)) { Add-Error "$($profileFile.Name) references unknown ID '$($selection.Id)'"; continue }
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
       $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
+      if ($group -and $group.Workflow -ceq 'ClientRsatCapabilities') { Add-Error "$($profileFile.Name) cannot select the pending RSAT group before target acceptance" }
       if(($operation -and $operation.Kind -eq 'StoreApp') -or ($group -and $group.Workflow -eq 'StoreApps')){Add-Error "$($profileFile.Name) cannot route Store apps through setting/package profiles; use the explicit Store workflow."}
       if ($operation -and $operation.Kind -eq 'BitLockerWorkflow') { Add-Error "$($profileFile.Name) cannot select staged BitLocker workflows; use the explicit BitLocker workflow entry point." }
       if ($operation -and $operation.Kind -eq 'RegistryValue' -and $selection.State -ne 'Baseline' -and $selection.State -notin $operation.States.Keys) { Add-Error "$($profileFile.Name) has invalid state for '$($selection.Id)'" }

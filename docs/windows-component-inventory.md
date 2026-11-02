@@ -58,6 +58,61 @@ restored by `Restore-RideClientComponentTransition`, not `ride.ps1 restore`.
 The catalog records version-2 capability snapshots in normal engine runs and does
 not reinterpret legacy records or silently grant them Windows Update fallback.
 
+## Client RSAT catalog candidates
+
+`solution.rsat-client-tools` selects every RSAT capability reported by the current
+Windows 11 x64 Pro/Enterprise image. The catalog contains 22 reviewed identities;
+an entry alone does not establish availability. Empty or incomplete inventory,
+unknown RSAT identities, pending states and missing prerequisites stop planning.
+Arm64 and Home editions are outside this candidate's applicability. All operations
+remain pending native acceptance and excluded from shipped profiles.
+
+From the repository root in an already elevated native PowerShell 5.1 or 7 session
+inside the disposable Windows 11 VM:
+
+```powershell
+.\ride.ps1 install -Id solution.rsat-client-tools -WhatIf
+.\ride.ps1 install -Id solution.rsat-client-tools -AllowCandidate
+.\ride.ps1 remove -Id solution.rsat-client-tools -AllowCandidate
+.\ride.ps1 restore -RunId '<saved-run-id>' -AllowCandidate
+```
+
+Selecting the group or an individual `component.rsat-*` operation explicitly uses
+the declared Windows Update servicing route. DISM respects configured servicing
+sources; RIDE does not override policy, silently fall back from LocalSource, open
+firewall rules or reboot. Capability availability does not guarantee acquisition.
+Operation/group IDs complete from the catalog without querying Windows; actual
+planning reads the native inventory and rechecks group membership before apply.
+
+Install orders prerequisites first, including transitive prerequisites for a
+single selected capability. Remove reverses that order and refuses to remove a
+prerequisite still needed by an installed capability outside the selected removal
+set. Already-desired members are no-ops and are not captured as changes. Each
+changed member has its own pre-change snapshot in the engine run. On failure,
+retain the reported run ID; subsequent members are not applied.
+
+Restore uses that run's captured literal states and checks that recovery would
+not leave an installed dependent without its prerequisite. Restoring removed
+members installs prerequisites first; undoing installation removes dependents
+first. Previously installed members remain installed when undoing an install
+run. Recovery is conditional on unchanged target/revision, expected native state,
+dependency metadata and source availability. Exact payload/version recovery is
+not claimed. A pending servicing restart requires separate resolution; no RIDE
+command initiates it. Restore each run whose changes should be undone before
+using the VM checkpoint as cleanup.
+
+Native acceptance must record all observed names and initial states, then prove
+install/readback/repeat, ordered removal, RIDE restore and any automatically added
+dependencies. A real domain or exhaustive management-console exercise is not
+required for capability lifecycle acceptance. Client evidence does not cover
+Server roles. The saved-data `New-RideRsatCapabilityPlan` outline remains read-only
+and does not itself certify execution or recovery readiness.
+
+The dependency model follows Microsoft's
+[Features on Demand RSAT inventory](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat);
+the [RSAT installation guide](https://learn.microsoft.com/en-us/windows-server/administration/install-remote-server-administration-tools)
+describes the client edition prerequisites. Native target acceptance remains open.
+
 ## Collect on an explicitly identified target
 
 Start in the repository root in an **already elevated**, native-bitness PowerShell

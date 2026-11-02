@@ -145,8 +145,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.16.0
-  Changelog: 0.16.0: Expose audited per-invocation unsupported-target exploration.
+  Version: 0.17.0
+  Changelog: 0.17.0: Document direct client RSAT group installation and removal.
+    0.16.0: Expose audited per-invocation unsupported-target exploration.
     0.15.1: Allow read-only candidate previews without acceptance opt-in.
     0.15.0: Add explicit candidate opt-in for changes and restore.
     0.14.0: Complete optional hibernation file modes and percentage states from the catalog.
@@ -454,7 +455,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.16.0'
+$script:ScriptVersion = '0.17.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -471,7 +472,7 @@ Commands:
   plan                 Show current values beside the profile's desired values.
   apply                Apply the profile and record prior state.
   download <catalog-id> Download a package or standalone artifact without applying it.
-  install <catalog-id> Install one package or Windows component and record prior state.
+  install <catalog-id> Install a package, Windows capability or observed-client RSAT group.
   set <setting-id>     Set one catalog setting to a declared state; use -State <state>.
   unset <setting-id>   Remove one setting value when its catalog declares an unset state.
                       Profile colors: Recommended, AdminBlue, Default or Baseline.
@@ -698,8 +699,8 @@ switch ($Command) {
     Save-RidePackage @downloadParameters
   }
   'install' {
-    if (-not $Id) { throw 'The install command requires a package ID.' }
-    if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The install command accepts one package ID and does not use -Profile.' }
+    if (-not $Id) { throw 'The install command requires a package, capability or client RSAT group ID.' }
+    if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The install command accepts one catalog ID and does not use -Profile.' }
     $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Install -Variant $Variant)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
     Invoke-RidePlan -Plan $plan @shouldProcessParameters @githubParameters @offlineParameters @candidateParameters

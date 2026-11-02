@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Inspect and service the catalog OpenSSH Client capability.
+  Inspect and service catalog OpenSSH Client and RSAT capabilities.
 .DESCRIPTION
   Uses the catalog's declared Windows Update servicing route. Captures no payload;
   restore recovers the saved literal capability state conditionally through DISM.
@@ -11,20 +11,29 @@
   State: The engine saves a version-2 capability snapshot before invoking the writer.
   Recovery: Matching target/revision and unchanged expected state are required.
   Windows Update availability and exact prior payload/version are not guaranteed.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add source-explicit catalog lifecycle and conditional recovery.
+  Version: 0.2.0.
+  Changelog: 0.2.0: Add RSAT inventory, edition/architecture and dependency guards.
+    0.1.0: Add source-explicit catalog lifecycle and conditional recovery.
 .LINK
   ../docs/windows-component-inventory.md
 #>
 $ErrorActionPreference = 'Stop'
+Import-Module (Join-Path $PSScriptRoot 'RIDE.CatalogData.psm1') -ErrorAction Stop
 
 function Assert-RideClientCapabilityOperation {
   param([hashtable]$Operation)
-  if ($Operation.Id -cne 'component.openssh-client-capability' -or
+  $ssh=$Operation.Id -ceq 'component.openssh-client-capability' -and $Operation.CapabilityName -ceq 'OpenSSH.Client~~~~0.0.1.0'
+  $rsat=$Operation.CapabilityFamily -ceq 'RSAT' -and $Operation.Id -cmatch '^component\.rsat-[a-z0-9-]+$' -and $Operation.CapabilityName -cmatch '^Rsat\.[A-Za-z0-9.-]+\.Tools~~~~0\.0\.1\.0$'
+  if ((-not $ssh -and -not $rsat) -or
       $Operation.Handler -cne 'ClientCapability' -or $Operation.Kind -cne 'WindowsCapability' -or
-      $Operation.CapabilityName -cne 'OpenSSH.Client~~~~0.0.1.0' -or
       $Operation.ServicingSource -cne 'WindowsUpdate' -or $Operation.Scope -cne 'Machine') {
     throw 'Unrecognized client capability identity or servicing source.'
+  }
+  if ($rsat) {
+    $catalog=Import-RideCatalogData -Path (Join-Path $PSScriptRoot '../catalog/operations.psd1')
+    $declared=@($catalog.Operations | Where-Object Id -CEQ $Operation.Id)
+    if ($declared.Count -ne 1 -or $declared[0].CapabilityFamily -cne 'RSAT' -or $declared[0].CapabilityName -cne $Operation.CapabilityName -or
+        (@($declared[0].CapabilityDependencies | Sort-Object) -join ',') -cne (@($Operation.CapabilityDependencies | Sort-Object) -join ',')) { throw 'RSAT identity or dependency metadata differs from the catalog.' }
   }
 }
 
@@ -36,6 +45,7 @@ function Get-RideClientCapabilityContext {
     EditionId = [string]$version.EditionID; UpdateBuildRevision = $version.UBR
     InstallationType = [string]$version.InstallationType; ProductType = [string]$product.ProductType
     NativeProcess = ([Environment]::Is64BitProcess -or -not [Environment]::Is64BitOperatingSystem)
+    Architecture = if ($env:PROCESSOR_ARCHITEW6432) { $env:PROCESSOR_ARCHITEW6432 } else { $env:PROCESSOR_ARCHITECTURE }
   }
 }
 
@@ -56,7 +66,37 @@ function Assert-RideClientCapabilityContext {
 
 function Get-RideClientCapabilityNativeState {
   param([string]$Name)
-  Dism\Get-WindowsCapability -Online -Name $Name -ErrorAction Stop
+  if ($Name) { Dism\Get-WindowsCapability -Online -Name $Name -ErrorAction Stop }
+  else { Dism\Get-WindowsCapability -Online -ErrorAction Stop }
+}
+
+function Assert-RideRsatCapabilityContext {
+  param($Context)
+  if ($Context.Architecture -cne 'AMD64' -or $Context.EditionId -cnotin @('Professional','ProfessionalN','ProfessionalWorkstation','ProfessionalWorkstationN','Enterprise','EnterpriseN','EnterpriseEval','EnterpriseNEval','EnterpriseS','EnterpriseSN','EnterpriseSEval','EnterpriseSNEval')) {
+    throw 'RSAT capability servicing requires the reviewed Windows 11 x64 Pro/Enterprise client context; Arm64 FOD support is not claimed.'
+  }
+}
+
+function Get-RideRsatCapabilityInventory {
+  <#
+  .SYNOPSIS
+    Observe capability identities and literal states for RSAT selection.
+  .OUTPUTS
+    PSCustomObject. Schema-1 read-only component observation; no source acquisition.
+  .NOTES
+    Runtime planning only. Completion never calls this provider.
+  #>
+  [CmdletBinding()]
+  param()
+  $context=Get-RideClientCapabilityContext
+  Assert-RideClientCapabilityContext $context
+  Assert-RideRsatCapabilityContext $context
+  $rows=[Collections.Generic.List[object]]::new()
+  Get-RideClientCapabilityNativeState | ForEach-Object {
+    if ($rows.Count -ge 4096) { throw 'Capability inventory exceeds its row bound.' }
+    $rows.Add([pscustomobject]@{Name=[string]$_.Name;StateObserved=[string]$_.State})
+  }
+  [pscustomobject]@{SchemaVersion=1;Kind='WindowsComponentObservation';ReadyForMutation=$false;RecoverySupported=$false;WindowsContext=$context;Providers=@([pscustomobject]@{Kind='Capability';Status='Captured';Coverage='Capabilities reported by the current online image';Rows=@($rows.ToArray())})}
 }
 
 function Get-RideClientCapabilityState {
@@ -74,6 +114,7 @@ function Get-RideClientCapabilityState {
   try {
     $context = Get-RideClientCapabilityContext
     Assert-RideClientCapabilityContext $context
+    if ($Operation.CapabilityFamily -ceq 'RSAT') { Assert-RideRsatCapabilityContext $context }
     $rows = @(Get-RideClientCapabilityNativeState -Name $Operation.CapabilityName)
     if ($rows.Count -ne 1 -or [string]$rows[0].Name -cne $Operation.CapabilityName) { throw 'Expected one exact client capability observation.' }
     $state = [string]$rows[0].State
@@ -104,6 +145,27 @@ function Assert-RideClientCapabilitySameTarget {
   Assert-RideClientCapabilityContext $Actual
   foreach ($field in @('ComputerName','Build','EditionId','UpdateBuildRevision','InstallationType','ProductType','NativeProcess')) {
     if ($Expected.$field -cne $Actual.$field) { throw "Client capability target drift ($field); saved state retained." }
+  }
+  if ($Expected.PSObject.Properties['Architecture'] -and $Expected.Architecture -cne $Actual.Architecture) { throw 'Client capability target drift (Architecture); saved state retained.' }
+}
+
+function Assert-RideClientCapabilityDependencies {
+  param([hashtable]$Operation,[string]$DesiredState)
+  if ($Operation.CapabilityFamily -cne 'RSAT') { return }
+  $catalog=Import-RideCatalogData -Path (Join-Path $PSScriptRoot '../catalog/operations.psd1')
+  $related=if ($DesiredState -ceq 'Installed') {
+    @(foreach($id in $Operation.CapabilityDependencies) {
+      $match=@($catalog.Operations | Where-Object Id -CEQ $id)
+      if ($match.Count -ne 1 -or $match[0].CapabilityFamily -cne 'RSAT') { throw "Unknown RSAT prerequisite '$id'." }
+      $match[0]
+    })
+  } else { @($catalog.Operations | Where-Object {$_.CapabilityFamily -ceq 'RSAT' -and $Operation.Id -in $_.CapabilityDependencies}) }
+  foreach ($entry in $related) {
+    $rows=@(Get-RideClientCapabilityNativeState -Name $entry.CapabilityName)
+    if ($DesiredState -ceq 'NotPresent' -and $rows.Count -eq 0) { continue }
+    if ($rows.Count -ne 1 -or $rows[0].Name -cne $entry.CapabilityName -or [string]$rows[0].State -cnotin @('Installed','NotPresent')) { throw "Cannot establish RSAT dependency state for '$($entry.Id)'." }
+    if ($DesiredState -ceq 'Installed' -and [string]$rows[0].State -cne 'Installed') { throw "RSAT prerequisite '$($entry.Id)' must be installed before '$($Operation.Id)'." }
+    if ($DesiredState -ceq 'NotPresent' -and [string]$rows[0].State -ceq 'Installed') { throw "Remove RSAT dependent '$($entry.Id)' before '$($Operation.Id)'." }
   }
 }
 
@@ -149,6 +211,7 @@ function Set-RideClientCapabilityState {
   if ($current.CapabilityState -ceq $desired) { return [pscustomobject]@{Status='AlreadyDesired';CapabilityState=$desired;RestartNeeded=$false;ExactPayloadRecoverySupported=$false} }
   if (-not $WhatIfPreference -and -not (Test-RideClientCapabilityAdministrator)) { throw 'Client capability servicing requires existing elevation.' }
   if (Test-RideClientCapabilityPendingReboot) { throw 'A Windows servicing restart is pending; no capability change was attempted.' }
+  Assert-RideClientCapabilityDependencies -Operation $Operation -DesiredState $desired
   if (-not $PSCmdlet.ShouldProcess($Operation.CapabilityName,"Set $desired using the declared Windows Update servicing route; recovery is conditional")) { return }
   $result = Invoke-RideClientCapabilityNativeChange -Name $Operation.CapabilityName -DesiredState $desired
   $after = Get-RideClientCapabilityState $Operation
@@ -179,6 +242,7 @@ function Restore-RideClientCapabilityState {
   [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='High')]
   param([Parameter(Mandatory)][hashtable]$Operation,[Parameter(Mandatory)]$Snapshot,[switch]$ValidateOnly)
   Assert-RideClientCapabilityOperation $Operation
+  if ((@($Snapshot.CapabilityDependencies | Sort-Object) -join ',') -cne (@($Operation.CapabilityDependencies | Sort-Object) -join ',')) { throw 'Client capability dependency contract changed; saved state retained.' }
   if ($Snapshot.SnapshotVersion -ne 2 -or $Snapshot.OperationId -cne $Operation.Id -or
       $Snapshot.CapabilityName -cne $Operation.CapabilityName -or $Snapshot.ServicingSource -cne $Operation.ServicingSource -or
       $Snapshot.CapabilityState -cnotin @('Installed','NotPresent') -or $Snapshot.ExpectedState -cnotin @('Installed','NotPresent')) {
@@ -195,4 +259,4 @@ function Restore-RideClientCapabilityState {
   Set-RideClientCapabilityState -Operation $Operation -State $state -ExpectedState $current -WhatIf:$WhatIfPreference -Confirm:$false
 }
 
-Export-ModuleMember -Function Get-RideClientCapabilityState,Set-RideClientCapabilityState,Restore-RideClientCapabilityState
+Export-ModuleMember -Function Get-RideClientCapabilityState,Get-RideRsatCapabilityInventory,Set-RideClientCapabilityState,Restore-RideClientCapabilityState
