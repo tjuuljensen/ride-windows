@@ -718,3 +718,33 @@ cases and the real input/parser checks pass in both shells. Native tests are unr
 Follow-up: [wallpaper guest and first-logon acceptance](image-personalization.md#wallpaper-guest-acceptance-phases).
 Review trigger: retained dispatch, account/profile fixture ownership, native visual
 or recovery results, changed sources/targets or release review.
+
+## Owned wallpaper user fixture, 2026-11-02
+
+Adds Windows-only disposable Control/FirstLogon/Recovery account fixtures for the
+existing first-logon wallpaper scenario. No shared CLI/catalog/profile schema,
+contract or supported-target change. RB-03/08/09/10/11 retain their meaning:
+read-only preview/completion, exact guest/privilege checks, private intent before
+mutation, owned SID/path cleanup and source/native evidence separation. Each
+mutation requires its explicit correlated disposable-target invocation; saved
+records alone do not authorize future changes. Fixture deletion is separate from
+RIDE's captured setting restore and never serves as a visual acceptance pass.
+
+Rechecked canonical contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645` and the prior
+Fedora comparison files: `ride.sh`
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`;
+`lib/v3/common.sh`
+`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+The reviewed peer privilege/candidate/state boundaries match the preceding
+comparison; this run pins the file hashes and does not claim a newly queried peer
+HEAD or an automated shared-conformance pass. No Fedora account-fixture parity
+or Windows native support is inferred.
+
+Owner: RIDE Windows maintainer. Reason: first-sign-in acceptance requires owned
+users and verified profile cleanup while preserving the initialized control user.
+Status: 32/32 source cases in each shell, dependency/command-metadata checks and
+native-wrapper compilation pass; actual local-account/profile APIs remain unrun.
+Follow-up: [owned wallpaper test-user procedure](image-personalization.md#owned-wallpaper-test-users).
+Review trigger: retained dispatch/credential handling, native account/profile
+behavior, first-logon results, source/target changes or release review.

@@ -117,8 +117,9 @@ The native scenario must retain evidence across these stages:
 6. Create a separate owned recovery-test user and verify the original first-logon
    default is restored. Retain and export evidence before checkpoint cleanup.
 
-The machine apply/restore guest phases below are source-prepared. Retained host
-dispatch, account/profile ownership cleanup and visible acceptance remain open.
+The machine apply/restore guest phases and owned test-user fixture below are
+source-prepared. Retained host dispatch and native account/profile and visual
+acceptance remain open.
 The [source evidence](archive/evidence/default-wallpaper-source-2026-11-02.json)
 does not establish that Windows consumed the generated theme.
 
@@ -184,6 +185,106 @@ last stage and recovery requirement. Outer `-WhatIf` writes nothing and returns
 and saved Restore request directories offer read-only completion.
 The [guest preparation evidence](archive/evidence/default-wallpaper-acceptance-preparation-2026-11-02.json)
 records mocked orchestration tests and read-only real input checks, not VM results.
+
+### Owned wallpaper test users
+
+`tests/integration/RIDE.WallpaperTestUser.psm1` provides `New-`, `Get-` and
+`Remove-RideWallpaperTestUser` for the Control, FirstLogon and Recovery fixtures.
+Use these only in the selected, already elevated disposable guest with the same
+controller request marker as the wallpaper phase. An existing private fixture
+directory must be outside the test profiles, administrator/SYSTEM owned and
+writable only by those principals. Native local-account/CIM APIs are required.
+No account/profile change has yet been verified on the test VM.
+
+From the staged repository root in that guest, import the module and supply a
+synthetic `SecureString` password of 16-128 characters through the private test
+harness. Native password policy may impose additional requirements. Keep this
+credential available for interactive sign-in; the fixture never persists or
+returns it. Real network or personal credentials are unnecessary.
+
+```powershell
+Import-Module .\tests\integration\RIDE.WallpaperTestUser.psm1
+$fixture = @{
+    RunId = $env:RIDE_TEST_RUN_ID
+    StateDirectory = 'C:\RIDE-Test\Users'
+    ExpectedComputerName = '<disposable-guest-name>'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+    DisposableVm = $true
+}
+New-RideWallpaperTestUser @fixture -Purpose Control -WhatIf
+$control = New-RideWallpaperTestUser @fixture -Purpose Control -Password $testPassword -Confirm:$false
+```
+
+The generated name includes the purpose and request ID. A name or predicted
+profile-directory collision refuses instead of adopting an existing user. Private
+intent is written before account creation; the returned SID is saved before
+adding only Builtin Users membership. Repeating creation verifies the existing
+fixture and does not reset its password. The fixture does not load a profile or
+start Explorer. Windows creates the profile at first sign-in; an account alone
+does not establish that the theme was consumed. See Microsoft's
+[local profile lifecycle](https://learn.microsoft.com/en-us/windows/win32/shell/local-user-profiles)
+and [local account creation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/new-localuser?view=powershell-5.1).
+
+Sign in as Control and initialize its desktop **before** the wallpaper Apply
+phase. Record its visible desktop and other theme defaults. Retain its profile
+through machine restoration because it belongs to the captured profile inventory.
+After Apply, create FirstLogon with the same fixture parameters and a synthetic
+password, sign in, verify the selected image and other defaults, change that user's
+wallpaper, then sign out/in to verify the later choice persists. This requires an
+interactive desktop; a batch/password-logon task is not first-desktop evidence.
+
+Inspect identity/profile state from the coordinator without changing Windows:
+
+```powershell
+$savedFixture = @{
+    RunId = $fixture.RunId
+    StateDirectory = $fixture.StateDirectory
+    DisposableVm = $true
+}
+Get-RideWallpaperTestUser @savedFixture -Purpose FirstLogon
+```
+
+Export visual observations and the private fixture records before deleting the
+test profile. Sign the user out normally. Cleanup refuses active logon sessions,
+loaded/referenced, special, roaming, temporary/corrupt or moved profiles, changed
+account identity/description, unexpected group membership and orphan directories.
+The recorded local SID, generated name and exact path beneath the original
+ProfilesDirectory must agree. Profiles assigned a suffixed or redirected path
+require inspection; the fixture does not widen its deletion target.
+
+```powershell
+Remove-RideWallpaperTestUser @savedFixture -Purpose FirstLogon -WhatIf
+Remove-RideWallpaperTestUser @savedFixture -Purpose FirstLogon -Confirm:$false
+```
+
+After private cleanup intent, removal disables only that account, rechecks its
+sessions/profile, calls the documented
+[DeleteProfileW API](https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-deleteprofilew)
+with the exact SID/path and a local-machine argument, verifies profile/directory
+absence, then deletes the account by SID. It does not force logoff, recursively
+delete a directory in PowerShell, alter ACLs or reset a checkpoint. This destroys
+the owned fixture's profile and settings; it is test cleanup, not RIDE setting
+recovery. Failed cleanup may leave the account disabled. Keep the guest and private
+records; retry only after resolving the reported stage. An interrupted final
+receipt write can finish after verified account/profile absence. Creation without
+a completed SID record and conflicting/orphan state require inspection.
+
+With FirstLogon cleanup verified, run wallpaper Restore while Control still
+exists. Then create and initialize Recovery to verify the original first-logon
+appearance. Export that evidence before removing Recovery and finally Control.
+Do not remove a pre-existing user or unrelated profile to satisfy the wallpaper
+inventory guard. Do not recreate a fixture already being cleaned up; use a new
+controlled run if the scenario must restart.
+
+Schema-1 fixture results report request/purpose, generated name, SID, profile
+path and observed account/profile/groups/session count. Statuses are Created,
+AlreadyCreated, Observed, Preview, Removed and AlreadyRemoved. First-logon and
+full native acceptance flags always remain false; these results prove no visible
+wallpaper behavior. Phase failures retain intent and any saved SID; cleanup
+failures add a private stage record. Purpose/edition values and correlated/saved
+request IDs offer bounded, read-only completion. Source checks are recorded in
+[fixture evidence](archive/evidence/wallpaper-test-user-source-2026-11-02.json).
 
 ## Machine default lock-screen candidate
 
@@ -452,7 +553,7 @@ records mocked host/VM checks and real temporary user-scope file/lock checks.
 
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
-| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate and machine apply/restore guest phases are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Retained host dispatch and owned account/profile fixtures remain open. |
+| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate, machine guest phases and owned account/profile fixture are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Retained host dispatch, native fixture cleanup and visual acceptance remain open. |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
 | Machine default lock-screen image | Lifecycle, guest scenario and direct retained host dispatch/export are source-prepared. Already elevated execution, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
 

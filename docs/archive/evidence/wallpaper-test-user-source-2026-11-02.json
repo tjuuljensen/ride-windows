@@ -1,0 +1,136 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T20:19:30.5390229Z",
+  "Status": "WallpaperTestUserFixtureSourcePrepared",
+  "ParentCommit": "175cf73",
+  "NativeAcceptance": false,
+  "FocusedSourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 32,
+      "Failed": 0,
+      "Total": 32
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 32,
+      "Failed": 0,
+      "Total": 32
+    }
+  ],
+  "ParserDependenciesAndNativeWrapper": [
+    {
+      "RecordedAtUtc": "2026-11-02T20:18:08.1266502Z",
+      "PowerShell": "7.6.5",
+      "Status": "SourceDependenciesAndNativeWrapperCompiled",
+      "ParsedFiles": [
+        "tests/integration/RIDE.WallpaperTestUser.psm1",
+        "tests/WallpaperTestUser.Tests.ps1"
+      ],
+      "NativeWrapperCompiled": true,
+      "NativeWrapperInvoked": false,
+      "ProviderCommandMetadataAvailable": [
+        "New-LocalUser",
+        "Get-LocalUser",
+        "Add-LocalGroupMember",
+        "Get-LocalGroupMember",
+        "Get-LocalGroup",
+        "Disable-LocalUser",
+        "Remove-LocalUser",
+        "Get-CimInstance",
+        "Get-CimAssociatedInstance"
+      ],
+      "WindowsAccountsOrProfilesQueried": false,
+      "WindowsStateChanged": false,
+      "NativeAcceptance": false
+    },
+    {
+      "RecordedAtUtc": "2026-11-02T20:18:09.0890314Z",
+      "PowerShell": "5.1.26100.9818",
+      "Status": "SourceDependenciesAndNativeWrapperCompiled",
+      "ParsedFiles": [
+        "tests/integration/RIDE.WallpaperTestUser.psm1",
+        "tests/WallpaperTestUser.Tests.ps1"
+      ],
+      "NativeWrapperCompiled": true,
+      "NativeWrapperInvoked": false,
+      "ProviderCommandMetadataAvailable": [
+        "New-LocalUser",
+        "Get-LocalUser",
+        "Add-LocalGroupMember",
+        "Get-LocalGroupMember",
+        "Get-LocalGroup",
+        "Disable-LocalUser",
+        "Remove-LocalUser",
+        "Get-CimInstance",
+        "Get-CimAssociatedInstance"
+      ],
+      "WindowsAccountsOrProfilesQueried": false,
+      "WindowsStateChanged": false,
+      "NativeAcceptance": false
+    }
+  ],
+  "Boundary": "Guest context, local accounts/groups, sessions, profile inventory/path probes and native mutations are mocked. Private current-user TestDrive intent/receipt files are real. Source smoke checks parse both files, validate dependency resolution with an inert context, compile the DeleteProfileW wrapper and inspect command metadata only. No Windows account/profile inventory or mutation and no guest dispatch ran.",
+  "Implementation": {
+    "PublicCommands": [
+      "New-RideWallpaperTestUser",
+      "Get-RideWallpaperTestUser",
+      "Remove-RideWallpaperTestUser"
+    ],
+    "Password": "Caller-supplied synthetic SecureString, 16-128 characters; not persisted or returned",
+    "Removal": "Exact recorded SID and generated path beneath unchanged ProfilesDirectory; disable, recheck sessions/profile, DeleteProfileW, verify profile/directory absence, remove local account by SID",
+    "ProfileCreation": "Not performed; interactive first sign-in remains separate",
+    "Membership": "Builtin Users only",
+    "Purposes": [
+      "Control",
+      "FirstLogon",
+      "Recovery"
+    ]
+  },
+  "FailureReview": "Initial source tests exposed a missing direct import for dependencies used by module-scope invocation. Added direct DefaultWallpaper and PrivateFiles imports and verified resolution in independent source smoke checks. Final focused suite passes 32/32 in each shell.",
+  "Recovery": "Private intent precedes account creation; returned SID is saved before group assignment. Incomplete creation without a SID refuses blind cleanup. Active, loaded/referenced, changed, special/roaming/temporary/corrupt/moved profiles and unexpected groups refuse. Cleanup intent precedes disabling; failures retain the guest and may leave only the owned account disabled. Repeated cleanup and interrupted final receipt recovery are verified in mocks. No recursive shell deletion, ACL reset, forced logoff, UAC or checkpoint reset.",
+  "NativeChecksExecuted": 0,
+  "AccountCreated": false,
+  "ProfileDeleted": false,
+  "WindowsStateChanged": false,
+  "GuestDispatched": false,
+  "LegacyOutcomesClosed": 0,
+  "Remaining": [
+    "Retained host dispatch with existing elevation and private synthetic credential handling",
+    "Actual account/group/profile/session behavior and native DeleteProfileW cleanup in the disposable guest",
+    "Interactive control/first-logon/recovery desktops, collateral defaults, later choice and original-default recovery",
+    "Evidence export before fixture cleanup and checkpoint recovery",
+    "User lock-screen full-mode recovery and remaining WLAN/font/Sysmon/BitLocker native batches"
+  ],
+  "References": [
+    "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/new-localuser?view=powershell-5.1",
+    "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/add-localgroupmember?view=powershell-5.1",
+    "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/remove-localuser?view=powershell-5.1",
+    "https://learn.microsoft.com/en-us/windows/win32/shell/local-user-profiles",
+    "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/userprofileprov/win32-userprofile",
+    "https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-loggedonuser",
+    "https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-deleteprofilew"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "tests/integration/RIDE.WallpaperTestUser.psm1",
+      "Sha256": "A871D9C96046F7FA7C6AD21BBD08D9C3DF5C3520787ABB5390A33D366CD0F035"
+    },
+    {
+      "Path": "tests/WallpaperTestUser.Tests.ps1",
+      "Sha256": "AA09E5C47CDA5D9AEB6FC5A4B93F027A611EA2A49D6EE49E31558691DA6911F0"
+    },
+    {
+      "Path": "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+      "Sha256": "322EAE7D47DC85C7B0F6B08DD1F04C7E692B0D8BA26D595DF74C3538349F9CF8"
+    },
+    {
+      "Path": "modules/RIDE.DefaultWallpaper.psm1",
+      "Sha256": "35C9945E1DC9CED12F9DCB7DE71D7D8AE57D7A7B34E6D3629F169261BADE60DE"
+    },
+    {
+      "Path": "modules/RIDE.PrivateFiles.psm1",
+      "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+    }
+  ]
+}
