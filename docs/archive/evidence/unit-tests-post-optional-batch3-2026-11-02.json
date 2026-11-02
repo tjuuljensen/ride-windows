@@ -1,0 +1,78 @@
+{
+  "title": "Post-optional unit test batch 3",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:15:17Z",
+  "scope": "Eighteen final test files after OptionalWindowsSettings in the bounded non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "UserHandoff.Tests.ps1",
+    "UserLanguageInventory.Tests.ps1",
+    "UserLanguageOverrides.Tests.ps1",
+    "UserLanguagePreparation.Tests.ps1",
+    "UserPathEngine.Tests.ps1",
+    "UserPathPreparation.Tests.ps1",
+    "UserProxyInventory.Tests.ps1",
+    "UserProxyLifecycle.Tests.ps1",
+    "UserProxyPreparation.Tests.ps1",
+    "VisualEffectsInventory.Tests.ps1",
+    "VolumeInventory.Tests.ps1",
+    "WhatIsMyIp.Tests.ps1",
+    "WinHttpProxyInventory.Tests.ps1",
+    "WinHttpProxyLifecycle.Tests.ps1",
+    "WinHttpProxyPreparation.Tests.ps1",
+    "WinPmemPackage.Tests.ps1",
+    "WirelessInventory.Tests.ps1",
+    "WiresharkPackage.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 405,
+    "passed": 405,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:41.195"
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "winpmemOrWiresharkExecutableLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "resolved": [
+      "All 405 selected user language, PATH, proxy, inventory, WinPmem and Wireshark source tests passed."
+    ],
+    "retired": [],
+    "excluded": [
+      "NirSoft collection suite, large PSScriptTools/WFN lifecycle suites, and WindowsIntegration-tagged tests remained excluded."
+    ],
+    "deferred": [
+      "Native Windows/VM acceptance remains separate and blocked at host CIM."
+    ],
+    "partial": [
+      "No legacy outcome closes; the 151-file aggregate remains incomplete from its separate optional-settings stall."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "The 405 source and mocked lifecycle tests close no legacy feature/product outcome; ranges remain unchanged."
+    },
+    "blockers": [
+      "The full 151-file aggregate remains without a summary; bounded batches before OptionalWindowsSettings are still to be completed.",
+      "PSScriptTools 360-member and WFN 531-member package lifecycle tests remain incomplete.",
+      "Host CIM access blocks RIDE-Win11-Test acceptance.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
