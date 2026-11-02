@@ -1,0 +1,63 @@
+{
+  "title": "Desktop shortcut and hash-menu source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:51:01Z",
+  "scope": "Shortcut metadata path resolution and hash-value context-menu candidate source behavior.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/DesktopShortcuts.Tests.ps1",
+    "tests/HashValueContextMenu.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 2,
+    "testsDiscovered": 19,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 1,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:09.080",
+    "status": "passed-with-skip",
+    "skipReason": "The seven-algorithm Get-FileHash invocation test is explicitly Windows PowerShell 5.1-only and skips under PowerShell 7."
+  },
+  "safety": {
+    "desktopAndRegistryChanges": "none; metadata and handlers exercised through isolated source tests",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Desktop shortcut and hash-menu source regression passed 18 runnable tests across two suites."
+  ],
+  "retired": [],
+  "excluded": [
+    "One Windows PowerShell 5.1-specific helper case, pending when Pester can be loaded in that shell.",
+    "Native desktop shell integration."
+  ],
+  "partial": [
+    "No legacy file/asset outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "Windows PowerShell 5.1 Pester import remains blocked by AuthorizationManager format-data validation.",
+    "PSScriptTools and WFN full synthetic lifecycle suites remain incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
