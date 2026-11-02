@@ -1,3 +1,83 @@
+## V3.0 release-scope triage recorded, 2026-10-30
+
+The user requested a short release-blocker list and deferral of low-priority tools.
+The [authoritative release checklist](../MIGRATION-PLAN.md#v30-release-scope-triage-2026-10-30)
+identifies runnable release profiles, bootstrap correction, the previously requested
+transferable offline delivery, final-source verification and versioned publication.
+Offline delivery remains required unless explicitly deferred; candidate-tool
+acceptance does not imply withdrawal of that earlier product requirement.
+
+Read-only catalog/profile inspection found 451 operations, 52 pending packages,
+73 default selections including four unsupported candidates, and one pending
+selection in the optional colors profile. Do not promote those candidates merely
+to pass validation. Low-priority pending tools remain candidates, not release gates;
+InfoBar acceptance stays deferred. Next reconcile recommended release profiles,
+not another optional application VM test. No source behavior or target was changed.
+No legacy outcome is newly resolved, retired or excluded; partial/deferred scope
+remains. Whole-legacy estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12,
+exact 126-180, rounded 125-180/about 155; release checklist count is separate.
+
+## V3.0 candidate deferral and proportionate testing decision, 2026-10-30
+
+The user explicitly classified InfoBar as unimportant for v3.0 and accepted
+leaving it a candidate instead of spending time on Windows acceptance. InfoBar
+4.6.2 already has CandidateTargets Windows 11, SupportedTargets empty and
+PendingAcceptance=true. Retain that metadata and the prepared ApplicationsBatch9
+route for optional later work; do not submit it as the next migration blocker.
+InfoBar acceptance is deferred beyond v3.0 and is not a release gate. It is not
+retired or represented as tested/supported.
+
+The user also accepts no additional testing, unless fast, to reach v3.0 for
+low-priority tools. Reuse existing evidence; use quick static or focused checks
+only when they address a concrete change or uncertainty. Do not automatically
+schedule VM lifecycles, full regressions or manual product-feature checks for
+every prepared candidate. Keep unverified scope explicitly candidate/deferred,
+outside supported/default selections. This decision does not label untested
+behavior as passed or broaden supported targets. Work selected for supported
+v3.0 behavior still needs proportionate evidence, especially core engine/recovery
+changes and destructive system operations.
+
+Next reconcile the remaining backlog into required v3.0 supported workflows and
+optional candidates/deferred work before selecting another runtime batch.
+The whole-legacy backlog estimate is not the v3.0 release-blocker count. No exact
+release-blocker count or completion percentage is established by this decision.
+
+Resolved: InfoBar release disposition. Deferred: its Windows lifecycle and feature
+acceptance beyond v3.0. Retired/excluded: none; other partial/deferred scope remains.
+No complete legacy collection is newly migrated. All five whole-legacy ranges
+remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and
+maintenance 8-12; exact 126-180, rounded 125-180/about 155. Candidate deferral
+reduces required release scope without pretending the legacy backlog disappeared.
+Read-only catalog inspection confirmed the existing candidate state. No test,
+installer, VM request, controller change or catalog change was needed.
+
+## MiTeC system and telephony Windows deployment passed, 2026-10-30
+
+Request 9894243e07f24cb78807ae05aff12c5a passed from 14:16:53 to 14:27:35 UTC,
+approximately 10 minutes 42 seconds. System Information eXtra 16.0.0 and TAPI
+Monitor 1.2.0 each passed all 14 portable deployment checks on Windows 11 build
+26300, including exact member selection, repeat install/remove, saved-state
+recovery, original absence restore, collision refusal and file preservation.
+LifecycleRecovery=true for both. Five selected member hashes are retained;
+Authenticode reports UnknownError for all five, without a valid-signature claim.
+
+Parent and focused results report Passed, evidence collected and ResetAndOff,
+with no execution, collection, cleanup or export errors. Queues are empty and no
+recovery block exists. The operator confirmed VM Off / Operating normally and
+task Ready from elevated P52. This deployment milestone is complete; no further
+lifecycle run or manual product-feature test is required for it.
+ToolExecuted=false; functional/activation acceptance and support promotion remain
+separate. No system reports or telephone data were collected by the products.
+No additional test was run merely to record this successful evidence.
+
+Two deployment subproduct milestones passed within the partial MiTeC collection.
+No whole legacy outcome is newly resolved, retired or excluded; other deferred
+scope is unchanged. All five ranges remain settings 37-57, packages 37-52,
+components 19-24, files/assets 25-35 and maintenance 8-12; exact 126-180,
+rounded 125-180/about 155 because broader collection scope remains unfinished.
+
+Evidence: [passed lifecycle](../archive/evidence/mitec-system-telephony-win11-lifecycle-passed-2026-10-30.json).
+
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 
 Next run one Source Local MiTeCSystemAndTelephony request with TimeoutMinutes 20

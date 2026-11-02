@@ -10,6 +10,7 @@ declares each operation's support, actions, references and recovery limits.
 | --- | --- |
 | License review before corporate deployment or paid work | [Important to review licensing](package-licensing.md#important-to-review-licensing), including Npcap and KAPE; [local review records](package-licensing.md#local-usercompany-reviews) |
 | Finding operations | [Catalog search](catalog-search.md) |
+| Inspecting operations and piping live details | [Catalog inspection](catalog-show.md) |
 | Read-only profile reference for observation consumers | [Desired-configuration export](desired-configuration-reference.md), with explicit target inputs and pending consumer acceptance |
 | Offline installation source preparation | [Offline bundle preflight](offline-bundles.md), accepted version/omission rules and pending assembly/install integration |
 | Settings and their individual guides | [Windows settings](windows-settings.md), [scope, defaults and recovery](setting-presentation.md) |
@@ -37,7 +38,7 @@ declares each operation's support, actions, references and recovery limits.
 | Physical Lenovo T480 acceptance | [T480 RIDE test plan](test-plans/t480-ride-acceptance.md) and [read-only preflight script](../tests/integration/Invoke-RideT480Preflight.ps1) |
 | Workflow diagrams | [Controller workflow](../tests/integration/automatedlab-tasks.md#controller-workflow), [GitHub cache and backoff](github-release-discovery.md#anonymous-cache-and-backoff-flow) |
 | Maintainer conventions | [Script model](models/script-repository-model.md), [documentation model](models/documentation-model.md), [configuration ownership](decisions/0001-configuration-ownership.md) |
-| Windows/Fedora behavior alignment | [Current CLI comparison and proposed alignment workflow](fedora-alignment.md), including candidate preview, recovery and drift prevention |
+| Windows/Fedora behavior alignment | [Shared behavior contract](models/ride-behavior-contract.md), [current CLI comparison](fedora-alignment.md), and [final-v3 tasks](../TODO.md#cross-platform-alignment-for-final-v3) |
 
 ## Active work and evidence
 

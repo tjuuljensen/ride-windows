@@ -1,3 +1,6 @@
+2026-11-01 14:38 UTC; read-only VM preflight found no WinRM service by name; Get-VM and Get-VMSnapshot both fail at host CIM before VM/checkpoint state. No service or Windows state changed and no acceptance was dispatched. Offline bundle suites passed 129/129; automatic acquisition planning, selected/full-set pinned manifests, engine/profile/package cache packaging and disconnected deployment/recovery remain deferred. PasswordScan stays excluded. No legacy outcome closed; estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). See docs/archive/evidence/offline-bundle-vm-preflight-2026-11-01.json.
+2026-11-01 14:33 UTC; OfflineBundle.Tests.ps1, OfflineBundleAssembly.Tests.ps1 and OfflineExecution.Tests.ps1 passed 129/129 in Windows PowerShell 5.1/Pester 5.7.1. Synthetic/local regression only: no payload acquisition, transferable bundle assembly, installer, VM or Windows state change. Automatic acquisition planning, selected/full-set pinned manifests, engine/profile/package cache packaging and current disconnected deployment/recovery remain deferred. Host CIM access remains unavailable; PasswordScan stays excluded. No legacy outcome closed; estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). See docs/archive/evidence/offline-bundle-integrity-assembly-execution-regression-2026-11-01.json.
+2026-11-01 14:35 UTC; bootstrap regression passed 9/9 in Windows PowerShell 5.1/Pester 5.7.1, including the standalone docs/bootstrap.ps1 + modules/RIDE.Bootstrap.psm1 layout; offline bundle suites passed 129/129 and repository validation passed 452 operations, 8 groups, 5 profiles and 323 PowerShell files. Bootstrap requires an explicit tag/branch, defaults to `plan`, passes child arguments safely and reports nonzero child codes; README pins the bootstrap script, helper and RIDE archive to one release tag. No v3.0 tag exists yet. No VM, installer, elevation, Defender or Windows-state action; host VM/CIM access remains unavailable and PasswordScan remains excluded. No legacy outcome closed; estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). See the bootstrap and offline-bundle evidence JSON files under docs/archive/evidence/.
 2026-10-29 03:27 UTC; focused package regression passed 171/174 with 3 skips and no failures across ApplicationPackages, PackageDependencyPlanning, PackageEvidence and MiTeC Paradox Data Editor. Reconciled three stale helper-version assertions from 0.17.0 to current 0.19.0. NirSoft/PasswordScan were not selected, staged or run. PackageEvidence intentionally retained its synthetic Signal user-data directory. Native acceptance remains blocked at host CIM; no legacy outcome closed and estimates stay 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). See docs/archive/evidence/focused-package-regression-and-passwordscan-exclusion-2026-10-29-0327.json.
 2026-10-29 03:22 UTC; user reports a Defender block alert for x64 PasswordScan at the previously reported `.local/nirsoft-encrypted-launcher-filtered-pester-tmp/RIDE-Portable-dd1c11ff272241dab6884a3f14a78f50` path. This reuses the known stage GUID, so a distinct Defender event, detection name/time, and stage creator remain unverified. Keep x86/x64 excluded and pause NirSoft staging/Pester lifecycle runs that could materialize PasswordScan pending provenance reconciliation. No file, Defender, VM or Windows state was accessed or changed; no test rerun or elevation. No legacy outcome closed; estimates unchanged. See docs/archive/evidence/nirsoft-passwordscan-user-defender-repeat-2026-10-29-0322.json.
 2026-10-29 03:14 UTC; ImageMagick's selected x64 Q16-HDRI DLL installer decision is resolved; official source lists 7.1.2-34, the exact installer name, detached signature and size. DNS prevented artifact access, so no hash/signature or installer metadata was verified and no package operation implemented. No legacy outcome closed; estimates unchanged. See docs/archive/evidence/imagemagick-hdri-dll-installer-source-review-2026-10-29-0314.json.
@@ -879,6 +882,59 @@ Latest migration status, 2026-10-24 05:19 UTC: PSScriptTools package file lifecy
 Latest Windows 11 VM acceptance, 2026-10-24 06:04 UTC: MiTeC SQLite Query passed its file-lifecycle/recovery case (1/1); no database was opened or SQL run, and the checkpoint reset/off succeeded. The guarded NTCore synthetic PE checks passed on the guest (collision refusal, exact backup, flag/checksum and recovery), but the protected controller rejected the result because its installed validator still expected `ToolExecuted=false`. Source validator is corrected; refresh the idle registered controller from an elevated PowerShell session and rerun before claiming NTCore acceptance. No legacy outcome closed. See [SQLite Query evidence](docs/archive/evidence/mitec-sqlite-query-win11-lifecycle-2026-10-24-0604.json) and [NTCore controller evidence](docs/archive/evidence/ntcore-win11-guarded-launcher-controller-validation-2026-10-24-0559.json).
 
 Latest ApplicationsBatch1: Windows 11 passed all eight selected package lifecycle/recovery scenarios at 06:49 UTC. The corrected current-source Server 2025 run passed at 07:34 UTC: eight target-eligible packages passed lifecycle/recovery; Phoenix Protector, Gpg4win and TMOG were NotApplicable as Windows 11 candidates. No production target was promoted. Run ApplicationsBatch1 on Windows 11 for those three; exact prior-version recovery and Wireshark existing-installation/association/shared-runtime/feature checks remain open. See [Windows 11 evidence](docs/archive/evidence/applications-batch1-win11-current-pin-2026-10-24-0649.json), [Server 2025 evidence](docs/archive/evidence/applications-batch1-server2025-acceptance-2026-10-24-0734.json), and [harness retry evidence](docs/archive/evidence/applications-batch1-server2025-worker-identity-retry-2026-10-24-0711.json).
+## Cross-platform alignment for final v3
+
+- [ ] **ALIGN-TARGET-01:** Review the intentional Windows-only unsupported-target exploration difference before capability promotion or public v3 release; retain owner, recovery and conformance follow-up in [Fedora alignment](docs/fedora-alignment.md#unsupported-target-exploration-2026-11-02).
+
+Added 2026-11-01 at the user's request. These are v3 completion tasks in addition
+to the existing bootstrap/offline/native-release work; they add no legacy outcome
+to the migration estimates. Owners are the Windows and Fedora maintainers for
+their respective consumers. Use the same ALIGN IDs in the
+[Fedora plan](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/MIGRATION-PLAN.md#cross-platform-alignment-for-final-v3).
+The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
+[comparison](docs/fedora-alignment.md) records current differences.
+
+- [x] **ALIGN-01:** Adopt canonical contract 1.0.0 and matching SHA-256 references
+  in both repos. Source documentation complete; immutable publication is ALIGN-09.
+- [x] **ALIGN-02:** Add reciprocal AGENTS review/versioning rules covering CLI,
+  settings, planning, acquisition, privilege and recovery, not only package batches.
+- [ ] **ALIGN-03:** Enforce unambiguous arguments and declared unset/removal.
+  Windows: reject irrelevant options, require an explicit remove selector through
+  a compatibility transition, and reconcile DefenderExclusion removal/help.
+  Fedora: add declared unset, filter profile removal and reject conflicting
+  ID/profile options. Done when mocked cases prove preflight before any mutation
+  and published explicit set/restore forms remain recoverable.
+- [ ] **ALIGN-04:** Align candidate preview and acquisition with RB-03/04/05/08.
+  Windows: permit read-only candidate preview without opt-in and review the
+  installed-package no-op target exception. Fedora: separate download eligibility
+  from VM acceptance and unify restore-preview target/identity checks. Done when
+  paired cases preserve target/privilege checks and show zero preview writes.
+- [ ] **ALIGN-05:** Add pinned shared scenario data, Windows Pester and Fedora
+  native adapters, and CI for gates, invalid arguments, unset/removal, dependency
+  order, partial failure/recovery, download boundaries and read-only completion.
+  Done when both clients report the same contract/scenario revision and a seeded
+  mismatch fails; no live workstation mutation is used.
+- [ ] **ALIGN-06:** Turn existing comparison gaps into a structured capability and
+  difference register in each repo, with stable IDs, owner, reason, rule IDs,
+  evidence, linked work and review/removal trigger. Done when every matrix row has
+  an aligned, permanent-platform, or temporary-gap disposition; no unexplained drift.
+- [ ] **ALIGN-07:** Add linked-change review templates and a read-only
+  scheduled/manual drift report. PR checks stay pinned; updates are reviewed and
+  never auto-merged. Done when a deliberate upstream change is reported and both
+  consumer tasks identify compatibility, evidence and next action.
+- [ ] **ALIGN-08:** Align usage guidance and automation: paired explicit profile/
+  state examples, compatible ID/view status selection, and a scoped versioned JSON
+  interface. Keep native switches, outputs and source/variant concepts distinct.
+  Done when examples and output contract cases pass on each applicable client.
+- [ ] **ALIGN-09:** Before final v3, record the published immutable contract
+  reference, verify both digest pins, close all preceding tasks or record explicit
+  owner-approved deferrals, and review the final consumers with proportionate
+  evidence. Keep native acceptance and publication separate; do not require
+  identical catalog coverage or synchronized client release numbers.
+
+Next batch: ALIGN-03, starting with a declared command/option matrix and focused
+mocked refusal tests. This task entry authorizes no additional runtime changes.
+
 ## Migration closure queue
 
 Current closure state, refreshed 2026-10-29 02:10 UTC: OpenSSH Server local lifecycle regression passes 16/16; native target acceptance remains open. JoeWare download-only source suite passes 9/9 including a synthetic successful observation path; real AdMod acquisition remains DNS-blocked before response, and exact artifacts and lifecycle remain open. B01 setting-presentation review is complete at 279/279; remaining native setting, package, component, recovery and UI acceptance is still open. Sysinternals is approved for RIDE direct download-and-install under the prior RIDE v2 specialist review; there is no licensing migration gate. Package NeedsReview markers remain administrative. Defender-blocked PasswordScan x86/x64 remain excluded, and NirSoft runs that could materialize them are deferred until staging provenance is reconciled. The RIDEWin11Test UnitOnly/Full request 95bc76d3055f4f17964087ed15422295 remains in the running queue without a result; do not duplicate it. Fresh Get-VM for both registered targets again failed before state retrieval at host CIM, so native VM acceptance remains deferred. Continue independent implementation and source work that avoids blocked payloads. No legacy outcome closed. Estimates: settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155. See [migration plan](docs/MIGRATION-PLAN.md), [controller evidence](docs/archive/evidence/ride-vm-cim-recheck-and-running-request-2026-10-29-0155.json), and [PasswordScan report](docs/archive/evidence/nirsoft-passwordscan-defender-repeat-report-2026-10-29-0152.json).
@@ -1371,7 +1427,3 @@ NirSoft unselected synthetic archive-entry regression, 2026-10-28 11:03 UTC: the
 2026-10-29 02:29 UTC; `MiTeCNetworkMeter.Tests.ps1` passed 2/2 in Windows PowerShell 5.1/Pester 5.7.1 using an inert synthetic ZIP. Catalog pins, exact selected-member staging/repeat, removal, snapshot restore and operator-note preservation passed. The local exact-version marker is `NeedsReview` and non-gating. No publisher archive or product was run; Windows 11 acceptance remains deferred. No legacy outcome closed; estimates unchanged. See docs/archive/evidence/mitec-network-meter-source-lifecycle-regression-2026-10-29-0229.json.
 2026-10-29 03:30 UTC; `MiTeCSystemInformationTapiMonitor.Tests.ps1` passed 4/6 with 2 retained-archive cases skipped and no failures. Both exact-version NeedsReview records are present and non-gating. `tools/validate.ps1` passed: generated operation documentation current, 451 operations, 8 groups, 5 profiles and 306 PowerShell files. Synthetic staging only; neither utility nor TAPI provider/call ran, and no Defender, Windows, VM or elevation state changed. Native acceptance remains blocked at host CIM; no legacy outcome closed and estimates unchanged. See docs/archive/evidence/mitec-system-information-tapi-current-source-regression-and-validation-2026-10-29-0330.json.
 2026-10-29 03:42 UTC; LicenseReviews.Tests.ps1 remains unresolved: full runs reported 23/24 then 21/24, with intermittent File.Replace failures in Write-ReviewDocument; an isolated NeedsReview test passed 1/1, while pairing it after the read-only test reproduced one failure. A standalone File.Replace probe and direct 20-record Set/Get/plan sequence passed. No product code was changed and no production license store was touched. Root cause remains unknown; no claim of antivirus/external contention. Exact-version NeedsReview markers for the MiTeC package candidates remain non-gating. No legacy outcome closed; estimates unchanged. See docs/archive/evidence/license-review-pester-replacement-recheck-2026-10-29-0342.json.
-
-## Cross-platform alignment for final v3
-
-- [ ] **ALIGN-TARGET-01:** Review the intentional Windows-only unsupported-target exploration difference before capability promotion or public v3 release; retain owner, recovery and conformance follow-up in [Fedora alignment](docs/fedora-alignment.md#unsupported-target-exploration-2026-11-02).

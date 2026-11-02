@@ -134,6 +134,18 @@ Search includes declared registry paths, including nested value sets. Quote path
 backslashes need no doubling. See the [catalog search guide](docs/catalog-search.md)
 for fields, completion and pipeline examples.
 
+From the repository root in PowerShell, inspect each matching result's metadata
+and live state with this read-only pipeline:
+
+```powershell
+.\ride.ps1 search autopsy | .\ride.ps1 show |
+    Select-Object Id, Name, Installed
+```
+
+`show package.autopsy` and `show -Id package.autopsy` still work. `show` also
+accepts piped ID strings or objects with `Id`, and returns inspection objects.
+See [catalog inspection](docs/catalog-show.md) for output fields, groups and exports.
+
 Optional [hibernation file control](docs/hibernation.md) is a Windows 11 candidate:
 `windows.hibernation` offers `Off`, `Full`, `Reduced` and `Size50` through `Size100`
 (percent of RAM). Tab completes these states from the catalog. It is excluded

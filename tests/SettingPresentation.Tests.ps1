@@ -180,7 +180,10 @@ Describe 'Live presentation with mocked state' {
     $text = Show-RideOperation -Id 'application.edge-startup-boost' | Out-String -Width 160
     $text | Should -Match 'Enforced policy'
     $text | Should -Match 'mandatory path only'
-    $groupText = Show-RideOperation -Id 'fixture.group' | Out-String -Width 160
+    $group = Show-RideOperation -Id 'fixture.group'
+    $group.SchemaVersion | Should -Be 1
+    $group.Kind | Should -Be 'Group'
+    $groupText = $group.MemberStates | Format-List | Out-String -Width 160
     $groupText | Should -Match 'Preference'
     $groupText | Should -Match 'Enforced policy'
     $groupText | Should -Match 'RequiresAdmin\s+: False'

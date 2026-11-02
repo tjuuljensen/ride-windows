@@ -36,11 +36,13 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.31.0
+  Version: 0.32.0
   Changelog:
+    0.32.0: Return schema-1 show objects with nested group member observations.
     0.31.0: Plan all observed client RSAT capabilities with dependency-safe lifecycle and recovery order.
     0.30.0: Integrate the explicit Windows Update OpenSSH Client capability and conditional state recovery.
     0.29.0: Add explicit per-invocation target exploration with durable target audit.
+    0.28.1: Suppress the WinHTTP lifecycle import's unapproved-verb name warning.
     0.28.0: Allow explicit declared candidate targets for apply, preview and saved-run recovery.
     0.27.0: Integrate optional coordinated hibernation-file configuration and conditional recovery.
     0.26.0: Inspect BitLocker workflow state without exposing recovery passwords or treating staged actions as restorable settings.
@@ -91,7 +93,7 @@
 #>
 
 
-$script:ModuleVersion = '0.29.0'
+$script:ModuleVersion = '0.32.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -139,7 +141,7 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyPreparation.psm1') -Force 
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyLifecycle.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyInventory.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyPreparation.psm1') -Force -ErrorAction Stop
-Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyLifecycle.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyLifecycle.psm1') -Force -DisableNameChecking -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.StoreApps.psm1') -Force -ErrorAction Stop
 
 function Set-RideLibraryContext {
@@ -2082,11 +2084,12 @@ function Show-RideCatalog {
 function Show-RideOperation {
   <#
   .SYNOPSIS
-    Display operation metadata with its live value or group member state.
+    Return operation metadata with its live value or group member state.
 
   .DESCRIPTION
-    Reads focused current-state handlers, includes a registry baseline value, and formats operation
-    details or group members for human inspection. Does not change Windows state.
+    Reads focused current-state handlers and returns a schema-1 object, including a registry
+    baseline value or nested MemberStates for a group. PowerShell displays the properties by
+    default; callers can select, filter or export them. Does not change Windows state.
 
   .PARAMETER Id
     Stable operation or group ID from the catalog; the command checks applicable kinds.
@@ -2102,7 +2105,8 @@ function Show-RideOperation {
     None. Parameters are supplied explicitly.
 
   .OUTPUTS
-    Microsoft.PowerShell.Commands.Internal.Format formatting records for list/table display.
+    RIDE.ShowResult. One PSCustomObject with SchemaVersion 1 and catalog metadata.
+    See docs/catalog-show.md for stable fields and group member observations.
 
   .NOTES
     Ownership: RIDE-Windows maintainers. Version and compatibility follow the module overview.
@@ -2113,7 +2117,6 @@ function Show-RideOperation {
   $entry = Get-RideOperation -Id $Id
   if ($entry.Kind -eq 'Package') { $entry = Resolve-RideLifecycleSelection -Operation $entry -Variant $Variant -Removal:(-not $Variant) } elseif ($Variant) { throw 'Variant requires a package ID.' }
   if (-not $entry.ContainsKey('Kind')) {
-    [pscustomobject]$entry | Format-List
     $catalog = Get-RideCatalog
     $members = foreach ($memberId in $entry.Members) {
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $memberId } | Select-Object -First 1
@@ -2130,7 +2133,14 @@ function Show-RideOperation {
       $operation = $catalog.Operations | Where-Object Id -eq $member.Id | Select-Object -First 1
       $member | Add-RideSettingPresentation -Operation $operation -IncludeExecutionIdentity
     }
-    $memberRows | Format-List
+    $details = [ordered]@{}
+    foreach ($key in $entry.Keys) { $details[$key] = $entry[$key] }
+    $details.SchemaVersion = 1
+    $details.Kind = 'Group'
+    $details.MemberStates = @($memberRows)
+    $result = [pscustomobject]$details
+    $result.PSObject.TypeNames.Insert(0, 'RIDE.ShowResult')
+    $result
     return
   }
 
@@ -2251,7 +2261,10 @@ function Show-RideOperation {
   else {
     $details.Installed = [bool]$current.Present
   }
-  [pscustomobject]$details | Format-List
+  $details.SchemaVersion = 1
+  $result = [pscustomobject]$details
+  $result.PSObject.TypeNames.Insert(0, 'RIDE.ShowResult')
+  $result
 }
 
 function Show-RidePlan {

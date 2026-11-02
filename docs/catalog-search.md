@@ -76,6 +76,21 @@ truncation or formatting records in the pipeline:
 .\ride.ps1 search Explorer -View settings | Export-Csv .\matches.csv -NoTypeInformation
 ```
 
+From the repository root in PowerShell, pass each matching catalog ID to `show`
+to inspect its metadata and live state without applying changes:
+
+```powershell
+.\ride.ps1 search autopsy | .\ride.ps1 show |
+    Select-Object Id, Name, Installed
+```
+
+`show` accepts each result's full `Id`, such as `package.autopsy`, and returns
+inspection objects that can be filtered or exported. A search with no matches
+produces no show results. Filter before `show` to avoid unnecessary live-state
+reads. The previous `ForEach-Object { .\ride.ps1 show $_.Id }` form still works.
+See [catalog inspection](catalog-show.md) for its versioned result fields,
+group members and input validation. These read-only commands need no recovery step.
+
 `-Query`, `-Field` and `-View` belong to search. Search rejects profile and action
 parameters (`-Profile`, `-State`, `-RunId`, `-Destination`, `-WhatIf`, `-Confirm`)
 instead of silently ignoring them. Existing commands retain positional ID and

@@ -9,10 +9,12 @@
 .NOTES
   Compatibility: Pester 5.x on Windows PowerShell 5.1 and PowerShell 7.
   Version: Repository test fixture.
-  Changelog: 0.1.0: Cover durable apply, restore, identity checks and conflict refusal.
+  Changelog:
+    0.1.1: Suppress name checking for the lifecycle module's intentional Apply verb.
+    0.1.0: Cover durable apply, restore, identity checks and conflict refusal.
 #>
  $script:Root=Split-Path -Parent $PSScriptRoot
-Import-Module (Join-Path $Root 'modules/RIDE.WinHttpProxyLifecycle.psm1') -Force
+Import-Module (Join-Path $Root 'modules/RIDE.WinHttpProxyLifecycle.psm1') -Force -DisableNameChecking
 Describe 'Advanced WinHTTP guarded lifecycle' {
   InModuleScope RIDE.WinHttpProxyLifecycle {
   BeforeEach {

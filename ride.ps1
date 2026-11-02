@@ -19,6 +19,10 @@
   Operation/package/group ID, or a view for list/status. Direct actions require an appropriate
   operation ID. For search, the second positional argument is the literal query.
 
+.PARAMETER InputObject
+  For show only: one catalog ID string or object with a nonblank string Id property,
+  supplied through the pipeline or explicitly. Cannot be combined with -Id.
+
 .PARAMETER Query
   Named literal search query, instead of the second positional argument. Matching is
   case-insensitive; quote phrases and paths. Press Tab for catalog ID suggestions.
@@ -129,11 +133,16 @@
 .EXAMPLE
   .\ride.ps1 -Version
 
+.EXAMPLE
+  .\ride.ps1 search autopsy | .\ride.ps1 show | Select-Object Id, Name, Installed
+  Inspect matching packages and select fields from their result objects.
+
 .INPUTS
-  None. Parameters are supplied explicitly.
+  System.String or System.Management.Automation.PSCustomObject for show only.
+  Each input supplies a catalog ID string or an Id property. Empty pipelines return nothing.
 
 .OUTPUTS
-  System.Object. Catalog objects, formatted inspection/plan/status data, progress strings, or
+  System.Object. Catalog and schema-1 show objects, formatted plan/status data, progress strings, or
   downloaded artifact records, depending on the command.
 
 .NOTES
@@ -145,8 +154,10 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.17.0
-  Changelog: 0.17.0: Document direct client RSAT group installation and removal.
+  Version: 0.18.0
+  Changelog:
+    0.18.0: Accept show pipeline IDs and return versioned inspection objects.
+    0.17.0: Document direct client RSAT group installation and removal.
     0.16.0: Expose audited per-invocation unsupported-target exploration.
     0.15.1: Allow read-only candidate previews without acceptance opt-in.
     0.15.0: Add explicit candidate opt-in for changes and restore.
@@ -187,6 +198,9 @@
 
 .LINK
   docs/custom-libraries.md
+
+.LINK
+  docs/catalog-show.md
 
 .LINK
   docs/models/script-repository-model.md
@@ -452,10 +466,33 @@ param(
       Get-RideGitHubCredentialInfo | Where-Object { $_.Name.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase) } | Sort-Object Name -Unique | ForEach-Object { [Management.Automation.CompletionResult]::new($_.Name, $_.Name, 'ParameterValue', $_.Name) }
     } catch { }
   })][string] $GitHubCredentialReference,
-  [switch] $Version
+  [switch] $Version,
+  [Parameter(ValueFromPipeline = $true)]
+  [AllowNull()]
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    try {
+      # Reuse the ID completer, including selected libraries, without loading the engine.
+      $scriptPath = $commandAst.CommandElements[0].Value
+      $command = Get-Command -Name $scriptPath -CommandType ExternalScript -ErrorAction Stop
+      $completer = $command.Parameters['Id'].Attributes | Where-Object { $_ -is [Management.Automation.ArgumentCompleterAttribute] } | Select-Object -First 1
+      & $completer.ScriptBlock $commandName 'Id' $wordToComplete $commandAst $fakeBoundParameters
+    } catch { }
+  })]
+  [object] $InputObject
 )
 
-$script:ScriptVersion = '0.17.0'
+begin {
+$skipDispatch = $true
+$showInputExpected = $MyInvocation.ExpectingInput -or $PSBoundParameters.ContainsKey('InputObject')
+if ($showInputExpected) {
+  if ($Command -ne 'show') { throw 'Pipeline input and -InputObject are supported by show only.' }
+  if ($PSBoundParameters.ContainsKey('Id')) { throw 'Use either an explicit -Id or show input, not both.' }
+  if ($MyInvocation.ExpectingInput -and $PSBoundParameters.ContainsKey('InputObject')) {
+    throw 'Use either pipeline input or an explicit -InputObject, not both.'
+  }
+}
+$script:ScriptVersion = '0.18.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -468,7 +505,8 @@ Usage:
 Commands:
   list [view]          List catalog objects; filter with a list view below.
   search <query>       Search catalog metadata using a case-insensitive literal phrase.
-  show <id>            Show metadata and current value; settings include the baseline value.
+  show [id]            Return metadata and current value; accepts piped IDs or objects with Id.
+                      Settings include the baseline value. Output objects use SchemaVersion 1.
   plan                 Show current values beside the profile's desired values.
   apply                Apply the profile and record prior state.
   download <catalog-id> Download a package or standalone artifact without applying it.
@@ -489,6 +527,9 @@ Options:
   -Library <files>     Explicit local library manifests; Tab completes filesystem paths.
   -Profile <file>      Select a profile (default: profiles/default.psd1).
   -Id <id|view>        ID for show, or a view after list/status.
+  -InputObject <item>  Show only: ID string or object with Id; Tab completes catalog IDs.
+                      Also accepts pipeline input; choose one input source.
+                      Cannot be combined with an explicit -Id.
   -Query <phrase>      Named search query instead of a positional phrase.
   -Field <fields>      Narrow search fields; press Tab to discover available fields.
   -View <view>         Narrow search to a list view/category (except profiles).
@@ -569,6 +610,10 @@ range metadata; use -AllowCandidate while awaiting target acceptance.
 Search treats backslashes, wildcard and regex punctuation literally. Quote phrases
 and paths; backslashes need no doubling. Missing/blank queries are errors; no
 matches returns an empty collection. Multiple -Field values use OR matching.
+Show accepts one ID per pipeline item and emits one schema-1 object per selection.
+Empty pipelines return nothing; invalid input stops processing after any earlier results.
+Group objects retain Members IDs and expose observations in MemberStates.
+Use Select-Object, Where-Object or exports before formatting. See docs/catalog-show.md.
 
 Examples:
   .\ride.ps1 list
@@ -593,6 +638,8 @@ Examples:
   .\ride.ps1 remove package.7zip -WhatIf
   .\ride.ps1 show <Tab>  Complete an operation or group ID.
   .\ride.ps1 show windows.show-known-extensions
+  .\ride.ps1 search autopsy | .\ride.ps1 show
+  .\ride.ps1 show package.autopsy | Select-Object Id,Name,Installed
   .\ride.ps1 plan -Profile .\profiles\analyst-basics.psd1
   .\ride.ps1 apply -Profile .\profiles\analyst-basics.psd1 -WhatIf
   .\ride.ps1 status
@@ -651,7 +698,7 @@ foreach ($parameter in @('StateScope', 'OlderThanDays')) {
   if ($PSBoundParameters.ContainsKey($parameter) -and $Command -ne 'prune-state') { throw "-$parameter is only supported by prune-state." }
 }
 if ($Variant -and $Command -notin @('install', 'remove', 'download', 'show')) { throw '-Variant is supported by install, remove, download and show.' }
-if ($Variant -and -not $Id) { throw '-Variant requires a package ID.' }
+if ($Variant -and -not $Id -and -not $showInputExpected) { throw '-Variant requires a package ID.' }
 if ($UserContext -eq 'Desktop') {
   if ($Command -notin @('set','unset','apply','plan','restore')) { throw '-UserContext Desktop supports set, unset, apply, plan and restore for user-only settings.' }
   foreach ($parameter in @('GitHubAuthentication','GitHubCredentialReference','Destination','Variant')) {
@@ -671,14 +718,29 @@ if ($UserContext -eq 'Desktop') {
 if (-not $Profile) { $Profile = Join-Path $PSScriptRoot 'profiles/default.psd1' }
 Import-Module (Join-Path $PSScriptRoot 'modules/RIDE.Engine.psm1') -Force -ErrorAction Stop
 Set-RideLibraryContext -Library $Library
+$skipDispatch = $false
+}
 
+process {
+if ($skipDispatch) { return }
 switch ($Command) {
   'list' {
     Show-RideCatalog -View $(if ($Id) { $Id } else { 'all' })
   }
   'show' {
-    if (-not $Id) { throw 'The show command requires an operation or group ID.' }
-    Show-RideOperation -Id $Id -Variant $Variant
+    $showId = $Id
+    if ($showInputExpected) {
+      $showId = $null
+      if ($InputObject -is [string]) { $showId = $InputObject }
+      elseif ($null -ne $InputObject -and $InputObject.PSObject.Properties['Id']) {
+        $showId = $InputObject.Id
+      }
+      if ($showId -isnot [string] -or [string]::IsNullOrWhiteSpace($showId)) {
+        throw 'Show input must be a nonblank catalog ID string or an object with a nonblank string Id property.'
+      }
+    }
+    if ([string]::IsNullOrWhiteSpace($showId)) { throw 'The show command requires an operation or group ID.' }
+    Show-RideOperation -Id $showId -Variant $Variant
   }
   'plan' {
     $loadedProfile = Get-RideProfile -Path $Profile
@@ -754,4 +816,5 @@ switch ($Command) {
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
     Invoke-RidePlan -Plan $plan @shouldProcessParameters @candidateParameters
   }
+}
 }

@@ -1,0 +1,40 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAt": "2026-11-01T14:38:14Z",
+  "ReviewDate": "2026-11-01",
+  "Outcome": "Offline bundle native acceptance could not be started because host VM state is inaccessible",
+  "ReadOnlyChecks": [
+    {
+      "Command": "Get-Service -Name WinRM",
+      "Result": "No service with that name was returned by the service manager."
+    },
+    {
+      "Command": "Get-VM -Name RIDE-Win11-Test",
+      "Result": "Failed before VM state retrieval: Access to a CIM resource was not available to the client."
+    },
+    {
+      "Command": "Get-VMSnapshot -VMName RIDE-Win11-Test",
+      "Result": "Failed before checkpoint state retrieval: Access to a CIM resource was not available to the client."
+    }
+  ],
+  "VmRun": false,
+  "CheckpointQueried": false,
+  "WinRMStarted": false,
+  "WindowsStateChanged": false,
+  "ElevationPrompt": false,
+  "InstallerRun": false,
+  "DefenderStateAccessed": false,
+  "DefenderBlockedPasswordScan": "Remains excluded from staging/selection; no alert file was accessed.",
+  "NextAcceptanceRequirement": "Restore host VM/CIM access and an available WinRM endpoint, then inspect the existing RIDE-Win11-Test checkpoint before dispatching the bounded offline acceptance scenario.",
+  "LegacyEstimate": {
+    "Settings": "37-57",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "FilesAndAssets": "25-35",
+    "Maintenance": "8-12",
+    "Exact": "126-180",
+    "Rounded": "125-180",
+    "ApproximateOutcomes": 155,
+    "ReasonUnchanged": "Host access failure prevented acceptance and changed no legacy outcome."
+  }
+}

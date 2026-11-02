@@ -22,6 +22,26 @@ Keep operation IDs stable after publication. If a catalog or profile schema
 must change, document the migration and retain a recovery path. Prefer focused
 changes over broad rewrites.
 
+## Cross-platform RIDE alignment
+
+- Follow the versioned [shared behavior contract](docs/models/ride-behavior-contract.md)
+  and its [adopted digest reference](docs/models/ride-behavior-contract-ref.json).
+  Windows hosts the canonical contract; either RIDE repository may originate changes.
+- Before changing shared CLI, catalog/profile meaning, acquisition, planning,
+  acceptance, privilege or recovery behavior, review the pinned contract and the
+  Fedora implementation. Also review each package migration batch and release
+  candidate. Classify the impact and record compared revisions or source hashes.
+- Follow the contract's review/versioning procedure. Record alignment or an
+  intentional difference with an owner, reason, linked follow-up and review
+  trigger in [Fedora alignment](docs/fedora-alignment.md). Update affected help,
+  completion and tests with the implementation; track shared conformance work
+  honestly while its automated suite remains pending.
+- Native target acceptance stays local. Unexplained shared-contract drift blocks
+  the affected capability's promotion, not unrelated development. Track remaining
+  final-v3 alignment work in [TODO](TODO.md#cross-platform-alignment-for-final-v3).
+  Do not copy the canonical contract into the peer repository or silently follow
+  a newer development HEAD; update its version/digest references deliberately.
+
 ## Operation reference metadata
 
 - Every `RegistryValue` operation in `catalog/operations.psd1` must include a

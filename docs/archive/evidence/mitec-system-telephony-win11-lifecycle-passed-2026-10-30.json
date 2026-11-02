@@ -1,0 +1,210 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-10-30T14:46:14.5641619Z",
+  "RunId": "9894243e07f24cb78807ae05aff12c5a",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "9894243e07f24cb78807ae05aff12c5a",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCSystemAndTelephony",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-10-30T14:16:53.6679715Z",
+    "FinishedAtUtc": "2026-10-30T14:27:35.7210229Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "9894243e07f24cb78807ae05aff12c5a",
+      "Batch": "MiTeCSystemAndTelephony",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 2,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "Summary": {
+    "Batch": "MiTeCSystemAndTelephony",
+    "ExpectedCases": 2,
+    "Completed": 2,
+    "Passed": 2,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending"
+  },
+  "Scenarios": [
+    {
+      "Id": "package.mitec-system-information",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "afead9d0a0aa4139a349c1c80d5c27f5",
+        "230610bb73754e0cbb162ffb0d1adfb4",
+        "05391225bbac405b9184b77ca850d7cc"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "GetSys.exe",
+          "Sha256": "80efa6ceee1859d5da5f32d827d88db7569dbd23e161eca8c82a43cae21209dd",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        },
+        {
+          "RelativePath": "GetSys64.exe",
+          "Sha256": "9a43a1b1acccf50f9a7902cb8c2e1fa25e1ef662bbaf5fa42b797602df99e85d",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        },
+        {
+          "RelativePath": "MSIX.exe",
+          "Sha256": "27f17567efbbc6fbd39263f43b97d2d95b0fcf1745789517a589ffbf273716c3",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        },
+        {
+          "RelativePath": "MSIX64.exe",
+          "Sha256": "3ee0d2031c4b733fcfc2c1f5d87726aa7c9d0557af1525f372774e2775e0841d",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-system-information' failed. Run ID: d6fb0eedfe60466192a7d55c25b1d1ab. Saved state: package.mitec-system-information. Completed operations: <none>. Failed operation: package.mitec-system-information. Unfinished operations: package.mitec-system-information. Recovery: run '.\\ride.ps1 restore -RunId d6fb0eedfe60466192a7d55c25b1d1ab', then reapply the same profile. Error: Portable destination collision: MSIX.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-system-information' failed. Run ID: 0329c3347a5c476092309b393a573446. Saved state: package.mitec-system-information. Completed operations: <none>. Failed operation: package.mitec-system-information. Unfinished operations: package.mitec-system-information. Recovery: run '.\\ride.ps1 restore -RunId 0329c3347a5c476092309b393a573446', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-tapi-monitor",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "7ada989cc92b4a63832096f52f3a975c",
+        "b0d85c5f2100438fba55e1b2c38ce391",
+        "07e6d8d4cb3e4c4a8cbdab96da6d3ba5"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "TAPIMon.exe",
+          "Sha256": "4eb667fbdf159c44399dac9aae6d68cc30e0857589f284f1cf72f7584ee81df5",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-tapi-monitor' failed. Run ID: a625223c57ef40df89eaa063dccfd963. Saved state: package.mitec-tapi-monitor. Completed operations: <none>. Failed operation: package.mitec-tapi-monitor. Unfinished operations: package.mitec-tapi-monitor. Recovery: run '.\\ride.ps1 restore -RunId a625223c57ef40df89eaa063dccfd963', then reapply the same profile. Error: Portable destination collision: TAPIMon.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-tapi-monitor' failed. Run ID: c41a6ca97de64fd3b042be34384e0459. Saved state: package.mitec-tapi-monitor. Completed operations: <none>. Failed operation: package.mitec-tapi-monitor. Unfinished operations: package.mitec-tapi-monitor. Recovery: run '.\\ride.ps1 restore -RunId c41a6ca97de64fd3b042be34384e0459', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "Payloads": [
+    {
+      "Id": "package.mitec-system-information",
+      "FileName": "MSIX.zip",
+      "Sha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976"
+    },
+    {
+      "Id": "package.mitec-tapi-monitor",
+      "FileName": "TAPIMon.zip",
+      "Sha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914"
+    }
+  ],
+  "EvidenceFiles": [
+    {
+      "Path": "result.json",
+      "Sha256": "ec84edef2714bb89ace30ce29e1e1dbceb75badc5105f48a35c36df54ac945fa"
+    },
+    {
+      "Path": "focused/result.json",
+      "Sha256": "ab325951d7849fe2c5f527a0990ec7f4f9d8682fbea8761fa7fd9f89e05f5cc3"
+    },
+    {
+      "Path": "focused/evidence/summary.json",
+      "Sha256": "df7162a2c19c7baf42f0ee8d7bcb37161fe6d106efb58a62fd0f842ef843190f"
+    },
+    {
+      "Path": "focused/evidence/scenarios.json",
+      "Sha256": "57adbd086637d1102df9cbcc027496b13ee4b1ccd142e18b035da659f6bfe5b8"
+    },
+    {
+      "Path": "focused/payloads.json",
+      "Sha256": "4f303fd0981172fa0705d7056e7842c6e55491de57d994712869867ce4326fde"
+    }
+  ],
+  "PendingRequests": 0,
+  "RunningRequests": 0,
+  "RecoveryBlockPresent": false,
+  "FinalLiveState": "Operator confirmed VM Off / Operating normally and task Ready on P52; deployment milestone complete.",
+  "Scope": "Windows 11 portable deployment lifecycle passed; functional and activation acceptance pending; catalog support unchanged",
+  "LegacyOutcomes": "Two deployment subproduct milestones passed within partial MiTeC collection. No whole legacy outcome newly closed, retired or excluded; other deferred scope unchanged.",
+  "EstimatedRemaining": "37-57 / 37-52 / 19-24 / 25-35 / 8-12; exact 126-180; rounded 125-180/about 155",
+  "FinalRecoveryConfirmation": {
+    "RecordedAtUtc": "2026-10-30T14:50:42.3053494Z",
+    "Source": "Operator-provided elevated P52 Get-VM and Get-ScheduledTask output",
+    "VMState": "Off",
+    "VMStatus": "Operating normally",
+    "TaskState": "Ready"
+  }
+}

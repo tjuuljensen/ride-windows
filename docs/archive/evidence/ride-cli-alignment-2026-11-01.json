@@ -1,0 +1,95 @@
+{
+  "SchemaVersion": 1,
+  "ReviewedOn": "2026-11-01",
+  "Topic": "Windows and Fedora CLI behavior and alignment policy source review",
+  "Report": "docs/fedora-alignment.md",
+  "Scope": "Public ride.ps1/ride.sh envelope, dispatch and relevant gates; policy and CI inspection. Not an exhaustive handler, bootstrap or native acceptance audit.",
+  "Windows": {
+    "Branch": "codex/ride-v3-migration",
+    "BaseCommit": "59d1a80d3a170c2b4bad4c9e0cede1195dc118a7",
+    "WorkingTree": "Uncommitted changes present, including AllowCandidate",
+    "Files": [
+      {
+        "Path": "ride.ps1",
+        "SHA256": "FDD98D39394132CC31EA8245600CC8B6458B52E4F9FC550A8F288AA97FF7BD29"
+      },
+      {
+        "Path": "modules/RIDE.Engine.psm1",
+        "SHA256": "D2335DB79A06CE1AA6BC410112C09D028A28F061D93FC6E22435DF8A3AF1D130"
+      },
+      {
+        "Path": "modules/RIDE.UserHandoff.psm1",
+        "SHA256": "0532A0F456D5A2C2FB119326A9EFB6DA144EF5EA9FE5A160DEE82E41180BD7CA"
+      },
+      {
+        "Path": "AGENTS.md",
+        "SHA256": "2791D6B91C10B3FCB239DA78FA428F8847774ACE9356863069F0ACA082AEE6C7"
+      },
+      {
+        "Path": "docs/models/documentation-model.md",
+        "SHA256": "6BE55272FA112AE012F313F0CF13395C9AA7775FB290E7D53362B203526A6A36"
+      },
+      {
+        "Path": "docs/github-release-discovery.md",
+        "SHA256": "70A332215CD882C16BB5B02F56C0226B7A446034EC9DDB9000FDB106089C08DC"
+      },
+      {
+        "Path": ".github/workflows/validate.yml",
+        "SHA256": "775EA836556244F46042A03DEDC6115F970EA2BCF3E64E6AB096DD73BE223A22"
+      }
+    ]
+  },
+  "Fedora": {
+    "Branch": "codex/ride-v3-migration",
+    "LocalBranchReference": "5c0ac02a32fdc2b3e7c86345e071817052ae626b",
+    "WorkingTree": "Cleanliness unknown: Git status could not access the peer directory; source files and local branch reference were readable.",
+    "Files": [
+      {
+        "Path": "ride.sh",
+        "SHA256": "108AAD790ACCA42616DB3B19A14EB00B8C5ECB222828847DCFD625E79E9737FC"
+      },
+      {
+        "Path": "lib/v3/common.sh",
+        "SHA256": "8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1"
+      },
+      {
+        "Path": "lib/v3/catalog.sh",
+        "SHA256": "B397D66520B01DFB5DD31780FFF4C7A0EE3CD3F1A68819DAA1733AA57F17FF2F"
+      },
+      {
+        "Path": "completion/ride.bash",
+        "SHA256": "D2480AA211A9DBA2845905DAB1DA45746054E8CA3E3D34468B2B67E991657A99"
+      },
+      {
+        "Path": "AGENTS.md",
+        "SHA256": "C394F90BBC1E0D0042F6AC1A97E73F2883974AF31BADC0EE1D866F3D2071BB25"
+      },
+      {
+        "Path": "docs/windows-alignment.md",
+        "SHA256": "C194B4C482D3E0486C4334C37317B5CB7F6DD30FE2A360B8C606DCEE95FE2AEA"
+      },
+      {
+        "Path": "docs/github-cache-contract.md",
+        "SHA256": "7165C428A14B0960F7EF8E7A564479BEB768D80734F328DD2E2D0750FF412226"
+      },
+      {
+        "Path": ".github/workflows/v3-validation.yml",
+        "SHA256": "72AF4AE1517E942FB9E4DF09930030232E308CC49A1F6E33216A529057817422"
+      }
+    ]
+  },
+  "Findings": [
+    "Explicit cross-RIDE alignment policy exists in Fedora; no equivalent reciprocal rule found in Windows AGENTS.md",
+    "Windows candidate change/preview/restore opt-in implemented; preview and acquisition semantics still differ",
+    "Unset, profile removal, status selectors, argument validation and completion differ",
+    "No shared cross-repository CLI conformance job found in inspected workflows"
+  ],
+  "RecommendationStatus": "Proposed only: no policy, runtime, schedule, notification or CI enforcement activated",
+  "Validation": {
+    "Method": "Read source, policies and workflows; validate repository-local report links and JSON; git diff --check",
+    "NativeTestsRun": false,
+    "PlatformChanges": false,
+    "PeerFilesChanged": false,
+    "SupportPromoted": false
+  }
+}

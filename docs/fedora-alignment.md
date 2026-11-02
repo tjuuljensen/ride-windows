@@ -4,11 +4,13 @@ Machine-readable capability and difference dispositions are maintained in the
 [capability register](models/capability-differences.json).
 
 This is a maintainer comparison of the current local source, reviewed on
-2026-11-01 after Windows gained `-AllowCandidate`. Recommendations below are
-proposed follow-up work, not newly adopted policy or implemented behavior.
+2026-11-01 after Windows gained `-AllowCandidate`. The shared contract and
+reciprocal AGENTS rules were subsequently adopted at the user's request on the
+same date. Remaining recommendations are tracked final-v3 tasks, not implemented
+CLI behavior.
 Native installers, target acceptance and recovery evidence remain platform-owned.
 
-## Review basis and existing policy
+## Review basis and policy before adoption
 
 Windows was inspected on `codex/ride-v3-migration`, based on `59d1a80`, with
 uncommitted changes including candidate opt-in. Fedora's local branch reference
@@ -18,7 +20,7 @@ this session, so its checkout is not asserted clean. The
 hashes of the actual files reviewed. This is source inspection, not fresh native
 acceptance, and it does not transfer support between platforms.
 
-Fedora already has the explicit policy:
+At the comparison baseline, Fedora already had the explicit policy:
 
 - [AGENTS.md, Ownership and support](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/AGENTS.md#ownership-and-support)
   requires comparing catalog, profile and run-state behavior with Windows at
@@ -34,9 +36,9 @@ Fedora already has the explicit policy:
   as its behavior reference while documenting native cache/authentication differences.
 
 Windows [AGENTS.md](../AGENTS.md) and its [documentation model](models/documentation-model.md)
-apply the shared portfolio rules, but contain no equivalent reciprocal Fedora
-CLI/schema review requirement. The current arrangement is asymmetric and mainly
-triggered by package migrations. It can miss changes to flags, preview, settings,
+applied the shared portfolio rules, but had no equivalent reciprocal Fedora
+CLI/schema review requirement. That arrangement was asymmetric and mainly
+triggered by package migrations. It could miss changes to flags, preview, settings,
 argument parsing and recovery. Neither inspected validation workflow runs a
 shared cross-repository CLI conformance suite.
 
@@ -69,7 +71,7 @@ Links follow the development branch; the evidence hashes identify this review.
 | Package selection | `-Variant` selects a declared package variant; native installed/portable behavior and saved selection. | `--source` chooses a declared acquisition provider for the installed deployment. | Do not alias these options: variant, source, distribution, scope and deployment are different concepts. |
 | Restore and failure | Restores captured state subject to handler limits; failures expose run ID and saved/completed/unfinished work. Candidate restore needs opt-in again. | Reverses journal steps marked changed; validates source signature/recovery/conflicts, rejects an already completed restore; actual candidate restore needs opt-in again. | Share recovery guarantees and error categories, not file schemas. Test interrupted/partially applied steps, not just successful inverse actions. |
 | Argument validation | Typed parameters plus command-specific checks, including the new candidate restriction; not every irrelevant combination is rejected. | Handwritten parser validates source use, but several other parsed options can be silently irrelevant; direct remove can win over an explicitly supplied profile. | Both should reject ambiguous selectors and irrelevant flags before observing or changing state. |
-| Output and completion | PowerShell objects in parts of the engine/CLI; show/status also format output. Catalog-driven parameter completion. | JSON for show, TSV when redirected for tables; static command suggestions and local JSON completion. | Keep native human output; define a small opt-in JSON result contract for tooling. Derive or test command/option completion against the parser. |
+| Output and completion | PowerShell objects for list/search and schema-1 show results, including show pipeline input; status still formats output. Catalog-driven parameter completion. | JSON for show, TSV when redirected for tables; static command suggestions and local JSON completion. | Keep native human output; define a small opt-in shared JSON result contract for tooling. Windows show objects alone do not complete ALIGN-08. Derive or test command/option completion against the parser. |
 | Offline and extensions | Explicit local libraries; narrow offline bundle execution with independent gates. | No equivalent local-library interface or retained-artifact install path in this dispatcher. | Publish capability differences. Offline means no network fallback; do not infer it from a download cache. |
 
 Windows candidate changes and recovery still require explicit per-invocation
@@ -83,76 +85,30 @@ branch prints an observation directly after skipping mutation preflight. Put a
 common target/identity preflight before handler-specific preview output. This is
 a source finding requiring focused tests, not a reproduced native failure.
 
-## Recommended alignment policy
+## Adopted alignment policy, 2026-11-01
 
-Keep one shared RIDE behavior contract, with two native implementations and two
-local acceptance records. Neither repository should continually chase the other
-repository's moving development HEAD.
+The [shared behavior contract 1.0.0](models/ride-behavior-contract.md) is now the
+canonical RIDE contract. Both repositories record the same version/SHA-256 and
+have reciprocal AGENTS rules covering shared CLI, settings, schema meanings,
+acquisition, planning, acceptance, privilege and recovery. Either repository may
+originate changes; Windows is the host, not the presumed correct implementation.
+The contract owns the review/versioning procedure; do not duplicate it here.
 
-Use `ride-windows/docs/models/ride-behavior-contract.md` as the initial proposed
-canonical home, building on the existing Windows-owned package/GitHub references.
-This location is a hosting choice: either repository can originate a change.
-Keep portfolio-wide documentation rules in `network-devices`; do not move
-RIDE-specific command semantics there or create another policy repository yet.
-Link existing topic contracts instead of copying their contents into a new one.
-This comparison remains the Windows difference register, and Fedora's existing
-`windows-alignment.md` remains its local implementation/evidence register.
+The earlier policy inventory above describes the comparison before adoption.
+ALIGN-01 and ALIGN-02 are complete as source policy. Digest references pin the
+unpublished contract bytes; immutable publication remains ALIGN-09. Adoption
+neither changes runtime behavior nor establishes conformance or native support.
 
-The contract should cover verbs, valid argument combinations, read-only preview,
-acceptance versus target gates, scope/identity, acquisition versus installation,
-unset/baseline/restore, dependency ordering, saved-state guarantees, partial
-failure, output fields and compatibility. It should explicitly exclude identical
-catalog coverage, installer code, runtime data formats and native target support.
+## Remaining final-v3 work
 
-Recommended reciprocal text for both AGENTS.md files, after the contract exists:
-
-> Before changing shared CLI, catalog/profile meaning, acquisition, planning,
-> acceptance, privilege or recovery behavior, review the pinned RIDE behavior
-> contract and the peer implementation. Record alignment or an intentional
-> difference with an owner, reason, linked follow-up and review trigger. Update
-> affected help, completion and conformance cases in the same change. Native
-> target acceptance remains local; unresolved shared-contract drift blocks the
-> affected capability's promotion, not unrelated development.
-
-This broadens Fedora's current package-batch/RC trigger and adds the missing
-Windows obligation. Local instructions should link to the shared rules, not
-maintain two copies of the contract.
-
-## Working while both repositories change
-
-1. **Declare the impact in each change.** Record `shared behavior: unchanged`,
-   `compatible extension`, `intentional platform difference`, or `breaking change`.
-   Name affected contract IDs and peer work. Ordinary native handler fixes need
-   no second-repository edit when the shared behavior is unchanged.
-2. **Pin a reviewed contract revision in each client.** Use a small manifest with
-   contract version, exact commit/hash, implemented rule IDs and exception IDs.
-   Vendor the small shared scenario data for offline/local tests, with a source
-   manifest and explicit update tool; generated copies must not be edited locally.
-   CI must never silently test against mutable peer HEAD.
-3. **Use paired changes only when needed.** One proposal names both consumers and
-   migration/recovery implications. Each repo gets its own implementation and
-   native tests, linked by the same decision ID. Additive work can land first as
-   an advertised capability; the peer records a tracked gap. Do not force
-   synchronized commits or identical release versions.
-4. **Keep a bounded compatibility window.** For breaking behavior, define the old
-   and new contract versions, temporary aliases/migrations, and explicit removal
-   criteria. Preserve old saved-run recovery independently of CLI deprecations.
-   Test both agreed versions during transition; do not use an indefinite
-   'follow the other repo later' exception.
-5. **Test shared scenarios in each native runner.** Windows uses Pester on Windows;
-   Fedora uses its mocked Bash/Python harness on Linux. Consume the same fixture
-   meanings, with adapters for names and formats. Assert observable behavior and
-   side-effect counts, not matching help text or installer implementations.
-6. **Detect upstream changes separately.** Add a scheduled/manual read-only CI
-   comparison of the pinned contract against its newer published revision and
-   peer capability manifest. Report changed rules and stale exceptions. Keep
-   reproducible PR checks pinned; do not auto-merge contract updates. No scheduled
-   job or external notification is created by this recommendation.
-7. **Close the loop before promotion.** Review the affected peer capability on
-   shared changes, package batches and each release candidate. A difference entry
-   needs ID, owner, reason, affected rules, linked work, reviewed revisions,
-   status and a concrete review/removal trigger. Release summaries distinguish
-   aligned, intentionally different, pending implementation and native-accepted.
+The [Windows task list](../TODO.md#cross-platform-alignment-for-final-v3) and
+[Fedora plan](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/MIGRATION-PLAN.md#cross-platform-alignment-for-final-v3)
+track paired ALIGN-03 through ALIGN-09 work with completion criteria. These tasks
+cover behavior fixes, shared native test scenarios, a structured difference
+register, linked-change reviews, drift reporting, usage/output improvements and
+final release verification. No synchronized commits or identical release numbers
+are required. Temporary gaps need explicit disposition before final v3; ordinary
+platform differences and native support remain separate.
 
 Initial shared scenarios should exercise candidate apply and restore with/without
 opt-in; previews on accepted, candidate and undeclared targets; no preview writes
@@ -165,19 +121,20 @@ Machine-readable result tests should cover stable fields and failure categories,
 not require PowerShell and Bash to print identical prose or use identical native
 exit codes.
 
-## Suggested implementation order
+## Tracked implementation order
 
 | Priority | Work | Completion evidence |
 | --- | --- | --- |
-| First | Agree the small shared contract, capability/exception manifest, and reciprocal AGENTS links. | Both clients name the same reviewed rules and every current difference has a disposition. |
+| Complete in source | ALIGN-01/02: shared contract, digest references and reciprocal AGENTS links. | Both clients adopt contract 1.0.0. Runtime conformance and the structured difference register remain open. |
 | Next | Fix ambiguous/ignored arguments, define profile removal eligibility, and replace Fedora's generic disabled mapping for unset. | Focused mocked tests prove refusal before mutation and preserve published explicit set/recovery paths. |
 | Next | Agree candidate preview and acquisition policy; then make the small coordinated behavior changes. | Matching shared scenarios pass, with target/identity checks retained and no preview writes. |
 | Then | Add the pinned scenario suite, completion checks and drift-reporting workflow. | Both native CI jobs run the same contract revision; a deliberate mismatch is detected. |
 | Later | Improve explicit ID/view status selectors, profile convenience and structured output. | Compatible command examples and versioned output tests; no forced installer or catalog parity. |
 
-No runtime code, policy enforcement, peer checkout or acceptance status is changed
-by this review. Documentation/link checks validate this report; implementation
-and disposable-target acceptance remain separate follow-up work.
+The follow-up changes maintainer policy and v3 task records in both repositories.
+No runtime code, CI enforcement or acceptance status changes. Documentation,
+digest and link checks validate adoption; implementation and disposable-target
+acceptance remain separate follow-up work.
 
 ## Fast-track ETL2PCAPNG acquisition review, 2026-11-02
 
@@ -288,7 +245,6 @@ source/dependencies/recovery or the release candidate. No supported target or
 shipped profile is promoted. Follow the
 [RSAT native acceptance procedure](windows-component-inventory.md#client-rsat-catalog-candidates)
 and the [remaining test strategy](migrations/migration-completion-reassessment-2026-11-02.md#remaining-test-strategy-assessment-2026-11-02).
-
 ## Generated Wi-Fi profile input, 2026-11-02
 
 Compatible Windows-native preparation extension; shared contract unchanged
@@ -312,7 +268,6 @@ or automated shared-conformance claim. No shared version/digest changes.
 Owner: RIDE Windows maintainer. Review trigger: importer/recovery integration,
 additional security modes, scope changes or release candidate. Follow-up and
 acceptance: [Wi-Fi generation and synthetic testing](wireless-profile-inventory.md#synthetic-testing).
-
 ## Private WLAN lifecycle candidate, 2026-11-02
 
 Difference ID `windows.wlan-private-lifecycle`; compatible Windows-native
@@ -831,3 +786,82 @@ WLAN availability, DPAPI/remoting and lifecycle acceptance remain unrun.
 Follow-up: [WLAN host procedure](wireless-profile-inventory.md#retained-host-dispatch).
 Review trigger: native interface observation, synthetic lifecycle/recovery,
 source/target/completion changes, or release review.
+
+## Show pipelines and native output, 2026-11-02
+
+`SHOW-01` / ALIGN-08-W: compatible Windows-native extension under RB-02/03/10/12,
+implementing the adopted 1.1.0 show contract. CLI 0.18.0 accepts strings and objects with
+`Id` through a show-only pipeline binding. Explicit positional/named IDs keep
+their meaning. Other commands reject pipeline input before dispatch. Engine
+0.32.0 emits one schema-1 `RIDE.ShowResult` object per selection, with nested
+group member observations. The [output contract](catalog-show.md) declares
+stable fields and migration from formatting records. Existing metadata and
+observation handlers, candidate gates and saved-state recovery are unchanged.
+
+Initially reviewed pinned contract 1.0.0, SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`.
+The concurrent contract work then deliberately adopted 1.1.0. Rechecked its
+show selection/output/error rules and verified the new pinned digest
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`.
+Fedora's local branch ref is `3d9406e3888122d1407652336859e6217c09bcaa`;
+reviewed working-tree `ride.sh` (`ride_show` and dispatch), SHA-256
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+and `tests/test_v3_cli.py`, SHA-256
+`61BDFC027401A64F1CC3248201C6FF82DBCA8E14DCF18F9A0ACAA874A22FE07C`.
+Fedora takes an explicit ID and emits JSON with `observedState` and
+`availableSources`; it does not consume PowerShell pipeline objects. This
+native input/output difference is intentional, owned by the RIDE Windows
+maintainer, to support ordinary PowerShell composition. It does not alias
+Windows variants to Fedora source providers or claim a shared JSON schema.
+
+Follow-up: [Windows ALIGN-08](../TODO.md#cross-platform-alignment-for-final-v3)
+and [Fedora ALIGN-08](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/MIGRATION-PLAN.md#cross-platform-alignment-for-final-v3)
+retain the paired usage/shared automation work. Review this difference when
+that interface is designed, schema fields change, or final v3 is reviewed.
+Validation passed 14/14 isolated show/input tests and 131/131 existing search,
+CLI dispatch, setting presentation, BitLocker and Shell-folder cases in each
+of Windows PowerShell 5.1 and PowerShell 7. The show fixture was corrected and
+rerun after missing validation dependencies in its initial library setup;
+all final cases pass. PowerShell parsing and focused diff checks pass. These are native
+PowerShell source checks with mocked state, not shared conformance or new
+Windows target acceptance. No legacy outcome is migrated by this CLI change.
+
+## Show pipeline contract 1.1.0, 2026-11-02
+
+ALIGN-08-W / owner: RIDE Windows maintainer. Compatible extension of
+RB-02/03/10/11, authorized for documentation by the user. The canonical
+[show pipeline contract](models/ride-behavior-contract.md#show-pipelines-and-native-structured-output)
+now defines ordered read-only ID streams, empty/error behavior and native
+PowerShell object / Bash JSON output. Contract 1.1.0 is the completion target;
+existing positional syntax and saved-run recovery remain intact. Native transport
+and field names are intentional platform differences, not an identical JSON schema.
+
+Windows pipeline input/output is under implementation in the main workstream;
+its [native result contract](catalog-show.md) and focused tests own implementation
+status. This documentation run makes no new runtime or acceptance claim.
+Fedora still requires a positional ID and emits catalog JSON with observedState
+and availableSources. Explicit --stdin, compact JSON records, a native result
+schema, help/completion and paired tests remain
+[ALIGN-08-F](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/windows-alignment.md#show-pipeline-contract-110-2026-11-02).
+
+Reviewed the previous contract 1.0.0 digest
+80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645 and Fedora
+commit 3d9406e3888122d1407652336859e6217c09bcaa, with ride.sh SHA-256
+49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266.
+Windows working-tree inputs inspected: ride.ps1 SHA-256
+6D31628643179E352C465590389116EDEEE65B845C504416C676EDC2BC4424AF and
+modules/RIDE.Engine.psm1 SHA-256
+2391564E3028AA32CA74241ACC513B5D87D10C7B58E1B062B8AACFD4BBD4F905.
+These are review snapshots; the concurrent implementation may advance them.
+Both consumer references adopt the new canonical digest. Existing scenario
+revision 1.0.0 is repinned without changing its cases; this does not add show
+pipeline coverage or establish automated shared conformance. The capability
+register's contract version follows the new pin; unrelated source reviews remain
+as previously dated.
+
+Next action: finish Windows native tests, implement the Fedora sibling and add
+paired ALIGN-05 fixtures for the acceptance cases in the canonical section.
+Review trigger: either client's selection/output/error semantics change, paired
+fixtures are added, or final v3 release review. Keep the affected capability's
+promotion gated on documented disposition of those gaps. This is CLI contract
+work, not a legacy migration run; no legacy outcome or estimate changes.

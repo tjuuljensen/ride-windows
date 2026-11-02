@@ -4,15 +4,12 @@
 
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
-| Settings | 37-57 | Latest batch review, 2026-11-02: BitLocker effective-policy and preboot/retrieval gaps recorded; enrollment hard-codes XTS-AES128 and cannot establish method-policy selection. <br> 2026-11-02 fast-track review: reuse narrow F1/profile evidence; icons and critical BitLocker acceptance selected, unmapped/high-risk work deferred. 2026-11-02; pre-Optional batch 3 passed hibernation, local password and media policy source tests. 2026-11-02; pre-Optional batch 2 passed Explorer setting previews and related component tests in 509/511 cases. 2026-11-02; pre-Optional bounded batch 1 passed 414/418, including catalog, BitLocker and setting preview regressions. 2026-11-02; post-Optional bounded batch 3 passed 405 user language, PATH, proxy and inventory source tests. 2026-11-02; bounded post-Optional batch 2 passed 743/747 with four environment/fixture skips, including 130 setting cases. 2026-11-02; bounded post-Optional batch 1 passed 418/418 across settings, profile and registry suites; no legacy outcome closed. 2026-11-02; 151-file/3698-test aggregate stalled in OptionalWindowsSettings without summary; isolated OptionalWindowsSettings remains separately passed 365/365. 2026-11-02; Profile audit found no unsupported/pending Windows 11 selections across the current profile set.  2026-11-02; no new outcome closed in this group; estimate unchanged.  2026-11-02; no new outcome closed in this group; estimate unchanged.  2026-11-02; repository validation passed (452 operations, 8 groups, 5 profiles, 329 PowerShell files). The 3698-test sweep passed the full Optional Windows settings file, then stopped after ProfileSettings without an aggregate summary while the PSScriptTools lifecycle was in progress. 2026-11-02; candidate preview regression refresh passed 130/130 across eight PowerShell 7 suites; no legacy outcomes closed and estimates unchanged. 2026-11-02; ALIGN-07 pinned drift-report regression passed 3/3 in PowerShell 7; no legacy outcomes closed and estimates unchanged. Reviewed 2026-11-02; ALIGN-06 Windows capability register and schema regression passed 4/4 in Windows PowerShell 5.1 and 4/4 in PowerShell 7.6.5; no legacy outcome closes, range unchanged. User proxy inventory, preparation and lifecycle regression passed 103/103 in PowerShell 7 and Windows PowerShell 5.1 (206 total). Firewall and WinHTTP proxy current-source regression passed 42/42 in PowerShell 7 and Windows PowerShell 5.1 (84 total). CEIP, media, server and Windows Update policy source regression passed 43/43 in PowerShell 7 and Windows PowerShell 5.1 (86 total). Hibernation candidate state and acceptance-runner regression passed 28/28 in PowerShell 7 and Windows PowerShell 5.1 (56 total). BitLocker policy, engine projection and workflow source regression passed 31/31 in PowerShell 7 and Windows PowerShell 5.1 (62 total). Sixty-setting and registry failure regression passed 137/137 in PowerShell 7 and Windows PowerShell 5.1 (274 total). Explorer, network/sound and keyboard setting source regression passed 74/74 in PowerShell 7 and Windows PowerShell 5.1 (148 total). Service and power setting regression passed 68/68 in PowerShell 7 and Windows PowerShell 5.1 (136 total). Managed settings current-source regression passed 11/11 in PowerShell 7 and Windows PowerShell 5.1 (22 total). Optional Windows settings current-source regression passed 365/365 in PowerShell 7 and Windows PowerShell 5.1 (730 total). Profile settings current-source regression passed 37/37 in PowerShell 7 and Windows PowerShell 5.1 (74 total). Remaining-setting catalog and mocked lifecycle regression passed 81/81 in both PowerShell editions (162 total). SettingPresentation regression passed 14/14 in PowerShell 7 and Windows PowerShell 5.1 (28 total). Prior 41 native lifecycles / 107 states remain passed; six unavailable and feature/UI/restart checks remain open. F1 promoted for File Explorer on Windows 11 with build 26300 minimum; pending BitLocker policies removed from defaults. Profile cleanup complete. Optional hibernation candidate has a prepared 18-case disposable fixture; Windows PowerShell 5.1 read-only inspection corrected. Hibernation source and acceptance-runner regression passed 28/28 in PowerShell 7 and Windows PowerShell 5.1 (56 total) with powercfg, guest, registry and engine boundaries mocked. Explicit candidate execution and restore use -AllowCandidate; read-only candidate previews require no opt-in and warn that acceptance remains pending; native lifecycle acceptance and legacy menu/mirror scope remain open. Defender captured-path exclusion recovery source regression passed 39/39 in PowerShell 7 and Windows PowerShell 5.1 (78 total) with mocked providers; Platform inventory suites passed 179/179 in PowerShell 7 and Windows PowerShell 5.1 (358 total); installed-registration, local-user and user-language inventory/override/preparation suites passed 143/143 in PowerShell 7 and Windows PowerShell 5.1 (286 total) with mocked providers; installed-registration and local-user inventory, user-language inventory and overrides, and language-priority preparation regression passed 143/143 with mocked native providers. User PATH engine/preparation, optional user-bin profile and fake power-read source regression passed 93/93 in PowerShell 7 and Windows PowerShell 5.1 (186 total); PATH/profile candidates remain target-gated. Owned power-plan source lifecycle and candidate gating passed 29/29 in PowerShell 7 and Windows PowerShell 5.1 (58 total) with mocked native commands; experimental plans remain target-gated. Local password-age and password-complexity candidate source regression passed 40/40 in PowerShell 7 and Windows PowerShell 5.1 (80 total) with mocked policy setters; both remain target-gated. Audio service mocked lifecycle and screen-lock measurement safety/arithmetic regression passed 25/25 in PowerShell 7 and Windows PowerShell 5.1 (50 total); native service acceptance remains open. Remaining setting mocked source regression passed 81/81 in PowerShell 7.6.5/Pester 5.7.1; no native state changed. RegistryFailures regression was included in the six-file source batch, which passed 57/57 overall. Eight settings and shell source suites passed 172/172, including server policies, services, presentation and shell-folder recovery. Windows Update notification policy source tests passed in the four-file 268-pass batch. User-bin and user-language inventory, override and preparation source regression passed 102/102. User PATH engine/preparation and user-proxy inventory/lifecycle/preparation regression passed 159/159 with mocked providers; PATH candidates remain target-gated. WinHTTP proxy inventory, lifecycle and preparation source regression passed 22/22 with mocked providers. Sixty-setting mocked preview, capture and restore regression passed 130/130 in PowerShell 7.6.5/Pester 5.7.1. Alignment review: shared setting/preview rules adopted; runtime gaps remain ALIGN-03/04. Estimate review refreshed 2026-11-02 after all 365 Optional Windows settings source tests passed in seven filtered runs; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the repository sweep partial and PSScriptTools isolated source checks; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the remaining-setting source regression; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the six-file source regression passed 57/57; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after eight settings and maintenance source suites passed 172/172; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after source-script and Store suites passed 72/74 with two optional archive skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals independent product source suite passed 72/72; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals Suite synthetic lifecycle suite passed 8/8; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the automation/toolkit/update-notification batch passed 268/270 with two host-specific skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user-bin and language source suites passed 102/102; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user PATH/proxy source suites passed 159/159; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user handoff and local inventory source suites passed 127/127; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WhatIsMyIP/WinPmem/Wireshark source tests passed 16/16; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WinHTTP proxy source tests passed 22/22; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WFN metadata and small lifecycle checks passed 2/2; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated WFN full-lifecycle attempt exceeded 20 minutes; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated SixtySettings source regression passed 130/130; no legacy outcome closed; range unchanged. 2026-11-02; WFN focused package-source batch closed no outcome in this group; estimate unchanged. 2026-11-02; WFN lifecycle retry closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source-test batch closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; acceptance/controller regression closed no outcome in this group; estimate unchanged. 2026-11-02; component source regression closed no outcome in this group; estimate unchanged. 2026-11-02; OpenSSH Server source regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; documentation/library regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; PSScriptTools retry closed no outcome in this group; estimate unchanged. 2026-11-02; setting presentation, managed/remaining settings and SixtySettings suites passed 236/236 in 14m32s; no outcome closed. 2026-11-02; Store source regression closed no outcome in this group; estimate unchanged. 2026-11-02; catalog/profile validation closed no outcome in this group; estimate unchanged. 2026-11-02; NTCore source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Sysinternals retry closed no outcome in this group; estimate unchanged. 2026-11-02; installer/bootstrap source regression closed no outcome in this group; estimate unchanged. 2026-11-02; inventory source regression closed no outcome in this group; estimate unchanged. 2026-11-02; network/firewall/audio/power source regression passed 80/80; no outcome closed. 2026-11-02; hibernation lifecycle/acceptance and BitLocker policy workflows passed 58/58; no outcome closed. 2026-11-02; CEIP/media/server/Windows Update policy current-source regression passed 43/43; no outcome closed. 2026-11-02; profile, desired configuration, legacy deployment mapping and observation import tests passed 98/98; no outcome closed. 2026-11-02; maintenance/recovery source regression closed no outcome in this group; estimate unchanged.  2026-11-02; Office inventory, configuration review and deployment identity source regression passed 113/113; no legacy outcome closed; estimate unchanged. 2026-11-02; Behavior contract, alignment drift and custom registry authoring source regression passed 39/39; no legacy outcome closed; estimate unchanged. 2026-11-02; Caffeine, release discovery, search and fixture source regression passed 103/103; no legacy outcome closed; estimate unchanged. 2026-11-02; GitHub authentication and VM authentication source regression passed 76/76; no legacy outcome closed; estimate unchanged. 2026-11-02; Windows PowerShell 5.1 compatibility rerun for 331 cases was blocked before Pester discovery by AuthorizationManager rejecting installed module format data; no cases ran. 2026-11-02; Lab, CLI and acceptance automation source regression passed 324/324 runnable cases across six suites; two Desktop-only cases skipped; no legacy outcome closed. 2026-11-02; Package selection/adoption/dependency/evidence and Store app source regression passed 260/263 with three retained-payload fixture skips; no legacy outcome closed. 2026-11-02; Power plan/settings and Caffeine mocked source regression passed 104/104 across five suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Library lifecycle, authoring and example source regression passed 80/80 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Offline bundle, execution, coverage and portable selection source regression passed 238/238 across seven suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Component inventory/preparation/lifecycle and OpenSSH source regression passed 109/109 across six suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Package source-pin and inert recovery regression passed 35/36 with one Cookie Cruncher archive-fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Watchdog recovery, toolkit update planning and Windows Update notification source regression passed 70/70 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Setting candidate, Explorer, inventory, help and Photo Viewer source regression passed 130/130 across eight suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Installed inventory/JoeWare/license/MAC source regression passed 75/76 with one retained AdMod fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Desktop shortcut and hash-menu source regression passed 18/19 with one Windows PowerShell 5.1-only case skipped under PowerShell 7; no legacy outcome closed. 2026-11-02; Local password-complexity candidate template and preparation source regression passed 20/20; no legacy outcome closed; estimate unchanged. 2026-11-02; Repository validation passed: current operation documentation, 452 operations, 8 groups, 5 profiles and 329 PowerShell files; no legacy outcome closed. Windows PowerShell 5.1 source compatibility passed 331/331; no legacy outcome closed; range unchanged. WFN 531-member synthetic lifecycle retry remained incomplete after about five minutes; no migration outcome closed; estimate unchanged.  PSScriptTools 360-member source lifecycle suite passed 7/7 in 20:25.879 with no skips; no legacy outcome closed; estimate unchanged. |
-| Packages | 34-49 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: selected light lifecycle/acquisition families authorized; all MiTeC feature checks deferred to 3.1, alert files excluded. 2026-11-02; registered MiTeCAnalysisTools lifecycle run passed two pinned file-staging cases with checkpoint recovery; no utilities ran. Functional acceptance and Defender active/no-alert evidence remain pending. 2026-11-02; Prior registered ApplicationsBatch12 passed NTCore Explorer Suite install/repeat/remove/presence recovery on Windows 11 build 26300 (432/436 Pester, 4 skipped); Defender active/no-alert evidence is absent, so support remains pending. 2026-11-02; MiTeC and NTCore source tests passed 119/131 with 12 retained-archive fixture skips; no package outcome closed. 2026-11-02; pre-Optional batch 3 passed installer, library authoring, license store and MiTeC analysis source checks. 2026-11-02; pre-Optional batch 2 passed package authoring, GitHub discovery/auth and Cookie Cruncher source boundaries. 2026-11-02; pre-Optional bounded batch 1 passed package source and acquisition boundary tests; three optional archive checks skipped. 2026-11-02; post-Optional bounded batch 3 passed 405 source checks, including WinPmem and Wireshark metadata/lifecycle boundaries. 2026-11-02; Sysinternals independent products passed 72/72 and 164-member suite lifecycle passed in the 743-pass batch; prior specialist approval unchanged. 2026-11-02; bounded post-Optional batch 1 passed package adoption, evidence, portable manifest and package source tests. 2026-11-02; WFN synthetic 531-member direct diagnostic stalls inside the first portable install after fixture setup completes. 2026-11-02; PSScriptTools focused boundaries passed 6/6; 360-member lifecycle remains incomplete after a 3m35s attempt and previous longer stalls. 2026-11-02; Profile audit found no unsupported/pending Windows 11 selections across the current profile set.  2026-11-02; NTCore package/launcher and Phoenix source suites passed 43/43 with 7 optional fixture skips.  2026-11-02; MiTeC package source and inert staging suites passed 88/88 with 11 optional archive-fixture skips.  2026-11-02; no package batch ran; WFN and PSScriptTools large lifecycle blockers remain.  2026-11-02; no package batch ran; WFN and PSScriptTools large lifecycle blockers remain.  2026-11-02; repository validation passed (452 operations, 8 groups, 5 profiles, 329 PowerShell files). The 3698-test sweep passed the full Optional Windows settings file, then stopped after ProfileSettings without an aggregate summary while the PSScriptTools lifecycle was in progress. 2026-11-02; candidate preview regression refresh passed 130/130 across eight PowerShell 7 suites; no legacy outcomes closed and estimates unchanged. 2026-11-02; ALIGN-07 pinned drift-report regression passed 3/3 in PowerShell 7; no legacy outcomes closed and estimates unchanged. Reviewed 2026-11-02; ALIGN-06 Windows capability register and schema regression passed 4/4 in Windows PowerShell 5.1 and 4/4 in PowerShell 7.6.5; no legacy outcome closes, range unchanged. Artcraft and Slack/Discord package pins passed 10/10 in PowerShell 7 and Windows PowerShell 5.1 (20 total). The current-source ApplicationPackages suite passed 135/138 in Windows PowerShell 5.1 and PowerShell 7.6.5 (270 passes, 6 skips); RawCopy, ETL2PCAPNG and AdMod retained-artifact lifecycle cases remain skipped without explicit fixtures. Package dependency and acquisition-evidence regression passed 40/40 in PowerShell 7 and Windows PowerShell 5.1 (80 total). PackageEvidence, PackageDependencyPlanning and Download-JoeWareCollection regression passed 49/49 in both editions (98 total) with mocked network/signature calls; JoeWare WhatIf made no publisher request. Source-script packages and JoeWare current-source tests passed 18/18 in PowerShell 7 and Windows PowerShell 5.1 (36 total passes) with 3 retained-archive cases skipped in each edition. PSScriptTools six source-boundary cases now pass in PowerShell 7 and Windows PowerShell 5.1 (12 total); the full 360-member lifecycle remains incomplete after repeated stalls. User-approved fast track: ordinary user-mode products require package-level source/pin, install/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; individual tool behavior is untested by design. Defender active/no-alert observation is not in the archived VM record and remains blocked by host CIM. WFN inventory and small synthetic lifecycle cases passed. Two full 531-member synthetic lifecycle reruns stalled after two reported tests, before a Pester summary; no full-suite pass is claimed. WhatIsMyIP, WinPmem and Wireshark source suites passed 16/16 in PowerShell 7 and Windows PowerShell 5.1; RegRipper, Rufus and Raspberry Pi Imager passed 10/10 in both editions (52 total test executions). Sysinternals independent product source regression passed 72/72; its suite-level synthetic 164-member lifecycle repeat now passes 8/8 in 9m22; no utility was executed. HashCheck complete; NTCore and Project Maker installation lifecycles accepted. EXE Explorer and HexEdit deployment complete. System Information eXtra and TAPI Monitor deployment complete. 52 catalog packages remain pending candidates; InfoBar is deferred. Offline acceptance remains independent. Cookie Cruncher synthetic lifecycle, GitHub release discovery and Gpg4win package source regression passed 44/45 in PowerShell 7 and Windows PowerShell 5.1 (88 passes, two retained-archive skips). GitHub release discovery alone passes 29/29 in both PowerShell editions (58 total). A Gpg4win TestDrive roaming warning path was absent on immediate read-only check. Installer inspection, process-completion policy and deployment-identity regression passed 62/62 in PowerShell 7 and Windows PowerShell 5.1 (124 total) with inert archives and mocked download/installer boundaries. GitHub authentication plumbing regression passed 53/53 in PowerShell 7 and Windows PowerShell 5.1 (106 total) with synthetic credentials and mocked acquisition routes; VM-bound authentication remains deferred. PackageAdoptionReview passed 25/25 in both PowerShell editions (50 total) with synthetic inventories and no native registration query or ownership grant. Phoenix Protector pinned MSI source and installer-routing regression passed 4/4 in PowerShell 7 and Windows PowerShell 5.1 (8 total); the payload was not acquired or launched. MiTeC JSON/XML viewer portable source and synthetic lifecycle regression passed 16/16 in both PowerShell editions (32 total); publisher archives were not used. MiTeC EXE Explorer/HexEdit, certificate tools and DFM Editor suites passed 21/21 in both editions (42 total), including reviewed archive staging and restore with no executable launch. Windows File Analyzer, Icon Explorer, OLE/COM Explorer, Registry Recovery, SMBIOS Explorer, UUID Generator and DirList synthetic source/lifecycle suites passed 14/19 in each edition (28 passes, 10 retained-archive skips total); no executable launched. Paradox Data Editor, Interbase Query, Mail Checker/history, Network Meter/Scanner, SSView and Task Manager DeLuxe suites passed 31/34 in each edition (62 passes, 6 retained-archive skips total); available Mail History and SSView archives were hash-checked, no product launched. NTCore 4GB launcher, Unpacker/DynLogger and package regressions passed 39/46 in both editions (78 passes, 14 retained-archive skips total); the 4GB action was previewed only. PSScriptTools source metadata and recovery checks passed 6/6; its 360-member synthetic lifecycle returned no result in two 15-minute runs and remains incomplete. Raspberry Pi Imager, RegRipper and Rufus source suites passed within the six-file 57/57 batch. Source-script and Store review/lifecycle tests passed 72/74; two retained-archive checks skipped without cached publisher archives. Sysinternals independent product source regression passed 72/72; the prior license-specialist approval remains unchanged and no utility was executed. No licensing decision changed; the user's prior license-specialist approval for Sysinternals use through RIDE remains in effect. WhatIsMyIP, WinPmem and Wireshark package-source regression passed 16/16 in PowerShell 7.6.5. WFN package metadata and small synthetic lifecycle checks passed 2/2; its complete 531-member synthetic lifecycle is a separate pending test. WFN 531-member synthetic lifecycle did not return a Pester summary after 20 minutes and remains incomplete; its metadata and small lifecycle checks passed 2/2. Alignment review: acquisition/removal rules adopted; no package outcome promoted. Estimate review refreshed 2026-11-02 after all 365 Optional Windows settings source tests passed in seven filtered runs; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the repository sweep partial and PSScriptTools isolated source checks; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the remaining-setting source regression; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the six-file source regression passed 57/57; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after eight settings and maintenance source suites passed 172/172; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after source-script and Store suites passed 72/74 with two optional archive skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals independent product source suite passed 72/72; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals Suite synthetic lifecycle suite passed 8/8; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the automation/toolkit/update-notification batch passed 268/270 with two host-specific skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user-bin and language source suites passed 102/102; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user PATH/proxy source suites passed 159/159; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user handoff and local inventory source suites passed 127/127; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WhatIsMyIP/WinPmem/Wireshark source tests passed 16/16; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WinHTTP proxy source tests passed 22/22; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WFN metadata and small lifecycle checks passed 2/2; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated WFN full-lifecycle attempt exceeded 20 minutes; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated SixtySettings source regression passed 130/130; no legacy outcome closed; range unchanged. 2026-11-02; WFN catalog and compact synthetic lifecycle checks passed 2/2; full 531-member lifecycle remains incomplete; no package outcome closed. 2026-11-02; WFN 531-member lifecycle retry stopped without a result after about four minutes; no acceptance credit or package outcome closed. 2026-11-02; MiTeC System Information and TAPI Monitor source regression passed 4/4 with two unavailable retained-archive skips; no outcome closed. 2026-11-02; MiTeC viewer, UUID Generator and SQLite Query package regression passed 20/21 with one unavailable archive-fixture skip; no outcome closed. 2026-11-02; MiTeC DFM Editor, Task Manager DeLuxe and Network Scanner source regression passed 11/13 with two missing-archive skips; no outcome closed. 2026-11-02; MiTeC DirList, Network Meter, Paradox Data Editor and Mail Checker regression passed 8/8; no outcome closed. 2026-11-02; MiTeC Interbase Query and mail/history source regression passed 18/19 with one missing-archive skip; no outcome closed. 2026-11-02; MiTeC historical and review-data package regression passed 10/15 with five unavailable archive skips; no outcome closed. 2026-11-02; MiTeC certificate utility and SSView package regression passed 7/7; no outcome closed. 2026-11-02; portable acceptance/controller automation passed 206/208 with two elevation-only skips; VM access remains blocked; no outcome closed. 2026-11-02; component source regression closed no outcome in this group; estimate unchanged. 2026-11-02; OpenSSH Server source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Artcraft/Cookie Cruncher/Rufus package source regression passed 13/14 with one missing-archive skip; no outcome closed. 2026-11-02; RegRipper/Raspberry Pi Imager/WinPmem/WhatIsMyIP source regression passed 14/14; no outcome closed. 2026-11-02; Gpg4win/library regression exposed and corrected stale generated OPERATIONS.md; 81 unique tests now pass; no outcome closed. 2026-11-02; ApplicationPackages source regression passed 136/139, with three optional archive-fixture skips and no failures; no legacy outcome closed. 2026-11-02; PSScriptTools 360-member lifecycle retry stopped after about four minutes without a result; no acceptance credit or outcome closed. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Store source regression closed no outcome in this group; estimate unchanged. 2026-11-02; catalog/package dependency and profile validation passed 112/113 discovered; one HKCU WindowsIntegration case excluded; no outcome closed. 2026-11-02; NTCore/Phoenix current-source suites passed 43/50 with seven archive-fixture skips; corrected the stale Explorer Suite evidence assertion; no outcome closed. 2026-11-02; combined Sysinternals retry stalled in suite-level synthetic ownership test without aggregate result; no new acceptance credit; estimate unchanged. 2026-11-02; installer inspection/completion and bootstrap source suites passed 34/34; no outcome closed. 2026-11-02; inventory source regression closed no outcome in this group; estimate unchanged. 2026-11-02; handler source regression closed no outcome in this group; estimate unchanged. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; policy source regression closed no outcome in this group; estimate unchanged. 2026-11-02; profile/observation source regression closed no outcome in this group; estimate unchanged. 2026-11-02; maintenance/recovery source regression closed no outcome in this group; estimate unchanged.  2026-11-02; Office inventory, configuration review and deployment identity source regression passed 113/113; no legacy outcome closed; estimate unchanged. 2026-11-02; Behavior contract, alignment drift and custom registry authoring source regression passed 39/39; no legacy outcome closed; estimate unchanged. 2026-11-02; Caffeine, release discovery, search and fixture source regression passed 103/103; no legacy outcome closed; estimate unchanged. 2026-11-02; GitHub authentication and VM authentication source regression passed 76/76; no legacy outcome closed; estimate unchanged. 2026-11-02; Windows PowerShell 5.1 compatibility rerun for 331 cases was blocked before Pester discovery by AuthorizationManager rejecting installed module format data; no cases ran. 2026-11-02; Lab, CLI and acceptance automation source regression passed 324/324 runnable cases across six suites; two Desktop-only cases skipped; no legacy outcome closed. 2026-11-02; Package selection/adoption/dependency/evidence and Store app source regression passed 260/263 with three retained-payload fixture skips; no legacy outcome closed. 2026-11-02; Power plan/settings and Caffeine mocked source regression passed 104/104 across five suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Library lifecycle, authoring and example source regression passed 80/80 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Offline bundle, execution, coverage and portable selection source regression passed 238/238 across seven suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Component inventory/preparation/lifecycle and OpenSSH source regression passed 109/109 across six suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Package source-pin and inert recovery regression passed 35/36 with one Cookie Cruncher archive-fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Watchdog recovery, toolkit update planning and Windows Update notification source regression passed 70/70 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Setting candidate, Explorer, inventory, help and Photo Viewer source regression passed 130/130 across eight suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Installed inventory/JoeWare/license/MAC source regression passed 75/76 with one retained AdMod fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Desktop shortcut and hash-menu source regression passed 18/19 with one Windows PowerShell 5.1-only case skipped under PowerShell 7; no legacy outcome closed. 2026-11-02; Local password-complexity candidate template and preparation source regression passed 20/20; no legacy outcome closed; estimate unchanged. 2026-11-02; Repository validation passed: current operation documentation, 452 operations, 8 groups, 5 profiles and 329 PowerShell files; no legacy outcome closed. Windows PowerShell 5.1 source compatibility passed 331/331; no legacy outcome closed; range unchanged. WFN 531-member synthetic lifecycle retry remained incomplete after about five minutes; no migration outcome closed; estimate unchanged.  PSScriptTools 360-member source lifecycle suite passed 7/7 in 20:25.879 with no skips; no legacy outcome closed; estimate unchanged. |
-| Components | 19-24 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: host checkpoint matched; catalog OpenSSH Client and full available client RSAT permit explicit Windows Update acquisition and still require recovery. 2026-11-02; OpenSSH capability, service lifecycle and observation source regression passed within a 330/336 batch; native acceptance remains open. pre-Optional batch 2 component lifecycle/preparation and authoring checks passed within 509/511. Profile audit found no unsupported/pending Windows 11 selections across the current profile set.  no new outcome closed in this group; estimate unchanged.  no new outcome closed in this group; estimate unchanged.  repository validation passed (452 operations, 8 groups, 5 profiles, 329 PowerShell files). The 3698-test sweep passed the full Optional Windows settings file, then stopped after ProfileSettings without an aggregate summary while the PSScriptTools lifecycle was in progress. candidate preview regression refresh passed 130/130 across eight PowerShell 7 suites; no legacy outcomes closed and estimates unchanged. ALIGN-07 pinned drift-report regression passed 3/3 in PowerShell 7; no legacy outcomes closed and estimates unchanged. Reviewed ALIGN-06 Windows capability register and schema regression passed 4/4 in Windows PowerShell 5.1 and 4/4 in PowerShell 7.6.5; no legacy outcome closes, range unchanged. OpenSSH Server capability, service activation and observation regression passed 34/34 in PowerShell 7 and Windows PowerShell 5.1 (68 total). Component inventory, client preparation and mocked lifecycle regression passed 75/75 in both PowerShell editions (150 total). Store registration lifecycle source guards pass; native Store app behavior remains target-gated. StoreApps mocked registration, intent-record and partial-group regression passed 33/33 in PowerShell 7 and Windows PowerShell 5.1 (66 total); native Store behavior remains target-gated. No native Windows component outcome changed; retain accepted release workflows and defer experimental scope. Alignment review: native capability differences retained; no component outcome closed. Estimate review refreshed 2026-11-02 after all 365 Optional Windows settings source tests passed in seven filtered runs; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the repository sweep partial and PSScriptTools isolated source checks; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the remaining-setting source regression; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the six-file source regression passed 57/57; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after eight settings and maintenance source suites passed 172/172; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after source-script and Store suites passed 72/74 with two optional archive skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals independent product source suite passed 72/72; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals Suite synthetic lifecycle suite passed 8/8; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the automation/toolkit/update-notification batch passed 268/270 with two host-specific skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user-bin and language source suites passed 102/102; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user PATH/proxy source suites passed 159/159; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user handoff and local inventory source suites passed 127/127; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WhatIsMyIP/WinPmem/Wireshark source tests passed 16/16; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WinHTTP proxy source tests passed 22/22; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WFN metadata and small lifecycle checks passed 2/2; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated WFN full-lifecycle attempt exceeded 20 minutes; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated SixtySettings source regression passed 130/130; no legacy outcome closed; range unchanged. 2026-11-02; WFN focused package-source batch closed no outcome in this group; estimate unchanged. 2026-11-02; WFN lifecycle retry closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source-test batch closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; acceptance/controller regression closed no outcome in this group; estimate unchanged. 2026-11-02; component lifecycle, preparation and inventory source regression passed 75/75; no legacy outcome closed. 2026-11-02; OpenSSH Server capability, lifecycle and observation source regression passed 34/34; no outcome closed. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; documentation/library regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; PSScriptTools retry closed no outcome in this group; estimate unchanged. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Store inventory/review and candidate lifecycle source regression passed 64/64; no outcome closed. 2026-11-02; catalog/profile validation closed no outcome in this group; estimate unchanged. 2026-11-02; NTCore source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Sysinternals retry closed no outcome in this group; estimate unchanged. 2026-11-02; installer/bootstrap source regression closed no outcome in this group; estimate unchanged. 2026-11-02; adapter/audio/volume/wireless/visual inventory current-source regression passed 144/144; no outcome closed. 2026-11-02; handler source regression closed no outcome in this group; estimate unchanged. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; policy source regression closed no outcome in this group; estimate unchanged. 2026-11-02; profile/observation source regression closed no outcome in this group; estimate unchanged. 2026-11-02; maintenance/recovery source regression closed no outcome in this group; estimate unchanged.  2026-11-02; Office inventory, configuration review and deployment identity source regression passed 113/113; no legacy outcome closed; estimate unchanged. 2026-11-02; Behavior contract, alignment drift and custom registry authoring source regression passed 39/39; no legacy outcome closed; estimate unchanged. 2026-11-02; Caffeine, release discovery, search and fixture source regression passed 103/103; no legacy outcome closed; estimate unchanged. 2026-11-02; GitHub authentication and VM authentication source regression passed 76/76; no legacy outcome closed; estimate unchanged. 2026-11-02; Windows PowerShell 5.1 compatibility rerun for 331 cases was blocked before Pester discovery by AuthorizationManager rejecting installed module format data; no cases ran. 2026-11-02; Lab, CLI and acceptance automation source regression passed 324/324 runnable cases across six suites; two Desktop-only cases skipped; no legacy outcome closed. 2026-11-02; Package selection/adoption/dependency/evidence and Store app source regression passed 260/263 with three retained-payload fixture skips; no legacy outcome closed. 2026-11-02; Power plan/settings and Caffeine mocked source regression passed 104/104 across five suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Library lifecycle, authoring and example source regression passed 80/80 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Offline bundle, execution, coverage and portable selection source regression passed 238/238 across seven suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Component inventory/preparation/lifecycle and OpenSSH source regression passed 109/109 across six suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Package source-pin and inert recovery regression passed 35/36 with one Cookie Cruncher archive-fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Watchdog recovery, toolkit update planning and Windows Update notification source regression passed 70/70 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Setting candidate, Explorer, inventory, help and Photo Viewer source regression passed 130/130 across eight suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Installed inventory/JoeWare/license/MAC source regression passed 75/76 with one retained AdMod fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Desktop shortcut and hash-menu source regression passed 18/19 with one Windows PowerShell 5.1-only case skipped under PowerShell 7; no legacy outcome closed. 2026-11-02; Local password-complexity candidate template and preparation source regression passed 20/20; no legacy outcome closed; estimate unchanged. 2026-11-02; Repository validation passed: current operation documentation, 452 operations, 8 groups, 5 profiles and 329 PowerShell files; no legacy outcome closed. Windows PowerShell 5.1 source compatibility passed 331/331; no legacy outcome closed; range unchanged. WFN 531-member synthetic lifecycle retry remained incomplete after about five minutes; no migration outcome closed; estimate unchanged.  PSScriptTools 360-member source lifecycle suite passed 7/7 in 20:25.879 with no skips; no legacy outcome closed; estimate unchanged. |
-| Files and assets | 25-35 | Latest batch review, 2026-11-02: Prepared retained font, wallpaper, default-lock, WLAN and Sysmon scenarios await existing elevation; user-lock full-mode recovery remains unfinished. <br> 2026-11-02 fast-track review: explicit Sysmon config selected; machine fonts/wallpaper/lock-screen/Wi-Fi wait for exact inputs and recovery. 2026-11-02; offline bundle, assembly, execution and coverage regression passed within a 330/336 batch; disconnected delivery remains open. 2026-11-02; Profile audit changed no file/asset selection or legacy outcome.  2026-11-02; no new outcome closed in this group; estimate unchanged.  2026-11-02; no new outcome closed in this group; estimate unchanged.  2026-11-02; repository validation passed (452 operations, 8 groups, 5 profiles, 329 PowerShell files). The 3698-test sweep passed the full Optional Windows settings file, then stopped after ProfileSettings without an aggregate summary while the PSScriptTools lifecycle was in progress. 2026-11-02; candidate preview regression refresh passed 130/130 across eight PowerShell 7 suites; no legacy outcomes closed and estimates unchanged. 2026-11-02; ALIGN-07 pinned drift-report regression passed 3/3 in PowerShell 7; no legacy outcomes closed and estimates unchanged. Reviewed 2026-11-02; ALIGN-06 Windows capability register and schema regression passed 4/4 in Windows PowerShell 5.1 and 4/4 in PowerShell 7.6.5; no legacy outcome closes, range unchanged. Desktop shortcut, shell-folder, Photo Viewer and hash-menu regression passed 37/38 in PowerShell 7 (one Desktop-only hash skip) and 38/38 in Windows PowerShell 5.1 (75 total passes). Offline profile-coverage regression passed 63/63 in PowerShell 7 and Windows PowerShell 5.1 (126 total), including selected-package requirements, source pins and fail-closed graph validation. Accepted color-profile metadata reconciled; prior T480 and deployment evidence retained. Offline bundle integrity, assembly and execution source regression passed 129/129 in PowerShell 7 and Windows PowerShell 5.1 (258 total); read-only selected/full-set package preparation planning passed 12/12 in both PowerShell 7 and Windows PowerShell 5.1 (24 total). Transferable bundle, engine/package cache packaging and disconnected delivery remain pending. Candidate opt-in changes no file/asset outcome. MAC vendor offline parsing, Terminal JSONC TestDrive patch/recovery and F1 Help handler regression passed 70/70 in PowerShell 7 and Windows PowerShell 5.1 (140 total). Terminal JSONC configuration tests passed in the four-file 268-pass batch. Alignment review: canonical contract and digest references prepared in both repos; no legacy asset outcome closed. Estimate review refreshed 2026-11-02 after all 365 Optional Windows settings source tests passed in seven filtered runs; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the repository sweep partial and PSScriptTools isolated source checks; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the remaining-setting source regression; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the six-file source regression passed 57/57; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after eight settings and maintenance source suites passed 172/172; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after source-script and Store suites passed 72/74 with two optional archive skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals independent product source suite passed 72/72; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals Suite synthetic lifecycle suite passed 8/8; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the automation/toolkit/update-notification batch passed 268/270 with two host-specific skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user-bin and language source suites passed 102/102; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user PATH/proxy source suites passed 159/159; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user handoff and local inventory source suites passed 127/127; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WhatIsMyIP/WinPmem/Wireshark source tests passed 16/16; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WinHTTP proxy source tests passed 22/22; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WFN metadata and small lifecycle checks passed 2/2; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated WFN full-lifecycle attempt exceeded 20 minutes; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated SixtySettings source regression passed 130/130; no legacy outcome closed; range unchanged. 2026-11-02; WFN focused package-source batch closed no outcome in this group; estimate unchanged. 2026-11-02; WFN lifecycle retry closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source-test batch closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; acceptance/controller regression closed no outcome in this group; estimate unchanged. 2026-11-02; component source regression closed no outcome in this group; estimate unchanged. 2026-11-02; OpenSSH Server source regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; documentation/library regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; PSScriptTools retry closed no outcome in this group; estimate unchanged. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Store source regression closed no outcome in this group; estimate unchanged. 2026-11-02; catalog/profile validation closed no outcome in this group; estimate unchanged. 2026-11-02; NTCore source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Sysinternals retry closed no outcome in this group; estimate unchanged. 2026-11-02; installer/bootstrap source regression closed no outcome in this group; estimate unchanged. 2026-11-02; inventory source regression closed no outcome in this group; estimate unchanged. 2026-11-02; handler source regression closed no outcome in this group; estimate unchanged. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; policy source regression closed no outcome in this group; estimate unchanged. 2026-11-02; profile/observation source regression closed no outcome in this group; estimate unchanged. 2026-11-02; maintenance/recovery source regression closed no outcome in this group; estimate unchanged.  2026-11-02; Office inventory, configuration review and deployment identity source regression passed 113/113; no legacy outcome closed; estimate unchanged. 2026-11-02; Behavior contract, alignment drift and custom registry authoring source regression passed 39/39; no legacy outcome closed; estimate unchanged. 2026-11-02; Caffeine, release discovery, search and fixture source regression passed 103/103; no legacy outcome closed; estimate unchanged. 2026-11-02; GitHub authentication and VM authentication source regression passed 76/76; no legacy outcome closed; estimate unchanged. 2026-11-02; Windows PowerShell 5.1 compatibility rerun for 331 cases was blocked before Pester discovery by AuthorizationManager rejecting installed module format data; no cases ran. 2026-11-02; Lab, CLI and acceptance automation source regression passed 324/324 runnable cases across six suites; two Desktop-only cases skipped; no legacy outcome closed. 2026-11-02; Package selection/adoption/dependency/evidence and Store app source regression passed 260/263 with three retained-payload fixture skips; no legacy outcome closed. 2026-11-02; Power plan/settings and Caffeine mocked source regression passed 104/104 across five suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Library lifecycle, authoring and example source regression passed 80/80 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Offline bundle, execution, coverage and portable selection source regression passed 238/238 across seven suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Component inventory/preparation/lifecycle and OpenSSH source regression passed 109/109 across six suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Package source-pin and inert recovery regression passed 35/36 with one Cookie Cruncher archive-fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Watchdog recovery, toolkit update planning and Windows Update notification source regression passed 70/70 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Setting candidate, Explorer, inventory, help and Photo Viewer source regression passed 130/130 across eight suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Installed inventory/JoeWare/license/MAC source regression passed 75/76 with one retained AdMod fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Desktop shortcut and hash-menu source regression passed 18/19 with one Windows PowerShell 5.1-only case skipped under PowerShell 7; no legacy outcome closed. 2026-11-02; Local password-complexity candidate template and preparation source regression passed 20/20; no legacy outcome closed; estimate unchanged. 2026-11-02; Repository validation passed: current operation documentation, 452 operations, 8 groups, 5 profiles and 329 PowerShell files; no legacy outcome closed.|
-| Maintenance | 8-12 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: prepared retention/task acceptance only; disruptive actions deferred and standalone control-flow helpers retired. 2026-11-02; watchdog process-tree timeout regression and complete 16/16 Pester file passed; no legacy outcome closed; range unchanged. 2026-11-02; Read-only profile audit found 74 unique expanded operation references across five profiles, with zero missing, unsupported or pending Windows 11 selections.  2026-11-02; filtered watchdog child progress/result/block cases passed 5/5; three timeout/recovery process-tree cases remain open.  2026-11-02; AutomationWatchdog run passed 13/16; three process-tree timeout/recovery cases failed, and Pester cleanup hit a locked worker log.  2026-11-02; AutomationWatchdog file, lock, deadline and terminal-state source checks passed 8/8; child-process cases remain open.  2026-11-02; repository validation passed (452 operations, 8 groups, 5 profiles, 329 PowerShell files). The 3698-test sweep passed the full Optional Windows settings file, then stopped after ProfileSettings without an aggregate summary while the PSScriptTools lifecycle was in progress. 2026-11-02; candidate preview regression refresh passed 130/130 across eight PowerShell 7 suites; no legacy outcomes closed and estimates unchanged. 2026-11-02; ALIGN-07 pinned drift-report regression passed 3/3 in PowerShell 7; no legacy outcomes closed and estimates unchanged. Reviewed 2026-11-02; ALIGN-06 Windows capability register and schema regression passed 4/4 in Windows PowerShell 5.1 and 4/4 in PowerShell 7.6.5; no legacy outcome closes, range unchanged. Caffeine utility current-source regression passed 20/20 in PowerShell 7 and Windows PowerShell 5.1 (40 total) with mocked input and wait providers. AutomationWatchdog passed 13/16 in Windows PowerShell 5.1; three inert child process-tree termination cases exceeded the 10-second limit. Run retention, scheduled-task recovery and user-handoff regression passed 48/48 in PowerShell 7 and Windows PowerShell 5.1 (96 total). Desired-configuration reference and legacy deployment mapping regression passed 57/57 in PowerShell 7 and Windows PowerShell 5.1 (114 total). Portable manifest and exact ZIP selection regression passed 34/34 in PowerShell 7 and Windows PowerShell 5.1 (68 total) with TestRegistry disabled. Acceptance-runner, profile-runner, controller and interactive-guest automation suites passed 231/233 in PowerShell 7 (two Desktop-only host-preflight skips) and 233/233 in Windows PowerShell 5.1 (464 total passes). Library, authoring and maintained-example regression passed 80/80 in PowerShell 7 and Windows PowerShell 5.1 (160 total). Catalog/profile/dependency regression passed 112/112 runnable tests in both PowerShell editions (224 total passes); one HKCU WindowsIntegration case remains unrun after sandbox write/cleanup denial. LicenseReviews source regression passes 24/24 after isolating fixtures in Pester TestDrive. Bootstrap 0.2.0 focused tests pass 9/9 in PowerShell 7 and Windows PowerShell 5.1 (18 total); offline bundle source regression passes 129/129; offline preparation planner passes 12/12; repository validation passes 452/8/5/326. Read-only VM preflight: WinRM service query returned no service; Get-VM/Get-VMSnapshot stop at host CIM before checkpoint state. Published-source verification, requested offline delivery, final-source verification and versioned publication remain. Candidate opt-in source preparation adds no native acceptance. Office inventory, Office configuration review and Store app review current-source regression passed 102/102 in PowerShell 7 and Windows PowerShell 5.1 (204 total) with mocked providers. Candidate execution gating, CLI ShouldProcess forwarding and search/completion regression passed 98/98 in PowerShell 7 and Windows PowerShell 5.1 (196 total) with fake handlers and catalogs. Toolkit update planning, custom registry authoring and Store app lifecycle guard regression passed 102/102 in PowerShell 7 and Windows PowerShell 5.1 (204 total) with supplied data and mocked providers. SettingsFixtureData and StoreSolitaireFixtureData passed 30/30 in PowerShell 7 and Windows PowerShell 5.1 (60 total) using TestDrive and an in-memory catalog transform; no Windows state changed. Current worktree validation passed in PowerShell 7.6.5 and Windows PowerShell 5.1; each checked 452 operations, 8 groups, 5 profiles and 326 PowerShell files, with generated docs current. GitHub VM authentication safety regression passed 23/23 in each PowerShell edition (46 total) with synthetic credentials and mocked sessions; no VM was queried. LabProvisioning source regression passed 39/39 in PowerShell 7 and Windows PowerShell 5.1 (78 total) using mocked AutomatedLab boundaries and WhatIf previews; no VM was queried or provisioned. Fresh Get-VM for RIDE-Win11-Test still fails at host CIM before VM state retrieval. Regional inventory and run-state retention suites passed within the six-file 57/57 source batch. Schedule-recovery and screen-lock-measurement source checks were included in the eight-file 172/172 batch. Automation, toolkit and update notification source batch passed 268/270; two Windows PowerShell Desktop host-preflight tests were skipped. User proxy inventory, preparation, lifecycle and saved-state recovery source checks passed in the five-file 159/159 batch. User handoff and visual-effects, volume and wireless inventory source tests passed 127/127 with mocked providers. Alignment review: reciprocal maintainer rules adopted; ALIGN-03 through ALIGN-09 join final-v3 work. Estimate review refreshed 2026-11-02 after all 365 Optional Windows settings source tests passed in seven filtered runs; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the repository sweep partial and PSScriptTools isolated source checks; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the remaining-setting source regression; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the six-file source regression passed 57/57; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after eight settings and maintenance source suites passed 172/172; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after source-script and Store suites passed 72/74 with two optional archive skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals independent product source suite passed 72/72; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the Sysinternals Suite synthetic lifecycle suite passed 8/8; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after the automation/toolkit/update-notification batch passed 268/270 with two host-specific skips; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user-bin and language source suites passed 102/102; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user PATH/proxy source suites passed 159/159; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after user handoff and local inventory source suites passed 127/127; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WhatIsMyIP/WinPmem/Wireshark source tests passed 16/16; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WinHTTP proxy source tests passed 22/22; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after WFN metadata and small lifecycle checks passed 2/2; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated WFN full-lifecycle attempt exceeded 20 minutes; no legacy outcome closed; range unchanged.  Estimate review refreshed 2026-11-02 after isolated SixtySettings source regression passed 130/130; no legacy outcome closed; range unchanged. 2026-11-02; WFN focused package-source batch closed no outcome in this group; estimate unchanged. 2026-11-02; WFN lifecycle retry closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source-test batch closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; MiTeC source regression closed no outcome in this group; estimate unchanged. 2026-11-02; acceptance/controller regression closed no outcome in this group; estimate unchanged. 2026-11-02; component source regression closed no outcome in this group; estimate unchanged. 2026-11-02; OpenSSH Server source regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; documentation/library regression closed no outcome in this group; estimate unchanged. 2026-11-02; package source regression closed no outcome in this group; estimate unchanged. 2026-11-02; PSScriptTools retry closed no outcome in this group; estimate unchanged. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Store source regression closed no outcome in this group; estimate unchanged. 2026-11-02; catalog/profile validation closed no outcome in this group; estimate unchanged. 2026-11-02; NTCore source regression closed no outcome in this group; estimate unchanged. 2026-11-02; Sysinternals retry closed no outcome in this group; estimate unchanged. 2026-11-02; installer/bootstrap source regression closed no outcome in this group; estimate unchanged. 2026-11-02; inventory source regression closed no outcome in this group; estimate unchanged. 2026-11-02; handler source regression closed no outcome in this group; estimate unchanged. 2026-11-02; settings source regression closed no outcome in this group; estimate unchanged. 2026-11-02; policy source regression closed no outcome in this group; estimate unchanged. 2026-11-02; profile/observation source regression closed no outcome in this group; estimate unchanged. 2026-11-02; run-state, task recovery and Defender exclusion source tests passed 60/60; no outcome closed.  2026-11-02; Office inventory, configuration review and deployment identity source regression passed 113/113; no legacy outcome closed; estimate unchanged. 2026-11-02; Behavior contract, alignment drift and custom registry authoring source regression passed 39/39; no legacy outcome closed; estimate unchanged. 2026-11-02; Caffeine, release discovery, search and fixture source regression passed 103/103; no legacy outcome closed; estimate unchanged. 2026-11-02; GitHub authentication and VM authentication source regression passed 76/76; no legacy outcome closed; estimate unchanged. 2026-11-02; Windows PowerShell 5.1 compatibility rerun for 331 cases was blocked before Pester discovery by AuthorizationManager rejecting installed module format data; no cases ran. 2026-11-02; Lab, CLI and acceptance automation source regression passed 324/324 runnable cases across six suites; two Desktop-only cases skipped; no legacy outcome closed. 2026-11-02; Package selection/adoption/dependency/evidence and Store app source regression passed 260/263 with three retained-payload fixture skips; no legacy outcome closed. 2026-11-02; Power plan/settings and Caffeine mocked source regression passed 104/104 across five suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Library lifecycle, authoring and example source regression passed 80/80 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Offline bundle, execution, coverage and portable selection source regression passed 238/238 across seven suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Component inventory/preparation/lifecycle and OpenSSH source regression passed 109/109 across six suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Package source-pin and inert recovery regression passed 35/36 with one Cookie Cruncher archive-fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Watchdog recovery, toolkit update planning and Windows Update notification source regression passed 70/70 across three suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Setting candidate, Explorer, inventory, help and Photo Viewer source regression passed 130/130 across eight suites; no legacy outcome closed; estimate unchanged. 2026-11-02; Installed inventory/JoeWare/license/MAC source regression passed 75/76 with one retained AdMod fixture skip; no legacy outcome closed; estimate unchanged. 2026-11-02; Desktop shortcut and hash-menu source regression passed 18/19 with one Windows PowerShell 5.1-only case skipped under PowerShell 7; no legacy outcome closed. 2026-11-02; Local password-complexity candidate template and preparation source regression passed 20/20; no legacy outcome closed; estimate unchanged. 2026-11-02; Repository validation passed: current operation documentation, 452 operations, 8 groups, 5 profiles and 329 PowerShell files; no legacy outcome closed. Windows PowerShell 5.1 source compatibility passed 331/331; no legacy outcome closed; range unchanged. WFN 531-member synthetic lifecycle retry remained incomplete after about five minutes; no migration outcome closed; estimate unchanged.  PSScriptTools 360-member source lifecycle suite passed 7/7 in 20:25.879 with no skips; no legacy outcome closed; estimate unchanged. |
-| **Total** | **123-177 exact** | **Latest run: 2026-11-02 BitLocker recovery-first strategy reviewed; retained native execution remains blocked; no additional tests or legacy closures.** **125-175 rounded; about 150.** Current scope review: three separate R12 products excluded from v3; package range reduced by three, other groups unchanged. Host/checkpoint access is verified; protected-controller refresh is pending. The following older review notes are historical. Review refreshed 2026-11-02 after another PSScriptTools 360-member synthetic lifecycle attempt stopped without a result; no legacy outcome closed and the lifecycle remains pending. No legacy outcome closes. The 3698-test repository aggregate, WFN 531-member lifecycle and PSScriptTools 360-member lifecycle remain incomplete. VM acceptance remains blocked by host CIM; Defender-alerted executables remain excluded. Reviewed 2026-11-02 after Office inventory/configuration review/deployment identity source regression (113/113); no legacy outcome closes. Host CIM blocks VM acceptance; Defender exclusions and incomplete synthetic lifecycle suites remain. Reviewed 2026-11-02 after behavior contract/alignment/registry authoring source regression (39/39); no legacy outcome closes. Host CIM blocks VM acceptance; Defender exclusions and incomplete synthetic lifecycle suites remain. Reviewed 2026-11-02 after Caffeine/discovery/search/fixture source regression (103/103); no legacy outcome closes. Host CIM blocks VM acceptance; Defender exclusions and incomplete synthetic lifecycle suites remain. Reviewed 2026-11-02 after GitHub authentication source regression (76/76); no legacy outcome closes. Host CIM blocks VM acceptance; Defender exclusions and incomplete synthetic lifecycle suites remain. Reviewed 2026-11-02 after the Windows PowerShell 5.1 compatibility attempt was blocked before test discovery (0/331 run); no legacy outcome closes. PowerShell 7 results stand; VM acceptance, Defender exclusions and large synthetic suites remain. Reviewed 2026-11-02 after lab/CLI/acceptance automation regression (324 passed, 2 Desktop-only skips); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after package/Store source regression (260 passed, 3 retained-payload fixture skips); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after power/Caffeine source regression (104/104); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after library lifecycle/authoring/example regression (80/80); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after offline bundle/portable source regression (238/238); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after component/OpenSSH source regression (109/109); no native outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after package source/recovery regression (35 passed, one fixture skip); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after watchdog/toolkit/update-policy source regression (70/70); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after setting candidate/Explorer/inventory regression (130/130); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after inventory/JoeWare/license/MAC regression (75 passed, one AdMod fixture skip); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after shortcut/hash-menu source regression (18 passed, one PowerShell 5.1-only skip); no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after the final older-evidence password-complexity source suite passed 20/20; no legacy outcome closes. VM acceptance, PowerShell 5.1 Pester, Defender exclusions and large synthetic suites remain blocked. Reviewed 2026-11-02 after repository validation (452 operations/8 groups/5 profiles/329 PowerShell files); top-level suite evidence is current-day. VM acceptance, PSScriptTools/WFN lifecycle and Defender exclusions remain open; PowerShell 5.1 cross-shell source tests passed 331/331 using process-only bypass. WFN 531-member lifecycle retry: two checks passed, large synthetic case interrupted after about five minutes, no failure or pass inferred; estimate unchanged.  PSScriptTools 360-member source lifecycle suite passed 7/7 in 20:25.879 with no skips; no legacy outcome closed; estimate unchanged. |
-
-The estimates count unresolved legacy outcomes, not tests or catalog IDs. Passing source tests update validation evidence but do not lower the ranges unless linked ledgers close outcomes. See the [2026-11-02 completion reassessment](migrations/migration-completion-reassessment-2026-11-02.md); execution resumed under the approved fast-track plan.
-
+| Settings | 37-57 | Latest batch review, 2026-11-02: BitLocker effective-policy and preboot/retrieval gaps recorded; enrollment hard-codes XTS-AES128 and cannot establish method-policy selection. <br> 2026-11-02 fast-track review: reuse narrow F1/profile evidence; icons and critical BitLocker acceptance selected, unmapped/high-risk work deferred. 2026-11-01; User proxy inventory, preparation and lifecycle regression passed 103/103. Firewall and WinHTTP proxy current-source regression passed 42/42. CEIP, media, server and Windows Update policy source regression passed 43/43. Hibernation candidate state and acceptance-runner regression passed 28/28. BitLocker policy, engine projection and workflow source regression passed 31/31. Sixty-setting and registry failure regression passed 137/137. Explorer, network/sound and keyboard setting source regression passed 74/74. Service and power setting regression passed 68/68. Managed settings current-source regression passed 11/11. Optional Windows settings current-source regression passed 365/365. Profile settings current-source regression passed 37/37. Remaining-setting catalog and mocked lifecycle regression passed 81/81. Current SettingPresentation regression passed 14/14. Prior 41 native lifecycles / 107 states remain passed; six unavailable and feature/UI/restart checks remain open. F1 promoted for File Explorer on Windows 11 with build 26300 minimum; pending BitLocker policies removed from defaults. Profile cleanup complete. Optional hibernation candidate has a prepared 18-case disposable fixture; Windows PowerShell 5.1 read-only inspection corrected. Explicit candidate execution, preview and restore now use -AllowCandidate; native lifecycle acceptance and legacy menu/mirror scope remain open. Alignment review: shared setting/preview rules adopted; runtime gaps remain ALIGN-03/04. |
+| Packages | 34-49 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: selected light lifecycle/acquisition families authorized; all MiTeC feature checks deferred to 3.1, alert files excluded. 2026-11-02; the focused generated inert PSScriptTools 360-member source lifecycle passed 7/7. MiTeC/NTCore source batches reported 119/131 scoped cases with 12 retained-archive fixture skips; no package/legacy outcome closed. User-approved fast track: ordinary user-mode products require exact package source/version, install/repeat/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; the user's prior RIDE v2 license-specialist approval is settled, with no additional licensing gate or default per-tool testing. Defender active/no-alert evidence is still absent for some accepted VM runs; host inspection is now available; new guest acceptance remains open. WFN compact checks passed 2/2; its 531-member synthetic lifecycle stalled and remains incomplete. NirLauncher stays filtered and lifecycle runs remain excluded due to the reported Defender alerts; x64 collection lifecycle passed locally for 47 selected members, with Windows/Defender acceptance open. 52 catalog package operations remain pending candidates; InfoBar lifecycle is now selected and its feature checks remain deferred. See the per-component status and separate unmigrated selector register in docs/migrations/migration-completion-reassessment-2026-11-02.md. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
+| Components | 19-24 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: host checkpoint matched; catalog OpenSSH Client and full available client RSAT permit explicit Windows Update acquisition and still require recovery. 2026-11-02; component inventory/client preparation/lifecycle plus OpenSSH Server capability/service/observation source regression passed 109/109 with mocked providers; no native component outcome closed. Native VM acceptance remains open; host/checkpoint inspection is verified; OpenSSH Client integration/recovery and Telnet source identity remain unresolved. See the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
+| Files and assets | 25-35 | Latest batch review, 2026-11-02: Prepared retained font, wallpaper, default-lock, WLAN and Sysmon scenarios await existing elevation; user-lock full-mode recovery remains unfinished. <br> 2026-11-02 fast-track review: explicit Sysmon config selected; machine fonts/wallpaper/lock-screen/Wi-Fi wait for exact inputs and recovery. 2026-11-02; offline bundle/execution/profile/portable-selection source regression passed 238/238 across seven suites using inert fixtures; actual bundle transfer, acquisition, installation and disconnected Windows acceptance remain open. Desktop shortcut/hash source regression passed 18/19 with one Windows PowerShell-only skip; native shell acceptance remains open. No legacy outcome closed; see the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
+| Maintenance | 8-12 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: prepared retention/task acceptance only; disruptive actions deferred and standalone control-flow helpers retired. 2026-11-02; run-state retention, scheduled-task and Defender recovery source regression passed 60/60 with mocked providers; no host/VM state changed. Earlier Caffeine source tests passed 20/20 and run-retention/task/handoff passed 48/48. Native cleanup, update, reboot and user-interaction actions remain open; current guest recovery/acceptance remains to be verified. No legacy outcome closed; see the per-action register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
+| **Total** | **123-177 exact** | **Latest run: 2026-11-02 BitLocker recovery-first strategy reviewed; retained native execution remains blocked; no additional tests or legacy closures.** **125-175 rounded; about 150 outcomes.** Review refreshed 2026-11-02: three mapped product outcomes excluded from v3; package range reduced by three and other group ranges unchanged. No new runtime acceptance. RIDE-Win11-Test host/checkpoint inspection is verified; no guest test or VM mutation ran in this reconciliation. Defender-alerted NirSoft files remain excluded. A possible random HKCU test-key residue from earlier validation remains unresolved after sandbox cleanup denial. |
 
 ## Remaining native acceptance handoff, 2026-11-02
 
@@ -1344,500 +1341,6 @@ through the registered runner with explicit recovery and Defender evidence.
 
 Evidence: [host inspection](archive/evidence/fast-track-host-inspection-2026-11-02.json).
 
-## Repository validation after test batch refresh, 2026-11-02
-
-PowerShell 7.6.5 validation passed. Generated operation documentation was current; validation checked 452 operations, 8 groups, 5 profiles and 329 PowerShell files. No Windows or VM state changed.
-
-Resolved: repository source and generated operation documentation validation. Retired/excluded: none. Partial: no migration outcome closes from static validation; integration acceptance remains open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/repository-validation-source-regression-2026-11-02.json).
-
-
-## Local password-complexity candidate source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed all 20 tests in the local password-complexity candidate suite. Template generation and export parsing were isolated; Secedit, policy, registry and elevation providers were mocked or not accessed.
-
-Resolved: this source regression. Retired/excluded: none. Partial: no legacy setting outcome closes; native policy configuration, exact rollback and managed-policy precedence remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/local-password-complexity-source-regression-2026-11-02.json).
-
-
-## Desktop shortcut and hash-menu source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 discovered 19 tests across two suites: 18 passed, none failed, and the seven-algorithm Windows PowerShell 5.1-only helper case skipped. This batch checked metadata and source behavior without changing desktop or registry state.
-
-Resolved: this source regression. Retired/excluded: none. Partial: no legacy file/asset outcome closes; one Windows PowerShell 5.1-only helper case and native shell integration remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/desktop-shortcut-hash-menu-source-regression-2026-11-02.json).
-
-
-## Installed inventory, JoeWare, license review and MAC vendor source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 discovered 76 tests across five suites: 75 passed, none failed, and the retained AdMod archive route skipped because `RIDE_ADMOD_FIXTURE_DIRECTORY` was not supplied. Publisher and inventory providers were mocked; AdMod was represented by a synthetic ZIP and not executed.
-
-Resolved: this source regression. Retired/excluded: none. Partial: no legacy outcome closes; retained AdMod archive-route and native package acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/registration-joeware-license-mac-source-regression-2026-11-02.json).
-
-
-## Setting candidate, Explorer and inventory source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 130/130 tests across eight suites. Registry and platform providers were mocked or preview-only, and inventory exports used TestDrive; no Windows state changed.
-
-Resolved: this source regression. Retired/excluded: none. Partial: no legacy setting outcome closes; native settings, BitLocker UI/reboot/protection and candidate acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/settings-candidate-explorer-inventory-source-regression-2026-11-02.json).
-
-
-## Watchdog, toolkit update and Windows Update policy source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 70/70 tests across three suites. Watchdog child processes were inert fixtures, toolkit file decisions used supplied observations, and Windows Update registry state was mocked; no host or VM state changed.
-
-Resolved: this source regression. Retired/excluded: none. Partial: no legacy outcome closes; live watchdog/VM and Windows Update acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/watchdog-toolkit-update-policy-source-regression-2026-11-02.json).
-
-
-## Package source pins and inert recovery regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 discovered 36 tests across seven suites: 35 passed, none failed, and the Cookie Cruncher retained archive lifecycle case skipped because no explicit archive fixture was supplied. Package payloads were inert; installers, publisher calls and registry hives were not invoked. The Gpg4win suite reported a generated `.gnupg` fixture directory, and its Pester TestDrive was absent after completion.
-
-Resolved: this source regression. Retired/excluded: none. Partial: no legacy outcome closes; the Cookie Cruncher archive case and native package installation/removal acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/package-source-pins-registry-recovery-regression-2026-11-02.json).
-
-
-## Component and OpenSSH source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 109/109 tests across six component inventory, preparation/lifecycle and OpenSSH capability/lifecycle/observation suites. DISM, servicing, service, firewall, elevation and target providers were mocked; no Windows state changed.
-
-Resolved: this source regression. Retired/excluded: none. Partial: no native component or legacy outcome closes; component and OpenSSH disposable-VM acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/component-openssh-source-regression-2026-11-02.json).
-
-
-## Offline bundle, execution and portable selection source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 238/238 tests across seven suites. Payloads were inert fixtures, native handlers were mocked or blocked before invocation, and injected manifest recovery evidence stayed in Pester TestDrive, which was absent after completion.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; actual bundle transfer, acquisition, execution and disconnected Windows acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/offline-bundle-portable-selection-source-regression-2026-11-02.json).
-
-
-## Library lifecycle, authoring and example source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 80/80 tests across the library lifecycle, guided authoring and example library suites. Installers, publisher requests and registry handlers were mocked or not invoked; temporary projects and state were isolated in TestDrive.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; native registry, package installation and VM rollback remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/library-authoring-example-source-regression-2026-11-02.json).
-
-
-## Power plan, power settings and Caffeine source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 104/104 tests across five suites. Power APIs, powercfg, desktop input, downloads and handlers were mocked or preview-only; no host power configuration or VM state changed.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; native power-plan/setting and live screen-lock acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/power-plan-settings-caffeine-source-regression-2026-11-02.json).
-
-
-## Package selection, adoption, evidence and Store app source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 discovered 263 tests across six suites: 260 passed, none failed, and three retained-payload cases skipped because RawCopy, ETL2PCAPNG and AdMod archive fixtures were not supplied. Package and Appx handlers used mocked or synthetic providers. The package-evidence suite reported retaining one generated `.local` test directory after restoring the original fixture data; it has been left in place.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; three retained-payload checks and native package/Appx acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/package-store-app-source-regression-2026-11-02.json).
-
-
-## Lab, CLI and acceptance automation source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 discovered 326 tests across six suites: 324 passed and two controller host-preflight cases guarded for 64-bit Windows PowerShell Desktop were skipped. Hyper-V, AutomatedLab, scheduled-task and native handler boundaries were mocked or preview-only; no host or VM state changed.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; two Desktop-only cases and native VM acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, Windows PowerShell 5.1 Pester import, large synthetic lifecycle suites and Defender exclusions remain blockers. See [structured evidence](archive/evidence/lab-cli-acceptance-automation-source-regression-2026-11-02.json).
-
-
-## Windows PowerShell 5.1 source rerun blocked, 2026-11-02
-
-A compatibility rerun was prepared for 331 tests across 13 suites that passed in PowerShell 7.6.5. Windows PowerShell 5.1.26100.9818 failed importing Pester 5.7.1 before discovery because AuthorizationManager rejected Pester format-data XML under the user OneDrive Documents module path. Zero cases ran; no policy bypass or alternate module path was attempted.
-
-Resolved: none. Retired/excluded: none. Partial: the PowerShell 7 results remain valid; all 331 Windows PowerShell 5.1 compatibility cases remain pending. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM, Defender, PSScriptTools and WFN blockers remain unchanged. See [structured evidence](archive/evidence/windows-powershell-51-source-rerun-blocked-2026-11-02.json).
-
-
-## GitHub authentication source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 76/76 tests across the GitHub authentication and VM authentication suites. Tests used synthetic credentials, CurrentUser DPAPI for test data, mocked publisher/VM calls and TestDrive; no real credential, publisher request or VM was used.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; live GitHub authentication and VM acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, large synthetic lifecycle suites and Defender exclusions remain unchanged. See [structured evidence](archive/evidence/github-authentication-vm-auth-source-regression-2026-11-02.json).
-
-
-## Caffeine, discovery, search and fixture source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 103/103 tests across the Caffeine Light, GitHub release discovery, catalog search, settings fixture data and Store Solitaire fixture suites. Publisher calls and desktop input were mocked; fixture writes were confined to TestDrive.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; publisher network, package installation and native Windows acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, large synthetic lifecycle suites and Defender exclusions remain unchanged. See [structured evidence](archive/evidence/caffeine-discovery-search-fixture-source-regression-2026-11-02.json).
-
-
-## Behavior contract, alignment drift and registry authoring source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 39/39 tests across the pinned behavior contract, read-only alignment drift report, and custom registry authoring suites. Registry handlers were mocked and the helper preview used WhatIf; no host registry or VM state changed.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; native registry application and restore acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, large synthetic lifecycle suites and Defender exclusions remain unchanged. See [structured evidence](archive/evidence/behavior-contract-alignment-registry-authoring-source-regression-2026-11-02.json).
-
-
-## Office inventory, configuration review and deployment identity source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed 113/113 tests across the Office inventory, inert configuration review and deployment identity suites. Registry/system boundaries were mocked or isolated in TestDrive; no host state, VM, network or installer was accessed.
-
-Resolved: this batch source regression. Retired/excluded: none. Partial: no legacy outcome closes; native Office installation, activation and Windows integration acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM blocks VM acceptance; Defender exclusions and incomplete large synthetic lifecycle suites remain unchanged. See [structured evidence](archive/evidence/office-inventory-review-deployment-identity-source-regression-2026-11-02.json).
-
-
-## Current repository validation and RIDE-Win11-Test CIM preflight, 2026-11-01 17:43 UTC
-
-Windows PowerShell 5.1 validation passed for 452 operations, 8 groups, 5 profiles
-and 326 PowerShell files; generated operation documentation is current. A fresh
-read-only Get-VM -Name RIDE-Win11-Test call failed before returning VM state with
-host CIM access denied. No checkpoint query, guest request, service start, elevation,
-installer or handler ran.
-
-Resolved: current static source validation. Retired/excluded: none. Partial: no
-legacy outcome closes. Native acceptance remains deferred at host CIM; Defender-blocked
-tools remain excluded. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). See
-[structured evidence](archive/evidence/repository-validation-and-current-vm-cim-block-2026-11-01-1743.json).
-
-## ALIGN-07 Windows pinned drift report, 2026-11-01 20:51 UTC
-
-The focused Pester suite passed 3/3 in PowerShell 7.6.5/Pester 5.7.1 with TestRegistry disabled because sandbox HKCU access is denied. Direct checks confirmed current local pins report peer comparison unavailable, a seeded peer version/digest/scenario mismatch reports drift, and -FailOnDrift fails on drift. PowerShell 5.1 parser validation passed; Pester module load and script invocation are blocked by host AuthorizationManager. The linked-change template requires both consumer tasks, compatibility, evidence, blockers and a next action. The drift report is read-only and makes no network calls. No legacy outcome closes. Estimates remain Settings 37-57, Packages 37-52, Components 19-24, Files/assets 25-35, Maintenance 8-12 (exact 126-180; rounded 125-180/about 155). VM state remains blocked by host CIM; Defender-blocked tools are excluded. See [structured evidence](archive/evidence/align07-windows-pinned-drift-report-2026-11-01.json).
-
-## Candidate preview regression test refresh, 2026-11-01 21:46 UTC
-
-The focused candidate preview regression batch passed 130/130 tests in PowerShell 7.6.5/Pester 5.7.1 across eight suites with synthetic observations and mutation handlers mocked. It updated stale expectations so declared pending candidates permit read-only current-state inspection in WhatIf, report pending acceptance, and invoke no mutation handler. The broader 3,714-test discovery was interrupted before completion after a prolonged stall; it exposed sandbox process-tree termination timeouts in AutomationWatchdog and a locked Pester worker log during cleanup. No full-suite pass is claimed. No WindowsIntegration tests or Defender-alerted utilities ran, and no VM or Windows state was changed. No legacy outcome closes; estimates remain Settings 37-57, Packages 37-52, Components 19-24, Files/assets 25-35, Maintenance 8-12 (exact 126-180; rounded 125-180/about 155). See [structured evidence](archive/evidence/candidate-preview-regression-tests-2026-11-01.json).
-
-## Windows unit sweep partial and repository validation, 2026-11-01 22:22 UTC
-
-The repository validator passed in PowerShell 7.6.5: 452 operations, 8 groups, 5 profiles, 329 PowerShell files and generated Operations documentation current. The broad Pester rerun discovered 3,698 tests in 153 files after excluding WindowsIntegration and AutomationWatchdog; TestRegistry was disabled for denied temporary HKCU access. It reported repeated per-file passes but stalled in the large settings WhatIf/restore matrix before an aggregate summary. No full-suite pass is claimed. No legacy outcome closes; estimates remain Settings 37-57, Packages 37-52, Components 19-24, Files/assets 25-35, Maintenance 8-12 (exact 126-180; rounded 125-180/about 155). VM acceptance remains blocked by host CIM; Defender-alerted executables were not launched. See [structured evidence](archive/evidence/windows-unit-sweep-and-repository-validation-2026-11-01.json).
-
-## Remaining Windows settings source regression, 2026-11-02
-
-`tests/RemainingSettings.Tests.ps1` passed 81/81 tests in PowerShell 7.6.5 and
-Pester 5.7.1 (5m10s). Coverage included settings preview and saved-state restore,
-Windows-default handling, network adapter bindings, SMB, Controlled Folder Access,
-power, NCSI, NetBIOS, Remote Desktop, sound and Edge policies. Registry and system
-handlers were mocked; no Windows state or VM was accessed.
-
-Resolved: remaining-setting source regression. Retired/excluded: none. Partial:
-no legacy outcome closes and native feature behavior remains open. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). The aggregate repository suite and PSScriptTools full-size
-fixture remain incomplete. See
-[structured evidence](archive/evidence/remaining-settings-source-regression-2026-11-02.json).
-
-## NTCore and Phoenix package source regression, 2026-11-02
-
-Four package/launcher suites passed 43/43 runnable cases in PowerShell 7.6.5/Pester
-5.7.1; seven optional retained archive/MSI digest checks were skipped because the
-explicit NTCore fixture directory was not configured. Coverage included NTCore
-package metadata and inert staging/recovery, 4GB launcher validation and WhatIf,
-and Phoenix MSI argument and prerequisite declarations. No package utility,
-patcher, driver or MSI was launched.
-
-Resolved: NTCore and Phoenix package source checks. Retired/excluded: none. Partial:
-optional publisher fixtures and native package acceptance remain open; no legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM acceptance remains blocked at host CIM;
-Defender-alerted tools remain excluded. See [structured
-evidence](archive/evidence/ntcore-and-phoenix-package-source-regression-2026-11-02.json).
-## MiTeC package source and inert staging regression, 2026-11-02
-
-Eighteen MiTeC package suites passed 88/88 runnable cases in PowerShell 7.6.5/
-Pester 5.7.1; 11 optional retained-archive fixture cases were skipped because the
-explicit fixture environment variables were not supplied. Coverage included
-metadata, exact selected-member staging, repeat behavior, ownership and recovery.
-Available retained archives were staged for verification only. No package utility,
-installer, network request, VM or Defender-alerted executable was used.
-
-Resolved: MiTeC package source and inert staging regression. Retired/excluded: none.
-Partial: optional archive fixtures and native Windows acceptance remain open; no
-legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
-(exact 126-180; rounded 125-180/about 155). VM acceptance remains blocked at host
-CIM, and Defender-alerted tools remain excluded. See [structured
-evidence](archive/evidence/mitec-package-source-regression-2026-11-02.json).
-## Automation watchdog filtered child-process success regression, 2026-11-02
-
-Five filtered watchdog child-process cases passed 5/5 in PowerShell 7.6.5/Pester
-5.7.1. The cases covered repeated progress updates, correlated success and failure,
-child exit without a terminal result, and blocking when termination cannot be
-confirmed. Test children were inert; no VM or Windows configuration was accessed.
-
-Resolved: five filtered child-process checks. Retired/excluded: none. Partial: the
-three timeout/recovery process-tree cases remain open after exceeding the ten-second
-termination bound. No legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM acceptance
-remains blocked at host CIM; Defender-alerted tools remain excluded. See [structured
-evidence](archive/evidence/automation-watchdog-child-success-regression-2026-11-02.json).
-## Automation watchdog child-process regression, 2026-11-02
-
-The complete `tests/AutomationWatchdog.Tests.ps1` run discovered 16 cases: 13 passed
-and three failed. Repeated progress updates, correlated success/failure, child exit
-without a result, and explicit blocking when termination cannot be confirmed passed.
-Preparation timeout, descendant termination and recovery timeout cases exceeded the
-ten-second process-tree termination bound; one worker remained alive at assertion.
-Pester teardown also could not remove TestDrive while `host-worker-errors.log` was
-open. All children were inert test processes. No VM, system configuration, network,
-installer or Defender-alerted executable was accessed.
-
-Resolved: thirteen watchdog cases. Retired/excluded: none. Partial: watchdog suite
-acceptance remains open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). The repository
-aggregate and large synthetic package lifecycles remain incomplete; VM acceptance is
-blocked at host CIM, and Defender-alerted tools remain excluded. See [structured
-evidence](archive/evidence/automation-watchdog-child-process-regression-2026-11-02.json).
-## Recommended profile Windows 11 target audit, 2026-11-02
-
-A read-only expansion of the five current profiles found 77 operation references,
-74 unique catalog operations, no unresolved profile IDs, and no operation that is
-unsupported or pending acceptance for Windows 11. The default workstation profile
-has 70 direct entries; analyst-basics and git-development each resolve through their
-two catalog group members. This reconciles the older working-copy triage note that
-reported 73 default selections and four unsupported candidates: that count is stale
-against current profile/catalog bytes. No profile edit or candidate promotion was
-needed. No Windows state, VM, installer, utility, network or Defender path was used.
-
-Resolved: current recommended-profile target scope. Retired/excluded: none. Partial:
-no legacy setting, package or component outcome closes. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
-Host CIM VM acceptance and existing source-test blockers remain. See [structured
-evidence](archive/evidence/recommended-profile-target-audit-2026-11-02.json).
-## Automation watchdog file and state source regression, 2026-11-02
-
-The selected file, lock, execution-deadline, queue-expiry and terminal-state cases in
-`tests/AutomationWatchdog.Tests.ps1` passed 8/8 in PowerShell 7.6.5/Pester 5.7.1.
-These cases launched no child processes and changed no Windows state. The remaining
-eight child-process and process-tree cases are a separate batch.
-
-Resolved: selected watchdog source checks. Retired/excluded: none. Partial: no legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). The broad test aggregate, large synthetic
-lifecycles, VM acceptance at host CIM, and Defender-excluded tools remain open. See
-[structured evidence](archive/evidence/automation-watchdog-no-child-source-regression-2026-11-02.json).
-## Sixty-setting isolated source regression, 2026-11-02
-
-`tests/SixtySettings.Tests.ps1` passed 130/130 in PowerShell 7.6.5 and Pester
-5.7.1 (9m20s), with no skips or failures. Registry and system handlers were mocked;
-the tests cover setting preview, saved-state capture and restore across the sixty-
-setting matrix. No Windows state or VM was accessed.
-
-Resolved: isolated sixty-setting source regression. Retired/excluded: none. Partial:
-no legacy outcome closes; native behavior remains open. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
-The repository aggregate, WFN/PSScriptTools large synthetic lifecycles and VM/CIM
-acceptance remain open. See
-[structured evidence](archive/evidence/sixty-settings-isolated-regression-2026-11-02.json).
-
-## WFN 531-member synthetic lifecycle attempt, 2026-11-02
-
-The isolated `repeats the complete 531-member snapshot` Pester case ran for 20
-minutes without a suite summary and was interrupted. This is recorded as incomplete,
-with no pass or failure inferred. It builds an inert synthetic archive and is designed
-to verify install, repeat, hashes, operator-data preservation, removal and both prior
-installed and prior-absent recovery paths. The WFN executable was not launched.
-
-Resolved: none for the full-size lifecycle. Partial: the separate WFN metadata and
-small required-file lifecycle checks passed 2/2. Retired/excluded: none. No package
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). The repository Pester aggregate, PSScriptTools
-full lifecycle and VM/CIM acceptance remain open. See
-[structured evidence](archive/evidence/wfn-531-member-lifecycle-incomplete-2026-11-02.json).
-
-## WFN package metadata and small synthetic lifecycle, 2026-11-02
-
-The filtered PowerShell 7.6.5/Pester 5.7.1 WFN run passed two selected checks:
-the pinned static inventory/metadata and a small synthetic required-file install,
-repeat, removal and prior-absence restore. The optional real archive check skipped
-because no explicit fixture was supplied. The complete 531-member synthetic
-lifecycle was excluded from this batch and is scheduled separately.
-
-Resolved: selected WFN metadata and small lifecycle source checks. Retired/excluded:
-none. Partial: no package outcome closes; the full lifecycle and native acceptance
-remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). Broad Pester and VM/CIM acceptance remain
-open. See
-[structured evidence](archive/evidence/wfn-package-small-source-regression-2026-11-02.json).
-
-## WinHTTP proxy source regression, 2026-11-02
-
-Three PowerShell 7.6.5/Pester 5.7.1 WinHTTP suites passed 22/22 tests in five
-seconds: inventory, lifecycle and preparation. Proxy providers were mocked; no
-live WinHTTP configuration, connectivity or VM was accessed.
-
-Resolved: WinHTTP proxy source regression. Retired/excluded: none. Partial: no
-legacy outcome closes; native consumer behavior remains open. Estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
-Broad Pester aggregate, PSScriptTools lifecycle and VM/CIM acceptance remain open.
-See [structured evidence](archive/evidence/winhttp-proxy-source-regression-2026-11-02.json).
-
-## WhatIsMyIP, WinPmem and Wireshark package source regression, 2026-11-02
-
-The three PowerShell 7.6.5/Pester 5.7.1 package-source suites passed 16/16 tests
-in seven seconds. Acquisition and installer boundaries were mocked; no publisher
-payload, installer, product utility or VM was invoked.
-
-Resolved: selected package-source regression. Retired/excluded: none. Partial: no
-package outcome closes; native acceptance remains open. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). The
-repository Pester aggregate, PSScriptTools lifecycle and VM/CIM acceptance remain
-open. See
-[structured evidence](archive/evidence/whatismyip-winpem-wireshark-source-regression-2026-11-02.json).
-
-## User handoff and local inventory source regression, 2026-11-02
-
-Four PowerShell 7.6.5/Pester 5.7.1 suites passed 127/127 tests in 16 seconds:
-UserHandoff, VisualEffectsInventory, VolumeInventory and WirelessInventory.
-Desktop launch and inventory providers were mocked; no live user session,
-volume, wireless profile or VM was accessed.
-
-Resolved: selected handoff and inventory source regression. Retired/excluded:
-none. Partial: no legacy outcome closes; native observation remains open.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). Broad Pester aggregate, PSScriptTools lifecycle and
-VM/CIM acceptance remain open. See
-[structured evidence](archive/evidence/user-handoff-and-local-inventory-regression-2026-11-02.json).
-
-## User PATH and proxy source regression, 2026-11-02
-
-Five PowerShell 7.6.5/Pester 5.7.1 suites passed 159/159 tests in 19 seconds:
-UserPathEngine, UserPathPreparation, UserProxyInventory, UserProxyLifecycle and
-UserProxyPreparation. Registry, session and notification providers were mocked;
-no live PATH, proxy, network, user session or VM was changed or accessed.
-
-Resolved: selected PATH/proxy source regression. Retired/excluded: none. Partial:
-no legacy outcome closes; native consumers and PATH candidate acceptance remain
-open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). Broad Pester, PSScriptTools full lifecycle and VM/CIM
-acceptance remain open. See
-[structured evidence](archive/evidence/user-path-and-proxy-source-regression-2026-11-02.json).
-
-## User-bin and user-language source regression, 2026-11-02
-
-Four PowerShell 7.6.5/Pester 5.7.1 suites passed 102/102 tests in 17 seconds:
-UserBinProfile, UserLanguageInventory, UserLanguageOverrides and
-UserLanguagePreparation. Inventory providers were mocked; profile and preparation
-checks were source-only. No live user profile, Windows state or VM was accessed.
-
-Resolved: selected user-bin and language source regression. Retired/excluded:
-none. Partial: no legacy setting outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). The broad Pester
-aggregate and PSScriptTools full lifecycle remain open; VM/CIM acceptance remains
-blocked. See
-[structured evidence](archive/evidence/user-bin-and-language-source-regression-2026-11-02.json).
-
-## Automation, toolkit and update-notification source regression, 2026-11-02
-
-Four PowerShell 7.6.5/Pester 5.7.1 files discovered 270 tests: 268 passed, zero
-failed, and two controller host-preflight tests were skipped because they require
-64-bit Windows PowerShell Desktop. Coverage included Terminal JSONC, automation
-scenario construction and WhatIf preview, toolkit update preparation, and Windows
-Update notification policy. No controller, VM, installer or Windows state change
-was executed.
-
-Resolved: selected source regression. Retired/excluded: none. Partial: two Desktop
-host-specific checks and native acceptance remain open; no legacy outcome closes.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). Broad Pester aggregate, PSScriptTools full lifecycle and VM/CIM
-acceptance remain open. See
-[structured evidence](archive/evidence/automation-update-source-regression-2026-11-02.json).
-
-## Sysinternals Suite synthetic lifecycle regression, 2026-11-02
-
-`tests/SysinternalsSuitePackage.Tests.ps1` passed 8/8 in PowerShell 7.6.5 and
-Pester 5.7.1 (9m22s). Coverage includes the official snapshot pin, rejection of
-incomplete/changed archives, and a 164-member synthetic inert ZIP install, repeat,
-manifest verification, snapshot, removal and restore. Network and product process
-providers were mocked; no Sysinternals utility, installer or VM was launched.
-
-Resolved: current suite-level source and synthetic lifecycle repeat. No licensing
-decision changed; the prior license-specialist approval remains in effect.
-Retired/excluded: none. Partial: no package migration outcome closes. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). PSScriptTools and WFN full synthetic lifecycle repeats, broad
-Pester aggregate and VM/host-CIM acceptance remain open. See
-[structured evidence](archive/evidence/sysinternals-suite-synthetic-lifecycle-2026-11-02.json).
-
-## Sysinternals independent product source regression, 2026-11-02
-
-`tests/SysinternalsProductPackages.Tests.ps1` passed 72/72 in PowerShell 7.6.5
-and Pester 5.7.1 (3m38s) across nine independent products. It used inert text ZIP
-members and mocked network, signature and installer-process providers. No Sysinternals
-utility or installer was launched and no VM was accessed.
-
-Resolved: independent product source and synthetic owned-file regression. No license
-decision changed; the prior license-specialist approval remains in effect. Retired/
-excluded: none beyond functional utility tests by design. Partial: no package outcome
-closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). The suite-level synthetic archive lifecycle and VM/CIM
-acceptance remain open. See
-[structured evidence](archive/evidence/sysinternals-product-source-regression-2026-11-02.json).
-
-## Source-script and Store package regression, 2026-11-02
-
-Four PowerShell 7.6.5/Pester 5.7.1 suites discovered 74 tests: 72 passed, zero
-failed and two retained publisher-archive checks skipped because no explicit cache
-was supplied. Coverage included source-script package ownership/recovery, read-only
-Store inventory planning, mocked registration lifecycle and fixture validation.
-No app installation, native Store action, network or VM access occurred.
-
-Resolved: selected source regression. Retired/excluded: none. Partial: no legacy
-outcome closes; native Store behavior and the two optional archive checks remain
-open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). Broad suite, PSScriptTools and VM/CIM blockers persist.
-See [structured evidence](archive/evidence/source-script-and-store-package-regression-2026-11-02.json).
-
-## Settings and maintenance source regression, 2026-11-02
-
-Eight PowerShell 7.6.5/Pester 5.7.1 files passed 172/172 tests in 1m12s:
-ScheduledTaskRecovery, ScreenLockMeasurement, Search, ServerPolicies,
-ServiceSettings, SettingPresentation, SettingsFixtureData and ShellFolders.
-Registry and system handlers were mocked; WindowsIntegration tests were excluded.
-No Windows state changed and no VM was queried.
-
-Resolved: selected settings and maintenance source regression. Retired/excluded:
-none. Partial: no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). The broad Pester
-aggregate, PSScriptTools full-size lifecycle, and VM/CIM acceptance remain open.
-See [structured evidence](archive/evidence/settings-and-maintenance-source-regression-2026-11-02.json).
-
-## Package, inventory and run-retention source regression, 2026-11-02
-
-The PowerShell 7.6.5/Pester 5.7.1 batch passed 57/57 tests across
-`RaspberryPiImagerPackage.Tests.ps1`, `RegionalInventory.Tests.ps1`,
-`RegistryFailures.Tests.ps1`, `RegRipperPackage.Tests.ps1`, `RufusPackage.Tests.ps1`,
-and `RunStateRetention.Tests.ps1` (1m32s). Integration tags were excluded and
-TestRegistry was disabled. Package installer, registry and system boundaries were
-mocked or synthetic; no installer or executable ran and no VM was accessed.
-
-Resolved: selected source regression batch. Retired/excluded: none. Partial: no
-legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
-(exact 126-180; rounded 125-180/about 155). The broad Pester aggregate,
-PSScriptTools 360-member lifecycle, and host-CIM VM acceptance remain open. See
-[structured evidence](archive/evidence/package-and-inventory-source-regression-2026-11-02.json).
-
-## Repository Pester sweep partial and PSScriptTools lifecycle limit, 2026-11-02
-
-The PowerShell 7.6.5/Pester 5.7.1 sweep discovered 3,698 tests in 153 files,
-with WindowsIntegration, AutomationWatchdog and Pester TestRegistry excluded.
-Per-file summaries observed through ProfileSettings were passing. Optional Windows
-settings completed its 365-test file in 661.84 seconds; the aggregate invocation
-then remained quiet after ProfileSettings and was interrupted without a final
-summary. A separate PSScriptTools run passed six source, recovery and ownership
-checks (6/6). Its 360-member inert archive lifecycle did not return a Pester result
-after 15 minutes in an aggregate attempt and again after 15 minutes when isolated.
-The full lifecycle therefore remains incomplete; no failure is inferred.
-
-Retired/excluded: none. Partial: no legacy outcome closes; the aggregate sweep and
-PSScriptTools large-fixture lifecycle remain unresolved. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Windows
-acceptance remains blocked by host CIM; Defender-blocked executables remain out of
-runtime tests. See [structured evidence](archive/evidence/repository-unit-sweep-and-psscripttools-partial-2026-11-02.json).
-
-## Optional Windows settings filtered completion, 2026-11-01
-
-All 365 discovered tests in `tests/OptionalWindowsSettings.Tests.ps1` passed in
-seven mutually exclusive PowerShell 7.6.5/Pester 5.7.1 filters: 60 preview/save/
-restore, 60 legacy mappings, 60 zero/missing/type states, 60 plan states, 60
-recoverable failures, 60 absent-snapshot restores, and five singleton metadata,
-elevation and default-state checks. Pester TestRegistry was disabled because the
-sandbox denies its temporary HKCU registry fixture. The unfiltered invocation
-was not rerun to completion; every discovered case was instead executed exactly
-once across the filtered runs. One preliminary invocation with TestRegistry left
-enabled failed at the sandbox registry setup and is excluded from the passing
-count; the corrected 60-case preview/restore slice passed.
-
-Resolved: complete mocked source-test coverage for this suite. Retired/excluded:
-none. Partial: no legacy setting outcome closes; no native setting behavior was
-tested. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). Repository-wide aggregate Pester, VM/CIM acceptance,
-and Defender-executable exclusions remain open. See
-[structured evidence](archive/evidence/optional-windows-settings-filtered-completion-2026-11-01.json).
-
 ## Shell folder, shortcut, Photo Viewer and hash-menu regression, 2026-11-01
 
 The PowerShell 7.6.5 Core/Pester 5.7.1 suites passed 37/38 tests; one hash
@@ -1852,195 +1355,6 @@ Desktop-only helper case remain open. Estimates remain 37-57 / 37-52 / 19-24 /
 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM and HKCU blockers
 are unchanged. See
 [structured evidence](archive/evidence/shell-folder-shortcut-photo-viewer-hash-menu-regression-2026-11-01.json).
-
-## Toolkit, authoring and Store lifecycle source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 toolkit update preparation, custom registry
-authoring and Store app lifecycle suites passed 102/102 tests. Toolkit decisions used
-supplied observations; registry and AppX/native providers were mocked; file state used
-TestDrive. No live registry, Store registration, VM or Defender state was changed.
-
-Resolved: source regression for toolkit ownership decisions, authoring safety and
-Store lifecycle guards. Retired/excluded: none. Partial: no legacy outcome closes;
-Store runtime and toolkit staging acceptance remain pending. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host
-CIM and Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/toolkit-authoring-and-store-lifecycle-source-regression-2026-11-01.json).
-
-## MAC vendor, Terminal JSONC and F1 Help source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 suites passed 70/70 tests. MAC vendor
-lookup was offline; Terminal settings were synthetic TestDrive fixtures; F1 Help
-registry handlers were mocked. No live Terminal settings, registry, VM or Defender
-state was changed.
-
-Resolved: current-source regression for file patch/recovery, offline lookup and the
-accepted F1 Help handler contract. Retired/excluded: none. Partial: no legacy outcome
-closes; live Terminal integration and platform behavior remain pending their normal
-acceptance path. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). Host CIM and Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/mac-terminal-jsonc-and-f1help-current-source-regression-2026-11-01.json).
-
-## Candidate, CLI and search safety regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 candidate execution, CLI ShouldProcess
-and catalog search/completion suites passed 98/98 tests. Platforms, handlers and
-catalogs were mocked or synthetic. No command executed a live handler, changed
-Windows state, queried a VM or accessed Defender.
-
-Resolved: command-safety and discovery source regression. Retired/excluded: none.
-Partial: no legacy outcome closes; native candidate acceptance remains pending a
-disposable VM. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). Host CIM and Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/candidate-cli-and-search-safety-regression-2026-11-01.json).
-
-## GitHub authentication source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 GitHub authentication suite passed 53/53
-tests using synthetic credentials and mocked HTTP/installer providers. CurrentUser DPAPI
-was exercised only for test fixtures; no real credential was enrolled and no publisher
-traffic or installer was used.
-
-Resolved: source regression for explicit credential and acquisition boundaries.
-Retired/excluded: none; VM-specific authentication remains deferred. Partial: no
-legacy outcome closes; package acceptance remains pending where applicable. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
-155). Host CIM and Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/github-authentication-current-source-regression-2026-11-01.json).
-
-## Installer inspection, completion and deployment-identity regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 installer inspection, process completion
-and deployment identity suites passed 62/62 tests. Archive fixtures were inert;
-download and installer providers were mocked. No network, installer, VM or Defender
-state was accessed or changed.
-
-Resolved: current-source regression for sample inspection, installer orchestration
-and explicit deployment selection. Retired/excluded: none. Partial: no legacy outcome
-closes; native package install/remove and ownership recovery remain pending disposable-VM
-acceptance. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). Host CIM and Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/installer-inspection-completion-deployment-identity-regression-2026-11-01.json).
-
-## Audio service and screen-lock safety regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 Audio service lifecycle and screen-lock
-measurement suites passed 25/25 tests. Service, CIM, registry and native providers
-were mocked; measurement launch and network paths were blocked by test mocks. No
-live service, machine, VM or Defender state was queried or changed.
-
-Resolved: current-source regression for service dependency/recovery guards and
-measurement safety/arithmetic. Retired/excluded: none. Partial: no legacy outcome
-closes; native Audio service lifecycle remains pending disposable-VM acceptance.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). Host CIM and Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/audio-service-and-screen-lock-safety-regression-2026-11-01.json).
-
-## Cookie Cruncher, GitHub release and Gpg4win source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 suites discovered 45 tests: 44 passed and
-one Cookie Cruncher retained-archive lifecycle case was skipped because no explicit
-archive fixture was supplied. HTTP and installer providers were mocked; payload and
-roaming fixtures were isolated. Gpg4win emitted a warning that a temporary TestDrive
-roaming directory was retained; the exact reported path was absent on an immediate
-read-only check. No cleanup or recreation was attempted. No network, installer, VM,
-Defender or live roaming state was changed.
-
-Resolved: current-source regressions for selected package selection, release metadata
-and installer configuration paths. Retired/excluded: none; Defender-blocked tools
-were not selected. Partial: no legacy outcome closes; retained archive and native
-package acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). Host CIM and Defender exclusions
-are unchanged. See
-[structured evidence](archive/evidence/cookie-github-release-gpg4win-source-regression-2026-11-01.json).
-
-## Local password-policy candidate source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 local password-age and complexity-candidate
-suites passed 40/40 tests. Native policy setters were mocked and inputs used
-synthetic nonsecret policy state. No account policy, VM or Defender state was queried
-or changed.
-
-Resolved: candidate source regression for exact-state planning and recovery.
-Retired/excluded: none. Partial: no legacy outcome closes; both candidates remain
-target-gated pending disposable-VM acceptance. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM and
-Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/local-password-policy-candidates-source-regression-2026-11-01.json).
-
-## Office and Store app review current-source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 Office inventory, Office configuration
-review and Store app review suites passed 102/102 tests. Registry, AppX and DISM
-providers were mocked; parser inputs and export files were isolated. No live Office,
-AppX, VM or Defender state was queried or changed.
-
-Resolved: current-source regression for the selected review and inventory tools.
-Retired/excluded: none. Partial: no legacy outcome closes; native inventory behavior
-remains pending disposable-VM acceptance. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM and Defender
-exclusions are unchanged. See
-[structured evidence](archive/evidence/office-and-store-app-review-current-source-regression-2026-11-01.json).
-
-## Owned power-plan source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 owned power-plan lifecycle and candidate
-gating suite passed 29/29 tests. Ownership files were isolated in TestDrive and
-native power commands were mocked. No system power plan, VM or Defender state was
-queried or changed.
-
-Resolved: current-source regression for the selected ownership and recovery paths.
-Retired/excluded: none. Partial: no legacy outcome closes; experimental plans remain
-target-gated pending disposable-VM acceptance. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM and
-Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/owned-power-plan-source-regression-2026-11-01.json).
-
-## User PATH and power-read current-source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 user PATH engine and preparation,
-optional user-bin profile and typed power-read suites passed 93/93 tests. Registry
-providers were mocked; power reads used a fake API; process PATH fixtures were
-restored. Persistent files used TestDrive. No live registry, Windows power API, VM
-or Defender state was queried or changed.
-
-Resolved: current-source regression for candidate planning, recovery guards and
-the fake power-read contract. Retired/excluded: none. Partial: no legacy outcome
-closes; user PATH and user-bin candidates remain target-gated and native power
-behavior remains pending disposable-VM acceptance. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM and
-Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/user-path-and-power-read-current-source-regression-2026-11-01.json).
-
-## User-language and registration inventory regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 installed-registration, local-user,
-user-language inventory, override and language-priority preparation suites passed
-143/143 tests. Registry handles and native inventory providers were mocked;
-export file cases used TestDrive. No live registry, Windows identity, VM or
-Defender state was queried or changed.
-
-Resolved: current-source regression for the selected inventory and recovery
-preparation paths. Retired/excluded: none. Partial: no legacy outcome closes; native
-behavior remains pending disposable-VM acceptance. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM and
-Defender exclusions are unchanged. See
-[structured evidence](archive/evidence/user-language-and-registration-inventory-regression-2026-11-01.json).
-
-## Platform inventory current-source regression, 2026-11-01
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 adapter, audio endpoint, regional,
-visual-effects, volume and wireless inventory suites passed 179/179 tests.
-Native inventory providers were mocked; export previews and collision cases used
-TestDrive fixtures. No live Windows inventory, VM or Defender state was queried or
-changed.
-
-Resolved: current-source regression for selected platform inventory tools.
-Retired/excluded: none. Partial: no legacy outcome closes; native behavior remains
-pending disposable-VM acceptance. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). Host CIM and Defender exclusions
-are unchanged. See
-[structured evidence](archive/evidence/platform-inventory-current-source-regression-2026-11-01.json).
 
 ## User proxy current-source regression, 2026-11-01
 
@@ -2186,8 +1500,8 @@ evidence suite warned that it retained a synthetic product-created Signal
 user-data directory while restoring the original test data. After Pester
 exited, `Test-Path` returned false for the reported parent, run directory and
 leaf. No cleanup or recreation was attempted; the warning and post-run path
-discrepancy are recorded in the structured evidence. No publisher payload,
-real installer, VM or Defender state was used.
+discrepancy are recorded in the structured evidence.
+No publisher payload, real installer, VM or Defender state was used.
 
 Resolved: package dependency/acquisition evidence source regression.
 Retired/excluded: none. Partial: no package or legacy outcome closes; native
@@ -2425,14 +1739,75 @@ ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
 confirmation remain blocked by host CIM; PasswordScan remains a separate
 Defender exclusion. The HKCU test-residue blocker is also unchanged. See
 [structured evidence](archive/evidence/acceptance-runner-and-controller-automation-regression-2026-11-01.json).
-## Current Pester run environment label correction, 2026-11-01
 
-The PowerShell command host used for the current package, catalog and library
-runs was `pwsh.exe`, PowerShell 7.6.5 Core, with Pester 5.7.1. Nine evidence
-records and their dated plan summaries now use that exact environment label.
-The test outcomes and safety boundaries are unchanged. The LicenseReviews 24/24
-result was completed in the prior run and remains recorded separately as
-Windows PowerShell 5.1. No migration estimate changes. See [correction evidence](archive/evidence/pester-environment-label-correction-2026-11-01.json).
+## Library, authoring and example regression, 2026-11-01
+
+The PowerShell 7.6.5/Pester 5.7.1 suites passed 25/25 for declarative
+libraries, 45/45 for custom-library authoring, and 10/10 for the maintained
+example library. Coverage included metadata validation, package references,
+recovery identity, mocked package lifecycle, CLI authoring prompts, read-only
+completion and example-library structure. Tests used temporary files and mocks;
+no publisher downloads, installers, custom package apply, or live Windows
+setting changes occurred.
+
+Resolved: current library/authoring source regression. Retired/excluded: none.
+Partial: no legacy setting/package outcome closes. All estimates remain 37-57 /
+37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
+Package VM acceptance remains blocked by host CIM; the HKCU integration test
+and Defender-affected NirSoft suites remain separately blocked/excluded. See
+[structured evidence](archive/evidence/library-authoring-and-example-regression-2026-11-01.json).
+
+## Catalog/profile validation and HKCU sandbox blocker, 2026-11-01
+
+Catalog, dependency and profile suites reported 112 passing tests. One
+`WindowsIntegration` case failed because the sandbox denied creation of its
+GUID-scoped HKCU test subtree and denied its `finally` cleanup. The exact random
+GUID was not captured; possible leftover test-key presence is unresolved. No
+further registry access was attempted. Reran while excluding only that test at
+line 399: 112 passed, no failures, one not run. `tools/validate.ps1 -Root .`
+passed: 452 operations, 8 groups, 5 profiles and 326 PowerShell files; generated
+operation documentation is current.
+
+Resolved: read-only catalog/profile validation. Retired/excluded: none. Partial:
+the stateful HKCU integration case is blocked in this sandbox. No legacy outcome
+closes; estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
+rounded 125-180/about 155). VM acceptance remains blocked by host CIM and NirSoft
+remains excluded due to the separate Defender alert. See [structured evidence](archive/evidence/catalog-profile-readonly-regression-and-hkcu-sandbox-block-2026-11-01.json).
+
+## Source-script package and JoeWare source regression, 2026-11-01
+
+PowerShell 7.6.5/Pester 5.7.1 passed 8/8 available source-package tests,
+9/9 JoeWare download-preview tests, and 1/1 JoeWare AdMod engine-route test.
+Two retained Hex2Text/ChromeSyncParser archive cases and one retained AdMod
+archive case were skipped because no explicit fixture was supplied. Preview
+requests were mocked; AdFind exclusion and explicit-selection refusal checks
+passed. No publisher archive, network request, installer, upstream Python or
+Windows state was used.
+
+Resolved: current-source checks for these package routes and acquisition
+boundaries. Retired/excluded: Defender-blocked AdFind remained excluded as
+declared; NirSoft remains separately excluded. Partial: 18 passed, 3 optional
+retained-archive cases skipped; no legacy outcome closes. Deferred: package-level
+Windows VM acceptance is blocked at host CIM. All five estimates remain 37-57 /
+37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). See
+[structured evidence](archive/evidence/source-script-and-joeware-current-source-regression-2026-11-01.json).
+
+## PSScriptTools focused source-boundary regression, 2026-11-01
+
+Selected six PSScriptTools tests passed in PowerShell 7.6.5/Pester 5.7.1:
+metadata/notice declarations, refusal of an incomplete payload, modified-source
+preservation, collision refusal, changed-recovery refusal, and prior-absence
+recovery. TestRegistry and TestResult were disabled; the retained archive
+variable was unset. The full 360-member install/repeat/uninstall/snapshot case
+was excluded from this focused run after its separate no-progress interruption,
+so this is not a full-suite result. No publisher source or real package was used.
+
+Resolved: focused source-boundary coverage. Retired/excluded: none. Partial: no
+legacy package outcome closes. Deferred: full 360-member source lifecycle, if
+useful, and package-level Windows VM acceptance, blocked by host CIM. All five
+ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
+125-180/about 155). NirSoft remains excluded due to Defender. See [structured
+evidence](archive/evidence/psscripttools-focused-source-boundaries-regression-2026-11-01.json).
 
 ## Package-level fast-track acceptance decision, 2026-11-01
 
@@ -2457,71 +1832,6 @@ separate exclusion; no related file was accessed.
 This method decision changes no package implementation and closes no additional
 legacy outcome. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
 (exact 126-180; rounded 125-180/about 155). See [decision and evidence](archive/evidence/package-level-fast-track-acceptance-decision-2026-11-01.json).
-## Library, authoring and example regression, 2026-11-01
-
-The PowerShell 7.6.5/Pester 5.7.1 suites passed 25/25 for declarative
-libraries, 45/45 for custom-library authoring, and 10/10 for the maintained
-example library. Coverage included metadata validation, package references,
-recovery identity, mocked package lifecycle, CLI authoring prompts, read-only
-completion and example-library structure. Tests used temporary files and mocks;
-no publisher downloads, installers, custom package apply, or live Windows
-setting changes occurred.
-
-Resolved: current library/authoring source regression. Retired/excluded: none.
-Partial: no legacy setting/package outcome closes. All estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
-Package VM acceptance remains blocked by host CIM; the HKCU integration test
-and Defender-affected NirSoft suites remain separately blocked/excluded. See
-[structured evidence](archive/evidence/library-authoring-and-example-regression-2026-11-01.json).
-## Catalog/profile validation and HKCU sandbox blocker, 2026-11-01
-
-Catalog, dependency and profile suites reported 112 passing tests. One
-`WindowsIntegration` case failed because the sandbox denied creation of its
-GUID-scoped HKCU test subtree and denied its `finally` cleanup. The exact random
-GUID was not captured; possible leftover test-key presence is unresolved. No
-further registry access was attempted. Reran while excluding only that test at
-line 399: 112 passed, no failures, one not run. `tools/validate.ps1 -Root .`
-passed: 452 operations, 8 groups, 5 profiles and 326 PowerShell files; generated
-operation documentation is current.
-
-Resolved: read-only catalog/profile validation. Retired/excluded: none. Partial:
-the stateful HKCU integration case is blocked in this sandbox. No legacy outcome
-closes; estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). VM acceptance remains blocked by host CIM and NirSoft
-remains excluded due to the separate Defender alert. See [structured evidence](archive/evidence/catalog-profile-readonly-regression-and-hkcu-sandbox-block-2026-11-01.json).
-## Source-script package and JoeWare source regression, 2026-11-01
-
-PowerShell 7.6.5/Pester 5.7.1 passed 8/8 available source-package tests,
-9/9 JoeWare download-preview tests, and 1/1 JoeWare AdMod engine-route test.
-Two retained Hex2Text/ChromeSyncParser archive cases and one retained AdMod
-archive case were skipped because no explicit fixture was supplied. Preview
-requests were mocked; AdFind exclusion and explicit-selection refusal checks
-passed. No publisher archive, network request, installer, upstream Python or
-Windows state was used.
-
-Resolved: current-source checks for these package routes and acquisition
-boundaries. Retired/excluded: Defender-blocked AdFind remained excluded as
-declared; NirSoft remains separately excluded. Partial: 18 passed, 3 optional
-retained-archive cases skipped; no legacy outcome closes. Deferred: package-level
-Windows VM acceptance is blocked at host CIM. All five estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). See
-[structured evidence](archive/evidence/source-script-and-joeware-current-source-regression-2026-11-01.json).
-## PSScriptTools focused source-boundary regression, 2026-11-01
-
-Selected six PSScriptTools tests passed in PowerShell 7.6.5/Pester 5.7.1:
-metadata/notice declarations, refusal of an incomplete payload, modified-source
-preservation, collision refusal, changed-recovery refusal, and prior-absence
-recovery. TestRegistry and TestResult were disabled; the retained archive
-variable was unset. The full 360-member install/repeat/uninstall/snapshot case
-was excluded from this focused run after its separate no-progress interruption,
-so this is not a full-suite result. No publisher source or real package was used.
-
-Resolved: focused source-boundary coverage. Retired/excluded: none. Partial: no
-legacy package outcome closes. Deferred: full 360-member source lifecycle, if
-useful, and package-level Windows VM acceptance, blocked by host CIM. All five
-ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). NirSoft remains excluded due to Defender. See [structured
-evidence](archive/evidence/psscripttools-focused-source-boundaries-regression-2026-11-01.json).
 
 ## WFN current-source repeat interrupted, 2026-11-01
 
@@ -2542,6 +1852,7 @@ perform package-level Windows VM acceptance when host CIM is available. All five
 ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
 125-180/about 155); no legacy outcome closes. NirSoft remains separately excluded
 due to Defender. See [structured evidence](archive/evidence/wfn-531-member-source-lifecycle-interrupted-2026-11-01.json).
+
 ## WhatIsMyIP, WinPmem and Wireshark source regression, 2026-11-01
 
 The focused PowerShell 7.6.5/Pester 5.7.1 suites passed 4/4 for
@@ -2557,6 +1868,7 @@ NirSoft remains excluded due to the Defender alert. All five estimates remain
 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
 155), because the mocked source checks do not close a legacy package outcome.
 See [structured evidence](archive/evidence/whatismyip-winpmem-wireshark-current-source-regression-2026-11-01.json).
+
 ## RegRipper, Rufus and Raspberry Pi Imager source regression, 2026-11-01
 
 The focused PowerShell 7.6.5/Pester 5.7.1 suites passed 4/4 for
@@ -2571,6 +1883,7 @@ blocked before VM/checkpoint state retrieval at host CIM; NirSoft remains exclud
 due to the reported Defender alert. All five estimates remain 37-57 / 37-52 /
 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155), because these
 candidate regressions close no legacy outcome. See [structured evidence](archive/evidence/regripper-rufus-raspberry-pi-imager-current-source-regression-2026-11-01.json).
+
 ## PSScriptTools current-source repeat interrupted, 2026-11-01
 
 The focused suite discovered seven tests in PowerShell 7.6.5/Pester
@@ -2587,21 +1900,6 @@ NirSoft staging/lifecycle tests remain excluded due to the Defender alert. All
 five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
 rounded 125-180/about 155) because this interrupted run closed no legacy outcome.
 See [structured evidence](archive/evidence/psscripttools-test-interrupted-360-file-source-regression-2026-11-01.json).
-## License review test fixture isolation regression, 2026-11-01
-
-`tests/LicenseReviews.Tests.ps1` passed 24/24 in Windows PowerShell 5.1/Pester
-5.7.1 after each test moved its synthetic review store to Pester `TestDrive`.
-This avoids collisions from replacement operations under `.local` and leaves
-retained repository fixtures untouched. No Windows state, installer, network,
-VM, Defender state or retained package file was used.
-
-Resolved: the local test-fixture collision. Retired/excluded: none. Partial:
-license-review store source regression only; no legacy product outcome closes.
-Deferred: Windows VM acceptance remains blocked at host CIM; NirSoft lifecycle
-tests remain excluded after the Defender alert, and the reported PasswordScan
-file was not accessed. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155) because the fixture repair
-closes no legacy outcome. See [structured evidence](archive/evidence/license-reviews-testdrive-isolation-source-regression-2026-11-01.json).
 
 ## Sysinternals package source regression repeat, 2026-11-01
 
@@ -2623,126 +1921,423 @@ Windows VM acceptance blocked before VM/checkpoint retrieval by host CIM. All
 five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
 rounded 125-180/about 155), because no legacy outcome changed. See [structured
 evidence](archive/evidence/sysinternals-focused-source-regression-repeat-2026-11-01.json).
+
+## License review test fixture isolation regression, 2026-11-01
+
+`tests/LicenseReviews.Tests.ps1` passed 24/24 in Windows PowerShell 5.1/Pester
+5.7.1 after each test moved its synthetic review store to Pester `TestDrive`.
+This avoids collisions from replacement operations under `.local` and leaves
+retained repository fixtures untouched. No Windows state, installer, network,
+VM, Defender state or retained package file was used.
+
+Resolved: the local test-fixture collision. Retired/excluded: none. Partial:
+license-review store source regression only; no legacy product outcome closes.
+Deferred: Windows VM acceptance remains blocked at host CIM; NirSoft lifecycle
+tests remain excluded after the Defender alert, and the reported PasswordScan
+file was not accessed. All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 /
+8-12 (exact 126-180; rounded 125-180/about 155) because the fixture repair
+closes no legacy outcome. See [structured evidence](archive/evidence/license-reviews-testdrive-isolation-source-regression-2026-11-01.json).
+
+## Shared contract and reciprocal alignment policy, 2026-11-01
+
+At the user's request, ALIGN-01/02 adopt [contract 1.0.0](models/ride-behavior-contract.md),
+matching SHA-256 references and reciprocal AGENTS review rules in both RIDE repos.
+[Windows tasks](../TODO.md#cross-platform-alignment-for-final-v3) and
+[Fedora tasks](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/MIGRATION-PLAN.md#cross-platform-alignment-for-final-v3)
+make behavior alignment, shared scenarios, difference tracking, linked-change/drift
+checks and final contract publication part of the final-v3 goals. Native installer
+implementation and target acceptance remain separate.
+
+Resolved: canonical ownership, initial version/digest adoption and reciprocal
+review triggers. Partial: source policy only, not automated conformance.
+Deferred: ALIGN-03 through ALIGN-09 runtime/test/release work. Retired/excluded
+legacy outcomes: none. All five ranges were reviewed and remain 37-57 / 37-52 /
+19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155), because policy
+and engineering tasks close no legacy outcome. Existing bootstrap/offline and
+native acceptance evidence remains unchanged. No Windows or VM state changed.
+Validation is documentation/link/digest/diff inspection; no native test is needed
+for these documentation-only changes. Next: ALIGN-03 command/option and lifecycle
+semantics with focused mocked tests. Publishing a release remains separate.
+
 ## Read-only offline package preparation planner, 2026-11-01
 
-Added `New-RideOfflinePreparationPlan` and its explicit-input command wrapper for
+Added `New-RideOfflinePreparationPlan` and the explicit-input command wrapper for
 profile-selected and target-scoped full-set preparation. The planner expands
 catalog prerequisites, reports unresolved version pins and local hash states, and
-separates payload availability from target acceptance. Defender-affected NirSoft
-routes remain excluded before cache-path checks; license review status is
-informational. Twelve focused synthetic/source tests passed in Windows PowerShell
-5.1/Pester 5.7.1. Repository validation passed for 452 operations, 8 groups,
-5 profiles and 326 PowerShell files; `git diff --check` passed.
+keeps payload availability separate from target acceptance. Defender-affected
+NirSoft package routes are excluded before any cache-path check; license status
+remains informational. Twelve focused synthetic/source checks passed in Windows
+PowerShell 5.1/Pester 5.7.1. Repository validation passed for 452 operations,
+8 groups, 5 profiles and 326 PowerShell files; `git diff --check` passed.
 
-Resolved/retired: none. Excluded: Defender-affected NirSoft package routes remain
-excluded. Partial: source planning only; no legacy product outcome closes.
-Deferred: pinned payload preparation, bundle assembly, disconnected VM install and
-recovery, and current host VM acceptance. PasswordScan alert files were not
-accessed. No cache root, real payload, network, installer, VM, Defender state,
-Windows state or elevation was used. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12, exact 126-180, rounded 125-180/about 155.
+Resolved/retired: none. Excluded: Defender-affected NirSoft routes remain excluded.
+Partial: planning only; no legacy package outcome closes. Deferred: operator-pinned
+payload preparation, assembly, disconnected VM installation/recovery and current
+host VM acceptance. The x86/x64 PasswordScan alert file was not accessed. No cache
+root, payload, network, installer, VM, Defender state, Windows state or elevation
+was used. The five estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact
+126-180 and rounded 125-180/about 155 because no legacy outcome closed.
 
-See [planner evidence](archive/evidence/offline-preparation-planner-source-regression-2026-11-01.json)
-and [operator instructions](offline-bundles.md#plan-package-payload-preparation).
-Next: continue with the next authorized source-only batch; VM acceptance remains
+See [planner source evidence](archive/evidence/offline-preparation-planner-source-regression-2026-11-01.json)
+and the [offline bundle guide](offline-bundles.md#plan-package-payload-preparation).
+Next: continue with the next source-only authorized batch; VM acceptance remains
 blocked at host CIM.
-## Bootstrap source regression repeat, 2026-11-01
 
-The focused Windows PowerShell 5.1/Pester 5.7.1 suite passed 9/9 on the current
-source. It covers explicit tag/branch selection, plan-by-default behavior,
-argument forwarding, elevated command-line quoting and child exit-code reporting.
-This is synthetic source validation only; no network, release archive, RIDE
-command, installer, elevation, VM, Defender state or Windows state was used.
+## Explicit candidate opt-in prepared, 2026-11-01
 
-Resolved/retired/excluded: none. Partial: bootstrap source boundaries are covered;
-no release or legacy outcome closes. Deferred: published-source/archive integrity,
-extraction collision/recovery and release VM acceptance. The five estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180 and rounded 125-180/about 155.
+Added the requested -AllowCandidate switch for changes, preview and saved-run
+restore on declared pending candidate targets, including desktop-user forwarding.
+Unsupported targets, privilege/build/edition checks, offline acceptance and handler
+guards remain. No acceptance status, bundled profile or supported target changed;
+no native operation or VM ran. All five group ranges above were reviewed and remain
+unchanged because no legacy outcome closes.
 
-See [bootstrap evidence](archive/evidence/bootstrap-source-plan-boundaries-focused-regression-2026-11-01.json).
-Next: continue the next authorized test batch; VM acceptance remains blocked at host CIM.
+The [dated ledger](migrations/settings-post-migration-review.md#explicit-candidate-execution-and-recovery-2026-11-01)
+records semantics, the schema-2 handoff compatibility path, deferred acceptance
+and validation. Next: use the new opt-in for preview and the existing disposable
+Windows 11 procedure for native acceptance before target promotion.
 
-## Offline bundle source regression repeat, 2026-11-01
+## Bootstrap correction and focused regression, 2026-11-01
 
-The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 129/129 with no
-skips: bundle integrity/dependency preflight, local assembly and selected-profile
-coverage, and offline execution. All acquisition and installer boundaries were
-synthetic or inert. No payload was acquired, cache scanned, bundle assembled for
-transfer, installer run, VM accessed, or Windows/Defender state changed.
+Corrected `docs/bootstrap.ps1` to require an explicit tag or branch, default to
+read-only `plan`, reserve elevation for explicit `apply`/`remove`, quote the
+elevated relaunch command line, pass non-elevated child arguments as an array,
+and report nonzero RIDE child exit codes. Added `modules/RIDE.Bootstrap.psm1`
+and nine focused synthetic Pester cases, including the documented standalone
+script/helper layout. Windows PowerShell 5.1/Pester 5.7.1 passed 9/9, and
+`tools/validate.ps1` passed for 452 operations, 8 groups,
+5 profiles and 323 PowerShell files. The README now pins both the bootstrap script and source archive to
+the same explicit release tag; no v3.0 tag has been published yet.
 
-Resolved/retired/excluded: none. Partial: source-level bundle workflow only; no
-legacy package outcome closes. Deferred: transfer assembly, native disconnected
-installation/recovery and host VM acceptance at CIM. The five estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180, rounded 125-180/about 155.
+Resolved/retired/excluded: none. Partial: no legacy outcome closes. Deferred:
+published-source verification, requested offline delivery, final-source
+verification and versioned publication. This is bootstrap maintenance work and
+closes no legacy feature or product outcome. Settings 37-57, packages 37-52, components 19-24, files/assets 25-35
+and maintenance 8-12 remain the reviewed ranges; exact 126-180 and rounded
+125-180/about 155 remain unchanged. No VM, installer, elevation prompt, Defender
+state or Windows state was used. Host VM/CIM access remains unavailable, and
+PasswordScan remains excluded from selection/staging. Next: verify the actual
+published source and archive, then complete release-only integration work.
 
-See [offline regression evidence](archive/evidence/offline-bundle-integrity-assembly-execution-regression-2026-11-01.json).
-Next: continue the next authorized test batch; VM acceptance remains blocked at host CIM.
+See [dated bootstrap evidence](archive/evidence/bootstrap-source-plan-boundaries-focused-regression-2026-11-01.json)
+and the [PowerShell script walkthrough](migrations/powershell-script-walkthrough.md).
 
-## Hibernation and candidate source regression, 2026-11-01
+## Offline bundle source regression and remaining delivery scope, 2026-11-01
 
-Focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 247 tests with no
-failures or skips across hibernation handling and acceptance orchestration,
-settings fixture validation, explicit candidate execution, desktop-user handoff,
-catalog metadata and profile validation. One WindowsIntegration-tagged case was
-excluded. Repository validation passed for 452 operations, 8 groups, 5 profiles
-and 326 PowerShell files; `git diff --check` passed.
+The focused Windows PowerShell 5.1/Pester 5.7.1 suites for offline bundle
+integrity, explicit local assembly, selected-profile coverage and offline
+execution passed 129/129 with no skips. The cases cover byte/hash and path
+integrity, explicit omissions, copy/retention safety, profile/catalog binding,
+dependency ordering, read leases, pre-mutation failure, installer dispatch and
+no acquisition or certificate-network fallback. This is synthetic/local source
+evidence; no external payload was acquired, no bundle was assembled for transfer,
+and no installer or Windows target was run.
 
-Resolved/retired/excluded: none. Partial: source behavior only; no legacy setting
-or profile outcome closes. Deferred: native hibernation lifecycle, power transition
-and exact recovery on a disposable VM; current VM access remains blocked at host
-CIM. No powercfg, registry mutation, installer, network, Defender state or
-PasswordScan file was accessed. All estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12, exact 126-180 and rounded 125-180/about 155.
+Resolved/retired/excluded: none. Partial: no complete legacy package or
+file/asset outcome closes. Deferred: automatic acquisition planning,
+selected/full-set preparation and current disconnected deployment/recovery.
+This resolves no legacy outcome. The accepted Caffeine portable disconnected
+scenario remains the only cited native offline deployment evidence. Automatic
+acquisition planning, selected/full-set pinned manifests, engine/profile and
+package cache packaging, explicit target/variant coverage, and a current
+disconnected deployment/recovery check remain open. No network fallback is added.
+The estimate remains 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180,
+rounded 125-180/about 155. Read-only preflight found no WinRM service by name,
+and both `Get-VM` and `Get-VMSnapshot` failed at host CIM before VM or checkpoint
+state was read. No service was started or changed. PasswordScan remains excluded
+and no Defender state was queried.
 
-See [settings source regression evidence](archive/evidence/settings-candidate-hibernation-source-regression-2026-11-01.json)
-and [hibernation acceptance preparation](archive/evidence/hibernation-acceptance-preparation-2026-11-01.json).
-Next: continue with source-only test batches; VM acceptance remains blocked at host CIM.
+See [offline bundle regression evidence](archive/evidence/offline-bundle-integrity-assembly-execution-regression-2026-11-01.json),
+[VM preflight blocker evidence](archive/evidence/offline-bundle-vm-preflight-2026-11-01.json)
+and [offline bundle requirements](migrations/decision-session-2026-10-17.md#offline-installation-follow-up-profile-selected-and-full-package-bundles).
 
-## Remaining setting and profile source regression, 2026-11-01
+## Hibernation inspection correction, 2026-11-01
 
-The focused Windows PowerShell 5.1/Pester 5.7.1 suites passed 49/49 with no
-skips: pending BitLocker policy metadata and target gates, reversible PowerShell
-profile handling, and accepted File Explorer F1 behavior. TestRegistry and
-TestResult were disabled. No registry or profile outside TestDrive changed; no
-VM, installer, network, Defender state or PasswordScan file was accessed.
+Corrected the Windows PowerShell 5.1 metadata lookup that reported an existing
+active hibernation file as missing. Read-only show now succeeds on the observed
+machine. FileInfo getter invocation preserves genuine metadata failures; isolated
+tests exercise exclusive locking and missing-file behavior. No system setting,
+powercfg command, VM or normal-apply gate changed. This does not establish native
+lifecycle or power-transition acceptance. All five ranges above remain unchanged.
 
-Resolved/retired/excluded: none. Partial: source behavior only; no new native
-setting outcome closes. Deferred: applicable disposable-VM acceptance. The five
-estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180 and rounded
-125-180/about 155.
+The [dated ledger](migrations/settings-post-migration-review.md#hibernation-inspection-correction-2026-11-01)
+retains the cause, validation and partial/deferred outcomes. Next: use the existing
+Windows 11 disposable matrix on current source before any promotion.
 
-See [remaining settings regression evidence](archive/evidence/remaining-settings-source-regression-2026-11-01.json).
-Next: continue remaining source-only test batches; VM acceptance remains blocked at host CIM.
+## Hibernation acceptance preparation, 2026-11-01
 
-## Candidate execution and hibernation source implementation, 2026-11-01
+Prepared the requested disposable Windows 11 acceptance route without executing
+it. The bounded HibernationMatrix fixture exercises six choices from each of Off,
+Reduced and Size75, captured recovery, preview/repeat and an interruption after
+a successful native size reset. Its report distinguishes conditional configuration
+recovery from exact file or actual power-transition acceptance. The single-operation
+override is confined to a correlated private guest source copy; normal apply and
+all bundled-profile selections remain unchanged.
 
-Implemented the explicit `-AllowCandidate` path for preview, apply and saved-run
-recovery while keeping pending acceptance, supported targets, profile defaults,
-privilege/build gates and offline acceptance independent. Added the optional
-`windows.hibernation` source handler and a bounded disposable acceptance runner;
-it remains excluded from bundled profiles and its target remains pending.
+Next: follow the [VM batch procedure](hibernation.md#disposable-windows-11-acceptance)
+to bind an isolated source copy, preview, run on an exclusively reserved disposable
+VM, retain evidence and restore its clean checkpoint. The manual runner accepts
+the bound request ID; the registered queue generates a different ID and is not
+used for this fixture. No controller request or native powercfg command was run.
+Actual power transitions, native fault behavior, defaults, legacy menu/mirror and
+Server acceptance remain separate. Resolved: missing fixture route/procedure.
+Partial: source-ready file-control candidate. Deferred: activation and native
+acceptance. Retired/excluded legacy outcomes: none.
 
-The current focused Windows PowerShell 5.1/Pester 5.7.1 source suites passed
-296/296 with no failures or skips across candidate execution, hibernation and
-recovery orchestration, user handoff, catalog/profile validation, BitLocker
-policy metadata, PowerShell profile settings and File Explorer F1. Repository
-validation passed for 452 operations, 8 groups, 5 profiles and 326 PowerShell
-files. One WindowsIntegration-tagged test was excluded.
+All five ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180,
+rounded 125-180/about 155: preparing a test closes no complete legacy outcome.
+The [dated ledger](migrations/settings-post-migration-review.md#hibernation-acceptance-preparation-2026-11-01)
+and [preparation evidence](archive/evidence/hibernation-acceptance-preparation-2026-11-01.json)
+record checks, recovery and the remaining acceptance boundary.
 
-Resolved: source implementation and explicit preview/recovery gating. Retired or
-excluded legacy outcomes: none. Partial: source validation only; no legacy setting
-outcome closes. Deferred: native hibernation lifecycle, power transitions and
-conditional recovery on a disposable VM; current RIDE-Win11-Test acceptance remains
-blocked at host CIM. No setting was applied, no powercfg command ran, and no
-PasswordScan file, Defender state, installer or external network was accessed.
-The five estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12, exact 126-180,
-rounded 125-180/about 155.
+Archive handoff review on 2026-11-01 confirmed that decisions and pending work are
+retained. The ledger now includes [reproducible mocked checks and continuation instructions](migrations/settings-post-migration-review.md#revalidation-and-continuation),
+independent of the temporary local launcher. This documentation-only review adds
+no native acceptance, target promotion or completed legacy outcome.
 
-See [implementation source evidence](archive/evidence/hibernation-candidate-source-implementation-2026-11-01.json),
-[candidate review](migrations/settings-post-migration-review.md#explicit-candidate-execution-and-recovery-2026-11-01)
-and [hibernation procedure](hibernation.md#disposable-windows-11-acceptance).
-Next: run the prepared procedure only when VM/CIM access is available; preserve
-Defender exclusions and the documented acceptance blocker.
+## Optional hibernation file control candidate, 2026-11-01
+
+Added the requested optional `windows.hibernation` source candidate with Off,
+Full, Reduced and Size50..Size100, using one coordinated handler and captured
+mode/percentage. Candidate target is Windows 11 only; normal apply remains
+blocked, and every bundled profile is unchanged. Native commands were mocked
+during local validation; no power setting, VM or workstation state was changed.
+
+Legacy EnableHibernation/DisableHibernation also manipulate a menu preference
+and Session Manager registry mirror. Those remain deferred; no full legacy
+bundle is closed. Conditional configuration recovery is separate from restoring
+file contents, exact byte size or inactive registry preferences. Full/reduced
+semantics and Microsoft's different default/custom-size statements are documented
+in the [operator guide](hibernation.md).
+
+The [dated batch record](migrations/settings-post-migration-review.md#hibernation-file-control-candidate-2026-11-01)
+owns mappings, source evidence, partial/deferred outcomes, acceptance and recovery.
+The follow-up above prepares the single-operation request-bound fixture route.
+Next: verify native lifecycle on suitable Windows 11 hardware before any target promotion.
+Server and actual power transitions require separate evidence. All five ranges
+are unchanged because source preparation resolves no complete legacy outcome:
+37-57 / 37-52 / 19-24 / 25-35 / 8-12; exact 126-180, rounded 125-180/about 155.
+The four established release work items remain; optional hibernation does not
+add a release blocker.
+
+Evidence: [source and mocked validation](archive/evidence/hibernation-candidate-2026-11-01.json).
+
+## Release-profile cleanup completed, 2026-10-31
+
+Release checklist item 1 is implemented at the source/profile boundary. The default
+now contains 70 selections and no pending operation; the other four profiles also
+expand without pending or unsupported Windows 11 selections. F1 is retained in the
+default and promoted to Windows 11 with MinimumBuild 26300, matching the T480
+observation. Its name/presentation now claim File Explorer browser-help behavior,
+not desktop/global F1 suppression. Earlier builds and Server are refused. Literal
+defaults remain PlatformDefined; an observed absence is not a universal default.
+The supplied reports omit source revision; this provenance limit remains explicit.
+No repeat T480 test was requested. The maintained acceptance script uses ordinary
+catalog gates, without the former in-memory support bypass.
+
+The three BitLocker drive-type method policies remain pending candidates and are
+removed from release defaults. Their earlier XtsAes256 intent is preserved in the
+ledger/catalog choices; existing machine policies are untouched. Registry lifecycle
+evidence does not establish effective future-encryption behavior. No candidate
+code, published ID or recovery operation was deleted.
+
+PowerShell 5.1 colors now match the already accepted Windows 11/Server 2025 metadata
+and optional two-runtime profile. Existing retained runs cd91b3d8ed31438f9cb331dc25a8a2b4
+and 236988fcb1284353b35c84fc43560bfc both report Passed and ResetAndOff; the archived
+color report records lifecycle, identity and visual acceptance. The current module's
+later user-bin extension remains separately pending; it is not promoted here.
+README describes the actual 70 selections, packages, material policy effects,
+minimum build and execution-account user scope. Generated operations are current.
+
+Validation: parser/catalog/profile/document checks passed for 451 operations,
+8 groups, 5 profiles and 317 PowerShell files. Four focused suites passed; the
+corrected ProfileSettings suite passed all 37 tests on its focused rerun. Initial
+failures and corrections are retained in the linked evidence. Tests cover expanded
+profiles, F1 target/build refusal,
+retained BitLocker candidate gates and profile-settings behavior. No handler was
+applied to Windows, no VM ran and no new manual acceptance was required.
+
+Resolved: release-profile candidate/metadata mismatch and misleading default
+summary. Deferred: BitLocker effective-policy acceptance, other F1 contexts and
+optional candidate tools. Retired/excluded: none; removing a default selection is
+not deleting an operation. No complete legacy selector bundle is newly closed;
+F1 desktop scope remains partial and colors are a separate requested outcome.
+All five whole-legacy ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12,
+exact 126-180, rounded 125-180/about 155. Four release items remain: bootstrap,
+requested offline delivery, final-source verification and publication. Source
+cleanup does not replace the final combined release-workflow check.
+
+Evidence: [cleanup and focused validation](archive/evidence/release-profile-cleanup-2026-10-31.json).
+
+## T480 F1 preflight correlation and acceptance boundary, 2026-10-31
+
+The user supplied the companion read-only preflight report collected 2026-10-26
+at 11:31:11 +01:00, 28 minutes 29 seconds before the F1 report. It identifies
+Windows 11 Pro, version 10.0.26300/build 26300 on the Lenovo T480. Correlation
+uses the user's identification of these as companion reports and their timestamps;
+there is no shared machine/run identifier or source-revision hash in the reports.
+The preflight does not record the build revision (UBR).
+
+Together, these reports are sufficient to accept the narrow operator-observed
+File Explorer F1 Blocked/WindowsDefault behavior and exact registry recovery on
+the reported T480 Windows 11 build. The build-context gap in the previous entry
+is resolved. No repeat manual acceptance or additional preflight is required for
+that outcome. Source revision remains unrecorded; preserve that provenance limit
+without treating it as a reason to repeat this manual exercise. Do not infer
+global F1 suppression, Server behavior or other-build coverage. The preflight is
+read-only and supplies no separate BitLocker, boot or virtualization acceptance.
+
+Next reconcile catalog/profile declarations against this accepted narrow evidence
+and existing source checks during release-profile cleanup. This evidence review
+does not itself change SupportedTargets or PendingAcceptance. F1 manual testing
+is no longer an open task for the selected T480 outcome.
+
+No whole legacy outcome is newly closed, retired or excluded; other partial and
+deferred scope remains. All five whole-legacy ranges remain 37-57 / 37-52 /
+19-24 / 25-35 / 8-12, exact 126-180, rounded 125-180/about 155. Release checklist
+count remains five; profile reconciliation can reuse the completed manual check.
+No test or system change was performed. The retained preflight matches the
+supplied file SHA-256: e8f80ad3482a4259bdf22dae4b5faaf175e42d431cbd9c740d7b37c42c8342ac.
+
+Evidence: [companion preflight](archive/evidence/t480-ride-preflight-20261026-113111.md) and [F1 result](archive/evidence/t480-f1-acceptance-20261026-115940.md).
+
+## T480 F1 observed behavior and recovery evidence received, 2026-10-31
+
+The operator supplied the sanitized report collected 2026-10-26 at 11:59:40
++01:00 for windows.explorer-f1-help. Saved run IDs are
+a8655fb3f87a4fa09c0d382395203a82 and 59d730a6d3844cb899bcd11de0bb2aff.
+Blocked prevented File Explorer from opening browser help; WindowsDefault
+restored Explorer's Edge help search. Under Blocked, Notepad still opened nothing
+and Edge opened its own help page. This supports Explorer-specific observed
+behavior, not a global F1-key suppression claim. Exact original state restored is
+True, no restore errors were reported, and both Win32/Win64 override values were
+absent before and after.
+
+Accept this as operator-reported T480 feature/recovery evidence and reuse it;
+do not request another manual test merely to reproduce these observations.
+The report does not identify OS build or source revision, and does not separately
+record desktop observations or repeat-apply assertions. The current harness has
+repeat checks, but its current source alone does not prove which revision ran.
+Keep these provenance/coverage limits explicit without making them another
+optional-tool acceptance gate. The report itself labels the run experimental.
+No Windows-wide support declaration, catalog promotion or profile change was made.
+For the release-profile correction, this evidence must replace the earlier
+assumption that visible F1 behavior was entirely unverified. Reconcile its limited
+scope against existing source evidence or leave F1 candidate-only outside the
+recommended profile; no automatic expansion of support is justified.
+
+Resolved: recorded T480 Explorer behavior and exact recovery observation. Partial:
+source/build attribution and broader support scope. Retired/excluded: none; no
+whole legacy outcome newly closed. All five ranges remain 37-57 / 37-52 /
+19-24 / 25-35 / 8-12, exact 126-180 and rounded 125-180/about 155. The five-item
+release checklist is unchanged; this supplies evidence for profile reconciliation.
+No tests or Windows changes were performed. Only the named sanitized report was
+copied; its SHA-256 is eacb3ef446ae618a87be4cd0b6c268e73c491f0ef28b8cbc61c635f11fbe2b39.
+
+Evidence: [original operator report](archive/evidence/t480-f1-acceptance-20261026-115940.md).
+
+## V3.0 release-scope triage, 2026-10-30
+
+The release gate is a usable, honestly documented v3.0 distribution, not complete
+legacy parity or acceptance of every candidate. The current catalog has 451
+operations and 52 packages marked PendingAcceptance. Keep low-priority pending
+packages as candidates, outside supported/default selections; do not schedule
+per-tool acceptance to complete this release. InfoBar is explicitly deferred.
+Existing passed deployment milestones remain accepted within their stated scope.
+
+The release checklist now has six items: item 1 completed on 2026-10-31; five remain after the user added cross-platform alignment on 2026-11-01:
+
+| Item | Evidence / required work | Completion boundary |
+| --- | --- | --- |
+| 1. Runnable release profiles - complete 2026-10-31 | Default has 70 selections with no pending operations. F1 accepted with a build 26300 minimum; BitLocker candidates excluded from default. PowerShell 5.1 colors match retained acceptance. | All five expanded profiles have no pending/unsupported Windows 11 selections; README and generated reference aligned. Focused checks passed as recorded above. Final combined runtime release check remains item 4. |
+| 2. Reliable bootstrap | Completed the source correction and focused regression: explicit source, plan default, array-based child invocation, argument quoting, nonzero exit reporting and matching helper-module layout; README now uses one exact tag for bootstrap, helper and source archives. The release tag does not exist yet. | Remaining: verify the actual published source/archive and extraction integrity/recovery, then exercise only the missing bounded setup/plan/apply/status/recovery path on a disposable VM. Focused tests passed 9/9; no optional package sweep. |
+| 3. Requested transferable offline delivery | docs/offline-bundles.md records engine packaging and automatic acquisition planning as pending. The user requested profile-selected and full-set preparation with engine/profiles included. This requirement has not been withdrawn. | Complete the transferable bundle for accepted selections, pins/notices, explicit omissions and missing-payload refusal without network fallback. Use one representative disconnected deployment/recovery check, reusing valid Caffeine evidence where applicable. Unsupported packages may be omitted explicitly. Broader per-product offline qualification is not required. An explicit user deferral can remove this item from v3.0. |
+| 4. Release-source verification | Prior controller, settings and package acceptance establishes useful evidence, but does not certify the final source/profile combination. Current Windows CI declares parser/catalog and Pester checks. | Run required CI on the final source once, resolve release-relevant failures, and perform one bounded disposable Windows check of the documented setup/plan/apply/status/recovery path where evidence is missing. Reuse unchanged evidence. Retain target claims only where supported by applicable evidence; no new target matrix. |
+| 5. Versioned release and accurate guidance | Development source and dated acceptance records are not a published v3.0 release. | Prepare version/release notes and exact source artifact, review distributed content and notices, align supported/candidate/deferred guidance, then publish the tag/release through the approved release workflow. Do not include local credentials or acceptance scratch files. Publication is a separate final action, not performed by this triage. |
+| 6. Cross-platform alignment closure | Contract 1.0.0 and reciprocal AGENTS rules are adopted in both repositories; implementation differences remain. | Complete ALIGN-03 through ALIGN-09 in the [task list](../TODO.md#cross-platform-alignment-for-final-v3), or record explicit owner-approved deferrals. Verify pinned shared rules and the final consumer behavior without requiring catalog or native-support parity. |
+
+Items 1 and the code/test portion of item 2 are complete; proceed with release
+verification and the requested offline delivery. Do not run ApplicationsBatch9
+or another optional tool batch as the next action. Preserve published IDs and retained
+candidate code; defer acceptance rather than delete packages. Full legacy parity,
+optional tool GUI/API/startup behavior, additional platform acceptance, experimental
+settings/components and expanded controller certification are backlog work unless
+a chosen release workflow actually depends on them. Destructive core workflow
+changes still need proportionate recovery evidence.
+
+This is a release checklist, not five known code defects: items 1-2 have concrete
+source inconsistencies, item 3 is requested unfinished delivery, and items 4-5
+are final verification/publication work. No elapsed-time estimate or completion
+percentage is inferred. Full offline delivery is the main remaining scope item
+that could materially affect effort.
+
+No legacy outcome is newly resolved, retired or excluded by this read-only triage.
+Candidate scope is deferred, not claimed as tested; all other partial scope remains.
+All five whole-legacy ranges remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12,
+exact 126-180 and rounded 125-180/about 155. These are backlog counts, not release
+blocker counts. No VM, installer, runtime test, profile or catalog was changed.
+
+## V3.0 candidate deferral and proportionate testing decision, 2026-10-30
+
+The user explicitly classified InfoBar as unimportant for v3.0 and accepted
+leaving it a candidate instead of spending time on Windows acceptance. InfoBar
+4.6.2 already has CandidateTargets Windows 11, SupportedTargets empty and
+PendingAcceptance=true. Retain that metadata and the prepared ApplicationsBatch9
+route for optional later work; do not submit it as the next migration blocker.
+InfoBar acceptance is deferred beyond v3.0 and is not a release gate. It is not
+retired or represented as tested/supported.
+
+The user also accepts no additional testing, unless fast, to reach v3.0 for
+low-priority tools. Reuse existing evidence; use quick static or focused checks
+only when they address a concrete change or uncertainty. Do not automatically
+schedule VM lifecycles, full regressions or manual product-feature checks for
+every prepared candidate. Keep unverified scope explicitly candidate/deferred,
+outside supported/default selections. This decision does not label untested
+behavior as passed or broaden supported targets. Work selected for supported
+v3.0 behavior still needs proportionate evidence, especially core engine/recovery
+changes and destructive system operations.
+
+Next reconcile the remaining backlog into required v3.0 supported workflows and
+optional candidates/deferred work before selecting another runtime batch.
+The whole-legacy backlog estimate is not the v3.0 release-blocker count. No exact
+release-blocker count or completion percentage is established by this decision.
+
+Resolved: InfoBar release disposition. Deferred: its Windows lifecycle and feature
+acceptance beyond v3.0. Retired/excluded: none; other partial/deferred scope remains.
+No complete legacy collection is newly migrated. All five whole-legacy ranges
+remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and
+maintenance 8-12; exact 126-180, rounded 125-180/about 155. Candidate deferral
+reduces required release scope without pretending the legacy backlog disappeared.
+Read-only catalog inspection confirmed the existing candidate state. No test,
+installer, VM request, controller change or catalog change was needed.
+
+## MiTeC system and telephony Windows deployment passed, 2026-10-30
+
+Request 9894243e07f24cb78807ae05aff12c5a passed from 14:16:53 to 14:27:35 UTC,
+approximately 10 minutes 42 seconds. System Information eXtra 16.0.0 and TAPI
+Monitor 1.2.0 each passed all 14 portable deployment checks on Windows 11 build
+26300, including exact member selection, repeat install/remove, saved-state
+recovery, original absence restore, collision refusal and file preservation.
+LifecycleRecovery=true for both. Five selected member hashes are retained;
+Authenticode reports UnknownError for all five, without a valid-signature claim.
+
+Parent and focused results report Passed, evidence collected and ResetAndOff,
+with no execution, collection, cleanup or export errors. Queues are empty and no
+recovery block exists. The operator confirmed VM Off / Operating normally and
+task Ready from elevated P52. This deployment milestone is complete; no further
+lifecycle run or manual product-feature test is required for it.
+ToolExecuted=false; functional/activation acceptance and support promotion remain
+separate. No system reports or telephone data were collected by the products.
+No additional test was run merely to record this successful evidence.
+
+Two deployment subproduct milestones passed within the partial MiTeC collection.
+No whole legacy outcome is newly resolved, retired or excluded; other deferred
+scope is unchanged. All five ranges remain settings 37-57, packages 37-52,
+components 19-24, files/assets 25-35 and maintenance 8-12; exact 126-180,
+rounded 125-180/about 155 because broader collection scope remains unfinished.
+
+Evidence: [passed lifecycle](archive/evidence/mitec-system-telephony-win11-lifecycle-passed-2026-10-30.json).
+
 ## MiTeC system and telephony deployment handoff, 2026-10-30
 
 Next run one Source Local MiTeCSystemAndTelephony request with TimeoutMinutes 20
@@ -12492,1539 +12087,3 @@ The complete package test passed 8/8 in Windows PowerShell 5.1/Pester 5.7.1 usin
 ## NTCore package current-source regression, 2026-10-29 03:02 UTC
 
 NtcorePackages.Tests.ps1 passed 22/23 with one retained ScreenWriter MSI case skipped because the retained-archive directory was explicitly unset. The synthetic tests verified Explorer Suite III publisher version/pin and non-gating administrative NeedsReview status, as well as package metadata/lifecycle boundaries. No installer, utility, DLL, retained archive, network, or Windows state was accessed. Native acceptance remains deferred because host CIM blocks VM/checkpoint inspection. No legacy outcome closed; estimates remain Settings 37-57, Packages 37-52, Components 19-24, Files/assets 25-35, Maintenance 8-12 (exact 126-180; rounded 125-180/about 155). See [structured evidence](archive/evidence/ntcore-packages-current-source-synthetic-regression-and-cim-block-2026-10-29-0302.json).
-## WFN full synthetic lifecycle rerun, 2026-11-01 17:49 UTC
-
-The WFN source suite discovered four tests. With Pester TestRegistry and
-TestResult integrations disabled, the inventory and smaller synthetic lifecycle
-tests passed (2 reported). The 531-member synthetic snapshot/install/repeat/
-remove/recovery case again produced no output for about 90 seconds and was
-interrupted without a Pester summary. A default Pester invocation had first
-stopped during setup because the sandbox denied its HKCU TestRegistry write;
-that attempt is not counted as a test result. No source change, publisher
-payload, WFN executable, network, installer, firewall, VM, or Windows state was
-used or changed.
-
-Resolved: isolated Pester setup failure. Retired/excluded: none. Partial: two
-reported tests passed; full synthetic lifecycle and the legacy package outcome
-remain open. Deferred: diagnose or redesign the costly 531-member fixture and
-perform Windows 11 acceptance when host CIM is available. NirSoft remains
-separately excluded due to Defender. No legacy outcome closes; estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
-155). See [structured rerun evidence](archive/evidence/wfn-531-member-source-lifecycle-rerun-interrupted-2026-11-01-1749.json).
-
-## PSScriptTools 360-member synthetic lifecycle rerun, 2026-11-01 17:53 UTC
-
-The focused PSScriptTools package test selected only the complete 360-member
-synthetic lifecycle case with Pester TestRegistry and TestResult integrations
-disabled. Pester reached the case, then produced no completion output for about
-60 seconds; the run was interrupted without an assertion result. The process
-showed about 1.17 CPU seconds after roughly one minute. No publisher archive or
-upstream code was used, and no installer, network, Windows or VM state changed.
-
-Resolved: focused source-boundary regression remains recorded separately at
-6/6. Retired/excluded: none. Partial: no legacy package outcome closes.
-Deferred: diagnose or redesign the 360-member synthetic fixture, runtime
-acceptance and package-level Windows acceptance when host CIM is available.
-NirSoft remains excluded due to Defender. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). See
-[structured rerun evidence](archive/evidence/psscripttools-360-member-source-lifecycle-rerun-interrupted-2026-11-01-1753.json).
-
-## PSScriptTools focused source-boundary regression in Windows PowerShell 5.1, 2026-11-01 17:54 UTC
-
-The six focused metadata, incomplete-payload, modified-source, collision,
-recovery-byte and prior-absence tests passed 6/6 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. One
-full 360-member lifecycle test was intentionally excluded because its isolated
-reruns repeatedly stalled without a result. Synthetic inert fixtures only; no
-publisher archive, upstream code, network, installer, VM or Windows state was
-used or changed.
-
-Resolved: cross-shell focused source-boundary regression. Retired/excluded:
-none. Partial: the full package lifecycle and legacy package outcome remain
-open. Deferred: full 360-member source lifecycle, runtime dependencies and
-package-level Windows acceptance until VM access is restored. NirSoft remains
-excluded due to Defender. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). See [structured evidence]
-(archive/evidence/psscripttools-focused-boundaries-winps51-2026-11-01-1754.json).
-
-## Offline preparation planner current-source regression in Windows PowerShell 5.1, 2026-11-01 17:55 UTC
-
-The full focused planner suite passed 12/12 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. The same
-12 tests were previously recorded passing under PowerShell 7.6.5. Coverage
-includes explicit profile/full-set resolution, prerequisites, version/hash
-selection, target status, Defender exclusion, informational license status and
-the explicit-input command wrapper. All inputs were local or synthetic; no
-network, payload, install, Windows state or VM was used.
-
-Resolved: cross-shell planner regression (24 total test executions). Retired/
-excluded: none. Partial: offline package preparation is source-ready only;
-engine/profile packaging, acquisition and disconnected acceptance remain open.
-NirSoft remains excluded due to Defender; native VM acceptance remains blocked
-at host CIM. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). See [structured evidence]
-(archive/evidence/offline-preparation-planner-winps51-regression-2026-11-01-1755.json).
-
-## Offline profile-coverage regression in Windows PowerShell 5.1, 2026-11-01 17:56 UTC
-
-`tests/OfflineProfileCoverage.Tests.ps1` passed 63/63 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. The same
-63 cases were previously recorded passing in PowerShell 7.6.5. Tests use
-TestDrive and supplied metadata to verify bound source parsing, selected package
-coverage, dependency and source pins, target-status separation and manifest
-file-ID completion without host queries. No network, publisher payload,
-installer, VM or Windows state was used.
-
-Resolved: cross-shell offline profile-coverage regression (126 total test
-executions). Retired/excluded: none. Partial: bundle delivery and native
-acceptance remain deferred. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). VM access is blocked at host
-CIM; NirSoft remains excluded due to Defender. See [structured evidence]
-(archive/evidence/offline-profile-coverage-winps51-regression-2026-11-01-1756.json).
-
-## Artcraft and chat package-pin regression in Windows PowerShell 5.1, 2026-11-01 17:57 UTC
-
-The Artcraft and Slack/Discord source suites passed 10/10 in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult
-disabled. The same ten cases previously passed under PowerShell 7.6.5. Checks
-cover source pins, publisher/file metadata, declared installer scope, user-data
-ownership boundaries and fail-before-network behavior. No network request,
-publisher artifact, installer, VM or Windows state was used.
-
-Resolved: cross-shell package-pin source regression (20 total test executions).
-Retired/excluded: none. Partial: no whole package outcome closes; lifecycle and
-native acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). VM acceptance remains blocked
-at host CIM; NirSoft remains excluded due to Defender. See [structured evidence]
-(archive/evidence/artcraft-and-chat-package-pins-winps51-regression-2026-11-01-1757.json).
-
-## Package source suites in Windows PowerShell 5.1, 2026-11-01 17:59 UTC
-
-Six source suites passed 26/26 in Windows PowerShell 5.1.26100.9818/Pester
-5.7.1: WhatIsMyIP, WinPmem, Wireshark, RegRipper, Rufus and Raspberry Pi
-Imager. The corresponding 26 cases were previously recorded passing in
-PowerShell 7.6.5. Tests used mocks and inert local fixtures; no network,
-publisher payload, installer, driver, media, memory capture, VM or Windows
-state was used.
-
-Resolved: cross-shell source regression (52 total test executions). Retired/
-excluded: none. Partial: no whole package outcome closes; all product-native
-acceptance remains separate. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). VM access remains blocked at
-host CIM and NirSoft remains excluded due to Defender. See [structured evidence]
-(archive/evidence/package-source-suites-winps51-regression-2026-11-01-1759.json).
-
-## Application package source regression in Windows PowerShell 5.1, 2026-11-01 18:01 UTC
-
-`tests/ApplicationPackages.Tests.ps1` passed 135/138 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. No tests
-failed. RawCopy, ETL2PCAPNG and JoeWare AdMod retained-payload lifecycle cases
-were skipped because explicit retained artifacts were unavailable. The suite
-covers package variant and target selection, portable ownership/recovery,
-publisher metadata and mocked acquisition/installer boundaries. No live
-network or installer was used; the Windows inbox tar command extracted only a
-synthetic inert archive. No VM or Windows state changed.
-
-Resolved: current-source ApplicationPackages regression. Retired/excluded:
-none. Partial: retained-artifact lifecycles and native package acceptance remain
-open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). VM access remains blocked at host CIM and NirSoft
-remains excluded due to Defender. See [structured evidence]
-(archive/evidence/application-packages-winps51-regression-2026-11-01-1801.json).
-
-## Catalog, dependency and profile validation in Windows PowerShell 5.1, 2026-11-01 18:06 UTC
-
-The three catalog/profile suites discovered 113 tests. The first run passed 112;
-the WindowsIntegration test at `Catalog.Tests.ps1:399` failed because sandbox
-policy denied its direct HKCU registry access. An isolated rerun excluded only
-that test and passed the other 112/112 in Windows PowerShell 5.1.26100.9818/
-Pester 5.7.1, with Pester TestRegistry and TestResult disabled. No publisher
-payload, network request, VM or Windows state change occurred. The same 112
-runnable cases were previously recorded passing in PowerShell 7.
-
-Resolved: cross-shell catalog/profile/dependency source regression (224 total
-passes). Retired/excluded: none. Partial: exact registry-subtree lifecycle
-remains unrun because of sandbox HKCU access. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access is
-blocked at host CIM and NirSoft remains excluded due to Defender. See [structured
-evidence](archive/evidence/catalog-profile-dependency-winps51-regression-2026-11-01-1806.json).
-
-## GitHub authentication source regression in Windows PowerShell 5.1, 2026-11-01 18:08 UTC
-
-`tests/GitHubAuthentication.Tests.ps1` passed 53/53 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. The same
-53 cases previously passed under PowerShell 7.6.5. Synthetic credentials,
-CurrentUser DPAPI protection, TestDrive and mocked publisher HTTP were used to
-check authentication propagation, redaction, quota/backoff, cache behavior and
-guest lease binding. No real credential enrollment, publisher traffic,
-installer, VM or Windows state changed.
-
-Resolved: cross-shell authentication plumbing source regression (106 total
-test executions). Retired/excluded: none. Partial: guest Windows authentication
-acceptance remains blocked at host CIM; estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). NirSoft remains
-excluded due to Defender. See [structured evidence]
-(archive/evidence/github-authentication-winps51-regression-2026-11-01-1808.json).
-
-## Bootstrap source regression in Windows PowerShell 5.1, 2026-11-01 18:09 UTC
-
-`tests/Bootstrap.Tests.ps1` passed 9/9 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. The same
-nine cases previously passed under PowerShell 7.6.5. Release download,
-extraction and child-process boundaries were mocked; tests cover explicit
-source selection, preview/apply flags, paths with spaces and argument quoting.
-No network request, package install, elevation or Windows state change occurred.
-
-Resolved: cross-shell bootstrap source regression (18 total test executions).
-Retired/excluded: none. Partial: tagged publication and fresh-machine bootstrap
-acceptance remain deferred. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). VM access remains blocked at
-host CIM. See [structured evidence]
-(archive/evidence/bootstrap-winps51-regression-2026-11-01-1809.json).
-
-## Desired-configuration reference and legacy mapping in Windows PowerShell 5.1, 2026-11-01 18:09 UTC
-
-`DesiredConfiguration.Tests.ps1` and `LegacyDeploymentMapping.Tests.ps1`
-passed 57/57 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with
-TestRegistry and TestResult disabled. The same 57 cases were previously
-recorded passing in PowerShell 7. Coverage includes read-only reference output,
-source and target binding, output safety, legacy mapping identity, unknown
-metadata preservation and recovery preparation. No live registry, state store,
-network, installer or VM was used.
-
-Resolved: cross-shell reference/mapping source regression (114 total test
-executions). Retired/excluded: none. Partial: durable byte/store migration and
-native acceptance remain deferred. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access remains
-blocked at host CIM. See [structured evidence]
-(archive/evidence/desired-config-legacy-mapping-winps51-regression-2026-11-01-1809.json).
-
-## GitHub release discovery regression in Windows PowerShell 5.1, 2026-11-01 18:10 UTC
-
-`tests/GitHubReleaseDiscovery.Tests.ps1` passed 29/29 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. The same
-29 tests previously passed under PowerShell 7.6.5. HTTP responses, clock,
-quotas and payload boundaries were mocked. Coverage includes expiry, backoff,
-quota behavior, endpoint validation, cache isolation and provenance. No
-publisher traffic, payload, credential, installer, VM or Windows state was
-used.
-
-Resolved: cross-shell GitHub release discovery source regression (58 total
-test executions). Retired/excluded: none. Partial: package runtime and native
-acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
-(exact 126-180; rounded 125-180/about 155). VM access remains blocked at host
-CIM. See [structured evidence]
-(archive/evidence/github-release-discovery-winps51-regression-2026-11-01-1810.json).
-
-## Toolkit, registry authoring and Store lifecycle guards in Windows PowerShell 5.1, 2026-11-01 18:13 UTC
-
-The toolkit update, custom registry authoring and Store app suites passed
-102/102 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with TestRegistry and
-TestResult disabled. The same 102 cases were previously recorded passing in
-PowerShell 7.6.5. Tests used supplied metadata, fake registry keys and mocked
-Appx/native calls with TestDrive fixtures. No real registry or Store app state,
-network, VM or Defender state changed.
-
-Resolved: cross-shell source and lifecycle-guard regression (204 total test
-executions). Retired/excluded: none. Partial: toolkit publishing/writer
-acceptance and native Store behavior remain deferred. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM
-access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/toolkit-authoring-store-winps51-regression-2026-11-01-1813.json).
-
-## Component and OpenSSH source regression in Windows PowerShell 5.1, 2026-11-01 18:14 UTC
-
-Component inventory, client preparation/lifecycle and OpenSSH Server observation,
-service and capability suites passed 109/109 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1. The same 109 cases were previously recorded passing
-under PowerShell 7.6.5. Platform, servicing/source, service and firewall
-providers were mocked; saved state used TestDrive. No DISM, Server Manager,
-Appx, component, service, firewall or host key state was changed, and no elevation
-or VM action occurred.
-
-Resolved: cross-shell component/OpenSSH source regression (218 total test
-executions). Retired/excluded: none. Partial: native Windows 11/Server 2025
-acceptance remains deferred. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). VM access remains blocked at
-host CIM; NirSoft remains excluded due to Defender. See [structured evidence]
-(archive/evidence/component-and-openssh-winps51-regression-2026-11-01-1814.json).
-
-## SettingPresentation regression in Windows PowerShell 5.1, 2026-11-01 18:15 UTC
-
-`tests/SettingPresentation.Tests.ps1` passed 14/14 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult disabled. The same
-14 cases were previously recorded passing under PowerShell 7.6.5. Checks cover
-scope and requirements, presentation metadata, evidence handling, search,
-status, preview and detail views with live-state handlers mocked. No registry,
-Windows state, VM or network was used.
-
-Resolved: cross-shell presentation source regression (28 total test
-executions). Retired/excluded: none. Partial: setting-specific UI, feature and
-restart acceptance remains open; no legacy outcome closes. Estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
-155). VM access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/setting-presentation-winps51-regression-2026-11-01-1815.json).
-
-## Remaining-setting and profile-setting regression in Windows PowerShell 5.1, 2026-11-01 18:24 UTC
-
-`RemainingSettings.Tests.ps1` and `ProfileSettings.Tests.ps1` passed 118/118
-in Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with TestRegistry and
-TestResult disabled. Their 81 and 37 cases had previously passed under
-PowerShell 7.6.5. System handlers and identity/runtime providers were mocked;
-all state records and profile files stayed in TestDrive. No developer profile,
-registry, Windows setting, VM or Defender state changed.
-
-Resolved: cross-shell remaining-setting/profile source regression (236 total
-test executions). Retired/excluded: none. Partial: no additional legacy setting
-outcome closes. Six unavailable settings and feature/UI/restart acceptance
-remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM.
-See [structured evidence]
-(archive/evidence/remaining-and-profile-settings-winps51-regression-2026-11-01-1824.json).
-
-## Sixty-setting and registry-failure regression in Windows PowerShell 5.1, 2026-11-01 18:37 UTC
-
-`SixtySettings.Tests.ps1` and `RegistryFailures.Tests.ps1` passed 137/137 in
-Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult
-disabled. The same 137 cases were previously recorded passing under PowerShell
-7.6.5. Registry calls were mocked and lifecycle state stayed in TestDrive. No
-real registry or Windows state, VM or network was used. The slower suite took
-745.92 seconds because each catalog lifecycle case performs repeated source
-validation in Windows PowerShell 5.1.
-
-Resolved: cross-shell 60-setting and failure-path source regression (274 total
-test executions). Retired/excluded: none. Partial: no new legacy setting outcome
-closes; feature/UI/restart acceptance remains open. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
-Windows VM access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/sixty-settings-registry-failures-winps51-regression-2026-11-01-1837.json).
-
-## Caffeine and Caffeine Light regression in Windows PowerShell 5.1, 2026-11-01 18:39 UTC
-
-The Caffeine and Caffeine Light utility suites passed 20/20 in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult
-disabled. The same 20 cases were previously recorded passing under PowerShell
-7.6.5. COM creation, key input and waits were mocked; no real input or desktop
-session change occurred.
-
-Resolved: cross-shell utility source regression (40 total test executions).
-Retired/excluded: none. Partial: interactive-session behavior remains
-unverified; no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access remains
-blocked at host CIM. See [structured evidence]
-(archive/evidence/caffeine-winps51-regression-2026-11-01-1839.json).
-
-## User-proxy source regression in Windows PowerShell 5.1, 2026-11-01 18:40 UTC
-
-User-proxy inventory, preparation and lifecycle suites passed 103/103 in
-Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with TestRegistry and TestResult
-disabled. The same 103 cases previously passed under PowerShell 7.6.5. The
-suite uses a fake native WinINet API and mocked policy, registry and live-state
-providers. No live proxy/PAC query, registry, network request or Windows state
-change occurred.
-
-Resolved: cross-shell user-proxy source regression (206 total test executions).
-Retired/excluded: none. Partial: native user proxy behavior remains unverified;
-no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). VM access remains blocked at
-host CIM. See [structured evidence]
-(archive/evidence/user-proxy-winps51-regression-2026-11-01-1840.json).
-
-## Firewall and WinHTTP proxy source regression in Windows PowerShell 5.1, 2026-11-01 18:41 UTC
-
-The firewall-profile and WinHTTP proxy inventory, preparation and lifecycle
-suites passed 42/42 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1 with
-TestRegistry and TestResult disabled. The same 42 cases previously passed under
-PowerShell 7.6.5. Firewall, network, policy, netsh and WinINet boundaries were
-mocked. No live firewall, proxy, registry or Windows state was changed.
-
-Resolved: cross-shell firewall/WinHTTP source regression (84 total test
-executions). Retired/excluded: none. Partial: native firewall and proxy
-acceptance remains open; no legacy outcome closes. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM
-access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/firewall-winhttp-proxy-winps51-regression-2026-11-01-1841.json).
-
-## Service and power settings Windows PowerShell 5.1 regression, 2026-11-01 18:47 UTC
-
-The service and power settings suites passed 68/68 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1. The same 68 cases previously passed under
-PowerShell 7.6.5. Pester registry integration and result-file output were
-disabled; service, power and registry boundaries were mocked. No live Windows
-state was changed.
-
-Resolved: cross-shell source regression (136 total test executions). Retired/
-excluded: none. Partial: native service and power acceptance remains open; no
-legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
-(exact 126-180; rounded 125-180/about 155). VM access remains blocked at host
-CIM. See [structured evidence]
-(archive/evidence/service-power-winps51-regression-2026-11-01-1847.json).
-
-## Explorer, network/sound and keyboard settings Windows PowerShell 5.1 regression, 2026-11-01 18:48 UTC
-
-The three setting suites passed 74/74 in Windows PowerShell 5.1.26100.9818/
-Pester 5.7.1. The same 74 cases previously passed under PowerShell 7.6.5.
-Pester registry integration and result-file output were disabled. Setting,
-registry, network, firewall and sound boundaries were mocked; no live Windows
-state was changed.
-
-Resolved: cross-shell source regression (148 total test executions). Retired/
-excluded: none. Partial: native setting behavior remains open; no legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM. See
-[structured evidence]
-(archive/evidence/explorer-network-keyboard-winps51-regression-2026-11-01-1848.json).
-
-## Managed-settings Windows PowerShell 5.1 regression, 2026-11-01 18:49 UTC
-
-The managed-settings suite passed 11/11 in Windows PowerShell 5.1.26100.9818/
-Pester 5.7.1. The same 11 cases previously passed under PowerShell 7.6.5.
-Pester registry integration and result-file output were disabled; native task,
-SMB, Defender-policy and power boundaries were mocked. No live Windows state
-was changed.
-
-Resolved: cross-shell source regression (22 total test executions). Retired/
-excluded: none. Partial: native settings acceptance remains open; no legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM. See
-[structured evidence]
-(archive/evidence/managed-settings-winps51-regression-2026-11-01-1849.json).
-
-## Optional Windows settings Windows PowerShell 5.1 regression, 2026-11-01 18:59 UTC
-
-The optional Windows settings suite passed 365/365 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1 in 507.42 seconds. The same 365 cases previously
-passed under PowerShell 7.6.5. Pester registry integration and result-file
-output were disabled; setting handlers were mocked. No live registry or
-Windows state was changed.
-
-Resolved: cross-shell source regression (730 total test executions). Retired/
-excluded: none. Partial: native settings acceptance remains open; no legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM;
-experimental settings remain candidate-gated. See [structured evidence]
-(archive/evidence/optional-windows-settings-winps51-regression-2026-11-01-1859.json).
-
-## Policy settings Windows PowerShell 5.1 regression, 2026-11-01 19:00 UTC
-
-The CEIP, media, server and Windows Update notification policy suites passed
-43/43 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases
-previously passed under PowerShell 7.6.5. Pester registry integration and
-result-file output were disabled; policy handlers were mocked. No live
-registry, privacy, media or Windows Update behavior was invoked.
-
-Resolved: cross-shell source regression (86 total test executions). Retired/
-excluded: none. Partial: experimental policy mappings and native settings
-acceptance remain open; no legacy outcome closes. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM
-access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/policy-settings-winps51-regression-2026-11-01-1900.json).
-
-## Platform inventory Windows PowerShell 5.1 regression, 2026-11-01 19:03 UTC
-
-Adapter, audio endpoint, regional, visual-effects, volume and wireless
-inventory suites passed 179/179 in Windows PowerShell 5.1.26100.9818/Pester
-5.7.1 across two Pester invocations. The same 179 cases previously passed
-under PowerShell 7.6.5. Registry integration and result-file output were
-disabled; native providers were mocked and file outputs used TestDrive. No
-live Windows state was changed.
-
-Resolved: cross-shell source inventory regression (358 total test executions).
-Retired/excluded: none. Partial: native adapter, audio, regional, volume and
-wireless acceptance remains open; no legacy outcome closes. Estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
-155). VM access remains blocked at host CIM; Defender-blocked tools remain
-excluded. See [structured evidence]
-(archive/evidence/platform-inventory-winps51-regression-2026-11-01-1903.json).
-
-## BitLocker source Windows PowerShell 5.1 regression, 2026-11-01 19:04 UTC
-
-BitLocker policy, engine projection and workflow suites passed 31/31 in
-Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously
-passed under PowerShell 7.6.5. Registry integration and result-file output were
-disabled; BitLocker and TPM cmdlets were mocked. No live volume, protector,
-recovery secret, registry or VM was accessed.
-
-Resolved: cross-shell source regression (62 total test executions). Retired/
-excluded: none. Partial: native policy, protector, backup, encryption and
-recovery acceptance remains open; no legacy outcome closes. Estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
-155). VM access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/bitlocker-winps51-regression-2026-11-01-1904.json).
-
-## Hibernation source and acceptance-runner Windows PowerShell 5.1 regression, 2026-11-01 19:05 UTC
-
-The hibernation state and acceptance-runner suites passed 28/28 in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously passed under
-PowerShell 7.6.5. Registry integration and result-file output were disabled;
-powercfg, native state and controller boundaries were not invoked. No VM,
-registry or hibernation file was accessed.
-
-Resolved: cross-shell source regression (56 total test executions). Retired/
-excluded: none. Partial: native hibernation lifecycle and disposable-VM
-acceptance remain open; no legacy outcome closes. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM
-access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/hibernation-winps51-regression-2026-11-01-1905.json).
-
-## Local-password candidate Windows PowerShell 5.1 regression, 2026-11-01 19:06 UTC
-
-The local password-age and password-complexity candidate suites passed 40/40
-in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously
-passed under PowerShell 7.6.5. Registry integration and result-file output were
-disabled; policy setters and export boundaries were mocked with synthetic
-nonsecret state. No live account policy changed.
-
-Resolved: cross-shell source regression (80 total test executions). Retired/
-excluded: none. Partial: target authority and native lifecycle acceptance
-remain gated; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/local-password-winps51-regression-2026-11-01-1906.json).
-
-## Owned power-plan Windows PowerShell 5.1 regression, 2026-11-01 19:07 UTC
-
-The owned power-plan source lifecycle and candidate-gating suite passed 29/29
-in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously
-passed under PowerShell 7.6.5. Registry integration and result-file output were
-disabled; ownership files used TestDrive and native power commands were
-mocked. No plan was created or activated on the host.
-
-Resolved: cross-shell source regression (58 total test executions). Retired/
-excluded: none. Partial: native creation and activation acceptance remain
-open; experimental plans stay target-gated and no legacy outcome closes.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). VM access remains blocked at host CIM. See [structured
-evidence]
-(archive/evidence/owned-power-plans-winps51-regression-2026-11-01-1907.json).
-
-## User PATH/profile and power-read Windows PowerShell 5.1 regression, 2026-11-01 19:08 UTC
-
-The user PATH engine/preparation, user-bin profile and fake power-read suites
-passed 93/93 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases
-previously passed under PowerShell 7.6.5. Registry providers and the native
-power API were mocked; process PATH was restored and persistent test files
-used TestDrive. No live user environment was changed.
-
-Resolved: cross-shell source regression (186 total test executions). Retired/
-excluded: none. Partial: PATH/profile candidate target acceptance and native
-power-read availability remain open; no legacy outcome closes. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). VM access remains blocked at host CIM. See [structured
-evidence]
-(archive/evidence/user-path-power-read-winps51-regression-2026-11-01-1908.json).
-
-## Audio service and screen-lock Windows PowerShell 5.1 regression, 2026-11-01 19:09 UTC
-
-Audio service and screen-lock measurement suites passed 25/25 in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously passed
-under PowerShell 7.6.5. Registry integration and result-file output were
-disabled; service, registry, launch and network boundaries were mocked. No
-live service or Windows state changed.
-
-Resolved: cross-shell source regression (50 total test executions). Retired/
-excluded: none. Partial: native audio-service and measurement acceptance
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/audio-screen-lock-winps51-regression-2026-11-01-1909.json).
-
-## Package prerequisite and acquisition evidence Windows PowerShell 5.1 regression, 2026-11-01 19:11 UTC
-
-Package dependency planning and acquisition-evidence suites passed 40/40 in
-Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously
-passed under PowerShell 7.6.5. Registry integration and result-file output
-were disabled; installers and native package providers were mocked. A read-only
-post-run check found no package-evidence fixture directories remaining.
-
-Resolved: cross-shell source regression (80 total test executions). Retired/
-excluded: none. Partial: publisher payload verification and native package
-acceptance remain open; Defender-blocked tools stay excluded. No legacy outcome
-closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM.
-See [structured evidence]
-(archive/evidence/package-planning-evidence-winps51-regression-2026-11-01-1911.json).
-
-## Installer inspection and deployment identity Windows PowerShell 5.1 regression, 2026-11-01 19:12 UTC
-
-Installer inspection, process-completion and deployment-identity suites passed
-62/62 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases
-previously passed under PowerShell 7.6.5. Registry integration and result-file
-output were disabled; archives were inert and download, installer and process
-providers were mocked. No installer was launched and no Windows state changed.
-
-Resolved: cross-shell source regression (124 total test executions). Retired/
-excluded: none. Partial: publisher source and native installation acceptance
-remain open; Defender-blocked tools stay excluded. No legacy outcome closes.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). VM access remains blocked at host CIM. See
-[structured evidence]
-(archive/evidence/installer-identity-winps51-regression-2026-11-01-1912.json).
-
-## Cookie Cruncher Windows PowerShell 5.1 synthetic lifecycle regression, 2026-11-01 19:13 UTC
-
-The Cookie Cruncher package suite passed 3/4 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1. The same three synthetic cases pass in the
-PowerShell 7 batch. The retained-real-archive case remains skipped because no
-explicit archive fixture was supplied. The program was never launched, browser
-profiles and cookie data were not read, and only synthetic ZIP content was used.
-
-Resolved: cross-shell synthetic source regression (6 passes total). Retired/
-excluded: none. Partial: retained-archive and native package acceptance remain
-open; no legacy outcome closes. The joined Cookie Cruncher/GitHub release/
-Gpg4win package batch remains 44/45 per edition with one skip per edition.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). VM access remains blocked at host CIM and Defender-blocked
-tools remain excluded. See [structured evidence]
-(archive/evidence/cookie-cruncher-winps51-regression-2026-11-01-1913.json).
-
-## Source-script and JoeWare Windows PowerShell 5.1 regression, 2026-11-01 19:14 UTC
-
-SourceScriptPackages, Download-JoeWareCollection and JoeWareAdModEngineRoute
-passed 18/21 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1, with three
-retained-archive cases skipped for unavailable explicit fixtures. The same
-18 cases pass and three skip under PowerShell 7.6.5. Registry integration and
-result output were disabled; network acquisition was not used, artifacts were
-synthetic/offline, and no program was launched. Defender-blocked tools were
-excluded.
-
-Resolved: cross-shell source regression (36 passes total). Retired/excluded:
-none. Partial: the three archive cases and native package acceptance remain
-open; no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access remains
-blocked at host CIM. See [structured evidence]
-(archive/evidence/source-script-joeware-winps51-regression-2026-11-01-1914.json).
-
-## Library, authoring and example Windows PowerShell 5.1 regression, 2026-11-01 19:22 UTC
-
-Libraries, LibraryAuthoring and ExampleLibrary suites passed 80/80 in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1 in 384.19 seconds. The same cases
-previously passed under PowerShell 7.6.5. Registry integration and result-file
-output were disabled. Temporary files were used; no package installer,
-publisher download, live registry change, or Defender-alert file access occurred.
-
-Resolved: cross-shell source regression (160 total test executions). Retired/
-excluded: none. Partial: native package acceptance and the stateful HKCU catalog
-integration test remain open; Defender-blocked tools stay excluded. No legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM.
-See [structured evidence]
-(archive/evidence/library-authoring-winps51-regression-2026-11-01-1922.json).
-
-## Office and Store review Windows PowerShell 5.1 regression, 2026-11-01 19:23 UTC
-
-Office inventory, Office configuration review and Store app review suites
-passed 102/102 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same
-cases previously passed under PowerShell 7.6.5. Pester registry integration
-and result-file output were disabled; fake registry handles and mocked
-AppX/DISM providers were used. No live Windows state was changed.
-
-Resolved: cross-shell source regression (204 total test executions). Retired/
-excluded: none. Partial: live Office/AppX and provisioning acceptance remain
-separate; no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access remains
-blocked at host CIM; Defender-blocked tools stay excluded. See [structured
-evidence]
-(archive/evidence/office-store-review-winps51-regression-2026-11-01-1923.json).
-
-## Candidate execution, CLI and search Windows PowerShell 5.1 regression, 2026-11-01 19:24 UTC
-
-CandidateExecution, CliShouldProcess and Search suites passed 98/98 in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously passed
-under PowerShell 7.6.5. Registry integration and result-file output were
-disabled; platform, handlers and catalogs were mocked. No live Windows state
-was changed and Defender-blocked tools were excluded.
-
-Resolved: cross-shell source regression (196 total test executions). Retired/
-excluded: none. Partial: native candidate acceptance remains target-gated; no
-legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
-(exact 126-180; rounded 125-180/about 155). VM access remains blocked at host
-CIM. See [structured evidence]
-(archive/evidence/candidate-cli-search-winps51-regression-2026-11-01-1924.json).
-
-## User and language inventory Windows PowerShell 5.1 regression, 2026-11-01 19:25 UTC
-
-Installed-registration, local-user, user-language inventory/override and
-language-preparation suites passed 143/143 in Windows PowerShell
-5.1.26100.9818/Pester 5.7.1. The same cases previously passed under PowerShell
-7.6.5. Registry integration was disabled; providers and fake registry handles
-were mocked. No live user or language setting changed.
-
-Resolved: cross-shell source regression (286 total test executions). Retired/
-excluded: none. Partial: native user-language inventory and setting acceptance
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/user-language-registration-winps51-regression-2026-11-01-1925.json).
-
-## MAC vendor, Terminal JSONC and F1 Help cross-shell regression, 2026-11-01 19:26 UTC
-
-The MAC vendor, Terminal JSONC and F1 Help suites passed 70/70 in both Windows
-PowerShell 5.1.26100.9818 and PowerShell 7.6.5. Registry integration and
-result-file output were disabled. MAC data was offline, Terminal files used
-TestDrive and the F1 registry handler was mocked. Two MAC tests were corrected
-to pass explicit arrays because comma argument shorthand parsed differently
-across editions. No live Windows state changed.
-
-Resolved: cross-shell source regression (140 test executions). Retired/
-excluded: none. Partial: native MAC refresh, Terminal package and F1 setting
-acceptance remain open; no legacy outcome closes. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM
-access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/mac-terminal-f1-cross-shell-regression-2026-11-01-1926.json).
-
-## Run-state retention, scheduled-task recovery and user handoff Windows PowerShell 5.1 regression, 2026-11-01 19:30 UTC
-
-Run-state retention, scheduled-task recovery and user-handoff suites passed
-48/48 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases
-previously passed under PowerShell 7.6.5. Registry integration and result-file
-output were disabled; state files used TestDrive and task/handoff providers
-were mocked. No real task was registered or executed.
-
-Resolved: cross-shell source regression (96 total test executions). Retired/
-excluded: none. Partial: native scheduled-task and user-handoff acceptance
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/runstate-task-handoff-winps51-regression-2026-11-01-1930.json).
-
-## Acceptance-runner and controller automation Windows PowerShell 5.1 regression, 2026-11-01 19:32 UTC
-
-Portable acceptance, profile acceptance, controller automation and interactive
-guest suites passed 233/233 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1.
-The prior PowerShell 7 run passed 231/233 and skipped two Desktop-only host
-preflight cases. Combined: 464 passes, two skips. Registry integration and
-result output were disabled. Controller/guest APIs were mocked; no VM was
-queried, controller dispatched, host service/UAC read, or tool executed.
-Defender-blocked tools remained excluded.
-
-Resolved: cross-shell automation-source regression (464 passes). Retired/
-excluded: none. Partial: real VM/checkpoint acceptance remains blocked at host
-CIM; no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). See [structured evidence]
-(archive/evidence/acceptance-automation-winps51-regression-2026-11-01-1932.json).
-
-## Portable manifest and ZIP selection Windows PowerShell 5.1 regression, 2026-11-01 19:34 UTC
-
-PortableManifest and PortableSelection suites passed 34/34 in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1. The same cases previously passed
-under PowerShell 7.6.5. Registry integration and result-file output were
-disabled; synthetic archives and TestDrive isolated all writes. No installer,
-package deployment, VM or live Windows state was used.
-
-Resolved: cross-shell source regression (68 total test executions). Retired/
-excluded: none. Partial: publisher source and native package activation remain
-open; Defender-blocked tools stay excluded. No legacy outcome closes. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). VM access remains blocked at host CIM. See [structured
-evidence]
-(archive/evidence/portable-manifest-selection-winps51-regression-2026-11-01-1934.json).
-
-## Shell assets and hash-menu Windows PowerShell 5.1 regression, 2026-11-01 19:36 UTC
-
-DesktopShortcuts, ShellFolders, PhotoViewerOpenWith and HashValueContextMenu
-suites passed 38/38 in Windows PowerShell 5.1.26100.9818/Pester 5.7.1,
-including the Desktop-only Get-FileHash test skipped under PowerShell 7.6.5.
-Combined: 75 passes and one PowerShell Core skip. Registry integration was
-disabled; directory data used TestDrive, registry values were read as catalog
-metadata and COM was not invoked. No desktop or Windows state changed.
-
-Resolved: cross-shell source regression (75 test executions passed). Retired/
-excluded: none. Partial: native desktop, Photo Viewer and hash-menu acceptance
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/shell-assets-winps51-regression-2026-11-01-1936.json).
-
-## Repository validation in PowerShell 7 and Windows PowerShell 5.1, 2026-11-01 19:37 UTC
-
-The read-only tools/validate.ps1 check passed in PowerShell 7.6.5 and Windows
-PowerShell 5.1.26100.9818. Each run checked 452 operations, 8 groups, 5
-profiles and 326 PowerShell files, and confirmed generated operation
-documentation is current. No handlers, installers, VM or Windows state were
-accessed.
-
-Resolved: source validation in both supported PowerShell editions. Retired/
-excluded: none. Partial: VM acceptance remains blocked at host CIM and
-Defender-blocked tools stay excluded. No legacy outcome closes. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). See [structured evidence]
-(archive/evidence/repository-validation-cross-shell-2026-11-01-1937.json).
-
-## Defender exclusion-recovery source regression, 2026-11-01 19:39 UTC
-
-DefenderExclusionRecovery passed 39/39 under both Windows PowerShell 5.1 and
-PowerShell 7.6.5/Pester 5.7.1. Pester registry integration and result output
-were disabled. Provider membership/setter calls were mocked; no Defender
-cmdlet, live protection state, VM or alerted file was accessed.
-
-Resolved: cross-shell source regression (78 passes). Retired/excluded: the
-reported Defender-blocked binaries remain excluded. Partial: live Defender
-protection/visibility confirmation and VM acceptance remain open; no legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM.
-See [structured evidence]
-(archive/evidence/defender-exclusion-recovery-cross-shell-2026-11-01-1939.json).
-
-## Automation watchdog Windows PowerShell 5.1 run, 2026-11-01 19:43 UTC
-
-AutomationWatchdog discovered 16 tests: 13 passed and 3 failed in Windows
-PowerShell 5.1.26100.9818/Pester 5.7.1. All failures involved terminating
-inert child process trees exceeding the 10-second deadline; the recovery-hang
-case retained the child process as a failed postcondition. The run used no
-Hyper-V, AutomatedLab, guest, installer, credential or Windows/Defender change.
-A post-run process listing showed only the current pwsh host and no Windows
-PowerShell child; CIM command-line inspection was denied.
-
-Resolved: 13 bounded watchdog source checks. Retired/excluded: none. Partial:
-three process-tree termination cases remain unresolved; no migration outcome
-closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). VM acceptance remains blocked at host CIM. See
-[structured evidence]
-(archive/evidence/automation-watchdog-winps51-failure-2026-11-01-1943.json).
-
-## ApplicationPackages current-source PowerShell 7 regression, 2026-11-01 19:46 UTC
-
-ApplicationPackages passed 135/138 in PowerShell 7.6.5/Pester 5.7.1, matching
-the Windows PowerShell 5.1 run. Both editions have three skips because no
-explicit RawCopy, ETL2PCAPNG or JoeWare AdMod retained artifact fixture was
-supplied. Network and installer boundaries were mocked; no alert file, NirSoft
-payload, publisher download, installer, VM or Windows state was accessed.
-
-Resolved: current-source package selection and synthetic lifecycle checks (270
-passes across both editions). Retired/excluded: none. Partial: three retained
-artifact cases and native package acceptance remain open; no legacy outcome
-closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). VM access remains blocked at host CIM, and
-Defender-blocked tools remain excluded. See [structured evidence]
-(archive/evidence/application-packages-pwsh7-current-source-regression-2026-11-01-1946.json).
-
-## Offline bundle integrity, assembly and execution PowerShell 7 regression, 2026-11-01 19:47 UTC
-
-OfflineBundle, OfflineBundleAssembly and OfflineExecution passed 129/129 in
-PowerShell 7.6.5/Pester 5.7.1, matching the Windows PowerShell 5.1 run. Registry
-integration and result-file output were disabled. Tests used synthetic/local
-files, no network or publisher payload, and invoked no installer, RIDE apply,
-VM, or Defender-blocked tool.
-
-Resolved: cross-shell source regression (258 passes). Retired/excluded: none.
-Partial: transferable bundle assembly/copy and disconnected Windows acceptance
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/offline-bundle-pwsh7-current-source-regression-2026-11-01-1947.json).
-
-## Phoenix Protector source and installer-routing cross-shell regression, 2026-11-01 19:50 UTC
-
-PhoenixPackage passed 4/4 in Windows PowerShell 5.1.26100.9818 and 4/4 in
-PowerShell 7.6.5/Pester 5.7.1. Registry integration and result output were
-disabled. Catalog pins and mocked installer routing were checked; the MSI was
-not downloaded or launched, and the .NET prerequisite was not installed.
-
-Resolved: cross-shell package source regression (8 passes). Retired/excluded:
-none. Partial: Phoenix Protector remains a pending Windows 11 candidate; native
-install/removal and owned-file recovery acceptance remain open. No legacy
-outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). VM access remains blocked at host CIM.
-Defender-blocked tools remain excluded. See [structured evidence]
-(archive/evidence/phoenix-protector-source-regression-cross-shell-2026-11-01-1950.json).
-
-## MiTeC viewer source and synthetic lifecycle cross-shell regression, 2026-11-01 19:51 UTC
-
-MitecViewerPackages passed 16/16 in Windows PowerShell 5.1.26100.9818 and
-16/16 in PowerShell 7.6.5/Pester 5.7.1. Registry integration and result output
-were disabled. All four JSON/XML viewer architecture variants used synthetic
-inert ZIPs; the retained-archive environment variable was unset. No publisher
-archive, network, viewer process, VM or Defender-blocked tool was used.
-
-Resolved: cross-shell source/lifecycle regression (32 passes). Retired/
-excluded: none. Partial: publisher archive and Windows activation acceptance
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM; Defender-blocked tools remain excluded. See
-[structured evidence]
-(archive/evidence/mitec-viewer-packages-cross-shell-regression-2026-11-01-1951.json).
-
-## GitHub VM authentication safety cross-shell regression, 2026-11-01 19:52 UTC
-
-GitHubVmAuthentication passed 23/23 in Windows PowerShell 5.1.26100.9818 and
-23/23 in PowerShell 7.6.5/Pester 5.7.1. Registry integration and result output
-were disabled. Tests used synthetic canary tokens and mocked controller
-credentials/sessions; no real credential, VM, guest session, publisher, or
-installer was accessed.
-
-Resolved: cross-shell authentication-gate/evidence-export regression (46
-passes). Retired/excluded: none. Partial: actual guest authentication and
-protected controller acceptance remain VM-bound; no legacy outcome closes.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). VM access remains blocked at host CIM; Defender-blocked
-tools remain excluded. See [structured evidence]
-(archive/evidence/github-vm-authentication-cross-shell-regression-2026-11-01-1952.json).
-
-## Settings and Store acceptance-fixture cross-shell regression, 2026-11-01 19:53 UTC
-
-SettingsFixtureData and StoreSolitaireFixtureData passed 30/30 in Windows
-PowerShell 5.1.26100.9818 and 30/30 in PowerShell 7.6.5/Pester 5.7.1. Registry
-integration and result output were disabled. Writes were confined to Pester
-TestDrive; the Solitaire fixture was generated in memory. No Windows setting,
-package, Store app, VM or Defender state was changed or queried.
-
-Resolved: cross-shell request/schema guard regression (60 passes). Retired/
-excluded: none. Partial: native settings and Store acceptance remain open; no
-legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
-(exact 126-180; rounded 125-180/about 155). VM access remains blocked at host
-CIM; Defender-blocked tools remain excluded. See [structured evidence]
-(archive/evidence/settings-store-fixture-cross-shell-regression-2026-11-01-1953.json).
-
-## MiTeC analysis, certificate and DFM Editor cross-shell regression, 2026-11-01 19:55 UTC
-
-MiTeCAnalysisTools, MiTecCertificateTools and MiTeCDFMEditor passed 21/21 in
-Windows PowerShell 5.1.26100.9818 and 21/21 in PowerShell 7.6.5/Pester 5.7.1.
-Registry integration and result output were disabled. Reviewed MiTeC archives
-were read for hash/member reconciliation and staged only in isolated fixtures;
-no executable/BPL was launched, no certificate or analysis target was opened,
-and no network, VM or Defender-blocked tool was used. All three test fixture
-roots were empty after cleanup.
-
-Resolved: cross-shell source/member and owned-file recovery regression (42
-passes). Retired/excluded: none. Partial: product runtime and target acceptance
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/mitec-analysis-certificate-dfm-cross-shell-regression-2026-11-01-1955.json).
-
-## MiTeC historical/review-data, UUID and DirList regression, 2026-11-01 19:57 UTC
-
-MiTeCHistoricalFileTools, MiTeCReviewDataTools, MiTecUuidGenerator and
-MiTeCDirList each passed a combined 14/19 in Windows PowerShell 5.1.26100.9818
-and 14/19 in PowerShell 7.6.5/Pester 5.7.1. The five skipped cases per edition
-require explicit retained publisher archives; no such fixture paths were
-supplied. Synthetic staging, metadata checks and ownership recovery passed.
-Registry integration/result output were disabled; no publisher archive,
-product, host artifact, VM, or Defender-blocked tool was accessed. Three
-fixture roots were empty after cleanup.
-
-Resolved: cross-shell synthetic source/lifecycle regression (28 passes).
-Retired/excluded: none. Partial: ten skipped retained-archive executions and
-native target acceptance remain open; no legacy outcome closes. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). VM access remains blocked at host CIM. See [structured
-evidence]
-(archive/evidence/mitec-historical-review-uuid-dirlist-cross-shell-regression-2026-11-01-1957.json).
-
-## MiTeC database, mail, network and utility package regression, 2026-11-01 20:00 UTC
-
-The Paradox Data Editor, Interbase Query, Mail Checker, Mail History Viewers,
-Network Meter, Network Scanner, SSView and Task Manager DeLuxe suites passed
-31/34 in Windows PowerShell 5.1.26100.9818 and 31/34 in PowerShell 7.6.5/Pester
-5.7.1. Three cases per edition skipped because no explicit retained archives
-were supplied for Interbase Query, Network Scanner and Task Manager DeLuxe.
-Available Mail History and SSView archives were hash-checked. All lifecycle
-writes used synthetic fixtures; no database, network traffic, mail/browser
-content, host processes, product executable, VM, or Defender-blocked tool was
-accessed. Generated fixture directories were cleaned. An older, 2026-10-25
-GUID directory in the mail-history fixture root was preserved untouched.
-
-Resolved: cross-shell package source and synthetic lifecycle regression (62
-passes). Retired/excluded: none. Partial: six retained-archive executions and
-native product acceptance remain open; no legacy outcome closes. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). VM access remains blocked at host CIM. See [structured
-evidence]
-(archive/evidence/mitec-interbase-mail-network-ssview-taskmanager-cross-shell-regression-2026-11-01-2000.json).
-
-## NTCore launcher and portable-package cross-shell regression, 2026-11-01 20:07 UTC
-
-NtCore4GbPatchLauncher, NtcoreUnpackerDynLogger and NtcorePackages passed
-39/46 in Windows PowerShell 5.1.26100.9818 and 39/46 in PowerShell 7.6.5/
-Pester 5.7.1. Seven retained publisher archive checks per edition were skipped
-because RIDE_NTCORE_FIXTURE_DIRECTORY was not supplied, including ScreenWriter
-MSI. Synthetic lifecycle/guard tests passed. The 4GB launcher produced only a
-ShouldProcess “What if” preview; no executable launched and no Windows target
-was modified. No network, VM or Defender-blocked tool was used.
-
-Resolved: cross-shell guard and synthetic lifecycle regression (78 passes).
-Retired/excluded: none. Partial: fourteen retained archive checks and native
-product acceptance remain open; no legacy outcome closes. Estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about
-155). VM access remains blocked at host CIM. See [structured evidence]
-(archive/evidence/ntcore-launcher-portable-cross-shell-regression-2026-11-01-2007.json).
-
-## LabProvisioning configuration and mocked orchestration regression, 2026-11-01 20:10 UTC
-
-LabProvisioning passed 39/39 in Windows PowerShell 5.1.26100.9818 and 39/39 in
-PowerShell 7.6.5/Pester 5.7.1. Registry integration and result output were
-disabled. Coverage included configuration validation, preview boundaries and
-mocked AutomatedLab readiness/start calls. The `What if` previews and startup /
-copy log lines were test output; no Hyper-V/AutomatedLab module was imported,
-VM queried or provisioned, guest remoting opened, or host state changed.
-
-Resolved: cross-shell provisioning-source regression (78 passes). Retired/
-excluded: none. Partial: Windows 11 and Server guest acceptance remain VM-bound;
-no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). Host CIM still blocks VM /
-checkpoint inspection. Defender-blocked tools remain excluded. See [structured
-evidence]
-(archive/evidence/lab-provisioning-cross-shell-regression-2026-11-01-2010.json).
-
-## Store app registration and desktop-plan cross-shell regression, 2026-11-01 20:12 UTC
-
-StoreApps passed 33/33 in Windows PowerShell 5.1.26100.9818 and 33/33 in
-PowerShell 7.6.5/Pester 5.7.1. Registry integration and result output were
-disabled. Appx/native removal, desktop session, and child handoff calls were
-mocked; displayed uninstall/reinstall/desktop-plan prompts were `What if`
-previews. No live registration, app, Windows state, VM, or Defender-blocked
-tool was accessed.
-
-Resolved: cross-shell Store source regression (66 passes). Retired/excluded:
-none. Partial: native Store registration and user-session acceptance remain
-open; no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access remains
-blocked at host CIM. See [structured evidence]
-(archive/evidence/store-apps-cross-shell-source-regression-2026-11-01-2012.json).
-
-## Hibernation source and acceptance-runner cross-shell regression, 2026-11-01 20:14 UTC
-
-Hibernation and HibernationAcceptance passed 28/28 in Windows PowerShell
-5.1.26100.9818 and 28/28 in PowerShell 7.6.5/Pester 5.7.1. Registry integration
-and result output were disabled. Powercfg, guest, registry, engine mutation and
-state-transition boundaries were mocked. Displayed `What if` messages were
-previews; no live hibernation file, VM, or host state was accessed or changed.
-
-Resolved: cross-shell hibernation source/runner regression (56 passes).
-Retired/excluded: none. Partial: native candidate lifecycle and restore remain
-open; no legacy outcome closes. Estimates remain 37-57 / 37-52 / 19-24 /
-25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM still blocks
-VM/checkpoint inspection. Defender-blocked tools remain excluded. See
-[structured evidence]
-(archive/evidence/hibernation-source-acceptance-cross-shell-regression-2026-11-01-2014.json).
-
-## Package adoption review cross-shell regression, 2026-11-01 20:16 UTC
-
-PackageAdoptionReview passed 25/25 in Windows PowerShell 5.1.26100.9818 and
-25/25 in PowerShell 7.6.5/Pester 5.7.1. Registry integration and result
-output were disabled. Tests used synthetic registration observations and
-catalog variants; native registration inventory and package configuration
-were not queried, and no adoption ownership, installer, or Windows state was
-changed.
-
-Resolved: cross-shell adoption-inspection regression (50 passes). Retired/
-excluded: none. Partial: native identity confirmation and package acceptance
-remain separate; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/package-adoption-review-cross-shell-regression-2026-11-01-2016.json).
-
-## Package evidence, dependency planning and JoeWare preview cross-shell regression, 2026-11-01 20:18 UTC
-
-PackageEvidence, PackageDependencyPlanning and Download-JoeWareCollection
-passed 49/49 in Windows PowerShell 5.1.26100.9818 and 49/49 in PowerShell
-7.6.5/Pester 5.7.1. HTTP/signature calls were mocked, and JoeWare `What if`
-verified that the publisher was not contacted. Registry integration and result
-output were disabled; no installer, VM, Windows change, or Defender-blocked
-tool was used. Two warnings reported synthetic Signal user-data directories;
-immediate checks found both reported leaf paths absent. No cleanup was run.
-
-Resolved: cross-shell package evidence/planning regression (98 passes).
-Retired/excluded: none. Partial: native activation and Defender observation
-remain open; no legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). VM access
-remains blocked at host CIM. See [structured evidence]
-(archive/evidence/package-planning-acquisition-preview-cross-shell-regression-2026-11-01-2018.json).
-
-## ALIGN-03 CLI option matrix and refusal regression, 2026-11-01 20:20 UTC
-
-The current CLI command and option matrix is recorded in
-[cli-command-option-matrix.md](cli-command-option-matrix.md). `CliShouldProcess`
-passed 54/54 in Windows PowerShell 5.1 and 54/54 in PowerShell 7.6.5. New refusal
-cases cover conflicting search selectors, misplaced search and state-store options,
-unsupported variants, ambiguous direct/profile removal, and invalid prune-state
-selectors. Tests used a fake engine module; no live handler or Windows state ran.
-The matrix records current gaps and compatibility behavior; this batch makes no
-runtime parser or removal-semantics change.
-
-Resolved: current CLI behavior matrix and focused source regression. Retired/excluded:
-none. Partial: ALIGN-03 runtime refusal behavior remains open; no legacy outcome
-closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). RIDE-Win11-Test remains blocked at host CIM before VM
-state retrieval. Defender-blocked tools remain excluded. See [structured evidence](archive/evidence/align03-cli-option-matrix-cross-shell-2026-11-01-2020.json).
-
-## ALIGN-04 Windows candidate preview and target-boundary regression, 2026-11-01 20:32 UTC
-
-The Windows candidate execution, hibernation and catalog suites passed 129/129
-in Windows PowerShell 5.1 and 129/129 in PowerShell 7.6.5/Pester 5.7.1. The
-single `WindowsIntegration` registry lifecycle case was excluded because sandbox
-HKCU access is denied. Catalog download `WhatIf` cases ran with acquisition
-mocked. Candidate state handlers and package presence were mocked; no Windows
-state, VM, network acquisition or Defender state changed.
-
-Resolved: declared candidate plan and restore previews no longer require
-`-AllowCandidate`; they warn that acceptance remains pending, while real candidate
-changes and restore still require explicit opt-in. Target/build/privilege checks
-remain in force. An already installed package desired-state no-op retains the
-existing target exception; an uninstalled package on an undeclared target is
-rejected. Hibernation metadata and generated operation documentation now explain
-the preview boundary. Retired/excluded: none. Partial: Fedora download eligibility
-and iBus restore-preview differences remain open under ALIGN-04; no legacy outcome
-closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180;
-rounded 125-180/about 155). VM acceptance remains blocked at host CIM and
-Defender-blocked tools remain excluded. See [structured evidence](archive/evidence/align04-windows-candidate-preview-cross-shell-2026-11-01-2032.json).
-
-## ALIGN-05 Windows adapter for pinned shared behavior scenarios, 2026-11-01 20:42 UTC
-
-The initial platform-neutral scenario set is version 1.0.0 and pins the canonical
-behavior contract 1.0.0 digest. Ten scenarios cover argument selection, candidate
-preview/opt-in/target behavior, installed-package no-op, download preview, unset,
-partial-failure recovery identity and read-only completion. The separate Windows
-adapter map links each scenario to an existing named Pester case. The adapter
-passed 3/3 in Windows PowerShell 5.1 and 3/3 in PowerShell 7.6.5/Pester 5.7.1,
-including exact contract digest validation, seeded revision mismatch rejection and
-case mapping. Windows CI already runs the complete Pester directory on both shells.
-No live state, VM, network or Defender path was used.
-
-Resolved: Windows-side scenario revision/pin validation and adapter mapping.
-Retired/excluded: none. Partial: this initial ten-scenario revision does not claim
-complete ALIGN-05 coverage; the Fedora adapter, matching consumer pin and Fedora CI
-execution remain open. No legacy outcome closes. Estimates remain 37-57 / 37-52 /
-19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). RIDE-Win11-Test
-remains blocked at host CIM. Defender-blocked tools remain excluded. See [structured
-evidence](archive/evidence/align05-windows-shared-scenarios-2026-11-01-2042.json).
-
-## ALIGN-06 Windows capability and difference register, 2026-11-01 20:50 UTC
-
-A structured 16-row register now records stable IDs, contract rule IDs, owner
-roles, reasons, source evidence paths/revisions, linked work, dispositions and
-review/removal triggers. It distinguishes aligned source behavior, temporary
-gaps and proposed permanent platform differences. The current comparison links
-to the register and reflects the Windows candidate-preview change. The register
-schema test passed 4/4 in Windows PowerShell 5.1 and 4/4 in PowerShell 7.6.5/
-Pester 5.7.1. No VM, Windows state, network or Defender path was accessed.
-
-Resolved: Windows-side structured register and metadata validation. Retired/
-excluded: none. Partial: Fedora repository integration/current-state verification
-is unavailable in this batch; several permanent-difference dispositions are
-proposed and await owner review. No legacy outcome closes. Estimates remain
-37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
-VM acceptance remains blocked at host CIM; Defender-blocked tools remain excluded.
-See [structured evidence](archive/evidence/align06-capability-difference-register-2026-11-01-2050.json).
-## Automation watchdog process-tree timeout regression, 2026-11-02
-
-`tests/AutomationWatchdog.Tests.ps1` passed all 16 cases in PowerShell 7.6.5 and
-Pester 5.7.1 (1m05s), including preparation timeout, descendant termination,
-recovery timeout and TestDrive cleanup. The timeout handler now uses the runtime's
-recursive process-tree termination API when available and retains a bounded
-`taskkill` fallback for older runtimes. TestRegistry was disabled because the
-sandbox denies temporary HKCU access. Windows PowerShell 5.1 fallback execution
-and native VM acceptance remain separate checks.
-
-Resolved: watchdog source regression and full focused test file. Retired/excluded:
-none. Partial: no legacy feature outcome closes and the full repository aggregate
-remains incomplete. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). RIDE-Win11-Test acceptance remains blocked at
-host CIM; Defender-blocked executables remain excluded. See [structured
-evidence](archive/evidence/automation-watchdog-process-tree-regression-2026-11-02.json).
-## PSScriptTools focused boundaries and large lifecycle stall, 2026-11-02
-
-Six selected source, ownership and recovery cases in
-`tests/PSScriptToolsPackage.Tests.ps1` passed 6/6 in PowerShell 7.6.5/Pester 5.7.1
-(57s), with TestRegistry disabled for denied sandbox HKCU access. A separate
-focused 360-member lifecycle attempt produced no progress or Pester summary after
-about 3m35s and was interrupted. Earlier 15-minute attempts also stalled. The
-smaller passing cases do not substitute for the full install/repeat/remove/restore
-lifecycle. No publisher payload, package code, installer, network, VM or Windows
-state was used.
-
-Resolved: six focused package boundary cases. Retired/excluded: none. Partial: the
-360-member lifecycle and repository-wide Pester aggregate remain incomplete; no
-legacy package outcome closes. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). RIDE-Win11-Test acceptance remains
-blocked at host CIM, and Defender-blocked tools remain excluded. See [structured
-evidence](archive/evidence/psscripttools-focused-boundaries-and-lifecycle-stall-2026-11-02.json).
-## WFN full-lifecycle install-phase diagnostic, 2026-11-02
-
-A direct instrumented replay used a synthetic 531-member inert ZIP and the current
-portable package module. Archive creation, hashing and the prior-absence snapshot
-completed in under one second each. The first install phase produced no completion
-marker after about three minutes, so the diagnostic was interrupted. It did not
-isolate the slow substep, and no lifecycle pass or failure is inferred. No WFN
-executable, installer, network, VM or Windows configuration was used.
-
-Resolved: the repeated delay is after fixture setup, inside the first portable
-install path. Retired/excluded: none. Partial: the full 531-member Pester lifecycle
-remains incomplete and no WFN legacy outcome closes. Estimates remain 37-57 /
-37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155).
-RIDE-Win11-Test acceptance remains blocked at host CIM; Defender-alerted tools
-remain excluded. See [structured
-evidence](archive/evidence/wfn-large-lifecycle-install-phase-stall-2026-11-02.json).
-## 151-file unit aggregate interrupted in optional settings, 2026-11-02
-
-A PowerShell 7.6.5/Pester 5.7.1 run selected 151 unit test files and discovered
-3,698 tests with TestRegistry disabled and WindowsIntegration tags excluded. The
-NirSoft collection file and the large PSScriptTools/WFN lifecycle files were
-excluded. Many earlier test files reported completion, but the run produced no
-aggregate result after entering `tests/OptionalWindowsSettings.Tests.ps1` and was
-interrupted after about 30 minutes. That optional-settings file separately has a
-365/365 isolated pass record; it does not supply a result for this aggregate.
-
-Resolved: non-blocked suites progressed to the optional-settings matrix. Retired:
-none. Excluded: Defender-blocked NirSoft collection suite. Partial: no total test
-counts or legacy outcomes close. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 /
-8-12 (exact 126-180; rounded 125-180/about 155). RIDE-Win11-Test acceptance
-remains blocked at host CIM; Defender-blocked tools remain excluded. See
-[structured evidence](archive/evidence/unit-aggregate-151-files-interrupted-2026-11-02.json).
-## Post-optional unit test batch 1, 2026-11-02
-
-Twenty bounded test files passed 418/418 cases in PowerShell 7.6.5/Pester 5.7.1
-(8m25s). Coverage included owned power plans, package adoption/dependency/evidence,
-portable acceptance/manifest/selection, profile and remaining settings, registry
-failure handling, and run-state retention. TestRegistry was disabled due denied
-sandbox HKCU access; WindowsIntegration-tagged tests were excluded. No VM, host
-setting, installer, network request, product executable or Defender-alerted file
-was used.
-
-Resolved: selected source and mocked lifecycle regression. Retired/excluded: none
-new; NirSoft and the two stalled large lifecycle suites remain excluded. Partial:
-the 151-file aggregate remains incomplete and no legacy outcome closes. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). Host CIM still blocks VM acceptance; Defender-blocked tools
-remain excluded. See [structured
-evidence](archive/evidence/unit-tests-post-optional-batch1-2026-11-02.json).
-## Post-optional unit test batch 2, 2026-11-02
-
-Twenty bounded test files passed 743/747 runnable cases in PowerShell 7.6.5/
-Pester 5.7.1 (24m55s), with four documented skips: two optional retained-archive
-checks lacked explicit fixtures, and two Desktop-only host-preflight cases require
-Windows PowerShell 5.1. Coverage included a 130-case settings matrix and the
-164-member Sysinternals synthetic package lifecycle. WindowsIntegration tags were
-excluded. Package utilities and installers were not launched; no VM, host settings,
-network or Defender-alerted files were used.
-
-Resolved: current source and synthetic lifecycle suite checks. Retired/excluded:
-none new; NirSoft and oversized PSScriptTools/WFN lifecycle tests remain excluded.
-Partial: no legacy outcome closes and the 151-file aggregate remains incomplete.
-Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). Host CIM continues to block VM acceptance; Defender-blocked
-tools remain excluded. The user's accepted Sysinternals specialist license decision
-is unchanged. See [structured
-evidence](archive/evidence/unit-tests-post-optional-batch2-2026-11-02.json).
-## Post-optional unit test batch 3, 2026-11-02
-
-Eighteen bounded user-language, PATH, proxy, inventory, WinPmem and Wireshark
-source suites passed 405/405 in PowerShell 7.6.5/Pester 5.7.1 (41s). TestRegistry
-was disabled for denied sandbox HKCU access and WindowsIntegration tags were
-excluded. The tests use mocks and inert fixtures; they did not invoke package
-executables, installers, network, VM access, or host settings.
-
-Resolved: selected user configuration, inventory and package source regression.
-Retired/excluded: none new; Defender-blocked NirSoft tests and the two oversized
-package lifecycle suites remain excluded. Partial: no legacy outcome closes and
-the 151-file aggregate remains incomplete at OptionalWindowsSettings. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). Host CIM blocks VM acceptance; Defender-blocked tools remain
-excluded. See [structured
-evidence](archive/evidence/unit-tests-post-optional-batch3-2026-11-02.json).
-## Pre-optional unit test batch 1, 2026-11-02
-
-Twenty bounded test files passed 414/418 runnable cases in PowerShell 7.6.5/
-Pester 5.7.1 (4m52s), with no failures. Three optional retained archive checks
-(RawCopy, ETL2PCAPNG and JoeWare AdMod) were skipped without explicit fixtures; one
-7-Zip extractor case was not run because its optional host prerequisite was absent.
-WindowsIntegration tags were excluded. No installer, product executable, VM,
-network or host setting was used.
-
-Resolved: catalog, package source, inventory, watchdog, BitLocker, bootstrap and
-preview regressions. Retired/excluded: none new; Defender-blocked NirSoft and the
-large PSScriptTools/WFN lifecycle suites remain excluded. Partial: no legacy
-outcome closes; the broad aggregate continues in bounded batches. Estimates
-remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded
-125-180/about 155). Host CIM blocks VM acceptance. See [structured
-evidence](archive/evidence/unit-tests-pre-optional-batch1-2026-11-02.json).
-## Pre-optional unit test batch 2, 2026-11-02
-
-Twenty bounded test files passed 509/511 cases in PowerShell 7.6.5/Pester 5.7.1
-(3m45s), with no failures. The two documented skips were an optional retained
-Cookie Cruncher archive check without an explicit fixture and a Windows PowerShell
-5.1-only Get-FileHash case on PowerShell 7. Coverage included component lifecycle
-and preparation, CLI ShouldProcess, Explorer settings, GitHub source/authentication,
-and package authoring boundaries. WindowsIntegration tags were excluded; no VM,
-network, installer, product executable or host setting was used.
-
-Resolved: selected component, package source/authoring and settings regression.
-Retired/excluded: none new; Defender-blocked NirSoft and oversized package lifecycle
-tests remain excluded. Partial: no legacy outcome closes; the aggregate continues
-in bounded batches. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12
-(exact 126-180; rounded 125-180/about 155). Host CIM still blocks VM acceptance.
-See [structured
-evidence](archive/evidence/unit-tests-pre-optional-batch2-2026-11-02.json).
-## Pre-optional unit test batch 3, 2026-11-02
-
-Twenty bounded test files passed 366/367 cases in PowerShell 7.6.5/Pester 5.7.1
-(6m36s), with no failures. One optional retained publisher archive check was
-skipped because its explicit local fixture was unavailable. Coverage included
-hibernation source/preview, installer inspection, library authoring and license
-store, user inventory, and MiTeC analysis source checks. WindowsIntegration tags
-were excluded; no VM, installer, product executable, network or host setting was
-used.
-
-Resolved: selected source and mocked lifecycle regression. Retired/excluded: none
-new; Defender-blocked NirSoft and oversized package lifecycle suites remain
-excluded. Partial: no legacy outcome closes; the pre-Optional bounded sweep
-continues. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact
-126-180; rounded 125-180/about 155). Host CIM still blocks VM acceptance. See
-[structured evidence](archive/evidence/unit-tests-pre-optional-batch3-2026-11-02.json).
-
-## MiTeC and NTCore source regression, 2026-11-02
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 bounded batch passed 119 of 131 tests across 20 MiTeC and NTCore test files; 12 checks skipped because retained publisher archive fixtures or the NTCore ScreenWriter MSI were unavailable. There were no failures. TestRegistry was disabled because sandbox HKCU access is denied, and WindowsIntegration was excluded.
-
-No VM or host settings were queried or changed. No network, installer or product executable was invoked, and the NirSoft/Defender-alerted files were not accessed. Native Windows acceptance and fixture-dependent checks remain open.
-
-No legacy feature/product outcome is resolved, retired or newly excluded by this source regression. Existing partial and deferred outcomes remain unchanged. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155.
-
-## NTCore, offline bundle and OpenSSH source regression, 2026-11-02
-
-The PowerShell 7.6.5 Core/Pester 5.7.1 bounded batch passed 330 of 336 tests across twelve files; six optional fixture/environment checks were skipped and none failed. TestRegistry was disabled because sandbox HKCU access is denied, and WindowsIntegration was excluded. The NTCore publisher archive check requires RIDE_NTCORE_FIXTURE_DIRECTORY.
-
-Offline bundle tests used WhatIf/TestDrive fixtures. No VM or host setting was queried or changed. No network, installer or product executable was invoked, and NirSoft/Defender-alerted files were not accessed. OpenSSH and offline delivery remain source-tested only pending native acceptance.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Existing partial and deferred scope is unchanged. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155.
-
-## NTCore Explorer Suite Windows 11 lifecycle evidence, 2026-11-02
-
-The registered `ApplicationsBatch12` run `ed4f857b82314e70ad72a807266a5282` passed on Windows 11 build 26300. It reports a matching pinned installer SHA-256, install/repeat, remove/repeat and saved presence recovery. The controller result is Passed with no guest, collection, cleanup or export error; its recovery path resets the configured checkpoint. The guest regression reports 432/436 Pester tests passed, zero failures and four skips. No included utility was launched. Previous-version recovery was unavailable because no prior installer was retained.
-
-The package operation is unchanged from the accepted snapshot, and its exact-version `NeedsReview` / `Unassigned` marker is administrative and non-gating. The archived run does not record Defender active/no-alert state. Keep `SupportedTargets` empty, `CandidateTargets` set to Windows 11 and `PendingAcceptance` true until that observation is captured. The current host cannot access Task Scheduler or Hyper-V through CIM/COM, so a new registered request could not be dispatched from this session.
-
-No legacy package outcome is closed by this reconciliation. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. See [structured lifecycle evidence](archive/evidence/ntcore-explorer-suite-win11-lifecycle-review-2026-11-02.json).
-
-## MiTeC analysis-tools package lifecycle evidence, 2026-11-02
-
-Registered `MiTeCAnalysisTools` run `cac31c4095cc45a59db17144eaf1dbcb` passed its two-case package lifecycle suite for MiTeC EXE Explorer 3.7.5 and MiTeC HexEdit 7.1.0. The matching pinned archive hashes were recorded; evidence collection succeeded; the configured checkpoint was restored and the VM left Off. Neither utility was executed. The current package operation rows, portable handler and focused acceptance runner match the accepted source snapshot.
-
-The focused result explicitly leaves functional acceptance Pending. Defender active/no-alert state is not recorded. EXE Explorer remains pending synthetic PE viewer and VirusTotal/network handling checks; HexEdit remains pending synthetic-copy editing and exact file recovery checks. Both exact-version `NeedsReview` / `Unassigned` markers are administrative and do not block technical migration. Keep both packages candidate-only and unsupported pending their remaining gates.
-
-No legacy product outcome is resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. See [structured run reconciliation](archive/evidence/mitec-analysis-tools-win11-lifecycle-review-2026-11-02.json).
-
-
-## WFN focused package-source regression, 2026-11-02
-
-The WfnPackage suite passed its catalog/inventory and compact synthetic lifecycle cases 2/2 in PowerShell 7.6.5/Pester 5.7.1. TestRegistry was disabled because sandbox HKCU access is denied. The retained publisher archive check was unavailable and the known slow 531-member lifecycle case was excluded. The tests used inert synthetic ZIP entries; no product executable, network, VM or host Windows state was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. The 531-member lifecycle, retained archive comparison and native Windows acceptance remain pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/wfn-focused-source-regression-2026-11-02.json).
-
-
-## WFN 531-member lifecycle retry, 2026-11-02
-
-The isolated full synthetic lifecycle was retried in PowerShell 7.6.5/Pester 5.7.1 and stopped after approximately four minutes without a Pester result or progress output. The retry receives no test or acceptance credit. It used only the synthetic TestDrive archive; no product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy outcome is resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Full WFN lifecycle and native Windows acceptance remain pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/wfn-531-member-retry-interrupted-2026-11-02.json).
-
-
-## MiTeC System Information and TAPI Monitor source regression, 2026-11-02
-
-The focused package suite passed four of six cases in PowerShell 7.6.5/Pester 5.7.1; the two retained publisher archive checks were skipped because their explicit fixtures were not supplied. Source metadata and inert synthetic owned-file staging/recovery checks passed for both packages. No product executable, network, VM, Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native feature acceptance remains pending; NirSoft Defender-blocked tests stay excluded. See [structured evidence](archive/evidence/mitec-system-information-tapi-monitor-source-regression-2026-11-02.json).
-
-
-## MiTeC viewer, UUID Generator and SQLite Query source regression, 2026-11-02
-
-Three focused package suites passed 20 of 21 cases in PowerShell 7.6.5/Pester 5.7.1. The single skip was the optional SQLite Query retained archive comparison without an explicit fixture. Synthetic package lifecycle, repeat, removal and restore checks passed; no product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native feature acceptance remains pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/mitec-viewers-uuid-sqlite-source-regression-2026-11-02.json).
-
-
-## MiTeC DFM Editor, Task Manager DeLuxe and Network Scanner source regression, 2026-11-02
-
-Three focused package suites passed 11 of 13 cases in PowerShell 7.6.5/Pester 5.7.1. The two skips were retained publisher archive comparisons requiring explicit TMX.zip and NetScanner.zip fixtures. DFM Editor metadata, variant selection, inert lifecycle and available retained archive checks passed; Task Manager and Network Scanner synthetic architecture-specific staging/recovery passed. No product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native product behavior remains pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/mitec-dfm-task-manager-network-scanner-regression-2026-11-02.json).
-
-
-## MiTeC DirList, Network Meter, Paradox Data Editor and Mail Checker source regression, 2026-11-02
-
-Four focused package suites passed 8/8 in PowerShell 7.6.5/Pester 5.7.1. Synthetic staging/recovery checks and package source metadata checks passed where applicable. No product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native feature acceptance remains pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/mitec-dirlist-network-paradox-mailchecker-regression-2026-11-02.json).
-
-
-## MiTeC Interbase Query and mail/history viewer source regression, 2026-11-02
-
-Two focused package suites passed 18 of 19 cases in PowerShell 7.6.5/Pester 5.7.1. The single skip was the Interbase Query retained archive comparison without an explicit fixture. Package source pins, inert staging, repeat, ownership preservation and restore checks passed. No product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native feature acceptance remains pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/mitec-interbase-mail-history-regression-2026-11-02.json).
-
-
-## MiTeC historical and review-data package source regression, 2026-11-02
-
-Two focused package suites passed 10 of 15 cases in PowerShell 7.6.5/Pester 5.7.1. The five skips were exact retained archive comparisons for WFA, Icon Explorer, OLE/COM Explorer, Windows Registry Recovery and SMBIOS Explorer because explicit fixtures were not supplied. Source/member pins and inert repeat staging/recovery passed for all candidates. No product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native feature acceptance remains pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/mitec-historical-review-data-regression-2026-11-02.json).
-
-
-## MiTeC certificate utility and Structured Storage Viewer source regression, 2026-11-02
-
-Two focused package suites passed 7/7 in PowerShell 7.6.5/Pester 5.7.1. Exact-member staging/recovery, source pins and the available SSView retained archive check passed. No product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native feature acceptance remains pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/mitec-certificate-ssview-regression-2026-11-02.json).
-
-
-## Portable acceptance automation and test-controller regression, 2026-11-02
-
-The focused acceptance automation and controller suites passed 206 of 208 cases in PowerShell 7.6.5/Pester 5.7.1; two elevation-only host preflight checks were skipped. Correlation, failure recovery, exact checkpoint reset order, queue safety and evidence export boundaries passed through mocks and isolated fixtures. No VM was accessed or changed.
-
-No legacy outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native Windows acceptance remains blocked by host Hyper-V/Task Scheduler access; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/portable-acceptance-controller-regression-2026-11-02.json).
-
-
-## Client component lifecycle, preparation and inventory source regression, 2026-11-02
-
-Three focused component suites passed 75/75 in PowerShell 7.6.5/Pester 5.7.1. Component providers, servicing and evidence destinations were mocked or synthetic. No host servicing, VM access or Windows state changes occurred.
-
-No legacy component outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native component acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/client-component-source-regression-2026-11-02.json).
-
-
-## OpenSSH Server capability, lifecycle and observation source regression, 2026-11-02
-
-Three focused OpenSSH Server component suites passed 34/34 in PowerShell 7.6.5/Pester 5.7.1. Servicing, service and firewall boundaries used mocks and synthetic state; no host servicing, firewall change, VM access or Windows state modification occurred.
-
-No legacy component outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native component acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/openssh-server-source-regression-2026-11-02.json).
-
-
-## Artcraft, Cookie Cruncher and Rufus package source regression, 2026-11-02
-
-Three focused package suites passed 13 of 14 cases in PowerShell 7.6.5/Pester 5.7.1. The single skip was the optional Cookie Cruncher retained archive check without an explicit fixture. Artcraft scope/pins and lifecycle boundaries, synthetic Cookie Cruncher ownership/recovery, and Rufus lifecycle/recovery checks passed. No installer, product executable, network, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native product acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/artcraft-cookiecruncher-rufus-regression-2026-11-02.json).
-
-
-## RegRipper, Raspberry Pi Imager, WinPmem and WhatIsMyIP source regression, 2026-11-02
-
-Four focused package/tool suites passed 14/14 in PowerShell 7.6.5/Pester 5.7.1. Package lifecycle used synthetic files, and WhatIsMyIP provider calls were mocked. No network, product executable, driver, VM, host Windows state or Defender-alerted file was used.
-
-No legacy feature/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/regripper-rpi-winpem-whatismyip-regression-2026-11-02.json).
-
-
-## Gpg4win/library regression and generated catalog documentation refresh, 2026-11-02
-
-The combined Gpg4win, Libraries and LibraryAuthoring batch initially passed 80/81; the one failure detected docs/OPERATIONS.md stale after catalog metadata changes. Regenerated the built-in operation reference with tools/Export-RideCatalog.ps1. The full Libraries suite then passed 27/27, the generator check was current, and repository validation passed for 452 operations, 8 groups, 5 profiles and 329 PowerShell files. All 81 unique cases pass after correction.
-
-The tests used mocks and isolated fixtures; no installer, network, VM, host Windows state or Defender-alerted file was used. No legacy outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native VM acceptance remains blocked by host access; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/gpg4win-library-docs-regression-2026-11-02.json).
-
-
-## Application package planning and lifecycle source regression, 2026-11-02
-
-ApplicationPackages.Tests.ps1 passed 136 of 139 cases in PowerShell 7.6.5/Pester 5.7.1. The three skips were optional retained archive/executable fixture checks for RawCopy, ETL2PCAPNG and JoeWare AdMod. Package resolution, synthetic ownership/recovery, Explorer Suite guarded acceptance-gate logic and HashCheck acceptance metadata passed. No network, product installer/utility, VM, host Windows state or Defender-alerted file was used.
-
-No legacy package outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native acceptance remains pending where noted; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/application-packages-current-source-regression-2026-11-02.json).
-
-
-## PSScriptTools 360-member lifecycle retry, 2026-11-02
-
-The isolated synthetic lifecycle case in PSScriptToolsPackage.Tests.ps1 was retried in PowerShell 7.6.5/Pester 5.7.1 and interrupted after approximately four minutes without progress output or a Pester summary. It receives no test or acceptance credit. Only generated inert archive entries were used; upstream PowerShell code was not imported or executed.
-
-No legacy package outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. The full 360-member lifecycle, native runtime and Windows acceptance remain pending; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/psscripttools-360-lifecycle-retry-interrupted-2026-11-02.json).
-
-
-## Setting presentation and post-migration source regression, 2026-11-02
-
-Four focused suites passed 236/236 in PowerShell 7.6.5/Pester 5.7.1 (14m32s). Coverage included setting presentation metadata, managed settings, all remaining-setting catalog/lifecycle cases and the 60-setting catalog plus saved-run lifecycle matrix. Registry access was disabled in Pester and handler/system effects used mocks or synthetic fixtures; no host setting or VM state changed.
-
-No legacy setting outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native feature/UI acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/settings-postmigration-source-regression-2026-11-02.json).
-
-
-## Store application inventory and candidate lifecycle source regression, 2026-11-02
-
-Three focused Store application suites passed 64/64 in PowerShell 7.6.5/Pester 5.7.1. Appx/DISM providers were mocked or supplied by isolated serialized fixtures; no Store package mutation, network, VM or host Windows state change occurred.
-
-No legacy component/product outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Store native acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/store-app-review-current-source-regression-2026-11-02.json).
-
-
-## Catalog, dependency and profile validation regression, 2026-11-02
-
-The focused catalog, package-dependency and profile suites passed 112 of 112 runnable cases in PowerShell 7.6.5/Pester 5.7.1. One WindowsIntegration registry subtree lifecycle case was excluded because the sandbox denies HKCU writes; its initial unfiltered attempt failed before creating a key. No VM, network or Defender-alerted file was used.
-
-No legacy outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. The direct registry integration test remains deferred to a disposable Windows context; VM acceptance remains blocked by host access and Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/catalog-dependency-profile-regression-2026-11-02.json).
-
-
-## NTCore and Phoenix package current-source regression, 2026-11-02
-
-Four focused package suites passed 43 of 50 cases in PowerShell 7.6.5/Pester 5.7.1; seven optional retained archive checks were skipped because explicit fixtures were unavailable. An initial assertion expected the outdated pre-acceptance wording for Explorer Suite; it was corrected to match the registered passed lifecycle and ongoing Defender evidence gate, then the full batch passed. No suite utility or installer ran; synthetic files/mocks were used.
-
-No legacy package outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Explorer Suite still needs Defender active/no-alert evidence; no license gate was added. Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/ntcore-phoenix-current-source-regression-2026-11-02.json).
-
-
-## Sysinternals combined source regression retry, 2026-11-02
-
-The combined SysinternalsProductPackages and SysinternalsSuitePackage retry discovered 80 tests but was stopped after approximately six minutes without an aggregate result. All nine independent-product blocks printed passing checks; four Sysinternals Suite checks printed as passed, then the suite-level shared-folder ownership case produced no result. Treat the retry as incomplete and give it no new acceptance credit. No Sysinternals utility was launched; the previous separately committed 72/72 product and 8/8 suite records remain the usable evidence.
-
-No legacy package outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. The accepted user license decision is unchanged; no license gate was added. Native VM access remains blocked and Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/sysinternals-combined-retry-interrupted-2026-11-02.json).
-
-
-## Installer inspection, completion and bootstrap source regression, 2026-11-02
-
-Three focused suites passed 34/34 in PowerShell 7.6.5/Pester 5.7.1. Download and process calls used mocks or inert test archives; no real network, installer, product utility, VM or host Windows state was accessed or changed.
-
-No legacy outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native target acceptance remains pending where declared; Defender-blocked NirSoft remains excluded. See [structured evidence](archive/evidence/installer-bootstrap-current-source-regression-2026-11-02.json).
-
-
-## Adapter, audio, volume, wireless and visual inventory source regression, 2026-11-02
-
-Five focused hardware/inventory suites passed 144/144 in PowerShell 7.6.5/Pester 5.7.1. Provider responses were synthetic or mocked; one read-only audio interop compilation check did not query Core Audio. No native hardware state, VM, network or Defender-alerted file was accessed.
-
-No legacy component outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native acceptance remains pending where declared; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/hardware-inventory-source-regression-2026-11-02.json).
-
-
-## Network, firewall, audio service and power setting source regression, 2026-11-02
-
-Four focused handler suites passed 80/80 in PowerShell 7.6.5/Pester 5.7.1. Registry, firewall, audio-service and power providers were mocked; no host network, firewall, audio service, power setting or VM state changed.
-
-No legacy setting outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native audio/service acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/network-firewall-audio-power-regression-2026-11-02.json).
-
-
-## Hibernation acceptance and BitLocker policy source regression, 2026-11-02
-
-Four focused hibernation/BitLocker suites passed 58/58 in PowerShell 7.6.5/Pester 5.7.1. powercfg, registry and volume operations were mocked; synthetic protector identities did not expose recovery-key values. No host settings or volumes, VM, network or Defender-alerted file was accessed.
-
-No legacy setting outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native hibernation/BitLocker acceptance remains pending; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/hibernation-bitlocker-source-regression-2026-11-02.json).
-
-
-## CEIP, media, server and Windows Update policy source regression, 2026-11-02
-
-Four focused policy suites passed 43/43 in PowerShell 7.6.5/Pester 5.7.1. Registry policy providers were mocked; no host policy, VM state, network or Defender-alerted file was accessed or changed.
-
-No legacy setting outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native policy acceptance remains pending where declared; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/ceip-media-server-update-policy-regression-2026-11-02.json).
-
-
-## Profile, desired configuration and observation import regression, 2026-11-02
-
-Four focused profile/configuration suites passed 98/98 in PowerShell 7.6.5/Pester 5.7.1. Profile, migration-record and observation fixtures were temporary or serialized synthetic data; no profile was applied and no host/VM settings changed.
-
-No legacy outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Native setting acceptance remains pending where declared; Defender-blocked NirSoft stays excluded. See [structured evidence](archive/evidence/profile-desired-observation-regression-2026-11-02.json).
-
-
-## Run-state retention, scheduled-task recovery and Defender exclusion regression, 2026-11-02
-
-Three focused maintenance/recovery suites passed 60/60 in PowerShell 7.6.5/Pester 5.7.1. Scheduled-task and Defender providers used mocks; Defender UI and alert-path files were not accessed. No host or VM state changed.
-
-No legacy outcome is newly resolved, retired or excluded. Estimates remain settings 37-57, packages 37-52, components 19-24, files/assets 25-35 and maintenance 8-12: exact 126-180, rounded 125-180/about 155. Defender-blocked NirSoft remains excluded and VM acceptance is blocked by host access. See [structured evidence](archive/evidence/run-retention-defender-recovery-regression-2026-11-02.json).
-
-
-## Windows PowerShell 5.1 source compatibility regression, 2026-11-02
-
-Windows PowerShell 5.1 with Pester 5.7.1 passed all 331 tests across thirteen source suites using a process-only ExecutionPolicy Bypass. Persistent execution policy was unchanged.
-
-Resolved: this cross-shell source regression. Retired/excluded: none. Partial: no legacy outcome closes; native Windows and VM acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, PSScriptTools/WFN large synthetic lifecycle suites and Defender exclusions remain open. See [structured evidence](archive/evidence/windows-powershell-51-source-compatibility-regression-2026-11-02.json).
-
-
-## WFN 531-member lifecycle bounded retry, 2026-11-02
-
-Two WFN checks passed in the complete package suite: catalog metadata and compact synthetic lifecycle. The 531-member synthetic install/repeat/remove/restore case was interrupted after about five minutes without completion. The optional retained archive comparison was not reached because no explicit fixture was configured. No pass or failure is inferred for the interrupted case.
-
-Resolved: metadata and compact lifecycle checks passed again. Retired/excluded: none; retained archive comparison remains optional and unconfigured. Partial: full 531-member lifecycle remains incomplete. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). PSScriptTools large lifecycle, host CIM VM access and Defender exclusions remain open. See [structured evidence](archive/evidence/wfn-531-member-lifecycle-bounded-stall-2026-11-02.json).
-
-
-## PSScriptTools 360-member lifecycle source regression, 2026-11-02
-
-PowerShell 7.6.5 with Pester 5.7.1 passed all seven tests in 20:25.879, including the generated inert 360-member install/repeat/remove/restore lifecycle. No retained publisher archive was configured, no upstream code was imported or executed, and no Windows or VM state changed.
-
-Resolved: complete PSScriptTools source lifecycle regression. Retired/excluded: none; publisher archive comparison and native activation remain untested. Partial: no legacy outcome closes; runtime/dependency behavior and Windows acceptance remain open. Estimates remain 37-57 / 37-52 / 19-24 / 25-35 / 8-12 (exact 126-180; rounded 125-180/about 155). Host CIM, WFN full synthetic lifecycle and Defender exclusions remain open. See [structured evidence](archive/evidence/psscripttools-360-member-lifecycle-regression-2026-11-02.json).
