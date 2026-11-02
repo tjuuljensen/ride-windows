@@ -103,13 +103,81 @@ new image or policy in place. The command does not substitute a default reset
 for captured restore. Windows policy refresh, cached images and visible lock
 screen state are not captured or claimed restored by registry/file readback.
 
+## Phased disposable-guest acceptance
+
+`tests/integration/Invoke-RideDefaultLockAcceptance.ps1` provides separate `Apply`
+and `Restore` phases for the pinned `suit_sharpened_4k.png` fixture. The matching
+module command is `Invoke-RideDefaultLockAcceptance`. Each phase explicitly runs
+the candidate lifecycle within the attested guest; saved evidence never starts
+the next phase automatically. `-Version` prints `0.1.0` without inspecting Windows.
+
+The prerequisites above still apply. The existing `EvidenceRoot` must be owned
+by Administrators/SYSTEM and grant modification only to them. The controller
+must set `RIDE_TEST_RUN_ID` to the same 32-character lowercase hexadecimal request
+ID for both phases, in addition to the two guest markers. Apply creates a new
+request directory, public-readable image directories and private machine state.
+It refuses an existing request directory. Restore requires the private completed
+apply report and the matching lifecycle records; it does not need the source PNG.
+
+Capture the initial signed-out/default image before Apply. In the already
+attested, elevated disposable guest, from the repository root:
+
+```powershell
+Import-Module ./tests/integration/RIDE.DefaultLockAcceptance.psm1
+$target = @{
+    RunId = $env:RIDE_TEST_RUN_ID
+    ExpectedComputerName = '<disposable-guest-name>'
+    ExpectedBuild = '<exact-build-number>'
+    ExpectedEditionId = 'EnterpriseEval'
+    EvidenceRoot = 'C:\RIDE\Evidence'
+    DisposableVm = $true
+}
+Invoke-RideDefaultLockAcceptance @target -Phase Apply -SourcePath 'C:\Inputs\suit_sharpened_4k.png' -WhatIf
+$applied = Invoke-RideDefaultLockAcceptance @target -Phase Apply -SourcePath 'C:\Inputs\suit_sharpened_4k.png' -Confirm:$false
+# Independently inspect and capture the signed-out/default image before Restore.
+Invoke-RideDefaultLockAcceptance @target -Phase Restore -WhatIf
+$restored = Invoke-RideDefaultLockAcceptance @target -Phase Restore -Confirm:$false
+# Independently inspect and capture visible recovery before guest checkpoint cleanup.
+```
+
+Apply checks no-change preview, policy/image/private-state readback and unchanged
+repeat, then returns `AwaitingVisualVerification` with `RecoveryRequired=true`.
+It leaves the selected image active. Restore checks no-change preview, captured
+state recovery and repeated restore, then returns `LifecyclePassedVisualPending`
+with `NativeLifecycleAcceptancePassed=true`. A restored policy does not prove
+that Windows refreshed a cached image. `NativeVisualAcceptancePassed` and
+`NativeAcceptancePassed` remain false in both phases; these are stable schema-1
+fields, not an overall success indication from the process exit code.
+
+Retain the initial, applied and recovered screenshots with the request ID,
+guest/build/edition, session state and any explicit refresh/sign-out/restart
+steps. Verify the machine default shown while signed out, separately from a
+signed-in user's lock-screen preference. The visible applied image must match
+the selected input, and visible recovery must match the captured initial state.
+No visual acceptance can be inferred from the PNG hash or registry readback.
+
+Private `before.json`, `applied-snapshot.json`, `apply.json`, lifecycle state and
+uniquely named `restore.<attempt-id>.json` reports remain under the request
+directory. Failed steps return `Failed` with stage and known state run IDs; they
+retain the guest and require inspection. A completed apply can be recovered after
+a failed restore without overwriting prior attempt reports. Failed/incomplete
+apply evidence cannot be used to bypass lifecycle recovery refusal. Saved
+request IDs offer read-only completion for both entry points when `Phase=Restore`
+and `EvidenceRoot` are supplied.
+
+Protected host dispatch that retains the guest between these phases is still
+pending. The existing generic queue resets the VM after each request and must
+not be used for this phased scenario. Neither guest entry point signs out,
+reboots, resets a checkpoint or performs failure cleanup. Export private evidence
+and verify visible recovery before any separately authorized checkpoint reset.
+
 ## Three separate acceptance workflows
 
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
 | Machine/default wallpaper | Establish supported default-user behavior and an owned asset location; preserve default-profile state and verify a newly created disposable user's visible desktop. A forced wallpaper policy or current-user preference does not establish this outcome. |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
-| Machine default lock-screen image | Source candidate provides owned public-readable assets, private machine recovery and policy/file conflict checks. Guarded native dispatch, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
+| Machine default lock-screen image | Source lifecycle and retained two-phase guest scenario are prepared. Protected host dispatch, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
 
 Microsoft's detailed [default lock-screen policy documentation](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen)
 limits that policy to Enterprise, Education and Server editions. A Windows 11 Pro
@@ -139,6 +207,9 @@ records both PowerShell versions, malformed-input checks and real input decoding
 All three selected images are 3840 by 2160. The
 [default lock-screen lifecycle evidence](archive/evidence/default-lock-screen-source-2026-11-02.json)
 records 27 focused mocked lifecycle/security checks and the 16 shared image
-source checks in each shell. No image was applied to Windows.
+source checks in each shell. The
+[phased guest preparation evidence](archive/evidence/default-lock-screen-acceptance-preparation-2026-11-02.json)
+adds 17 orchestration/source/directory checks per shell, plus a real pinned-input
+check. No image was applied to Windows.
 The [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md)
 owns the broader component status and test strategy.

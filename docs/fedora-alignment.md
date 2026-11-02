@@ -533,3 +533,27 @@ native acceptance remains open. Follow-up:
 Review trigger: guarded native dispatch, actual permissions/visible recovery,
 edition/route changes or release-candidate review. This does not imply Fedora
 feature parity or close the legacy default-lock reset outcome.
+
+## Retained default-image guest phases, 2026-11-02
+
+Extends `windows.default-lock-screen` with native test preparation. Shared
+behavior remains unchanged (RB-03/04/08/09/10/11). Each explicit phase invokes
+the selected candidate lifecycle with its guards intact. Apply does not grant
+future recovery approval. Preview/completion write nothing; failed runs retain
+private evidence. Structured schema-1 reports separate policy/file lifecycle
+from visible image acceptance, which remains unverified by the runner.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and the existing peer target/candidate/recovery comparison. Read-only access outside the filesystem sandbox
+reverified Fedora revision `3d9406e3888122d1407652336859e6217c09bcaa`
+without requesting Windows UAC or changing files. Compared hashes remain
+`ride.sh`: `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`;
+`lib/v3/common.sh`: `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+No shared schema/verb/version/digest change or automated shared-conformance claim.
+
+Owner: RIDE Windows maintainer. Reason: visual image verification needs a retained
+guest between apply and recovery; the generic reset-per-request worker is not
+that route. Follow-up: [retained guest dispatch and native visual acceptance](image-personalization.md#phased-disposable-guest-acceptance).
+Status: source preparation only. Review trigger: protected host dispatch, native
+directory/file permissions, signed-out image/recovery evidence or release review.

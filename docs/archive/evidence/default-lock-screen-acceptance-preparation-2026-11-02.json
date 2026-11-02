@@ -1,0 +1,100 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T18:00:20.5237686Z",
+  "Status": "PhasedGuestPreparationPassed",
+  "NativeAcceptance": false,
+  "CombinedSourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 44,
+      "Failed": 0,
+      "Total": 44
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 44,
+      "Failed": 0,
+      "Total": 44
+    }
+  ],
+  "LifecycleCases": 27,
+  "GuestSourceDirectoryCases": 17,
+  "RealSourceGate": [
+    {
+      "Status": "SourceGatePassed",
+      "PowerShell": "7.6.5",
+      "FileName": "suit_sharpened_4k.png",
+      "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+      "Bytes": 1333608,
+      "Width": 3840,
+      "Height": 2160,
+      "NativePersonalizationCallsPerformed": false
+    },
+    {
+      "Status": "SourceGatePassed",
+      "PowerShell": "5.1.26100.9818",
+      "FileName": "suit_sharpened_4k.png",
+      "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+      "Bytes": 1333608,
+      "Width": 3840,
+      "Height": 2160,
+      "NativePersonalizationCallsPerformed": false
+    }
+  ],
+  "VersionChecks": {
+    "PowerShell7": "0.1.0",
+    "WindowsPowerShell51": "0.1.0",
+    "OperationalModulesImported": false
+  },
+  "Validation": {
+    "Operations": 475,
+    "Profiles": 5,
+    "Groups": 9,
+    "Status": "Passed",
+    "PowerShellFiles": 366
+  },
+  "Boundary": "Guest target, native snapshots, lifecycle and machine directory providers are mocked. Real temporary private reports use current-user test ACLs; machine scope requests are asserted. Directory ACL descriptors are checked in memory.",
+  "ApplyBoundary": "Three checks: no-change preview, applied policy/image/private records, unchanged repeat. Leaves image active and reports AwaitingVisualVerification with recovery required.",
+  "RestoreBoundary": "Three checks: no-change preview, captured policy/file recovery, repeated restore. Reports LifecyclePassedVisualPending; creates a unique attempt record and retains guest evidence.",
+  "VisualAcceptance": "Always unverified by this runner. Initial/applied/recovered signed-out screenshots and refresh/session evidence must be evaluated separately. Generic reset-per-request dispatch is unsuitable.",
+  "SourceIssueResolved": "Renamed an automatic args variable in the Pester fixture; final suites execute all 44 cases.",
+  "ControllerObservation": {
+    "ObservedAtUtc": "2026-11-02T17:35:08.4648600Z",
+    "AlreadyElevated": false,
+    "Changed": false,
+    "Pending": 0,
+    "Running": 0,
+    "InstalledModuleSha256": "1F0E8325114E3C3402E9B71663AE9148A83858FDB2663DCC41C6A4763E86B8EC",
+    "PortableRuntimeFilterPresent": false
+  },
+  "MachinePolicyChanged": false,
+  "GuestDispatched": false,
+  "CheckpointReset": false,
+  "Remaining": [
+    "Protected runtime refresh without fresh UAC",
+    "Retained-session host dispatch and evidence export",
+    "Actual native directory/file/private-state permissions",
+    "Signed-out image effect and visible recovery",
+    "Remaining wallpaper/user-lock workflows and full BitLocker tests",
+    "Native WLAN/font/Sysmon acceptance"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "tests/integration/RIDE.DefaultLockAcceptance.psm1",
+      "Sha256": "B8B751393BF6CD05F4FF2848C49182505759588BF6017BD58609B79723950B98"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideDefaultLockAcceptance.ps1",
+      "Sha256": "BFC2D96B1635E7BCA526F4CCCCFB25A9256B8E0501B9D4236E4CF6289DF7A457"
+    },
+    {
+      "Path": "tests/DefaultLockAcceptance.Tests.ps1",
+      "Sha256": "7C289EF0E20B583BADD4E2BB77ECFA85F3B56DE11F5452A2BBE24B70EC9A3525"
+    },
+    {
+      "Path": "tests/fixtures/default-lock-screen.acceptance.psd1",
+      "Sha256": "BD4EE9A42D2D53FDE852D4D8F5C86A6325E7D6711DD4DB344446FB6BBA6F017A"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}
