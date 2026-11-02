@@ -62,7 +62,9 @@ Describe 'NTCore Explorer Suite installer candidate' {
     $operation.CandidateTargets | Should -Contain 'Windows 11'
     $operation.PendingAcceptance | Should -BeTrue
     $operation.Rollback | Should -BeExactly 'Compensating'
-    $operation.AcceptanceNotes | Should -Match 'has not been installed'
+    $operation.AcceptanceNotes | Should -Match 'Registered Windows 11 build 26300 request ed4f857b82314e70ad72a807266a5282 passed package install/repeat/remove'
+    $operation.AcceptanceNotes | Should -Match 'Defender active/no-alert evidence was not recorded'
+    $operation.AcceptanceNotes | Should -Match 'keep SupportedTargets empty'
     $operation.AcceptanceNotes | Should -Match 'Do not launch included analysis utilities'
   }
 }

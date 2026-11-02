@@ -1,0 +1,47 @@
+{
+  "title": "NTCore and Phoenix package current-source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:59:49Z",
+  "tests": {
+    "files": [
+      "tests/NtcorePackages.Tests.ps1",
+      "tests/Ntcore4GbPatchLauncher.Tests.ps1",
+      "tests/PhoenixPackage.Tests.ps1",
+      "tests/NtcoreUnpackerDynLogger.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 50,
+    "passed": 43,
+    "failed": 0,
+    "skipped": 7,
+    "skipReasons": [
+      "NTCore ScreenWriter retained MSI fixture not supplied.",
+      "Six NTCore retained archive fixtures were not supplied for exact package/archive checks."
+    ],
+    "duration": "00:02:06.338",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "testCorrection": {
+    "file": "tests/NtcorePackages.Tests.ps1",
+    "change": "Updated stale Explorer Suite acceptance-note assertion to match the registered Windows 11 package lifecycle evidence and continuing Defender active/no-alert gate.",
+    "initialFailureResolved": true
+  },
+  "scope": {
+    "syntheticPackageLifecyclePassed": true,
+    "utilityOrInstallerLaunched": false,
+    "networkUsed": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "licenseDecision": "No license gate added; existing user-approved review decision unchanged."
+  },
+  "blockers": [
+    "Seven optional retained archive checks need explicit fixture inputs.",
+    "Explorer Suite remains pending Defender active/no-alert evidence despite passed package lifecycle; no new VM request can be dispatched with current host access denied.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
