@@ -312,3 +312,38 @@ or automated shared-conformance claim. No shared version/digest changes.
 Owner: RIDE Windows maintainer. Review trigger: importer/recovery integration,
 additional security modes, scope changes or release candidate. Follow-up and
 acceptance: [Wi-Fi generation and synthetic testing](wireless-profile-inventory.md#synthetic-testing).
+
+## Private WLAN lifecycle candidate, 2026-11-02
+
+Difference ID `windows.wlan-private-lifecycle`; compatible Windows-native
+extension, with shared requirements unchanged (RB-02/03/04/08/09/10/11).
+Explicit interface and expected target selection, candidate opt-in on each actual
+apply/remove/restore, mutation-free preview, private prior-state capture and
+conflict refusal are implemented. This isolated module does not change published
+catalog IDs or shared CLI verbs. Run-ID completion reads local filenames only.
+
+The Windows provider supplies no complete per-profile DACL capture. Existing
+all-user replacement preserves permissions; deletion requires a completed RIDE
+creation with a recorded descriptor. Exact XML/order recovery is conditional on
+unchanged observed state and no external DACL drift. Incomplete runs retain a
+private intent and expose a run ID but refuse automatic recovery without a
+verified applied record. These limits remain explicit; native acceptance is
+pending and no target is promoted.
+
+Reviewed contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and the peer's restore conflict, journal, target and candidate paths in `ride.sh`
+and `lib/v3/common.sh`. Their current hashes remain
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266` and
+`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+The last verified Fedora revision was
+`3d9406e3888122d1407652336859e6217c09bcaa`; this run could read and hash those
+sources, but Git revision inspection was denied by the sandbox. No newer HEAD
+or contract adoption is inferred. Fedora has no matching WLAN capability in
+these paths. This is not feature parity or automated shared conformance.
+
+Owner: RIDE Windows maintainer. Follow-up: the
+[candidate native acceptance procedure](wireless-profile-inventory.md#candidate-all-user-profile-lifecycle).
+Review trigger: native import/recovery acceptance, controller integration,
+permission capture or interrupted-run recovery changes, or the release candidate.
+No contract version/digest change is required for this native extension.

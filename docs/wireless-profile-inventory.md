@@ -1,4 +1,4 @@
-# Wireless profile generation and inventory
+# Wireless profile generation, lifecycle and inventory
 
 ## Generate XML from supplied settings
 
@@ -86,7 +86,7 @@ checkpoint cleanup. Do not connect to a real network. No adapter is needed for
 generation tests; no suitable adapter means native import is untested, not passed.
 
 The isolated `RIDE.WirelessNative.psm1` provider now supplies bounded profile
-list/read/set/delete/order calls for the future lifecycle handler. Its fake-API
+list/read/set/delete/order calls for the candidate lifecycle handler. Its fake-API
 tests verify call arguments, error reporting and allocation/handle cleanup in
 both PowerShell editions. Loading it performs no WLAN calls. It does not expose
 an independently recoverable import command or establish native acceptance.
@@ -97,9 +97,93 @@ whereas deletion/recreation needs the original permissions as well as XML and
 order. `WlanGetProfile` returns granted access flags, not the complete per-profile
 security descriptor. Do not label an XML-only delete/recreate round trip exact
 recovery. The synthetic fixture can establish explicit known permissions; native
-lifecycle integration and ownership/conflict checks remain required.
+lifecycle acceptance remains required. Source ownership/conflict checks are
+implemented in the candidate below.
 See Microsoft's [profile set semantics](https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlansetprofile)
 and [profile retrieval semantics](https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlangetprofile).
+
+## Candidate all-user profile lifecycle
+
+`RIDE.WirelessLifecycle.psm1` supplies import, owned removal and saved-run restore
+for Windows 11 x64. Native acceptance is pending. Use an already elevated native
+PowerShell process on the explicitly selected disposable target, an available
+WLAN service/interface, and an existing local state directory. The commands do
+not start a service, elevate, scan or call a connection API. Importing an
+automatic profile can nevertheless cause Windows to connect; it requires the
+separate `-AllowAutoConnect` switch. Synthetic tests use manual mode.
+
+After generating the private synthetic XML above, preview and then apply:
+
+```powershell
+Import-Module .\modules\RIDE.WirelessLifecycle.psm1
+$wireless = @{
+    ProfilePath = 'C:\Private\synthetic-wifi.xml'
+    InterfaceId = '<observed-wlan-interface-guid>'
+    StateDirectory = 'C:\Private\State'
+    ExpectedComputerName = '<disposable-target>'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+}
+Install-RideWirelessProfile @wireless -WhatIf
+$install = Install-RideWirelessProfile @wireless -AllowCandidate -Confirm:$false
+$repeat = Install-RideWirelessProfile @wireless -AllowCandidate -Confirm:$false
+$remove = Remove-RideWirelessProfile -OwnerRunId $install.RunId `
+    -StateDirectory $wireless.StateDirectory -AllowCandidate -Confirm:$false
+Restore-RideWirelessProfileRun -RunId $remove.RunId `
+    -StateDirectory $wireless.StateDirectory -AllowCandidate -Confirm:$false
+Restore-RideWirelessProfileRun -RunId $install.RunId `
+    -StateDirectory $wireless.StateDirectory -AllowCandidate -Confirm:$false
+```
+
+Use a fixture identity absent before the test. A repeated matching import returns
+`AlreadyDesired` without another run or writer. Removing the created profile
+records a new run; restoring that removal recreates the profile, then restoring
+the original import recovers absence. Check results and native readback before
+advancing; do not continue this sequence after a failed command. Run completion
+reads only filenames in an explicitly bound `StateDirectory`; it never decrypts
+records or queries WLAN. Interface selection comes from the read-only inventory.
+
+Import requires XML with the generator's supported fields and private file
+permissions. Existing profiles are preserved unless `-ReplaceExisting` explicitly
+permits a supported all-user replacement. The handler captures prior XML/order
+and uses a null native security descriptor to retain existing permissions.
+Policy, per-user, unknown-flag and unavailable-plaintext profiles refuse.
+
+Before a native writer, the handler creates a private immutable intent record,
+sealed with current-user Windows DPAPI, and rechecks target and observed state.
+After successful readback it creates a separate private applied record. The
+original account and its DPAPI material are required to read either record;
+copying the files alone does not provide portable recovery. Public schema-1
+results contain `Status` and `RunId`, never XML, keys or key digests. Successful
+mutation results additionally identify action/scope and no explicit connection
+attempt. `NativeAcceptancePassed=false` does not change through candidate use.
+
+Recovery refuses target/build/revision/account, profile XML, flags or preference
+order drift. Matching settings tolerate native-added defaults during apply;
+restore compares the captured XML and complete observed order. Removing an
+existing profile is refused because its full original DACL is unavailable.
+Deletion is limited to a completed RIDE creation with the recorded explicit
+security descriptor. Permission preservation depends on no intervening external
+per-profile DACL change: this API does not expose that complete descriptor for
+drift detection. No universal exact-permission recovery is claimed.
+
+Readback comparison treats omitted `autoSwitch` as false on these Windows
+targets, following Microsoft's [profile switching default](https://learn.microsoft.com/en-us/windows/win32/nativewifi/wlan-profileschema-wlanprofile-element#autoswitch).
+Invalid booleans and automatic switching on a manual profile refuse before import.
+
+If a writer or verification fails, the error exposes a run ID and retains its
+private intent. Without a completed applied record, automatic restore refuses;
+inspect the target and retained record under the original account before choosing
+recovery. A partial restore likewise retains both original records and makes no
+exact-recovery claim. A VM checkpoint reset is emergency cleanup, not proof of
+RIDE restore. Do not discard private records before verified recovery.
+
+`tests/WirelessLifecycle.Tests.ps1` mocks every WLAN call and target identity while
+testing real private-file ACLs and DPAPI in TestDrive. Together with generation,
+33/33 tests pass in PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9818. This is
+source evidence only; the native import route, hardware/service prerequisites,
+permission behavior and exact synthetic round trip remain open. See
+[dated evidence](archive/evidence/wireless-lifecycle-source-2026-11-02.json).
 
 ## Read-only wireless profile inventory
 
@@ -193,9 +277,11 @@ disappearance and alternate-user cases. Do not create networks, expose keys or
 enable components just to obtain a green inventory result.
 
 Q12 still owns native profile scope/connection behavior and exact restore before
-an importer or setter. Generated XML now supplies the selected input; the tests
+promotion of the candidate importer. Generated XML supplies the selected input; the tests
 use synthetic settings. Q30 still owns interface selection. Inventory metadata
 alone does not establish recoverable profile content or import acceptance.
-Source rollback removes this isolated tool/module/tests/docs; it needs no network
-recovery. The [migration record](migrations/remaining-migrations-follow-up.md#b02-wireless-profile-identity-inventory-2026-10-17)
+Generation and inventory alone need no network recovery. If the candidate
+lifecycle changed a profile, restore that run before reverting its source;
+retain the matching reader and private state while recovery remains unfinished.
+The [migration record](migrations/remaining-migrations-follow-up.md#b02-wireless-profile-identity-inventory-2026-10-17)
 retains implementation and native-acceptance status.

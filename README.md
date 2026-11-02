@@ -72,7 +72,8 @@ selects all observed capabilities and orders installation, removal and recovery 
 The [adapter inventory](docs/network-adapter-inventory.md) completes saved GUIDs
 without selecting or changing a network device.
 The [Wi-Fi profile generator](docs/wireless-profile-inventory.md#generate-xml-from-supplied-settings)
-creates private XML from supplied settings; synthetic profiles cover generation tests.
+creates private XML from supplied settings. The [all-user lifecycle candidate](docs/wireless-profile-inventory.md#candidate-all-user-profile-lifecycle)
+captures private recovery state; native WLAN acceptance remains pending.
 The [volume inventory](docs/volume-inventory.md) completes saved volume GUID paths
 without using drive letters or labels as selection keys.
 The [user proxy observation](docs/user-proxy-inventory.md) completes its explicit

@@ -1,0 +1,89 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T14:25:27.7320465Z",
+  "Kind": "WirelessLifecycleSourceValidation",
+  "SourceBaseCommit": "be63596",
+  "Status": "SourceValidatedNativeAcceptancePending",
+  "Validation": [
+    {
+      "Version": "7.6.5",
+      "Passed": 33,
+      "Failed": 0,
+      "Total": 33
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 33,
+      "Failed": 0,
+      "Total": 33
+    }
+  ],
+  "SuiteCounts": {
+    "Lifecycle": 18,
+    "Generation": 15
+  },
+  "Coverage": [
+    "Generated private input and shared private file handling",
+    "Synthetic import/repeat/remove/restore and initial preference order",
+    "Native-added readback defaults and significant key whitespace",
+    "Existing XML replacement with unchanged security descriptor",
+    "Policy/per-user/unknown scope refusal",
+    "Candidate, target, elevation, automatic-mode and preview guards",
+    "XML/order/target conflicts",
+    "Real private file ACL and current-user DPAPI records",
+    "Persistence failure before writer and verification failure after writer",
+    "Incomplete intent retention and corrupt-record refusal",
+    "Read-only saved-run completion"
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "ExcludedTags": [
+    "WindowsIntegration"
+  ],
+  "NativeWlanCallsPerformed": false,
+  "VmMutationPerformed": false,
+  "NativeAcceptancePassed": false,
+  "TestFileEffects": "Only private synthetic files and current-user DPAPI in Pester TestDrive; every WLAN call and target context mocked.",
+  "PowerShell51ExecutionPolicy": "Process-only Bypass; no machine/user policy change.",
+  "RepositoryValidation": {
+    "GeneratedDocumentationCurrent": true,
+    "Operations": 475,
+    "Passed": true,
+    "PowerShellFiles": 344,
+    "Groups": 9,
+    "Profiles": 5
+  },
+  "RecoveryLimits": [
+    "Full per-profile DACL capture/drift detection is unavailable. Existing replacement preserves permissions; deletion requires a completed RIDE creation with recorded permissions.",
+    "Recovery is conditional on target, XML, scope and order checks and no external DACL drift.",
+    "Intent without a verified applied record refuses automatic recovery; retain records and inspect native state.",
+    "A checkpoint reset does not prove RIDE exact recovery."
+  ],
+  "Remaining": [
+    "Synthetic native lifecycle route and suitable WLAN target",
+    "Protected controller refresh through an already-elevated permitted setup, without new UAC",
+    "Machine font/image handlers and acceptance",
+    "Three explicit Sysmon configuration apply/restore cases",
+    "Full BitLocker boot/unlock/recovery/decryption batch"
+  ],
+  "LegacyOutcomesClosed": 0,
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.PrivateFiles.psm1",
+      "Sha256": "F129BA0A428A975C71022F6D2561D2D0438E7DF45895D0A3BD066C703D6505E2"
+    },
+    {
+      "Path": "modules/RIDE.WirelessProfile.psm1",
+      "Sha256": "4062F8B811748963F5B48409CFA0D43901E503376D591FB8FF6900C00603F98B"
+    },
+    {
+      "Path": "modules/RIDE.WirelessLifecycle.psm1",
+      "Sha256": "2F5D0ADCB8E7EDC3545B1348ED004EEC2E4697C882152BE5C8ADF13FF5F77FA8"
+    },
+    {
+      "Path": "tests/WirelessLifecycle.Tests.ps1",
+      "Sha256": "DB2FE17271F6D7C7E3C5FC1B006F710627D33A27FF3E156DD26F55B440A57990"
+    }
+  ],
+  "ReadbackDefaultReference": "https://learn.microsoft.com/en-us/windows/win32/nativewifi/wlan-profileschema-wlanprofile-element#autoswitch"
+}

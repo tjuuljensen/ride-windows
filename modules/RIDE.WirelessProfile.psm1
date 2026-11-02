@@ -10,12 +10,14 @@
   Inputs: Explicit settings, SecureString key and a new local XML path.
   Recovery: No WLAN state changes. Remove the generated sensitive file after use.
   Partial files remain private on failure; existing files are never overwritten.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Generate escaped profiles with exact SSID bytes and private output.
+  Version: 0.2.0.
+  Changelog: 0.2.0: Share verified private-file persistence with wireless lifecycle state.
+  0.1.0: Generate escaped profiles with exact SSID bytes and private output.
 .LINK
   ../docs/wireless-profile-inventory.md
 #>
 $ErrorActionPreference='Stop'
+Import-Module (Join-Path $PSScriptRoot 'RIDE.PrivateFiles.psm1') -ErrorAction Stop
 
 function ConvertTo-RideWirelessProfileXml {
   param([string]$ProfileName,[byte[]]$SsidBytes,[string]$Security,
@@ -78,38 +80,9 @@ function ConvertTo-RideWirelessProfileXml {
   }
 }
 
-function New-RideWirelessFileSecurity {
-  $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
-  try { $sid=$identity.User } finally { $identity.Dispose() }
-  $security=[Security.AccessControl.FileSecurity]::new()
-  $security.SetAccessRuleProtection($true,$false);$security.SetOwner($sid)
-  foreach ($principal in @($sid,[Security.Principal.SecurityIdentifier]::new('S-1-5-18'))) {
-    $security.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new($principal,[Security.AccessControl.FileSystemRights]::FullControl,[Security.AccessControl.AccessControlType]::Allow))
-  }
-  $security
-}
-
 function New-RideWirelessPrivateStream {
   param([string]$Path)
-  $security=New-RideWirelessFileSecurity
-  $rights=[Security.AccessControl.FileSystemRights]::Write -bor [Security.AccessControl.FileSystemRights]::ReadPermissions
-  $stream=$null
-  try {
-    if ($PSVersionTable.PSEdition -eq 'Desktop') {
-      $stream=[IO.FileStream]::new($Path,[IO.FileMode]::CreateNew,$rights,[IO.FileShare]::None,4096,[IO.FileOptions]::None,$security)
-      $actual=$stream.GetAccessControl()
-    } else {
-      $stream=[IO.FileSystemAclExtensions]::Create([IO.FileInfo]::new($Path),[IO.FileMode]::CreateNew,$rights,[IO.FileShare]::None,4096,[IO.FileOptions]::None,$security)
-      $actual=[IO.FileSystemAclExtensions]::GetAccessControl($stream)
-    }
-    $expectedRules=@($security.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier]) | ForEach-Object {'{0}|{1}|{2}|{3}' -f $_.IdentityReference.Value,$_.FileSystemRights,$_.AccessControlType,$_.IsInherited} | Sort-Object)
-    $actualRules=@($actual.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier]) | ForEach-Object {'{0}|{1}|{2}|{3}' -f $_.IdentityReference.Value,$_.FileSystemRights,$_.AccessControlType,$_.IsInherited} | Sort-Object)
-    if (-not $actual.AreAccessRulesProtected -or ($expectedRules -join ';') -cne ($actualRules -join ';') -or $actual.GetOwner([Security.Principal.SecurityIdentifier]).Value -cne $security.GetOwner([Security.Principal.SecurityIdentifier]).Value) { throw 'Private WLAN file permissions could not be verified before writing.' }
-    $stream
-  } catch {
-    if ($stream) { $stream.Dispose() }
-    throw
-  }
+  New-RidePrivateFileStream -Path $Path
 }
 
 function New-RideWirelessProfileFile {
