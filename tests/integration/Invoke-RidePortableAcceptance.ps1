@@ -13,6 +13,8 @@
   checks only the four packages' file lifecycle and does not open user stores.
   GUI or product activation is not claimed. Candidate support
   is enabled only in the guarded guest's in-memory test catalog.
+  MiTeC batches also require active Defender and no detection since guest boot,
+  including staging; record sanitized before/after evidence without exclusions.
 .PARAMETER ExpectedComputerName
   Exact guest name supplied by the host runner.
 .PARAMETER EvidencePath
@@ -45,8 +47,9 @@
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
   Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.13.0.
-  Changelog: 0.13.0: Add an exact WinPmem file-staging-only batch.
+  Author: RIDE-Windows maintainers. Version: 0.14.0.
+  Changelog: 0.14.0: Record read-only Defender evidence for MiTeC lifecycle acceptance.
+    0.13.0: Add an exact WinPmem file-staging-only batch.
     0.12.0: Add System Information eXtra and TAPI Monitor lifecycle selection.
     0.11.0: Add the MiTeC EXE Explorer and HexEdit lifecycle batch.
     0.10.0: Run RawCopy only against its generated synthetic NTFS fixture.
@@ -71,7 +74,7 @@
 param([string]$ExpectedComputerName,[string]$EvidencePath,
   [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.13.0';return}
+if($Version){'0.14.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}
@@ -102,6 +105,16 @@ foreach($id in $ids){
 }
 if(-not $PSCmdlet.ShouldProcess($ExpectedComputerName,"Run $Batch portable lifecycle acceptance")){return}
 $null=New-Item -ItemType Directory -Path $evidence -Force
+$defenderRequired=@($ids|Where-Object {$_ -like 'package.mitec-*'}).Count -gt 0
+$defenderSince=$null
+if($defenderRequired){
+  Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force
+  $defenderSince=(Get-CimInstance Win32_OperatingSystem -ErrorAction Stop).LastBootUpTime
+  if(-not $defenderSince){throw 'Guest boot time unavailable for Defender acceptance.'}
+  $defenderBefore=Get-RideDefenderAcceptanceObservation -Since $defenderSince
+  $defenderBefore|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $evidence 'defender-before.json') -Encoding UTF8
+  if(-not $defenderBefore.Passed){throw 'Defender preflight failed; preserve evidence and stop without changing exclusions.'}
+}
 # Enable only the fixed candidates in this process, never in the source catalog.
 foreach($op in $catalog.Operations|Where-Object Id -in $ids){$op.SupportedTargets=@($target);$op.PendingAcceptance=$false}
 & (Get-Module RIDE.Engine) {param($c) $script:RideLibraryContext=@{Catalog=$c}} $catalog
@@ -369,6 +382,14 @@ if($Batch -eq 'RawCopy'){
   elseif($functionalRows.Count -eq 1 -and $functionalRows[0].ToolExecuted){$summary.FunctionalAcceptance='Failed'}
 }
 if($summary.Passed -eq $cases.Count){$summary.Status='Passed'}
+if($defenderRequired){
+  $summary.DefenderAcceptance='Failed'
+  try{
+    $defenderAfter=Get-RideDefenderAcceptanceObservation -Since $defenderSince
+    $defenderAfter|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $evidence 'defender-after.json') -Encoding UTF8
+    if($defenderAfter.Passed){$summary.DefenderAcceptance='Passed'}else{$summary.Status='Failed'}
+  }catch{$summary.Status='Failed';$summary.DefenderError=$_.Exception.Message}
+}
 if($Batch -eq 'PSScriptTools' -and $summary.Status -eq 'Passed' -and $summary.RuntimeAcceptance -ne 'Passed'){
   $summary.Status=if($summary.RuntimeAcceptance -eq 'Partial'){'Partial'}else{'Failed'}
 }

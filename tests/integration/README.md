@@ -284,6 +284,14 @@ Report-field/redaction review and simulated-provider behavior remain separate
 acceptance work. The controller must be refreshed to advertise
 `MiTeCSystemAndTelephonyV1` before submitting this batch.
 
+Portable batches selecting a `package.mitec-*` entry require active Defender
+antivirus and real-time protection. They retain sanitized before/after observations
+covering the interval since guest boot, including source and payload staging.
+An active threat, a detection in that interval or an unavailable provider fails
+acceptance. The runner does not change exclusions, restore quarantine or scan
+payload paths. A failed preflight stops before package installation; retain its
+evidence and identify the detection before retrying.
+
 The worker serializes both requests, runs the protected host child without UAC,
 and retains timeout/process termination and checkpoint recovery. Focused results
 are under `results/<request-id>/focused`; require Passed, evidence collected and
