@@ -165,19 +165,102 @@ apply evidence cannot be used to bypass lifecycle recovery refusal. Saved
 request IDs offer read-only completion for both entry points when `Phase=Restore`
 and `EvidenceRoot` are supplied.
 
-Protected host dispatch that retains the guest between these phases is still
-pending. Its [coordination boundary](#retained-host-coordination) is source-ready.
-The existing generic queue resets the VM after each request and must
-not be used for this phased scenario. Neither guest entry point signs out,
-reboots, resets a checkpoint or performs failure cleanup. Export private evidence
-and verify visible recovery before any separately authorized checkpoint reset.
+The [direct host dispatcher](#retained-host-dispatch) stages and invokes these
+phases in an already elevated registered host session. Native execution remains
+pending. The generic queue resets the VM after each request and must not be used
+for this scenario. Neither guest entry point signs out, reboots or resets a
+checkpoint. Export private evidence and verify visible recovery before explicit
+host cleanup.
+
+### Retained host dispatch
+
+From the registered repository in an already elevated native Windows PowerShell
+5.1 session, import `tests/integration/RIDE.DefaultLockVm.psm1`. The host must
+already satisfy the existing AutomatedLab/controller prerequisites. This route
+uses the existing lab credential through
+[PowerShell Direct](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/powershell-direct); it does not register
+a task, request UAC or expose a credential parameter. Do not submit it through
+the ordinary test queue. Host Hyper-V/dependency calls keep their existing API
+behavior; this direct route does not add the queue's independent host watchdog.
+
+```powershell
+Import-Module ./tests/integration/RIDE.DefaultLockVm.psm1
+$session = @{
+    ConfigurationPath = '<installed-controller-configuration.json>'
+    RunId = [guid]::NewGuid().ToString('N')
+}
+$prepare = @{
+    Phase = 'Prepare'
+    SourcePath = '<local-path-to-suit_sharpened_4k.png>'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+}
+Invoke-RideDefaultLockVmPhase @session @prepare -WhatIf
+$prepared = Invoke-RideDefaultLockVmPhase @session @prepare -Confirm:$false
+# Capture the initial signed-out/default image before Apply.
+$applied = Invoke-RideDefaultLockVmPhase @session -Phase Apply -Confirm:$false
+# Inspect and capture the applied signed-out/default image before Restore.
+$restored = Invoke-RideDefaultLockVmPhase @session -Phase Restore -Confirm:$false
+# Inspect and capture visible recovery before explicit cleanup.
+$collected = Invoke-RideDefaultLockVmPhase @session -Phase Collect -Confirm:$false
+$reset = Invoke-RideDefaultLockVmPhase @session -Phase Reset -Confirm:$false
+```
+
+Review each returned result before advancing; the example comments identify
+independent visual gates, not automated actions. `Prepare` reserves an idle Off
+VM, captures a private session descriptor and stages exactly five source files
+plus the pinned image. It restores the pinned checkpoint, starts the VM and
+verifies guest name, Hyper-V identity, build, edition, architecture and existing
+elevation. Guest files live under
+`C:\ProgramData\RIDE\RetainedAcceptance\<lease-id>`. No legacy/component asset
+tree is traversed. Both ends check staged byte counts and SHA-256 values; later
+apply/restore phases refuse changed source bytes. The prepared guest revision
+must remain unchanged for the candidate lifecycle.
+
+`Apply` and `Restore` run the matching guest scenario and retain the guest.
+`Collect` only exports its current retained directory. Exports are bounded to
+512 entries, 16 MiB per file and 32 MiB total; reparse points, escaping paths,
+duplicate destinations and digest mismatches are refused. Each export has a
+private receipt and independent host file-hash readback. Phase reports,
+snapshots and exports remain in the protected controller's
+`retained.<lease-id>` directory. Failed guest phases attempt partial export;
+failed collection leaves the guest/hold available for inspection and retry.
+Prepare and Apply each start once per reservation; the Apply scenario itself
+checks repeated application. Restore can retry only with a completed guest apply
+record. Failed/incomplete apply still requires inspection, not another blind apply.
+
+`Reset` is explicit destructive test cleanup, not captured setting recovery or
+test acceptance. Use it after visible recovery verification, or to abandon a
+failed test after inspecting its evidence. It exports before restoring the pinned
+checkpoint, verifies Off state, writes a private recovery receipt and releases
+the hold. If interrupted after reset, an Off guest can retry only from a matching
+pre-reset intent whose saved export files still verify. An arbitrary Off guest
+without that evidence is refused. Preparation failures before a session descriptor
+or VM intent is saved retain the block for controller recovery inspection; they
+are not silently cleaned up. Never delete the block to bypass missing evidence.
+
+Remote jobs have a 180-second phase limit and a separate three-minute readiness
+loop. Timeout stops/removes the local job and retains the guest; it does not prove
+that every guest-side activity has stopped. Inspect before recovery after a timeout.
+All phases offer `-WhatIf`; only Prepare accepts source/build/edition inputs.
+Run-ID completion reads the existing private hold for later phases.
+
+Schema-1 reports include `RunId`, `LeaseId`, `Phase`, `Status`, `Stage`,
+`RecoveryRequired`, `GuestResult`, `EvidenceExport`, `Error` and `Store`.
+Statuses are `Preview`, `Prepared`, `AwaitingVisualVerification`,
+`LifecyclePassedVisualPending`, `Collected`, `ResetAndOff` or `Failed`.
+`NativeAcceptancePassed` is always false: visible initial/applied/recovered
+images still require independent evidence. Host `RecoveryRequired` tracks the
+retained VM/hold; the nested guest result separately reports setting recovery.
+Source checks and real input decoding
+are recorded in [host-dispatch evidence](archive/evidence/default-lock-vm-source-2026-11-02.json).
 
 ### Retained host coordination
 
 `tests/integration/RIDE.RetainedGuest.psm1` supplies the internal reservation
-boundary for a future retained host dispatcher. It does not yet supply that
-dispatcher, guest staging, evidence export or checkpoint-recovery receipt writer.
-Do not reserve a real guest until those phases are available and reviewed.
+boundary used by the direct host dispatcher above. Use that dispatcher for
+staging, guest execution, export and checkpoint recovery rather than manually
+assembling phase records or reserving a guest without a dispatch plan.
 
 `New-RideRetainedGuestHold` requires the installed configuration, exact VM and
 checkpoint IDs, registered host account, native Windows PowerShell 5.1, existing
@@ -198,7 +281,7 @@ exceptions. Neither function starts, stops or restores a VM.
 `CheckpointId` and `ConfigurationSha256`, boolean `EvidenceExportVerified=true`
 and `CheckpointResetVerified=true`, and `Status=ResetAndOff`. It rechecks the pinned
 VM is Off under the same lock before deleting only the owned block. An Off VM
-alone cannot prove checkpoint recovery. The future dispatcher must produce the
+alone cannot prove checkpoint recovery. The dispatcher produces the
 receipt after actual export/reset verification; operators must not manufacture a
 receipt to unblock a guest. Ordinary failure blocks and stale receipts are refused.
 
@@ -216,7 +299,7 @@ records mocked host/VM checks and real temporary user-scope file/lock checks.
 | --- | --- |
 | Machine/default wallpaper | Establish supported default-user behavior and an owned asset location; preserve default-profile state and verify a newly created disposable user's visible desktop. A forced wallpaper policy or current-user preference does not establish this outcome. |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
-| Machine default lock-screen image | Source lifecycle and retained two-phase guest scenario are prepared. Protected host dispatch, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
+| Machine default lock-screen image | Lifecycle, guest scenario and direct retained host dispatch/export are source-prepared. Already elevated execution, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
 
 Microsoft's detailed [default lock-screen policy documentation](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen)
 limits that policy to Enterprise, Education and Server editions. A Windows 11 Pro

@@ -1,0 +1,119 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T19:06:29.1931239Z",
+  "Status": "RetainedHostDispatchSourcePassed",
+  "NativeAcceptance": false,
+  "CombinedSourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 41,
+      "Failed": 0,
+      "Total": 41
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 41,
+      "Failed": 0,
+      "Total": 41
+    }
+  ],
+  "NewHostDispatchCases": 25,
+  "RetainedCoordinationCases": 16,
+  "RealSourceGate": [
+    {
+      "Status": "SourceImportGatePassed",
+      "PowerShell": "7.6.5",
+      "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+      "Bytes": 1333608,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false
+    },
+    {
+      "Status": "SourceImportGatePassed",
+      "PowerShell": "5.1.26100.9818",
+      "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+      "Bytes": 1333608,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false
+    }
+  ],
+  "InstalledHostPreview": {
+    "Status": "Preview",
+    "PowerShell": "5.1.26100.9818",
+    "NativeAcceptancePassed": false,
+    "ExistingConfigurationRead": true,
+    "RealPinnedImageRead": true,
+    "HoldPresenceUnchanged": true,
+    "VmQueried": false,
+    "RecordedAtUtc": "2026-11-02T19:03:38.9509594Z"
+  },
+  "Validation": {
+    "PowerShellFiles": 370,
+    "Groups": 9,
+    "Operations": 475,
+    "Profiles": 5,
+    "Status": "Passed"
+  },
+  "Boundary": "Native host identity, Hyper-V, lab credentials and PowerShell Direct are mocked in Pester. TestDrive snapshot/export bytes and private user-scope journal files are real. Source parsing/selected-image decoding and installed-configuration Prepare preview are real and read-only.",
+  "Phases": [
+    "Prepare",
+    "Apply",
+    "Restore",
+    "Collect",
+    "Reset"
+  ],
+  "GuestSources": 5,
+  "Payloads": 1,
+  "NativeTransportMetadata": {
+    "PowerShell": "5.1.26100.9818",
+    "VmConnectionAttempted": false,
+    "AsJobSupported": true,
+    "VMIdParameterSet": true
+  },
+  "ExportBoundary": "Correlated fixed remote collection; 512-entry, 16-MiB per-file and 32-MiB aggregate limits; traversal/duplicate/reparse/digest refusal; independent host digest readback and private receipt.",
+  "ResetBoundary": "Only explicit Reset exports then restores the pinned checkpoint, verifies Off, writes a correlated receipt and releases the hold. Off retry requires a saved pre-reset intent and reverified exported bytes. Native/visual acceptance is never inferred.",
+  "FailureBoundary": "Guest and hold retained; failed guest phases attempt partial export. Early preparation failures without a descriptor or VM intent require controller recovery inspection. Job timeout is not proof every guest activity stopped. Host dependency/Hyper-V calls do not gain an independent watchdog.",
+  "ResolvedSourceIssue": "Imported RIDE.PrivateFiles directly so host helper module lookup does not depend on nested import visibility.",
+  "ResolvedParameterIssue": "Canonical phase/edition values come from their ValidateSet declarations; lowercase request identity is checked before host mutation.",
+  "ResolvedTestIssue": "Used untyped isolated Hyper-V command placeholders so mocked VM/snapshot fixtures do not fail native parameter conversion.",
+  "ControllerObservation": {
+    "ObservedAtUtc": "2026-11-02T18:49:19.4919413Z",
+    "AlreadyElevated": false,
+    "PowerShell": "5.1.26100.9818",
+    "InstalledModuleSha256": "1F0E8325114E3C3402E9B71663AE9148A83858FDB2663DCC41C6A4763E86B8EC",
+    "PortableRuntimeFilterPresent": false,
+    "Pending": 0,
+    "Running": 0,
+    "ExistingBlock": false,
+    "VmQueried": false,
+    "ControllerChanged": false,
+    "UacRequested": false
+  },
+  "NativeExecutionBlocker": "Current Windows PowerShell process is not elevated. Direct dispatch requires existing elevation; the registered protected runtime is unchanged and has no retained dispatch entry. No fresh UAC or bypass was attempted.",
+  "GuestDispatched": false,
+  "ControllerHoldCreated": false,
+  "ControllerRegistrationChanged": false,
+  "CheckpointReset": false,
+  "Remaining": [
+    "Already elevated native execution or reviewed protected dispatch without fresh UAC",
+    "Actual private ACL and source transfer behavior",
+    "Initial/applied/recovered signed-out image evidence",
+    "Native WLAN/fonts/Sysmon acceptance",
+    "Default wallpaper/user-lock implementation and full BitLocker batch"
+  ],
+  "References": [
+    "https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/powershell-direct",
+    "https://learn.microsoft.com/en-gb/powershell/module/microsoft.powershell.core/invoke-command?view=powershell-5.1"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "tests/integration/RIDE.DefaultLockVm.psm1",
+      "Sha256": "A3831E5D4B765415921D7302189B3EBBC8113EE8575878AA8A14E6EE3BE033D5"
+    },
+    {
+      "Path": "tests/DefaultLockVm.Tests.ps1",
+      "Sha256": "CAE934A882AABD5E08DBCD8E2B65C9A6917FB3CAB77EBDA844F26BBDEE5F122B"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}

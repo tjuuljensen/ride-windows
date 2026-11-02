@@ -582,3 +582,30 @@ Status: coordination source only; 16 mocked/file-lock checks pass in each shell.
 Follow-up: [retained host dispatch and export](image-personalization.md#retained-host-coordination).
 Review trigger: wiring actual dispatch/export/receipt generation, protected
 installation, native retained lifecycle or release-candidate review.
+
+## Direct retained default-image host dispatch, 2026-11-02
+
+Extends `windows.default-lock-screen` native test preparation with explicit
+Prepare/Apply/Restore/Collect/Reset host phases. Shared behavior remains unchanged
+(RB-03/04/08/09/10/11). The direct route requires existing host elevation and
+registered identity; no privileged handoff is launched. Read-only preview creates
+no hold, snapshot or VM session. Each candidate guest phase preserves its guards.
+Explicit checkpoint cleanup remains distinct from captured setting restore and
+from independent visual acceptance. Failed phases retain the guest and private
+evidence; a reset retry needs a matching pre-reset intent and verified export.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and the preceding target/candidate/recovery comparison at Fedora revision
+`3d9406e3888122d1407652336859e6217c09bcaa`, with its recorded `ride.sh` and
+`lib/v3/common.sh` hashes. This native test route changes no shared CLI, catalog,
+profile, contract version or digest. No shared-conformance automation is claimed.
+
+Owner: RIDE Windows maintainer. Reason: signed-out image and recovery checks need
+one retained guest, verified export and explicit later cleanup. Status: host
+source preparation passes 25 new cases, or 41 combined with retained coordination,
+in each shell; the real installed Prepare preview passes without elevation or VM
+queries. Native transport and visual acceptance remain unrun. Follow-up:
+[native retained dispatch](image-personalization.md#retained-host-dispatch).
+Review trigger: elevated/protected execution route, native source transfer/ACLs,
+visual evidence, recovery behavior changes or release-candidate review.
