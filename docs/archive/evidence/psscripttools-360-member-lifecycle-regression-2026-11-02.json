@@ -1,0 +1,58 @@
+{
+  "title": "PSScriptTools 360-member portable lifecycle source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T06:37:29Z",
+  "scope": "Complete current-source Pester suite for the pinned PSScriptTools portable package using generated inert archive members.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU access is denied",
+    "publisherFixtureArchiveConfigured": false,
+    "windowsIntegration": "not enabled"
+  },
+  "test": {
+    "file": "tests/PSScriptToolsPackage.Tests.ps1",
+    "testsDiscovered": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:20:25.879",
+    "status": "passed"
+  },
+  "safety": {
+    "archiveMembers": "generated inert text files from the static reviewed inventory",
+    "upstreamCodeImportedOrExecuted": false,
+    "productExecutableLaunched": false,
+    "installerOrNetworkInvoked": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "resolved": [
+    "PSScriptTools package metadata, incomplete-payload refusal, complete 360-member repeat/install/remove/restore, modified-file protection, collision refusal, recovery-byte validation and prior-absence restoration source checks passed."
+  ],
+  "retired": [],
+  "excluded": [
+    "Publisher archive comparison because no explicit retained archive fixture was configured.",
+    "Native package activation and Windows VM acceptance."
+  ],
+  "partial": [
+    "This source regression closes no legacy package outcome; native acceptance and package runtime/dependency behavior remain open."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy product outcome closes; ranges remain unchanged."
+  },
+  "blockers": [
+    "RIDE-Win11-Test acceptance remains blocked by host CIM access.",
+    "The WFN 531-member synthetic lifecycle remains incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
