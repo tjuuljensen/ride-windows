@@ -455,3 +455,29 @@ Owner: RIDE Windows maintainer. Reason: native Sysmon XML lifecycle requires
 Windows service/event evidence. Follow-up: [native configuration acceptance](sysmon-configuration.md#acceptance-still-required).
 Review trigger: known-baseline guest preparation, native apply/restore, new
 consumer/schema versions, recovery behavior changes or release-candidate review.
+
+## Sysmon guarded guest preparation and acceptance, 2026-11-02
+
+Extends `windows.sysmon-configuration` with isolated test routes. Shared behavior
+remains unchanged (RB-02/03/04/05/06/08/09/10/11). Fixture installation is an
+explicit separate mode with disposable guest/target checks, existing elevation,
+verified source, whole-footprint refusal and pre-change evidence. It does not
+change package installation defaults or implicitly apply community XML.
+Preparation never claims acceptance. The configuration mode requires all three
+reviewed sources, private captured recovery, unchanged repeat and verified
+restores; incomplete runs retain evidence without blind cleanup.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and the peer target/candidate/journal/recovery comparison recorded at `e287415`.
+Rechecked unchanged peer hashes: `ride.sh`
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`;
+`lib/v3/common.sh` `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Last verified Fedora revision remains `3d9406e3888122d1407652336859e6217c09bcaa`.
+No shared schema/verb/version/digest change or automated shared-conformance claim
+is made. The native Sysmon test fixture is not a Fedora feature-parity claim.
+
+Owner: RIDE Windows maintainer. Follow-up: [guarded Sysmon native execution](sysmon-configuration.md#disposable-guest-entry-point).
+Review trigger: protected controller dispatch, native fixture/configuration
+results, new Sysmon/source versions or release-candidate review. Native support
+remains gated by actual execution evidence.

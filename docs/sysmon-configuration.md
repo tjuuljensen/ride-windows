@@ -116,6 +116,93 @@ before/after events and private state. Starting from undocumented/default
 configuration is not sufficient for this XML recovery workflow; establish the
 known fixture during separate disposable installation preparation.
 
-The guarded guest scenario and protected controller dispatch remain pending.
+The guarded guest scenario and optional known-baseline fixture preparation are
+source-tested; protected controller dispatch and actual execution remain pending.
 See [dated source evidence](archive/evidence/sysmon-configuration-source-2026-11-02.json)
 and the [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md#required-evidence-by-remaining-family).
+
+## Disposable guest entry point
+
+`tests/integration/Invoke-RideSysmonAcceptance.ps1` offers two completable modes:
+`PrepareFixture` and `Configurations`. Both require an independently identified
+Windows 11 x64 Hyper-V guest, existing elevation for changes and controller-set
+`RIDE_TEST_GUEST=1`, `RIDE_INTEGRATION_VM=1`, and `RIDE_TEST_RUN_ID` markers. The
+request ID must match. The entry point refuses a workstation, target drift or
+reused evidence directory and never prompts for elevation.
+
+Starting in the staged repository's guest PowerShell session, supply the acquired
+Microsoft `Sysmon64.exe` path, reviewed executable digest and actual version,
+plus exact target identity. Retain the upstream executable license and acquisition
+evidence separately. Create separate local evidence roots for preparation and
+configuration acceptance.
+
+```powershell
+$target = @{
+  RunId = '<correlated-request-id>'
+  ExpectedExecutableSha256 = '<reviewed-executable-sha256>'
+  ExpectedSysmonVersion = '<actual-selected-version>'
+  ExpectedComputerName = '<disposable-guest-name>'
+  ExpectedBuild = '26300'
+  ExpectedEditionId = 'EnterpriseEval'
+  DisposableVm = $true
+}
+$fixture = .\tests\integration\Invoke-RideSysmonAcceptance.ps1 @target `
+  -Mode PrepareFixture -ExecutablePath 'C:\Inputs\Sysmon64.exe' `
+  -EvidenceRoot 'C:\RIDE\SysmonFixtures' -WhatIf
+```
+
+For authorized preparation, replace `-WhatIf` with `-Confirm:$false`. Preparation
+refuses existing `Sysmon`/`Sysmon64` services, known Sysmon drivers or destination
+files. It records intent, retains the repository's synthetic schema 4.91 baseline
+privately, rechecks absence and executable identity, then explicitly installs
+with that XML and accepts the Sysmon EULA. Executable and XML handles deny
+write/delete replacement during the installer call. Successful preparation needs
+the pinned running service, a matching new configuration event and no new Sysmon
+error event. Its result is `Prepared`, with `NativeAcceptancePassed=false`.
+
+Preparation leaves the fixture installed. It is disposable setup, not package
+installation acceptance or a captured restore of an existing installation. It
+does not overwrite an existing configuration to manufacture a baseline. Existing
+installations can use `Configurations` directly only when their original XML is
+available and matches the current event hash.
+
+After successful preparation, use its returned paths and digest:
+
+```powershell
+if ($fixture.Status -ne 'Prepared') { throw 'Known Sysmon fixture is not ready.' }
+.\tests\integration\Invoke-RideSysmonAcceptance.ps1 @target `
+  -Mode Configurations -ExecutablePath $fixture.InstalledExecutablePath `
+  -BaselineConfigurationPath $fixture.BaselineConfigurationPath `
+  -BaselineConfigurationSha256 $fixture.BaselineConfigurationSha256 `
+  -InputDirectory 'C:\Inputs\sysmon-configs' `
+  -EvidenceRoot 'C:\RIDE\SysmonAcceptance' -WhatIf
+```
+
+Use `-Confirm:$false` instead of `-WhatIf` for the authorized acceptance run. The
+input directory must contain `license.md` and the retained acquisition layout
+`<artifact-id>/a45dedb13a43/<asset-name>`. The versioned acceptance fixture lists
+all three exact selected artifact IDs, file digests and the license digest. The
+runner checks them against the catalog using its data-only reader before any
+mutation. It does not download missing files or silently test a subset.
+
+For each profile, five checks verify preview, apply, unchanged repeat, baseline
+restore and unchanged repeated restore. Apply/restore require newer events with
+the expected source hash/path and unchanged executable/service identity, with no
+new event 255 errors. Actual machine-private records and captured XML hashes must
+also validate. All fifteen checks must pass before the report can say `Passed`.
+This does not claim exhaustive detection-rule coverage or cleanup of event logs
+and FileDelete archives.
+
+Private preparation intent, baseline XML and results remain in its request
+directory. Configuration acceptance retains its initial observation, per-profile
+before/applied/restored event identities, lifecycle run IDs and private state.
+On failure it stops before later profiles and leaves evidence for inspection;
+it never blindly restores or uninstalls. Fixture or partial-run cleanup uses the
+separately controlled disposable checkpoint path and is not counted as a passing
+configuration restore. Command and output waits are bounded, but a timed-out
+installer can already have changed the guest and must be inspected.
+
+The combined source suite passes 31/31 in both shells: 14 lifecycle cases and
+17 orchestration/fixture/source-gate cases, with native providers mocked. The
+real three-source/license gate also passes in each shell without Sysmon execution.
+See [guest preparation evidence](archive/evidence/sysmon-acceptance-preparation-2026-11-02.json).

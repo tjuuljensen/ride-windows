@@ -1,0 +1,132 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-11-02",
+  "SourceBaseCommit": "1c0b067",
+  "Status": "SourceValidatedNativePending",
+  "NativeAcceptancePassed": false,
+  "SysmonProcessInvoked": false,
+  "FixtureInstalled": false,
+  "SystemMutationPerformed": false,
+  "Tests": [
+    {
+      "Version": "7.6.5",
+      "Passed": 31,
+      "Failed": 0,
+      "Total": 31
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 31,
+      "Failed": 0,
+      "Total": 31
+    }
+  ],
+  "TestComposition": {
+    "ExistingLifecycle": 14,
+    "GuestFixtureAndSourceGate": 17
+  },
+  "SelectedInputGate": [
+    {
+      "Status": "SourceGatePassed",
+      "PowerShell": "7.6.5",
+      "Count": 3,
+      "ReleaseTag": "configs-a45dedb13a43",
+      "LicenseSha256": "FD80A26FBB3F644AF1FA994134446702932968519797227E07A1368DEA80F0BC",
+      "Configurations": [
+        {
+          "ArtifactId": "sysmon-modular-balanced-15-21",
+          "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+          "Bytes": 360048
+        },
+        {
+          "ArtifactId": "sysmon-modular-balanced-filedelete-15-21",
+          "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+          "Bytes": 381927
+        },
+        {
+          "ArtifactId": "sysmon-modular-excludes-only-15-21",
+          "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+          "Bytes": 103858
+        }
+      ],
+      "NativeCallsPerformed": false
+    },
+    {
+      "Status": "SourceGatePassed",
+      "PowerShell": "5.1.26100.9818",
+      "Count": 3,
+      "ReleaseTag": "configs-a45dedb13a43",
+      "LicenseSha256": "FD80A26FBB3F644AF1FA994134446702932968519797227E07A1368DEA80F0BC",
+      "Configurations": [
+        {
+          "ArtifactId": "sysmon-modular-balanced-15-21",
+          "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+          "Bytes": 360048
+        },
+        {
+          "ArtifactId": "sysmon-modular-balanced-filedelete-15-21",
+          "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+          "Bytes": 381927
+        },
+        {
+          "ArtifactId": "sysmon-modular-excludes-only-15-21",
+          "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+          "Bytes": 103858
+        }
+      ],
+      "NativeCallsPerformed": false
+    }
+  ],
+  "VersionChecks": {
+    "PowerShell7": "0.1.0",
+    "WindowsPowerShell51": "0.1.0"
+  },
+  "RepositoryValidation": {
+    "Profiles": 5,
+    "Passed": true,
+    "Groups": 9,
+    "PowerShellFiles": 359,
+    "Operations": 475
+  },
+  "TestBoundary": "Native Sysmon installer/configuration processes, service, events, signature/target and machine persistence are mocked. Real TestDrive files use user-private ACLs; actual machine scope requests are asserted. Real catalog/three-profile/license preflight is read-only.",
+  "FixtureBoundary": "Explicit separate setup refuses existing Sysmon footprint, retains intent and synthetic XML, pins Microsoft executable and holds source handles. Prepared is never a native acceptance pass. Fixture remains installed for configuration tests; cleanup is separate.",
+  "AcceptanceBoundary": "Requires all three selected profiles, five checks per profile, matching newer source events, unchanged service identity, no new Sysmon error events, private state validation and both repeat no-ops. Stops before later profiles after failure.",
+  "ResolvedSourceIssue": "Initial real-input preflight hit the whole-catalog Import-PowerShellDataFile complexity limit. Switched to the existing bounded Import-RideCatalogData reader and added a real-catalog source-gate regression.",
+  "RecoveryLimits": [
+    "No automatic cleanup for incomplete runs.",
+    "Configuration content recovery does not clear event logs or FileDelete archives.",
+    "No exhaustive detection-rule or package-installation acceptance claim."
+  ],
+  "Remaining": [
+    "Protected controller dispatch and refresh without a fresh UAC prompt",
+    "Native fixture preparation and all fifteen profile checks",
+    "Font/WLAN native acceptance, image workflows and full BitLocker scenario"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.SysmonConfiguration.psm1",
+      "Sha256": "E559091FA575D02EAC37A4C915AB6C6FB651539DA4ACA7E3B844E6F2023BC1CE"
+    },
+    {
+      "Path": "tests/integration/RIDE.SysmonAcceptance.psm1",
+      "Sha256": "047E074EA5C71DA0F24E8A78B5AC33CF230913D17AE58DCBB71264F053DE2225"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideSysmonAcceptance.ps1",
+      "Sha256": "36F1B8129E407E6BF39FC839BDB6F272F3C7C4A72D7D32A609F1556F6D4035FF"
+    },
+    {
+      "Path": "tests/SysmonAcceptance.Tests.ps1",
+      "Sha256": "B60DD3FAF9BA67158E45382E6DE7869D3D66585A8AAE69B6B23828C761DDDA3B"
+    },
+    {
+      "Path": "tests/fixtures/sysmon-configurations.acceptance.psd1",
+      "Sha256": "DA9ED40186EF3B6D4ABE1DA434B93328C6AC54F0A9B0F5AE818C0D407A6E55FD"
+    },
+    {
+      "Path": "tests/fixtures/sysmon-baseline.synthetic.xml",
+      "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}

@@ -10,7 +10,8 @@
   Compatibility: Candidate native Windows 11 x64; PowerShell 5.1 and 7.
   Prerequisites: Existing elevation, local inputs and private machine state.
   Recovery: Completed runs only; restores XML rules, not emitted events or archives.
-  Version: 0.1.0. Changelog: Add source-bound configuration apply and recovery.
+  Version: 0.1.1. Changelog: Share executable identity validation with guarded fixture setup.
+  0.1.0: Add source-bound configuration apply and recovery.
 .LINK
   ../docs/sysmon-configuration.md
 #>
@@ -64,7 +65,7 @@ function Get-RideSysmonConfigurationEvent {
   ConvertFrom-RideSysmonConfigurationEvent $event.ToXml()
 }
 
-function Get-RideSysmonConfigurationContext {
+function Get-RideSysmonExecutableIdentity {
   param([string]$ExecutablePath,[string]$ExpectedExecutableSha256,[string]$ExpectedSysmonVersion)
   $path=& (Get-Module RIDE.PrivateFiles) {param($path) Resolve-RidePrivateFilePath $path} $ExecutablePath
   if($ExpectedExecutableSha256 -notmatch '^[a-fA-F0-9]{64}$' -or (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -ine $ExpectedExecutableSha256){throw 'Selected Sysmon executable hash differs.'}
@@ -73,6 +74,13 @@ function Get-RideSysmonConfigurationContext {
   if(('{0}.{1}' -f $version.FileMajorPart,$version.FileMinorPart) -cne $ExpectedSysmonVersion){throw 'Sysmon executable version differs.'}
   $signature=Get-AuthenticodeSignature -LiteralPath $path
   if($signature.Status -ne 'Valid' -or $null -eq $signature.SignerCertificate -or $signature.SignerCertificate.Subject -notmatch '(?:^|,\s*)O=Microsoft Corporation(?:,|$)'){throw 'A valid Microsoft Authenticode signature is required.'}
+  [pscustomobject]@{Path=$path;Sha256=$ExpectedExecutableSha256.ToUpperInvariant();Version=$ExpectedSysmonVersion}
+}
+
+function Get-RideSysmonConfigurationContext {
+  param([string]$ExecutablePath,[string]$ExpectedExecutableSha256,[string]$ExpectedSysmonVersion)
+  $executable=Get-RideSysmonExecutableIdentity $ExecutablePath $ExpectedExecutableSha256 $ExpectedSysmonVersion
+  $path=$executable.Path
   $service=Get-CimInstance Win32_Service -Filter "Name='Sysmon64'" -ErrorAction Stop
   if($null -eq $service -or $service.State -cne 'Running'){throw 'An existing running standalone Sysmon64 service is required.'}
   $match=[regex]::Match([string]$service.PathName,'^\s*(?:"(?<quoted>[^"]+)"|(?<plain>\S+\.exe))(?:\s|$)','IgnoreCase')

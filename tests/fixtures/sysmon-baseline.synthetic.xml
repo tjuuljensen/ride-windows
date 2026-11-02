@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RIDE disposable installation fixture, not a production monitoring policy. -->
+<Sysmon schemaversion="4.91">
+  <HashAlgorithms>SHA256</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="RIDE synthetic baseline" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Image condition="is">C:\RIDE\SyntheticNeverExecuted.exe</Image>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
