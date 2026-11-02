@@ -1,0 +1,58 @@
+{
+  "title": "WFN 531-member lifecycle install-phase diagnostic",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T02:07:35Z",
+  "scope": "Instrumented direct replay of the synthetic 531-member WFN package lifecycle to locate the previously observed Pester stall.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "packageModule": "modules/RIDE-PortablePackages.psm1",
+    "fixture": "Generated synthetic ZIP with 531 inert one-byte entries in a unique temporary directory"
+  },
+  "phases": [
+    { "phase": "Archive creation", "duration": "under 1 second", "result": "completed" },
+    { "phase": "Archive SHA-256", "duration": "under 1 second", "result": "completed" },
+    { "phase": "Prior-absence snapshot", "duration": "about 0.2 seconds", "result": "completed" },
+    { "phase": "First portable install", "durationBeforeInterruption": "about 3 minutes", "result": "No completion marker; interrupted", "subphase": "Exact staging, per-file hash validation, journaling or copy; not further isolated" }
+  ],
+  "result": "Diagnostic interrupted without completing first install; no lifecycle pass/failure inferred.",
+  "safety": {
+    "packageExecutableLaunched": false,
+    "installerOrNetworkInvoked": false,
+    "vmQueriedOrChanged": false,
+    "windowsConfigurationChanged": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false,
+    "archiveWasSyntheticAndInert": true
+  },
+  "migration": {
+    "resolved": [
+      "Diagnostic localizes the repeated WFN stall to the first portable install phase rather than fixture archive creation, archive hashing or the prior-absence snapshot."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "The WFN 531-member install/repeat/remove/restore Pester lifecycle remains incomplete; it exceeded 20 minutes in the prior test attempt and the direct first-install diagnostic showed no completion within about three minutes.",
+      "The precise slow operation inside the portable install phase remains unidentified.",
+      "Native WFN acceptance remains blocked at host CIM access."
+    ],
+    "partial": [
+      "No WFN package migration outcome closes and no pass is inferred from this diagnostic."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "The diagnostic improved blocker localization but closed no legacy feature/product outcome; estimates remain unchanged."
+    },
+    "blockers": [
+      "WFN synthetic 531-member first install stalls in the portable install path.",
+      "PSScriptTools 360-member lifecycle remains incomplete after repeated stalls.",
+      "Repository-wide Pester aggregate remains incomplete.",
+      "RIDE-Win11-Test acceptance remains blocked at host CIM.",
+      "Defender-blocked utilities remain excluded."
+    ]
+  }
+}
