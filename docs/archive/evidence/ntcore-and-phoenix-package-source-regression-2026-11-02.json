@@ -1,0 +1,54 @@
+{
+  "title": "NTCore and Phoenix package source regression",
+  "date": "2026-11-02",
+  "scope": "NTCore package, unpacker/DynLogger, guarded 4GB launcher and Phoenix package Pester suites.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "result": {
+    "files": 4,
+    "testsDiscovered": 50,
+    "passed": 43,
+    "failed": 0,
+    "skipped": 7,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:02:11.320",
+    "status": "passed"
+  },
+  "skipReason": "Seven retained publisher archive or MSI digest checks require RIDE_NTCORE_FIXTURE_DIRECTORY, which was not supplied.",
+  "safety": {
+    "packageUtilitiesLaunched": false,
+    "ntcorePatcherLaunched": false,
+    "msiexecInvoked": false,
+    "driverLoaded": false,
+    "networkUsed": false,
+    "vmQueriedOrChanged": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "NTCore package metadata and inert selected-member staging/recovery checks, 4GB launcher validation and WhatIf, and Phoenix MSI argument/prerequisite source checks passed 43/43 runnable cases."
+  ],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "Seven optional retained archive/MSI digest checks were skipped. No migration outcome closes; native package acceptance remains separate."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Native Windows VM acceptance remains blocked by host CIM access.",
+    "Optional retained publisher fixtures were not configured.",
+    "Defender-blocked utilities remain excluded from runtime execution."
+  ]
+}
