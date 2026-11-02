@@ -1,0 +1,125 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T10:51:56.1189002Z",
+  "SourceRepository": "custom-ride",
+  "Status": "ExactInputsPrepared",
+  "FontFamily": "Open Sauce Sans",
+  "Fonts": [
+    {
+      "FileName": "OpenSauceSans-Black.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-Black.ttf",
+      "Bytes": 67168,
+      "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-BlackItalic.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-BlackItalic.ttf",
+      "Bytes": 71096,
+      "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-Bold.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-Bold.ttf",
+      "Bytes": 59772,
+      "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-BoldItalic.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-BoldItalic.ttf",
+      "Bytes": 65344,
+      "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-ExtraBold.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-ExtraBold.ttf",
+      "Bytes": 64032,
+      "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-ExtraBoldItalic.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-ExtraBoldItalic.ttf",
+      "Bytes": 70300,
+      "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-Italic.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-Italic.ttf",
+      "Bytes": 65124,
+      "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-Light.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-Light.ttf",
+      "Bytes": 60540,
+      "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-LightItalic.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-LightItalic.ttf",
+      "Bytes": 65456,
+      "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-Medium.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-Medium.ttf",
+      "Bytes": 60232,
+      "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-MediumItalic.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-MediumItalic.ttf",
+      "Bytes": 65728,
+      "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-Regular.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-Regular.ttf",
+      "Bytes": 59592,
+      "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-SemiBold.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-SemiBold.ttf",
+      "Bytes": 59900,
+      "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757",
+      "SfntSignature": "00010000"
+    },
+    {
+      "FileName": "OpenSauceSans-SemiBoldItalic.ttf",
+      "Source": "components/fonts/Open-Sauce-Sans/TTF/OpenSauceSans-SemiBoldItalic.ttf",
+      "Bytes": 65800,
+      "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7",
+      "SfntSignature": "00010000"
+    }
+  ],
+  "License": {
+    "Source": "components/fonts/Open-Sauce-Sans/License/OFL.txt",
+    "Name": "SIL Open Font License 1.1",
+    "NoticeRetained": true,
+    "Sha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7"
+  },
+  "LocalInputDirectory": ".local/fast-track-20261102/assets/open-sauce-sans",
+  "WallpaperFiles": 0,
+  "PictureFiles": 0,
+  "WifiProfileXmlFiles": 0,
+  "WifiHelperPresent": true,
+  "Installed": false,
+  "MachineStateChanged": false,
+  "Remaining": [
+    "Machine-scope font install/repeat/remove and exact file/registry/ACL recovery implementation and VM acceptance",
+    "Wallpaper and lock-screen image inputs",
+    "Wi-Fi profile XML input and credential-safe recovery; do not record secrets"
+  ]
+}
