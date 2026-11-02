@@ -1,0 +1,39 @@
+{
+  "title": "Application package planning and synthetic lifecycle source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:30:16Z",
+  "tests": {
+    "file": "tests/ApplicationPackages.Tests.ps1",
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 139,
+    "passed": 136,
+    "failed": 0,
+    "skipped": 3,
+    "skipReasons": [
+      "RawCopy retained archive fixture not supplied.",
+      "ETL2PCAPNG retained executable fixture not supplied.",
+      "JoeWare AdMod retained archive fixture not supplied."
+    ],
+    "duration": "00:01:33.936",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "syntheticLifecycleAndPublisherResolutionChecksPassed": true,
+    "networkUsed": false,
+    "productInstallerOrUtilityExecuted": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "nativeAcceptance": "Pending"
+  },
+  "blockers": [
+    "Three optional retained publisher fixtures were not supplied.",
+    "Windows acceptance remains pending for candidates lacking target evidence; Defender active/no-alert proof is still absent for Explorer Suite.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
