@@ -1,0 +1,39 @@
+{
+  "title": "Artcraft, Cookie Cruncher and Rufus package source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:19:35Z",
+  "tests": {
+    "files": [
+      "tests/ArtcraftPackages.Tests.ps1",
+      "tests/CookieCruncherPackage.Tests.ps1",
+      "tests/RufusPackage.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 14,
+    "passed": 13,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Cookie Cruncher retained archive comparison skipped because no explicit fixture was supplied.",
+    "duration": "00:00:28.900",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "syntheticLifecycleAndSourceChecksPassed": true,
+    "installerOrProductExecuted": false,
+    "networkUsed": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "nativeAcceptance": "Pending"
+  },
+  "blockers": [
+    "Cookie Cruncher retained archive comparison needs an explicit fixture.",
+    "Rufus product/Windows acceptance remains pending.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
