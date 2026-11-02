@@ -887,3 +887,30 @@ evidence through the approved unattended route. Follow-up:
 [overnight evidence](archive/evidence/overnight-unattended-execution-proof-2026-11-02.json)
 and the [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md#overnight-execution-resumed-2026-11-02).
 Review trigger: changed source/artifact/target, catalog promotion or release review.
+
+## Retained VM dispatch recovery and Fedora verb review, 2026-11-02
+
+Windows test infrastructure now binds the exact imported automation module,
+avoiding ambiguity when the installed controller and checkout module coexist.
+Font Prepare can resume its own unstarted preparation only with the matching
+private hold/session, unchanged target and font selection, valid cached bytes,
+an Off guest and no checkpoint intent. It preserves the original snapshot and
+failed-phase record. RB-09 recovery and RB-08 identity boundaries were reviewed
+against contract 1.1.0 and the peer hashes recorded above. This changes disposable
+test orchestration only; public CLI, catalog and production recovery are unchanged.
+The 41 focused source cases pass in both native PowerShell editions; native
+retry and lifecycle acceptance remain separate. Owner: Windows maintainer;
+follow-up: [font dispatch procedure](machine-fonts.md). Recheck after a change
+to hold ownership, retry eligibility, snapshot identity or checkpoint cleanup.
+
+The user also identified Fedora's additional public `deploy` and `update` verbs.
+Current `ride.sh` restricts deploy to Docker Engine and update to the whole-system
+DNF5 operation. These are production operations, not test states. RB-01 permits
+additional native capabilities, so their presence alone is not a contract breach.
+However, Fedora's alignment discussion does not explain the choice of separate
+verbs or their shared-interface implications. Joint maintainers should review
+whether these remain deliberate native extensions or belong under shared verbs,
+including compatibility for existing callers. Follow-up: the Fedora
+[system/security decision record](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/migrations/system-security-core.md)
+and its alignment entry need an explicit disposition before affected CLI promotion
+or final release review. No Fedora command is removed by this Windows test run.

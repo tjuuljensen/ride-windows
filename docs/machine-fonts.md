@@ -266,8 +266,12 @@ Reset is explicit checkpoint cleanup, including deliberate abandonment after
 failure inspection. It requires a verified export, restores the pinned checkpoint,
 verifies Off and then releases the matching hold. It is not a RIDE recovery pass.
 Retrying Reset from Off requires a saved reset intent and unchanged verified
-export. Early preparation failures without a usable descriptor/intent require
-controller inspection. Remote calls time out after 180 seconds; readiness has
+export. Prepare may be retried with the same run ID only while the reserved VM
+is Off and no checkpoint intent exists. The saved session must match the hold,
+target and selected fonts; its original cached files must still pass their hashes.
+Retry does not replace the snapshot or discard the failed phase record. Early
+failures without a usable descriptor require controller inspection. Remote calls
+time out after 180 seconds; readiness has
 a separate three-minute limit. A local timeout does not establish that remote
 work has stopped. Existing host Hyper-V/dependency calls have no added watchdog.
 

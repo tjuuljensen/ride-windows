@@ -6,14 +6,14 @@
   required source/data files with public synthetic settings. A durable
   controller hold survives every phase and failure. Reset requires verified export.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.0.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.1.
   No UAC, task registration, WLAN service start or connection. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
   ../../docs/wireless-profile-inventory.md
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+$script:AutomationModule=Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -PassThru -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.RetainedGuest.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.WirelessAcceptance.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
@@ -49,7 +49,7 @@ function Get-RideWirelessVmContext {
 }
 function Get-RideWirelessVmCredential {
   param($Configuration)
-  & (Get-Module RIDE.TestAutomation) {
+  & $script:AutomationModule {
     param($config)
     $machine=Get-LabVM -ComputerName $config.VMName
     if(-not $machine.PSObject.Methods['GetCredential']){throw 'Existing lab credential accessor unavailable.'}

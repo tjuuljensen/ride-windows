@@ -6,14 +6,14 @@
   required source files and the pinned PNG. A durable controller hold survives
   every phase and failure. Reset is explicit and requires a verified export.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.0.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.1.
   No UAC, task registration, sign-out or visual acceptance inference. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
   ../../docs/image-personalization.md
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+$script:AutomationModule=Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -PassThru -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.RetainedGuest.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultLockAcceptance.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
@@ -46,7 +46,7 @@ function Get-RideDefaultLockVmSource {
 }
 function Get-RideDefaultLockVmCredential {
   param($Configuration)
-  & (Get-Module RIDE.TestAutomation) {
+  & $script:AutomationModule {
     param($config)
     $machine=Get-LabVM -ComputerName $config.VMName
     if(-not $machine.PSObject.Methods['GetCredential']){throw 'Existing lab credential accessor unavailable.'}

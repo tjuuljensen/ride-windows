@@ -6,14 +6,14 @@
   required source files and seven pinned input files. A durable controller hold survives
   every phase and failure. Reset is explicit and requires a verified export.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.0.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.1.
   No UAC or task registration. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
   ../../docs/sysmon-configuration.md
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+$script:AutomationModule=Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -PassThru -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.RetainedGuest.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.SysmonAcceptance.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.SysmonConfiguration.psm1') -ErrorAction Stop
@@ -74,7 +74,7 @@ function Get-RideSysmonVmExpectedPaths {
 }
 function Get-RideSysmonVmCredential {
   param($Configuration)
-  & (Get-Module RIDE.TestAutomation) {
+  & $script:AutomationModule {
     param($config)
     $machine=Get-LabVM -ComputerName $config.VMName
     if(-not $machine.PSObject.Methods['GetCredential']){throw 'Existing lab credential accessor unavailable.'}
