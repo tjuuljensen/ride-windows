@@ -1,0 +1,67 @@
+{
+  "title": "Caffeine, release discovery, search and fixture source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:21:19Z",
+  "scope": "Caffeine Light mocked input and wait behavior, mocked GitHub release discovery, read-only catalog search, settings fixture request binding and isolated Store Solitaire fixture generation.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/CaffeineLight.Tests.ps1",
+    "tests/GitHubReleaseDiscovery.Tests.ps1",
+    "tests/Search.Tests.ps1",
+    "tests/SettingsFixtureData.Tests.ps1",
+    "tests/StoreSolitaireFixtureData.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 5,
+    "testsDiscovered": 103,
+    "passed": 103,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:31.880",
+    "status": "passed"
+  },
+  "safety": {
+    "publisherRequests": "mocked; none sent",
+    "desktopInputAndWaits": "mocked",
+    "temporaryData": "Pester TestDrive",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "installerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Caffeine, release discovery, search and fixture source regression passed 103/103 across five suites."
+  ],
+  "retired": [],
+  "excluded": [
+    "Publisher network traffic and package installers.",
+    "Native Windows integration and VM acceptance."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "WFN full synthetic lifecycle repeat remains incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
