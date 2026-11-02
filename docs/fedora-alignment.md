@@ -865,3 +865,25 @@ Review trigger: either client's selection/output/error semantics change, paired
 fixtures are added, or final v3 release review. Keep the affected capability's
 promotion gated on documented disposition of those gaps. This is CLI contract
 work, not a legacy migration run; no legacy outcome or estimate changes.
+
+## Overnight native package evidence, 2026-11-02
+
+Windows-only execution/evidence update; shared behavior unchanged. Reviewed the
+currently adopted contract 1.1.0, SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`, and peer
+privilege, target and candidate gates. Fedora `ride.sh` remains
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266` and
+`lib/v3/common.sh` remains
+`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Previously compared revision is `3d9406e3888122d1407652336859e6217c09bcaa`;
+no fresh peer HEAD or automated conformance claim is made.
+
+System Information eXtra, TAPI Monitor, EXE Explorer and HexEdit passed native
+Windows 11 build 26300 lifecycle and exact owned-file recovery with active/no-alert
+Defender evidence. Explicit candidate execution remains separate from published
+support. Checkpoint cleanup follows RIDE recovery rather than replacing it.
+Owner: RIDE Windows maintainer. Reason: close missing current native/Defender
+evidence through the approved unattended route. Follow-up:
+[overnight evidence](archive/evidence/overnight-unattended-execution-proof-2026-11-02.json)
+and the [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md#overnight-execution-resumed-2026-11-02).
+Review trigger: changed source/artifact/target, catalog promotion or release review.

@@ -110,7 +110,7 @@ native runner is unavailable.
 | Family | Minimum v3 acceptance | Reuse or omit | Current next action |
 | --- | --- | --- | --- |
 | ETL2PCAPNG | Exact official pinned artifact, digest and retained notices; acquisition only. | The 2026-11-02 download evidence already meets the selected boundary. No launch or installation test. | Reuse the completed acquisition evidence. |
-| MiTeC portable packages | For each selected package: exact source/version, install, repeat/no-op, remove, exact owned-file recovery and preserved unrelated files. Capture active Defender protection and no relevant new detection. | Test shared extraction, path validation and collision/failure handling once per changed handler using inert fixtures; do not rerun every feature of every utility. MiTeC feature testing belongs to 3.1. | Activate the prepared portable-only controller staging filter at the next permitted elevated setup, then run focused package lifecycles. No alerted NirSoft/PasswordScan payload is part of staging or testing. |
+| MiTeC portable packages | For each selected package: exact source/version, install, repeat/no-op, remove, exact owned-file recovery and preserved unrelated files. Capture active Defender protection and no relevant new detection. | Test shared extraction, path validation and collision/failure handling once per changed handler using inert fixtures; do not rerun every feature of every utility. MiTeC feature testing belongs to 3.1. | The corrected controller is installed and unattended execution is proven. System Information eXtra, TAPI Monitor, EXE Explorer and HexEdit have current native lifecycle plus active/no-alert Defender evidence. Continue the remaining prepared batches. No alerted NirSoft/PasswordScan payload is part of staging or testing. |
 | Gpg4win, RegRipper, Rufus, TMOG | Exact package and install/repeat/remove/recovery. Gpg4win must preserve synthetic pre-existing GnuPG user data; retain relevant product-specific data/ownership fixtures. | No encryption workflow, data collection, USB/media writes or paid activation. Reuse unchanged handler checks. | Prepare narrowly selected package batches; avoid bringing unrelated batch members into a run. |
 | NTCore Explorer Suite and other accepted package lifecycles | Fill the specifically missing evidence, including Defender evidence where absent. | Reuse retained accepted lifecycle evidence when operation, handler, artifact and target remain applicable. Do not repeat a full lifecycle solely to obtain another source-test count. | Establish what the retained run actually records. Fresh Defender observations cannot retrospectively certify a past run; if evidence cannot be recovered, repeat only the bounded affected native scenario. |
 | Ordinary registry/service/power settings | Apply, repeat, live state readback and exact prior-state restoration; preserve unrelated state. Add one effect-specific observation where registry/service state alone cannot prove the user-facing claim. | Reuse the accepted T480 F1 and Win11/Server 2025 PowerShell appearance evidence within their recorded scope. Run negative/error cases against changed handlers, not a full fresh matrix for every value. | Complete the already-authorized five desktop icons/ClassicStartMenu visual check with exact recovery. Keep unmapped and high-impact settings deferred. |
@@ -157,13 +157,16 @@ native runner is unavailable.
    their existing separate gates; they are not automatically required for this
    internal checkpoint.
 
-The current critical path for the approved remaining test goal is existing
-elevated execution of the retained Sysmon, font, wallpaper, default-lock and WLAN
-routes. Their source preparation does not establish native acceptance. The latest
-host observation is non-elevated; the installed generic controller is unchanged
-and is not the retained acceptance route. No new UAC prompt is authorized.
-Image/font inputs and synthetic Wi-Fi settings are ready. Guest WLAN availability,
-native image effects, font visibility and Sysmon compatibility remain unobserved.
+The overnight authorization supersedes the earlier no-new-UAC setup constraint.
+The package controller was refreshed once, and two native batches proved ordinary
+account submission, elevated execution, evidence export and checkpoint recovery
+without per-run prompts. A separate temporary fixed-phase task covers the five
+prepared retained Sysmon, font, wallpaper, default-lock and WLAN routes; all five
+scheduled Prepare previews pass. Its mutation phases remain unaccepted until
+executed. The tasks serialize access to the same pinned VM; retained holds block
+generic package resets. Image/font inputs and synthetic Wi-Fi settings are ready.
+Guest WLAN availability, image effects, font visibility and Sysmon compatibility
+remain unobserved.
 
 BitLocker additionally needs the [recovery-first sequence](../bitlocker-recovery.md#disposable-acceptance-sequence):
 effective startup-policy implementation, a candidate execution boundary, an
@@ -650,6 +653,8 @@ leave unfinished acceptance explicit at the internal checkpoint.
 
 ### Remaining-test goal handoff, 2026-11-02
 
+This earlier blocked handoff is superseded by the overnight execution below.
+
 The retained wallpaper, font and WLAN dispatch batches are committed as
 `432e1d0`, `3814acc` and `2fdff08`; their focused checks and installed previews
 passed within the source-only boundaries recorded above. The repeated absence
@@ -666,3 +671,22 @@ Continue user-lock and BitLocker implementation against the observed native
 state, retaining their unresolved modes and policy/boot requirements. No further
 source-only result closes these outcomes. The assessment and procedure add no
 native pass, supported target, legacy closure or estimate reduction.
+
+### Overnight execution resumed, 2026-11-02
+
+The user authorized unattended work through the remaining morning list until
+06:30 Copenhagen on November 3 or 10% account allowance remains. The prepared
+queue being exhausted does not end the work. Live account usage is readable and
+is checked throughout; no reset or purchased credit is authorized. Requests have
+bounded timeouts and require fresh usage observations. Recovery uncertainty
+blocks further VM mutation while evidence is retained.
+
+The first four packages passed 14 native lifecycle/preservation checks each, with
+active Defender and no detections or exclusion changes before/after. RIDE exact
+owned-file recovery preceded verified ResetAndOff cleanup. See
+[system/telephony](../archive/evidence/mitec-system-telephony-night-native-2026-11-02.json),
+[analysis tools](../archive/evidence/mitec-analysis-night-native-2026-11-02.json)
+and the [unattended route proof](../archive/evidence/overnight-unattended-execution-proof-2026-11-02.json).
+Feature tests remain deferred. Native asset phases and missing component
+implementation follow the package queue; interactive visual and BitLocker boot
+claims still require their actual evidence.
