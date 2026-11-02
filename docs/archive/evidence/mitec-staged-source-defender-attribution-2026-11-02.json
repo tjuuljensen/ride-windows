@@ -1,0 +1,85 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T11:08:12.2708051Z",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "a8e4f3b237e847afa2575752aeca0dd5",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCSystemAndTelephony",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-02T10:54:24.3185449Z",
+    "FinishedAtUtc": "2026-11-02T11:01:12.3655464Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "FocusedResult": {
+    "RunId": "a8e4f3b237e847afa2575752aeca0dd5",
+    "Batch": "MiTeCSystemAndTelephony",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 2,
+    "Status": "Failed",
+    "Error": "Guest portable checks failed; inspect acceptance.log and scenarios.json.",
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending"
+  },
+  "SourceContext": {
+    "SourceCommit": "d9f90eb8ab70f3fec41a2286b1da902150e60c1d",
+    "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes"
+  },
+  "SourceManifestSha256": "FD99D74236CA9AB9329C8F79FA2CDE4E965C6F4113030F237CD6C28A787DE68A",
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-02T11:01:04.4508467Z",
+    "SinceUtc": "2026-11-02T10:57:06.158488Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [
+      "14994"
+    ],
+    "ActiveThreats": [
+      {
+        "ThreatId": "14994",
+        "ThreatName": "SettingsModifier:Win32/PossibleHostsFileHijack",
+        "IsActive": true
+      }
+    ],
+    "Detections": [
+      {
+        "DetectionId": "{264647D8-E385-4655-8036-C48AE3629B7B}",
+        "ThreatId": "14994",
+        "InitialDetectionTime": "2026-11-02T10:57:51.312Z",
+        "LastThreatStatusChangeTime": "2026-11-02T10:57:51.312Z",
+        "ResourceCategories": [
+          "StagedSource"
+        ]
+      }
+    ],
+    "Passed": false,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "Hypothesis": "components/files/hosts is in staged source; exact affected relative file not retained",
+  "LifecycleCasesExecuted": 0,
+  "ToolExecuted": false,
+  "ExclusionsChanged": false,
+  "RecoveryRechecked": "Off; no blocked marker",
+  "SourceTests": {
+    "NativeProviders": "Mocked",
+    "SnapshotInputs": "Inert",
+    "DefenderPassed": 5,
+    "SnapshotPassed": 2
+  },
+  "ProtectedControllerRefreshed": false,
+  "NativeAcceptance": "Pending after normal elevated controller refresh",
+  "Remaining": "Activate prepared portable snapshot filtering, verify protected versions and source manifest, then retry System/TAPI."
+}

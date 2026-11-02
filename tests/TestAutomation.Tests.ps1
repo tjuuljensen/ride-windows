@@ -278,6 +278,21 @@ Describe 'Task configuration and read-only watch selection' {
     $manifest.Path | Should -Contain 'new.ps1'
     (Get-Content (Join-Path $TestDrive 'staged/new.ps1')) | Should -Be 'uncommitted'
   }
+  It 'snapshots only portable runtime roots without reading unrelated assets' {
+    $source = Join-Path $TestDrive 'portable-checkout'
+    foreach($root in @('tools','modules','catalog','docs','components/files','legacy/v2')) {
+      $null=New-Item -ItemType Directory -Path (Join-Path $source $root) -Force
+    }
+    foreach($path in @('tools/validate.ps1','modules/fixture.psm1','catalog/fixture.psd1','docs/fixture.json','ride.ps1','components/files/inert-fixture.txt','legacy/v2/inert-fixture.txt')) {
+      'Inert snapshot fixture' | Set-Content -LiteralPath (Join-Path $source $path)
+    }
+    Mock Get-FileHash -ModuleName RIDE.TestAutomation {throw 'Excluded content must not be read.'} -ParameterFilter {$LiteralPath -match '[\\/](components|legacy)[\\/]'}
+    $manifest=@(Copy-RideAutomationSnapshot -Source $source -Destination (Join-Path $TestDrive 'portable-staged') -PortableRuntime)
+    $manifest.Count | Should -Be 5
+    @($manifest | Where-Object Path -Match '^(components|legacy)[\\/]').Count | Should -Be 0
+    Test-Path -LiteralPath (Join-Path $TestDrive 'portable-staged/components') | Should -BeFalse
+    Should -Invoke Get-FileHash -ModuleName RIDE.TestAutomation -Times 0 -Exactly -ParameterFilter {$LiteralPath -match '[\\/](components|legacy)[\\/]'}
+  }
 
   It 'reports the guest entry point version before checking the VM marker' {
     & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Match '^\d+\.\d+\.\d+$'

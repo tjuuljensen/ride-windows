@@ -292,6 +292,13 @@ acceptance. The runner does not change exclusions, restore quarantine or scan
 payload paths. A failed preflight stops before package installation; retain its
 evidence and identify the detection before retrying.
 
+The focused portable controller now stages runtime/test roots only (launcher,
+modules, catalog, profiles, tools, tests and documentation). It does not traverse
+`components` or `legacy`; selected package archives are staged separately.
+Existing registered controllers need their normal elevated refresh to activate
+this source change. A source-only test does not certify the protected installed
+copy or establish clean guest Defender evidence.
+
 The worker serializes both requests, runs the protected host child without UAC,
 and retains timeout/process termination and checkpoint recovery. Focused results
 are under `results/<request-id>/focused`; require Passed, evidence collected and

@@ -25,8 +25,9 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.17.1
+  Version: 1.18.0
   Changelog:
+    1.18.0: Restrict focused portable snapshots to runtime/test roots before hashing or copying.
     1.17.1: Serialize host progress reads/writes with bounded file-lock contention.
     1.17.0: Supervise host preparation, execution and recovery with durable stage records.
     1.16.0: Require ApplicationsBatch11InteractiveV1 for the signed-in HashCheck guest route.
@@ -694,6 +695,11 @@ function Copy-RideAutomationSnapshot {
   .PARAMETER Destination
     Controller-owned snapshot directory for the correlated request.
 
+  .PARAMETER PortableRuntime
+    Stage only launcher, modules, catalog, profiles, tools, tests and documentation.
+    Other roots, including legacy and components, are not traversed or hashed.
+    Reviewed package archives are staged independently by the portable controller.
+
   .EXAMPLE
     Get-Help Copy-RideAutomationSnapshot -Full
     Inspect this command's contract without invoking its implementation.
@@ -709,7 +715,7 @@ function Copy-RideAutomationSnapshot {
 
   #>
 
-  param([string] $Source, [string] $Destination)
+  param([string] $Source, [string] $Destination, [switch] $PortableRuntime)
   $sourcePath = (Resolve-Path -LiteralPath $Source -ErrorAction Stop).Path.TrimEnd('\')
   if (-not (Test-Path -LiteralPath (Join-Path $sourcePath 'tools\validate.ps1'))) { throw 'Approved source is not a RIDE checkout.' }
   # Reject links before copying so a checkout cannot redirect elevated I/O outside itself.
@@ -725,8 +731,9 @@ function Copy-RideAutomationSnapshot {
   while ($directories.Count) {
     foreach ($item in Get-ChildItem -LiteralPath $directories.Dequeue() -Force) {
       if ($item.Name -in @('.git', '.vs', '.local', '.codex', '.agents', '.aws', 'testResults.xml', 'TestResults', 'results', 'node_modules', 'config.ini', 'serials.ini', 'private.preset') -or $item.Name -like '*.private.preset') { continue }
-      if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Checkout contains a reparse point: $($item.FullName)" }
       $relative = $item.FullName.Substring($sourcePath.Length + 1)
+      if ($PortableRuntime -and ($relative -split '[\\/]')[0] -notin @('ride.ps1','default.cmd','.gitattributes','modules','catalog','profiles','tools','tests','docs')) { continue }
+      if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Checkout contains a reparse point: $($item.FullName)" }
       $target = Join-Path $Destination $relative
       if ($item.PSIsContainer) {
         New-Item -ItemType Directory -Path $target -Force | Out-Null
@@ -1234,7 +1241,7 @@ function Invoke-RideAutomationRequest {
     $source = if ($Request.Source -eq 'CI') { $Configuration.CIRepositoryPath } else { $Configuration.LocalRepositoryPath }
     $snapshotPath = Join-Path $runDirectory 'snapshot\ride-windows'
     Set-HostStage Preparation 'Copy approved checkout snapshot'
-    $manifest = @(Copy-RideAutomationSnapshot -Source $source -Destination $snapshotPath)
+    $manifest = @(Copy-RideAutomationSnapshot -Source $source -Destination $snapshotPath -PortableRuntime:$focusedPortable)
     Write-RideAutomationJson -Path (Join-Path $runDirectory 'source-files.json') -Value $manifest
     if ($selectedSuite -eq 'GitHubAuthentication' -and (Test-Path -LiteralPath (Join-Path $snapshotPath 'tests\integration\settings-validation.fixture.psd1'))) { throw 'Use an isolated reviewed authentication source without the active settings fixture.' }
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while staging the checkout.' }

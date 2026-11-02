@@ -6,6 +6,8 @@
   hash-checked checkout and only the selected reviewed archives, and collects evidence
   before restoring the same checkpoint. No utility is launched or approved for
   distribution. Does not change controller registration or Defender settings.
+  Stages only runtime/test source roots, excluding legacy and component file assets
+  before traversal. Package archives remain an independent exact selection.
 .PARAMETER ConfigurationPath
   Existing installed disposable controller configuration.json.
 .PARAMETER ArtifactManifestPath
@@ -45,8 +47,9 @@
   Prerequisites: Idle disposable controller and its existing guest credential.
   Effects: Only the pinned VM is reset, started, tested and reset to Off again.
   Recovery: Finally restores the pinned checkpoint even after guest failure.
-  Author: RIDE-Windows maintainers. Version: 0.11.0.
-  Changelog: 0.11.0: Add an exact WinPmem file-staging-only batch.
+  Author: RIDE-Windows maintainers. Version: 0.12.0.
+  Changelog: 0.12.0: Exclude unrelated component/legacy assets from portable snapshots.
+    0.11.0: Add an exact WinPmem file-staging-only batch.
     0.10.0: Add the pinned System Information eXtra and TAPI Monitor batch.
     0.9.0: Add the pinned MiTeC EXE Explorer and HexEdit lifecycle batch.
     0.8.0: Add the pinned RawCopy synthetic-only acceptance batch.
@@ -66,7 +69,7 @@
 param([string]$ConfigurationPath,[string]$ArtifactManifestPath,[string]$OutputDirectory,
   [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')][string]$Batch='AllReviewed',
   [ValidateRange(1,60)][int]$TimeoutMinutes=20,[string]$ControllerRunId,[switch]$Version)
-if($Version){'0.11.0';return}
+if($Version){'0.12.0';return}
 $ErrorActionPreference='Stop'
 if(-not $ConfigurationPath -or (-not $ControllerRunId -and (-not $ArtifactManifestPath -or -not $OutputDirectory))){throw 'ConfigurationPath, ArtifactManifestPath and OutputDirectory are required for standalone execution.'}
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -120,7 +123,7 @@ try{
   if(-not $machine.PSObject.Methods['GetCredential']){throw 'Existing lab guest credential accessor is unavailable.'}
   $credential=$machine.GetCredential((Get-Lab))
   if($credential -isnot [pscredential]){throw 'Existing lab did not provide a guest credential.'}
-  $sourceManifest=@(Copy-RideAutomationSnapshot -Source $repo -Destination (Join-Path $output 'source'))
+  $sourceManifest=@(Copy-RideAutomationSnapshot -Source $repo -Destination (Join-Path $output 'source') -PortableRuntime)
   ConvertTo-Json -InputObject $sourceManifest -Depth 4|Set-Content -LiteralPath (Join-Path $output 'source-manifest.json') -Encoding UTF8
   $revisionRoot=if($ControllerRunId){$config.LocalRepositoryPath}else{$repo}
   $revision=& git -C $revisionRoot rev-parse HEAD
