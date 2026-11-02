@@ -1,0 +1,120 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T19:38:00.6007372Z",
+  "Status": "RetainedSysmonDispatchSourcePassed",
+  "NativeAcceptance": false,
+  "SourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 78,
+      "Failed": 0,
+      "Total": 78
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 78,
+      "Failed": 0,
+      "Total": 78
+    }
+  ],
+  "NewHostDispatchCases": 31,
+  "RetainedCoordinationCases": 16,
+  "SysmonGuestCases": 17,
+  "SysmonLifecycleCases": 14,
+  "RealInputChecks": [
+    {
+      "Status": "RealInputImportGatePassed",
+      "InputFiles": 7,
+      "StagedPaths": 15,
+      "ExecutableSha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352",
+      "SysmonVersion": "15.22",
+      "RecordedAtUtc": "2026-11-02T19:33:17.7931612Z",
+      "PowerShell": "7.6.5",
+      "VmQueried": false,
+      "NativeAcceptance": false
+    },
+    {
+      "Status": "RealInputImportGatePassed",
+      "InputFiles": 7,
+      "StagedPaths": 15,
+      "ExecutableSha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352",
+      "SysmonVersion": "15.22",
+      "PowerShell": "5.1.26100.9818",
+      "NativeAcceptance": false,
+      "RecordedAtUtc": "2026-11-02T19:33:20.6855446Z",
+      "VmQueried": false
+    }
+  ],
+  "InstalledControllerPreview": {
+    "Status": "Preview",
+    "PowerShell": "5.1.26100.9818",
+    "NativeAcceptancePassed": false,
+    "ExistingConfigurationRead": true,
+    "RealPinnedInputsRead": true,
+    "HoldPresenceUnchanged": true,
+    "VmQueried": false,
+    "RecordedAtUtc": "2026-11-02T19:30:51.3840258Z"
+  },
+  "Validation": {
+    "Operations": 475,
+    "Groups": 9,
+    "Status": "Passed",
+    "PowerShellFiles": 372,
+    "Profiles": 5
+  },
+  "Boundary": "Host identity, Hyper-V, credentials and PowerShell Direct are mocked in source tests. TestDrive snapshots, exported bytes and user-private journals are real. Actual selected executable/notices/XML/license checks and installed controller preview are read-only. Guest scriptblock, machine ACL creation, installation, events and archive transport have not run natively.",
+  "Phases": [
+    "Prepare",
+    "Configurations",
+    "Collect",
+    "Reset"
+  ],
+  "SourceFiles": 8,
+  "InputFiles": 7,
+  "NativeAcceptanceMeaning": "Only three configuration lifecycles, each with preview/apply/repeat/baseline restore/repeated restore, after exact target/executable checks and verified host export. Preparation and checkpoint reset never imply acceptance. No catalog promotion or package lifecycle pass.",
+  "ExportBoundary": "512 entries, 16 MiB per file, 32 MiB aggregate; source/private records, full Operational EVTX snapshot and readable C:\\Sysmon archive bytes. Fixed-volume preflight permits only C:. Archives and earlier EVTX snapshots count towards limits; no ACL alteration or SYSTEM helper. Inaccessible or oversized evidence retains the guest. Collection is point-in-time, not an atomic full-activity snapshot.",
+  "RecoveryBoundary": "Explicit Reset requires verified export, loaded synthetic baseline and complete archive coverage; checkpoint recovery must verify Off before matching hold release. Off retry requires prior reset intent and unchanged exports. Failed fixture/configuration or early preparation may require manual native/controller inspection; no blind reset.",
+  "WaitBoundary": "Readiness three minutes, Configurations remote job ten minutes, other remote jobs three minutes. Timeout stops/removes the local job but does not prove all guest activity stopped. Existing host API calls have no independent watchdog.",
+  "ResolvedSourceIssue": "Real installed preview found nested SysmonConfiguration module lookup was unavailable; explicit direct import fixed it. Preview and both real input gates then passed.",
+  "ControllerObservation": {
+    "ObservedAtUtc": "2026-11-02T19:36:03.1767735Z",
+    "AlreadyElevated": false,
+    "PowerShell": "5.1.26100.9818",
+    "InstalledModuleSha256": "1F0E8325114E3C3402E9B71663AE9148A83858FDB2663DCC41C6A4763E86B8EC",
+    "PortableRuntimeFilterPresent": false,
+    "Pending": 0,
+    "Running": 0,
+    "ExistingBlock": false,
+    "VmQueried": false,
+    "ControllerChanged": false,
+    "UacRequested": false
+  },
+  "NativeExecutionBlocker": "Current Windows PowerShell process is not elevated. The installed protected runtime is unchanged and has no retained Sysmon entry. No fresh UAC, protected task change or bypass was attempted.",
+  "GuestDispatched": false,
+  "ControllerHoldCreated": false,
+  "SysmonExecuted": false,
+  "ControllerRegistrationChanged": false,
+  "CheckpointReset": false,
+  "Remaining": [
+    "Already elevated authorized native dispatch without fresh UAC",
+    "Actual fixture/configuration acceptance with Sysmon 15.22 and XML targeting 15.21",
+    "Native source transfer/private ACL/EVTX/archive access and explicit recovery",
+    "Remaining image/WLAN/font native acceptance and full BitLocker batch"
+  ],
+  "References": [
+    "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+    "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.eventing.reader.eventlogsession.exportlog",
+    "https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/powershell-direct"
+  ],
+  "SourceHashes": [
+    {
+      "Sha256": "81F5D4E2426ED4BBF62B6379023C479818DE38E4EA3CA87795650AA57E94A343",
+      "Path": "tests/integration/RIDE.SysmonVm.psm1"
+    },
+    {
+      "Sha256": "89238FF337D265D07E235F3E67F64C34B1E05F7A8F75889D91B8C4842CB5130C",
+      "Path": "tests/SysmonVm.Tests.ps1"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}

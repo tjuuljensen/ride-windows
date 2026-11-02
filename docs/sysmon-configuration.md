@@ -231,3 +231,95 @@ The combined source suite passes 31/31 in both shells: 14 lifecycle cases and
 17 orchestration/fixture/source-gate cases, with native providers mocked. The
 real three-source/license gate also passes in each shell without Sysmon execution.
 See [guest preparation evidence](archive/evidence/sysmon-acceptance-preparation-2026-11-02.json).
+
+## Retained host dispatch
+
+`Invoke-RideSysmonVmPhase` in `tests/integration/RIDE.SysmonVm.psm1` connects the
+guest scenarios to the registered disposable lab. Run it directly from the
+registered checkout in an **already elevated Windows PowerShell 5.1 x64** host
+session, as the account that owns the installed controller. It reuses the lab's
+guest credential without printing or saving it. No UAC, task registration or
+generic queue request is launched. The installed controller does not currently
+expose this route; a successful non-elevated preview does not grant execution.
+
+Prepare requires the exact existing VM/checkpoint, an idle controller and an Off
+guest. It reserves a durable controller hold, snapshots eight source/data files
+and seven pinned inputs, then restores the clean checkpoint, starts the VM and
+installs the known-baseline fixture. No legacy or component directory is staged.
+The guest must match the selected Windows 11 build, edition, name and x64 Hyper-V
+identity and have only `C:` as a fixed volume. The retained session also checks
+the build revision before configuration acceptance.
+
+Start in the repository root with the installed configuration path and local
+inputs prepared as described above:
+
+```powershell
+Import-Module .\tests\integration\RIDE.SysmonVm.psm1
+$session = @{
+    ConfigurationPath = '<installed-controller-configuration.json>'
+    RunId = [guid]::NewGuid().ToString('N')
+}
+$inputs = @{
+    ExecutableDirectory = 'C:\Inputs\sysmon-executable-15.22'
+    InputDirectory = 'C:\Inputs\sysmon-configs'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+}
+Invoke-RideSysmonVmPhase @session @inputs -Phase Prepare -WhatIf
+$prepared = Invoke-RideSysmonVmPhase @session @inputs -Phase Prepare -Confirm:$false
+if ($prepared.Status -ne 'Prepared') { throw 'Retain the VM and inspect preparation evidence.' }
+$tested = Invoke-RideSysmonVmPhase @session -Phase Configurations -Confirm:$false
+if (-not $tested.NativeAcceptancePassed) { throw 'Retain the VM and inspect test/export evidence.' }
+```
+
+Prepare returns `Prepared`, never a native acceptance pass. Configurations must
+return all five checks for each distinct pinned XML, exact executable/target
+identity and captured baseline recovery. The host verifies and exports evidence
+before setting its own `NativeAcceptancePassed` to true. This claims only the
+three configuration lifecycles on the selected target and executable. It does
+not promote a catalog operation or establish package-install/uninstall support.
+Each retained run permits one Configurations attempt; existing evidence refuses
+replacement. A failed attempt needs inspection and appropriate captured-state
+recovery before cleanup or a new clean run.
+
+`Collect` independently exports retained source, private state, a fresh complete
+Sysmon Operational EVTX snapshot and readable `C:\Sysmon` archive files. Guest
+paths are fixed; the host checks correlation, safe unique paths, sizes and
+SHA-256 hashes and independently hashes each written file. Exports are private
+to Administrators/SYSTEM. Limits are 512 entries, 16 MiB per file and 32 MiB per
+collection. Prior EVTX snapshots remain retained and count towards these limits.
+The collection is a point-in-time export, not an atomic snapshot of all activity.
+
+Sysmon's [archive directory is protected by a SYSTEM ACL](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon).
+The route does not change that ACL or start a SYSTEM helper. If the existing
+guest account cannot read an archive, or evidence exceeds the limits, collection
+fails and the VM/hold remain for a separately reviewed export. The native archive
+permission and transport behavior still need verification. Event log export uses
+the [Windows EventLogSession API](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.eventing.reader.eventlogsession.exportlog),
+without clearing the channel.
+
+After successful tests and review of exported evidence, explicit cleanup is:
+
+```powershell
+$recovered = Invoke-RideSysmonVmPhase @session -Phase Reset -Confirm:$false
+if ($recovered.Status -ne 'ResetAndOff') { throw 'Keep the retained hold and inspect recovery evidence.' }
+```
+
+Reset requires another verified export, complete archive coverage and the loaded
+synthetic baseline. It then restores the pinned checkpoint, verifies Off, writes
+a private recovery receipt and releases only the matching hold. A retry from Off
+requires a saved pre-reset intent and unchanged exported bytes. Reset is lab
+cleanup, not evidence that captured configuration recovery passed. No automatic
+reset runs after a failure. Early preparation failures before a session descriptor
+or VM intent need controller recovery inspection.
+
+Phase and edition values offer completion from their declared sets; later RunId
+completion reads the private hold. Preview validates local inputs/configuration
+but creates no hold, snapshot or VM session. Remote readiness is bounded to three
+minutes; configuration execution to ten minutes; other remote jobs to three
+minutes. Job timeout is not proof that every guest activity stopped. Existing
+host dependency/Hyper-V calls have no additional watchdog.
+
+The [host source evidence](archive/evidence/sysmon-vm-source-2026-11-02.json)
+separates mocked dispatch checks, real local input checks and installed-controller
+preview from unrun native installation, transport, archive export and recovery.

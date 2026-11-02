@@ -635,3 +635,32 @@ Status: complete input checks pass in both shells; native tests remain open.
 Follow-up: [fixture installation and three-profile acceptance](sysmon-configuration.md#disposable-guest-entry-point).
 Review trigger: different executable/source, native version compatibility,
 protected dispatch or release-candidate review.
+
+## Retained Sysmon host dispatch, 2026-11-02
+
+Extends `windows.sysmon-configuration` with fixed Prepare, Configurations,
+Collect and Reset test phases. Shared behavior is unchanged (RB-03/04/08/09/10/11).
+Existing elevated identity and pinned VM/checkpoint guards apply; no UAC or
+protected task mutation is introduced. Preview reads inputs/configuration only.
+Preparation, native configuration acceptance and checkpoint cleanup stay distinct.
+Captured XML recovery is still required; inaccessible archives prevent reset.
+
+Reviewed contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and Fedora revision `3d9406e3888122d1407652336859e6217c09bcaa`.
+Rechecked `ride.sh` SHA-256
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`
+and `lib/v3/common.sh` SHA-256
+`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`;
+the peer's target/candidate gate remains consistent with this native test-only
+route. No shared CLI, catalog/profile schema, contract version or reference changes.
+Automated shared conformance and native Windows acceptance remain unclaimed.
+
+Owner: RIDE Windows maintainer. Reason: connect the pinned fixture and three XML
+lifecycles to explicit retained execution and evidence-first checkpoint recovery.
+Status: 31 new host cases, 78 combined source cases per shell, real input gates
+and installed preview pass. Native transport, archive access and installation
+remain unrun; existing host elevation is unavailable.
+Follow-up: [native retained Sysmon acceptance](sysmon-configuration.md#retained-host-dispatch).
+Review trigger: elevated/protected execution route, native archive permissions,
+source/executable changes, recovery changes or release-candidate review.
