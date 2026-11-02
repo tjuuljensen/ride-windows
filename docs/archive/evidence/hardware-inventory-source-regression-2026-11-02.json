@@ -1,0 +1,37 @@
+{
+  "title": "Adapter, audio, volume, wireless and visual inventory source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:10:40Z",
+  "tests": {
+    "files": [
+      "tests/AdapterInventory.Tests.ps1",
+      "tests/AudioEndpointInventory.Tests.ps1",
+      "tests/VolumeInventory.Tests.ps1",
+      "tests/WirelessInventory.Tests.ps1",
+      "tests/VisualEffectsInventory.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 144,
+    "passed": 144,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:14.703",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "nativeProvidersMockedOrReadOnlyInteropCompiled": true,
+    "hostOrVmStateChanged": false,
+    "networkUsed": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155."
+  },
+  "blockers": [
+    "These inventory components remain source-tested; native target acceptance remains pending where declared.",
+    "Host Hyper-V and Task Scheduler access remains denied for VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
