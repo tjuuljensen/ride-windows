@@ -1,0 +1,37 @@
+{
+  "title": "Profile settings, desired configuration and observation import regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:15:26Z",
+  "tests": {
+    "files": [
+      "tests/ProfileSettings.Tests.ps1",
+      "tests/DesiredConfiguration.Tests.ps1",
+      "tests/LegacyDeploymentMapping.Tests.ps1",
+      "tests/ObservationImport.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 98,
+    "passed": 98,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:42.175",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "profileFilesAndObservationStoresSynthetic": true,
+    "hostSettingsChanged": false,
+    "vmAccessInvoked": false,
+    "networkUsed": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155."
+  },
+  "blockers": [
+    "Native profile setting acceptance remains pending where declared.",
+    "No VM request could be dispatched because host Hyper-V and Task Scheduler access remains denied.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
