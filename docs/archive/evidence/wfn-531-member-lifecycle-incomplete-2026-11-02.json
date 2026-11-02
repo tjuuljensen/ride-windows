@@ -1,0 +1,58 @@
+{
+  "title": "WFN 531-member synthetic lifecycle attempt",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T01:15:11Z",
+  "scope": "Isolated execution of the complete 531-member synthetic lifecycle case in tests/WfnPackage.Tests.ps1.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "run": {
+    "filter": "*repeats the complete 531-member snapshot*",
+    "testsDiscoveredInContainer": 4,
+    "selectedTests": 1,
+    "durationBeforeInterruption": "00:20:00",
+    "result": "interrupted without Pester summary; no pass or failure inferred"
+  },
+  "fixture": {
+    "archive": "synthetic ZIP with inert one-byte entries and publisher-reviewed member names",
+    "plannedLifecycle": "prior absence snapshot, install, state/hash verification, preserve operator data, repeat install, snapshot installed files, remove, restore, verify, remove and restore prior absence",
+    "toolExecution": false
+  },
+  "safety": {
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "publisherArchiveAccessed": false,
+    "networkInvoked": false,
+    "wfnExecutableLaunched": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [],
+  "retired": [],
+  "excluded": [
+    "This synthetic case produced no Pester result within 20 minutes and remains incomplete.",
+    "Native package acceptance and WindowsIntegration were not run."
+  ],
+  "partial": [
+    "A separate filtered run passed WFN static package metadata and the small required-file synthetic lifecycle (2/2); that result is recorded in wfn-package-small-source-regression-2026-11-02.json.",
+    "No package migration outcome closes."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "The 531-member synthetic lifecycle test exceeds a 20-minute run in this sandbox.",
+    "The 3698-test repository sweep has no aggregate result.",
+    "PSScriptTools 360-member lifecycle remains incomplete after repeated 15-minute attempts.",
+    "Host CIM access blocks RIDE-Win11-Test acceptance."
+  ]
+}
