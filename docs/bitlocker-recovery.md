@@ -191,3 +191,48 @@ target/lab-account acceptance. Server and backend-specific GUI/permission eviden
 remain separate. No keys or accounts were accessed while implementing this guide.
 VM execution retains the Github cache verification/resource-backoff gate; packages
 remain paused and no anonymous GitHub quota is used.
+
+## Disposable acceptance sequence
+
+This sequence is a maintainer test procedure, not an executable enrollment recipe.
+Start from the repository root on the disposable Windows target, using an already
+elevated session and a retained VM/checkpoint lease. Do not run it on the developer
+workstation. Bind evidence to the source revision, VM ID, checkpoint ID, Windows
+edition/build/architecture and each volume's stable identity. A drive letter alone
+is insufficient after reboot or disk attachment.
+
+The current source has two independent enrollment barriers: all five workflow
+operations are pending catalog acceptance, and
+`Get-RideBitLockerStartupPolicyObservation` always returns
+`EffectivePolicyEstablished = false`. Enrollment consequently cannot run even
+after a target is declared supported. The readiness check also rejects configured
+startup-policy values. Implement and review effective-policy/boot-route handling
+before attempting TPM+PIN acceptance; do not mock that check, clear policy, or edit
+the published catalog to manufacture a native pass. Record incompatible existing
+protectors, including potential Network Unlock, without removing them.
+
+| Stage | Required observation and acceptance | Failure or unavailable result |
+| --- | --- | --- |
+| 1. Target and recovery access | Verify the pinned disposable target, ready vTPM, supported edition, Windows RE, stable OS-volume identity, initial conversion/protector state and a working preboot console. Establish a private test-key destination accessible independently of the guest. Inventory a separate disposable fixed volume and a genuinely removable volume for their policy tests. | No encryption. Missing console, storage class or recovery access is NotRun for the affected scenario. A fixed VHD does not prove removable-drive behavior. |
+| 2. Create, select, back up and retrieve | Exercise zero, one and multiple recovery protectors with test-only data. Add through the intended RIDE workflow, select by exact ID, perform the explicit backup handoff, then retrieve that same key outside the guest. Preserve existing protectors on failed backup and verify that ordinary outputs contain no secrets. | Creation or opening Control Panel is not backup verification. Retain the guest and selected protector after a partial failure; no rotation or deletion to simplify the test. |
+| 3. Enrollment and TPM boot | On a clean decrypted fixture, enroll using the reviewed candidate route, preserve the hardware check, observe conversion to FullyEncrypted/100%, then boot using the selected TPM route. Verify protection is active and the expected protector remains. Exercise full-volume and used-space-only choices separately if both are promoted. | A submitted command or reachable guest is insufficient. Retain pending/reboot/conversion state and report the stage reached. |
+| 4. PIN and recovery boot | Use a separate prepared fixture for TPM+PIN. Verify the actual PIN prompt and successful test-PIN boot. Then use a reviewed recovery trigger on that disposable target, match the screen's key ID and unlock with the independently retrieved recovery password. Verify post-boot volume/protector state. | No forced-recovery trigger until retrieval and console access are proven. Reboot, TPM presence or an unlocked in-guest volume does not prove either preboot route. |
+| 5. Drive-method policies | Capture and apply each RIDE OS/fixed/removable method policy separately. On a fresh decrypted volume of the observed class, use a reviewed consumer path that does not explicitly override the selected method. Verify the actual resulting method after encryption, then verify exact policy recovery. | Registry apply/readback/restore establishes only policy lifecycle. Record absent drive classes separately. Restoring policy does not decrypt an already encrypted volume. |
+| 6. Decryption and repeat | Invoke explicit OS decryption through the intended workflow; wait for FullyDecrypted/0%, inspect the final protector state, and verify repeat decryption reports AlreadyDecrypted. Decrypt data fixtures through their separately reviewed native route. | DecryptionSubmitted is not completion. Do not count a checkpoint revert as decryption or RIDE recovery. |
+| 7. Export and lab cleanup | Export bounded nonsecret results, verify their integrity, and record recovery/decryption outcomes before explicit checkpoint reset. Verify the pinned VM is Off and release only its matching lease. | Keep the retained fixture and failure evidence if export or recovery is incomplete. Secret backups remain outside ordinary exports and this repository. |
+
+The current enrollment handler explicitly passes `EncryptionMethod = XtsAes128`.
+It therefore cannot demonstrate that the independent method policy selected an
+algorithm. Microsoft's [policy reference](https://learn.microsoft.com/en-us/windows/security/operating-system-security/data-protection/bitlocker/configure)
+explains that most settings apply when encryption begins, without restarting
+encryption after a policy change. The [Enable-BitLocker reference](https://learn.microsoft.com/en-us/powershell/module/bitlocker/enable-bitlocker)
+documents its explicit method, secure PIN and hardware-test parameters. Resolve
+this consumer-path distinction before claiming method-policy acceptance; do not
+silently change enrollment semantics as part of a test.
+
+The existing remaining-settings runner can exercise the three registry policies;
+it does not implement this encryption/boot sequence. A native exploratory backend
+may establish Windows prerequisites, but cannot be reported as acceptance of a
+RIDE handler it did not execute. Source checks use mocked BitLocker providers and
+synthetic objects; retain their existing results without repeating them for this
+documentation-only assessment. Windows Server acceptance remains separate.

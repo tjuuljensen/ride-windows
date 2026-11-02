@@ -157,12 +157,22 @@ native runner is unavailable.
    their existing separate gates; they are not automatically required for this
    internal checkpoint.
 
-The immediate critical path is controller activation for prepared package runs,
-native routes for the implemented OpenSSH Client/RSAT candidates, and missing
-implementation for Sysmon configuration and
-machine assets. These are not interchangeable blockers. Image inputs are now
-prepared; Wi-Fi test XML is generated from synthetic settings. BitLocker needs its stronger
-recovery/boot fixture.
+The current critical path for the approved remaining test goal is existing
+elevated execution of the retained Sysmon, font, wallpaper, default-lock and WLAN
+routes. Their source preparation does not establish native acceptance. The latest
+host observation is non-elevated; the installed generic controller is unchanged
+and is not the retained acceptance route. No new UAC prompt is authorized.
+Image/font inputs and synthetic Wi-Fi settings are ready. Guest WLAN availability,
+native image effects, font visibility and Sysmon compatibility remain unobserved.
+
+BitLocker additionally needs the [recovery-first sequence](../bitlocker-recovery.md#disposable-acceptance-sequence):
+effective startup-policy implementation, a candidate execution boundary, an
+independent test-key retrieval path, preboot console access and appropriate
+OS/fixed/removable fixtures. Current enrollment always fails its unfinished
+effective-policy guard and explicitly selects XTS-AES128; it cannot establish
+drive-method policy selection. User-lock Picture/Slideshow/Spotlight recovery
+also remains unfinished. Do not substitute another unit-test sweep or a new
+custom secret-storage subsystem for these missing native prerequisites.
 No defensible remaining test count or elapsed-time estimate follows from the
 legacy outcome range alone. Record the runnable cases after these implementations
 and routes are concrete, rather than promising completion from the source-test
@@ -637,3 +647,22 @@ record missing requirements without substituting another source-test sweep.
 Continue authorized independent work when a particular source, recovery input or
 pre-authorized route is unavailable. Commit completed batches separately and
 leave unfinished acceptance explicit at the internal checkpoint.
+
+### Remaining-test goal handoff, 2026-11-02
+
+The retained wallpaper, font and WLAN dispatch batches are committed as
+`432e1d0`, `3814acc` and `2fdff08`; their focused checks and installed previews
+passed within the source-only boundaries recorded above. The repeated absence
+of an applicable already-elevated execution route now blocks native progress.
+The prepared dispatch code must run in such a session before further guest
+availability or recovery conclusions can be drawn. The old package controller
+must not be used as a substitute or modified through an unreviewed hook.
+
+Resume with target/lease preflight, then run the prepared independent asset and
+Sysmon scenarios one at a time, exporting each result before cleanup. WLAN
+Prepare must discover an actual suitable interface; a missing interface requires
+a disposable WLAN-capable target, never a developer-workstation fallback.
+Continue user-lock and BitLocker implementation against the observed native
+state, retaining their unresolved modes and policy/boot requirements. No further
+source-only result closes these outcomes. The assessment and procedure add no
+native pass, supported target, legacy closure or estimate reduction.

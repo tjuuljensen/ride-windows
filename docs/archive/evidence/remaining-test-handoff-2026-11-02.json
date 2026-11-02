@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T21:07:54.3585092Z",
+  "Status": "RemainingNativeAcceptanceBlocked",
+  "SourceCommit": "2fdff08",
+  "NativeAcceptancePassed": false,
+  "TestsRerun": false,
+  "ReasonNoRerun": "Documentation and source review only; no implementation changed. Existing passed source suites do not establish native behavior.",
+  "HostObservation": {
+    "ObservedAtUtc": "2026-11-02T20:55:33.6360426Z",
+    "AlreadyElevated": false,
+    "PowerShell": "5.1.26100.9818",
+    "InstalledModuleSha256": "1F0E8325114E3C3402E9B71663AE9148A83858FDB2663DCC41C6A4763E86B8EC",
+    "PortableRuntimeFilterPresent": false,
+    "Pending": 0,
+    "Running": 0,
+    "ExistingBlock": false,
+    "VmQueried": false,
+    "ControllerChanged": false,
+    "UacRequested": false
+  },
+  "RepeatedRouteEvidence": [
+    "docs/archive/evidence/default-wallpaper-vm-source-2026-11-02.json",
+    "docs/archive/evidence/font-vm-source-2026-11-02.json",
+    "docs/archive/evidence/wireless-vm-source-2026-11-02.json"
+  ],
+  "Blockers": [
+    "No applicable already-elevated retained acceptance execution route; no fresh UAC permitted",
+    "BitLocker effective startup-policy guard is deliberately unfinished; catalog candidate execution and preboot/recovery scenario remain unimplemented",
+    "Independent test-key retrieval and preboot console route not verified",
+    "Guest WLAN support and fixed/removable test-volume availability not observed",
+    "User-lock Picture/Slideshow/Spotlight exact recovery remains unfinished"
+  ],
+  "Assessment": [
+    "Current BitLocker enrollment explicitly supplies XtsAes128 and cannot prove policy selected the algorithm",
+    "Remaining-settings runner exercises registry policy lifecycle, not boot/unlock/encryption/decryption",
+    "Retained asset and Sysmon dispatch source is prepared; native lifecycle and visible effects remain unrun",
+    "No custom secret escrow subsystem is introduced to substitute for missing native recovery access"
+  ],
+  "Next": "Provide an applicable existing elevated execution context, preflight pinned target and lease, run prepared independent scenarios with verified export, then develop unfinished policy/mode recovery against observed target state.",
+  "Procedure": "docs/bitlocker-recovery.md#disposable-acceptance-sequence",
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.BitLockerWorkflows.psm1",
+      "Sha256": "E49C8F9151665FD08DEA9F5F1A5E43F644BEFD30C9A4A9796C18C0D69A379496"
+    },
+    {
+      "Path": "tools/Invoke-RideBitLockerWorkflow.ps1",
+      "Sha256": "61B870666653B9883DA0BFD60AD5C40E53E4503BD9FADB62CEB94880B044C01B"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideRemainingSettings.ps1",
+      "Sha256": "621322C6923C2BEB22654F381D73BEB197AB5BD1B422F970BF41AE6DD3D012B3"
+    },
+    {
+      "Path": "docs/bitlocker-recovery.md",
+      "Sha256": "CE4F2AFA89CD81C5C6D3AB6968D78BBADDDA5CCEF11884DB4DAD9ABFA25B62BD"
+    }
+  ],
+  "Migration": {
+    "Rounded": "125-175",
+    "Maintenance": "8-12",
+    "Closed": 0,
+    "Settings": "37-57",
+    "Packages": "34-49",
+    "Exact": "123-177",
+    "Components": "19-24",
+    "Reason": "Review clarifies blockers and acceptance stages; no native outcome resolved, retired or excluded. Existing partial/deferred scope retained.",
+    "FilesAndAssets": "25-35"
+  }
+}
