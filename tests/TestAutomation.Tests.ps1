@@ -680,6 +680,7 @@ Describe 'Correlated execution, failures and VM recovery' {
       Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
       $result.IntegrationSuite | Should -Be 'Full'
       Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match ' -IntegrationSuite Full$' }
+      Should -Invoke Copy-RideAutomationSnapshot -Times 1 -Exactly -ParameterFilter { -not $PortableRuntime }
     }
 
     It 'records possible VM changes before reset and retains supervised phase order' {
@@ -725,6 +726,8 @@ Describe 'Correlated execution, failures and VM recovery' {
         Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList.EndsWith(" -IntegrationSuite $Suite") }
       }
       Should -Invoke Reset-RideAutomationVm -Times $(if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) { 1 } else { 2 }) -Exactly
+      $runtimeSnapshotExpected=$Suite -in @('ApplicationsBatch9','ApplicationsBatch10','ApplicationsBatch12','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')
+      Should -Invoke Copy-RideAutomationSnapshot -Times 1 -Exactly -ParameterFilter { [bool]$PortableRuntime -eq $runtimeSnapshotExpected }
     }
 
     It 'rejects a split suite against a stale registered controller before VM import or snapshot' {

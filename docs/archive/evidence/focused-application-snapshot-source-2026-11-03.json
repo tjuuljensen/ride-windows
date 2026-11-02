@@ -1,0 +1,31 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T23:34:52.4544827Z",
+  "Status": "SourcePreparedNotInstalled",
+  "ModuleVersion": "1.19.0",
+  "Tests": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 28,
+      "Failed": 0,
+      "Total": 159
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 28,
+      "Failed": 0,
+      "Total": 159
+    }
+  ],
+  "Selection": "26 routing cases, one full-route preservation case and one excluded-root file-I/O case per shell",
+  "HarnessNote": "All 28 selected cases passed per shell. The local wrapper initially compared 28 to TotalCount, which includes all 159 discovered cases, and returned 1 despite zero failures. Its assertion now uses PassedCount; no test assertion or implementation changed to correct that bookkeeping.",
+  "FinalModuleParserPassed": [
+    "Windows PowerShell 5.1",
+    "PowerShell 7"
+  ],
+  "SourceSha256": "AAC5DBBCA6E4753B580BBE3FE2F51683C577262EE4A16183549AC2E4EF9CCE3C",
+  "InstalledModuleSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+  "ProtectedFilesChanged": false,
+  "NativeApplicationRunPerformed": false,
+  "Boundary": "Only fixed application batches 9/10/12 gain the existing runtime-only source filter. Full and other application/settings requests retain snapshot behavior; execution/privilege/recovery routes are unchanged. Existing protected controller remains installed and requires an attended normal refresh before this change is active."
+}

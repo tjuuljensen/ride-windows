@@ -25,8 +25,9 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.18.0
+  Version: 1.19.0
   Changelog:
+    1.19.0: Use runtime-only source snapshots for focused InfoBar, Project Maker and Explorer Suite batches.
     1.18.0: Restrict focused portable snapshots to runtime/test roots before hashing or copying.
     1.17.1: Serialize host progress reads/writes with bounded file-lock contention.
     1.17.0: Supervise host preparation, execution and recovery with durable stage records.
@@ -72,7 +73,7 @@
 #>
 
 
-$script:ModuleVersion = '1.17.1'
+$script:ModuleVersion = '1.19.0'
 
 Set-StrictMode -Version 2
 
@@ -699,6 +700,8 @@ function Copy-RideAutomationSnapshot {
     Stage only launcher, modules, catalog, profiles, tools, tests and documentation.
     Other roots, including legacy and components, are not traversed or hashed.
     Reviewed package archives are staged independently by the portable controller.
+    The fixed InfoBar, Project Maker and Explorer Suite routes also use this filter;
+    their installers are acquired separately by the application scenario.
 
   .EXAMPLE
     Get-Help Copy-RideAutomationSnapshot -Full
@@ -1206,6 +1209,7 @@ function Invoke-RideAutomationRequest {
   Assert-RideAutomationRequest $Request
   $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
   $focusedPortable = $selectedSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')
+  $runtimeSnapshotOnly = $focusedPortable -or $selectedSuite -in @('ApplicationsBatch9','ApplicationsBatch10','ApplicationsBatch12')
   $guestAuthentication = if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $Request.GuestGitHubAuthentication } else { 'Anonymous' }
   $authenticationContext = $null
   $gitHubScenario = if ($Request.PSObject.Properties.Name -contains 'GitHubTestScenario') { $Request.GitHubTestScenario } else { 'Acquire' }
@@ -1241,7 +1245,7 @@ function Invoke-RideAutomationRequest {
     $source = if ($Request.Source -eq 'CI') { $Configuration.CIRepositoryPath } else { $Configuration.LocalRepositoryPath }
     $snapshotPath = Join-Path $runDirectory 'snapshot\ride-windows'
     Set-HostStage Preparation 'Copy approved checkout snapshot'
-    $manifest = @(Copy-RideAutomationSnapshot -Source $source -Destination $snapshotPath -PortableRuntime:$focusedPortable)
+    $manifest = @(Copy-RideAutomationSnapshot -Source $source -Destination $snapshotPath -PortableRuntime:$runtimeSnapshotOnly)
     Write-RideAutomationJson -Path (Join-Path $runDirectory 'source-files.json') -Value $manifest
     if ($selectedSuite -eq 'GitHubAuthentication' -and (Test-Path -LiteralPath (Join-Path $snapshotPath 'tests\integration\settings-validation.fixture.psd1'))) { throw 'Use an isolated reviewed authentication source without the active settings fixture.' }
     if (([datetime]::UtcNow - [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()).TotalMinutes -ge $Request.TimeoutMinutes) { throw 'Request expired while staging the checkout.' }
