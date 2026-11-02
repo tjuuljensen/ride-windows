@@ -1,0 +1,80 @@
+{
+  "title": "Post-optional unit test batch 1",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T02:48:09Z",
+  "scope": "Twenty test files after OptionalWindowsSettings in the bounded non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "OwnedPowerPlans.Tests.ps1",
+    "PackageAdoptionReview.Tests.ps1",
+    "PackageDependencyPlanning.Tests.ps1",
+    "PackageEvidence.Tests.ps1",
+    "PhoenixPackage.Tests.ps1",
+    "PhotoViewerOpenWith.Tests.ps1",
+    "PortableAcceptanceAutomation.Tests.ps1",
+    "PortableManifest.Tests.ps1",
+    "PortableSelection.Tests.ps1",
+    "PowerRead.Tests.ps1",
+    "PowerSettings.Tests.ps1",
+    "ProfileAcceptanceAutomation.Tests.ps1",
+    "ProfileSettings.Tests.ps1",
+    "RaspberryPiImagerPackage.Tests.ps1",
+    "RegionalInventory.Tests.ps1",
+    "RegistryFailures.Tests.ps1",
+    "RegRipperPackage.Tests.ps1",
+    "RemainingSettings.Tests.ps1",
+    "RufusPackage.Tests.ps1",
+    "RunStateRetention.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 418,
+    "passed": 418,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:08:24.939"
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "productExecutablesLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "resolved": [
+      "All 418 selected package, settings, portable manifest/acceptance, and run-state unit tests passed."
+    ],
+    "retired": [],
+    "excluded": [
+      "NirSoft collection suite, large PSScriptTools/WFN lifecycle files, and WindowsIntegration-tagged cases remained outside the batch."
+    ],
+    "deferred": [
+      "No new legacy outcome closes; native target acceptance remains separate."
+    ],
+    "partial": [
+      "The suite-wide 151-file aggregate remains incomplete after its optional-settings stall."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "The 418 tests validate current source behavior but close no legacy feature/product outcome; ranges remain unchanged."
+    },
+    "blockers": [
+      "The suite-wide 151-file aggregate remains incomplete; continuing with bounded post-Optional batches.",
+      "PSScriptTools 360-member and WFN 531-member lifecycle tests remain incomplete.",
+      "RIDE-Win11-Test acceptance remains blocked at host CIM.",
+      "Defender-blocked utilities remain excluded."
+    ]
+  }
+}
