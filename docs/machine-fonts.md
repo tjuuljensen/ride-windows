@@ -312,4 +312,10 @@ is closed, reference force-unloaded, cache cleared or reboot requested.
 
 The revised scenario passes 13 focused mocked checks in each PowerShell edition,
 including refusal after durable drift and retention of an earlier native failure
-after final-state recovery. Its fresh disposable-VM execution remains pending.
+after final-state recovery. The [fresh native run](archive/evidence/font-recovery-night-native-2026-11-03.json)
+then completed both saved durable recoveries on EnterpriseEval build 26300.
+Removal and recovery of the installed state passed full native readback. Final
+restore and repeat recovered all captured durable state, but enumeration still
+contained Open Sauce Sans Bold Italic and Light Italic. Overall native acceptance
+remains Failed. All four durable recovery checks passed; verified export preceded
+ResetAndOff and hold release. Session/restart/consumer behavior remains open.
