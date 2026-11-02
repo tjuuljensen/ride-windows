@@ -1602,6 +1602,18 @@ Describe 'Application timeout diagnostics' {
 }
 
 Describe 'Explorer Suite guarded candidate acceptance' {
+  It 'records the passed Windows 11 lifecycle while retaining the Defender evidence gate' {
+    $root = Split-Path -Parent $PSScriptRoot
+    $catalog = Invoke-RideTestCatalogImport (Join-Path $root 'catalog/operations.psd1')
+    $package = @($catalog.Operations | Where-Object Id -eq 'package.ntcore-explorer-suite')
+    $package.Count | Should -Be 1
+    $package[0].AcceptanceNotes | Should -Match 'ed4f857b82314e70ad72a807266a5282 passed package install/repeat/remove'
+    $package[0].AcceptanceNotes | Should -Match 'Defender active/no-alert evidence was not recorded'
+    $package[0].SupportedTargets | Should -BeNullOrEmpty
+    $package[0].CandidateTargets | Should -Be @('Windows 11')
+    $package[0].PendingAcceptance | Should -BeTrue
+  }
+
   It 'executes vendor removal, repeat removal and presence recovery for Batch 12' {
     $root = Split-Path -Parent $PSScriptRoot
     $ast = [Management.Automation.Language.Parser]::ParseFile(
