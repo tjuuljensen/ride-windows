@@ -396,9 +396,10 @@ function Stop-RideAutomationProcess {
     Terminate the timed-out controller process tree.
 
   .DESCRIPTION
-    Runs taskkill /PID /T /F with a ten-second bound, then waits at most five
-    seconds for the supplied process. Throws if termination cannot be confirmed.
-    Internal destructive timeout recovery helper.
+    Uses the runtime's recursive Process.Kill overload when available. Older
+    runtimes fall back to taskkill /PID /T /F with a ten-second bound. Waits at
+    most five seconds for the supplied process and throws if termination cannot
+    be confirmed. Internal destructive timeout recovery helper.
 
   .PARAMETER Process
     Controller Process object retained by the worker; Id and HasExited are required.
@@ -420,14 +421,21 @@ function Stop-RideAutomationProcess {
 
   param([object] $Process)
   if($Process.HasExited){return}
-  $killer=Start-Process -FilePath "$env:SystemRoot\System32\taskkill.exe" -ArgumentList @('/PID',[string]$Process.Id,'/T','/F') -WindowStyle Hidden -PassThru
-  $null=$killer.Handle
-  if(-not $killer.WaitForExit(10000)){
-    $killer.Kill()
-    throw 'Process-tree termination exceeded ten seconds. VM recovery is required.'
+  $killTree=$Process.GetType().GetMethod('Kill',[type[]]@([bool]))
+  if($killTree){
+    $null=$killTree.Invoke($Process,@($true))
+  }else{
+    $killer=Start-Process -FilePath "$env:SystemRoot\System32\taskkill.exe" -ArgumentList @('/PID',[string]$Process.Id,'/T','/F') -WindowStyle Hidden -PassThru
+    $null=$killer.Handle
+    if(-not $killer.WaitForExit(10000)){
+      $killer.Kill()
+      throw 'Process-tree termination exceeded ten seconds. VM recovery is required.'
+    }
+    $killer.Refresh()
+    if($killer.ExitCode -ne 0){throw 'Could not confirm termination of the timed-out process tree. VM recovery is required.'}
+    $killer.Dispose()
   }
-  $killer.Refresh()
-  if($killer.ExitCode -ne 0 -or -not $Process.WaitForExit(5000)){throw 'Could not confirm termination of the timed-out process tree. VM recovery is required.'}
+  if(-not $Process.WaitForExit(5000)){throw 'Could not confirm termination of the timed-out process tree. VM recovery is required.'}
 }
 
 function Save-RideAutomationFailureEvidence {

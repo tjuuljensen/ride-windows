@@ -1,0 +1,69 @@
+{
+  "title": "Automation watchdog process-tree timeout regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T01:55:52Z",
+  "scope": "Focused timeout/recovery cases followed by the complete tests/AutomationWatchdog.Tests.ps1 suite.",
+  "change": {
+    "file": "tests/integration/RIDE.TestAutomation.psm1",
+    "summary": "Use Process.Kill(entireProcessTree: true) when the runtime exposes the recursive overload; retain bounded taskkill fallback for older .NET Framework runtimes such as Windows PowerShell 5.1.",
+    "compatibilityStatus": "The PowerShell 7 recursive path passed; Windows PowerShell 5.1 fallback was not separately exercised in this run."
+  },
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied"
+  },
+  "run": {
+    "focusedTimeoutTests": {
+      "selected": 3,
+      "passed": 3,
+      "failed": 0,
+      "duration": "00:00:36.805"
+    },
+    "completeFile": {
+      "discovered": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "00:01:05.016",
+      "frameworkTeardown": "Passed; TestDrive cleanup completed without an open worker-log error."
+    }
+  },
+  "safety": {
+    "processesWereInertTestChildren": true,
+    "vmQueriedOrChanged": false,
+    "systemConfigurationChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "migration": {
+    "resolved": [
+      "All 16 automation watchdog unit cases, including preparation timeout, descendant termination, recovery timeout, and TestDrive cleanup."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "The three large package source lifecycle tests remain incomplete after bounded attempts.",
+      "Windows PowerShell 5.1 process-tree fallback and native VM acceptance remain separate acceptance work."
+    ],
+    "partial": [
+      "No legacy migration outcome closes. The full repository Pester aggregate remains incomplete."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "No legacy feature/product outcome closed; only a test blocker was resolved, so ranges remain unchanged."
+    },
+    "blockers": [
+      "PSScriptTools 360-member and WFN 531-member synthetic lifecycle checks remain incomplete after prior bounded attempts.",
+      "Repository-wide Pester aggregate remains incomplete.",
+      "RIDE-Win11-Test acceptance remains blocked by host CIM access before checkpoint state can be read.",
+      "Defender-blocked utilities remain excluded."
+    ]
+  }
+}
