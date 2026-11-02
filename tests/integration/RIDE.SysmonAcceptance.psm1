@@ -9,11 +9,16 @@
   Compatibility: Native PowerShell 5.1 and 7; candidate Windows 11 x64.
   Prerequisites: Existing elevation and correlated disposable Hyper-V guest.
   Recovery: Inspect retained run IDs; no automatic cleanup of incomplete runs.
-  Version: 0.1.0. Changelog: Add three-configuration native acceptance route.
+  Version: 0.1.1. Changelog: Retain failure location without XML or exception text.
 .LINK
   ../../docs/sysmon-configuration.md
 #>
 $ErrorActionPreference='Stop'
+function Get-RideSysmonAcceptanceFailureLocation {
+  param([Management.Automation.ErrorRecord]$Record)
+  # Exception text can contain configuration data; expose only source location.
+  [pscustomobject]@{Script=[IO.Path]::GetFileName($Record.InvocationInfo.ScriptName);Line=$Record.InvocationInfo.ScriptLineNumber;ExceptionType=$Record.Exception.GetType().FullName;Category=[string]$Record.CategoryInfo.Category}
+}
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.SysmonConfiguration.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
@@ -147,7 +152,7 @@ function Invoke-RideSysmonAcceptance {
   & (Get-Module RIDE.SysmonConfiguration) {param($path) Assert-RideSysmonStateDirectory $path} $EvidenceRoot
   $directory=Join-Path ([IO.Path]::GetFullPath($EvidenceRoot)) $RunId
   if(Test-Path -LiteralPath $directory){throw 'Acceptance evidence already exists; use a new request ID.'}
-  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='SysmonConfigurationAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';NativeAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$ExpectedComputerName;Build=$ExpectedBuild;EditionId=$ExpectedEditionId;SysmonVersion=$ExpectedSysmonVersion;ExecutableSha256=$ExpectedExecutableSha256;ReleaseTag=$null;BaselineSha256=$BaselineConfigurationSha256;Profiles=@();StateRunIds=@();EvidenceDirectory=$null;RuleDetectionCoverageClaimed=$false;ArchiveCleanupPerformed=$false}
+  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='SysmonConfigurationAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';FailureLocation=$null;NativeAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$ExpectedComputerName;Build=$ExpectedBuild;EditionId=$ExpectedEditionId;SysmonVersion=$ExpectedSysmonVersion;ExecutableSha256=$ExpectedExecutableSha256;ReleaseTag=$null;BaselineSha256=$BaselineConfigurationSha256;Profiles=@();StateRunIds=@();EvidenceDirectory=$null;RuleDetectionCoverageClaimed=$false;ArchiveCleanupPerformed=$false}
   if(-not $environment.Administrator -and -not $WhatIfPreference){$report.Reason='ExistingElevationRequired';return $report}
   $sources=Read-RideSysmonAcceptanceSources $InputDirectory;$report.ReleaseTag=$sources.ReleaseTag
   if(@($sources.Configurations).Count -ne 3 -or @($sources.Configurations.ArtifactId|Sort-Object -Unique).Count -ne 3){throw 'Acceptance requires all three distinct selected profiles before mutation.'}
@@ -195,7 +200,7 @@ function Invoke-RideSysmonAcceptance {
     }
     if($profiles.Count -ne 3 -or @($profiles|Where-Object {-not $_.Restored -or $_.Checks.Count -ne 5}).Count){throw 'Three-profile acceptance is incomplete.'}
     $report.Status='Passed';$report.Stage='Complete';$report.NativeAcceptancePassed=$true
-  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true}
+  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true;$report.FailureLocation=Get-RideSysmonAcceptanceFailureLocation $_}
   $report.Profiles=$profiles.ToArray()
   $report.StateRunIds=@(Get-ChildItem -LiteralPath $state -Filter '*.sysmon.intent.json' -File|Select-Object -First 256|ForEach-Object {if($_.Name -cmatch '^([a-f0-9]{32})\.sysmon\.intent\.json$'){$Matches[1]}})
   Save-RideSysmonAcceptanceReport (Join-Path $directory 'result.json') $report
@@ -279,7 +284,7 @@ function Initialize-RideSysmonAcceptanceFixture {
   & (Get-Module RIDE.SysmonConfiguration) {param($path) Assert-RideSysmonStateDirectory $path} $EvidenceRoot
   $directory=Join-Path ([IO.Path]::GetFullPath($EvidenceRoot)) $RunId
   if(Test-Path -LiteralPath $directory){throw 'Fixture evidence already exists; use a new request ID.'}
-  $result=[pscustomobject][ordered]@{SchemaVersion=1;Kind='SysmonAcceptanceFixture';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';NativeAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$ExpectedComputerName;Build=$ExpectedBuild;EditionId=$ExpectedEditionId;SysmonVersion=$ExpectedSysmonVersion;ExecutableSha256=$ExpectedExecutableSha256;InstalledExecutablePath=$null;BaselineConfigurationPath=$null;BaselineConfigurationSha256=$null;EvidenceDirectory=$null;ServiceAndEvent=$null;FixtureRemovalPerformed=$false}
+  $result=[pscustomobject][ordered]@{SchemaVersion=1;Kind='SysmonAcceptanceFixture';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';FailureLocation=$null;NativeAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$ExpectedComputerName;Build=$ExpectedBuild;EditionId=$ExpectedEditionId;SysmonVersion=$ExpectedSysmonVersion;ExecutableSha256=$ExpectedExecutableSha256;InstalledExecutablePath=$null;BaselineConfigurationPath=$null;BaselineConfigurationSha256=$null;EvidenceDirectory=$null;ServiceAndEvent=$null;FixtureRemovalPerformed=$false}
   if(-not $environment.Administrator -and -not $WhatIfPreference){$result.Reason='ExistingElevationRequired';return $result}
   $footprint=Get-RideSysmonFixtureFootprint
   if($footprint.Existing){$result.Reason='ExistingSysmonFootprint';return $result}
@@ -315,7 +320,7 @@ function Initialize-RideSysmonAcceptanceFixture {
     if($snapshot.Context.ComputerName -cne $ExpectedComputerName -or $snapshot.Context.Build -cne $ExpectedBuild -or $snapshot.Context.EditionId -cne $ExpectedEditionId){throw 'Fixture target changed during installation.'}
     if($snapshot.ConfigurationEvent.Sha256 -cne $baseline.Sha256 -or $snapshot.ConfigurationEvent.ConfigurationPath -ine $result.BaselineConfigurationPath -or $snapshot.LastErrorRecordId -ne $footprint.LastErrorRecordId){throw 'Fixture service/event verification failed.'}
     $result.ServiceAndEvent=$snapshot;$result.Status='Prepared';$result.Stage='Complete'
-  }catch{$result.Status='Failed';$result.Reason='FixturePreparationFailed';$result.RecoveryRequired=$true}
+  }catch{$result.Status='Failed';$result.Reason='FixturePreparationFailed';$result.RecoveryRequired=$true;$result.FailureLocation=Get-RideSysmonAcceptanceFailureLocation $_}
   Save-RideSysmonAcceptanceReport (Join-Path $directory 'result.json') $result
   $result
 }

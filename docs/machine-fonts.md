@@ -247,6 +247,8 @@ only its documented current-session scenario. The host's broader
 
 Phase reports use schema 1 and include Phase, Stage, Status, GuestResult,
 EvidenceExport, Store and RecoveryRequired plus the acceptance fields above.
+After session validation, SourceManifest lists retained source/input paths,
+sizes and hashes without their contents.
 Statuses include Preview, Prepared, Passed, NotRun, Collected, ResetAndOff and
 Failed. A later Collect or Reset report does not carry forward a lifecycle pass;
 retain and assess the original Lifecycle report. RecoveryRequired describes

@@ -605,6 +605,10 @@ Run-ID completion reads the existing private hold for later phases.
 
 Schema-1 reports include `RunId`, `LeaseId`, `Phase`, `Status`, `Stage`,
 `RecoveryRequired`, `GuestResult`, `EvidenceExport`, `Error` and `Store`.
+After session validation, `SourceManifest` identifies the exact retained source
+and input paths, byte counts and hashes without publishing their contents.
+Guest image failures now include bounded exception detail, preserving the native
+cause alongside the phase and recovery run IDs.
 Statuses are `Preview`, `Prepared`, `AwaitingVisualVerification`,
 `LifecyclePassedVisualPending`, `Collected`, `ResetAndOff` or `Failed`.
 `NativeAcceptancePassed` is always false: visible initial/applied/recovered
@@ -703,6 +707,12 @@ records 27 focused mocked lifecycle/security checks and the 16 shared image
 source checks in each shell. The
 [phased guest preparation evidence](archive/evidence/default-lock-screen-acceptance-preparation-2026-11-02.json)
 adds 17 orchestration/source/directory checks per shell, plus a real pinned-input
-check. No image was applied to Windows.
+check. Those preparation records contain no native image application.
+The later [overnight native default-lock run](archive/evidence/default-lock-night-native-2026-11-02.json)
+passed preview/apply/repeat and exact restore/repeat restore on Windows 11
+EnterpriseEval build 26300. An initial policy permission readback failure was
+repaired by reading permissions from the same opened registry handle as values;
+the wallpaper reader uses the same repair. Visible initial/applied/restored
+lock-screen appearance remains unverified, and no broader target is promoted.
 The [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md)
 owns the broader component status and test strategy.

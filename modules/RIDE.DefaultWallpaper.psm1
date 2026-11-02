@@ -15,8 +15,9 @@
   Windows caches or visible UI. New profile identities require inspection before
   removal. The native scenario must remove only its owned test user/profile first.
   Incomplete apply retains evidence and requires inspection; no blind cleanup.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add first-logon ThemeFile policy and owned theme/image candidate.
+  Version: 0.1.1.
+  Changelog: 0.1.1: Read policy permissions from the same opened registry handle.
+  0.1.0: Add first-logon ThemeFile policy and owned theme/image candidate.
   Reference: https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_settheme
 .LINK
   ../docs/image-personalization.md
@@ -127,13 +128,16 @@ function Get-RideDefaultWallpaperAsset {
   $acl=Get-Acl -LiteralPath $Path;Assert-RideDefaultWallpaperAssetSecurity $acl
   [pscustomobject]@{Sha256=(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash;Bytes=$file.Length;Security=$acl.GetSecurityDescriptorSddlForm([Security.AccessControl.AccessControlSections]'Owner,Group,Access');Attributes=[int]$file.Attributes;CreationUtcTicks=$file.CreationTimeUtc.Ticks.ToString();LastWriteUtcTicks=$file.LastWriteTimeUtc.Ticks.ToString()}
 }
+function Open-RideDefaultWallpaperPolicyKey {
+  [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($script:PolicyParent+'\'+$script:PolicyChild,$false)
+}
 function Get-RideDefaultWallpaperRegistry {
-  $key=[Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($script:PolicyParent+'\'+$script:PolicyChild,$false)
+  $key=Open-RideDefaultWallpaperPolicyKey
   if(-not $key){return [pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()}}
   try{
     $names=@($key.GetValueNames());$subKeys=@($key.GetSubKeyNames()|Sort-Object)
     if($names.Count -gt 128 -or $subKeys.Count -gt 128){throw 'Personalization policy inventory exceeds its bound.'}
-    $acl=Get-Acl -LiteralPath ('Registry::HKEY_LOCAL_MACHINE\'+$script:PolicyParent+'\'+$script:PolicyChild)
+    $acl=$key.GetAccessControl()
     [pscustomobject]@{Exists=$true;Security=$acl.GetSecurityDescriptorSddlForm([Security.AccessControl.AccessControlSections]'Owner,Group,Access');Rows=@($names|Sort-Object|ForEach-Object {[pscustomobject]@{Name=$_;Kind=[string]$key.GetValueKind($_);Value=$key.GetValue($_,$null,[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)}});SubKeys=$subKeys}
   }finally{$key.Dispose()}
 }

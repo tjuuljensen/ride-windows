@@ -1,0 +1,632 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T22:52:47.4994614Z",
+  "Status": "NativeLifecyclePassedVisualPending",
+  "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+  "Results": [
+    {
+      "RequestId": "bf161e9164524103abfafde9c3fbf9d8",
+      "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+      "Family": "DefaultLock",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Prepared",
+      "StartedAtUtc": "2026-11-02T22:33:20.9183863Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+        "LeaseId": "e7e363cf52b14865b9acb9c3bc0ffb75",
+        "Phase": "Prepare",
+        "Status": "Prepared",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e7e363cf52b14865b9acb9c3bc0ffb75\\export.959701a360ee4c22aa321808f37e7dc2",
+          "FileCount": 7,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultLockVmPreparation",
+          "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+          "LeaseId": "e7e363cf52b14865b9acb9c3bc0ffb75",
+          "Status": "Prepared",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711
+          },
+          "NativeAcceptancePassed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "bf44b8d7-cda7-4f5d-bb97-4132677d9a17",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e7e363cf52b14865b9acb9c3bc0ffb75",
+        "RecordedAtUtc": "2026-11-02T22:33:45.5269124Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:34:41.0153396Z"
+    },
+    {
+      "RequestId": "c466caa1dc1f47f2914624e1724b2ed6",
+      "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+      "Family": "DefaultLock",
+      "Phase": "Apply",
+      "Preview": false,
+      "Status": "Failed",
+      "StartedAtUtc": "2026-11-02T22:35:37.3516997Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+        "LeaseId": "e7e363cf52b14865b9acb9c3bc0ffb75",
+        "Phase": "Apply",
+        "Status": "Failed",
+        "Stage": "Apply",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e7e363cf52b14865b9acb9c3bc0ffb75\\export.53e0311f1aef4ff08d2afe8d8e7ef3d8",
+          "FileCount": 11,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultLockScreenAcceptance",
+          "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+          "Phase": "Apply",
+          "RecordedAtUtc": "2026-11-02T22:36:09.2868615Z",
+          "Status": "Failed",
+          "Stage": "Apply",
+          "Reason": "AcceptanceStepFailed",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711,
+            "InstallationType": "Client",
+            "NativeProcess": true,
+            "Architecture": "AMD64",
+            "Administrator": true,
+            "Guest": true,
+            "RunMarker": "34540ba28f6548ebbdb78701c9be6a1c"
+          },
+          "NativeLifecycleAcceptancePassed": false,
+          "NativeVisualAcceptancePassed": false,
+          "NativeAcceptancePassed": false,
+          "RecoveryRequired": true,
+          "LifecycleRunId": null,
+          "AssetPath": null,
+          "SourceSha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+          "Checks": [
+            "PreviewNoChanges"
+          ],
+          "StateRunIds": [
+            "429c0c964b384bc68b25db3a34e92df8"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\e7e363cf52b14865b9acb9c3bc0ffb75\\evidence\\34540ba28f6548ebbdb78701c9be6a1c",
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "55d9e532-d7b6-4e42-8d43-ebe75ec72c22",
+          "PSShowComputerName": true
+        },
+        "Error": "Guest phase did not establish every required lifecycle check.",
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e7e363cf52b14865b9acb9c3bc0ffb75",
+        "RecordedAtUtc": "2026-11-02T22:36:02.0455307Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:36:15.1370859Z"
+    },
+    {
+      "RequestId": "195939cf48be4ebca97caac50a6e53ee",
+      "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+      "Family": "DefaultLock",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-02T22:37:39.6493873Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "34540ba28f6548ebbdb78701c9be6a1c",
+        "LeaseId": "e7e363cf52b14865b9acb9c3bc0ffb75",
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e7e363cf52b14865b9acb9c3bc0ffb75\\export.8fb8ecb1f6594f939433a0f84dec5013",
+          "FileCount": 11,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e7e363cf52b14865b9acb9c3bc0ffb75",
+        "RecordedAtUtc": "2026-11-02T22:38:04.8489748Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:38:19.6494579Z"
+    },
+    {
+      "RequestId": "c5b4eade83ca401d8955a439f1971704",
+      "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+      "Family": "DefaultLock",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Prepared",
+      "StartedAtUtc": "2026-11-02T22:39:12.986156Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+        "LeaseId": "6458ee25b1e34a61b246c7fae9341670",
+        "Phase": "Prepare",
+        "Status": "Prepared",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6458ee25b1e34a61b246c7fae9341670\\export.e65f126ab3f64c97ba101ba99aa4d565",
+          "FileCount": 7,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultLockVmPreparation",
+          "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+          "LeaseId": "6458ee25b1e34a61b246c7fae9341670",
+          "Status": "Prepared",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711
+          },
+          "NativeAcceptancePassed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "4f2fdfa5-a81e-4074-a346-9399d992de5f",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6458ee25b1e34a61b246c7fae9341670",
+        "RecordedAtUtc": "2026-11-02T22:39:39.9446826Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:40:38.8518612Z"
+    },
+    {
+      "RequestId": "760c6d6b280142dd8db7b42ed6b82d1f",
+      "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+      "Family": "DefaultLock",
+      "Phase": "Apply",
+      "Preview": false,
+      "Status": "Failed",
+      "StartedAtUtc": "2026-11-02T22:41:36.3028678Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+        "LeaseId": "6458ee25b1e34a61b246c7fae9341670",
+        "Phase": "Apply",
+        "Status": "Failed",
+        "Stage": "Apply",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6458ee25b1e34a61b246c7fae9341670\\export.fa4eecae5cc44f6ea5c9b0ac9ad58792",
+          "FileCount": 11,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultLockScreenAcceptance",
+          "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+          "Phase": "Apply",
+          "RecordedAtUtc": "2026-11-02T22:42:06.0749948Z",
+          "Status": "Failed",
+          "Stage": "Apply",
+          "Reason": "AcceptanceStepFailed",
+          "Error": "Default lock-screen apply incomplete. Run ID: efe2800394b3472198dd7004de9f8bef. Retain private intent and inspect policy/image before recovery. Cause: Cannot find path 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization' because it does not exist.",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711,
+            "InstallationType": "Client",
+            "NativeProcess": true,
+            "Architecture": "AMD64",
+            "Administrator": true,
+            "Guest": true,
+            "RunMarker": "53e60bc529a645c4be2af3dab3af7ff6"
+          },
+          "NativeLifecycleAcceptancePassed": false,
+          "NativeVisualAcceptancePassed": false,
+          "NativeAcceptancePassed": false,
+          "RecoveryRequired": true,
+          "LifecycleRunId": null,
+          "AssetPath": null,
+          "SourceSha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+          "Checks": [
+            "PreviewNoChanges"
+          ],
+          "StateRunIds": [
+            "efe2800394b3472198dd7004de9f8bef"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6458ee25b1e34a61b246c7fae9341670\\evidence\\53e60bc529a645c4be2af3dab3af7ff6",
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "efc72c32-d40b-4807-a684-155abe0f5395",
+          "PSShowComputerName": true
+        },
+        "Error": "Guest phase did not establish every required lifecycle check.",
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6458ee25b1e34a61b246c7fae9341670",
+        "RecordedAtUtc": "2026-11-02T22:41:59.1292258Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:42:12.1966679Z"
+    },
+    {
+      "RequestId": "966c76339af24b51aca8e1e8d1ce1101",
+      "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+      "Family": "DefaultLock",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-02T22:43:14.2423451Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "53e60bc529a645c4be2af3dab3af7ff6",
+        "LeaseId": "6458ee25b1e34a61b246c7fae9341670",
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6458ee25b1e34a61b246c7fae9341670\\export.7dd50976fb8945ee8f95ce663e0a973e",
+          "FileCount": 11,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6458ee25b1e34a61b246c7fae9341670",
+        "RecordedAtUtc": "2026-11-02T22:43:38.9373687Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:43:49.70836Z"
+    },
+    {
+      "RequestId": "2d45c03190eb465ea9d9c733f186e0aa",
+      "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+      "Family": "DefaultLock",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Prepared",
+      "StartedAtUtc": "2026-11-02T22:46:04.141457Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+        "LeaseId": "0b30ea72fba84668a6e7a46fcc1e3c12",
+        "Phase": "Prepare",
+        "Status": "Prepared",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12\\export.fe074fb91fb042b28f3eb6a41b2cd571",
+          "FileCount": 7,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultLockVmPreparation",
+          "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+          "LeaseId": "0b30ea72fba84668a6e7a46fcc1e3c12",
+          "Status": "Prepared",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711
+          },
+          "NativeAcceptancePassed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "feb75cda-d331-4124-a18d-e5f86c792327",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12",
+        "RecordedAtUtc": "2026-11-02T22:46:31.944096Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:47:28.1850741Z"
+    },
+    {
+      "RequestId": "eabf80daf65c4eea872e1e8899c6f656",
+      "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+      "Family": "DefaultLock",
+      "Phase": "Apply",
+      "Preview": false,
+      "Status": "AwaitingVisualVerification",
+      "StartedAtUtc": "2026-11-02T22:48:09.6911017Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+        "LeaseId": "0b30ea72fba84668a6e7a46fcc1e3c12",
+        "Phase": "Apply",
+        "Status": "AwaitingVisualVerification",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12\\export.59f2556f4f40441b8870bf873498b86a",
+          "FileCount": 13,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultLockScreenAcceptance",
+          "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+          "Phase": "Apply",
+          "RecordedAtUtc": "2026-11-02T22:48:45.9339008Z",
+          "Status": "AwaitingVisualVerification",
+          "Stage": "RetainedForVisualCheck",
+          "Reason": null,
+          "Error": null,
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711,
+            "InstallationType": "Client",
+            "NativeProcess": true,
+            "Architecture": "AMD64",
+            "Administrator": true,
+            "Guest": true,
+            "RunMarker": "a978e0f85e1648fba6f9f14874a5cfe5"
+          },
+          "NativeLifecycleAcceptancePassed": false,
+          "NativeVisualAcceptancePassed": false,
+          "NativeAcceptancePassed": false,
+          "RecoveryRequired": true,
+          "LifecycleRunId": "3f63868d2a4146f6b3e670e587a26961",
+          "AssetPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\0b30ea72fba84668a6e7a46fcc1e3c12\\evidence\\a978e0f85e1648fba6f9f14874a5cfe5\\images\\3f63868d2a4146f6b3e670e587a26961.png",
+          "SourceSha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+          "Checks": [
+            "PreviewNoChanges",
+            "AppliedPolicyImageAndPrivateState",
+            "RepeatNoChanges"
+          ],
+          "StateRunIds": [
+            "3f63868d2a4146f6b3e670e587a26961"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\0b30ea72fba84668a6e7a46fcc1e3c12\\evidence\\a978e0f85e1648fba6f9f14874a5cfe5",
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "44d88584-7714-4610-a980-d7ee54c27469",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12",
+        "RecordedAtUtc": "2026-11-02T22:48:36.9734865Z"
+      },
+      "HostModuleSha256": "C2262196CEA37A58507ED4FBB898AC451440D2F7C69F669DD77590EA6F64EE2E",
+      "FinishedAtUtc": "2026-11-02T22:48:53.4462248Z"
+    },
+    {
+      "RequestId": "7454bde3519b49ee97d94a3b16335e00",
+      "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+      "Family": "DefaultLock",
+      "Phase": "Restore",
+      "Preview": false,
+      "Status": "LifecyclePassedVisualPending",
+      "StartedAtUtc": "2026-11-02T22:49:38.6314693Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+        "LeaseId": "0b30ea72fba84668a6e7a46fcc1e3c12",
+        "Phase": "Restore",
+        "Status": "LifecyclePassedVisualPending",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12\\export.0536a1978e944c358e0e1d3599d280d5",
+          "FileCount": 13,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultLockScreenAcceptance",
+          "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+          "Phase": "Restore",
+          "RecordedAtUtc": "2026-11-02T22:50:11.8526743Z",
+          "Status": "LifecyclePassedVisualPending",
+          "Stage": "RetainedForVisualRecoveryCheck",
+          "Reason": null,
+          "Error": null,
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711,
+            "InstallationType": "Client",
+            "NativeProcess": true,
+            "Architecture": "AMD64",
+            "Administrator": true,
+            "Guest": true,
+            "RunMarker": "a978e0f85e1648fba6f9f14874a5cfe5"
+          },
+          "NativeLifecycleAcceptancePassed": true,
+          "NativeVisualAcceptancePassed": false,
+          "NativeAcceptancePassed": false,
+          "RecoveryRequired": false,
+          "LifecycleRunId": "3f63868d2a4146f6b3e670e587a26961",
+          "AssetPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\0b30ea72fba84668a6e7a46fcc1e3c12\\evidence\\a978e0f85e1648fba6f9f14874a5cfe5\\images\\3f63868d2a4146f6b3e670e587a26961.png",
+          "SourceSha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+          "Checks": [
+            "RestorePreviewNoChanges",
+            "CapturedStateRestored",
+            "RepeatedRestoreNoChanges"
+          ],
+          "StateRunIds": [
+            "3f63868d2a4146f6b3e670e587a26961"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\0b30ea72fba84668a6e7a46fcc1e3c12\\evidence\\a978e0f85e1648fba6f9f14874a5cfe5",
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "d31d7a73-2a2a-42c3-9a8c-9eb1fbcb88e8",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12",
+        "RecordedAtUtc": "2026-11-02T22:50:04.0122815Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.ImageFiles.psm1",
+            "Bytes": 10430,
+            "Sha256": "DCEBAAC8E47A239C773FC50088E0CA36149F105A3B464572921023B2297C5DE7"
+          },
+          {
+            "Path": "modules/RIDE.DefaultLockScreen.psm1",
+            "Bytes": 24010,
+            "Sha256": "6837A879BD685536941F2942489897952BDAEA6F7D424B89B55D4FC42A5E081E"
+          },
+          {
+            "Path": "tests/integration/RIDE.DefaultLockAcceptance.psm1",
+            "Bytes": 18349,
+            "Sha256": "4DD815ABFF039C75D08188C33B2CE67BBC333D7D3A2B36303BC1D71256DD32B8"
+          },
+          {
+            "Path": "tests/fixtures/default-lock-screen.acceptance.psd1",
+            "Bytes": 284,
+            "Sha256": "BD4EE9A42D2D53FDE852D4D8F5C86A6325E7D6711DD4DB344446FB6BBA6F017A"
+          },
+          {
+            "Path": "inputs/suit_sharpened_4k.png",
+            "Bytes": 1333608,
+            "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB"
+          }
+        ]
+      },
+      "HostModuleSha256": "ADFA75D139DE4DA3DE93D023E1688973D552BAA19B66487CA695EDFB857C7A35",
+      "FinishedAtUtc": "2026-11-02T22:50:19.0795287Z"
+    },
+    {
+      "RequestId": "64fdd30f9a2846dba45fd528fa807d33",
+      "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+      "Family": "DefaultLock",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-02T22:51:08.4839925Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "a978e0f85e1648fba6f9f14874a5cfe5",
+        "LeaseId": "0b30ea72fba84668a6e7a46fcc1e3c12",
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12\\export.b6f27d0954204edb9772e1d9468160e7",
+          "FileCount": 13,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.0b30ea72fba84668a6e7a46fcc1e3c12",
+        "RecordedAtUtc": "2026-11-02T22:51:29.5897194Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.ImageFiles.psm1",
+            "Bytes": 10430,
+            "Sha256": "DCEBAAC8E47A239C773FC50088E0CA36149F105A3B464572921023B2297C5DE7"
+          },
+          {
+            "Path": "modules/RIDE.DefaultLockScreen.psm1",
+            "Bytes": 24010,
+            "Sha256": "6837A879BD685536941F2942489897952BDAEA6F7D424B89B55D4FC42A5E081E"
+          },
+          {
+            "Path": "tests/integration/RIDE.DefaultLockAcceptance.psm1",
+            "Bytes": 18349,
+            "Sha256": "4DD815ABFF039C75D08188C33B2CE67BBC333D7D3A2B36303BC1D71256DD32B8"
+          },
+          {
+            "Path": "tests/fixtures/default-lock-screen.acceptance.psd1",
+            "Bytes": 284,
+            "Sha256": "BD4EE9A42D2D53FDE852D4D8F5C86A6325E7D6711DD4DB344446FB6BBA6F017A"
+          },
+          {
+            "Path": "inputs/suit_sharpened_4k.png",
+            "Bytes": 1333608,
+            "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB"
+          }
+        ]
+      },
+      "HostModuleSha256": "83D066764D83F86FECD66A7D81D91301593ABDA941CC652C02AECF697DFD7D09",
+      "FinishedAtUtc": "2026-11-02T22:51:39.7802413Z"
+    }
+  ],
+  "SourceChecks": [
+    {
+      "PriorFocusedRun": {
+        "Version": "5.1.26100.9818",
+        "Passed": 103,
+        "Failed": 2,
+        "Total": 105
+      },
+      "CorrectedHandleFixtureRun": {
+        "Version": "5.1.26100.9818",
+        "Passed": 2,
+        "Failed": 0,
+        "Total": 2
+      },
+      "Explanation": "The 103 existing checks passed. Two added checks expected an incomplete synthetic SDDL string; after correcting only their expected fixture string, both passed. Unchanged existing cases were not rerun."
+    },
+    {
+      "PriorFocusedRun": {
+        "Version": "7.6.5",
+        "Passed": 103,
+        "Failed": 2,
+        "Total": 105
+      },
+      "CorrectedHandleFixtureRun": {
+        "Version": "7.6.5",
+        "Passed": 2,
+        "Failed": 0,
+        "Total": 2
+      },
+      "Explanation": "The 103 existing checks passed. Two added checks expected an incomplete synthetic SDDL string; after correcting only their expected fixture string, both passed. Unchanged existing cases were not rerun."
+    }
+  ],
+  "Boundary": "Windows 11 EnterpriseEval build 26300 only. Two initial apply failures preserved and reset after export. Fixed reader uses the same opened registry handle for values and permissions. Native preview/apply/repeat, captured policy/image restore and repeat restore passed. SourceManifest binds actual retained guest files. Final checkpoint cleanup followed RIDE recovery. Visible lock screen and broader target acceptance remain pending."
+}

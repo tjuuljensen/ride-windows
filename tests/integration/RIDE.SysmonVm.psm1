@@ -6,7 +6,8 @@
   required source files and seven pinned input files. A durable controller hold survives
   every phase and failure. Reset is explicit and requires a verified export.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.1.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.2.
+  Phase reports expose snapshot paths, sizes and hashes without source bytes.
   No UAC or task registration. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
@@ -375,6 +376,7 @@ function Invoke-RideSysmonVmPhase {
       foreach($name in @('RunId','LeaseId','VMId','VMName','CheckpointId','ConfigurationSha256')){if($descriptor.$name -cne $owned.Hold.$name){throw 'Saved VM session identity differs.'}}
       if($descriptor.SchemaVersion -ne 1 -or $descriptor.Kind -cne 'SysmonVmSession'){throw 'Saved VM session schema differs.'}
     }
+    $report|Add-Member -NotePropertyName SourceManifest -NotePropertyValue @($descriptor.Manifest|Select-Object Path,Bytes,Sha256)
     $retryReset=($Phase -ceq 'Reset' -and $owned.Target.VM.State -eq 'Off')
     $credential=if(-not $retryReset){Get-RideSysmonVmCredential $context.Configuration}else{$null}
     if($Phase -ceq 'Prepare'){

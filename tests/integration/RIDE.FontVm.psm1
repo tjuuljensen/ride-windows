@@ -7,7 +7,8 @@
   controller hold survives every phase and failure. Reset requires verified export.
   Prepare can reuse its own verified snapshot only before checkpoint intent, while Off.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.2.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.3.
+  Phase reports expose snapshot paths, sizes and hashes without source bytes.
   No UAC, task registration, reboot or cross-session acceptance inference. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
@@ -401,6 +402,7 @@ function Invoke-RideFontVmPhase {
       $requestedSelection=@($inputs.Selection|Select-Object FileName,RegistryName,FullName,Sha256)|ConvertTo-Json -Depth 4 -Compress
       if($savedSelection -cne $requestedSelection){throw 'Prepare retry font selection differs.'}
     }
+    $report|Add-Member -NotePropertyName SourceManifest -NotePropertyValue @($descriptor.Manifest|Select-Object Path,Bytes,Sha256)
     $retryReset=($Phase -ceq 'Reset' -and $owned.Target.VM.State -eq 'Off')
     $credential=if(-not $retryReset){Get-RideFontVmCredential $context.Configuration}else{$null}
     if($Phase -ceq 'Prepare'){

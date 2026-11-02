@@ -299,6 +299,8 @@ inferred from this scenario.
 
 Host reports use schema 1 and include Phase, InterfaceId, Stage, Status,
 GuestResult, EvidenceExport, Store, RecoveryRequired and those acceptance fields.
+After session validation, SourceManifest lists retained source/input paths,
+sizes and hashes without publishing profile contents or credentials.
 Statuses include Preview, Prepared, NotRun, Passed, Collected, ResetAndOff and
 Failed. Keep the original Lifecycle report: Collect/Reset do not carry its pass
 forward. RecoveryRequired also describes the retained VM/hold, so even an unrun

@@ -914,3 +914,25 @@ including compatibility for existing callers. Follow-up: the Fedora
 [system/security decision record](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/migrations/system-security-core.md)
 and its alignment entry need an explicit disposition before affected CLI promotion
 or final release review. No Fedora command is removed by this Windows test run.
+
+## Image policy native readback repair, 2026-11-02
+
+Impact: Windows-only provider repair, with unchanged public command, desired
+state, ownership and saved-run schema. After a real default-lock apply wrote the
+policy, the second PowerShell-provider lookup for its ACL reported the key absent.
+Both image handlers now read values and Owner/Group/Access from the same opened
+registry handle. No permissions are weakened and incomplete applies still retain
+their records. Guest diagnostic results preserve bounded exception detail.
+
+Reviewed RB-03, RB-08 and RB-09 against contract 1.1.0, digest
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`.
+The peer checkout changed independently during this run; newly compared `ride.sh`
+digest is `A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43`
+and `lib/v3/common.sh` is
+`A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878`.
+Its root/user privilege, target and candidate gates were re-read. There is no
+Fedora Windows-registry provider to change, and no shared contract amendment.
+Owner: Windows maintainer. Follow-up: native image apply/repeat/exact restore and
+the separate visible-effect requirements in [image personalization](image-personalization.md).
+Review trigger: provider, snapshot permission semantics, recovery or supported
+target changes. Source regression remains separate from native acceptance.

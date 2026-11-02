@@ -282,6 +282,11 @@ Each retained run permits one Configurations attempt; existing evidence refuses
 replacement. A failed attempt needs inspection and appropriate captured-state
 recovery before cleanup or a new clean run.
 
+Validated host reports include SourceManifest paths, byte counts and hashes,
+without publishing the retained source or XML. Failed guest scenarios include
+FailureLocation (source filename, line, exception type and category); exception
+text is omitted because it may contain configuration data.
+
 `Collect` independently exports retained source, private state, a fresh complete
 Sysmon Operational EVTX snapshot and readable `C:\Sysmon` archive files. Guest
 paths are fixed; the host checks correlation, safe unique paths, sizes and
