@@ -190,8 +190,8 @@ permission behavior and exact synthetic round trip remain open. See
 `tests/integration/Invoke-RideWirelessAcceptance.ps1` now supplies the guarded
 guest scenario. Its orchestration and independent XML readback have 12/12 mocked
 tests passing in each PowerShell edition; this is not a native WLAN result.
-The registered host controller does not yet dispatch this entry point. An
-already elevated permitted VM coordinator must first provide the staged source,
+The direct retained host route below is source-prepared. An already elevated
+permitted VM coordinator must provide the staged source,
 the exact target/interface, a retained checkpoint and correlated guest markers
 `RIDE_TEST_GUEST=1`, `RIDE_INTEGRATION_VM=1` and `RIDE_TEST_RUN_ID`. Do not set
 these on the workstation to bypass the guest guard. No new UAC prompt is used.
@@ -228,6 +228,113 @@ claim, and its success does not promote other targets or profiles.
 
 The latest [acceptance preparation evidence](archive/evidence/wireless-acceptance-preparation-2026-11-02.json)
 records an idle host controller, no elevated token and no native guest run.
+
+### Retained host dispatch
+
+Start in the registered repository checkout in an already elevated native Windows
+PowerShell 5.1 x64 host session. Import
+`tests/integration/RIDE.WirelessVm.psm1` and use the installed controller
+configuration. The AutomatedLab credential, exact disposable VM/checkpoint and
+[retained reservation requirements](image-personalization.md#retained-host-coordination)
+apply. This is direct phased dispatch, separate from the generic reset-per-request
+queue. It does not request UAC, refresh the controller or change scheduled tasks.
+
+Prepare reserves the idle Off VM, restores the pinned checkpoint, starts it and
+stages exactly six modules and `wireless-profile.synthetic.psd1`. The fixture
+supplies public synthetic settings; no real network key or supplied XML is needed.
+Both ends verify the fixed source paths and hashes. No legacy/component directory
+is traversed. Guest name, Hyper-V manufacturer/model, exact Windows 11 build,
+selected Enterprise/Education edition, x64 architecture and elevation must match.
+Lifecycle also requires the prepared build revision to remain unchanged.
+
+Prepare observes the WLAN service and interfaces without starting a service,
+installing a component, scanning networks or connecting. The bounded inventory
+provider reads interface/profile-list metadata; the preparation result retains
+only interface GUIDs and literal states. Profile names and adapter descriptions
+are discarded, and no profile XML or key is requested by discovery. Missing
+service/API or zero interfaces returns `NotRun`, with a reason and no acceptance
+pass. Hardware availability on the selected VM remains unverified until this
+native observation runs.
+
+```powershell
+Import-Module .\tests\integration\RIDE.WirelessVm.psm1
+$session = @{
+    ConfigurationPath = '<installed-controller-configuration.json>'
+    RunId = [guid]::NewGuid().ToString('N')
+}
+$prepare = @{
+    Phase = 'Prepare'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+}
+Invoke-RideWirelessVmPhase @session @prepare -WhatIf
+$prepared = Invoke-RideWirelessVmPhase @session @prepare -Confirm:$false
+$prepared.GuestResult.Availability
+# Continue only if Prepared; select a GUID from this request's observation.
+$interface = '<observed-guest-wlan-interface-guid>'
+Invoke-RideWirelessVmPhase @session -Phase Lifecycle -InterfaceId $interface -WhatIf
+$lifecycle = Invoke-RideWirelessVmPhase @session -Phase Lifecycle -InterfaceId $interface -Confirm:$false
+Invoke-RideWirelessVmPhase @session -Phase Collect -Confirm:$false
+# Inspect exported results and any outstanding recovery before explicit cleanup.
+Invoke-RideWirelessVmPhase @session -Phase Reset -Confirm:$false
+```
+
+Review each result before proceeding. On Prepare `NotRun`, skip Lifecycle,
+collect the prerequisite evidence and explicitly reset the retained VM. Do not
+invent a GUID to force a run. Lifecycle accepts InterfaceId only from the saved,
+correlated Prepare observation; both host and guest enforce that selection.
+The guest runner rechecks the actual WLAN service/interface and synthetic-name
+collision, so an interface disappearing later is `NotRun`, not a pass. A failed
+phase retains the guest and its state for inspection.
+
+Lifecycle generates private XML from the supplied synthetic settings, then runs
+the nine import/repeat/replace/remove/recovery checks described above in one
+PowerShell Direct invocation. The host requires the selected interface, all nine
+checks, three distinct restored Import/Replace/Remove runs and a verified evidence
+export before setting `ProfileLifecycleAcceptancePassed=true`. The guest's
+`NativeAcceptancePassed` covers only its documented synthetic lifecycle. The
+host's broader `NativeAcceptancePassed`, `ConnectionVerified` and
+`FullDaclRecoveryVerified` stay false; no connection or general DACL recovery is
+inferred from this scenario.
+
+Host reports use schema 1 and include Phase, InterfaceId, Stage, Status,
+GuestResult, EvidenceExport, Store, RecoveryRequired and those acceptance fields.
+Statuses include Preview, Prepared, NotRun, Passed, Collected, ResetAndOff and
+Failed. Keep the original Lifecycle report: Collect/Reset do not carry its pass
+forward. RecoveryRequired also describes the retained VM/hold, so even an unrun
+scenario requires explicit checkpoint cleanup before releasing the reservation.
+
+Every phase exports the retained guest directory to a fresh private host export
+under `retained.<lease-id>`. It includes the exact source snapshot, interface
+observation, generated synthetic XML, private DPAPI state and reports that exist.
+Ordinary phase results contain no XML or key material. The export itself is
+private evidence and must not be published. DPAPI records remain tied to their
+recorded guest/account; copying them is not portable recovery or proof they can
+be restored after checkpoint rollback. Recover and verify completed lifecycle
+runs in the original guest before cleanup whenever possible.
+
+Export checks paths, hashes, byte counts and host readback, with limits of 512
+entries, 16 MiB per file and 32 MiB total. Failed guest phases attempt a partial
+export without automatic profile deletion or VM reset. Explicit Reset exports
+first, restores the pinned checkpoint, verifies Off and releases only the matching
+hold. Reset is cleanup or deliberate abandonment after failure inspection; it is
+never a RIDE profile-restore pass. Retrying Reset from Off requires a prior reset
+intent and unchanged verified export. Early preparation failures without a usable
+session/intent require controller inspection. Remote jobs have a 180-second limit
+and readiness a separate three-minute limit. A local timeout does not prove guest
+work stopped; existing host Hyper-V/dependency calls have no added watchdog.
+
+Phase, edition, retained run IDs and saved interface GUIDs offer completion.
+Interface completion reads only this request's saved local observation, filters
+case-insensitively and fails quietly if private data is unavailable. It makes no
+VM/WLAN call or hold change. All phases support `-WhatIf`; host previews do not
+query the guest and cannot certify its WLAN prerequisites.
+
+The [dispatch evidence](archive/evidence/wireless-vm-source-2026-11-02.json)
+records 37 host-route and 18 guest-runner source cases passing in each shell,
+independent dependency/generation checks and the installed Prepare preview.
+Native interface discovery, DPAPI/remoting behavior and the actual nine-check
+profile lifecycle remain unrun.
 
 ## Read-only wireless profile inventory
 

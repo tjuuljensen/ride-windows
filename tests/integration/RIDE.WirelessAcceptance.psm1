@@ -11,8 +11,9 @@
   service/interface and an existing local evidence root. No UAC or service start.
   Recovery: Restore completed run IDs in reverse order after inspecting failures;
   incomplete intent requires inspection. Checkpoint cleanup is a separate fallback.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add synthetic native lifecycle and exact observed-order checks.
+  Version: 0.1.1.
+  Changelog: 0.1.1: Add private interface-only observation for retained dispatch.
+  0.1.0: Add synthetic native lifecycle and exact observed-order checks.
 .LINK
   ../../docs/wireless-profile-inventory.md
 #>
@@ -20,6 +21,7 @@ $ErrorActionPreference='Stop'
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.WirelessProfile.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.WirelessLifecycle.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.WirelessNative.psm1') -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.WirelessInventory.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
 
 function Get-RideWirelessAcceptanceEnvironment {
@@ -35,6 +37,27 @@ function Get-RideWirelessAcceptanceRows {
   param([guid]$InterfaceId)
   Initialize-RideWirelessProfileNative
   @([Ride.WirelessProfileV1.Client]::List($InterfaceId)|ForEach-Object {[pscustomobject]@{Name=$_.Name;Flags=[uint32]$_.Flags;Position=[int]$_.Position}})
+}
+
+function Get-RideWirelessAcceptanceInterfaceRows {
+  # The existing bounded provider reads interface/profile-list metadata. Discard
+  # profile rows here; do not request content, keys, scan results or connection.
+  & (Get-Module RIDE.WirelessInventory) {
+    $rows=@(Get-RideWirelessNativeRows)
+    $null=ConvertTo-RideWirelessRows $rows
+    @($rows|ForEach-Object {[pscustomobject]@{Id=([guid]$_.Id).ToString('D');State=[uint32]$_.State}})
+  }
+}
+
+function Get-RideWirelessAcceptanceInterfaces {
+  # Internal read-only helper called after the retained remote target guard.
+  $context=Get-RideWirelessAcceptanceEnvironment
+  $result=[pscustomobject]@{SchemaVersion=1;Kind='WirelessInterfaceObservation';Status='NotRun';Reason='WlanServiceUnavailable';Interfaces=@();ProfileContentRead=$false;ConnectionAttempted=$false;NativeAcceptancePassed=$false}
+  if($context.WlanService -cne 'Running'){return $result}
+  try{$rows=@(Get-RideWirelessAcceptanceInterfaceRows)}catch{$result.Reason='WlanInterfaceUnavailable';return $result}
+  if(-not $rows.Count){$result.Reason='NoWlanInterfaces';return $result}
+  $result.Status='Available';$result.Reason=$null;$result.Interfaces=$rows
+  $result
 }
 
 function Test-RideWirelessAcceptanceProfile {

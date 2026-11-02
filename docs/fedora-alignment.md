@@ -801,3 +801,33 @@ shell, real source-identity gates and installed Prepare preview pass; native
 execution remains pending. Follow-up: [font host procedure](machine-fonts.md#retained-host-dispatch).
 Review trigger: native dispatch/current-session recovery, cross-session/restart
 or consumer evidence, source/target/recovery changes, or release review.
+
+## Retained synthetic WLAN host dispatch, 2026-11-02
+
+Windows-only acceptance preparation; shared behavior unchanged. No public
+CLI/catalog/profile, supported-target or contract revision. RB-03/08/09/10/11
+retain preview, native privilege/target guards, saved recovery and separate
+evidence claims. Prepare returns only guest WLAN interface GUIDs/states; Lifecycle
+requires an explicit interface from the same request/lease observation. Missing
+service, interface or hardware is NotRun. Saved-data completion queries no VM.
+Synthetic profile lifecycle does not establish connectivity or general DACL
+drift recovery. Guest/account-bound DPAPI export is not portable recovery.
+
+Rechecked contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645` and Fedora
+`ride.sh` (`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`),
+`lib/v3/common.sh`
+(`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`).
+Reviewed the peer privilege, target and candidate gates and pinned contract
+procedure again. Previously recorded peer revision is
+`3d9406e3888122d1407652336859e6217c09bcaa`; no fresh peer HEAD or automated
+shared-conformance claim is made.
+
+Owner: RIDE Windows maintainer. Reason: run generated synthetic settings on an
+observed disposable WLAN interface while retaining private recovery evidence.
+Status: 37 host-route plus 18 guest-runner source cases pass in each shell;
+source dependency/generation checks and installed Prepare preview pass. Actual
+WLAN availability, DPAPI/remoting and lifecycle acceptance remain unrun.
+Follow-up: [WLAN host procedure](wireless-profile-inventory.md#retained-host-dispatch).
+Review trigger: native interface observation, synthetic lifecycle/recovery,
+source/target/completion changes, or release review.

@@ -11,6 +11,53 @@
 #>
 BeforeDiscovery {
   Import-Module (Join-Path $PSScriptRoot 'integration/RIDE.WirelessAcceptance.psm1') -Force
+  Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.WirelessInventory.psm1') -ErrorAction Stop
+}
+
+Describe 'Retained guest WLAN interface observation' {
+  InModuleScope RIDE.WirelessAcceptance {
+    BeforeEach {
+      Mock Get-RideWirelessAcceptanceEnvironment {[pscustomobject]@{WlanService='Running'}}
+      Mock Get-RideWirelessAcceptanceInterfaceRows {@([pscustomobject]@{Id='de81fe79-7a46-4d65-a865-e38bfa8aaeb8';State=[uint32]4})}
+    }
+    It 'returns observed interface identities without claiming a lifecycle or connection pass' {
+      $result=Get-RideWirelessAcceptanceInterfaces
+      $result.Status|Should -Be Available;$result.Interfaces.Count|Should -Be 1
+      $result.NativeAcceptancePassed|Should -BeFalse;$result.ConnectionAttempted|Should -BeFalse;$result.ProfileContentRead|Should -BeFalse
+    }
+    It 'reports a missing service without querying native interfaces or starting it' {
+      Mock Get-RideWirelessAcceptanceEnvironment {[pscustomobject]@{WlanService='Absent'}}
+      $result=Get-RideWirelessAcceptanceInterfaces
+      $result.Status|Should -Be NotRun;$result.Reason|Should -Be WlanServiceUnavailable
+      Should -Invoke Get-RideWirelessAcceptanceInterfaceRows -Times 0 -Exactly
+    }
+    It 'reports an empty native interface list as NotRun' {
+      Mock Get-RideWirelessAcceptanceInterfaceRows {@()}
+      $result=Get-RideWirelessAcceptanceInterfaces
+      $result.Status|Should -Be NotRun;$result.Reason|Should -Be NoWlanInterfaces;$result.Interfaces.Count|Should -Be 0
+    }
+    It 'discards provider diagnostics and partial rows on observation failure' {
+      Mock Get-RideWirelessAcceptanceInterfaceRows {throw 'Synthetic private profile name in provider diagnostics.'}
+      $result=Get-RideWirelessAcceptanceInterfaces
+      $result.Status|Should -Be NotRun;$result.Reason|Should -Be WlanInterfaceUnavailable;$result.Interfaces.Count|Should -Be 0
+      ($result|ConvertTo-Json -Depth 5)|Should -Not -Match 'private profile name'
+    }
+  }
+}
+Describe 'Interface-only projection of validated native metadata' {
+  BeforeEach {
+    Mock -ModuleName RIDE.WirelessInventory Get-RideWirelessNativeRows {@([pscustomobject]@{Id='de81fe79-7a46-4d65-a865-e38bfa8aaeb8';Description='Synthetic adapter';State=[uint32]4;Profiles=@([pscustomobject]@{Name='Private synthetic profile name';Flags=[uint32]0;Position=0})})}
+  }
+  It 'drops profile names and adapter descriptions from the returned observation' {
+    $rows=& (Get-Module RIDE.WirelessAcceptance) {Get-RideWirelessAcceptanceInterfaceRows}
+    @($rows).Count|Should -Be 1
+    ($rows.PSObject.Properties.Name -join ';')|Should -BeExactly 'Id;State'
+    ($rows|ConvertTo-Json -Depth 5)|Should -Not -Match 'Private|Profiles|Description'
+  }
+  It 'rejects malformed native metadata before returning an interface identity' {
+    Mock -ModuleName RIDE.WirelessInventory Get-RideWirelessNativeRows {@([pscustomobject]@{Id='not-a-guid';Description='Synthetic';State=4;Profiles=@()})}
+    {& (Get-Module RIDE.WirelessAcceptance) {Get-RideWirelessAcceptanceInterfaceRows}}|Should -Throw
+  }
 }
 Describe 'Synthetic native WLAN acceptance orchestration' {
   InModuleScope RIDE.WirelessAcceptance {

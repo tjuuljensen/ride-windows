@@ -1,0 +1,134 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T20:58:01.20222Z",
+  "Status": "WirelessRetainedHostDispatchSourcePrepared",
+  "ParentCommit": "3814acc",
+  "NativeAcceptance": false,
+  "FocusedSourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 55,
+      "Failed": 0,
+      "Total": 55
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 55,
+      "Failed": 0,
+      "Total": 55
+    }
+  ],
+  "HostRouteCases": 37,
+  "GuestRunnerCases": 18,
+  "SourceDependenciesAndSyntheticGeneration": [
+    {
+      "Status": "SourceDependenciesAndSyntheticGenerationPassed",
+      "PowerShell": "7.6.5",
+      "FixedSourceFiles": 7,
+      "SyntheticXmlGeneratedInMemory": true,
+      "GeneratedXmlWritten": false,
+      "NativeWlanCalls": false,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false,
+      "RecordedAtUtc": "2026-11-02T20:54:59.1945088Z"
+    },
+    {
+      "Status": "SourceDependenciesAndSyntheticGenerationPassed",
+      "PowerShell": "5.1.26100.9818",
+      "FixedSourceFiles": 7,
+      "SyntheticXmlGeneratedInMemory": true,
+      "GeneratedXmlWritten": false,
+      "NativeWlanCalls": false,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false,
+      "RecordedAtUtc": "2026-11-02T20:55:01.6849074Z"
+    }
+  ],
+  "InstalledPreview": {
+    "Status": "Preview",
+    "PowerShell": "5.1.26100.9818",
+    "NativeAcceptancePassed": false,
+    "ExistingConfigurationRead": true,
+    "HoldPresenceUnchanged": true,
+    "WlanQueried": false,
+    "VmQueried": false,
+    "RecordedAtUtc": "2026-11-02T20:55:05.0884132Z"
+  },
+  "HostObservation": {
+    "ObservedAtUtc": "2026-11-02T20:55:33.6360426Z",
+    "AlreadyElevated": false,
+    "PowerShell": "5.1.26100.9818",
+    "InstalledModuleSha256": "1F0E8325114E3C3402E9B71663AE9148A83858FDB2663DCC41C6A4763E86B8EC",
+    "PortableRuntimeFilterPresent": false,
+    "Pending": 0,
+    "Running": 0,
+    "ExistingBlock": false,
+    "VmQueried": false,
+    "ControllerChanged": false,
+    "UacRequested": false
+  },
+  "Boundary": "Host/Hyper-V, credentials, native interface/profile providers, lifecycle mutations, lease and PowerShell Direct calls are mocked. Snapshot/export hashing, private TestDrive records, synthetic XML generation and independent XML readback are real. Separate source gates parse/import, verify nested observation dependencies and generate public synthetic settings in memory; they make no WLAN/VM call. Installed Prepare WhatIf reads actual configuration without querying the guest or changing its hold.",
+  "Phases": [
+    "Prepare",
+    "Lifecycle",
+    "Collect",
+    "Reset"
+  ],
+  "Implementation": {
+    "NonClaims": [
+      "Network connection",
+      "General DACL drift recovery",
+      "Other Windows targets"
+    ],
+    "Completion": "Saved private local observation only; no VM/WLAN query or hold",
+    "Snapshot": "Six modules plus the public synthetic settings fixture, seven fixed paths",
+    "Lifecycle": "Nine checks and three distinct restored Import/Replace/Remove runs, then verified export",
+    "Discovery": "Bounded interface/profile-list provider; returned observation contains only GUIDs and states, with no profile names, descriptions, XML or keys",
+    "Selection": "Lifecycle accepts only an explicit GUID from the same request/lease Prepare observation; both host and guest enforce this"
+  },
+  "Recovery": "NotRun and failures retain the guest and hold. Failed guest phases attempt partial export. Private export includes synthetic XML and guest/account-bound DPAPI records; it is not portable recovery. Explicit checkpoint reset requires verified export, Off verification and matching hold release. Off retry requires prior reset intent and unchanged export. No WLAN service start, component install, forced profile cleanup or new UAC prompt.",
+  "FailureReview": "The initial 46-case run exposed omitted Guid parameters being null on non-Lifecycle phases. Added explicit Guid.Empty defaults and retained preflight requirements for actual interface selection. The expanded 55-case suite then passed in both shells.",
+  "NativeChecksExecuted": 0,
+  "GuestDispatched": false,
+  "ControllerHoldCreated": false,
+  "NativeWlanQuery": false,
+  "ConnectionAttempted": false,
+  "WindowsStateChanged": false,
+  "LegacyOutcomesClosed": 0,
+  "Remaining": [
+    "Existing elevated registered-host execution without a new UAC prompt",
+    "Actual disposable guest WLAN service/interface observation; no suitable hardware result is available yet",
+    "Native synthetic generation/import/repeat/replacement/removal and three exact observed-scope restores with private DPAPI evidence",
+    "Font cross-session/restart and active-consumer acceptance, user lock-screen full-mode recovery and full BitLocker boot/unlock/recovery/decryption scenarios"
+  ],
+  "SourceHashes": [
+    {
+      "Sha256": "37A0C462FC39D3FAACC8E1E2E64E0396CA1F71203A2BA1046628255082857D8B",
+      "Path": "tests/integration/RIDE.WirelessVm.psm1"
+    },
+    {
+      "Sha256": "29F6E72DD6455943F70028E7EE8558C6885AA21817BF6956FBD0E8C5CE1CE0AC",
+      "Path": "tests/WirelessVm.Tests.ps1"
+    },
+    {
+      "Sha256": "94FE20F941C602D03BCD3D0EA25B9A3B8FA2E0B0C179A1F38829C2DD26B0F2A7",
+      "Path": "tests/integration/RIDE.WirelessAcceptance.psm1"
+    },
+    {
+      "Sha256": "BE5AD11C01A2C4C6F4B779C3B70CD6097ECF8C62F38A0C395DB1B78F0704CD36",
+      "Path": "tests/WirelessAcceptance.Tests.ps1"
+    },
+    {
+      "Sha256": "AE1D4BB884DA3BAEB2A0BC2C8175457CEB3A490F6C603E85B9B480B76F952FF5",
+      "Path": "tests/fixtures/wireless-profile.synthetic.psd1"
+    },
+    {
+      "Sha256": "EDCB44B25151DF7881F2EC6DFBDD89D42D544C9B35CC60A12941C9E05DE046D3",
+      "Path": "modules/RIDE.WirelessInventory.psm1"
+    },
+    {
+      "Sha256": "7E516B1459E57A98864EDA85A9879BE4C2D6CB2076231D2249A60BD40941E26D",
+      "Path": "tests/integration/RIDE.RetainedGuest.psm1"
+    }
+  ]
+}
