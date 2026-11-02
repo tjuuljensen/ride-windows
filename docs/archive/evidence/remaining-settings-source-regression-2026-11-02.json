@@ -1,0 +1,60 @@
+{
+  "title": "Remaining Windows settings source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:25:25Z",
+  "scope": "tests/RemainingSettings.Tests.ps1 settings catalog, preview, apply and restore regression.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox temporary HKCU registry writes are denied"
+  },
+  "result": {
+    "discovered": 81,
+    "passed": 81,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 0,
+    "duration": "00:05:10.299",
+    "status": "passed"
+  },
+  "coverage": [
+    "Settings preview and saved-run restore across remaining registry mappings.",
+    "Windows-default and explicit-state handling.",
+    "Network adapter binding, SMB, Defender Controlled Folder Access, power, NCSI, NetBIOS, Remote Desktop, sound and Edge policy selections."
+  ],
+  "safety": {
+    "registryAndSystemHandlers": "mocked by the suite",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "windowsIntegrationRun": false,
+    "networkOrInstallersInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Remaining-setting mocked source regression passed 81/81."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native Windows setting acceptance remains separate.",
+    "Defender-blocked executable runtime checks remain excluded."
+  ],
+  "partial": [
+    "No legacy setting outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "VM acceptance remains blocked by host CIM access to RIDE-Win11-Test.",
+    "The repository-wide Pester sweep has no aggregate summary.",
+    "The PSScriptTools 360-member synthetic lifecycle has not returned within two 15-minute attempts."
+  ]
+}
