@@ -1,0 +1,61 @@
+{
+  "title": "Sixty-setting isolated source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T01:25:20Z",
+  "scope": "Complete isolated run of tests/SixtySettings.Tests.ps1.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "result": {
+    "testsDiscovered": 130,
+    "passed": 130,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:09:19.859",
+    "status": "passed"
+  },
+  "coverage": [
+    "Mocked preview, saved-run capture and restore across the sixty-setting matrix.",
+    "Registry failure and state mapping cases in the same test file.",
+    "Defender, Explorer, services, power, shell-folder and UAC policy selection boundaries."
+  ],
+  "safety": {
+    "registryAndSystemHandlers": "mocked by the suite",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "windowsIntegrationRun": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "SixtySettings.Tests.ps1 passed all 130 tests in the isolated PowerShell 7 run."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native Windows setting behavior and VM acceptance.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No legacy setting outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester aggregate remains incomplete.",
+    "WFN 531-member and PSScriptTools 360-member synthetic lifecycles remain incomplete.",
+    "Host CIM access blocks RIDE-Win11-Test acceptance."
+  ]
+}
