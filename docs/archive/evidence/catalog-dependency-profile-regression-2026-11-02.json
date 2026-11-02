@@ -1,0 +1,42 @@
+{
+  "title": "Catalog, dependency and profile validation regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:54:42Z",
+  "tests": {
+    "files": [
+      "tests/Catalog.Tests.ps1",
+      "tests/CatalogDependencyValidation.Tests.ps1",
+      "tests/CatalogProfileValidation.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 113,
+    "passed": 112,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 1,
+    "notRunReason": "One WindowsIntegration registry subtree lifecycle case excluded because this sandbox denies HKCU writes.",
+    "duration": "00:01:04.435",
+    "testRegistry": "disabled because sandbox HKCU access is denied",
+    "windowsIntegration": "excluded"
+  },
+  "initialEnvironmentProbe": {
+    "result": "Denied before registry key creation",
+    "reason": "HKCU access denied",
+    "hostStateChanged": false
+  },
+  "scope": {
+    "networkUsed": false,
+    "vmAccessed": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155."
+  },
+  "blockers": [
+    "The WindowsIntegration registry subtree test needs a Windows environment with HKCU write access.",
+    "Host Hyper-V and Task Scheduler access remains denied for VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
