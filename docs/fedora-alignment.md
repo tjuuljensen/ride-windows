@@ -485,7 +485,7 @@ remains gated by actual execution evidence.
 ## Bounded image source validation, 2026-11-02
 
 This read-only Windows source gate leaves RB-05 acquisition, RB-06 lifecycle,
-RB-09 recovery and RB-10 acceptance boundaries unchanged. A validated byte
+RB-09 recovery and RB-11 acceptance boundaries unchanged. A validated byte
 snapshot is neither installation nor verified personalization. No shared CLI,
 catalog/profile schema, contract version or digest changes. Windows image APIs
 and edition-specific policy acceptance remain local and unpromoted.
@@ -505,3 +505,31 @@ workflows without promoting behavior from source checks. Follow-up:
 [image lifecycle and visible acceptance](image-personalization.md#three-separate-acceptance-workflows).
 Review trigger: image writer/recovery implementation, supported route/edition
 changes, native acceptance or release-candidate review.
+
+## Machine default lock-screen candidate, 2026-11-02
+
+Difference ID: `windows.default-lock-screen`. Classification: native platform
+extension; shared behavior unchanged (RB-02/03/04/06/08/09/10/11). The explicit
+machine workflow uses the documented edition-specific policy and an owned PNG.
+It captures private state before writes, preserves unrelated state, requires
+fresh candidate opt-in for apply/restore and refuses conflicting recovery.
+No user preference, legacy baseline/reset, cache or visible effect is silently
+substituted. Structured results declare schema 1; completion is local/read-only.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and the prior peer target/candidate/journal/recovery comparison at `e287415`.
+Peer candidate/platform checks were reread; unchanged source hashes are
+`ride.sh`: `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+`lib/v3/common.sh`: `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Last verified peer revision remains `3d9406e3888122d1407652336859e6217c09bcaa`;
+the previously recorded sandbox Git-access limitation remains. No shared schema,
+verb, contract version/digest or automated shared-conformance claim changes.
+
+Owner: RIDE Windows maintainer. Reason: Windows machine default-image policy
+has native scope, edition and visible-effect semantics. Status: source candidate;
+native acceptance remains open. Follow-up:
+[machine default lock-screen acceptance](image-personalization.md#three-separate-acceptance-workflows).
+Review trigger: guarded native dispatch, actual permissions/visible recovery,
+edition/route changes or release-candidate review. This does not imply Fedora
+feature parity or close the legacy default-lock reset outcome.

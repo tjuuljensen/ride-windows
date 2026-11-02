@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T17:31:49.7025111Z",
+  "Status": "SourceLifecyclePassed",
+  "NativeAcceptance": false,
+  "CombinedSourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 43,
+      "Failed": 0,
+      "Total": 43
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 43,
+      "Failed": 0,
+      "Total": 43
+    }
+  ],
+  "DefaultLockScreenCases": 27,
+  "SharedImageCases": 16,
+  "Validation": {
+    "Operations": 475,
+    "PowerShellFiles": 363,
+    "Groups": 9,
+    "Status": "Passed",
+    "Profiles": 5
+  },
+  "Boundary": "Target/CIM, registry and machine ACL writers are mocked. Real temporary files and metadata use user-owned test storage. Machine scope requests are asserted; ACL descriptors and directory refusal rules are tested in memory.",
+  "Implemented": [
+    "Exact candidate target and existing elevation guards",
+    "Bounded hash-pinned image snapshot",
+    "No-change preview and completed-owner repeat",
+    "Private machine recovery before public image/policy writes",
+    "Full policy-key unrelated state preservation",
+    "Owned file hash/security/metadata conflict detection",
+    "Captured string/expandable-string/absence restore",
+    "Nonrecursive removal of empty run-created policy key",
+    "Interrupted restore cleanup retry",
+    "Read-only saved-run completion"
+  ],
+  "RecoveryLimits": [
+    "Incomplete apply without completed record refuses automatic recovery.",
+    "Conflicting target, directory, file or policy state requires inspection.",
+    "No Windows cache or visual-image restoration claim from registry/file readback.",
+    "No user lock-screen or default wallpaper substitution."
+  ],
+  "CandidateEditions": [
+    "Enterprise",
+    "EnterpriseN",
+    "EnterpriseEval",
+    "Education",
+    "EducationN"
+  ],
+  "MachinePolicyChanged": false,
+  "SourceImagesChanged": false,
+  "GuestDispatched": false,
+  "NativeVisualAcceptance": false,
+  "Remaining": [
+    "Guarded fixture/controller dispatch without fresh UAC",
+    "Actual machine asset/private state ACL and lifecycle acceptance",
+    "Signed-out/default image visible verification and recovery",
+    "Default wallpaper and user lock-screen workflows",
+    "Full BitLocker boot/unlock/recovery/decryption scenario"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.DefaultLockScreen.psm1",
+      "Sha256": "BAA4EB89E0F8AD66E03C3EC6C296128A485463A9BF3FF0B14E51D1BF52047421"
+    },
+    {
+      "Path": "tests/DefaultLockScreen.Tests.ps1",
+      "Sha256": "22C611DAC5B21F3E4E6911AC001F45DA1A49F013B735CA61B297C5845C991507"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}
