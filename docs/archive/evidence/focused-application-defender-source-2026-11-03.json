@@ -1,0 +1,37 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T23:22:14.2856769Z",
+  "Status": "SourcePreparedNativePending",
+  "Path": "tests/integration/Invoke-RideApplicationBatch.ps1",
+  "Sha256": "EB502A208675C1E438267A33CB2B66BA8617104760394ADE9364696BF07271F9",
+  "Batches": [
+    9,
+    10,
+    12
+  ],
+  "Products": [
+    "MiTeC InfoBar",
+    "MiTeC Project Maker",
+    "NTCore Explorer Suite"
+  ],
+  "ParserPassed": [
+    "Windows PowerShell 5.1",
+    "PowerShell 7"
+  ],
+  "ObserverTests": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 5,
+      "Failed": 0,
+      "Total": 5
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 5,
+      "Failed": 0,
+      "Total": 5
+    }
+  ],
+  "NativeRunPerformed": false,
+  "Remaining": "Installed application routes exist but still stage the full checkout. Prepare reviewed runtime-only staging before native execution; no controller refresh or UAC prompt overnight."
+}

@@ -6,6 +6,8 @@
   application scenarios preserve user files and recover an explicit uninstall.
   With an evidence directory, appends closed-handle lifecycle progress records.
   Project Maker also retains its Inno Setup log for timeout diagnosis.
+  InfoBar, Project Maker and NTCore Explorer Suite require active Defender with
+  no new detection since guest boot, recorded before and after the lifecycle.
 .PARAMETER Batch
   Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), side-by-side Microsoft OpenJDK versions on Server 2025 (8), MiTeC InfoBar on Windows 11 (9), MiTeC Project Maker on Windows 11 (10), HashCheck on Windows 11 (11), or NTCore Explorer Suite on Windows 11 (12).
 .PARAMETER PackageId
@@ -47,8 +49,9 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.19.4.
-  Changelog: 0.19.4: Retain machine lifecycle stage progress and Project Maker installer diagnostics on timeout.
+  Owner: RIDE-Windows maintainers. Version: 0.20.0.
+  Changelog: 0.20.0: Require Defender evidence for focused InfoBar, Project Maker and Explorer Suite acceptance.
+    0.19.4: Retain machine lifecycle stage progress and Project Maker installer diagnostics on timeout.
     0.19.3: Admit the exact Batch 12 candidate to the guest-only catalog and include its removal/recovery checks.
     0.19.2: Check HashCheck's observed four-part installed version without changing its release pin.
     0.19.1: Retain the HashCheck publisher installer log in collected guest evidence.
@@ -91,7 +94,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.19.4'
+$script:ScriptVersion='0.20.0'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -286,6 +289,16 @@ $results=New-Object System.Collections.Generic.List[object]
 $jsonResults=New-Object System.Collections.Generic.List[string]
 $evidenceFile=if($UnelevatedChild){"applications-batch$Batch-user.json"}else{"applications-batch$Batch.json"}
 $evidencePath=if($env:RIDE_TEST_EVIDENCE_PATH){Join-Path $env:RIDE_TEST_EVIDENCE_PATH $evidenceFile}else{$null}
+$defenderRequired=$Batch -in @(9,10,12)
+if($defenderRequired){
+  if(-not $evidencePath){throw 'Focused package Defender acceptance requires an evidence directory.'}
+  Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force
+  $defenderSince=$guestOs.LastBootUpTime
+  if(-not $defenderSince){throw 'Guest boot time unavailable for Defender acceptance.'}
+  $defenderBefore=Get-RideDefenderAcceptanceObservation -Since $defenderSince
+  $defenderBefore|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $env:RIDE_TEST_EVIDENCE_PATH 'defender-before.json') -Encoding UTF8
+  if(-not $defenderBefore.Passed){throw 'Defender preflight failed; preserve evidence and stop without changing exclusions.'}
+}
 if(-not $UnelevatedChild){
   $targetExcluded | ForEach-Object {
     $eligibleTargets=@($_.Selected.SupportedTargets)+@($_.Selected.CandidateTargets)
@@ -830,4 +843,9 @@ foreach($scenario in $scenarios){
   Add-RideApplicationBatchResult -Results $results -JsonRecords $jsonResults -Result ([pscustomobject]$scenarioResult) -EvidencePath $evidencePath
 }
 $results | Format-Table Id,Variant,Target,Status,Version -AutoSize
+if($defenderRequired){
+  $defenderAfter=Get-RideDefenderAcceptanceObservation -Since $defenderSince
+  $defenderAfter|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $env:RIDE_TEST_EVIDENCE_PATH 'defender-after.json') -Encoding UTF8
+  if(-not $defenderAfter.Passed){throw 'Defender postflight failed; preserve evidence and stop without changing exclusions.'}
+}
 if(@($results | Where-Object { $_.Status -notin @('Passed','NotApplicable') }).Count){throw "Applications batch $Batch has failed scenarios; see application evidence."}
