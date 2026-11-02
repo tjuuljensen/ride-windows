@@ -335,8 +335,12 @@ query the guest and cannot certify its WLAN prerequisites.
 The [dispatch evidence](archive/evidence/wireless-vm-source-2026-11-02.json)
 records 37 host-route and 18 guest-runner source cases passing in each shell,
 independent dependency/generation checks and the installed Prepare preview.
-Native interface discovery, DPAPI/remoting behavior and the actual nine-check
-profile lifecycle remain unrun.
+The [native prerequisite run](archive/evidence/wireless-night-prerequisite-2026-11-03.json)
+returned NotRun because the guest WLAN service was unavailable. No profile content
+was read or imported and no connection was attempted. Export, checkpoint reset
+and retained-hold release passed. Adapter suitability, DPAPI lifecycle behavior
+and the actual nine-check profile lifecycle remain unverified. Use a disposable
+WLAN-capable target with the service available for the next native run.
 
 ## Read-only wireless profile inventory
 
