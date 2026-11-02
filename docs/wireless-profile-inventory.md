@@ -181,9 +181,53 @@ RIDE restore. Do not discard private records before verified recovery.
 `tests/WirelessLifecycle.Tests.ps1` mocks every WLAN call and target identity while
 testing real private-file ACLs and DPAPI in TestDrive. Together with generation,
 33/33 tests pass in PowerShell 7.6.5 and Windows PowerShell 5.1.26100.9818. This is
-source evidence only; the native import route, hardware/service prerequisites,
+source evidence only; native hardware/service prerequisites,
 permission behavior and exact synthetic round trip remain open. See
 [dated evidence](archive/evidence/wireless-lifecycle-source-2026-11-02.json).
+
+### Disposable-target acceptance entry point
+
+`tests/integration/Invoke-RideWirelessAcceptance.ps1` now supplies the guarded
+guest scenario. Its orchestration and independent XML readback have 12/12 mocked
+tests passing in each PowerShell edition; this is not a native WLAN result.
+The registered host controller does not yet dispatch this entry point. An
+already elevated permitted VM coordinator must first provide the staged source,
+the exact target/interface, a retained checkpoint and correlated guest markers
+`RIDE_TEST_GUEST=1`, `RIDE_INTEGRATION_VM=1` and `RIDE_TEST_RUN_ID`. Do not set
+these on the workstation to bypass the guest guard. No new UAC prompt is used.
+
+From the staged repository inside that attested guest, with an existing local
+evidence root and the request's independently observed interface GUID:
+
+```powershell
+.\tests\integration\Invoke-RideWirelessAcceptance.ps1 `
+    -RunId $env:RIDE_TEST_RUN_ID -InterfaceId '<guest-wlan-interface-guid>' `
+    -ExpectedComputerName '<guest>' -ExpectedBuild '26300' `
+    -ExpectedEditionId EnterpriseEval -EvidenceRoot 'C:\RIDE\WirelessAcceptance' `
+    -DisposableVm -WhatIf
+```
+
+After a successful preview, use the same arguments without `-WhatIf` and with
+`-Confirm:$false`. A new request directory receives private synthetic XML,
+DPAPI lifecycle records and `result.json`. The fixture name includes the request
+prefix; any collision refuses rather than adopting or deleting an existing
+profile. The run verifies preview, import with native readback, repeat without a
+new run, replacement with a second synthetic SSID, recovery of the prior profile,
+owned removal, recovery of the removed profile, recovery of initial absence and
+the complete observed list/flags/order, and repeated restore. It never connects.
+
+Inspect the schema-1 result before any checkpoint cleanup. `Passed` requires all
+nine checks; `Preview` makes no change; `NotRun` identifies missing elevation,
+service, interface or a fixture collision. `Failed` identifies the last stage,
+sets `RecoveryRequired=true` and retains completed lifecycle IDs plus all saved
+intent IDs in `StateRunIds`, including incomplete operations. It stops rather
+than attempting blind cleanup. Follow the lifecycle recovery limits above;
+verify recovery before treating checkpoint cleanup as routine. Do not publish
+private state. The entry point makes no connection or universal DACL-recovery
+claim, and its success does not promote other targets or profiles.
+
+The latest [acceptance preparation evidence](archive/evidence/wireless-acceptance-preparation-2026-11-02.json)
+records an idle host controller, no elevated token and no native guest run.
 
 ## Read-only wireless profile inventory
 

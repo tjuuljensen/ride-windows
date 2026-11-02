@@ -1,0 +1,103 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T14:42:53.1572082Z",
+  "Kind": "WirelessAcceptancePreparation",
+  "SourceBaseCommit": "e287415",
+  "Status": "GuestEntryPointSourceValidatedNativeExecutionPending",
+  "Validation": [
+    {
+      "Version": "7.6.5",
+      "Passed": 12,
+      "Failed": 0,
+      "Total": 12
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 12,
+      "Failed": 0,
+      "Total": 12
+    }
+  ],
+  "VersionChecks": {
+    "WindowsPowerShell51": "0.1.0",
+    "PowerShell7": "0.1.0"
+  },
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "ExcludedTags": [
+    "WindowsIntegration"
+  ],
+  "Coverage": [
+    "Complete ordered synthetic lifecycle and independent readback",
+    "Preview without evidence or mutation",
+    "Disposable guest/request and exact target guards",
+    "Unavailable elevation/service/interface produce NotRun",
+    "Profile and evidence collisions preserve existing state",
+    "Malformed/failed lifecycle result stops the sequence",
+    "Readback failure retains completed and incomplete run IDs",
+    "Recovery failure cannot be reported as passed",
+    "Private report ACL and secret-free public output",
+    "Exact name/SSID/key/scope readback with case-independent hexadecimal representation",
+    "Automatic profile, duplicate identity and DTD refusal"
+  ],
+  "NativeWlanCallsPerformed": false,
+  "VmMutationPerformed": false,
+  "NativeAcceptancePassed": false,
+  "RepositoryValidation": {
+    "PowerShellFiles": 347,
+    "Passed": true,
+    "Profiles": 5,
+    "Operations": 475,
+    "Groups": 9,
+    "GeneratedDocumentationCurrent": true
+  },
+  "ControllerObservation": {
+    "Running": 0,
+    "TaskState": "Ready",
+    "MutationPerformed": false,
+    "VMState": "Off",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "RecordedAtUtc": "2026-11-02T14:28:49.3604032Z",
+    "VMName": "RIDE-Win11-Test",
+    "RecoveryBlocked": false,
+    "Pending": 0,
+    "AlreadyElevated": false
+  },
+  "RegisteredDispatcherAvailable": false,
+  "GuestWlanAvailability": "Not observed",
+  "ControllerRefresh": "Requires permitted already-elevated setup; no fresh UAC prompt",
+  "NativeChecks": [
+    "PreviewNoChanges",
+    "ImportAndNativeReadback",
+    "RepeatWithoutNewRun",
+    "ReplacementAndNativeReadback",
+    "PriorSyntheticProfileRestored",
+    "OwnedRemoval",
+    "RemovedProfileRestored",
+    "InitialAbsenceAndOrderRestored",
+    "RepeatedRestoreNoChange"
+  ],
+  "NativeChecksExecuted": false,
+  "LegacyOutcomesClosed": 0,
+  "Remaining": [
+    "Permitted controller dispatch/refresh",
+    "Verify WLAN service/interface and execute prepared synthetic native scenario",
+    "Machine font/image lifecycle implementation and native acceptance",
+    "Three Sysmon configuration apply/restore cases",
+    "Full BitLocker boot/unlock/recovery/decryption scenario"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "tests/integration/Invoke-RideWirelessAcceptance.ps1",
+      "Sha256": "0DF80E427A11EC416D3C0841B5E6BB5D07038712E37B760D2D488FE0FD858615"
+    },
+    {
+      "Path": "tests/integration/RIDE.WirelessAcceptance.psm1",
+      "Sha256": "FB16ACF902D6F04F5870EB8A1B3F529EE35E8E0236B51067C6D17F9F8C7994B5"
+    },
+    {
+      "Path": "tests/WirelessAcceptance.Tests.ps1",
+      "Sha256": "FC9D28219509111D8022D1B871B853F4FF818D4DDAFD79B385F782BD6D88731C"
+    }
+  ]
+}

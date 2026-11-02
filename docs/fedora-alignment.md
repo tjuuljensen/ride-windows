@@ -347,3 +347,26 @@ Owner: RIDE Windows maintainer. Follow-up: the
 Review trigger: native import/recovery acceptance, controller integration,
 permission capture or interrupted-run recovery changes, or the release candidate.
 No contract version/digest change is required for this native extension.
+
+## Synthetic WLAN acceptance route, 2026-11-02
+
+Compatible verification extension of `windows.wlan-private-lifecycle`; shared
+requirements unchanged (RB-02/03/04/08/09/10/11). The guest entry point requires
+exact target identity, correlated request markers, existing elevation and an
+explicit interface. Preview creates no evidence or lifecycle run. Actual steps
+use the candidate lifecycle with per-call opt-in. Missing prerequisites return
+NotRun; failed verification returns Failed with retained recovery IDs. Neither
+can be treated as native acceptance. Tests mock all native/system boundaries.
+
+Reused the e287415 review of contract 1.0.0 and unchanged peer target/candidate/
+recovery paths, including the exact hashes in the preceding difference entry.
+No shared verb, catalog/profile meaning, acquisition or recovery guarantee has
+changed. The registered controller does not yet dispatch this entry point;
+source readiness is distinct from installed controller capability and native
+acceptance. No version/digest or automated shared-conformance claim changes.
+
+Owner: RIDE Windows maintainer. Follow-up and review trigger: permitted
+controller integration/refresh, suitable guest WLAN support and execution of the
+[synthetic native procedure](wireless-profile-inventory.md#disposable-target-acceptance-entry-point),
+or a change to its scope/recovery contract. Font/image, Sysmon and BitLocker
+acceptance remain separate, unaffected work.
