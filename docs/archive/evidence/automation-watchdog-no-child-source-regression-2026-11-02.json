@@ -1,0 +1,64 @@
+{
+  "title": "Automation watchdog file, lock and state checks",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T01:26:26Z",
+  "scope": "Eight selected cases in tests/AutomationWatchdog.Tests.ps1 which do not launch child processes.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "selectedTests": [
+    "reads alongside an existing writable handle without requesting write access",
+    "bounds a persistent exclusive lock and closes handles after failure",
+    "does not suppress malformed progress as a transient sharing error",
+    "bounds coordination-lock contention and reuses the retained lock file",
+    "applies the execution deadline without restarting a preparation budget",
+    "expires an old queued request without launching preparation",
+    "does not overwrite an existing terminal result on duplicate dispatch",
+    "keeps phase timing and the VM mutation marker sticky and refuses backward progress"
+  ],
+  "result": {
+    "testsDiscovered": 16,
+    "selected": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 8,
+    "duration": "00:00:05.332",
+    "status": "passed"
+  },
+  "safety": {
+    "childProcessLaunched": false,
+    "vmQueriedOrChanged": false,
+    "systemStateChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Selected watchdog file, lock, deadline and terminal-state checks passed 8/8."
+  ],
+  "retired": [],
+  "excluded": [
+    "Eight unselected child-process, success, timeout, recovery and process-tree cases await a separate run."
+  ],
+  "partial": [
+    "No migration outcome closes in this maintenance source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Child-process tree termination cases have exceeded the observed sandbox process timeout in earlier runs.",
+    "Repository-wide Pester aggregate remains incomplete.",
+    "Host CIM access blocks VM acceptance."
+  ]
+}
