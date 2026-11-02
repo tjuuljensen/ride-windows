@@ -21,6 +21,7 @@ declares each operation's support, actions, references and recovery limits.
 | Inspecting Windows component availability | [Read-only feature, capability and Server role inventory](windows-component-inventory.md), with explicit target identity and pending native acceptance |
 | Inspecting network adapter identities | [Read-only adapter inventory](network-adapter-inventory.md), with GUID-only saved lookup and pending native collection acceptance |
 | Preparing and managing Wi-Fi profiles | [Wi-Fi generation, candidate lifecycle and inventory](wireless-profile-inventory.md): generate private XML, preview all-user import/owned removal/restore, or inspect stored names/order/flags; native acceptance remains pending |
+| Installing machine fonts | [Machine-font candidate](machine-fonts.md): hash-pinned licensed inputs, owned removal and captured recovery; native acceptance remains pending |
 | Inspecting volume identities | [Read-only volume inventory](volume-inventory.md), with saved GUID-path lookup and pending native collection acceptance |
 | Inspecting local account identities | [Read-only local user inventory](local-user-inventory.md), with saved SID lookup; membership, credentials and account changes remain separate |
 | Inspecting the intended user's language list and regional state | [Read-only ordered language inventory](user-language-inventory.md), separate display/input overrides and [explicit regional providers](user-language-inventory.md#observe-regional-providers-separately) with process/user/machine scope |

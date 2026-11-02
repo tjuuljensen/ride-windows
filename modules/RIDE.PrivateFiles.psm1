@@ -2,15 +2,16 @@
 .SYNOPSIS
   Create and read private local files for credential-bearing RIDE preparation/state.
 .DESCRIPTION
-  Creates files exclusively with current-user/SYSTEM access and verifies the
-  open handle permissions before returning it. Reads require the same owner and
+  Creates files with current-user/SYSTEM or machine administrator/SYSTEM access
+  and verifies open-handle permissions. Reads require the matching owner and
   protected DACL. Does not change permissions on an existing file or directory.
 .NOTES
   Compatibility: Native Windows PowerShell 5.1 and PowerShell 7 on Windows.
   Prerequisites: Local filesystem with Windows ACL support; existing parent directory.
   Recovery: Caller owns disposal and new-file cleanup. No overwrite is permitted.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Share the validated WLAN private-file boundary with lifecycle state.
+  Version: 0.2.0.
+  Changelog: 0.2.0: Add explicit administrator-owned machine state without changing user defaults.
+  0.1.0: Share the validated WLAN private-file boundary with lifecycle state.
 #>
 $ErrorActionPreference='Stop'
 
@@ -26,8 +27,9 @@ function Resolve-RidePrivateFilePath {
   $full
 }
 function New-RidePrivateFileSecurity {
-  $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
-  try { $sid=$identity.User } finally { $identity.Dispose() }
+  param([ValidateSet('User','Machine')][string]$Scope='User')
+  if($Scope -eq 'Machine'){$sid=[Security.Principal.SecurityIdentifier]::new('S-1-5-32-544')}
+  else{$identity=[Security.Principal.WindowsIdentity]::GetCurrent();try { $sid=$identity.User } finally { $identity.Dispose() }}
   $security=[Security.AccessControl.FileSecurity]::new()
   $security.SetAccessRuleProtection($true,$false);$security.SetOwner($sid)
   foreach ($principal in @($sid,[Security.Principal.SecurityIdentifier]::new('S-1-5-18'))) {
@@ -42,15 +44,18 @@ function New-RidePrivateFileStream {
     Create a new private file and return an open stream; no existing file is overwritten.
   .PARAMETER Path
     New local file in an existing directory. No reparse ancestors or network paths.
+  .PARAMETER Scope
+    User (default) grants current-user/SYSTEM access. Machine grants only local
+    Administrators/SYSTEM and sets Administrators as owner; requires existing elevation.
   .OUTPUTS
     FileStream. Caller must dispose it, including on write failure.
   .NOTES
     Internal persistence helper. Caller owns ShouldProcess and data handling.
   #>
   [CmdletBinding()]
-  param([Parameter(Mandatory)][string]$Path)
+  param([Parameter(Mandatory)][string]$Path,[ValidateSet('User','Machine')][string]$Scope='User')
   $Path=Resolve-RidePrivateFilePath $Path
-  $security=New-RidePrivateFileSecurity
+  $security=New-RidePrivateFileSecurity -Scope $Scope
   $rights=[Security.AccessControl.FileSystemRights]::Write -bor [Security.AccessControl.FileSystemRights]::ReadPermissions
   $stream=$null
   try {
@@ -76,20 +81,22 @@ function Read-RidePrivateFileBytes {
   .SYNOPSIS
     Read a bounded private file after checking owner and handle DACL.
   .PARAMETER Path
-    Existing private local file with current-user/SYSTEM access only.
+    Existing private local file with the selected scope's owner and access rules.
   .PARAMETER MaximumBytes
     Bound for the specific caller's record format. Default one MiB.
+  .PARAMETER Scope
+    User (default) or administrator-owned Machine permissions required before reading.
   .OUTPUTS
     Byte array. May contain credentials; callers must not emit it into logs.
   .NOTES
     Read-only. Uses an exclusive handle and never repairs existing permissions.
   #>
   [CmdletBinding()]
-  param([Parameter(Mandatory)][string]$Path,[ValidateRange(1,16777216)][int]$MaximumBytes=1048576)
+  param([Parameter(Mandatory)][string]$Path,[ValidateRange(1,16777216)][int]$MaximumBytes=1048576,[ValidateSet('User','Machine')][string]$Scope='User')
   $Path=Resolve-RidePrivateFilePath $Path
   $stream=[IO.File]::Open($Path,[IO.FileMode]::Open,[IO.FileAccess]::Read,[IO.FileShare]::None)
   try {
-    $expected=New-RidePrivateFileSecurity
+    $expected=New-RidePrivateFileSecurity -Scope $Scope
     $actual=if($PSVersionTable.PSEdition -eq 'Desktop'){$stream.GetAccessControl()}else{[IO.FileSystemAclExtensions]::GetAccessControl($stream)}
     $expectedRules=@($expected.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier])|ForEach-Object {'{0}|{1}|{2}|{3}' -f $_.IdentityReference.Value,$_.FileSystemRights,$_.AccessControlType,$_.IsInherited}|Sort-Object)
     $actualRules=@($actual.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier])|ForEach-Object {'{0}|{1}|{2}|{3}' -f $_.IdentityReference.Value,$_.FileSystemRights,$_.AccessControlType,$_.IsInherited}|Sort-Object)

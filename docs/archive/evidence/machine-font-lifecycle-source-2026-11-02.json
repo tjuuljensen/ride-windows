@@ -1,0 +1,255 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-11-02",
+  "Status": "SourceValidatedNativePending",
+  "SourceBaseCommit": "df3ca8f",
+  "NativeAcceptancePassed": false,
+  "SystemMutationPerformed": false,
+  "Tests": [
+    {
+      "Version": "7.6.5",
+      "Passed": 33,
+      "Failed": 0,
+      "Total": 33
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 33,
+      "Failed": 0,
+      "Total": 33
+    }
+  ],
+  "TestComposition": {
+    "FontAndSecurity": 18,
+    "SharedPrivateFileGeneratorRegression": 15
+  },
+  "SelectedInputs": {
+    "Status": "SelectedSourceValidated",
+    "Count": 14,
+    "LicenseSha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7",
+    "Fonts": [
+      {
+        "FileName": "OpenSauceSans-Black.ttf",
+        "FullName": "Open Sauce Sans Black",
+        "RegistryName": "Open Sauce Sans Black (TrueType)",
+        "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+      },
+      {
+        "FileName": "OpenSauceSans-BlackItalic.ttf",
+        "FullName": "Open Sauce Sans Black Italic",
+        "RegistryName": "Open Sauce Sans Black Italic (TrueType)",
+        "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+      },
+      {
+        "FileName": "OpenSauceSans-Bold.ttf",
+        "FullName": "Open Sauce Sans Bold",
+        "RegistryName": "Open Sauce Sans Bold (TrueType)",
+        "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+      },
+      {
+        "FileName": "OpenSauceSans-BoldItalic.ttf",
+        "FullName": "Open Sauce Sans Bold Italic",
+        "RegistryName": "Open Sauce Sans Bold Italic (TrueType)",
+        "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+      },
+      {
+        "FileName": "OpenSauceSans-ExtraBold.ttf",
+        "FullName": "Open Sauce Sans ExtraBold",
+        "RegistryName": "Open Sauce Sans ExtraBold (TrueType)",
+        "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+      },
+      {
+        "FileName": "OpenSauceSans-ExtraBoldItalic.ttf",
+        "FullName": "Open Sauce Sans ExtraBold Italic",
+        "RegistryName": "Open Sauce Sans ExtraBold Italic (TrueType)",
+        "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+      },
+      {
+        "FileName": "OpenSauceSans-Italic.ttf",
+        "FullName": "Open Sauce Sans Italic",
+        "RegistryName": "Open Sauce Sans Italic (TrueType)",
+        "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+      },
+      {
+        "FileName": "OpenSauceSans-Light.ttf",
+        "FullName": "Open Sauce Sans Light",
+        "RegistryName": "Open Sauce Sans Light (TrueType)",
+        "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+      },
+      {
+        "FileName": "OpenSauceSans-LightItalic.ttf",
+        "FullName": "Open Sauce Sans Light Italic",
+        "RegistryName": "Open Sauce Sans Light Italic (TrueType)",
+        "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+      },
+      {
+        "FileName": "OpenSauceSans-Medium.ttf",
+        "FullName": "Open Sauce Sans Medium",
+        "RegistryName": "Open Sauce Sans Medium (TrueType)",
+        "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+      },
+      {
+        "FileName": "OpenSauceSans-MediumItalic.ttf",
+        "FullName": "Open Sauce Sans Medium Italic",
+        "RegistryName": "Open Sauce Sans Medium Italic (TrueType)",
+        "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+      },
+      {
+        "FileName": "OpenSauceSans-Regular.ttf",
+        "FullName": "Open Sauce Sans Regular",
+        "RegistryName": "Open Sauce Sans Regular (TrueType)",
+        "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+      },
+      {
+        "FileName": "OpenSauceSans-SemiBold.ttf",
+        "FullName": "Open Sauce Sans SemiBold",
+        "RegistryName": "Open Sauce Sans SemiBold (TrueType)",
+        "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+      },
+      {
+        "FileName": "OpenSauceSans-SemiBoldItalic.ttf",
+        "FullName": "Open Sauce Sans SemiBold Italic",
+        "RegistryName": "Open Sauce Sans SemiBold Italic (TrueType)",
+        "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+      }
+    ],
+    "NativeCallsPerformed": false,
+    "NativeDeclarationsCompiled": true,
+    "PowerShell": "7.6.5"
+  },
+  "SecondShellInputs": {
+    "Status": "SelectedSourceValidated",
+    "Count": 14,
+    "LicenseSha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7",
+    "Fonts": [
+      {
+        "FileName": "OpenSauceSans-Black.ttf",
+        "FullName": "Open Sauce Sans Black",
+        "RegistryName": "Open Sauce Sans Black (TrueType)",
+        "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+      },
+      {
+        "FileName": "OpenSauceSans-BlackItalic.ttf",
+        "FullName": "Open Sauce Sans Black Italic",
+        "RegistryName": "Open Sauce Sans Black Italic (TrueType)",
+        "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+      },
+      {
+        "FileName": "OpenSauceSans-Bold.ttf",
+        "FullName": "Open Sauce Sans Bold",
+        "RegistryName": "Open Sauce Sans Bold (TrueType)",
+        "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+      },
+      {
+        "FileName": "OpenSauceSans-BoldItalic.ttf",
+        "FullName": "Open Sauce Sans Bold Italic",
+        "RegistryName": "Open Sauce Sans Bold Italic (TrueType)",
+        "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+      },
+      {
+        "FileName": "OpenSauceSans-ExtraBold.ttf",
+        "FullName": "Open Sauce Sans ExtraBold",
+        "RegistryName": "Open Sauce Sans ExtraBold (TrueType)",
+        "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+      },
+      {
+        "FileName": "OpenSauceSans-ExtraBoldItalic.ttf",
+        "FullName": "Open Sauce Sans ExtraBold Italic",
+        "RegistryName": "Open Sauce Sans ExtraBold Italic (TrueType)",
+        "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+      },
+      {
+        "FileName": "OpenSauceSans-Italic.ttf",
+        "FullName": "Open Sauce Sans Italic",
+        "RegistryName": "Open Sauce Sans Italic (TrueType)",
+        "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+      },
+      {
+        "FileName": "OpenSauceSans-Light.ttf",
+        "FullName": "Open Sauce Sans Light",
+        "RegistryName": "Open Sauce Sans Light (TrueType)",
+        "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+      },
+      {
+        "FileName": "OpenSauceSans-LightItalic.ttf",
+        "FullName": "Open Sauce Sans Light Italic",
+        "RegistryName": "Open Sauce Sans Light Italic (TrueType)",
+        "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+      },
+      {
+        "FileName": "OpenSauceSans-Medium.ttf",
+        "FullName": "Open Sauce Sans Medium",
+        "RegistryName": "Open Sauce Sans Medium (TrueType)",
+        "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+      },
+      {
+        "FileName": "OpenSauceSans-MediumItalic.ttf",
+        "FullName": "Open Sauce Sans Medium Italic",
+        "RegistryName": "Open Sauce Sans Medium Italic (TrueType)",
+        "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+      },
+      {
+        "FileName": "OpenSauceSans-Regular.ttf",
+        "FullName": "Open Sauce Sans Regular",
+        "RegistryName": "Open Sauce Sans Regular (TrueType)",
+        "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+      },
+      {
+        "FileName": "OpenSauceSans-SemiBold.ttf",
+        "FullName": "Open Sauce Sans SemiBold",
+        "RegistryName": "Open Sauce Sans SemiBold (TrueType)",
+        "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+      },
+      {
+        "FileName": "OpenSauceSans-SemiBoldItalic.ttf",
+        "FullName": "Open Sauce Sans SemiBold Italic",
+        "RegistryName": "Open Sauce Sans SemiBold Italic (TrueType)",
+        "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+      }
+    ],
+    "NativeCallsPerformed": false,
+    "NativeDeclarationsCompiled": true,
+    "PowerShell": "5.1.26100.9818"
+  },
+  "RepositoryValidation": {
+    "Operations": 475,
+    "Groups": 9,
+    "Passed": true,
+    "Profiles": 5,
+    "PowerShellFiles": 351
+  },
+  "TestBoundary": "Real TestDrive file bytes, owner/group/DACL and timestamps; mocked registry, GDI, target context and machine-state persistence. Machine ACL descriptor checked in memory; test files use current-user private ACLs. Native declarations compiled without calling APIs.",
+  "RecoveryLimits": [
+    "Only completed runs are automatically restored; incomplete intent retained.",
+    "Matching pre-existing fonts are preserved and never adopted.",
+    "SACL, process caches, native reference counts and cross-session availability are not captured."
+  ],
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.FontFiles.psm1",
+      "Sha256": "41D59BBE7D9453B2627A6D1A64079F43CCAA5F66E117EA08EF77AFA1EE843564"
+    },
+    {
+      "Path": "modules/RIDE.MachineFonts.psm1",
+      "Sha256": "C1B029CDB5AEEA8520D305F8C6E464C7D3E9CF434B8B22996A76EC5F26CC6F06"
+    },
+    {
+      "Path": "modules/RIDE.PrivateFiles.psm1",
+      "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+    },
+    {
+      "Path": "tests/MachineFonts.Tests.ps1",
+      "Sha256": "46604C48804AC449F8BC7639F09B83918F320101CB688926CD1565CFE09CD27B"
+    },
+    {
+      "Path": "tests/fixtures/New-RideSyntheticTrueType.ps1",
+      "Sha256": "9AE562A2EEDEDA834C3AD7AEA6C9EA850B8A435E82F0E0E411B7726425B5E780"
+    }
+  ],
+  "Remaining": [
+    "Guarded native guest execution and actual machine-state ACL creation",
+    "Native enumeration, session visibility, unload and captured recovery",
+    "Image workflows, explicit Sysmon configurations and full BitLocker acceptance"
+  ],
+  "LegacyOutcomesClosed": 0
+}

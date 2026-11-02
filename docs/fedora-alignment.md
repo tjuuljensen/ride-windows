@@ -370,3 +370,38 @@ controller integration/refresh, suitable guest WLAN support and execution of the
 [synthetic native procedure](wireless-profile-inventory.md#disposable-target-acceptance-entry-point),
 or a change to its scope/recovery contract. Font/image, Sysmon and BitLocker
 acceptance remain separate, unaffected work.
+
+## Machine-font lifecycle candidate, 2026-11-02
+
+Difference ID `windows.machine-font-lifecycle`; compatible Windows-native
+extension, shared requirements unchanged (RB-02/03/04/07/08/09/10/11).
+The isolated module consumes explicit hash-pinned font/license data and refuses
+unknown fields, collisions and source drift before writers. It does not change
+catalog IDs, shared verbs, package removal eligibility or profiles. Existing
+matching fonts are preserved, not adopted. Machine intent/applied records are
+administrator-owned and private; user-private file defaults remain unchanged.
+Preview writes nothing. Each candidate change/recovery requires fresh opt-in;
+target, privilege, ownership and conflict checks still apply. Run-ID completion
+reads bounded local filenames only.
+
+Recovery is conditional captured file/registration recovery. Incomplete runs
+retain an exposed run ID and private intent but refuse automatic restore.
+Font caches/reference counts, audit ACLs and cross-session availability are not
+silently described as restored. Actual native loading/removal and protected-state
+creation remain pending; mocked source checks do not promote targets.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645` and the peer's
+target/candidate/journal/recovery paths from the prior e287415 review. Rechecked
+unchanged working-tree hashes: `ride.sh`
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+`lib/v3/common.sh`
+`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Last verified Fedora revision remains `3d9406e3888122d1407652336859e6217c09bcaa`;
+this run makes no newer revision or automated shared-conformance claim. Native
+Windows font registration/GDI behavior is not a Fedora feature-parity claim.
+No shared contract version/digest change is required.
+
+Owner: RIDE Windows maintainer. Follow-up: [machine-font native acceptance](machine-fonts.md#recovery-limits-and-native-acceptance).
+Review trigger: native guest execution, new font formats/targets, ownership or
+partial-recovery changes, or the release candidate. Native support remains gated.
