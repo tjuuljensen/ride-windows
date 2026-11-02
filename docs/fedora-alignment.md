@@ -178,3 +178,14 @@ exit codes.
 No runtime code, policy enforcement, peer checkout or acceptance status is changed
 by this review. Documentation/link checks validate this report; implementation
 and disposable-target acceptance remain separate follow-up work.
+
+## Fast-track ETL2PCAPNG acquisition review, 2026-11-02
+
+Shared behavior unchanged: RB-05/11, contract 1.0.0. The pinned Microsoft artifact
+was downloaded and verified without installation or execution. Fedora source at
+`3d9406e3888122d1407652336859e6217c09bcaa` retains distinct acquisition and install
+actions; the reviewed `ride.sh` and `lib/v3/common.sh` hashes are in the
+[acquisition evidence](archive/evidence/etl2pcapng-fast-track-download-2026-11-02.json).
+No target support or shared interface changed. Owner: RIDE Windows maintainer;
+next review: the next package batch or acquisition behavior change. Existing
+alignment/release gaps remain open; this is not shared conformance automation.

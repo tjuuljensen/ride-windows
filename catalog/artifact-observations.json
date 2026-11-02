@@ -6560,6 +6560,44 @@
                              "Contents":  [
 
                                           ]
+                         },
+                         {
+                           "ObservationId": "b5775698dad04c249dff071b8725f2eb",
+                           "RunId": null,
+                           "PackageId": "etl2pcapng",
+                           "ArtifactId": null,
+                           "Version": "1.11.0",
+                           "Architecture": "x64",
+                           "FileName": "etl2pcapng.exe",
+                           "OriginUri": "https://github.com/microsoft/etl2pcapng",
+                           "SourceUri": "https://github.com/microsoft/etl2pcapng/releases/download/v1.11.0/etl2pcapng.exe",
+                           "ReleaseUri": "https://github.com/microsoft/etl2pcapng/releases/download/v1.11.0/etl2pcapng.exe",
+                           "ReleaseMetadata": null,
+                           "Variant": "portable",
+                           "Provider": "DirectHttps",
+                           "License": "MIT License; retain the Microsoft copyright and permission notice alongside the executable.",
+                           "LicenseUri": "https://github.com/microsoft/etl2pcapng/blob/65e2a98feb029a63318de2d821d6444fd7e148c3/LICENSE",
+                           "TermsUri": null,
+                           "ObservedAtUtc": "2026-11-02T10:31:29.8308011Z",
+                           "Route": "direct",
+                           "AcquisitionKind": "Download",
+                           "Sha256": "c2d03aac43ea0f5626fc8d909e6688393feaf71bd6facd39aaf8a637382d9043",
+                           "ProviderDigest": "sha256:C2D03AAC43EA0F5626FC8D909E6688393FEAF71BD6FACD39AAF8A637382D9043",
+                           "PublisherSha256": null,
+                           "PublisherChecksumUri": null,
+                           "PublisherChecksumResult": "Unavailable",
+                           "ChecksumUris": [],
+                           "SignatureUris": [],
+                           "AuthenticodeStatus": "Valid",
+                           "AuthenticodeSigner": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                           "AuthenticodeIssuer": "CN=Microsoft Code Signing PCA 2011, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                           "AuthenticodeThumbprint": "72105B6D5F370B62FD5C82F1512F7AD7DEE5F2C0",
+                           "TimestampSigner": "CN=Microsoft Time-Stamp Service, OU=nShield TSS ESN:DC00-05E0-D947, OU=Microsoft America Operations, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                           "TimestampThumbprint": "89A6D2C266C134E8DB661D0CC1E45D53AE815206",
+                           "FileSize": 163872,
+                           "FileVersion": null,
+                           "ProductVersion": null,
+                           "Contents": []
                          }
                      ]
 }
