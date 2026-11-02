@@ -1,0 +1,64 @@
+{
+  "title": "WhatIsMyIP, WinPmem and Wireshark package-source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:51:26Z",
+  "scope": "Three focused package-source Pester files.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "files": [
+    "tests/WhatIsMyIp.Tests.ps1",
+    "tests/WinPmemPackage.Tests.ps1",
+    "tests/WiresharkPackage.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 3,
+    "testsDiscovered": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:07.345",
+    "status": "passed"
+  },
+  "safety": {
+    "networkAndInstallerBoundaries": "mocked by source suites",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkAcquisitionInvoked": false,
+    "packageUtilityLaunched": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Selected WhatIsMyIP, WinPmem and Wireshark package-source checks passed 16/16."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native package acceptance and actual tool behavior.",
+    "WindowsIntegration and VM checks.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No package migration outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester aggregate remains incomplete.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "Host CIM access blocks RIDE-Win11-Test acceptance."
+  ]
+}
