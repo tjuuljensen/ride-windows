@@ -1,0 +1,65 @@
+{
+  "title": "GitHub authentication and VM authentication source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:22:31Z",
+  "scope": "Synthetic GitHub credential, authorization, cache and redaction checks plus protected VM authentication and evidence export gates.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/GitHubAuthentication.Tests.ps1",
+    "tests/GitHubVmAuthentication.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 2,
+    "testsDiscovered": 76,
+    "passed": 76,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:30.960",
+    "status": "passed"
+  },
+  "safety": {
+    "credentials": "synthetic fixtures only; CurrentUser DPAPI path exercised with test data",
+    "publisherAndVmCalls": "mocked; none sent",
+    "temporaryData": "Pester TestDrive",
+    "systemStateChanged": false,
+    "realCredentialsEnrolled": false,
+    "vmQueriedOrChanged": false,
+    "installerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "GitHub authentication and VM authentication source regression passed 76/76 across two suites."
+  ],
+  "retired": [],
+  "excluded": [
+    "Live GitHub publisher requests, credential enrollment and VM authentication acceptance.",
+    "Native Windows integration."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "WFN full synthetic lifecycle repeat remains incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
