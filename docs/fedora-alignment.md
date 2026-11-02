@@ -953,3 +953,21 @@ Owner: Windows maintainer. Follow-up: the fresh native run and remaining session
 restart and active-consumer checks in [machine fonts](machine-fonts.md).
 Review trigger: any change to the native pass criteria or production recovery
 semantics. See [source evidence](archive/evidence/font-recovery-separation-source-2026-11-03.json).
+
+## Client capability restart boundary, 2026-11-03
+
+Impact: Windows-only correction to RB-09 partial failure handling. A DISM restart
+request now stops apply/recovery after literal-state readback instead of warning
+and allowing the engine to continue the group. Existing snapshots, run identity,
+candidate opt-in, source policy and conditional recovery semantics are retained.
+No automatic restart is introduced; the partial run is not reported as complete.
+
+Reviewed RB-03/04/08/09/11 against pinned contract 1.1.0 and its digest above.
+Re-read Fedora target/candidate guards in `lib/v3/common.sh`; the `ride.sh` and
+`common.sh` hashes still match the image-policy review above and are recorded in
+[source evidence](archive/evidence/client-capability-restart-source-2026-11-03.json).
+Fedora has no DISM capability provider. Shared behavior is unchanged and no
+contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[native capability acceptance](windows-component-inventory.md#client-rsat-catalog-candidates).
+Review trigger: native servicing/restart evidence, failure or recovery changes,
+or affected capability promotion. Mocked tests do not establish native support.

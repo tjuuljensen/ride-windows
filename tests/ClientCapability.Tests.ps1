@@ -117,6 +117,23 @@ Describe 'OpenSSH Client conditional capability lifecycle' {
       { Set-RideClientCapabilityState $script:op Present $script:captured -Confirm:$false } | Should -Throw '*did not reach the requested literal state*'
     }
   }
+  It 'stops after DISM requests a restart even when literal readback matches' {
+    InModuleScope RIDE.ClientCapability {
+      Mock Invoke-RideClientCapabilityNativeChange { $script:literal=$DesiredState; [pscustomobject]@{RestartNeeded=$true} }
+      { Set-RideClientCapabilityState $script:op Present $script:captured -Confirm:$false } | Should -Throw '*reached the requested literal state*restart is needed*'
+      $script:literal | Should -Be 'Installed'
+      Should -Invoke Invoke-RideClientCapabilityNativeChange -Exactly 1
+    }
+  }
+  It 'also stops a recovery that reaches its state but requests a restart' {
+    InModuleScope RIDE.ClientCapability {
+      $script:literal='Installed'
+      Mock Invoke-RideClientCapabilityNativeChange { $script:literal=$DesiredState; [pscustomobject]@{RestartNeeded=$true} }
+      { Restore-RideClientCapabilityState $script:op $script:snapshot -Confirm:$false } | Should -Throw '*restart is needed*retain the saved run*'
+      $script:literal | Should -Be 'NotPresent'
+      Should -Invoke Invoke-RideClientCapabilityNativeChange -Exactly 1
+    }
+  }
   It 'rejects a mismatched recovery identity before calling DISM' {
     InModuleScope RIDE.ClientCapability {
       $script:snapshot.CapabilityName='OpenSSH.Server~~~~0.0.1.0'

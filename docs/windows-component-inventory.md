@@ -40,6 +40,11 @@ install run restores absence. Restore is idempotent when the original state is
 already present, refuses a different machine/build/edition/revision or unexpected
 literal state, and retains the saved run on failure. Pending servicing/reboot
 blocks further changes. No command initiates a reboot.
+If DISM reports `RestartNeeded` after reaching the requested literal state, the
+run stops and retains its saved recovery record. The engine reports the changed
+member as failed/incomplete; it does not continue the group or automatically
+restore it. Inspect servicing and complete the required restart before resuming
+recovery. A matching capability state alone does not establish completion.
 
 Recovery restores the **literal capability state conditionally**, not exact
 payload bytes or an earlier client version. Reinstallation requires that Windows
