@@ -1,0 +1,65 @@
+{
+  "title": "Sysinternals independent product source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:35:44Z",
+  "scope": "tests/SysinternalsProductPackages.Tests.ps1 independent package pin, source and owned-file lifecycle suite.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "result": {
+    "testsDiscovered": 72,
+    "passed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:03:37.691",
+    "status": "passed"
+  },
+  "coverage": [
+    "Nine independent Sysinternals products' pinned metadata and member lists.",
+    "Synthetic inert ZIP staging, repeat install, ownership, removal and recovery.",
+    "Network discovery refusal and changed-digest failure boundaries.",
+    "Product launching is mocked to throw; no utility is run."
+  ],
+  "safety": {
+    "networkAndSignatureProviders": "mocked",
+    "installerProcess": "mocked to prevent product launch",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "installerOrProductLaunched": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "licenseDecision": "No license status was reconsidered or changed; the user's prior license-specialist approval for Sysinternals in RIDE remains the governing project decision.",
+  "resolved": [
+    "Independent Sysinternals product source and synthetic lifecycle regression passed 72/72."
+  ],
+  "retired": [],
+  "excluded": [
+    "Individual utility functional behavior is not tested by design.",
+    "Native Windows integration and VM acceptance were not run.",
+    "Defender-blocked utility runtime checks remain excluded."
+  ],
+  "partial": [
+    "No package migration outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "The 3698-test repository Pester sweep has no aggregate result.",
+    "The Sysinternals suite-level 164-member synthetic lifecycle remains to be rerun separately.",
+    "RIDE-Win11-Test acceptance remains blocked by host CIM access.",
+    "Defender-blocked utilities remain excluded from runtime execution."
+  ]
+}
