@@ -693,3 +693,28 @@ each shell; selected input and host policy metadata pass read-only checks.
 Follow-up: [native new-user and recovery acceptance](image-personalization.md#machine-first-logon-wallpaper-candidate).
 Review trigger: first-logon visual or collateral-default results, changed
 user-profile handling, source/target changes, native dispatch or release review.
+
+## First-logon wallpaper guest phases, 2026-11-02
+
+Extends the source-prepared `windows.default-wallpaper` candidate with retained
+machine apply/restore guest phases. No shared contract, CLI, schema or target
+support change; RB-03/04/06/08/09/10/11 retain their existing meaning. An explicit
+disposable-guest invocation opts into candidate lifecycle calls for that phase;
+saved records alone do not authorize a later phase. Preview/completion are read-only.
+Machine lifecycle recovery and independent first-logon visuals remain distinct.
+
+Rechecked contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645` and Fedora files
+`ride.sh` SHA-256 `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`
+and `lib/v3/common.sh` SHA-256 `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+These match the prior comparison at revision
+`3d9406e3888122d1407652336859e6217c09bcaa`; the current peer Git revision query was
+sandbox-denied, so this review pins the read file hashes, not a newly verified HEAD.
+No automated shared-conformance or Fedora visual parity claim is made.
+
+Owner: RIDE Windows maintainer. Reason: retain evidence between the machine
+change, separately owned first-logon checks and recovery. Status: 24/24 new source
+cases and the real input/parser checks pass in both shells. Native tests are unrun.
+Follow-up: [wallpaper guest and first-logon acceptance](image-personalization.md#wallpaper-guest-acceptance-phases).
+Review trigger: retained dispatch, account/profile fixture ownership, native visual
+or recovery results, changed sources/targets or release review.

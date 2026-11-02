@@ -1,0 +1,113 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T20:04:15.3982491Z",
+  "Status": "WallpaperGuestPhasesSourcePrepared",
+  "NativeAcceptance": false,
+  "ParentCommit": "5a8f7ad",
+  "SourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 24,
+      "Failed": 0,
+      "Total": 24
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 24,
+      "Failed": 0,
+      "Total": 24
+    }
+  ],
+  "SourceAndParserChecks": [
+    {
+      "RecordedAtUtc": "2026-11-02T20:02:30.9716447Z",
+      "PowerShell": "7.6.5",
+      "Status": "SourceGatePassed",
+      "ParsedFiles": [
+        "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+        "tests/integration/Invoke-RideDefaultWallpaperAcceptance.ps1",
+        "tests/DefaultWallpaperAcceptance.Tests.ps1"
+      ],
+      "WrapperVersion": "0.1.0",
+      "Image": {
+        "Height": 2160,
+        "Width": 3840,
+        "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+        "Bytes": 966122
+      },
+      "WindowsStateChanged": false,
+      "GuestQueried": false,
+      "NativeAcceptance": false
+    },
+    {
+      "RecordedAtUtc": "2026-11-02T20:02:30.340115Z",
+      "PowerShell": "5.1.26100.9818",
+      "Status": "SourceGatePassed",
+      "ParsedFiles": [
+        "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+        "tests/integration/Invoke-RideDefaultWallpaperAcceptance.ps1",
+        "tests/DefaultWallpaperAcceptance.Tests.ps1"
+      ],
+      "WrapperVersion": "0.1.0",
+      "Image": {
+        "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+        "Width": 3840,
+        "Bytes": 966122,
+        "Height": 2160
+      },
+      "WindowsStateChanged": false,
+      "GuestQueried": false,
+      "NativeAcceptance": false
+    }
+  ],
+  "Boundary": "Guest identity, machine directory creation, lifecycle mutation and system snapshots are mocked. Temporary test PNG/theme bytes, private current-user report files, theme generation and input validation are real. No native policy, profile, user account or guest state was changed.",
+  "Cases": [
+    "Two retained phases and three machine lifecycle checks per phase",
+    "Independent policy/theme/image readback, private records and repeat invariants",
+    "Profile identity drift refuses recovery before lifecycle invocation",
+    "Incomplete apply and failed recovery retain evidence; successful recovery can be rechecked",
+    "Forged image/theme ownership and changed target refuse",
+    "Read-only preview/completion, canonical phase case handling and destination bounds",
+    "Selected real PNG metadata/digest and both PowerShell parsers/wrapper version"
+  ],
+  "FailureReview": "Initial test destinations were 245 characters, exceeding the candidate 240-character path bound. Shortened only the synthetic temporary parent; retained the production bound and added an early no-write rejection case. Final 24 cases pass in both shells. The earlier unchanged handler/image suite was not rerun.",
+  "MachineChecksAfterApply": 3,
+  "MachineChecksAfterRestore": 3,
+  "NativeChecksExecuted": 0,
+  "Reporting": "LifecyclePassedVisualPending describes machine policy/assets/profile-inventory recovery only. NativeFirstLogonAcceptancePassed, NativeVisualAcceptancePassed and NativeAcceptancePassed remain false in every report.",
+  "Recovery": "Use completed matching Apply records; preserve new or changed profiles and owned assets on conflict. No account/profile deletion, automatic checkpoint reset or blind incomplete-apply cleanup. Export observations before owned fixture cleanup and preserve each recovery attempt.",
+  "Remaining": [
+    "Retained host dispatch and existing elevated execution without fresh UAC",
+    "Owned control/first-logon/recovery test-user fixtures and verified profile cleanup",
+    "Actual first desktop, collateral defaults, existing-user preservation and later user-choice checks",
+    "Original first-logon default visible recovery",
+    "User lock-screen mode recovery and remaining WLAN/font/Sysmon/BitLocker native acceptance"
+  ],
+  "SourceHashes": [
+    {
+      "Sha256": "322EAE7D47DC85C7B0F6B08DD1F04C7E692B0D8BA26D595DF74C3538349F9CF8",
+      "Path": "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1"
+    },
+    {
+      "Sha256": "4DD9A288C9D1733E58F7681A78C2F8BABE28A3BDFCA32A0CC29793F06A65EF33",
+      "Path": "tests/integration/Invoke-RideDefaultWallpaperAcceptance.ps1"
+    },
+    {
+      "Sha256": "D073074C88DA2B94147EF33B8251BAE72C35EB8C32D1D6DA59CD57A138A5E34C",
+      "Path": "tests/DefaultWallpaperAcceptance.Tests.ps1"
+    },
+    {
+      "Sha256": "35C9945E1DC9CED12F9DCB7DE71D7D8AE57D7A7B34E6D3629F169261BADE60DE",
+      "Path": "modules/RIDE.DefaultWallpaper.psm1"
+    },
+    {
+      "Sha256": "529956C77479DF0F1364D1305F02F91B1CDE741A98DD43FFF175CB48D6E664A4",
+      "Path": "tests/fixtures/default-wallpaper.acceptance.psd1"
+    }
+  ],
+  "LegacyOutcomesClosed": 0,
+  "GuestDispatched": false,
+  "ImageApplied": false,
+  "PolicyChanged": false,
+  "UserAccountCreatedOrRemoved": false
+}

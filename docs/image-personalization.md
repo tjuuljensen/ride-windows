@@ -117,9 +117,73 @@ The native scenario must retain evidence across these stages:
 6. Create a separate owned recovery-test user and verify the original first-logon
    default is restored. Retain and export evidence before checkpoint cleanup.
 
-Guest orchestration, account/profile ownership cleanup and visible acceptance
-remain open. The [source evidence](archive/evidence/default-wallpaper-source-2026-11-02.json)
+The machine apply/restore guest phases below are source-prepared. Retained host
+dispatch, account/profile ownership cleanup and visible acceptance remain open.
+The [source evidence](archive/evidence/default-wallpaper-source-2026-11-02.json)
 does not establish that Windows consumed the generated theme.
+
+### Wallpaper guest acceptance phases
+
+Use `tests/integration/Invoke-RideDefaultWallpaperAcceptance.ps1` inside the
+already elevated, selected disposable guest, from its staged repository root.
+The existing evidence parent must be administrator/SYSTEM owned and writable
+only by those principals. Choose a short local path: the eventual owned PNG path
+must fit the candidate's 240-character limit. The runner checks this before
+creating evidence. It validates the pinned `fedora_sharpened_4k.png`, exact guest
+name/build/edition, Hyper-V identity and matching controller request marker.
+No UAC, account creation, sign-in, sign-out, reboot or checkpoint reset is launched.
+
+After capturing the initialized control user's original desktop and other
+personalization defaults, use the controller's correlated request ID:
+
+```powershell
+$request = @{
+    RunId = $env:RIDE_TEST_RUN_ID
+    ExpectedComputerName = '<disposable-guest-name>'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+    EvidenceRoot = 'C:\RIDE-Test\Evidence'
+    DisposableVm = $true
+}
+.\tests\integration\Invoke-RideDefaultWallpaperAcceptance.ps1 @request -Phase Apply -SourcePath 'C:\Inputs\fedora_sharpened_4k.png' -WhatIf
+.\tests\integration\Invoke-RideDefaultWallpaperAcceptance.ps1 @request -Phase Apply -SourcePath 'C:\Inputs\fedora_sharpened_4k.png' -Confirm:$false
+```
+
+Apply creates only a new request directory, public-read asset directories and
+private machine state/reports. Its three checks verify preview without changes,
+the applied policy/theme/image/private-state chain, and repeated application
+without new state. Readback includes both file identities and the profile SID/path
+inventory. It leaves the guest at `AwaitingVisualVerification`; it does not create
+the first-logon test user. Perform stages 3-5 above through the owned test-user
+fixture, export the observations, and verify only that fixture's account/profile
+has been removed before recovery. Do not reset the VM between these phases.
+
+```powershell
+.\tests\integration\Invoke-RideDefaultWallpaperAcceptance.ps1 @request -Phase Restore -WhatIf
+.\tests\integration\Invoke-RideDefaultWallpaperAcceptance.ps1 @request -Phase Restore -Confirm:$false
+```
+
+Restore accepts the completed matching Apply record and no source-image input.
+Its three checks verify recovery preview without changes, captured machine
+policy/assets/profile-inventory recovery and repeated restoration. Changed profile
+identities fail before invoking the lifecycle restore; neither the runner nor
+the handler deletes a profile to satisfy that guard. Each recovery attempt adds
+a new private report. Incomplete Apply is retained for inspection and cannot be
+automatically converted into a Restore phase. Export all records before any
+checkpoint cleanup, then perform the recovery-user visual check in stage 6.
+
+Schema-1 results include `RunId`, `Phase`, `Status`, `Stage`, `Context`,
+`RecoveryRequired`, `LifecycleRunId`, `AssetPath`, `ThemePath`, `Checks` and
+`EvidenceDirectory`. A successful Restore reports `LifecyclePassedVisualPending`
+and `NativeLifecycleAcceptancePassed=true` for its machine-state checks only.
+`NativeFirstLogonAcceptancePassed`, `NativeVisualAcceptancePassed` and
+`NativeAcceptancePassed` always remain false. Independent evidence must establish
+the full first-logon/user-choice/default-recovery outcome. `Failed` retains the
+last stage and recovery requirement. Outer `-WhatIf` writes nothing and returns
+`Preview`; it does not prove the later native phase is ready. Phase/edition values
+and saved Restore request directories offer read-only completion.
+The [guest preparation evidence](archive/evidence/default-wallpaper-acceptance-preparation-2026-11-02.json)
+records mocked orchestration tests and read-only real input checks, not VM results.
 
 ## Machine default lock-screen candidate
 
@@ -388,7 +452,7 @@ records mocked host/VM checks and real temporary user-scope file/lock checks.
 
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
-| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate is source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Guest orchestration remains open. |
+| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate and machine apply/restore guest phases are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Retained host dispatch and owned account/profile fixtures remain open. |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
 | Machine default lock-screen image | Lifecycle, guest scenario and direct retained host dispatch/export are source-prepared. Already elevated execution, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
 
