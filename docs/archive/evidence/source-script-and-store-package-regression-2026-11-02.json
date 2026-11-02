@@ -1,0 +1,72 @@
+{
+  "title": "Source-script and Store package regression batch",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:31:23Z",
+  "scope": "Four focused source-script, Store review, Store lifecycle and fixture-data Pester files.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "files": [
+    "tests/SourceScriptPackages.Tests.ps1",
+    "tests/StoreAppReview.Tests.ps1",
+    "tests/StoreApps.Tests.ps1",
+    "tests/StoreSolitaireFixtureData.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 4,
+    "testsDiscovered": 74,
+    "passed": 72,
+    "failed": 0,
+    "skipped": 2,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:01:04.279",
+    "status": "passed with optional archive skips",
+    "skipReason": "Two retained publisher-archive checks were skipped because no explicit cached archives were supplied."
+  },
+  "coverage": [
+    "Source-script package metadata and synthetic ownership/recovery boundaries.",
+    "Read-only Store inventory and review planning.",
+    "Mocked Store registration lifecycle and partial-group reporting.",
+    "Store fixture-data validation."
+  ],
+  "safety": {
+    "appxAndInstallerBoundaries": "mocked by the source suites",
+    "systemStateChanged": false,
+    "storeAppsInstalledOrRemoved": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Selected source-script and Store package regression passed 72 tests."
+  ],
+  "retired": [],
+  "excluded": [
+    "Two optional retained publisher-archive checks.",
+    "Native Store acceptance and WindowsIntegration.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester run remains without an aggregate result.",
+    "PSScriptTools 360-member synthetic lifecycle remains incomplete after two 15-minute attempts.",
+    "RIDE-Win11-Test acceptance remains blocked by host CIM access."
+  ]
+}
