@@ -1,0 +1,52 @@
+{
+  "title": "MiTeC package source and inert staging regression",
+  "date": "2026-11-02",
+  "scope": "18 MiTeC package Pester files covering metadata, exact selected members, inert staging, repeat, removal and recovery.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "result": {
+    "files": 18,
+    "testsDiscovered": 99,
+    "passed": 88,
+    "failed": 0,
+    "skipped": 11,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:05:17.550",
+    "status": "passed"
+  },
+  "skipReason": "Eleven optional retained-archive fixture cases were skipped because their explicit fixture environment variables were not supplied.",
+  "safety": {
+    "productExecutablesLaunched": false,
+    "installerInvoked": false,
+    "networkUsed": false,
+    "vmQueriedOrChanged": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "MiTeC package metadata and available inert/retained archive staging, repeat, ownership and recovery source checks passed 88/88 runnable cases."
+  ],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "Eleven optional archive-fixture checks remain skipped; native target acceptance remains separate. No legacy outcome closes."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Native Windows VM acceptance remains blocked by host CIM access.",
+    "Defender-blocked utilities remain excluded from runtime execution.",
+    "The repository-wide Pester aggregate, WFN and PSScriptTools full synthetic lifecycles, and three AutomationWatchdog process-tree timeout cases remain incomplete."
+  ]
+}
