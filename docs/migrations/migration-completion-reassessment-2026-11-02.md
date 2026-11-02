@@ -325,6 +325,65 @@ approval; `NeedsReview` markers are owner/version administration and do not
 block RIDE direct-download/install planning. Keep security exclusions separate
 from both decisions.
 
+## Windows component workstream status at pause
+
+The component estimate remains **19-24 legacy outcomes**. These are outcome
+estimates, not operation counts. The current catalog registers only the OpenSSH
+Server capability, service, and firewall controls as component-related pending
+operations; most other selected legacy components remain unimplemented or
+discovery-gated. The detailed family boundaries and accepted choices are in the
+[component follow-up ledger](remaining-migrations-follow-up.md#components-and-concrete-resource-objects).
+
+| Component or outcome | Status | Remaining work / boundary |
+| --- | --- | --- |
+| Read-only component inventory | Source implementation and local checks passed: 75/75 on 2026-11-01, and inventory/client/OpenSSH source suites passed 109/109 on 2026-11-02. No native provider or VM ran. | Native inventory on intended Windows 11 and Server targets remains unaccepted. Inventory is tooling evidence, not a migrated activation outcome or recovery record. |
+| OpenSSH Client capability | Unregistered source candidate. Inventory, preparation, LocalSource identity/hash/build checks, policy fallback guard, and mocked lifecycle are implemented; latest combined source regression includes it. | Matching release media/CAB and dependencies are unavailable in the reviewed LabSources. Prove source completeness/no-network boundary, exact payload recovery, then Windows 11 and declared Server acceptance. |
+| Telnet Client optional feature | Unregistered candidate; identity `TelnetClient` is known, but source identity/layout is unresolved. LocalSource servicing remains refused. | Identify target-matched payload/dependencies and exact recovery behavior, then perform native acceptance. Do not imply server/service/network exposure. |
+| OpenSSH Server capability | Catalog operation `component.openssh-server-capability`; pending acceptance, no supported target. Mocked lifecycle coverage contributes to the 109/109 source run. | Native install/repeat/remove/recovery on Windows 11 and Server 2025; preserve pre-existing service, firewall, configuration and host-key state. |
+| OpenSSH Server service (`sshd`) | Separate catalog operation `windows.openssh-server-service`; pending target acceptance. Mocked lifecycle/observation coverage exists. | Verify native startup/runtime, exact prior service state, activation and recovery on both declared targets. Capability presence does not start the service. |
+| OpenSSH Server inbound firewall rule | Separate catalog operation `windows.openssh-server-firewall`; candidate target metadata only. Firewall exposure is independent from capability and service. | Validate the exact existing TCP/22 rule, effective policy/profile and guarded restore on target. Do not create rules or claim reachability based on source tests. |
+| RSAT client capabilities | Selected for separate optional migration review; no component lifecycle operation is registered. | Choose exact subtools/role and edition, matching source, dependencies, recovery, and target acceptance. Server management features are a different provider/resource. |
+| Hyper-V | Selected optional outcome; no component lifecycle operation is registered. | Establish hardware/edition and parent-feature requirements, reboot handling, ownership of existing VMs, and exact recovery on a disposable target. Host CIM denial also blocks current VM/checkpoint acceptance. |
+| Windows Sandbox | Selected optional outcome; no lifecycle operation is registered. | Establish edition/hardware/dependency and reboot behavior. Sandbox configuration, networking and exposed drives need a separately selected file/configuration workflow. |
+| WSL feature | Selected as an independent optional component, not enabled by default; no lifecycle operation is registered. | Identify exact feature/dependencies, source and recovery behavior. Feature removal must not remove distributions or their data. |
+| WSL Debian distribution | Separate opt-in legacy outcome. | Preserve distribution identity/data; prove export/retrieval before any unregister path. No automatic install or unregister is authorized. |
+| WSL Ubuntu distribution | Separate opt-in legacy outcome. | Same: source/version and owned data lifecycle, with export/retrieval before unregister; no automatic install. |
+| WSL Kali distribution | Separate opt-in legacy outcome. | Same: source/version and owned data lifecycle, with export/retrieval before unregister; no automatic install. |
+| WSL Fedora removal selector | Retired orphan selector; no removal workflow is to be invented. | None unless new evidence or an explicit decision reopens it. This retirement does not claim Fedora migration or distribution removal. |
+| .NET Framework 3.5 | Explicit conditional compatibility outcome. | Select Windows Feature versus standalone route by exact build; Windows 11 26H1 build 28000+ has a distinct standalone route. Require matching local source and no network fallback, then test recovery and target behavior. It is not equivalent to the Phoenix .NET 2.0.50727 launch prerequisite. |
+| Client Internet Printing feature | One retained, client-only optional-feature outcome; Windows Server role and externally reachable service are out of scope. | Exact feature identity, source/dependencies, recovery and native acceptance remain. |
+| Microsoft Print to PDF | Component/resource family identified; no migration operation or accepted lifecycle is recorded. | Preserve existing queue, port and driver configuration; exact discovery, reinstallation and recovery acceptance remain. |
+| XPS printer | Component/resource family identified; no migration operation or accepted lifecycle is recorded. | Preserve queues, ports and drivers; validate exact feature and recovery without deleting unknown resources. |
+| Fax printer | Component/resource family identified; no accepted lifecycle. | Treat the queue separately from Windows Fax and Scan, device configuration and stored fax data; define exact capture/recovery. |
+| Windows Fax and Scan | Component/resource family identified; no accepted lifecycle. | Feature/service, queue, device and stored fax data have distinct ownership and recovery; target acceptance remains. |
+| Windows PowerShell 2 | Legacy enable/disable outcome retired by user decision. | No implementation. Do not replace it with another engine or feature and call it migrated. |
+| Windows PowerShell ISE | Kept separate from the retired PowerShell 2 outcome; no acceptance recorded. | Check availability per supported build and define its own optional-feature lifecycle/recovery. ISE availability does not imply PowerShell 7 support. |
+| Optional Windows Media Player | Discovery-gated conditional candidate. | Identify native optional feature versus Store product and exact build availability. Keep radio/WMDRM consumers separate. |
+| Work Folders | Discovery-gated conditional candidate. | Separate feature/role state from sync configuration, credentials and unsynced files; establish recovery before removal. |
+| Windows Hello Face | Discovery-gated conditional candidate. | Verify capability, compatible camera/hardware and enrollment semantics; generic removal must not delete biometric enrollment. |
+| Math Recognizer | Discovery-gated conditional candidate. | Check exact build availability; absent capability is not applicable. Do not fetch obsolete payloads to emulate it. |
+| Adobe Flash component | Discovery-gated conditional candidate; no supported lifecycle recorded. | Verify whether the component exists on an applicable supported target before considering a migration. |
+| Standalone Internet Explorer component | Discovery-gated conditional candidate; no supported lifecycle recorded. | Verify actual component and release applicability. Keep IE mode and IE ESC as separate outcomes. |
+| Windows Store removal/repair component behavior | Remains unresolved adjacent scope, not a proven optional-feature migration. | Distinguish Store UI, registration repair and app removal; identify a valid local consumer/payload and preserve protected shared packages. Store-app policy and user app groups are tracked under settings/package acceptance. |
+| Xbox features and shared dependencies | Remains unresolved adjacent component scope. | Separate policy, selected gaming apps and shared frameworks/services; refuse removal until other consumers and protections are known. |
+| Memory Integrity | Security setting/driver-compatibility workflow, not a generic optional-feature installer. | Keep with the settings/security outcome: driver compatibility, VBS/code-integrity state and reboot acceptance remain distinct. Avoid counting it twice as a component outcome. |
+
+The latest component evidence is the [2026-11-02 source regression](../archive/evidence/component-openssh-source-regression-2026-11-02.json):
+109/109 passed across inventory, client preparation/lifecycle, and OpenSSH
+Server capability/service/observation suites. DISM, servicing, service and
+firewall providers were mocked; no VM or Windows state changed. The prior
+[2026-10-28 component/settings cross-shell run](../archive/evidence/component-settings-cross-shell-pester-regression-ps51-2026-10-28-1804.json)
+passed 145/145 in Windows PowerShell 5.1. These close source-test batches only,
+not a legacy component outcome.
+
+**Current blockers:** host CIM prevents inspection of RIDE-Win11-Test and its
+checkpoint, so no native component acceptance can be dispatched. OpenSSH Client
+media/dependencies and Telnet source identity remain unavailable. Windows
+PowerShell 5.1 component/source compatibility has earlier passing evidence; the
+latest focused component regression passed in PowerShell 7.6.5. No
+Defender-based exclusion applies to these component tests; keep Defender-blocked
+package tools separate from component acceptance.
+
 ## Resume criterion
 
 Resume when the completion approach has been reviewed. Start with an explicit
