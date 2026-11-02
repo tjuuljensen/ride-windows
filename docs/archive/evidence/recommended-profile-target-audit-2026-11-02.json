@@ -1,0 +1,80 @@
+{
+  "title": "Recommended profile Windows 11 target audit",
+  "date": "2026-11-02",
+  "scope": "Read-only expansion of all five current profile files against the declarative catalog and group membership.",
+  "catalog": {
+    "operations": 452,
+    "groups": 8,
+    "sha256": "4bc1c3c956e6d99d7f0d6ec5687aeaa187464a2b3c4d0c333cc2711b1b36e3f4"
+  },
+  "profiles": [
+    {
+      "file": "analyst-basics.psd1",
+      "selectedEntries": 1,
+      "expandedOperations": 2,
+      "sha256": "2159c727a54ca999d86a8f442e8d69887cf067022912f97608958c04263989c9"
+    },
+    {
+      "file": "baseline.psd1",
+      "selectedEntries": 1,
+      "expandedOperations": 1,
+      "sha256": "03a59250712e5a42bf8a670af68cbddd52da76523ce530ceab95a9e3a989a826"
+    },
+    {
+      "file": "default.psd1",
+      "selectedEntries": 70,
+      "expandedOperations": 70,
+      "sha256": "3d295f6c02af71bdf2b3543f95f4ceace5276f82d2485f3d9c439ac37b0fe471"
+    },
+    {
+      "file": "git-development.psd1",
+      "selectedEntries": 1,
+      "expandedOperations": 2,
+      "sha256": "6dea940367e1f45819bd13865140542529b9cbf9240d8d4eea1a49c0a1e66000"
+    },
+    {
+      "file": "powershell-colors.psd1",
+      "selectedEntries": 2,
+      "expandedOperations": 2,
+      "sha256": "c1a4510830cd4ab66339ca366f61c611e247c3e7a6a085f2ddc4a152a51f96a8"
+    }
+  ],
+  "result": {
+    "expandedReferences": 77,
+    "distinctOperations": 74,
+    "unresolvedProfileIds": 0,
+    "operationsUnsupportedForWindows11": 0,
+    "pendingAcceptanceSelections": 0,
+    "status": "passed"
+  },
+  "reconciliation": "The prior working-copy release-triage note reported 73 default selections and four unsupported candidates. Current profile data has 70 default entries and the audit found no unsupported or pending Windows 11 selections. The older count is stale; no profile edit or candidate promotion is warranted.",
+  "safety": {
+    "windowsStateReadOrChanged": false,
+    "vmQueriedOrChanged": false,
+    "installersOrUtilitiesInvoked": false,
+    "networkUsed": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "All direct profile IDs and group members resolve to catalog operations; every expanded selection is supported for Windows 11 and none is pending acceptance."
+  ],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "No legacy setting, package or component outcome closes; whole-migration estimates remain unchanged."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "The audit corrected a stale profile-scope count but closed no legacy outcome."
+  },
+  "blockers": [
+    "VM acceptance still requires host CIM access.",
+    "The separate PSScriptTools, WFN and AutomationWatchdog runtime-test blockers remain open."
+  ]
+}
