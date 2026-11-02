@@ -1,0 +1,85 @@
+{
+  "title": "Pre-optional unit test batch 1",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:21:21Z",
+  "scope": "Twenty test files before OptionalWindowsSettings in the bounded non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "AdapterInventory.Tests.ps1",
+    "AlignmentDrift.Tests.ps1",
+    "ApplicationPackages.Tests.ps1",
+    "ArtcraftPackages.Tests.ps1",
+    "AudioEndpointInventory.Tests.ps1",
+    "AudioService.Tests.ps1",
+    "AutomationWatchdog.Tests.ps1",
+    "BehaviorContract.Tests.ps1",
+    "BitLockerEncryptionMethodPolicies.Tests.ps1",
+    "BitLockerEngineProjection.Tests.ps1",
+    "BitLockerWorkflows.Tests.ps1",
+    "Bootstrap.Tests.ps1",
+    "Caffeine.Tests.ps1",
+    "CaffeineLight.Tests.ps1",
+    "CandidateExecution.Tests.ps1",
+    "Catalog.Tests.ps1",
+    "CatalogDependencyValidation.Tests.ps1",
+    "CatalogProfileValidation.Tests.ps1",
+    "CeipPolicy.Tests.ps1",
+    "ChatPackagePins.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 418,
+    "passed": 414,
+    "failed": 0,
+    "skipped": 3,
+    "notRun": 1,
+    "duration": "00:04:51.535",
+    "skips": [
+      "Three optional retained publisher archive fixture checks (RawCopy, ETL2PCAPNG and JoeWare AdMod) were skipped because explicit fixture paths were not supplied.",
+      "One optional 7-Zip extractor integration case was not run because the host prerequisite was unavailable."
+    ]
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "productExecutablesLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "resolved": [
+      "All 414 runnable selected cases passed across catalog, package source, inventory, watchdog, BitLocker, bootstrap and preview suites."
+    ],
+    "retired": [],
+    "excluded": [
+      "NirSoft collection suite, oversized PSScriptTools/WFN lifecycle files and WindowsIntegration-tagged tests remained excluded."
+    ],
+    "deferred": [
+      "Three retained publisher archive checks remain fixture-dependent; one 7-Zip extractor integration case requires its optional host prerequisite."
+    ],
+    "partial": [
+      "No legacy outcome closes. The 151-file unit aggregate is being completed in bounded batches after the optional-settings stall."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "Source and mocked regression passes close no legacy feature/product outcome; ranges remain unchanged."
+    },
+    "blockers": [
+      "The 151-file aggregate remains split around the optional-settings stall.",
+      "PSScriptTools 360-member and WFN 531-member synthetic lifecycle tests remain incomplete.",
+      "Host CIM access blocks RIDE-Win11-Test acceptance.",
+      "Defender-blocked utilities remain excluded."
+    ]
+  }
+}
