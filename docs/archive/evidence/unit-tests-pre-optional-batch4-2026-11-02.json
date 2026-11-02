@@ -1,0 +1,78 @@
+{
+  "title": "Pre-optional unit test batch 4 - MiTeC and NTCore",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:40:28Z",
+  "scope": "Twenty MiTeC and NTCore test files in the bounded non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "MiTecCertificateTools.Tests.ps1",
+    "MiTeCDFMEditor.Tests.ps1",
+    "MiTeCDirList.Tests.ps1",
+    "MiTeCHistoricalFileTools.Tests.ps1",
+    "MiTeCInterbaseQuery.Tests.ps1",
+    "MiTeCMailChecker.Tests.ps1",
+    "MiTeCMailHistoryViewers.Tests.ps1",
+    "MiTeCNetworkMeter.Tests.ps1",
+    "MiTeCNetworkScanner.Tests.ps1",
+    "MiTeCParadoxDataEditor.Tests.ps1",
+    "MiTeCReviewDataTools.Tests.ps1",
+    "MiTeCSqliteQuery.Tests.ps1",
+    "MiTeCSSView.Tests.ps1",
+    "MiTeCSystemInformationTapiMonitor.Tests.ps1",
+    "MiTeCTaskManagerDeluxe.Tests.ps1",
+    "MiTecUuidGenerator.Tests.ps1",
+    "MitecViewerPackages.Tests.ps1",
+    "NetworkAndSoundControls.Tests.ps1",
+    "NtCore4GbPatchLauncher.Tests.ps1",
+    "NtcorePackages.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 131,
+    "passed": 119,
+    "failed": 0,
+    "skipped": 12,
+    "duration": "00:06:06.433",
+    "skips": [
+      "MiTeCDFMEditor: two retained publisher archive checks skipped because archives were unavailable in the checkout.",
+      "MiTeCHistoricalFileTools: retained archive fixture unavailable.",
+      "MiTeCInterbaseQuery: retained IBQ.zip fixture unavailable.",
+      "MiTeCMailHistoryViewers: retained publisher ZIP unavailable in transferred source snapshot.",
+      "MiTeCNetworkScanner: retained NetScanner.zip fixture unavailable.",
+      "MiTeCReviewDataTools: retained archive fixture unavailable.",
+      "MiTeCSqliteQuery: retained archive fixture unavailable.",
+      "MiTeCSSView: ignored retained publisher archive unavailable.",
+      "MiTeCSystemInformationTapiMonitor: retained archive fixture unavailable.",
+      "MiTeCTaskManagerDeluxe: retained TMX.zip fixture unavailable.",
+      "NtcorePackages: retained ScreenWriter MSI fixture unavailable."
+    ]
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "productExecutablesLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "legacyOutcomesResolved": [],
+    "legacyOutcomesRetired": [],
+    "legacyOutcomesExcluded": [],
+    "legacyOutcomesDeferred": [],
+    "legacyOutcomesPartial": [
+      "MiTeC and NTCore source review remains partial where publisher archive fixtures or native Windows acceptance are unavailable."
+    ],
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155. These 119 passing unit tests and 12 fixture-dependent skips do not close any legacy feature or product outcome."
+  },
+  "blockers": [
+    "VM acceptance is not run in this host-only test batch; use the registered disposable Windows VM when the controller is available.",
+    "Retained publisher archives and NTCore ScreenWriter MSI are unavailable in the checkout; associated cases remain skipped.",
+    "NirSoft and Defender-alerted binaries remain excluded.",
+    "TestRegistry remained disabled because sandbox HKCU registry access is denied; WindowsIntegration tests were excluded."
+  ]
+}
