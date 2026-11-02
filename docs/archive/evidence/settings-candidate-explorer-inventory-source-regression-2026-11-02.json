@@ -1,0 +1,69 @@
+{
+  "title": "Setting candidate, Explorer, inventory and Photo Viewer source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:47:27Z",
+  "scope": "BitLocker engine projection, candidate execution guards, Explorer and keyboard settings, local password-age candidate, local-user inventory, F1 help and Photo Viewer registration source tests.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/BitLockerEngineProjection.Tests.ps1",
+    "tests/CandidateExecution.Tests.ps1",
+    "tests/ExplorerSettings.Tests.ps1",
+    "tests/F1Help.Tests.ps1",
+    "tests/KeyboardSettings.Tests.ps1",
+    "tests/LocalPasswordAge.Tests.ps1",
+    "tests/LocalUserInventory.Tests.ps1",
+    "tests/PhotoViewerOpenWith.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 8,
+    "testsDiscovered": 130,
+    "passed": 130,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:01:36.990",
+    "status": "passed"
+  },
+  "safety": {
+    "registryAndPlatformProviders": "mocked or preview-only",
+    "temporaryInventoryExports": "Pester TestDrive",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Settings candidate, Explorer, inventory, help and Photo Viewer source regression passed 130/130 across eight suites."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native Windows settings and candidate behavior acceptance in a disposable VM.",
+    "BitLocker UI, reboot and protection behavior."
+  ],
+  "partial": [
+    "No legacy setting outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "Windows PowerShell 5.1 Pester import remains blocked by AuthorizationManager format-data validation.",
+    "PSScriptTools and WFN full synthetic lifecycle suites remain incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
