@@ -1,0 +1,63 @@
+{
+  "title": "Pre-optional unit test batch 5 - NTCore, offline, OpenSSH",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:43:30Z",
+  "scope": "Twelve remaining non-OptionalWindowsSettings files in the bounded non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "NtcoreUnpackerDynLogger.Tests.ps1",
+    "ObservationImport.Tests.ps1",
+    "OfficeConfigurationReview.Tests.ps1",
+    "OfficeInventory.Tests.ps1",
+    "OfflineBundle.Tests.ps1",
+    "OfflineBundleAssembly.Tests.ps1",
+    "OfflineExecution.Tests.ps1",
+    "OfflinePreparationPlan.Tests.ps1",
+    "OfflineProfileCoverage.Tests.ps1",
+    "OpenSshServerCapabilityLifecycle.Tests.ps1",
+    "OpenSshServerLifecycle.Tests.ps1",
+    "OpenSshServerObservation.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 336,
+    "passed": 330,
+    "failed": 0,
+    "skipped": 6,
+    "duration": "00:01:44.932",
+    "skips": [
+      "Six checks were skipped under optional fixture/environment conditions; the NTCore publisher-archive check specifically requires RIDE_NTCORE_FIXTURE_DIRECTORY."
+    ]
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "productExecutablesLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false,
+    "bundleWork": "WhatIf and TestDrive fixtures only"
+  },
+  "migration": {
+    "legacyOutcomesResolved": [],
+    "legacyOutcomesRetired": [],
+    "legacyOutcomesExcluded": [],
+    "legacyOutcomesDeferred": [],
+    "legacyOutcomesPartial": [
+      "Offline bundle assembly/delivery remains pending disconnected acceptance; OpenSSH native Windows component acceptance remains pending."
+    ],
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155. Source tests do not close legacy feature or product outcomes."
+  },
+  "blockers": [
+    "Six optional fixture/environment checks skipped; retained NTCore archive fixture requires RIDE_NTCORE_FIXTURE_DIRECTORY.",
+    "Offline assembly, cache packaging and disconnected delivery need separate acceptance.",
+    "OpenSSH native capability/service behavior still requires disposable Windows VM acceptance.",
+    "NirSoft and Defender-alerted binaries remain excluded.",
+    "TestRegistry remained disabled because sandbox HKCU access is denied; WindowsIntegration tests were excluded.",
+    "RIDE-Win11-Test acceptance remains separately blocked by host CIM access."
+  ]
+}
