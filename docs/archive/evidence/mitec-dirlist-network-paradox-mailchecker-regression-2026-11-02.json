@@ -1,0 +1,38 @@
+{
+  "title": "MiTeC DirList, Network Meter, Paradox Data Editor and Mail Checker source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:12:09Z",
+  "tests": {
+    "files": [
+      "tests/MiTecDirList.Tests.ps1",
+      "tests/MiTeCNetworkMeter.Tests.ps1",
+      "tests/MiTeCParadoxDataEditor.Tests.ps1",
+      "tests/MiTeCMailChecker.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:15.196",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "syntheticLifecyclePassed": true,
+    "productExecuted": false,
+    "networkUsed": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "nativeAcceptance": "Pending"
+  },
+  "blockers": [
+    "MiTeC feature and native Windows acceptance remain pending.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
