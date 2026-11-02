@@ -1,0 +1,64 @@
+{
+  "title": "User-bin and user-language source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:48:53Z",
+  "scope": "Four focused user-bin and user-language inventory, override, preparation and profile suites.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "files": [
+    "tests/UserBinProfile.Tests.ps1",
+    "tests/UserLanguageInventory.Tests.ps1",
+    "tests/UserLanguageOverrides.Tests.ps1",
+    "tests/UserLanguagePreparation.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 4,
+    "testsDiscovered": 102,
+    "passed": 102,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:17.324",
+    "status": "passed"
+  },
+  "safety": {
+    "inventoryProviders": "mocked",
+    "profileAndPreparation": "source-only",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Selected user-bin and user-language source regression passed 102/102."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native user profile behavior and WindowsIntegration.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester aggregate remains incomplete.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "Host CIM access blocks RIDE-Win11-Test acceptance."
+  ]
+}
