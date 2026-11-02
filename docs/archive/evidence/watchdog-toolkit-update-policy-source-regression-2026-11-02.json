@@ -1,0 +1,64 @@
+{
+  "title": "Watchdog, toolkit update and Windows Update policy source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:44:05Z",
+  "scope": "Host watchdog recovery with inert child processes, toolkit three-way file decisions, and mocked Windows Update notification policy state.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/AutomationWatchdog.Tests.ps1",
+    "tests/ToolkitUpdatePreparation.Tests.ps1",
+    "tests/UpdateNotificationPolicy.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 3,
+    "testsDiscovered": 70,
+    "passed": 70,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:01:18.020",
+    "status": "passed"
+  },
+  "safety": {
+    "childProcesses": "inert fixtures only",
+    "filesystemAndRegistryProviders": "supplied hashes, isolated TestDrive and mocked registry",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "windowsUpdateScanOrInstall": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Watchdog recovery, toolkit update planning and Windows Update notification source regression passed 70/70 across three suites."
+  ],
+  "retired": [],
+  "excluded": [
+    "Live Hyper-V/AutomatedLab recovery and Windows Update scan/install acceptance."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "Windows PowerShell 5.1 Pester import remains blocked by AuthorizationManager format-data validation.",
+    "PSScriptTools and WFN full synthetic lifecycle suites remain incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
