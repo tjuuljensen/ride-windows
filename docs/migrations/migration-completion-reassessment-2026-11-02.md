@@ -128,6 +128,145 @@ connection/GUI and target evidence remain open. Click to Do is a new-feature
 candidate, not a legacy outcome. These and other candidate declarations are not
 support claims merely because they appear in the catalog.
 
+## Package component register at pause
+
+The current catalog has **52 package operations marked `PendingAcceptance`**;
+each has empty `SupportedTargets` and one or more `CandidateTargets`. This is a
+catalog-operation count, not the **37-52 legacy package-outcome estimate**.
+Some candidates are new additions, and some legacy selectors remain without a
+catalog operation.
+
+### Catalog package candidates
+
+All components listed here remain candidate-only until their applicable target
+acceptance closes. Source and local lifecycle coverage varies by product. The
+fast-track evidence threshold for ordinary user-mode packages is the exact
+source/version pin, package-level install/repeat/remove and owned-file recovery,
+plus recorded Defender active/no-alert state. Per-utility feature testing is
+not a default requirement; add it only where the product or integration needs
+it. Drivers, services, firewalls, file associations, setup prerequisites, and
+security-sensitive workflows keep their specific acceptance requirements.
+
+**General applications and source utilities (9):**
+
+- `package.chromeparser` — ChromeSyncParser (pinned Python source).
+- `package.docker-desktop` — Docker Desktop.
+- `package.etl2pcapng` — Microsoft ETL2PCAPNG.
+- `package.exiftool` — ExifTool.
+- `package.google-analytic-cookie-cruncher` — Google Analytic Cookie Cruncher.
+- `package.gpg4win` — Gpg4win command line and Kleopatra.
+- `package.hex2text` — Hex2text (pinned Python source).
+- `package.joeware-admod` — JoeWare AdMod.
+- `package.microsoft-powershell-threadjob` — Microsoft.PowerShell.ThreadJob dependency.
+
+**MiTeC applications (23):**
+
+- `package.mitec-dfm-editor` — DFM Editor.
+- `package.mitec-dirlist` — DirList.
+- `package.mitec-exe-explorer` — EXE Explorer.
+- `package.mitec-hexedit` — HexEdit.
+- `package.mitec-icon-explorer` — Icon Explorer.
+- `package.mitec-infobar` — InfoBar.
+- `package.mitec-interbase-query` — Interbase Query.
+- `package.mitec-json-viewer` — JSON Viewer.
+- `package.mitec-mail-checker` — Mail Checker.
+- `package.mitec-network-meter` — Network Meter.
+- `package.mitec-network-scanner` — Network Scanner.
+- `package.mitec-ole-com-explorer` — OLE/COM Object Explorer.
+- `package.mitec-paradox-data-editor` — Paradox Data Editor.
+- `package.mitec-project-maker` — Project Maker.
+- `package.mitec-smbios-explorer` — SMBIOS Explorer.
+- `package.mitec-sqlite-query` — SQLite Query.
+- `package.mitec-ssview` — Structured Storage Viewer.
+- `package.mitec-system-information` — System Information eXtra.
+- `package.mitec-tapi-monitor` — TAPI Monitor.
+- `package.mitec-task-manager-deluxe` — Task Manager DeLuxe.
+- `package.mitec-windows-file-analyzer` — Windows File Analyzer.
+- `package.mitec-windows-registry-recovery` — Windows Registry Recovery.
+- `package.mitec-xml-viewer` — XML Viewer.
+
+**NirSoft collections (2):**
+
+- `package.nirsoft-launcher` — NirLauncher 1.30.26 filtered collection.
+- `package.nirsoft-x64-tools` — reviewed x64-tools snapshot.
+
+**NTCore tools (8):**
+
+- `package.ntcore-dynlogger` — DynLogger.
+- `package.ntcore-explorer-suite` — Explorer Suite installer candidate.
+- `package.ntcore-net-generic-unpacker` — .NET Generic Unpacker.
+- `package.ntcore-nodel` — NoDel.
+- `package.ntcore-screenwriter` — ScreenWriter MSI.
+- `package.ntcore-snsremover` — SNSRemover.
+- `package.ntcore-virtualreg-manager` — VirtualReg Manager.
+- `package.ntcore-wim-installer` — WIM Installer.
+
+**Other selected tools (10):**
+
+- `package.phoenix-protector` — Phoenix Protector.
+- `package.psscripttools` — PSScriptTools pinned source candidate.
+- `package.raspberry-pi-imager` — Raspberry Pi Imager.
+- `package.rawcopy` — RawCopy.
+- `package.regripper` — RegRipper.
+- `package.rufus` — Rufus portable x64.
+- `package.tmog` — Task Manager TMOG.
+- `package.windows-firewall-notifier` — Windows Firewall Notifier.
+- `package.winpmem` — WinPmem.
+- `package.wireshark` — Wireshark machine MSI.
+
+### Component-specific acceptance status
+
+| Component | Current evidence and status | Remaining closure |
+| --- | --- | --- |
+| MiTeC System Information eXtra and TAPI Monitor | Registered Windows 11 package-file staging and checkpoint recovery passed two cases; utilities were not run. Both remain candidates. | Record the required Defender state and package-level acceptance. Do not infer functional behavior from file staging. |
+| MiTeC EXE Explorer and HexEdit | Registered package staging/recovery passed; neither utility ran. | Defender active/no-alert evidence and the intended package-level acceptance remain open; catalog support stays pending. |
+| Other MiTeC candidates above | Current-source archive and synthetic package suites cover many lifecycle boundaries; the 2026-11-02 combined MiTeC/NTCore runs retained 12 optional archive-fixture skips across 131 discovered cases. | Supply only needed explicit archive fixtures, finish the source/pin and package lifecycle evidence for each candidate, then capture Windows acceptance and Defender state. No MiTeC outcome closed in those source batches. |
+| NTCore Explorer Suite | Windows 11 build 26300 install/repeat/remove/presence recovery passed in the registered run; 432/436 tests passed and four were skipped. Candidate remains unsupported. | The recorded package run lacks Defender active/no-alert evidence. Re-capture that evidence before target support; do not repeat product-feature checks beyond the accepted package threshold unless a specific integration needs them. |
+| Other NTCore catalog candidates | Pinned candidates and current-source/retained-archive staging checks exist for several tools; no general Windows target is declared. | Complete exact package install/repeat/remove/recovery and Defender evidence on the target. Separate NTCore Filter Monitor, Vista4Experts, and AntiMida remain unpinned and are not catalog candidates. |
+| NirLauncher collection | 647 of 668 archive entries are selected; lifecycle acceptance remains deferred after stage provenance failed to explain repeated PasswordScan alerts. | Keep the four user-reported alert tools and both PasswordScan architecture paths omitted. Do not restore, inspect, launch, allow, or add Defender exclusions for those files. Reconcile staging provenance before any archive lifecycle rerun. |
+| NirSoft x64 tools collection | Local encrypted publisher-archive lifecycle passed for 47 selected members; ProduKey and WirelessKeyView are omitted. No utility ran and no Windows target is supported. | Windows 11 package acceptance and Defender active/no-alert evidence remain open; never rematerialize reported alert files. |
+| PSScriptTools | The complete generated inert 360-member source lifecycle now passes 7/7. No upstream code or installer ran. | Complete package activation, supported dependency/acquisition and notice handling, and Windows package acceptance. The source pass alone closes no package outcome. |
+| WFN | Catalog and compact synthetic checks passed 2/2; the 531-member lifecycle did not finish after a bounded retry. WFN was not launched. | Resolve the slow synthetic lifecycle or replace it with a bounded package-level proof, then complete Windows package and firewall-interaction acceptance. Current host CIM blocks VM access. |
+| Sysinternals Suite | Package lifecycle is accepted from its Windows 11 VM run; its synthetic source regression passed 8/8. The user's prior RIDE v2 license-specialist approval is settled. | No additional licensing gate or per-utility feature testing is required by the accepted fast-track scope. Track only any explicitly open technical/Defender evidence in the existing record. |
+| JoeWare AdMod | Pinned 1.29.00 candidate and synthetic route checks exist; the retained archive-route test was skipped without its explicit fixture, and publisher DNS is blocked. | Complete exact retained-artifact package lifecycle and Windows acceptance. NeedsReview is owner/version administration, not a migration gate. |
+| RawCopy and ETL2PCAPNG | Present in package test coverage; retained-payload lifecycle checks were skipped because explicit fixtures were not supplied. | Supply the exact retained payload fixtures if required for package-level lifecycle proof, then run acceptance without launching the tools. |
+| Phoenix Protector | Pinned 1.7.1 MSI candidate; source/prerequisite and installer-routing checks pass. | Windows install/repeat/remove/recovery and prerequisite-conflict acceptance remain pending. |
+| Raspberry Pi Imager | Current 2.0.12 candidate and source checks exist. | Windows package lifecycle and the authorized removable-media boundary remain unaccepted; do not run imaging or alter a device as part of package presence testing. |
+| Rufus | Optional portable candidate; local retained-artifact lifecycle and exact recovery exist. | Windows 11 package staging and the separately scoped application/hardware checks remain open. |
+| WinPmem | Signed production acquisition asset is pinned as a candidate; source checks do not execute it. | Windows package-level install/recovery and Defender evidence remain pending. Do not load a driver or acquire memory as part of package presence acceptance. |
+| Wireshark | Pinned MSI candidate; metadata and source boundaries are covered. | Deterministic installer lifecycle, optional Npcap handling, removal/recovery, and target acceptance remain open. |
+| Docker Desktop, ExifTool, Cookie Cruncher, ChromeParser, Hex2text, Gpg4win, TMOG, RegRipper | Catalog candidates have source or mocked package coverage; Cookie Cruncher's retained archive case was skipped without its fixture. | Complete each component's source/version pin and package-level lifecycle/target acceptance. Docker prerequisites, Gpg4win user-data recovery, and TMOG free/paid entitlement boundaries remain explicit. |
+
+### Legacy selectors still unmigrated or partially represented
+
+These are not all represented by the 52 catalog candidates above:
+
+| Legacy component | Status and remaining work |
+| --- | --- |
+| Standard ImageMagick installer | Unimplemented. Exact installer bytes/hash/signature, machine PATH ownership, reversible install/remove and target acceptance remain open. Its separate portable Q16 package passed Windows 11 lifecycle and bounded image smoke acceptance; activation remains pending and Server support is not claimed. |
+| Python runtime selectors | Partial. The auto-install setting candidate exists, but selected runtime bytes/manifests, offline-index ownership, manager/launcher coexistence, PATH/alias conflicts, recovery, and Windows acceptance remain open. |
+| CCleaner, Recuva, Speccy | Selected outcomes, no exact current publisher artifact pins/lifecycle yet. CCleaner installer route is versionless and its portable version is stale; Recuva/Speccy offer installer routes without a verified artifact. DNS/acquisition has blocked byte verification. |
+| Defraggler | User-selected legacy outcome remains unresolved; publisher EOL is confirmed and no local artifact was found. Needs a user disposition or a publisher-authorized retained source; do not invent a replacement package. |
+| JoeWare UserDump and other unregistered JoeWare tools | Source/acquisition and exact member identities remain incomplete. AdMod is separate and remains the candidate described above. |
+| NTCore Filter Monitor, Vista4Experts, AntiMida | Unmigrated/unpinned. Publisher pages were reviewed, but exact archive bytes/hash/inventory are unavailable; no catalog candidate is claimed. |
+| BloodHound CE, SharpHound, AzureHound | Exact selected versions/notices/digests are documented, but selected archives are not retained locally; archive inventory, candidate package design, lifecycle and Windows acceptance remain open. Do not substitute a different AzureHound release. |
+| KAPE | Unmigrated. Publisher acquisition is form/EULA gated and the selected definitions snapshot is unavailable. The separately approved dedicated-directory Defender exclusion policy does not establish package availability or acceptance. |
+| VeraCrypt installed and portable variants | Deferred. Driver lifecycle, reboot and exact recovery require an orchestrated VM scenario; managed-file ownership alone is insufficient. |
+| ADReplStatus | Deferred pending evidence that the upstream distribution remains available and supported. |
+| Legacy Firewall Notifier behavior | Package presence is separate from its legacy firewall-policy effects. Exact policy capture, rollback, and interaction acceptance remain open. |
+| Zimmerman tools and associated maps/batches | Legacy mutable helper self-updates and executes discovered utilities. Immutable versions, complete inventories, safe managed updating and content ownership remain open; helper-source pinning alone is not package migration. |
+| WinGet and WinGet AutoUpdate | Unmigrated servicing workflows. WinGet MSIX dependencies/registration and WAU scheduled-task/service/update behavior need their own lifecycle and recovery design. |
+| NirSoft launcher package metadata | `.nlp` and language files are launcher configuration/content, not an independent software package. Define their ownership and relationship to the launcher without staging Defender-alerted tools. |
+| Arsenal Recon selection | Selected free-use products still need exact commits/artifacts/hashes/inventories and package lifecycle review. Keep each product separate; don't infer collection-wide acceptance. |
+| Wireshark legacy installer selector | The current MSI candidate does not by itself close the legacy EXE selector; deterministic variant selection and optional Npcap lifecycle/recovery remain open. |
+
+Across package work, **Defender active/no-alert evidence and RIDE-Win11-Test
+access remain blockers** because host CIM access fails before VM/checkpoint
+inspection. The user has settled Sysinternals licensing under prior specialist
+approval; `NeedsReview` markers are owner/version administration and do not
+block RIDE direct-download/install planning. Keep security exclusions separate
+from both decisions.
+
 ## Resume criterion
 
 Resume when the completion approach has been reviewed. Start with an explicit
