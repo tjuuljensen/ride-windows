@@ -1,0 +1,39 @@
+{
+  "title": "OpenSSH Server capability, lifecycle and observation source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:18:36Z",
+  "tests": {
+    "files": [
+      "tests/OpenSshServerCapabilityLifecycle.Tests.ps1",
+      "tests/OpenSshServerLifecycle.Tests.ps1",
+      "tests/OpenSshServerObservation.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 34,
+    "passed": 34,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:12.587",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "mockedLifecycleAndObservationChecksPassed": true,
+    "servicingInvoked": false,
+    "hostFirewallChanged": false,
+    "vmAccessInvoked": false,
+    "hostWindowsStateChanged": false,
+    "networkUsed": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "nativeAcceptance": "Pending"
+  },
+  "blockers": [
+    "OpenSSH Server native component acceptance remains pending; no servicing or firewall changes were made.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
