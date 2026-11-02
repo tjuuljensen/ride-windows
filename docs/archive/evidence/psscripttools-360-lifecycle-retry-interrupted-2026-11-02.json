@@ -1,0 +1,33 @@
+{
+  "title": "PSScriptTools 360-member synthetic lifecycle retry interrupted",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:35:21Z",
+  "test": {
+    "file": "tests/PSScriptToolsPackage.Tests.ps1",
+    "name": "stages, repeats and restores source while preserving unowned analyst output",
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "elapsed": "approximately 4 minutes",
+    "result": "Interrupted; no Pester summary",
+    "acceptedCases": 0
+  },
+  "reason": "No progress output through another bounded run of the known slow full lifecycle fixture; stopped to continue other work.",
+  "fixture": "Synthetic inert 360-member source archive; no retained publisher archive used.",
+  "effects": {
+    "upstreamModuleExecuted": false,
+    "networkUsed": false,
+    "vmAccessed": false,
+    "hostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155."
+  },
+  "blockers": [
+    "PSScriptTools full 360-member owned-file lifecycle remains incomplete; retry stopped without a Pester result after approximately four minutes.",
+    "PSScriptTools native runtime behavior remains untested and pending a bounded disposable-VM case.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
