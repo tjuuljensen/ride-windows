@@ -1,0 +1,86 @@
+{
+  "title": "Post-optional unit test batch 2",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:13:58Z",
+  "scope": "Twenty bounded test files after OptionalWindowsSettings in the non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "ScheduledTaskRecovery.Tests.ps1",
+    "ScreenLockMeasurement.Tests.ps1",
+    "Search.Tests.ps1",
+    "ServerPolicies.Tests.ps1",
+    "ServiceSettings.Tests.ps1",
+    "SettingPresentation.Tests.ps1",
+    "SettingsFixtureData.Tests.ps1",
+    "ShellFolders.Tests.ps1",
+    "SixtySettings.Tests.ps1",
+    "SourceScriptPackages.Tests.ps1",
+    "StoreAppReview.Tests.ps1",
+    "StoreApps.Tests.ps1",
+    "StoreSolitaireFixtureData.Tests.ps1",
+    "SysinternalsProductPackages.Tests.ps1",
+    "SysinternalsSuitePackage.Tests.ps1",
+    "TerminalJsonc.Tests.ps1",
+    "TestAutomation.Tests.ps1",
+    "ToolkitUpdatePreparation.Tests.ps1",
+    "UpdateNotificationPolicy.Tests.ps1",
+    "UserBinProfile.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 747,
+    "passed": 743,
+    "failed": 0,
+    "skipped": 4,
+    "duration": "00:24:54.621",
+    "skips": [
+      "Two optional retained-archive checks in SourceScriptPackages.Tests.ps1 were skipped because no explicit archive fixture paths were supplied.",
+      "Two Desktop PowerShell host-preflight tests in TestAutomation.Tests.ps1 were skipped on PowerShell 7 Core."
+    ]
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "sysinternalsProductsLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "resolved": [
+      "All 743 runnable source and mocked lifecycle cases passed across settings, store, Sysinternals, toolkit, recovery, and automation suites."
+    ],
+    "retired": [],
+    "excluded": [
+      "NirSoft collection suite, oversized PSScriptTools/WFN lifecycle files, and WindowsIntegration-tagged tests remained excluded."
+    ],
+    "deferred": [
+      "Two publisher archive fixture checks and two Windows PowerShell Desktop-only host preflight tests remain unrun for the documented environment reasons.",
+      "Native Windows/VM acceptance remains separate and blocked at host CIM."
+    ],
+    "partial": [
+      "No legacy migration outcome closes. The suite-wide aggregate remains incomplete after its OptionalWindowsSettings stall."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "Current source tests and synthetic lifecycle checks do not close a legacy feature/product outcome; ranges remain unchanged."
+    },
+    "licenseDecision": "The user's prior Sysinternals license-specialist approval remains unchanged; this run did not reconsider licensing.",
+    "blockers": [
+      "The 151-file/3698-test aggregate remains incomplete; bounded follow-up batches continue.",
+      "PSScriptTools 360-member and WFN 531-member synthetic lifecycles remain incomplete.",
+      "Host CIM blocks RIDE-Win11-Test acceptance before checkpoint state can be read.",
+      "Defender-blocked utilities remain excluded."
+    ]
+  }
+}
