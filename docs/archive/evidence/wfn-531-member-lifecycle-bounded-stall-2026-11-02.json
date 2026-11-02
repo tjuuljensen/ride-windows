@@ -1,0 +1,55 @@
+{
+  "title": "WFN 531-member lifecycle bounded retry",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T06:16:15Z",
+  "scope": "Complete tests/WfnPackage.Tests.ps1 run with the optional retained publisher archive check left unconfigured.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU access is denied",
+    "windowsIntegration": "not enabled",
+    "boundedRunTime": "about 5 minutes"
+  },
+  "result": {
+    "testsDiscovered": 4,
+    "passedBeforeInterruption": 2,
+    "failed": 0,
+    "largeSyntheticLifecycle": "interrupted after about 5 minutes without completion output; no pass or failure inferred",
+    "optionalRetainedArchiveComparison": "not reached; no explicit RIDE_WFN_FIXTURE_ARCHIVE supplied",
+    "status": "partial"
+  },
+  "safety": {
+    "syntheticArchiveOnly": true,
+    "productExecutableLaunched": false,
+    "installerOrNetworkInvoked": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false,
+    "newTemporaryPortableDirectoriesRemain": false
+  },
+  "resolved": [
+    "WFN catalog metadata and compact synthetic owned-file lifecycle checks passed again in the full suite."
+  ],
+  "retired": [],
+  "excluded": [
+    "Optional retained publisher archive comparison because no explicit fixture was configured."
+  ],
+  "partial": [
+    "The 531-member synthetic install/repeat/remove/restore test remains incomplete after another bounded attempt."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "The bounded retry closed no legacy outcome; estimates remain unchanged."
+  },
+  "blockers": [
+    "WFN 531-member synthetic lifecycle does not complete within the bounded run window.",
+    "PSScriptTools 360-member synthetic lifecycle remains incomplete.",
+    "RIDE-Win11-Test acceptance remains blocked by host CIM access.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
