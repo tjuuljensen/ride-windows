@@ -1,0 +1,83 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T13:34:19.6898377Z",
+  "Kind": "WirelessProfileGenerationValidation",
+  "SourceBaseCommit": "f33a6f3",
+  "Status": "GenerationVerifiedNativeImportPending",
+  "Decision": "Generate XML from supplied settings; use synthetic settings for testing. External production XML is not required.",
+  "SecurityModes": [
+    "WPA2Personal/AES",
+    "Open/none"
+  ],
+  "DefaultConnectionMode": "manual",
+  "SyntheticFixture": "tests/fixtures/wireless-profile.synthetic.psd1",
+  "GeneratedSyntheticFile": ".local/fast-track-20261102/assets/wifi/ride-synthetic-wifi.xml",
+  "Tests": [
+    {
+      "Shell": "PowerShell",
+      "Version": "7.6.5",
+      "Passed": 15,
+      "Failed": 0
+    },
+    {
+      "Shell": "Windows PowerShell",
+      "Version": "5.1.26100.9818",
+      "Passed": 15,
+      "Failed": 0
+    }
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "ExcludedTags": [
+    "WindowsIntegration"
+  ],
+  "Coverage": [
+    "Synthetic settings generate WPA2PSK AES XML in the literal WLAN v1 namespace",
+    "Escaping and strict UTF-8/binary SSID identity with 32-byte bounds",
+    "Passphrase and hexadecimal key validation without key echo",
+    "Private DACL applied at creation and verified through the handle before writing",
+    "Actual private output ACL readback on Windows in both PowerShell editions",
+    "Existing files preserved, atomic CreateNew refusal, no file on WhatIf",
+    "Finite security/connection completion uses no WLAN provider"
+  ],
+  "RepositoryValidation": {
+    "Passed": true,
+    "Operations": 475,
+    "Groups": 9,
+    "Profiles": 5,
+    "PowerShellFiles": 339,
+    "GeneratedDocumentationCurrent": true
+  },
+  "ProductionCredentialsUsed": false,
+  "ProfileImported": false,
+  "ConnectionAttempted": false,
+  "VmRun": false,
+  "WindowsNetworkStateChanged": false,
+  "NativeAcceptancePassed": false,
+  "NewLegacyOutcomesClosed": 0,
+  "Remaining": [
+    "Native interface selection and machine/all-user import",
+    "Prior-profile content and credential-safe exact recovery",
+    "Synthetic native import/repeat/remove/restore with suitable WLAN service and adapter",
+    "Additional security modes outside the implemented WPA2-Personal/open generator"
+  ],
+  "Sources": [
+    "https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpwl/34054c93-cfcd-44df-89d8-5f2ba7532b67",
+    "https://learn.microsoft.com/en-us/windows/win32/nativewifi/wlan-profileschema-ssid-ssidconfig-element",
+    "https://learn.microsoft.com/en-us/windows/win32/nativewifi/wlan-profileschema-sharedkey-security-element"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.WirelessProfile.psm1",
+      "Sha256": "7AB02712848750D6448865D243F876E499F87186221EFFE3ADCDCD955F1A6675"
+    },
+    {
+      "Path": "tests/WirelessProfile.Tests.ps1",
+      "Sha256": "FF274AC51DA652E3F1609942678F595893C9E6F75C5A82242C3D214829D13046"
+    },
+    {
+      "Path": "tests/fixtures/wireless-profile.synthetic.psd1",
+      "Sha256": "AE1D4BB884DA3BAEB2A0BC2C8175457CEB3A490F6C603E85B9B480B76F952FF5"
+    }
+  ]
+}

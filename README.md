@@ -71,6 +71,8 @@ The [client RSAT group](docs/windows-component-inventory.md#client-rsat-catalog-
 selects all observed capabilities and orders installation, removal and recovery by dependency.
 The [adapter inventory](docs/network-adapter-inventory.md) completes saved GUIDs
 without selecting or changing a network device.
+The [Wi-Fi profile generator](docs/wireless-profile-inventory.md#generate-xml-from-supplied-settings)
+creates private XML from supplied settings; synthetic profiles cover generation tests.
 The [volume inventory](docs/volume-inventory.md) completes saved volume GUID paths
 without using drive letters or labels as selection keys.
 The [user proxy observation](docs/user-proxy-inventory.md) completes its explicit

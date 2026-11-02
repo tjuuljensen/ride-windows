@@ -288,3 +288,27 @@ source/dependencies/recovery or the release candidate. No supported target or
 shipped profile is promoted. Follow the
 [RSAT native acceptance procedure](windows-component-inventory.md#client-rsat-catalog-candidates)
 and the [remaining test strategy](migrations/migration-completion-reassessment-2026-11-02.md#remaining-test-strategy-assessment-2026-11-02).
+
+## Generated Wi-Fi profile input, 2026-11-02
+
+Compatible Windows-native preparation extension; shared contract unchanged
+(RB-02/03/08/09/10/11). The user clarified that RIDE generates XML from supplied
+settings and tests with synthetic profiles; an externally supplied XML file is
+not an input gate. Generation is separate from native profile import, scope,
+connection and recovery. It creates only an explicitly selected new local file,
+sets and verifies a private DACL before writing, never overwrites, and writes
+nothing under WhatIf. Completion uses declared security/connection choices with
+no adapter queries. Native machine/all-user import and recoverable prior-profile
+capture remain pending; no target support or profile default is promoted.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`,
+Fedora revision `3d9406e3888122d1407652336859e6217c09bcaa`, and peer paths:
+`ride.sh` SHA-256 `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+`lib/v3/common.sh` SHA-256 `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+These reviewed peer paths contain no WLAN generator; this is not a feature-parity
+or automated shared-conformance claim. No shared version/digest changes.
+
+Owner: RIDE Windows maintainer. Review trigger: importer/recovery integration,
+additional security modes, scope changes or release candidate. Follow-up and
+acceptance: [Wi-Fi generation and synthetic testing](wireless-profile-inventory.md#synthetic-testing).
