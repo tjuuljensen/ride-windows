@@ -6598,6 +6598,138 @@
                            "FileVersion": null,
                            "ProductVersion": null,
                            "Contents": []
+                         },
+                         {
+                             "ObservationId":  "46834865792646ea9226a9a229b112f4",
+                             "RunId":  null,
+                             "PackageId":  null,
+                             "ArtifactId":  "sysmon-modular-balanced-15-21",
+                             "Version":  "a45dedb13a43",
+                             "Architecture":  "neutral",
+                             "FileName":  "sysmonconfig.xml",
+                             "OriginUri":  "https://github.com/olafhartong/sysmon-modular",
+                             "SourceUri":  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/sysmonconfig.xml",
+                             "ReleaseUri":  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS",
+                             "ReleaseMetadata":  null,
+                             "Variant":  null,
+                             "Provider":  "GitHubReleaseAssetApi",
+                             "License":  "MIT License; retain the upstream license and configuration notices",
+                             "LicenseUri":  "https://github.com/olafhartong/sysmon-modular/blob/master/license.md",
+                             "TermsUri":  null,
+                             "ObservedAtUtc":  "2026-11-02T11:18:36.7098626Z",
+                             "Route":  "direct",
+                             "AcquisitionKind":  "Download",
+                             "Sha256":  "64bec37ba849c5f2934a55d2a29e7ddfae46a30d56f7f2908d1f8a454898797e",
+                             "ProviderDigest":  "sha256:64bec37ba849c5f2934a55d2a29e7ddfae46a30d56f7f2908d1f8a454898797e",
+                             "PublisherSha256":  null,
+                             "PublisherChecksumUri":  null,
+                             "PublisherChecksumResult":  "Unavailable",
+                             "ChecksumUris":  [
+                                                  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS"
+                                              ],
+                             "SignatureUris":  [
+
+                                               ],
+                             "AuthenticodeStatus":  "UnknownError",
+                             "AuthenticodeSigner":  null,
+                             "AuthenticodeIssuer":  null,
+                             "AuthenticodeThumbprint":  null,
+                             "TimestampSigner":  null,
+                             "TimestampThumbprint":  null,
+                             "FileSize":  360048,
+                             "FileVersion":  null,
+                             "ProductVersion":  null,
+                             "Contents":  [
+
+                                          ]
+                         },
+                         {
+                             "ObservationId":  "df7ec8de4af949d6b0d968ba03e1e188",
+                             "RunId":  null,
+                             "PackageId":  null,
+                             "ArtifactId":  "sysmon-modular-balanced-filedelete-15-21",
+                             "Version":  "a45dedb13a43",
+                             "Architecture":  "neutral",
+                             "FileName":  "sysmonconfig-with-filedelete.xml",
+                             "OriginUri":  "https://github.com/olafhartong/sysmon-modular",
+                             "SourceUri":  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/sysmonconfig-with-filedelete.xml",
+                             "ReleaseUri":  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS",
+                             "ReleaseMetadata":  null,
+                             "Variant":  null,
+                             "Provider":  "GitHubReleaseAssetApi",
+                             "License":  "MIT License; retain the upstream license and configuration notices",
+                             "LicenseUri":  "https://github.com/olafhartong/sysmon-modular/blob/master/license.md",
+                             "TermsUri":  null,
+                             "ObservedAtUtc":  "2026-11-02T11:18:38.711546Z",
+                             "Route":  "direct",
+                             "AcquisitionKind":  "Download",
+                             "Sha256":  "a7832f4423aae16e39342e08f3a2962291eafb7972eb9dfb070009781fde50d9",
+                             "ProviderDigest":  "sha256:a7832f4423aae16e39342e08f3a2962291eafb7972eb9dfb070009781fde50d9",
+                             "PublisherSha256":  null,
+                             "PublisherChecksumUri":  null,
+                             "PublisherChecksumResult":  "Unavailable",
+                             "ChecksumUris":  [
+                                                  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS"
+                                              ],
+                             "SignatureUris":  [
+
+                                               ],
+                             "AuthenticodeStatus":  "UnknownError",
+                             "AuthenticodeSigner":  null,
+                             "AuthenticodeIssuer":  null,
+                             "AuthenticodeThumbprint":  null,
+                             "TimestampSigner":  null,
+                             "TimestampThumbprint":  null,
+                             "FileSize":  381927,
+                             "FileVersion":  null,
+                             "ProductVersion":  null,
+                             "Contents":  [
+
+                                          ]
+                         },
+                         {
+                             "ObservationId":  "c82597376acc468089f57109795ee30c",
+                             "RunId":  null,
+                             "PackageId":  null,
+                             "ArtifactId":  "sysmon-modular-excludes-only-15-21",
+                             "Version":  "a45dedb13a43",
+                             "Architecture":  "neutral",
+                             "FileName":  "sysmonconfig-excludes-only.xml",
+                             "OriginUri":  "https://github.com/olafhartong/sysmon-modular",
+                             "SourceUri":  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/sysmonconfig-excludes-only.xml",
+                             "ReleaseUri":  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS",
+                             "ReleaseMetadata":  null,
+                             "Variant":  null,
+                             "Provider":  "GitHubReleaseAssetApi",
+                             "License":  "MIT License; retain the upstream license and configuration notices",
+                             "LicenseUri":  "https://github.com/olafhartong/sysmon-modular/blob/master/license.md",
+                             "TermsUri":  null,
+                             "ObservedAtUtc":  "2026-11-02T11:18:41.1278636Z",
+                             "Route":  "direct",
+                             "AcquisitionKind":  "Download",
+                             "Sha256":  "4c7d27bc2847f7de816ddde90e7de37d5b9473461b27424882e9b93f00cd28a4",
+                             "ProviderDigest":  "sha256:4c7d27bc2847f7de816ddde90e7de37d5b9473461b27424882e9b93f00cd28a4",
+                             "PublisherSha256":  null,
+                             "PublisherChecksumUri":  null,
+                             "PublisherChecksumResult":  "Unavailable",
+                             "ChecksumUris":  [
+                                                  "https://github.com/olafhartong/sysmon-modular/releases/download/configs-a45dedb13a43/SHA256SUMS"
+                                              ],
+                             "SignatureUris":  [
+
+                                               ],
+                             "AuthenticodeStatus":  "UnknownError",
+                             "AuthenticodeSigner":  null,
+                             "AuthenticodeIssuer":  null,
+                             "AuthenticodeThumbprint":  null,
+                             "TimestampSigner":  null,
+                             "TimestampThumbprint":  null,
+                             "FileSize":  103858,
+                             "FileVersion":  null,
+                             "ProductVersion":  null,
+                             "Contents":  [
+
+                                          ]
                          }
                      ]
 }

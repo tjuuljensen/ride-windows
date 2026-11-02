@@ -1152,6 +1152,16 @@ Describe 'Sysmon Modular pinned download-only profile artifacts' {
       Mock Invoke-WebRequest { [pscustomobject]@{Content=((('b'*64)+'  sysmonconfig-with-filedelete.xml')+"`n"+(('c'*64)+'  sysmonconfig-with-filedelete.xml'))} }
       {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exactly one checksum record*'
     }
+    It 'decodes an octet-stream checksum manifest returned as bytes' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=[Text.Encoding]::UTF8.GetBytes(('b'*64)+'  sysmonconfig-with-filedelete.xml')} }
+      (Resolve-RidePackageArtifact -Operation $operation).ProviderDigest | Should -Be ('sha256:'+('b'*64))
+    }
+    It 'refuses invalid UTF-8 and oversized byte checksum responses' {
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=[byte[]]@(255)} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw
+      Mock Invoke-WebRequest { [pscustomobject]@{Content=(New-Object byte[] 1048577)} }
+      {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exceeds 1 MiB*'
+    }
     It 'refuses a release, target version or profile outside the pinned choices' {
       $operation.ReleaseTag='latest'
       {Resolve-RidePackageArtifact -Operation $operation} | Should -Throw '*exact 15.21 configuration release*'

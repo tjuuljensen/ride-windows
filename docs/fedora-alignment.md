@@ -219,3 +219,14 @@ its promotion until reviewed; unrelated development can continue.
 
 See [operator behavior and recovery](unsupported-target-exploration.md) and
 [source evidence](archive/evidence/unsupported-target-source-validation-2026-11-02.json).
+
+## Sysmon Modular checksum decoding and acquisition, 2026-11-02
+
+Shared behavior unchanged (RB-05/11): decode a bounded UTF-8 byte response in
+PowerShell 7 before checking the same exact release checksum entry. Windows
+PowerShell string responses, source/tag/asset allowlists and digest verification
+remain unchanged. Three pinned XML artifacts were acquired; no consumer ran.
+Compared contract 1.0.0 and the Fedora revision/source hashes recorded in the
+preceding target-exploration review. Owner: RIDE Windows maintainer; next review:
+configuration apply/restore or acquisition policy change. Native acceptance and
+shared conformance remain separate. See [evidence](archive/evidence/sysmon-modular-acquisition-2026-11-02.json).

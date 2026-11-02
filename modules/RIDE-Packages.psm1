@@ -36,8 +36,9 @@
   Recovery: State-changing handlers are engine-internal: use ride.ps1 preview and captured-run
   restoration. Direct calls bypass ShouldProcess and snapshot capture.
   Author: RIDE-Windows maintainers.
-  Version: 0.22.0
+  Version: 0.22.1
   Changelog:
+    0.22.1: Decode bounded UTF-8 Sysmon checksum responses returned as bytes by PowerShell 7.
     0.22.0: Honor explicit EXE installer process-only completion without waiting for launched applications.
     0.21.0: Resolve NuGet package containers as ZIP-format portable artifacts.
     0.20.0: Detect declared per-user MSI products without ARP entries through Windows Installer registration.
@@ -74,7 +75,7 @@
 #>
 
 
-$script:ModuleVersion = '0.22.0'
+$script:ModuleVersion = '0.22.1'
 $script:GitHubReleaseCache = @{}
 $script:GitHubReleaseNotBefore = $null
 $script:GitHubReleaseRate = $null
@@ -479,8 +480,12 @@ function Resolve-RidePackageArtifact {
     $expectedChecksumUri="https://github.com/$repository/releases/download/$releaseTag/SHA256SUMS"
     if($Operation.DownloadUri -cne $expectedDownloadUri -or $Operation.ChecksumUri -cne $expectedChecksumUri) { throw 'Sysmon Modular profile URLs must match the pinned repository, release tag, profile and checksum manifest.' }
     $manifestResponse=Invoke-WebRequest -Uri $expectedChecksumUri -UseBasicParsing -TimeoutSec 120 -ErrorAction Stop
-    $manifest=[string]$manifestResponse.Content
-    if($manifest.Length -gt 1048576) { throw 'Sysmon Modular SHA256SUMS response exceeds 1 MiB.' }
+    if($manifestResponse.Content -is [byte[]]) {
+      if($manifestResponse.Content.Length -gt 1048576) { throw 'Sysmon Modular SHA256SUMS response exceeds 1 MiB.' }
+      $manifest=[Text.UTF8Encoding]::new($false,$true).GetString($manifestResponse.Content)
+    } elseif($manifestResponse.Content -is [string]) { $manifest=$manifestResponse.Content }
+    else { throw 'Sysmon Modular SHA256SUMS response must contain UTF-8 text or bytes.' }
+    if($manifest.Length -gt 1048576 -or [Text.Encoding]::UTF8.GetByteCount($manifest) -gt 1048576) { throw 'Sysmon Modular SHA256SUMS response exceeds 1 MiB.' }
     $matchingLines=@($manifest -split "`r?`n" | Where-Object { $_ -match ('^\s*[0-9a-fA-F]{64}\s+\*?'+[regex]::Escape($assetName)+'\s*$') })
     if($matchingLines.Count -ne 1) { throw "Expected exactly one checksum record for $assetName in the pinned Sysmon Modular release." }
     $digestMatch=[regex]::Match($matchingLines[0],'^\s*(?<hash>[0-9a-fA-F]{64})\s+\*?(?<file>[^\s]+)\s*$')
