@@ -481,3 +481,27 @@ Owner: RIDE Windows maintainer. Follow-up: [guarded Sysmon native execution](sys
 Review trigger: protected controller dispatch, native fixture/configuration
 results, new Sysmon/source versions or release-candidate review. Native support
 remains gated by actual execution evidence.
+
+## Bounded image source validation, 2026-11-02
+
+This read-only Windows source gate leaves RB-05 acquisition, RB-06 lifecycle,
+RB-09 recovery and RB-10 acceptance boundaries unchanged. A validated byte
+snapshot is neither installation nor verified personalization. No shared CLI,
+catalog/profile schema, contract version or digest changes. Windows image APIs
+and edition-specific policy acceptance remain local and unpromoted.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`,
+the prior peer target/candidate/journal/recovery comparison at `e287415`, and peer
+platform checks. Rechecked unchanged hashes: `ride.sh`
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`;
+`lib/v3/common.sh` `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Peer Git access was denied in this sandbox, so the last verified revision remains
+`3d9406e3888122d1407652336859e6217c09bcaa`; no newer revision is claimed. Automated
+shared conformance remains pending.
+
+Owner: RIDE Windows maintainer. Reason: PNG validation prepares native image
+workflows without promoting behavior from source checks. Follow-up:
+[image lifecycle and visible acceptance](image-personalization.md#three-separate-acceptance-workflows).
+Review trigger: image writer/recovery implementation, supported route/edition
+changes, native acceptance or release-candidate review.

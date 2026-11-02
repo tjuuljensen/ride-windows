@@ -1,0 +1,129 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T17:05:38.3339251Z",
+  "Status": "SourceValidationPassed",
+  "NativeAcceptance": false,
+  "SourceTests": [
+    {
+      "Version": "7.6.5",
+      "Passed": 16,
+      "Failed": 0,
+      "Total": 16
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 16,
+      "Failed": 0,
+      "Total": 16
+    }
+  ],
+  "RealSelectedInputs": [
+    {
+      "Status": "SourceGatePassed",
+      "PowerShell": "7.6.5",
+      "Images": [
+        {
+          "FileName": "fedora_sharpened_4k.png",
+          "Bytes": 966122,
+          "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+          "Width": 3840,
+          "Height": 2160,
+          "DecodeValidated": true,
+          "PersonalizationChanged": false
+        },
+        {
+          "FileName": "avatar_centered_4K_3840x2160.png",
+          "Bytes": 275952,
+          "Sha256": "CCB588C20B7F0495ECCFA9E11764EB69B997552626AF2719491EA0F3A6B847BB",
+          "Width": 3840,
+          "Height": 2160,
+          "DecodeValidated": true,
+          "PersonalizationChanged": false
+        },
+        {
+          "FileName": "suit_sharpened_4k.png",
+          "Bytes": 1333608,
+          "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+          "Width": 3840,
+          "Height": 2160,
+          "DecodeValidated": true,
+          "PersonalizationChanged": false
+        }
+      ],
+      "WindowsPersonalizationCallsPerformed": false
+    },
+    {
+      "Status": "SourceGatePassed",
+      "PowerShell": "5.1.26100.9818",
+      "Images": [
+        {
+          "FileName": "fedora_sharpened_4k.png",
+          "Bytes": 966122,
+          "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+          "Width": 3840,
+          "Height": 2160,
+          "DecodeValidated": true,
+          "PersonalizationChanged": false
+        },
+        {
+          "FileName": "avatar_centered_4K_3840x2160.png",
+          "Bytes": 275952,
+          "Sha256": "CCB588C20B7F0495ECCFA9E11764EB69B997552626AF2719491EA0F3A6B847BB",
+          "Width": 3840,
+          "Height": 2160,
+          "DecodeValidated": true,
+          "PersonalizationChanged": false
+        },
+        {
+          "FileName": "suit_sharpened_4k.png",
+          "Bytes": 1333608,
+          "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+          "Width": 3840,
+          "Height": 2160,
+          "DecodeValidated": true,
+          "PersonalizationChanged": false
+        }
+      ],
+      "WindowsPersonalizationCallsPerformed": false
+    }
+  ],
+  "Validation": {
+    "Groups": 9,
+    "PowerShellFiles": 361,
+    "Operations": 475,
+    "Status": "Passed",
+    "Profiles": 5
+  },
+  "Limits": {
+    "AxisPixels": 8192,
+    "Format": "Static PNG",
+    "TotalPixels": 32000000,
+    "FileBytes": 16777216
+  },
+  "ResolvedSourceIssues": [
+    "GDI+ accepted the invalid compressed-data fixture; bounded inflation/header/checksum checks now reject it.",
+    "Normalized local-path refusal after different GetFullPath alternate-stream errors between shells."
+  ],
+  "ChangedSourceImages": false,
+  "ChangedWindowsPersonalization": false,
+  "GuestDispatched": false,
+  "Remaining": [
+    "Image installation and exact policy/file recovery handlers",
+    "Default-wallpaper route with new-user visible verification",
+    "Per-user lock-screen selection mode and image recovery",
+    "Suitable-edition machine default-lock-screen lifecycle and visible verification",
+    "Protected controller refresh and dispatch without fresh UAC",
+    "Full BitLocker boot/unlock/recovery/decryption acceptance"
+  ],
+  "SourceHashes": [
+    {
+      "Sha256": "DCEBAAC8E47A239C773FC50088E0CA36149F105A3B464572921023B2297C5DE7",
+      "Path": "modules/RIDE.ImageFiles.psm1"
+    },
+    {
+      "Sha256": "4BAE3B42FE07485DC4E0C7A10A4EA3CDDF26294A509F8B251553DA0B039BC6FA",
+      "Path": "tests/ImageFiles.Tests.ps1"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}
