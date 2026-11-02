@@ -189,3 +189,33 @@ actions; the reviewed `ride.sh` and `lib/v3/common.sh` hashes are in the
 No target support or shared interface changed. Owner: RIDE Windows maintainer;
 next review: the next package batch or acquisition behavior change. Existing
 alignment/release gaps remain open; this is not shared conformance automation.
+
+## Unsupported target exploration, 2026-11-02
+
+Intentional Windows difference from RB-08, with RB-02/03/04/09/10/11 safeguards
+retained. The user requested a separate `-AllowUnsupportedTarget` for one-run
+catalog OS/build/edition exploration. Candidate permission remains a separate
+fresh opt-in; target declarations are unchanged. Changed runs and approved
+restores retain actual-target/unsupported audit; preview has no writes or launch.
+Architecture, source/integrity, privilege, dependencies, handler availability,
+offline matching and saved-state recovery checks remain in force.
+
+Compared contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and Fedora revision `3d9406e3888122d1407652336859e6217c09bcaa`:
+`ride.sh` SHA-256 `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+`lib/v3/common.sh` SHA-256 `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Fedora's `ride_require_target` still refuses undeclared OS/release/architecture/
+variant independently of candidate permission. No Fedora target override is
+claimed or implemented, and the canonical contract/digest are not silently revised.
+
+Owner: RIDE Windows maintainer. Reason: user-approved disposable-target
+exploration without promoting supported targets. Follow-up **ALIGN-TARGET-01**:
+jointly decide whether to retain this Windows-only interface or version the
+contract with a shared exploration rule, and add both native conformance cases.
+Review trigger: before promoting this capability or a public v3 release, and
+whenever target, candidate or recovery semantics change. This difference blocks
+its promotion until reviewed; unrelated development can continue.
+
+See [operator behavior and recovery](unsupported-target-exploration.md) and
+[source evidence](archive/evidence/unsupported-target-source-validation-2026-11-02.json).

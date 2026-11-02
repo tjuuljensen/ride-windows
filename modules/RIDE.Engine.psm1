@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.28.0
+  Version: 0.29.0
   Changelog:
+    0.29.0: Add explicit per-invocation target exploration with durable target audit.
     0.28.0: Allow explicit declared candidate targets for apply, preview and saved-run recovery.
     0.27.0: Integrate optional coordinated hibernation-file configuration and conditional recovery.
     0.26.0: Inspect BitLocker workflow state without exposing recovery passwords or treating staged actions as restorable settings.
@@ -88,7 +89,7 @@
 #>
 
 
-$script:ModuleVersion = '0.28.0'
+$script:ModuleVersion = '0.29.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -1218,7 +1219,7 @@ function Save-RideOperationSnapshot {
 }
 
 function Save-RideRunManifest {
-  param([string] $RunId, [object[]] $Plan)
+  param([string] $RunId, [object[]] $Plan, [object[]] $TargetExploration)
   $scopes = @($Plan | ForEach-Object { $_.Operation.Scope } | Sort-Object -Unique)
   $manifest = [ordered]@{
     SchemaVersion = 1
@@ -1231,6 +1232,7 @@ function Save-RideRunManifest {
     })
     CreatedUtc = [DateTime]::UtcNow.ToString('o')
   }
+  if ($TargetExploration) { $manifest.TargetExploration = @($TargetExploration) }
   $libraryIdentities = @($Plan | Where-Object { $_.Operation.Library } | ForEach-Object {
     [pscustomobject]@{ Id = $_.Operation.Library.Id; Version = $_.Operation.Library.Version
       EngineApiVersion = $_.Operation.Library.EngineApiVersion; CatalogSha256 = $_.Operation.Library.CatalogSha256 }
@@ -1287,8 +1289,13 @@ function Set-RideRunOperationProgress {
 }
 
 function Assert-RideOperationTarget {
-  param([hashtable] $Operation, [string] $Target, [switch] $AllowCandidate, [switch] $Preview)
+  param([hashtable] $Operation, [string] $Target, [switch] $AllowCandidate, [switch] $Preview, [switch] $AllowUnsupportedTarget)
   if ($Target -in $Operation.SupportedTargets) { return }
+  if ($AllowUnsupportedTarget) {
+    if ($Operation.PendingAcceptance -and -not $AllowCandidate -and -not $Preview) { throw "'$($Operation.Id)' acceptance is pending; -AllowUnsupportedTarget also requires -AllowCandidate for actual candidate changes or recovery." }
+    Write-Warning "'$($Operation.Id)' is exploring unsupported target '$Target' for this invocation only; no target support is established."
+    return
+  }
   if ($Operation.PendingAcceptance -and $Target -in $Operation.CandidateTargets) {
     if ($Preview) {
       Write-Warning "'$($Operation.Id)' is previewed on declared candidate target $Target; acceptance remains pending. No support or activation is established."
@@ -1303,20 +1310,20 @@ function Assert-RideOperationTarget {
 }
 
 function Assert-RidePlanAllowed {
-  param([object[]] $Plan, [switch] $AllowCandidate, [switch] $Preview)
+  param([object[]] $Plan, [switch] $AllowCandidate, [switch] $Preview, [switch] $AllowUnsupportedTarget)
   $target = Get-RidePlatform
   foreach ($item in $Plan) {
     if ($item.Operation.RequiresDesktopExperience -and $target -like 'Windows Server*') {
       $installationType=(Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name InstallationType -ErrorAction Stop).InstallationType
-      if ($installationType -ne 'Server') { throw "'$($item.Operation.Id)' requires Windows Server Desktop Experience; applicability is unavailable on '$installationType'." }
+      if ($installationType -ne 'Server' -and -not $AllowUnsupportedTarget) { throw "'$($item.Operation.Id)' requires Windows Server Desktop Experience; applicability is unavailable on '$installationType'." }
     }
     if ($target -notin $item.Operation.SupportedTargets) {
       $alreadyInstalled = $item.Operation.Kind -eq 'Package' -and $item.State -eq 'Present' -and (Get-RideInstalledPackage -Operation $item.Operation).Present
-      if (-not $alreadyInstalled) { Assert-RideOperationTarget -Operation $item.Operation -Target $target -AllowCandidate:$AllowCandidate -Preview:$Preview }
+      if (-not $alreadyInstalled) { Assert-RideOperationTarget -Operation $item.Operation -Target $target -AllowCandidate:$AllowCandidate -Preview:$Preview -AllowUnsupportedTarget:$AllowUnsupportedTarget }
     }
     if ($item.Operation.MinimumBuild) {
       $build = [int](Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name CurrentBuildNumber -ErrorAction Stop).CurrentBuildNumber
-      if ($build -lt $item.Operation.MinimumBuild) { throw "'$($item.Operation.Id)' requires Windows build $($item.Operation.MinimumBuild) or later; detected $build." }
+      if ($build -lt $item.Operation.MinimumBuild -and -not $AllowUnsupportedTarget) { throw "'$($item.Operation.Id)' requires Windows build $($item.Operation.MinimumBuild) or later; detected $build." }
     }
   }
   if (-not $WhatIfPreference -and @($Plan | Where-Object { $_.Operation.RequiresUnelevatedUser }).Count -gt 0 -and (Test-RideAdministrator)) {
@@ -1325,6 +1332,25 @@ function Assert-RidePlanAllowed {
   if (-not $WhatIfPreference -and @($Plan | Where-Object { $_.Operation.RequiresAdmin }).Count -gt 0 -and -not (Test-RideAdministrator)) {
     throw 'This plan contains machine operations and must be run from an elevated PowerShell session.'
   }
+}
+
+function New-RideTargetExplorationRecord {
+  param([hashtable] $Operation, [ValidateSet('Apply','Restore')][string] $Action)
+  $version = Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -ErrorAction Stop
+  $product = Get-ItemProperty -LiteralPath 'HKLM:\SYSTEM\CurrentControlSet\Control\ProductOptions' -ErrorAction Stop
+  $target = Get-RidePlatform
+  $reasons = @()
+  if ($target -notin $Operation.SupportedTargets) { $reasons += 'UndeclaredSupportedTarget' }
+  if ($Operation.MinimumBuild -and [int]$version.CurrentBuildNumber -lt $Operation.MinimumBuild) { $reasons += 'BelowMinimumBuild' }
+  if ($Operation.RequiresDesktopExperience -and $target -like 'Windows Server*' -and $version.InstallationType -ne 'Server') { $reasons += 'DesktopExperienceUnavailable' }
+  $record = [pscustomobject]@{SchemaVersion=1;Action=$Action;OperationId=$Operation.Id;RecordedAtUtc=[datetime]::UtcNow.ToString('o');
+    AllowUnsupportedTarget=$true;Unsupported=($reasons.Count -gt 0);OverriddenRestrictions=$reasons;
+    Target=$target;ProductName=[string]$version.ProductName;Build=[int]$version.CurrentBuildNumber;UpdateBuildRevision=$version.UBR;
+    EditionId=[string]$version.EditionID;InstallationType=[string]$version.InstallationType;ProductType=[string]$product.ProductType;
+    ProcessArchitecture=[string]$env:PROCESSOR_ARCHITECTURE;Is64BitOperatingSystem=[Environment]::Is64BitOperatingSystem;
+    SupportedTargets=@($Operation.SupportedTargets);CandidateTargets=@($Operation.CandidateTargets);PendingAcceptance=[bool]$Operation.PendingAcceptance}
+  Write-Warning ("Target exploration for '{0}': {1}; build {2}; edition {3}; unsupported={4}. Other handler and recovery guards remain active." -f $Operation.Id,$target,$record.Build,$record.EditionId,$record.Unsupported)
+  $record
 }
 
 function Get-RidePlan {
@@ -1644,6 +1670,11 @@ function Invoke-RidePlan {
     Read-only WhatIf previews need no opt-in and warn that acceptance remains pending.
     Target, build, privilege, offline acceptance and handler checks still apply.
 
+  .PARAMETER AllowUnsupportedTarget
+    Explicit one-run exploration outside catalog OS/build/edition restrictions.
+    Records the actual target in changed-run manifests. Candidate opt-in, source,
+    architecture, privilege, dependency, ownership and handler recovery guards remain.
+
   .PARAMETER GitHubAuthentication
     Anonymous (default) or explicit PAT for GitHub release discovery only.
 
@@ -1679,6 +1710,7 @@ function Invoke-RidePlan {
   param(
     [Parameter(Mandatory = $true)][object[]] $Plan,
     [switch] $AllowCandidate,
+    [switch] $AllowUnsupportedTarget,
     [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous',
     [string] $GitHubCredentialReference,
     [string] $OfflineBundle,
@@ -1696,7 +1728,9 @@ function Invoke-RidePlan {
     if ($GitHubAuthentication -ne 'Anonymous' -or $GitHubCredentialReference) { throw 'Offline execution does not accept network authentication.' }
     $offlineContext = Get-RideOfflinePlanContext -Plan $Plan -ManifestPath $OfflineBundle -ProfileId $OfflineProfileId -CatalogFileId $OfflineCatalogFileId
   }
-  Assert-RidePlanAllowed -Plan $Plan -AllowCandidate:$AllowCandidate -Preview:$WhatIfPreference
+  Assert-RidePlanAllowed -Plan $Plan -AllowCandidate:$AllowCandidate -Preview:$WhatIfPreference -AllowUnsupportedTarget:$AllowUnsupportedTarget
+  $targetExploration = @()
+  if ($AllowUnsupportedTarget) { $targetExploration = @($Plan | ForEach-Object { New-RideTargetExplorationRecord -Operation $_.Operation -Action Apply }) }
   $runId = [guid]::NewGuid().ToString('N')
   $savedOperationIds = New-Object System.Collections.Generic.List[string]
   $completedOperationIds = New-Object System.Collections.Generic.List[string]
@@ -1733,7 +1767,7 @@ function Invoke-RidePlan {
     }
     if ($PSCmdlet.ShouldProcess($operation.Name, "Set state to $($item.State)")) {
         if (-not $manifestSaved) {
-          Save-RideRunManifest -RunId $runId -Plan $Plan
+          Save-RideRunManifest -RunId $runId -Plan $Plan -TargetExploration $targetExploration
           $manifestSaved = $true
           foreach ($alreadyDesiredId in $alreadyDesiredOperationIds) {
             Set-RideRunOperationProgress -RunId $runId -OperationId $alreadyDesiredId -Status 'AlreadyDesired'
@@ -2511,6 +2545,11 @@ function Restore-RideRun {
     restore previews need no opt-in and report that acceptance remains pending.
     Actual recovery requires a fresh opt-in; approval is not inherited from the run.
 
+  .PARAMETER AllowUnsupportedTarget
+    Fresh opt-in for catalog OS/build/edition exploration during recovery. Each
+    approved restore writes actual target evidence to its saved run before the
+    handler. Neither this switch nor candidate approval is inherited from a run.
+
   .PARAMETER GitHubAuthentication
     Anonymous (default) or explicit PAT for GitHub release discovery only.
 
@@ -2533,7 +2572,7 @@ function Restore-RideRun {
   #>
 
   [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
-  param([Parameter(Mandatory = $true)][string] $RunId, [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous', [string] $GitHubCredentialReference, [switch] $AllowCandidate)
+  param([Parameter(Mandatory = $true)][string] $RunId, [ValidateSet('Anonymous','PAT')][string] $GitHubAuthentication = 'Anonymous', [string] $GitHubCredentialReference, [switch] $AllowCandidate, [switch] $AllowUnsupportedTarget)
   if ($RunId -notmatch '^[a-fA-F0-9]{32}$') { throw 'Run ID must be a 32-character hexadecimal value.' }
   $roots = @((Get-RideStateRoot -Scope 'User'))
   if (Test-RideAdministrator) { $roots += (Get-RideStateRoot -Scope 'Machine') }
@@ -2595,12 +2634,13 @@ function Restore-RideRun {
       if (-not $currentPath.Available) { throw "User PATH is unavailable for recovery: $($currentPath.Reason)" }
       $null = Restore-RideUserBinPathPatch -Observation $currentPath.Observation -Snapshot $record.Snapshot.UserPathSnapshot
     }
-    Assert-RideOperationTarget -Operation $operation -Target $target -AllowCandidate:$AllowCandidate -Preview:$WhatIfPreference
+    Assert-RideOperationTarget -Operation $operation -Target $target -AllowCandidate:$AllowCandidate -Preview:$WhatIfPreference -AllowUnsupportedTarget:$AllowUnsupportedTarget
     if ($operation.MinimumBuild) {
       $build = [int](Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name CurrentBuildNumber -ErrorAction Stop).CurrentBuildNumber
-      if ($build -lt $operation.MinimumBuild) { throw "Cannot restore '$($operation.Id)': requires Windows build $($operation.MinimumBuild) or later; detected $build." }
+      if ($build -lt $operation.MinimumBuild -and -not $AllowUnsupportedTarget) { throw "Cannot restore '$($operation.Id)': requires Windows build $($operation.MinimumBuild) or later; detected $build." }
     }
-    if ($operation.RequiresDesktopExperience -and $target -like 'Windows Server*' -and (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name InstallationType -ErrorAction Stop).InstallationType -ne 'Server') { throw "Cannot restore '$($operation.Id)' without Windows Server Desktop Experience." }
+    if ($operation.RequiresDesktopExperience -and $target -like 'Windows Server*' -and (Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name InstallationType -ErrorAction Stop).InstallationType -ne 'Server' -and -not $AllowUnsupportedTarget) { throw "Cannot restore '$($operation.Id)' without Windows Server Desktop Experience." }
+    if ($AllowUnsupportedTarget) { $entry | Add-Member -NotePropertyName TargetExploration -NotePropertyValue (New-RideTargetExplorationRecord -Operation $operation -Action Restore) }
   }
   foreach ($entry in $loadedRecords) {
     $file = $entry.File
@@ -2609,6 +2649,11 @@ function Restore-RideRun {
     if (-not $operation) { throw "Saved state refers to unknown operation '$($record.OperationId)'." }
     if ($record.SchemaVersion -eq 3) { $operation = @{}; foreach ($property in $record.PackageSelection.PSObject.Properties) { $operation[$property.Name] = $property.Value } }
     if (-not $PSCmdlet.ShouldProcess($operation.Name, 'Restore previously recorded state')) { continue }
+    if ($AllowUnsupportedTarget) {
+      # Keep audit files out of the JSON snapshot enumeration used by recovery.
+      $auditPath = Join-Path $file.DirectoryName ('.target-exploration-' + [guid]::NewGuid().ToString('N') + '.log')
+      Write-RideRunManifestAtomically -Path $auditPath -Manifest $entry.TargetExploration
+    }
     if ($operation.Kind -eq 'RegistryValue') {
       Restore-RideSettingState -Operation $operation -Snapshot $record.Snapshot
     }

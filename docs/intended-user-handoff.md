@@ -38,7 +38,10 @@ and is forwarded to the child engine for per-operation confirmation.
 only declared pending targets and does not weaken the user-only, identity or
 privilege checks. Supply it again for candidate recovery. Handoff request schema
 2 carries a required Boolean opt-in; schema-1 requests remain accepted without
-candidate permission. A preview still launches no child, so it does not claim
+candidate permission. Schema 3 also carries Boolean `AllowUnsupportedTarget` for
+explicit [target exploration](unsupported-target-exploration.md); schemas 1/2
+never grant it. Both opt-ins must be supplied again for recovery. A preview still
+launches no child, so it does not claim
 that the child's target or live-state checks have passed.
 
 The worker rechecks SID, session, shell process, elevation, source hashes and all

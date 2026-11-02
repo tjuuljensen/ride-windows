@@ -10,8 +10,9 @@
   Prerequisites: Unelevated Explorer in the caller's current nonzero session.
   File/environment inputs: Current repository modules/catalog and explicit libraries.
   Recovery: Child engine state belongs to the desktop user; mixed scope is refused.
-  Owner: RIDE-Windows maintainers. Version: 0.2.0.
-  Changelog: 0.2.0: Carry explicit candidate opt-in in schema-2 requests; schema 1 remains opt-out.
+  Owner: RIDE-Windows maintainers. Version: 0.3.0.
+  Changelog: 0.3.0: Carry target exploration in schema 3; older requests remain opt-out.
+    0.2.0: Carry explicit candidate opt-in in schema-2 requests; schema 1 remains opt-out.
     0.1.0: Add explicit same-session user-only launch and worker preflight.
   Design reference: https://devblogs.microsoft.com/oldnewthing/20131118-00/?p=2643
 #>
@@ -170,6 +171,8 @@ function Start-RideDesktopUserHandoff {
     Explicit local libraries, resolved to absolute paths before launch.
   .PARAMETER AllowCandidate
     Carry explicit candidate opt-in to the user engine without changing identity checks.
+  .PARAMETER AllowUnsupportedTarget
+    Carry explicit target exploration for this invocation; identity checks remain.
   .EXAMPLE
     Start-RideDesktopUserHandoff set -Id windows.show-known-extensions -State Enabled -WhatIf
   .INPUTS
@@ -177,11 +180,11 @@ function Start-RideDesktopUserHandoff {
   .OUTPUTS
     PSCustomObject. Preview/launch receipt only; completion appears in the user window.
   .NOTES
-    Version 0.2.0. WhatIf starts no process and writes no handoff files. No credentials,
+    Version 0.3.0. WhatIf starts no process and writes no handoff files. No credentials,
     UAC changes, execution-policy bypass, scheduled tasks or machine/user splitting.
   #>
   [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='Medium')]
-  param([Parameter(Mandatory)][ValidateSet('set','unset','apply','plan','restore')][string]$Command,[string]$Id,[string]$State,[string]$Profile,[string]$RunId,[string[]]$Library=@(),[switch]$AllowCandidate)
+  param([Parameter(Mandatory)][ValidateSet('set','unset','apply','plan','restore')][string]$Command,[string]$Id,[string]$State,[string]$Profile,[string]$RunId,[string[]]$Library=@(),[switch]$AllowCandidate,[switch]$AllowUnsupportedTarget)
   $context=Get-RideDesktopHandoffContext;Assert-RideDesktopHandoffContext $context
   $paths=@($Library|ForEach-Object {(Resolve-Path -LiteralPath $_ -ErrorAction Stop).ProviderPath})
   if($paths.Count -gt 8){throw 'Desktop handoff supports at most eight explicit libraries.'}
@@ -194,7 +197,7 @@ function Start-RideDesktopUserHandoff {
     Assert-RideHandoffUserPlan $plan
     $items=@($plan|ForEach-Object {[ordered]@{Id=$_.Operation.Id;State=$_.State;ContractHash=Get-RideHandoffHash $_.Operation}})
   }
-  $request=[ordered]@{SchemaVersion=2;RequestId=[guid]::NewGuid().ToString('N');Root=$script:HandoffRoot;SourceHash=Get-RideHandoffSourceHash;TargetSid=$context.TargetSid;SessionId=$context.SessionId;ShellProcessId=$context.ShellProcessId;Command=$Command;RunId=$RunId;Items=$items;Library=$paths;Confirm=[bool]$PSBoundParameters['Confirm'];AllowCandidate=[bool]$AllowCandidate}
+  $request=[ordered]@{SchemaVersion=3;RequestId=[guid]::NewGuid().ToString('N');Root=$script:HandoffRoot;SourceHash=Get-RideHandoffSourceHash;TargetSid=$context.TargetSid;SessionId=$context.SessionId;ShellProcessId=$context.ShellProcessId;Command=$Command;RunId=$RunId;Items=$items;Library=$paths;Confirm=[bool]$PSBoundParameters['Confirm'];AllowCandidate=[bool]$AllowCandidate;AllowUnsupportedTarget=[bool]$AllowUnsupportedTarget}
   $json=[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(($request|ConvertTo-Json -Depth 10 -Compress)))
   # Only encoded JSON data is substituted; paths/IDs/states are never PowerShell code.
   $bootstrap=@'
@@ -228,7 +231,8 @@ function Invoke-RideDesktopUserRequest {
     Engine results belong to this user's window and ordinary state namespace.
   .PARAMETER Request
     Correlated schema-1 or schema-2 data from Start-RideDesktopUserHandoff, never code.
-    Schema 1 does not grant candidate opt-in; schema 2 requires a Boolean AllowCandidate.
+    Schema 1 does not grant candidate opt-in; schemas 2/3 require Boolean AllowCandidate.
+    Only schema 3 carries Boolean AllowUnsupportedTarget; older schemas cannot grant it.
   .EXAMPLE
     Get-Help Invoke-RideDesktopUserRequest -Full
     Inspect worker boundaries without invoking a desktop action.
@@ -243,9 +247,11 @@ function Invoke-RideDesktopUserRequest {
   [CmdletBinding()]
   param([Parameter(Mandatory)]$Request)
   $keys=@('SchemaVersion','RequestId','Root','SourceHash','TargetSid','SessionId','ShellProcessId','Command','RunId','Items','Library','Confirm')
-  if ($Request.SchemaVersion -eq 2) { $keys += 'AllowCandidate' }
-  if(@($Request.PSObject.Properties).Count -ne $keys.Count -or @($Request.PSObject.Properties.Name|Where-Object {$_ -notin $keys}).Count -or $Request.SchemaVersion -notin @(1,2) -or ($Request.SchemaVersion -eq 2 -and $Request.AllowCandidate -isnot [bool]) -or $Request.RequestId -notmatch '^[0-9a-f]{32}$' -or $Request.SourceHash -notmatch '^[0-9A-F]{64}$' -or $Request.Command -notin @('set','unset','apply','plan','restore') -or -not [string]::Equals([IO.Path]::GetFullPath($Request.Root),[IO.Path]::GetFullPath($script:HandoffRoot),[StringComparison]::OrdinalIgnoreCase) -or @($Request.Library).Count -gt 8 -or $Request.Confirm -isnot [bool]){throw 'Invalid desktop handoff request.'}
-  $allowCandidate = $Request.SchemaVersion -eq 2 -and $Request.AllowCandidate
+  if ($Request.SchemaVersion -in @(2,3)) { $keys += 'AllowCandidate' }
+  if ($Request.SchemaVersion -eq 3) { $keys += 'AllowUnsupportedTarget' }
+  if(@($Request.PSObject.Properties).Count -ne $keys.Count -or @($Request.PSObject.Properties.Name|Where-Object {$_ -notin $keys}).Count -or $Request.SchemaVersion -notin @(1,2,3) -or ($Request.SchemaVersion -in @(2,3) -and $Request.AllowCandidate -isnot [bool]) -or ($Request.SchemaVersion -eq 3 -and $Request.AllowUnsupportedTarget -isnot [bool]) -or $Request.RequestId -notmatch '^[0-9a-f]{32}$' -or $Request.SourceHash -notmatch '^[0-9A-F]{64}$' -or $Request.Command -notin @('set','unset','apply','plan','restore') -or -not [string]::Equals([IO.Path]::GetFullPath($Request.Root),[IO.Path]::GetFullPath($script:HandoffRoot),[StringComparison]::OrdinalIgnoreCase) -or @($Request.Library).Count -gt 8 -or $Request.Confirm -isnot [bool]){throw 'Invalid desktop handoff request.'}
+  $allowCandidate = $Request.SchemaVersion -in @(2,3) -and $Request.AllowCandidate
+  $allowUnsupportedTarget = $Request.SchemaVersion -eq 3 -and $Request.AllowUnsupportedTarget
   $context=Get-RideDesktopHandoffContext;Assert-RideDesktopHandoffContext $context
   if($context.CurrentSid -cne $Request.TargetSid -or $context.TargetSid -cne $Request.TargetSid -or $context.CurrentElevated -or $context.SessionId -ne $Request.SessionId -or $context.ShellProcessId -ne $Request.ShellProcessId){throw 'Desktop worker identity/session/elevation mismatch; nothing applied.'}
   if((Get-RideHandoffSourceHash) -cne $Request.SourceHash){throw 'RIDE source changed after desktop handoff preparation; nothing applied.'}
@@ -271,7 +277,7 @@ function Invoke-RideDesktopUserRequest {
       Assert-RideHandoffUserPlan @([pscustomobject]@{Operation=$operation})
     }
     if((Get-RideHandoffSourceHash) -cne $Request.SourceHash){throw 'RIDE source changed during desktop recovery preflight; nothing applied.'}
-    Restore-RideRun -RunId $Request.RunId -Confirm:$Request.Confirm -AllowCandidate:$allowCandidate
+    Restore-RideRun -RunId $Request.RunId -Confirm:$Request.Confirm -AllowCandidate:$allowCandidate -AllowUnsupportedTarget:$allowUnsupportedTarget
   }else{
     if(-not @($Request.Items).Count -or @($Request.Items).Count -gt 100){throw 'Invalid desktop plan size.'}
     $plan=@(foreach($item in $Request.Items){
@@ -283,7 +289,7 @@ function Invoke-RideDesktopUserRequest {
     Assert-RideHandoffUserPlan $plan
     if((Get-RideHandoffSourceHash) -cne $Request.SourceHash){throw 'RIDE source changed during desktop preflight; nothing applied.'}
     if($Request.Command -eq 'plan'){Show-RidePlan -Plan $plan}
-    else{Invoke-RidePlan -Plan $plan -Confirm:$Request.Confirm -AllowCandidate:$allowCandidate}
+    else{Invoke-RidePlan -Plan $plan -Confirm:$Request.Confirm -AllowCandidate:$allowCandidate -AllowUnsupportedTarget:$allowUnsupportedTarget}
   }
 }
 

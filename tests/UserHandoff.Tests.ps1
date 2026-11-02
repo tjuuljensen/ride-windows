@@ -84,15 +84,16 @@ Describe 'Desktop-user launch preparation' {
     InModuleScope RIDE.UserHandoff {
       Mock Get-RideHandoffPlan {@([pscustomobject]@{Operation=$script:FixtureOp;State='quote"; Write-Error injected'})}
       Mock Start-RideHandoffShellProcess {param($Context,$Arguments)$script:CapturedArguments=$Arguments}
-      $null=Start-RideDesktopUserHandoff set -Id fixture -State fixture -AllowCandidate -Confirm:$false
+      $null=Start-RideDesktopUserHandoff set -Id fixture -State fixture -AllowCandidate -AllowUnsupportedTarget -Confirm:$false
       $script:CapturedArguments|Should -Match '^-NoProfile -NoExit -EncodedCommand [A-Za-z0-9+/=]+$'
       $code=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String(($script:CapturedArguments -split ' ')[-1]))
       $code|Should -Not -Match 'Write-Error injected'
       $code|Should -Not -Match 'ExecutionPolicy|Credential|runas'
       $encodedRequest=[regex]::Match($code,"FromBase64String\('([A-Za-z0-9+/=]+)'\)").Groups[1].Value
       $request=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($encodedRequest))|ConvertFrom-Json
-      $request.SchemaVersion|Should -Be 2
+      $request.SchemaVersion|Should -Be 3
       $request.AllowCandidate|Should -BeTrue
+      $request.AllowUnsupportedTarget|Should -BeTrue
     }
   }
 }
@@ -111,14 +112,14 @@ Describe 'Desktop worker preflight and recovery' {
     InModuleScope RIDE.UserHandoff {
       Invoke-RideDesktopUserRequest (New-HandoffTestRequest)|Should -Match '^Run ID:'
       Should -Invoke Invoke-RidePlan -Exactly 1
-      Should -Invoke Invoke-RidePlan -Exactly 1 -ParameterFilter { -not $AllowCandidate }
+      Should -Invoke Invoke-RidePlan -Exactly 1 -ParameterFilter { -not $AllowCandidate -and -not $AllowUnsupportedTarget }
     }
   }
   It 'forwards schema-2 candidate opt-in and rejects a non-Boolean opt-in' {
     InModuleScope RIDE.UserHandoff {
       $r=New-HandoffTestRequest;$r.SchemaVersion=2;$r|Add-Member NoteProperty AllowCandidate $true
       Invoke-RideDesktopUserRequest $r | Out-Null
-      Should -Invoke Invoke-RidePlan -Exactly 1 -ParameterFilter { $AllowCandidate }
+      Should -Invoke Invoke-RidePlan -Exactly 1 -ParameterFilter { $AllowCandidate -and -not $AllowUnsupportedTarget }
       $r.AllowCandidate='true'
       {Invoke-RideDesktopUserRequest $r}|Should -Throw '*Invalid desktop handoff request*'
       Should -Invoke Invoke-RidePlan -Exactly 1
@@ -128,6 +129,18 @@ Describe 'Desktop worker preflight and recovery' {
     InModuleScope RIDE.UserHandoff {
       $r=New-HandoffTestRequest;$r.Command='plan';Invoke-RideDesktopUserRequest $r
       Should -Invoke Show-RidePlan -Exactly 1;Should -Invoke Invoke-RidePlan -Exactly 0
+    }
+  }
+  It 'forwards schema-3 target opt-in and rejects non-Boolean input' {
+    InModuleScope RIDE.UserHandoff {
+      $r=New-HandoffTestRequest;$r.SchemaVersion=3
+      $r|Add-Member NoteProperty AllowCandidate $true
+      $r|Add-Member NoteProperty AllowUnsupportedTarget $true
+      Invoke-RideDesktopUserRequest $r | Out-Null
+      Should -Invoke Invoke-RidePlan -Exactly 1 -ParameterFilter {$AllowCandidate -and $AllowUnsupportedTarget}
+      $r.AllowUnsupportedTarget='true'
+      {Invoke-RideDesktopUserRequest $r}|Should -Throw '*Invalid desktop handoff request*'
+      Should -Invoke Invoke-RidePlan -Exactly 1
     }
   }
   It 'forwards the explicit confirmation choice to the child engine' {
@@ -235,8 +248,8 @@ Describe 'CLI desktop-user routing' {
     $spy=@'
 function Start-RideDesktopUserHandoff {
  [CmdletBinding(SupportsShouldProcess)]
- param($Command,$Id,$State,$RunId,$Library,$Profile,[switch]$AllowCandidate)
- [pscustomobject]@{Command=$Command;Id=$Id;State=$State;WhatIf=[bool]$WhatIfPreference;ConfirmBound=$PSBoundParameters.ContainsKey('Confirm');Confirm=[bool]$PSBoundParameters['Confirm'];AllowCandidate=[bool]$AllowCandidate}
+ param($Command,$Id,$State,$RunId,$Library,$Profile,[switch]$AllowCandidate,[switch]$AllowUnsupportedTarget)
+ [pscustomobject]@{Command=$Command;Id=$Id;State=$State;WhatIf=[bool]$WhatIfPreference;ConfirmBound=$PSBoundParameters.ContainsKey('Confirm');Confirm=[bool]$PSBoundParameters['Confirm'];AllowCandidate=[bool]$AllowCandidate;AllowUnsupportedTarget=[bool]$AllowUnsupportedTarget}
 }
 Export-ModuleMember -Function Start-RideDesktopUserHandoff
 '@
@@ -246,10 +259,11 @@ Export-ModuleMember -Function Start-RideDesktopUserHandoff
     Get-Module -All|Where-Object {$_.Path -and $_.Path.StartsWith($script:CliRoot+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)}|Remove-Module -Force
   }
   It 'routes a user setting and preview without loading an operational engine' {
-    $r=& $script:Cli set windows.show-known-extensions Enabled -UserContext Desktop -AllowCandidate -WhatIf -Confirm:$false
+    $r=& $script:Cli set windows.show-known-extensions Enabled -UserContext Desktop -AllowCandidate -AllowUnsupportedTarget -WhatIf -Confirm:$false
     $r.Command|Should -Be set;$r.Id|Should -Be windows.show-known-extensions;$r.State|Should -Be Enabled
     $r.WhatIf|Should -BeTrue;$r.ConfirmBound|Should -BeTrue;$r.Confirm|Should -BeFalse
     $r.AllowCandidate|Should -BeTrue
+    $r.AllowUnsupportedTarget|Should -BeTrue
   }
   It 'refuses unsupported commands before importing the handoff' {
     {& $script:Cli install package.7zip -UserContext Desktop}|Should -Throw '*supports set*'

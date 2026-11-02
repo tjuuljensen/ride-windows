@@ -51,6 +51,12 @@
   WhatIf previews need no opt-in and still report pending acceptance. Does not
   promote support or bypass target, build, privilege, offline acceptance or handler checks.
 
+.PARAMETER AllowUnsupportedTarget
+  Explicit one-run exploration outside catalog OS/build/edition restrictions for
+  apply/install/set/unset/remove/restore. Logs actual target and unsupported status.
+  Pending candidates also need AllowCandidate. Architecture, integrity, privilege,
+  dependency, ShouldProcess and recovery guards remain; no support is promoted.
+
 .PARAMETER StateScope
   State store for prune-state: User, Machine, or Both. Machine records require elevation.
 
@@ -139,8 +145,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.15.1
-  Changelog: 0.15.1: Allow read-only candidate previews without acceptance opt-in.
+  Version: 0.16.0
+  Changelog: 0.16.0: Expose audited per-invocation unsupported-target exploration.
+    0.15.1: Allow read-only candidate previews without acceptance opt-in.
     0.15.0: Add explicit candidate opt-in for changes and restore.
     0.14.0: Complete optional hibernation file modes and percentage states from the catalog.
     0.13.2: Add explicit previewable cleanup for old completed run recovery records.
@@ -406,6 +413,7 @@ param(
   })]
   [string] $RunId = '',
   [switch] $AllowCandidate,
+  [switch] $AllowUnsupportedTarget,
   [ValidateSet('User', 'Machine', 'Both')][string] $StateScope = 'User',
   [ValidateRange(30, 36500)][int] $OlderThanDays = 365,
   [ValidateSet('Current','Desktop')][string] $UserContext = 'Current',
@@ -446,7 +454,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.15.1'
+$script:ScriptVersion = '0.16.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -497,6 +505,9 @@ Options:
                       RunId completion is available in the actual user's session.
   -Destination <path>  Retain a downloaded artifact under this directory.
   -WhatIf              Preview apply, download, install, set, unset, remove, restore or prune-state.
+  -AllowUnsupportedTarget  Explore catalog OS/build/edition restrictions for this invocation.
+                       Records actual target; retains integrity, architecture, privilege and
+                       recovery guards. Pending candidates also need -AllowCandidate.
   -AllowCandidate      Opt into pending declared candidate targets for actual apply/install/
                        set/unset/remove/restore. Read-only -WhatIf previews need no opt-in.
                        Other target, build and privilege checks remain in force.
@@ -592,6 +603,10 @@ Examples:
 
 $ErrorActionPreference = 'Stop'
 $candidateParameters = @{}
+if ($PSBoundParameters.ContainsKey('AllowUnsupportedTarget')) {
+  if ($Command -notin @('apply','install','set','unset','remove','restore')) { throw '-AllowUnsupportedTarget is supported by apply, install, set, unset, remove and restore only.' }
+  $candidateParameters.AllowUnsupportedTarget = [bool]$AllowUnsupportedTarget
+}
 if ($PSBoundParameters.ContainsKey('AllowCandidate')) {
   if ($Command -notin @('apply','install','set','unset','remove','restore')) { throw '-AllowCandidate is supported by apply, install, set, unset, remove and restore; read-only -WhatIf previews do not require it.' }
   $candidateParameters.AllowCandidate = [bool]$AllowCandidate

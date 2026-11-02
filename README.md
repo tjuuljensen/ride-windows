@@ -82,6 +82,7 @@ The [desired-configuration export](docs/desired-configuration-reference.md) crea
 a read-only profile reference, with profile/target completion and no live-state query.
 
 State-changing commands honor `-WhatIf` and the caller's `$WhatIfPreference`.
+Explicit `-AllowUnsupportedTarget` permits one-run catalog OS/build/edition exploration and records the actual target. Candidate opt-in and all other safety checks remain separate; see [target exploration](docs/unsupported-target-exploration.md).
 Optional Store registrations use the separate
 [Store app/group tool](docs/store-app-groups.md#batch-1-commands); `list store-apps`
 discovers its catalog entries. They are not package downloads or profile settings.
@@ -128,7 +129,7 @@ Optional [hibernation file control](docs/hibernation.md) is a Windows 11 candida
 `windows.hibernation` offers `Off`, `Full`, `Reduced` and `Size50` through `Size100`
 (percent of RAM). Tab completes these states from the catalog. It is excluded
 from bundled profiles and remains pending native acceptance. Explicit development
-use requires `-AllowCandidate`, including with `-WhatIf` and saved-run restore.
+use and saved-run restore require `-AllowCandidate`; read-only `-WhatIf` previews do not.
 
 `-AllowCandidate` works with `apply`, `install`, `set`, `unset`, `remove` and
 `restore`. It permits only pending operations whose `CandidateTargets` include

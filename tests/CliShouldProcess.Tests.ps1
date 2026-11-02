@@ -50,10 +50,11 @@ function New-SpyRecord {
     GitHubAuthentication = $Bound['GitHubAuthentication']; GitHubCredentialReference = $Bound['GitHubCredentialReference']
     OfflineBundle = $Bound['OfflineBundle']; OfflineProfileId = $Bound['OfflineProfileId']; OfflineCatalogFileId = $Bound['OfflineCatalogFileId']
     AllowCandidate = [bool]$Bound['AllowCandidate']; AllowCandidateBound = $Bound.ContainsKey('AllowCandidate')
+    AllowUnsupportedTarget = [bool]$Bound['AllowUnsupportedTarget']
   }
 }
 function Invoke-RidePlan {
-  [CmdletBinding(SupportsShouldProcess)] param($Plan, $GitHubAuthentication, $GitHubCredentialReference, $OfflineBundle, $OfflineProfileId, $OfflineCatalogFileId, [switch]$AllowCandidate)
+  [CmdletBinding(SupportsShouldProcess)] param($Plan, $GitHubAuthentication, $GitHubCredentialReference, $OfflineBundle, $OfflineProfileId, $OfflineCatalogFileId, [switch]$AllowCandidate, [switch]$AllowUnsupportedTarget)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic target', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'plan'
 }
@@ -63,7 +64,7 @@ function Save-RidePackage {
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'download'
 }
 function Restore-RideRun {
-  [CmdletBinding(SupportsShouldProcess)] param($RunId, $GitHubAuthentication, $GitHubCredentialReference, [switch]$AllowCandidate)
+  [CmdletBinding(SupportsShouldProcess)] param($RunId, $GitHubAuthentication, $GitHubCredentialReference, [switch]$AllowCandidate, [switch]$AllowUnsupportedTarget)
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic restore', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'restore'
 }
@@ -102,6 +103,22 @@ Describe 'CLI ShouldProcess forwarding' {
     foreach ($command in @('list','show','search','plan','status','download','prune-state')) {
       { & $script:Runner $command -AllowCandidate } | Should -Throw '*AllowCandidate is supported by*'
     }
+  }
+  It 'forwards target exploration and preview for <Command>' -TestCases @($commandCases | Where-Object Command -ne download) {
+    param($Command, $Arguments)
+    $record = & $script:Runner @Arguments -AllowUnsupportedTarget -WhatIf | Where-Object Stage -eq Engine
+    $record.AllowUnsupportedTarget | Should -BeTrue
+    $record.Performed | Should -BeFalse
+  }
+  It 'refuses target exploration on read-only and unrelated commands' {
+    foreach ($command in @('list','show','search','plan','status','download','prune-state')) {
+      { & $script:Runner $command -AllowUnsupportedTarget } | Should -Throw '*AllowUnsupportedTarget is supported by*'
+    }
+  }
+  It 'completes the target exploration parameter through native PowerShell metadata' {
+    $line='& "'+$script:Runner+'" set -AllowUnsup'
+    $matches=TabExpansion2 -InputScript $line -CursorColumn $line.Length
+    @($matches.CompletionMatches.CompletionText) | Should -Contain '-AllowUnsupportedTarget'
   }
 
   It 'forwards explicit PAT selection for <Command> without resolving credentials during preview' -TestCases @(

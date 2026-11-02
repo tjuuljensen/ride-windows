@@ -1,0 +1,71 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T11:13:23.3648612Z",
+  "Status": "SourceValidated",
+  "Capability": "AllowUnsupportedTarget",
+  "NativeUnsupportedTargetAcceptance": false,
+  "SourceHashes": [
+    {
+      "Path": "ride.ps1",
+      "Sha256": "1F27ADE9420C9544D612083AEBFA1ABA0C1A3F3ECA68ECFAEE4C22F5BAE85295"
+    },
+    {
+      "Path": "modules/RIDE.Engine.psm1",
+      "Sha256": "60009FA21734D4ABEC34EF1E8B2A1C019F8170965C641E9CDE3EF9CBFB369FD6"
+    },
+    {
+      "Path": "modules/RIDE.UserHandoff.psm1",
+      "Sha256": "95E334B34461CDFDE75DB5EA2C32BF23E64BDBFADE64A0C6400CB9D339596AE6"
+    },
+    {
+      "Path": "tests/UnsupportedTarget.Tests.ps1",
+      "Sha256": "20E36F0416D2D191F26B4EBD0D78F402FD610E9000FAECD183447EBE0496B2C5"
+    },
+    {
+      "Path": "tests/CandidateExecution.Tests.ps1",
+      "Sha256": "0DE8FAD92ADBBA26BDB4C7E8ABA466399239C903BB85F179B716A4DEB1E14E6C"
+    },
+    {
+      "Path": "tests/UserHandoff.Tests.ps1",
+      "Sha256": "C7715A0692A8B5E16D2C979573A9BC781ACCD5A8D57D4A52D107B5BF56896CF3"
+    },
+    {
+      "Path": "tests/CliShouldProcess.Tests.ps1",
+      "Sha256": "FD1E7800107A0F2A8E1A6DF8A6CA26E0E4DE2EF921AB955967E0D752F81AD525"
+    }
+  ],
+  "StagedEngineSha256": "C0EDABEBE0D58B984AB32C05DDD4CAD978FF32D95E6F4BF740988998443FDCFA",
+  "StagedEngineDifference": "Unrelated working-tree WinHTTP import warning suppression retained unstaged",
+  "PowerShell51": {
+    "PowerShell": "5.1.26100.9818",
+    "Total": 110,
+    "Passed": 110,
+    "Failed": 0,
+    "Skipped": 0,
+    "RecordedAtUtc": "2026-11-02T11:08:27.6942326Z"
+  },
+  "PowerShell7": {
+    "TestRegistryEnabled": false,
+    "NativeCalls": "Mocked",
+    "UnchangedCandidateHandoffCli": 103,
+    "FinalTargetSuiteFailed": 0,
+    "InitialWrongMockCases": 7,
+    "FinalTargetSuitePassed": 9
+  },
+  "RepositoryValidation": {
+    "GeneratedDocumentation": "Current",
+    "PowerShellFiles": 332,
+    "Profiles": 5,
+    "Groups": 8,
+    "Operations": 452
+  },
+  "SharedContract": {
+    "Version": "1.0.0",
+    "Classification": "Intentional Windows difference from RB-08",
+    "Sha256": "80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645",
+    "FollowUp": "ALIGN-TARGET-01",
+    "PeerRevision": "3d9406e3888122d1407652336859e6217c09bcaa"
+  },
+  "SupportedTargetsChanged": false,
+  "ReleaseCreated": false
+}
