@@ -1,0 +1,64 @@
+{
+  "title": "WFN package metadata and small synthetic lifecycle regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:53:11Z",
+  "scope": "Three filtered checks in tests/WfnPackage.Tests.ps1; the 531-member synthetic lifecycle was excluded from this batch.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "result": {
+    "discoveredInContainer": 4,
+    "selectedByFilter": 3,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 1,
+    "notRun": 1,
+    "duration": "00:00:17.991",
+    "status": "passed with explicit exclusions",
+    "skippedCheck": "Retained real archive comparison; no explicit RIDE_WFN_FIXTURE_ARCHIVE was supplied.",
+    "notRunCheck": "Complete 531-member synthetic lifecycle, scheduled separately."
+  },
+  "coverage": [
+    "Pinned publisher ZIP, static archive inventory, license files and candidate metadata.",
+    "Small required-file synthetic archive repeat, removal and exact prior-absence restore."
+  ],
+  "safety": {
+    "archiveForLifecycle": "synthetic inert bytes",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "publisherArchiveAccessed": false,
+    "wfnExecutableLaunched": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "WFN static package metadata and small synthetic owned-file lifecycle checks passed 2/2."
+  ],
+  "retired": [],
+  "excluded": [
+    "Optional retained real archive check; no fixture was provided.",
+    "Complete 531-member synthetic lifecycle, tracked as a separate test batch.",
+    "Native package acceptance and WindowsIntegration."
+  ],
+  "partial": [
+    "No package migration outcome closes in this filtered source batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "WFN complete 531-member synthetic lifecycle remains a separate pending test.",
+    "Repository-wide Pester aggregate remains incomplete.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "Host CIM access blocks VM acceptance."
+  ]
+}
