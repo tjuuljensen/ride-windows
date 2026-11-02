@@ -1,0 +1,80 @@
+{
+  "title": "Repository Pester sweep partial and PSScriptTools lifecycle limit",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:19:01Z",
+  "scope": "Repository Pester sweep and isolated PSScriptTools package source suite.",
+  "broadSweep": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "filesDiscovered": 153,
+    "testsDiscovered": 3698,
+    "configuration": [
+      "Pester TestRegistry disabled because sandbox temporary HKCU registry writes are denied.",
+      "WindowsIntegration tests excluded.",
+      "AutomationWatchdog.Tests.ps1 excluded because its process-tree timeout exceeds the sandbox limit and earlier cleanup locked its worker log."
+    ],
+    "result": "Interrupted without aggregate summary after a prolonged quiet period following the ProfileSettings per-file pass.",
+    "reportedFailuresBeforeInterruption": 0,
+    "perFileSummaries": "All per-file summaries observed through ProfileSettings.Tests.ps1 were passing; no complete aggregate result or exact executed-test count is available.",
+    "fullSuitePassClaimed": false
+  },
+  "psscripttools": {
+    "testFile": "tests/PSScriptToolsPackage.Tests.ps1",
+    "pesterVersion": "5.7.1",
+    "smallChecks": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "notRun": 1,
+      "totalDiscovered": 7,
+      "duration": "00:00:58.233",
+      "result": "passed"
+    },
+    "full360MemberLifecycle": {
+      "description": "Builds an inert archive of 360 reviewed members, stages it, repeats and verifies installation, snapshots, removes and restores source files while preserving unowned analyst output.",
+      "attempts": 2,
+      "completion": "Both aggregate attempts were interrupted after 15 minutes without a Pester summary; the isolated filtered lifecycle attempt also remained without output for 15 minutes.",
+      "result": "incomplete; no pass or failure claim"
+    }
+  },
+  "safety": {
+    "testRegistry": "disabled",
+    "registryAndSystemHandlers": "mocked or synthetic in the source suites",
+    "vmQueriedOrChanged": false,
+    "windowsIntegrationRun": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false,
+    "nirsoftTestBoundary": "The suite builds inert synthetic ZIP content and verifies alerted member names are omitted; it does not extract or launch those utilities."
+  },
+  "resolved": [
+    "Six PSScriptTools source, recovery and ownership checks pass in the filtered run.",
+    "The 365-case OptionalWindowsSettings suite separately completed in the unfiltered repository sweep after the earlier filtered coverage."
+  ],
+  "retired": [],
+  "excluded": [
+    "WindowsIntegration and VM acceptance.",
+    "AutomationWatchdog.Tests.ps1 process-tree scenario.",
+    "Defender-blocked executable runtime tests."
+  ],
+  "partial": [
+    "The 3698-test repository sweep has no aggregate summary.",
+    "The PSScriptTools 360-member full lifecycle has no Pester result after repeated 15-minute quiet periods.",
+    "No legacy migration outcome closes in this test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "The full-size PSScriptTools source lifecycle exceeds the observed 15-minute quiet-run bound in this sandbox.",
+    "Host CIM access still prevents retrieval of RIDE-Win11-Test state.",
+    "Defender-blocked utilities remain excluded from runtime execution."
+  ]
+}
