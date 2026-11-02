@@ -1,0 +1,63 @@
+{
+  "title": "Office inventory, configuration review and deployment identity source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:18:22Z",
+  "scope": "Office Click-to-Run read-only inventory and export, inert Office configuration review, and named deployment identity source tests.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/OfficeInventory.Tests.ps1",
+    "tests/OfficeConfigurationReview.Tests.ps1",
+    "tests/DeploymentIdentity.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 3,
+    "testsDiscovered": 113,
+    "passed": 113,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:10.750",
+    "status": "passed"
+  },
+  "safety": {
+    "registryAndSystemProviders": "mocked or isolated in TestDrive",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Office inventory, configuration review and deployment identity source regression passed 113/113."
+  ],
+  "retired": [],
+  "excluded": [
+    "WindowsIntegration and VM acceptance.",
+    "Product activation, installation and native Office behavior."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "WFN full synthetic lifecycle repeat remains incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
