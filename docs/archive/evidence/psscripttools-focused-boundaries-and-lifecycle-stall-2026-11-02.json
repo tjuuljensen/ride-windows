@@ -1,0 +1,77 @@
+{
+  "title": "PSScriptTools focused boundaries and 360-member lifecycle attempt",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T02:03:31Z",
+  "suite": "tests/PSScriptToolsPackage.Tests.ps1",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied"
+  },
+  "focusedBoundaryRun": {
+    "testsDiscovered": 7,
+    "selected": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 1,
+    "duration": "00:00:57.383",
+    "coverage": [
+      "Pinned source and notice metadata",
+      "Incomplete module-only payload rejection",
+      "Modified-file preservation and removal recovery",
+      "Unowned destination collision rejection",
+      "Changed recovery-byte rejection before removal",
+      "Prior-absence restoration preserving operator content"
+    ]
+  },
+  "largeLifecycleAttempt": {
+    "filter": "stages, repeats and restores source while preserving unowned analyst output",
+    "selected": 1,
+    "durationBeforeInterruption": "about 00:03:35",
+    "result": "Interrupted without Pester summary; no pass or failure inferred",
+    "interimOutput": "No test progress after entering the lifecycle case.",
+    "earlierAttempts": "Previous 15-minute attempts are recorded in psscripttools-test-interrupted-360-file-source-regression-2026-11-01.json and psscripttools-360-member-source-lifecycle-rerun-interrupted-2026-11-01-1753.json."
+  },
+  "safety": {
+    "syntheticFixturesOnly": true,
+    "publisherPayloadUsed": false,
+    "packageExecutedOrImported": false,
+    "installerOrNetworkInvoked": false,
+    "windowsStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "resolved": [
+      "Six PSScriptTools metadata, payload-boundary and ownership/recovery cases."
+    ],
+    "retired": [],
+    "excluded": [],
+    "deferred": [
+      "The 360-member install/repeat/uninstall/snapshot-recovery lifecycle remains incomplete after this three-minute attempt and previous 15-minute attempts.",
+      "WFN 531-member lifecycle remains incomplete after a separate 20-minute attempt.",
+      "Native Windows package acceptance remains blocked before VM state access by host CIM permissions."
+    ],
+    "partial": [
+      "No package legacy outcome closes; no full PSScriptTools lifecycle pass or repository-wide Pester aggregate is claimed."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "Focused boundary passes close no legacy package outcome; lifecycle remains incomplete, so estimates remain unchanged."
+    },
+    "blockers": [
+      "PSScriptTools 360-member lifecycle remains incomplete after repeated stalls.",
+      "WFN 531-member lifecycle remains incomplete after a 20-minute attempt.",
+      "Repository-wide Pester aggregate remains incomplete.",
+      "RIDE-Win11-Test acceptance remains blocked at host CIM.",
+      "Defender-blocked utilities remain excluded."
+    ]
+  }
+}
