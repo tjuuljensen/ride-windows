@@ -1,0 +1,74 @@
+{
+  "title": "Settings and maintenance source regression batch",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:29:35Z",
+  "scope": "Eight focused settings, shell, search, schedule recovery and fixture Pester files.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "files": [
+    "tests/ScheduledTaskRecovery.Tests.ps1",
+    "tests/ScreenLockMeasurement.Tests.ps1",
+    "tests/Search.Tests.ps1",
+    "tests/ServerPolicies.Tests.ps1",
+    "tests/ServiceSettings.Tests.ps1",
+    "tests/SettingPresentation.Tests.ps1",
+    "tests/SettingsFixtureData.Tests.ps1",
+    "tests/ShellFolders.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 8,
+    "testsDiscovered": 172,
+    "passed": 172,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:01:12.189",
+    "status": "passed"
+  },
+  "coverage": [
+    "Scheduled-task cleanup and recovery.",
+    "Read-only screen-lock measurement and arithmetic.",
+    "Search, server policy, service settings and setting-presentation behavior.",
+    "Settings fixture data and shell-folder shortcut preview and recovery."
+  ],
+  "safety": {
+    "registryAndSystemHandlers": "mocked or synthetic in the source suites",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "windowsIntegrationRun": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "All eight selected settings and maintenance source-test files passed."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native Windows integration and VM acceptance.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No legacy setting or maintenance outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester run still lacks an aggregate result.",
+    "The PSScriptTools 360-member synthetic lifecycle did not return within two 15-minute attempts.",
+    "RIDE-Win11-Test acceptance remains blocked by host CIM access."
+  ]
+}
