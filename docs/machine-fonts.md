@@ -151,7 +151,8 @@ set `RIDE_TEST_GUEST=1`, `RIDE_INTEGRATION_VM=1` and a correlated
 `RIDE_TEST_RUN_ID`. Supply that request ID, the independently verified target
 name/build/edition, an existing local evidence root and the reviewed manifest
 for the real licensed fonts. The name-table-only unit fixtures are not fonts
-and must never be passed to native loading. Controller dispatch is still pending.
+and must never be passed to native loading. The retained host route below is
+source-prepared; native execution remains pending.
 
 ```powershell
 .\tests\integration\Invoke-RideFontAcceptance.ps1 `
@@ -186,3 +187,93 @@ evidence; their absence does not become a pass when this scenario succeeds.
 The runner's ten orchestration/layout tests pass in both PowerShell editions
 with native providers mocked and no font APIs invoked; see
 [preparation evidence](archive/evidence/font-acceptance-preparation-2026-11-02.json).
+
+## Retained host dispatch
+
+Use `tests/integration/RIDE.FontVm.psm1` from the registered checkout in an
+already elevated native Windows PowerShell 5.1 x64 host session. The installed
+controller configuration, AutomatedLab credential, pinned disposable VM and
+checkpoint must match the [retained reservation requirements](image-personalization.md#retained-host-coordination).
+This direct route does not submit work to the reset-per-request queue, request
+UAC, change a task or restart the host.
+
+Prepare accepts the directory containing the selected 14 Open Sauce Sans files
+and `OFL.txt`. The versioned pin is
+`tests/fixtures/machine-fonts.acceptance.psd1`; no caller-supplied manifest is
+executed or substituted. Hashes and embedded font names are read without loading
+fonts. Prepare stages exactly four source modules, that manifest, the 14 fonts
+and the original notice. No legacy/component directory is traversed. A private
+host snapshot and fixed guest allowlist bind the selected paths and bytes.
+
+Start in the registered repository root. Review each result before the next
+call; stop on `Failed` or inspect the stated `NotRun` reason.
+
+```powershell
+Import-Module .\tests\integration\RIDE.FontVm.psm1
+$session = @{
+    ConfigurationPath = '<installed-controller-configuration.json>'
+    RunId = [guid]::NewGuid().ToString('N')
+}
+$prepare = @{
+    Phase = 'Prepare'
+    InputDirectory = '<local-directory-with-the-pinned-fonts-and-OFL.txt>'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+}
+Invoke-RideFontVmPhase @session @prepare -WhatIf
+$prepared = Invoke-RideFontVmPhase @session @prepare -Confirm:$false
+$lifecycle = Invoke-RideFontVmPhase @session -Phase Lifecycle -Confirm:$false
+Invoke-RideFontVmPhase @session -Phase Collect -Confirm:$false
+# Inspect the exported lifecycle/recovery evidence before checkpoint cleanup.
+Invoke-RideFontVmPhase @session -Phase Reset -Confirm:$false
+```
+
+Prepare reserves the idle Off guest, restores the pinned checkpoint, starts it
+and stages the source/input snapshot. It does not install fonts. The route checks
+the guest name, Hyper-V manufacturer/model, Windows 11 build, selected
+Enterprise/Education edition, x64 architecture and existing elevation. Lifecycle
+also requires the prepared build revision to remain unchanged.
+
+Lifecycle runs all seven guest checks, including both captured restores, within
+one PowerShell Direct invocation. This preserves the original account/session
+boundary required by font recovery. It refuses already present selected fonts;
+`NotRun` is retained without a pass. A passing guest result must contain the exact
+14-font selection, all seven checks and both distinct completed recovery runs.
+The host's `CurrentSessionAcceptancePassed` becomes true only after that result
+and its evidence export verify. The guest's `NativeAcceptancePassed` field covers
+only its documented current-session scenario. The host's broader
+`NativeAcceptancePassed`, `CrossSessionAcceptancePassed`,
+`RestartAcceptancePassed` and `ActiveConsumerAcceptancePassed` stay false.
+
+Phase reports use schema 1 and include Phase, Stage, Status, GuestResult,
+EvidenceExport, Store and RecoveryRequired plus the acceptance fields above.
+Statuses include Preview, Prepared, Passed, NotRun, Collected, ResetAndOff and
+Failed. A later Collect or Reset report does not carry forward a lifecycle pass;
+retain and assess the original Lifecycle report. RecoveryRequired describes
+the retained VM/hold as well as any failed operation; even NotRun requires
+deliberate checkpoint cleanup before releasing the hold.
+
+Every phase exports the retained guest directory into a new private host
+directory under `retained.<lease-id>`. Export includes the source snapshot,
+licensed inputs, guest observations and private machine lifecycle records.
+Limits are 512 entries, 16 MiB per file and 32 MiB total. Paths, byte counts,
+hashes and host readback must verify. This copies neither the full Windows Fonts
+directory nor unrelated user data. Failures preserve the VM and hold; failed
+guest phases attempt a partial evidence export. No font cache reset, process
+termination, forced unloading or automatic reboot is added.
+
+Reset is explicit checkpoint cleanup, including deliberate abandonment after
+failure inspection. It requires a verified export, restores the pinned checkpoint,
+verifies Off and then releases the matching hold. It is not a RIDE recovery pass.
+Retrying Reset from Off requires a saved reset intent and unchanged verified
+export. Early preparation failures without a usable descriptor/intent require
+controller inspection. Remote calls time out after 180 seconds; readiness has
+a separate three-minute limit. A local timeout does not establish that remote
+work has stopped. Existing host Hyper-V/dependency calls have no added watchdog.
+
+All phases support `-WhatIf`. Phase, edition and retained run IDs offer completion.
+The 32 focused source cases per PowerShell edition, real font/input gates and
+installed read-only Prepare preview are recorded in
+[dispatch evidence](archive/evidence/font-vm-source-2026-11-02.json).
+Actual VM dispatch, machine permissions, current-session lifecycle, other
+sessions, restart availability and active consumers remain unverified.

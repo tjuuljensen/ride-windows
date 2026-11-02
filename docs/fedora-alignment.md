@@ -775,3 +775,29 @@ Follow-up: [wallpaper host procedure](image-personalization.md#wallpaper-retaine
 Review trigger: native transport/lifecycle/visual acceptance, phase or recovery
 changes, target changes or release review. Existing elevated execution remains
 unavailable; no new UAC request or installed controller mutation occurred.
+
+## Retained font host dispatch, 2026-11-02
+
+Windows-only acceptance preparation; shared behavior unchanged. No CLI/catalog,
+profile, supported-target or contract revision. RB-03/08/09/10/11 retain preview,
+native privilege/target guards, captured recovery and separate evidence claims.
+The versioned input manifest pins the approved 14 fonts and original license.
+One guest invocation keeps install/removal and both restores within the existing
+account/session recovery boundary. Current-session acceptance is distinct from
+restart, other sessions and active consumers; checkpoint reset is not a restore pass.
+
+Rechecked contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645` and Fedora
+`ride.sh` (`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`),
+`lib/v3/common.sh`
+(`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`).
+Reviewed the peer's privilege, target and candidate gates again. Previously
+recorded peer revision is `3d9406e3888122d1407652336859e6217c09bcaa`; no fresh
+peer HEAD or automated shared-conformance claim is made.
+
+Owner: RIDE Windows maintainer. Reason: stage only exact approved font inputs and
+retain evidence through explicit VM cleanup. Status: 32/32 focused cases per
+shell, real source-identity gates and installed Prepare preview pass; native
+execution remains pending. Follow-up: [font host procedure](machine-fonts.md#retained-host-dispatch).
+Review trigger: native dispatch/current-session recovery, cross-session/restart
+or consumer evidence, source/target/recovery changes, or release review.

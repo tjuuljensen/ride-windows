@@ -1,0 +1,117 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T20:44:11.6240458Z",
+  "Status": "FontRetainedHostDispatchSourcePrepared",
+  "ParentCommit": "432e1d0",
+  "NativeAcceptance": false,
+  "FocusedSourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 32,
+      "Failed": 0,
+      "Total": 32
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 32,
+      "Failed": 0,
+      "Total": 32
+    }
+  ],
+  "SourceImportAndPinnedInput": [
+    {
+      "Status": "SourceImportAndPinnedFontGatePassed",
+      "PowerShell": "7.6.5",
+      "SelectedFonts": 14,
+      "Files": 15,
+      "FontBytes": 900084.0,
+      "LicenseSha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7",
+      "NativeFontCalls": false,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false,
+      "RecordedAtUtc": "2026-11-02T20:41:47.7964054Z"
+    },
+    {
+      "Status": "SourceImportAndPinnedFontGatePassed",
+      "PowerShell": "5.1.26100.9818",
+      "SelectedFonts": 14,
+      "Files": 15,
+      "FontBytes": 900084,
+      "LicenseSha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7",
+      "NativeFontCalls": false,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false,
+      "RecordedAtUtc": "2026-11-02T20:41:51.5848174Z"
+    }
+  ],
+  "InstalledPreview": {
+    "Status": "Preview",
+    "PowerShell": "5.1.26100.9818",
+    "NativeAcceptancePassed": false,
+    "ExistingConfigurationRead": true,
+    "RealPinnedFontsRead": true,
+    "HoldPresenceUnchanged": true,
+    "VmQueried": false,
+    "RecordedAtUtc": "2026-11-02T20:41:58.3245958Z"
+  },
+  "Boundary": "Host/Hyper-V, credentials, guest lifecycle, retained lease and PowerShell Direct are mocked. Snapshot/export hashing and private user-scope TestDrive records are real. Separate source gates parse/import and compare real font identities through both host and guest source readers without GDI/font loading or registry mutation. Installed Prepare WhatIf reads actual configuration and pinned fonts without VM calls or hold changes.",
+  "Phases": [
+    "Prepare",
+    "Lifecycle",
+    "Collect",
+    "Reset"
+  ],
+  "Implementation": {
+    "Acceptance": "Host validates exact selection, seven checks and two distinct restored lifecycle runs; current-session pass also requires verified export",
+    "Snapshot": "Four modules, versioned manifest, fourteen pinned TrueType fonts and original OFL notice; twenty fixed paths",
+    "Lifecycle": "All seven current-session checks and both captured restores in one guest invocation",
+    "NonClaims": [
+      "Native machine ACLs",
+      "Cross-session availability",
+      "Restart availability",
+      "Active-consumer behavior",
+      "Other Windows targets"
+    ]
+  },
+  "Recovery": "Failures retain guest, hold and private records. Failed guest phases attempt partial export. Reset is explicit checkpoint cleanup after verified export, then Off verification and matching hold release. Off retry requires prior reset intent and unchanged export. No forced font unloading, cache reset, process termination, new UAC or automatic reboot.",
+  "FailureReview": "The initial source run exposed test mock scope leakage into an allowlist comparison; moved the comparison to its own Describe. The initial independent smoke script needed to import the guest module directly before inspecting its private reader. Final tests and both-shell real source gates pass; neither issue exercised a native target.",
+  "NativeChecksExecuted": 0,
+  "GuestDispatched": false,
+  "ControllerHoldCreated": false,
+  "FontLoaded": false,
+  "WindowsStateChanged": false,
+  "LegacyOutcomesClosed": 0,
+  "ExecutionGate": "Existing elevated registered-host execution remains required. The installed read-only preview passes; no new UAC prompt, controller refresh or task change was attempted. Prior host observation at 20:28 UTC remains the last elevation/installed-module observation; it is not a new VM-state query.",
+  "Remaining": [
+    "Execute retained current-session lifecycle and verify real machine ACL/font/registration recovery",
+    "Separate cross-session/restart and active-consumer acceptance with retained recovery",
+    "WLAN retained dispatch on a suitable disposable WLAN target",
+    "User lock-screen full-mode recovery and full BitLocker boot/unlock/recovery/decryption scenarios"
+  ],
+  "SourceHashes": [
+    {
+      "Sha256": "ECC42A9B974353916C883A888D15FEB71B37E487BE4E4112A3880BF292FAC077",
+      "Path": "tests/integration/RIDE.FontVm.psm1"
+    },
+    {
+      "Sha256": "40FBE751D883A8F415CEED544D852B10951F39CDBB5F21D88C003F798E0D2B17",
+      "Path": "tests/FontVm.Tests.ps1"
+    },
+    {
+      "Sha256": "E4C2E4E520F200BA7F7A0ED9A5166D0E137A235713A9079C5722B2D384142072",
+      "Path": "tests/fixtures/machine-fonts.acceptance.psd1"
+    },
+    {
+      "Sha256": "1EDD32AECBE90C52ABF55480FD7883B8F0FA61CAB140D71E211298219EC60D73",
+      "Path": "tests/integration/RIDE.FontAcceptance.psm1"
+    },
+    {
+      "Sha256": "C1B029CDB5AEEA8520D305F8C6E464C7D3E9CF434B8B22996A76EC5F26CC6F06",
+      "Path": "modules/RIDE.MachineFonts.psm1"
+    },
+    {
+      "Sha256": "7E516B1459E57A98864EDA85A9879BE4C2D6CB2076231D2249A60BD40941E26D",
+      "Path": "tests/integration/RIDE.RetainedGuest.psm1"
+    }
+  ]
+}
