@@ -1,0 +1,168 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T19:18:59.8329641Z",
+  "Status": "CompleteSysmonInputsVerified",
+  "NativeAcceptance": false,
+  "Checks": [
+    {
+      "SchemaVersion": 1,
+      "Status": "CompleteInputSetVerified",
+      "RecordedAtUtc": "2026-11-02T19:12:56.7554584Z",
+      "PowerShell": "7.6.5",
+      "Executable": {
+        "FileName": "Sysmon64.exe",
+        "Sha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352",
+        "Bytes": 3203368,
+        "Signer": "CN=Microsoft Windows Publisher, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+        "SignerThumbprint": "CDCC1456D261BC0EB00975F46DFFB2E24592EDAD",
+        "PeMachine": "0x8664",
+        "SignatureStatus": "Valid",
+        "Version": "15.22"
+      },
+      "Notices": [
+        {
+          "FileName": "Eula.txt",
+          "Bytes": 7490,
+          "Sha256": "8329BCBADC7F81539A4969CA13F0BE5B8EB7652B912324A1926FC9BFB6EC005A"
+        },
+        {
+          "FileName": "readme.txt",
+          "Bytes": 7903,
+          "Sha256": "0F2FF4D516AA1D265C13805CEBC2FE9042556C1BB7E8EB2E6C289D5255242AC9"
+        }
+      ],
+      "ConfigurationRelease": "configs-a45dedb13a43",
+      "ConfigurationTargetVersion": "15.21",
+      "ConfigurationLicenseSha256": "FD80A26FBB3F644AF1FA994134446702932968519797227E07A1368DEA80F0BC",
+      "Configurations": [
+        {
+          "ArtifactId": "sysmon-modular-balanced-15-21",
+          "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+          "Bytes": 360048
+        },
+        {
+          "ArtifactId": "sysmon-modular-balanced-filedelete-15-21",
+          "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+          "Bytes": 381927
+        },
+        {
+          "ArtifactId": "sysmon-modular-excludes-only-15-21",
+          "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+          "Bytes": 103858
+        }
+      ],
+      "SyntheticBaseline": {
+        "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+        "Bytes": 462
+      },
+      "SourceVersionMatchesConfigurationTarget": false,
+      "NativeCompatibilityVerified": false,
+      "SysmonExecuted": false,
+      "ServiceQueried": false,
+      "ServiceChanged": false,
+      "PayloadDownloaded": false
+    },
+    {
+      "SchemaVersion": 1,
+      "Status": "CompleteInputSetVerified",
+      "RecordedAtUtc": "2026-11-02T19:12:57.5100521Z",
+      "PowerShell": "5.1.26100.9818",
+      "Executable": {
+        "Signer": "CN=Microsoft Windows Publisher, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+        "Version": "15.22",
+        "SignatureStatus": "Valid",
+        "FileName": "Sysmon64.exe",
+        "PeMachine": "0x8664",
+        "Bytes": 3203368,
+        "SignerThumbprint": "CDCC1456D261BC0EB00975F46DFFB2E24592EDAD",
+        "Sha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352"
+      },
+      "Notices": [
+        {
+          "FileName": "Eula.txt",
+          "Bytes": 7490,
+          "Sha256": "8329BCBADC7F81539A4969CA13F0BE5B8EB7652B912324A1926FC9BFB6EC005A"
+        },
+        {
+          "FileName": "readme.txt",
+          "Bytes": 7903,
+          "Sha256": "0F2FF4D516AA1D265C13805CEBC2FE9042556C1BB7E8EB2E6C289D5255242AC9"
+        }
+      ],
+      "ConfigurationRelease": "configs-a45dedb13a43",
+      "ConfigurationTargetVersion": "15.21",
+      "ConfigurationLicenseSha256": "FD80A26FBB3F644AF1FA994134446702932968519797227E07A1368DEA80F0BC",
+      "Configurations": [
+        {
+          "ArtifactId": "sysmon-modular-balanced-15-21",
+          "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+          "Bytes": 360048
+        },
+        {
+          "ArtifactId": "sysmon-modular-balanced-filedelete-15-21",
+          "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+          "Bytes": 381927
+        },
+        {
+          "ArtifactId": "sysmon-modular-excludes-only-15-21",
+          "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+          "Bytes": 103858
+        }
+      ],
+      "SyntheticBaseline": {
+        "Bytes": 462,
+        "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB"
+      },
+      "SourceVersionMatchesConfigurationTarget": false,
+      "NativeCompatibilityVerified": false,
+      "SysmonExecuted": false,
+      "ServiceQueried": false,
+      "ServiceChanged": false,
+      "PayloadDownloaded": false
+    }
+  ],
+  "Selection": {
+    "FixtureSha256": "7422298317AA4038AD54CF6D1E76A5635BAD83E4ABA5F5BB7B0D96AB07699C45",
+    "LocalExecutableDirectory": ".local/fast-track-20261102/sysmon-executable-15.22",
+    "FixturePath": "tests/fixtures/sysmon-executable.acceptance.psd1",
+    "MembersCopied": 3,
+    "SourceFilesOverwritten": false,
+    "BytesCopied": 3218761,
+    "PayloadDownloaded": false,
+    "LocalConfigurationDirectory": ".local/fast-track-20261102/sysmon-configs"
+  },
+  "Provenance": {
+    "SnapshotId": "snapshot-20261017-e1e75de5",
+    "SelectedMemberDigestsRechecked": true,
+    "LicenseUri": "https://learn.microsoft.com/en-us/sysinternals/license-terms",
+    "CollectionId": "sysinternals-suite",
+    "ArchiveRehashed": false,
+    "RecordedArchiveSha256": "E1E75DE5CDB12116B0A4ECA83725DC7C7A1645266196025CBE5CA6C167161AED",
+    "SourceUri": "https://download.sysinternals.com/files/SysinternalsSuite.zip",
+    "ReviewPath": "docs/archive/evidence/sysinternals-suite-source-review-2026-10-17.json",
+    "ReviewSha256": "F0597B167A4D39535D41AA2895161D597511FA75D2054EFB8948908181EF68A8"
+  },
+  "VersionBoundary": "Selected executable is 15.22; the unchanged XML artifacts target 15.21. Signature, PE metadata and XML parsing do not prove consumer compatibility. The guarded disposable scenario must accept and recover all three configurations on this exact executable.",
+  "Validation": {
+    "Profiles": 5,
+    "PowerShellFiles": 370,
+    "Groups": 9,
+    "Operations": 475,
+    "Status": "Passed"
+  },
+  "ExistingSourceTests": "Unchanged 31-case lifecycle/guest source evidence is retained; no mocked test rerun was needed for this input-only selection. Both complete real input gates were run.",
+  "SysmonLaunched": false,
+  "FixtureInstalled": false,
+  "ServiceOrDriverChanged": false,
+  "EulaAccepted": false,
+  "LicenseReviewStoreChanged": false,
+  "DistributionApprovalClaimed": false,
+  "Remaining": [
+    "Already elevated or reviewed protected guest dispatch without fresh UAC",
+    "Known-baseline Sysmon fixture installation",
+    "Fifteen native checks across the three configuration apply/repeat/restore scenarios",
+    "Event/private-state export before explicit guest cleanup",
+    "Other native asset/image acceptance and full BitLocker batch"
+  ],
+  "LegacyOutcomesClosed": 0
+}

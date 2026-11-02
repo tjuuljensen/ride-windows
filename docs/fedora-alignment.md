@@ -609,3 +609,29 @@ queries. Native transport and visual acceptance remain unrun. Follow-up:
 [native retained dispatch](image-personalization.md#retained-host-dispatch).
 Review trigger: elevated/protected execution route, native source transfer/ACLs,
 visual evidence, recovery behavior changes or release-candidate review.
+
+## Retained Sysmon executable input, 2026-11-02
+
+Extends `windows.sysmon-configuration` test preparation with a pinned local input;
+shared acquisition, candidate and acceptance meanings remain unchanged
+(RB-05/08/11). The selected AMD64 Sysmon 15.22 executable and publisher notices
+match the existing Microsoft Suite acquisition record. Read-only checks cover
+actual signature/version/PE identity plus the three XML files, their license and
+synthetic baseline. No payload download, executable launch, EULA acceptance,
+installation or distribution approval is inferred from this preparation.
+
+The XML artifacts remain targeted at 15.21. The 15.22 consumer selection requires
+new native compatibility/recovery evidence; no catalog relabeling or support
+promotion occurs. Reviewed contract 1.0.0 digest remains
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`.
+The preceding native candidate/acquisition comparison at Fedora revision
+`3d9406e3888122d1407652336859e6217c09bcaa`, with its recorded source hashes,
+remains applicable; no shared CLI/profile/schema or contract reference changed.
+No automated shared-conformance or Fedora parity claim is made.
+
+Owner: RIDE Windows maintainer. Reason: resolve the missing executable prerequisite
+without replacing the pinned XML selection or downloading an unreviewed consumer.
+Status: complete input checks pass in both shells; native tests remain open.
+Follow-up: [fixture installation and three-profile acceptance](sysmon-configuration.md#disposable-guest-entry-point).
+Review trigger: different executable/source, native version compatibility,
+protected dispatch or release-candidate review.

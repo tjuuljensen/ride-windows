@@ -13,6 +13,30 @@ check, not proof that an untested binary accepts a particular configuration.
 The selected catalog inputs target 15.21; a different installed version needs
 its own native configuration and recovery evidence.
 
+## Selected acceptance executable
+
+The disposable test input is now pinned in
+`tests/fixtures/sysmon-executable.acceptance.psd1`: Microsoft-signed AMD64
+`Sysmon64.exe` 15.22, 3,203,368 bytes. It was selected from the already retained
+Sysinternals Suite snapshot `snapshot-20261017-e1e75de5`; no new payload download
+or executable launch was needed. The executable, `Eula.txt` and `readme.txt`
+match the [original acquisition inventory](archive/evidence/sysinternals-suite-source-review-2026-10-17.json).
+The fixture records their exact hashes and source provenance. Keep the two
+upstream notices alongside the executable when staging the guest.
+
+The complete input set passes read-only checks in PowerShell 5.1 and 7: executable
+digest, actual version, valid Microsoft Authenticode signature, AMD64 PE header,
+both upstream notices, all three XML digests and their license, and the synthetic
+baseline. The [input verification evidence](archive/evidence/sysmon-complete-inputs-2026-11-02.json)
+records these checks. It does not establish installation or configuration acceptance.
+
+The XML artifacts still target **15.21**. Selecting the retained **15.22** binary
+does not relabel those artifacts or prove compatibility. The disposable run must
+verify that this exact binary accepts each XML, produces the expected events and
+recovers the known baseline. Do not replace a pin with whatever executable happens
+to be installed, and do not interpret retained publisher notices as redistribution
+approval or a personal/company license-review decision.
+
 ## Prerequisites and preview
 
 Run from the repository directory in the intended target's PowerShell session.
@@ -137,10 +161,11 @@ evidence separately. Create separate local evidence roots for preparation and
 configuration acceptance.
 
 ```powershell
+$executablePin = Import-PowerShellDataFile .\tests\fixtures\sysmon-executable.acceptance.psd1
 $target = @{
   RunId = '<correlated-request-id>'
-  ExpectedExecutableSha256 = '<reviewed-executable-sha256>'
-  ExpectedSysmonVersion = '<actual-selected-version>'
+  ExpectedExecutableSha256 = $executablePin.Executable.Sha256
+  ExpectedSysmonVersion = $executablePin.SysmonVersion
   ExpectedComputerName = '<disposable-guest-name>'
   ExpectedBuild = '26300'
   ExpectedEditionId = 'EnterpriseEval'
