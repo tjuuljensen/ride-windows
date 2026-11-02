@@ -308,6 +308,17 @@ Describe 'Retained snapshot and export byte boundaries' {
       $receipt.RunId|Should -BeExactly $script:descriptor.RunId
       (Get-FileHash -LiteralPath (Join-Path $export.Path $script:entry.Path)).Hash|Should -BeExactly $script:entry.Sha256
     }
+    It 'returns only the fixed observation file after its bytes are verified' {
+      $script:bytes=[Text.Encoding]::UTF8.GetBytes('{"FilesMatchInitial":true,"NativeNamesMatchInitial":false,"CurrentSelectedNativeNames":["Synthetic Regular"]}')
+      $script:entry=[pscustomobject]@{Path='collection-font-observation.json';Bytes=$script:bytes.Length;Sha256=(Get-RideFontVmHash $script:bytes);Content=[Convert]::ToBase64String($script:bytes)}
+      $export=Export-RideFontVmEvidence $null $null $script:descriptor $script:root
+      $export.FontObservation.FilesMatchInitial|Should -BeTrue
+      $export.FontObservation.NativeNamesMatchInitial|Should -BeFalse
+      $export.FontObservation.CurrentSelectedNativeNames|Should -BeExactly 'Synthetic Regular'
+      $receipt=Read-RideFontVmRecord (Join-Path $export.Path 'export-receipt.json')
+      $receipt.Files.Path|Should -BeExactly 'collection-font-observation.json'
+      $receipt.Files.Sha256|Should -BeExactly $script:entry.Sha256
+    }
     It 'rejects traversal, duplicate paths and mismatched payload bytes before certifying export' {
       $script:entry.Path='../escape.json'
       {Export-RideFontVmEvidence $null $null $script:descriptor $script:root}|Should -Throw '*Unsafe*'

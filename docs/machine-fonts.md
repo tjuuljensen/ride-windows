@@ -279,5 +279,21 @@ All phases support `-WhatIf`. Phase, edition and retained run IDs offer completi
 The 32 focused source cases per PowerShell edition, real font/input gates and
 installed read-only Prepare preview are recorded in
 [dispatch evidence](archive/evidence/font-vm-source-2026-11-02.json).
-Actual VM dispatch, machine permissions, current-session lifecycle, other
-sessions, restart availability and active consumers remain unverified.
+Native dispatch on Windows 11 EnterpriseEval build 26300 subsequently passed
+preparation, preview, installation of all 14 selected fonts and repeat apply.
+Removal returned Applied and restored the selected file/registration state, but
+native enumeration still returned Open Sauce Sans Light Italic. Current-session
+lifecycle therefore failed before either saved restore ran; no complete font
+acceptance is claimed. A read-only Collect observation now separates file,
+registry/security and selected native-name comparisons. Its bounded JSON is
+included in the verified private export and the public diagnostic result; it
+does not expose recovery payloads or alter fonts. Other sessions, restart
+availability and active consumers remain unverified.
+
+Microsoft documents that [outstanding references can retain a removed font](https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-removefontresourcew)
+and recommends notifying windows with WM_FONTCHANGE. The current native wrapper
+already broadcasts that notification after each batch. The observed retained
+name therefore needs further native investigation; it does not establish which
+consumer retained a reference or permit forced unloading. Preserve the failed
+run and validate both saved restores in a fresh disposable run after addressing
+the native behavior.

@@ -7,7 +7,7 @@
   controller hold survives every phase and failure. Reset requires verified export.
   Prepare can reuse its own verified snapshot only before checkpoint intent, while Off.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.1.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.2.
   No UAC, task registration, reboot or cross-session acceptance inference. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
@@ -185,6 +185,34 @@ $script:FontVmRemote={
       if($total -gt 33554432){throw 'Guest evidence exceeds 32 MiB.'}
       $files.Add([pscustomobject]@{Path=$item.FullName.Substring($base.Length+1).Replace('\','/');Bytes=$bytes.Length;Sha256=(Get-Hash $bytes);Content=[Convert]::ToBase64String($bytes)})
     }}
+    $beforePath=Join-Path $base ('evidence/'+$Descriptor.RunId+'/before.json')
+    if(Test-Path -LiteralPath $beforePath){
+      foreach($entry in $Descriptor.Manifest){
+        $path=Join-Path (Join-Path $base 'source') $entry.Path
+        $file=Get-Item -LiteralPath $path -Force
+        if($file.PSIsContainer -or $file.Attributes -band [IO.FileAttributes]::ReparsePoint -or $file.Length -ne $entry.Bytes -or (Get-FileHash -LiteralPath $path).Hash -cne $entry.Sha256){throw 'Staged source changed before read-only font observation.'}
+      }
+      $acceptance=Import-Module (Join-Path $base 'source/tests/integration/RIDE.FontAcceptance.psm1') -PassThru -Force
+      $observation=& $acceptance {
+        param($BeforePath,$Selection)
+        $beforeBytes=Read-RidePrivateFileBytes -Path $BeforePath -Scope Machine -MaximumBytes 16777216
+        $before=[Text.UTF8Encoding]::new($false,$true).GetString($beforeBytes)|ConvertFrom-Json
+        $current=Get-RideFontAcceptanceSnapshot (Get-RideFontAcceptanceContext) $Selection
+        [pscustomobject]@{
+          FilesMatchInitial=(Test-RideFontAcceptanceEqual $before.Files $current.Files)
+          RegistryRowsMatchInitial=(Test-RideFontAcceptanceEqual $before.Registry.Rows $current.Registry.Rows)
+          RegistrySecurityMatchesInitial=($before.Registry.Security -ceq $current.Registry.Security)
+          NativeNamesMatchInitial=(Test-RideFontAcceptanceEqual $before.NativeNames $current.NativeNames)
+          CurrentSelectedNativeNames=@($current.NativeNames)
+          CurrentSelectedFilesPresent=@($current.Files|Where-Object {$_.File.Exists}).Count
+          CurrentSelectedRegistrationsPresent=@($current.Files|Where-Object {$null -ne $_.Registration}).Count
+        }
+      } $beforePath $Descriptor.Selection
+      $bytes=[Text.UTF8Encoding]::new($false).GetBytes(($observation|ConvertTo-Json -Depth 5))
+      $total+=$bytes.Length
+      if($total -gt 33554432 -or $files.Count -ge 512){throw 'Font observation exceeds collection bounds.'}
+      $files.Add([pscustomobject]@{Path='collection-font-observation.json';Bytes=$bytes.Length;Sha256=(Get-Hash $bytes);Content=[Convert]::ToBase64String($bytes)})
+    }
     return [pscustomobject]@{SchemaVersion=1;Kind='FontVmCollection';RunId=$Descriptor.RunId;LeaseId=$Descriptor.LeaseId;Status='Collected';Context=$context;Files=$files.ToArray()}
   }
   Assert-Directory $base
@@ -246,7 +274,11 @@ function Export-RideFontVmEvidence {
   if($collected.Status -ceq 'Absent' -and $manifest.Count){throw 'Absent guest export contains files.'}
   $receipt=[pscustomobject]@{SchemaVersion=1;Kind='RetainedGuestExport';RunId=$Descriptor.RunId;LeaseId=$Descriptor.LeaseId;Status=$collected.Status;Files=$manifest;Context=$collected.Context;RecordedAtUtc=[datetime]::UtcNow.ToString('o')}
   Write-RideFontVmRecord (Join-Path $export 'export-receipt.json') $receipt
-  [pscustomobject]@{Verified=$true;Path=$export;FileCount=$manifest.Count;GuestStatus=$collected.Status}
+  $observationPath=Join-Path $export 'collection-font-observation.json'
+  # Export files inherit the already validated private directory ACL. Their
+  # bytes were bounded, hashed and read back above; they are not journal files.
+  $observation=if(Test-Path -LiteralPath $observationPath){[IO.File]::ReadAllText($observationPath,[Text.UTF8Encoding]::new($false,$true))|ConvertFrom-Json}else{$null}
+  [pscustomobject]@{Verified=$true;Path=$export;FileCount=$manifest.Count;GuestStatus=$collected.Status;FontObservation=$observation}
 }
 function Read-RideFontVmResetExport {
   param([string]$Store,$Descriptor)

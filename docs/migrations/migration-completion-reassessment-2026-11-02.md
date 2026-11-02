@@ -90,10 +90,11 @@ RIDE generates Wi-Fi XML from supplied settings; synthetic settings supply test 
 Do not put Wi-Fi credentials in ordinary evidence or chat. See the
 [input inventory](../archive/evidence/custom-ride-asset-inputs-2026-11-02.json).
 
-The protected VM controller still needs the prepared portable-source filter
-refresh before another package run. Save that elevated setup for later under the
-approved no-new-UAC constraint. Refreshing it does not itself implement the
-unregistered OpenSSH Client/RSAT or other new acceptance routes. See the
+The protected VM controller received its portable-source filter refresh during
+the approved evening setup. The initial five-request package queue then passed
+12/12 native lifecycles with current Defender evidence. No further UAC setup is
+permitted overnight. This refresh does not itself implement the unregistered
+OpenSSH Client/RSAT or other new acceptance routes. See the earlier
 [controller evidence](../archive/evidence/mitec-staged-source-defender-attribution-2026-11-02.json).
 
 ## Remaining test strategy assessment, 2026-11-02
@@ -431,7 +432,7 @@ only to the extent covered by that suite; it does not imply Windows acceptance.
 | `package.mitec-exe-explorer` — EXE Explorer | Registered Windows 11 package staging and checkpoint recovery passed; utility not run. | Record Defender active/no-alert evidence and package-level install/repeat/remove/recovery acceptance; keep utility feature testing out unless an integration requires it. |
 | `package.mitec-hexedit` — HexEdit | Registered Windows 11 package staging and checkpoint recovery passed; utility not run. | Record Defender active/no-alert evidence and package-level install/repeat/remove/recovery acceptance; keep utility feature testing out unless an integration requires it. |
 | `package.mitec-icon-explorer` — Icon Explorer | Retained-archive lifecycle passed in prior cross-shell evidence; candidate. | Record Defender state and registered Windows 11 package acceptance. |
-| `package.mitec-infobar` — InfoBar | Deferred; not part of the active candidate acceptance batch. | Keep deferred until the source/version and acceptance scope are deliberately resumed. |
+| `package.mitec-infobar` — InfoBar | The later all-MiTeC fast-track selection resumes package lifecycle acceptance; feature tests remain deferred to 3.1. | Prepare a narrow source-pinned lifecycle route with Defender and owned-file recovery evidence; no native pass is recorded yet. |
 | `package.mitec-interbase-query` — Interbase Query | x86/x64 retained-archive lifecycle covered; 2026-11-02 Interbase/mail/history source regression reported 18/19. | Resolve the remaining source case/fixture, then record Defender state and Windows 11 package acceptance. |
 | `package.mitec-json-viewer` — JSON Viewer | Current-source x86/x64 archive tests passed within the JSON/XML Viewer regression; candidate. | Record Defender state and Windows 11 package acceptance. |
 | `package.mitec-mail-checker` — Mail Checker | Included in the 2026-11-02 DirList/Network Meter/Paradox/Mail Checker source regression (8/8 cluster result); candidate. | Capture component-specific pin/lifecycle result, Defender state, and Windows 11 acceptance. |
@@ -681,12 +682,16 @@ is checked throughout; no reset or purchased credit is authorized. Requests have
 bounded timeouts and require fresh usage observations. Recovery uncertainty
 blocks further VM mutation while evidence is retained.
 
-The first four packages passed 14 native lifecycle/preservation checks each, with
+All 12 packages in the initial queue passed 14 native lifecycle/preservation checks each, with
 active Defender and no detections or exclusion changes before/after. RIDE exact
 owned-file recovery preceded verified ResetAndOff cleanup. See
 [system/telephony](../archive/evidence/mitec-system-telephony-night-native-2026-11-02.json),
 [analysis tools](../archive/evidence/mitec-analysis-night-native-2026-11-02.json)
-and the [unattended route proof](../archive/evidence/overnight-unattended-execution-proof-2026-11-02.json).
+and the later [mail/history](../archive/evidence/mitec-mail-history-night-native-2026-11-02.json),
+[utilities](../archive/evidence/mitec-utilities-night-native-2026-11-02.json) and
+[SQLite](../archive/evidence/mitec-sqlite-night-native-2026-11-02.json) evidence.
+The [unattended route proof](../archive/evidence/overnight-unattended-execution-proof-2026-11-02.json)
+records the installed task boundary.
 Feature tests remain deferred. Native asset phases and missing component
 implementation follow the package queue; interactive visual and BitLocker boot
 claims still require their actual evidence.

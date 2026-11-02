@@ -9,7 +9,7 @@
   Compatibility: Candidate Windows 11 x64; native PowerShell 5.1 and 7.
   Prerequisites: Existing elevation, correlated Hyper-V guest and real licensed fonts.
   Recovery: Retain private run records; incomplete runs need inspection.
-  Version: 0.1.0. Changelog: Add current-session native font acceptance.
+  Version: 0.1.1. Changelog: Retain removal observations and bounded failure detail.
 .LINK
   ../../docs/machine-fonts.md
 #>
@@ -163,7 +163,7 @@ function Invoke-RideFontAcceptance {
   & (Get-Module RIDE.MachineFonts) {param($path) Assert-RideMachineFontStateDirectory $path} $EvidenceRoot
   $directory=Join-Path ([IO.Path]::GetFullPath($EvidenceRoot)) $RunId
   if(Test-Path -LiteralPath $directory){throw 'Acceptance evidence already exists; use a new request ID.'}
-  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='MachineFontAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';NativeAcceptancePassed=$false;CrossSessionAcceptancePassed=$false;RestartAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$context.ComputerName;Build=$context.Build;EditionId=$context.EditionId;SessionId=$context.SessionId;Checks=@();LifecycleRuns=@();StateRunIds=@();EvidenceDirectory=$null;Selection=@()}
+  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='MachineFontAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';Error=$null;NativeAcceptancePassed=$false;CrossSessionAcceptancePassed=$false;RestartAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$context.ComputerName;Build=$context.Build;EditionId=$context.EditionId;SessionId=$context.SessionId;Checks=@();LifecycleRuns=@();StateRunIds=@();EvidenceDirectory=$null;Selection=@()}
   if(-not $context.Administrator -and -not $WhatIfPreference){$report.Reason='ExistingElevationRequired';return $report}
   $selection=@(Read-RideFontAcceptanceSelection $ManifestPath);$report.Selection=$selection
   $before=Get-RideFontAcceptanceSnapshot $context $selection
@@ -193,7 +193,9 @@ function Invoke-RideFontAcceptance {
     Assert-RideFontAcceptanceResult $removed Applied $true
     $runs.Add([pscustomobject]@{Action='Remove';RunId=$removed.RunId;Restored=$false})
     Assert-RideFontAcceptanceRecords $state $removed.RunId
-    if(-not (Test-RideFontAcceptanceEqual $before (Get-RideFontAcceptanceSnapshot $context $selection))){throw 'Removal did not restore absent files, registration and native enumeration.'}
+    $afterRemoval=Get-RideFontAcceptanceSnapshot $context $selection
+    Save-RideFontAcceptanceReport (Join-Path $directory 'after-removal.json') $afterRemoval
+    if(-not (Test-RideFontAcceptanceEqual $before $afterRemoval)){throw 'Removal did not restore absent files, registration and native enumeration.'}
     $checks.Add('RemovedToInitialState')
     $report.Stage='RestoreRemoval'
     Assert-RideFontAcceptanceResult (Restore-RideMachineFontRun -RunId $removed.RunId -StateDirectory $state -AllowCandidate -Confirm:$false) Restored
@@ -206,7 +208,7 @@ function Invoke-RideFontAcceptance {
     Assert-RideFontAcceptanceResult (Restore-RideMachineFontRun -RunId $installed.RunId -StateDirectory $state -AllowCandidate -Confirm:$false) AlreadyRestored
     if(-not (Test-RideFontAcceptanceEqual $before (Get-RideFontAcceptanceSnapshot $context $selection))){throw 'Repeated restore changed state.'}
     $checks.Add('RepeatedRestoreNoChanges');$report.Stage='Complete';$report.Status='Passed';$report.NativeAcceptancePassed=$true
-  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true}
+  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true;$message=$_.Exception.Message;$report.Error=$message.Substring(0,[Math]::Min(1000,$message.Length))}
   $report.Checks=$checks.ToArray();$report.LifecycleRuns=$runs.ToArray()
   $report.StateRunIds=@(Get-ChildItem -LiteralPath $state -Filter '*.fonts.intent.json' -File|Select-Object -First 256|ForEach-Object {if($_.Name -cmatch '^([a-f0-9]{32})\.fonts\.intent\.json$'){$Matches[1]}})
   Save-RideFontAcceptanceReport (Join-Path $directory 'result.json') $report

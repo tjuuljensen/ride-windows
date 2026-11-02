@@ -60,7 +60,7 @@ Describe 'Guarded machine-font guest acceptance' {
       @($script:events)|Should -Be @('Preview','Install','Repeat','Remove','RestoreRemoval','RestoreInitial','RestoreInitial')
       @($result.LifecycleRuns|Where-Object {-not $_.Restored}).Count|Should -Be 0
       Should -Invoke Assert-RideFontAcceptanceRecords -Times 2 -Exactly
-      Should -Invoke New-RidePrivateFileStream -Times 3 -Exactly -ParameterFilter {$Scope -ceq 'Machine'}
+      Should -Invoke New-RidePrivateFileStream -Times 4 -Exactly -ParameterFilter {$Scope -ceq 'Machine'}
       (Get-Acl -LiteralPath (Join-Path $result.EvidenceDirectory 'result.json')).AreAccessRulesProtected|Should -BeTrue
     }
     It 'previews without creating files or invoking lifecycle writers' {
@@ -110,6 +110,22 @@ Describe 'Guarded machine-font guest acceptance' {
       $result.Status|Should -Be Failed
       $result.Stage|Should -Be Install
       @($script:events)|Should -Be @('Preview','Install')
+    }
+    It 'retains removal observations and both run IDs when a native name remains' {
+      Mock Remove-RideMachineFonts {
+        $script:present=$false;$script:absent.NativeNames=@('Synthetic Regular')
+        [pscustomobject]@{SchemaVersion=1;Status='Applied';RunId=$script:removeId}
+      }
+      # Return distinct observations, as the real snapshot provider does.
+      Mock Get-RideFontAcceptanceSnapshot {if($script:present){$script:installed|ConvertTo-Json -Depth 10|ConvertFrom-Json}else{$script:absent|ConvertTo-Json -Depth 10|ConvertFrom-Json}}
+      $result=Invoke-RideFontAcceptance @script:parameters
+      $result.Status|Should -Be Failed
+      $result.Stage|Should -Be Remove
+      $result.Error|Should -Match 'native enumeration'
+      @($result.LifecycleRuns|Where-Object {-not $_.Restored}).Count|Should -Be 2
+      $path=Join-Path $result.EvidenceDirectory 'after-removal.json'
+      (Get-Content -LiteralPath $path -Raw|ConvertFrom-Json).NativeNames|Should -BeExactly 'Synthetic Regular'
+      Should -Invoke Restore-RideMachineFontRun -Times 0 -Exactly
     }
     It 'detects recovery metadata drift and leaves the install recovery outstanding' {
       Mock Restore-RideMachineFontRun {
