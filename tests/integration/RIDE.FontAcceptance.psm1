@@ -5,11 +5,14 @@
   Requires an initially absent selected font batch. Checks native enumeration,
   file/registration state, machine recovery permissions and both saved restores.
   Failures retain evidence and never reset the VM or force font consumers closed.
+  Native-name absence failures do not prevent saved recovery when file and
+  registry readback is exact; native acceptance still fails independently.
 .NOTES
   Compatibility: Candidate Windows 11 x64; native PowerShell 5.1 and 7.
   Prerequisites: Existing elevation, correlated Hyper-V guest and real licensed fonts.
   Recovery: Retain private run records; incomplete runs need inspection.
-  Version: 0.1.1. Changelog: Retain removal observations and bounded failure detail.
+  Version: 0.2.0. Changelog: Exercise saved recovery after isolated native-name gaps;
+  retain separate durable lifecycle and native-enumeration results.
 .LINK
   ../../docs/machine-fonts.md
 #>
@@ -92,6 +95,12 @@ function Test-RideFontAcceptanceEqual {
   (ConvertTo-Json -InputObject $Left -Depth 12 -Compress) -ceq (ConvertTo-Json -InputObject $Right -Depth 12 -Compress)
 }
 
+function Test-RideFontAcceptanceDurableEqual {
+  param($Left,$Right)
+  (Test-RideFontAcceptanceEqual $Left.Registry $Right.Registry) -and
+    (Test-RideFontAcceptanceEqual $Left.Files $Right.Files)
+}
+
 function Assert-RideFontAcceptanceInstalled {
   param($Snapshot,$Before,$Selection)
   if(@($Snapshot.Files).Count -ne @($Selection).Count -or @($Snapshot.NativeNames).Count -ne @($Selection).Count){throw 'Native font enumeration is incomplete.'}
@@ -163,7 +172,7 @@ function Invoke-RideFontAcceptance {
   & (Get-Module RIDE.MachineFonts) {param($path) Assert-RideMachineFontStateDirectory $path} $EvidenceRoot
   $directory=Join-Path ([IO.Path]::GetFullPath($EvidenceRoot)) $RunId
   if(Test-Path -LiteralPath $directory){throw 'Acceptance evidence already exists; use a new request ID.'}
-  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='MachineFontAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';Error=$null;NativeAcceptancePassed=$false;CrossSessionAcceptancePassed=$false;RestartAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$context.ComputerName;Build=$context.Build;EditionId=$context.EditionId;SessionId=$context.SessionId;Checks=@();LifecycleRuns=@();StateRunIds=@();EvidenceDirectory=$null;Selection=@()}
+  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='MachineFontAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';Error=$null;NativeAcceptancePassed=$false;DurableLifecyclePassed=$false;NativeEnumerationFailures=@();CrossSessionAcceptancePassed=$false;RestartAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$context.ComputerName;Build=$context.Build;EditionId=$context.EditionId;SessionId=$context.SessionId;Checks=@();DurableRecoveryChecks=@();LifecycleRuns=@();StateRunIds=@();EvidenceDirectory=$null;Selection=@()}
   if(-not $context.Administrator -and -not $WhatIfPreference){$report.Reason='ExistingElevationRequired';return $report}
   $selection=@(Read-RideFontAcceptanceSelection $ManifestPath);$report.Selection=$selection
   $before=Get-RideFontAcceptanceSnapshot $context $selection
@@ -173,6 +182,7 @@ function Invoke-RideFontAcceptance {
   $report.EvidenceDirectory=$directory;$state=Join-Path $directory 'state';$null=New-Item -ItemType Directory -Path $state -ErrorAction Stop
   Save-RideFontAcceptanceReport (Join-Path $directory 'before.json') $before
   $checks=[Collections.Generic.List[string]]::new();$runs=[Collections.Generic.List[object]]::new()
+  $nativeFailures=[Collections.Generic.List[string]]::new();$durableChecks=[Collections.Generic.List[string]]::new()
   $parameters=@{ManifestPath=$ManifestPath;StateDirectory=$state;ExpectedComputerName=$ExpectedComputerName;ExpectedBuild=$ExpectedBuild;ExpectedEditionId=$ExpectedEditionId;AllowCandidate=$true;Confirm=$false}
   try {
     $report.Stage='Preview';$null=Install-RideMachineFonts @parameters -WhatIf
@@ -195,21 +205,35 @@ function Invoke-RideFontAcceptance {
     Assert-RideFontAcceptanceRecords $state $removed.RunId
     $afterRemoval=Get-RideFontAcceptanceSnapshot $context $selection
     Save-RideFontAcceptanceReport (Join-Path $directory 'after-removal.json') $afterRemoval
-    if(-not (Test-RideFontAcceptanceEqual $before $afterRemoval)){throw 'Removal did not restore absent files, registration and native enumeration.'}
-    $checks.Add('RemovedToInitialState')
+    if(-not (Test-RideFontAcceptanceDurableEqual $before $afterRemoval)){throw 'Removal did not restore absent files, registration and permissions.'}
+    $durableChecks.Add('RemovedFilesRegistrationAndPermissions')
+    if(Test-RideFontAcceptanceEqual $before.NativeNames $afterRemoval.NativeNames){$checks.Add('RemovedToInitialState')}else{$nativeFailures.Add('Remove')}
     $report.Stage='RestoreRemoval'
     Assert-RideFontAcceptanceResult (Restore-RideMachineFontRun -RunId $removed.RunId -StateDirectory $state -AllowCandidate -Confirm:$false) Restored
-    if(-not (Test-RideFontAcceptanceEqual $after (Get-RideFontAcceptanceSnapshot $context $selection))){throw 'Removal recovery differs from captured installed state.'}
-    $runs[1].Restored=$true;$checks.Add('InstalledBytesPermissionsMetadataAndNativeNamesRestored')
+    $restoredRemoval=Get-RideFontAcceptanceSnapshot $context $selection
+    Save-RideFontAcceptanceReport (Join-Path $directory 'restored-removal.json') $restoredRemoval
+    if(-not (Test-RideFontAcceptanceDurableEqual $after $restoredRemoval)){throw 'Removal recovery differs from captured installed state.'}
+    $runs[1].Restored=$true;$durableChecks.Add('InstalledBytesPermissionsMetadataRestored')
+    if(Test-RideFontAcceptanceEqual $after.NativeNames $restoredRemoval.NativeNames){$checks.Add('InstalledBytesPermissionsMetadataAndNativeNamesRestored')}else{$nativeFailures.Add('RestoreRemoval')}
     $report.Stage='RestoreInitial'
     Assert-RideFontAcceptanceResult (Restore-RideMachineFontRun -RunId $installed.RunId -StateDirectory $state -AllowCandidate -Confirm:$false) Restored
-    if(-not (Test-RideFontAcceptanceEqual $before (Get-RideFontAcceptanceSnapshot $context $selection))){throw 'Initial state was not restored.'}
-    $runs[0].Restored=$true;$checks.Add('InitialStateRestored')
+    $restoredInitial=Get-RideFontAcceptanceSnapshot $context $selection
+    Save-RideFontAcceptanceReport (Join-Path $directory 'restored-initial.json') $restoredInitial
+    if(-not (Test-RideFontAcceptanceDurableEqual $before $restoredInitial)){throw 'Initial state was not restored.'}
+    $runs[0].Restored=$true;$durableChecks.Add('InitialFilesRegistrationAndPermissionsRestored')
+    if(Test-RideFontAcceptanceEqual $before.NativeNames $restoredInitial.NativeNames){$checks.Add('InitialStateRestored')}else{$nativeFailures.Add('RestoreInitial')}
     Assert-RideFontAcceptanceResult (Restore-RideMachineFontRun -RunId $installed.RunId -StateDirectory $state -AllowCandidate -Confirm:$false) AlreadyRestored
-    if(-not (Test-RideFontAcceptanceEqual $before (Get-RideFontAcceptanceSnapshot $context $selection))){throw 'Repeated restore changed state.'}
-    $checks.Add('RepeatedRestoreNoChanges');$report.Stage='Complete';$report.Status='Passed';$report.NativeAcceptancePassed=$true
+    $repeated=Get-RideFontAcceptanceSnapshot $context $selection
+    if(-not (Test-RideFontAcceptanceDurableEqual $before $repeated)){throw 'Repeated restore changed state.'}
+    $durableChecks.Add('RepeatedRestoreDurableNoChanges')
+    if(Test-RideFontAcceptanceEqual $before.NativeNames $repeated.NativeNames){$checks.Add('RepeatedRestoreNoChanges')}else{$nativeFailures.Add('RepeatRestore')}
+    $report.DurableLifecyclePassed=$true;$report.Stage='Complete'
+    if($nativeFailures.Count){
+      $report.Status='Failed';$report.Reason='NativeEnumerationMismatch';$report.Error='Captured file/registration recovery passed, but native font enumeration did not match at every stage.';$report.RecoveryRequired=$true
+    }else{$report.Status='Passed';$report.NativeAcceptancePassed=$true}
   }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true;$message=$_.Exception.Message;$report.Error=$message.Substring(0,[Math]::Min(1000,$message.Length))}
   $report.Checks=$checks.ToArray();$report.LifecycleRuns=$runs.ToArray()
+  $report.NativeEnumerationFailures=$nativeFailures.ToArray();$report.DurableRecoveryChecks=$durableChecks.ToArray()
   $report.StateRunIds=@(Get-ChildItem -LiteralPath $state -Filter '*.fonts.intent.json' -File|Select-Object -First 256|ForEach-Object {if($_.Name -cmatch '^([a-f0-9]{32})\.fonts\.intent\.json$'){$Matches[1]}})
   Save-RideFontAcceptanceReport (Join-Path $directory 'result.json') $report
   $report

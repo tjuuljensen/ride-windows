@@ -297,5 +297,19 @@ and recommends notifying windows with WM_FONTCHANGE. The current native wrapper
 already broadcasts that notification after each batch. The observed retained
 name therefore needs further native investigation; it does not establish which
 consumer retained a reference or permit forced unloading. Preserve the failed
-run and validate both saved restores in a fresh disposable run after addressing
-the native behavior.
+run; it contains no saved-restore acceptance.
+
+The revised guest scenario keeps native enumeration failures separate from
+durable recovery. After removal, exact file, registry and permission equality
+is required before either saved restore can proceed. Each restore captures a
+separate readback. Any durable mismatch stops further steps; an isolated native
+name mismatch remains in `NativeEnumerationFailures` and keeps the overall run
+Failed, even if a later observation matches. `DurableLifecyclePassed` covers
+only the complete file/registration/permission cycle. A lifecycle row's `Restored`
+flag records that captured durable state was recovered; it does not override a
+native-name failure or establish cross-session/restart availability. No consumer
+is closed, reference force-unloaded, cache cleared or reboot requested.
+
+The revised scenario passes 13 focused mocked checks in each PowerShell edition,
+including refusal after durable drift and retention of an earlier native failure
+after final-state recovery. Its fresh disposable-VM execution remains pending.

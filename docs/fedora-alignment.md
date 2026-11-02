@@ -936,3 +936,20 @@ Owner: Windows maintainer. Follow-up: native image apply/repeat/exact restore an
 the separate visible-effect requirements in [image personalization](image-personalization.md).
 Review trigger: provider, snapshot permission semantics, recovery or supported
 target changes. Source regression remains separate from native acceptance.
+
+## Font recovery evidence separation, 2026-11-03
+
+Impact: Windows guest-test reporting only. Exact file, registration and permission
+readback now permits the independent saved-restore checks to proceed after a
+native font-name mismatch. That mismatch remains a failed overall acceptance
+result; durable recovery does not certify native availability. Production handler,
+saved-state schema, CLI and support declarations are unchanged.
+
+Reviewed RB-08/09/11 against contract 1.1.0 and the same canonical digest and
+Fedora `ride.sh`/`lib/v3/common.sh` hashes recorded immediately above, rechecked
+for this run. The peer target/candidate guards remain applicable; Windows GDI
+observations have no Fedora counterpart. No shared contract amendment is needed.
+Owner: Windows maintainer. Follow-up: the fresh native run and remaining session,
+restart and active-consumer checks in [machine fonts](machine-fonts.md).
+Review trigger: any change to the native pass criteria or production recovery
+semantics. See [source evidence](archive/evidence/font-recovery-separation-source-2026-11-03.json).
