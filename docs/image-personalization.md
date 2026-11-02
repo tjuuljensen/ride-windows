@@ -166,10 +166,49 @@ request IDs offer read-only completion for both entry points when `Phase=Restore
 and `EvidenceRoot` are supplied.
 
 Protected host dispatch that retains the guest between these phases is still
-pending. The existing generic queue resets the VM after each request and must
+pending. Its [coordination boundary](#retained-host-coordination) is source-ready.
+The existing generic queue resets the VM after each request and must
 not be used for this phased scenario. Neither guest entry point signs out,
 reboots, resets a checkpoint or performs failure cleanup. Export private evidence
 and verify visible recovery before any separately authorized checkpoint reset.
+
+### Retained host coordination
+
+`tests/integration/RIDE.RetainedGuest.psm1` supplies the internal reservation
+boundary for a future retained host dispatcher. It does not yet supply that
+dispatcher, guest staging, evidence export or checkpoint-recovery receipt writer.
+Do not reserve a real guest until those phases are available and reviewed.
+
+`New-RideRetainedGuestHold` requires the installed configuration, exact VM and
+checkpoint IDs, registered host account, native Windows PowerShell 5.1, existing
+elevation, an idle controller and an Off disposable VM. Under the existing worker
+lock it creates a private machine `runtime/blocked.json` record. It never replaces
+a previous block. Ordinary queue requests recognize this block and refuse before
+host preparation or VM reset. A unique lease ID distinguishes separate reservations
+even if their request IDs are accidentally reused.
+
+`Open-RideRetainedGuestPhase` validates the private hold, configuration digest and
+registered identities under the worker lock, then returns that lock to the caller.
+The dispatcher must retain it through execution, export and journal writes and
+dispose it in `finally`. The durable block remains between phases and after
+exceptions. Neither function starts, stops or restores a VM.
+
+`Remove-RideRetainedGuestHold` accepts only a private schema-1
+`RetainedGuestRecovery` receipt containing matching `RunId`, `LeaseId`, `VMId`,
+`CheckpointId` and `ConfigurationSha256`, boolean `EvidenceExportVerified=true`
+and `CheckpointResetVerified=true`, and `Status=ResetAndOff`. It rechecks the pinned
+VM is Off under the same lock before deleting only the owned block. An Off VM
+alone cannot prove checkpoint recovery. The future dispatcher must produce the
+receipt after actual export/reset verification; operators must not manufacture a
+receipt to unblock a guest. Ordinary failure blocks and stale receipts are refused.
+
+Reservation/release previews do not acquire the worker lock, query host services
+or inspect a VM. They validate accessible configuration/state only and cannot
+certify actual availability. Saved run completion reads only the bounded private
+hold. Stable schema-1 results are `Reserved`, `Released` or `Preview`, always with
+`NativeAcceptancePassed=false`; a reservation establishes no test result.
+The [source evidence](archive/evidence/retained-guest-coordination-source-2026-11-02.json)
+records mocked host/VM checks and real temporary user-scope file/lock checks.
 
 ## Three separate acceptance workflows
 

@@ -557,3 +557,28 @@ guest between apply and recovery; the generic reset-per-request worker is not
 that route. Follow-up: [retained guest dispatch and native visual acceptance](image-personalization.md#phased-disposable-guest-acceptance).
 Status: source preparation only. Review trigger: protected host dispatch, native
 directory/file permissions, signed-out image/recovery evidence or release review.
+
+## Retained guest coordination boundary, 2026-11-02
+
+Extends the native test preparation for `windows.default-lock-screen`; shared
+behavior is unchanged (RB-03/08/09/10/11). Reservation/release previews write
+nothing and do not inspect host services or a VM. Explicit host mutations require
+the registered account and existing elevation. Private ownership binds each hold
+to a configuration digest, VM/checkpoint and unique lease. A stale recovery
+receipt cannot release a later reservation with the same request ID. Neither
+reservation nor release is a native acceptance result.
+
+Reviewed contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`.
+The preceding retained-phase review reverified peer revision
+`3d9406e3888122d1407652336859e6217c09bcaa` and the recorded `ride.sh`/`common.sh`
+hashes. That target/candidate/recovery comparison remains applicable; no shared
+CLI, catalog, profile, contract version or digest changed. No shared-conformance
+automation or Fedora feature parity is claimed.
+
+Owner: RIDE Windows maintainer. Reason: the disposable guest must survive separate
+visual apply/recovery phases without an ordinary queued request resetting it.
+Status: coordination source only; 16 mocked/file-lock checks pass in each shell.
+Follow-up: [retained host dispatch and export](image-personalization.md#retained-host-coordination).
+Review trigger: wiring actual dispatch/export/receipt generation, protected
+installation, native retained lifecycle or release-candidate review.

@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T18:22:32.8441278Z",
+  "Status": "CoordinationSourcePassed",
+  "NativeAcceptance": false,
+  "SourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 16,
+      "Failed": 0,
+      "Total": 16
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 16,
+      "Failed": 0,
+      "Total": 16
+    }
+  ],
+  "Validation": {
+    "Operations": 475,
+    "Profiles": 5,
+    "PowerShellFiles": 368,
+    "Status": "Passed",
+    "Groups": 9
+  },
+  "Boundary": "Host account/elevation/configuration, scheduled tasks and Hyper-V are mocked. Private records and exclusive worker handles use actual TestDrive files; machine scope requests are asserted while real test ACLs use current-user scope.",
+  "Coverage": [
+    "Read-only reservation and release preview",
+    "Installed account/native shell/elevation/pin guards",
+    "Existing block and worker contention refusal",
+    "Idle queue and Off reservation guards",
+    "Readback failure retains block",
+    "Exclusive phase ownership",
+    "Configuration/request drift refusal",
+    "Private correlated export/reset receipt",
+    "Running VM release refusal",
+    "Unique lease rejects stale receipt after request-ID reuse",
+    "Read-only saved run completion",
+    "Ordinary controller refuses blocked request without host preparation or reset"
+  ],
+  "ImplementationBoundary": "Internal host reservation/phase/release boundary only. No guest dispatch, source staging, evidence export or recovery receipt writer yet. Do not reserve a real guest until those phases exist.",
+  "SharedContract": {
+    "Classification": "Shared behavior unchanged",
+    "Version": "1.0.0",
+    "Rules": [
+      "RB-03",
+      "RB-08",
+      "RB-09",
+      "RB-10",
+      "RB-11"
+    ],
+    "Sha256": "80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645"
+  },
+  "ControllerRegistrationChanged": false,
+  "RealControllerHoldCreated": false,
+  "GuestDispatched": false,
+  "CheckpointReset": false,
+  "Remaining": [
+    "Retained host dispatch, source/payload staging and evidence export",
+    "Private receipt after verified explicit checkpoint recovery",
+    "Already elevated execution or protected runtime refresh without fresh UAC",
+    "Native WLAN/font/Sysmon/image acceptance",
+    "Wallpaper/user-lock workflows and full BitLocker batch"
+  ],
+  "SourceHashes": [
+    {
+      "Sha256": "7E516B1459E57A98864EDA85A9879BE4C2D6CB2076231D2249A60BD40941E26D",
+      "Path": "tests/integration/RIDE.RetainedGuest.psm1"
+    },
+    {
+      "Sha256": "B34E08F270F693F5684CA9568ABC3159BB5954617801490988505C37D60FD852",
+      "Path": "tests/RetainedGuest.Tests.ps1"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}
