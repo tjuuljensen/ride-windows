@@ -1,0 +1,38 @@
+{
+  "title": "Setting presentation and post-migration current-source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:50:30Z",
+  "tests": {
+    "files": [
+      "tests/SettingPresentation.Tests.ps1",
+      "tests/ManagedSettings.Tests.ps1",
+      "tests/RemainingSettings.Tests.ps1",
+      "tests/SixtySettings.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 236,
+    "passed": 236,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:14:32.209",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "settingHandlersMockedOrSynthetic": true,
+    "hostRegistryOrWindowsSettingsChanged": false,
+    "vmAccessInvoked": false,
+    "networkUsed": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "nativeAcceptance": "Pending"
+  },
+  "blockers": [
+    "Setting feature/UI/native acceptance remains pending for rows already marked deferred.",
+    "Host Hyper-V and Task Scheduler access remains denied for VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
