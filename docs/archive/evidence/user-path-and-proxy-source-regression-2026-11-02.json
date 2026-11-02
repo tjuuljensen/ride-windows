@@ -1,0 +1,70 @@
+{
+  "title": "User PATH and proxy source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:49:51Z",
+  "scope": "Five focused user PATH engine/preparation and user WinINet proxy inventory, lifecycle and preparation suites.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "files": [
+    "tests/UserPathEngine.Tests.ps1",
+    "tests/UserPathPreparation.Tests.ps1",
+    "tests/UserProxyInventory.Tests.ps1",
+    "tests/UserProxyLifecycle.Tests.ps1",
+    "tests/UserProxyPreparation.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 5,
+    "testsDiscovered": 159,
+    "passed": 159,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:00:18.750",
+    "status": "passed"
+  },
+  "coverage": [
+    "Persistent user-bin PATH preview and preparation boundaries.",
+    "Explicit-user/session WinINet proxy inventory and patch planning.",
+    "Proxy apply, repeat, captured-state restoration and refresh notification through mocks."
+  ],
+  "safety": {
+    "registryAndSessionProviders": "mocked",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Selected user PATH and proxy source regression passed 159/159."
+  ],
+  "retired": [],
+  "excluded": [
+    "Native PATH/profile and proxy consumer acceptance.",
+    "WindowsIntegration and VM checks.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No legacy setting outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester aggregate remains incomplete.",
+    "PSScriptTools full synthetic lifecycle remains incomplete.",
+    "Host CIM access blocks RIDE-Win11-Test acceptance."
+  ]
+}
