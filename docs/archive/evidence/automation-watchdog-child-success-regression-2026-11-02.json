@@ -1,0 +1,57 @@
+{
+  "title": "Automation watchdog child-process success regression",
+  "date": "2026-11-02",
+  "scope": "Five filtered child-process watchdog cases in tests/AutomationWatchdog.Tests.ps1.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "tests": [
+    "reads complete snapshots during repeated real child-process updates",
+    "retains a normal correlated success without fabricating a supervisor failure",
+    "retains a correlated child failure as a terminal result",
+    "reports child exit without a result and does not assume VM recovery",
+    "blocks after process-tree termination cannot be confirmed"
+  ],
+  "result": {
+    "testsDiscovered": 16,
+    "selected": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "notRun": 11,
+    "duration": "00:00:28.930",
+    "status": "passed"
+  },
+  "safety": {
+    "processesWereInertTestChildren": true,
+    "vmQueriedOrChanged": false,
+    "systemConfigurationChanged": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Filtered child progress, correlated result, child exit and explicit block-on-unconfirmed-termination cases passed 5/5."
+  ],
+  "retired": [],
+  "excluded": [],
+  "partial": [
+    "Three timeout/recovery process-tree cases remain failed in the separate full-file run. No migration outcome closes."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Three watchdog timeout/recovery tests exceed the ten-second process-tree termination bound in the current host environment.",
+    "The repository-wide Pester aggregate and large synthetic lifecycle tests remain incomplete.",
+    "VM acceptance remains blocked at host CIM; Defender-blocked utilities remain excluded."
+  ]
+}
