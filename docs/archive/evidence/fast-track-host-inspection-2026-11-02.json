@@ -1,0 +1,74 @@
+{
+  "SchemaVersion": 1,
+  "ReviewDate": "2026-11-02",
+  "Scope": "Read-only host inspection and approved fast-track resumption; no guest acceptance",
+  "UserEvidence": {
+    "Source": "User-provided elevated Get-VM and Get-VMSnapshot output",
+    "VMName": "RIDE-Win11-Test",
+    "State": "Off",
+    "Version": "12.0",
+    "SnapshotType": "Standard",
+    "Checkpoints": [
+      {
+        "Name": "RIDE-clean-test-base",
+        "Id": "a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9"
+      },
+      {
+        "Name": "RIDE-screen-lock-w11-20261011-prepared",
+        "Id": "34b858c9-c5f3-405b-868b-a9d35ffdf2d8"
+      },
+      {
+        "Name": "RIDE-screen-lock-w11-20261011-runtimes-paused",
+        "Id": "759d1c1a-8053-4a15-bd5a-6c6d459599ff"
+      },
+      {
+        "Name": "RIDE-screen-lock-w11-20261011-procmon-reviewed-warm",
+        "Id": "0f16aaef-1733-45ea-a302-c77256d938cf"
+      },
+      {
+        "Name": "RIDE-Win11-Test - (20-10-2026 - 15:35:06)",
+        "Id": "8d125f9b-6d67-4c6d-bb94-a564e42a9852"
+      },
+      {
+        "Name": "RIDE-clean-test-base-26300.9711-20261029",
+        "Id": "91369e82-5ff2-49ef-87c4-c4518a77ae7b"
+      },
+      {
+        "Name": "RIDE-updated-spare-26300.9711-20261029",
+        "Id": "723fdbe1-2faf-4832-833f-41b75a25a64e"
+      }
+    ]
+  },
+  "VerifiedRunner": {
+    "Name": "RIDEWin11Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointName": "RIDE-clean-test-base-26300.9711-20261029",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "CheckpointMatches": true,
+    "TaskState": "Ready",
+    "VMState": "Off",
+    "PendingRequests": 0,
+    "RunningRequests": 0,
+    "RecoveryBlock": false,
+    "TpmEnabled": true,
+    "Shielded": false,
+    "TestKeyRetrievalVerified": false
+  },
+  "Context": "Sandbox CIM query was denied; authorized read-only inspection outside sandbox succeeded without Windows UAC.",
+  "GuestTestRun": false,
+  "VMChanged": false,
+  "DefenderChanged": false,
+  "SupportPromoted": false,
+  "Dispositions": "Approved scope and batch order recorded in docs/migrations/migration-completion-reassessment-2026-11-02.md; no acceptance inferred from inspection.",
+  "Estimates": {
+    "Maintenance": "8-12",
+    "FilesAndAssets": "25-35",
+    "Settings": "37-57",
+    "Rounded": "125-180",
+    "Packages": "37-52",
+    "Components": "19-24",
+    "Exact": "126-180",
+    "Approximate": 155,
+    "Reason": "No independently counted legacy outcome closed by host inspection or deferral; control-flow retirement was not independently counted."
+  }
+}

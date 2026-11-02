@@ -2,9 +2,74 @@
 
 ## Status
 
-Migration execution is paused at the user's request. The next step is to reassess
-how to close the remaining work before starting another implementation or test
-batch.
+Migration execution resumed on 2026-11-02 under the approved fast-track plan
+below. The earlier pause and host-CIM failure are historical. The user supplied
+successful elevated VM/checkpoint inspection; the registered runner's checkpoint
+ID has now been matched by read-only inspection. No guest acceptance is implied.
+
+## Approved fast-track execution, 2026-11-02
+
+The milestone is an internal checkpoint commit, not a tag or public pre-release.
+Complete and commit each focused batch separately, preserving pre-existing
+working-tree changes. Use existing registered elevation routes; save work needing
+a new UAC prompt for later and continue independent authorized batches. Only the
+five desktop icons/ClassicStartMenu test may change the developer workstation.
+All other native mutations require the disposable target.
+
+| Order | Selected work and acceptance | Deferred scope / recovery boundary |
+| --- | --- | --- |
+| 1 | Reconcile this record and the migration overview; bind the registered VM/checkpoint by ID. | Host inspection is not guest acceptance. Check task/queue/recovery state again before dispatch. |
+| 2 | ETL2PCAPNG: acquire the pinned official artifact, verify integrity and retain notices; never install or launch. Gpg4win: install/repeat/remove/recovery preserving GnuPG data. All `package.mitec-*`: package lifecycle and exact owned-file recovery only. RegRipper, Rufus and TMOG: lifecycle/recovery only, with no collection, media writes or paid activation. Reuse NTCore Explorer Suite lifecycle and add missing Defender evidence. | Record exact source/version and Defender state. MiTeC feature testing moves to 3.1; the new all-MiTeC selection supersedes InfoBar's earlier lifecycle deferral. If needed, a persistent MiTeC exclusion is permitted only for the individual dedicated RIDE-managed package directory, never a shared tools root. NirSoft/PasswordScan alert files remain excluded: no restoration, staging, launch or allow action. |
+| 3 | Capture exact prior state of five desktop icons and ClassicStartMenu mirrors, apply, visually check and restore exactly on the workstation. Reuse accepted T480 F1 and Win11/Server 2025 PowerShell appearance evidence within their recorded scope. Consider bounded Storage Sense, maximum password age, keyboard delay and existing service lifecycles only where prepared recovery is sufficient. | The retained T480 report records Explorer behavior, unrelated-app observations and exact registry recovery; it does not separately record Desktop behavior. Do not broaden that evidence or repeat accepted appearance checks. |
+| 4 | Separate BitLocker batch: verify vTPM and test-key retrieval first, then full enrollment/decryption, TPM+PIN boot, recovery and OS/fixed/removable method-policy acceptance. | Use only disposable volumes and test secrets. Never persist secrets in ordinary evidence or use real recovery keys. vTPM enabled alone is not a recovery test. |
+| 5 | OpenSSH Client becomes a catalog installable capability; retire the standalone script interface. Inventory and cover all RSAT client capabilities available on the tested target. | Require exact matching local media, dependencies, install/repeat/remove and recovery. No network fallback; client RSAT does not establish Server-role support. Telnet remains deferred without payload identity. |
+| 6 | Explicit Sysmon apply/restore for Balanced, Balanced with FileDelete and Excludes-only pinned configurations. | Capture recoverable prior configuration before replacement; separate config from installation and never apply by default. |
+| 7 | Prepare machine-scope fonts, default wallpaper, both lock-screen image workflows and Wi-Fi import only when exact inputs and recovery are ready. | Preserve v2 machine scope, exact bytes/ACL/policy and credential protection. Refuse incomplete recovery; do not port broad takeown/ACL changes. Unready items stay delayed. |
+| 8 | Add distinct `-AllowUnsupportedTarget` for one-run OS/build/edition exploration, recording detected target and unsupported status. Run focused changed-source checks and final-source checks. | Preserve architecture/payload integrity, privilege, ShouldProcess, dependencies and recovery safeguards; do not edit SupportedTargets. Review the intentional shared-contract difference before promotion. Final-source/bootstrap, offline delivery, alignment and versioned release review remain separate open release gates. |
+
+Keep CCleaner. Recuva, Speccy and Defraggler enter the light track only where an
+exact official source and simple lifecycle are ready; otherwise record a durable
+v3 exclusion. Defer Docker, Wireshark/Npcap, Firewall Notifier feature behavior,
+WinPmem driver use, VeraCrypt reboot scenarios, KAPE, collectors, mutable Zimmerman
+tooling, WinGet/WAU and Python coexistence. Preserve their IDs/candidate records.
+
+Defer high-impact WinRE, System Protection, lockout, password complexity and policy
+recovery until recoverable; defer unmapped feedback units, taskbar sizing, shortcut
+arrows, NumLock hardware, compressed-name colors, Explorer Home and menu subtrees.
+Keep R29 closed and retain Browser Hidden, PowerShell 2 and orphan WSL Fedora
+removal retirements. Defer Hyper-V, Sandbox, WSL distributions, printer/fax queues
+and other optional hardware/edition-dependent components. Memory Integrity stays
+with security settings. Defer browser/Python/VMware preferences, accounts, locales
+and product-key handling until ownership and recovery are ready.
+
+Run prepared native run-retention/task recovery only if the existing route is
+ready. Caffeine requires package presence only in this track. Defer destructive
+cleanup, Start/taskbar unpinning, updates/cache cleanup, Disk Cleanup, Sysprep,
+hostname and product-key display. Retire WaitForKey/Restart/StopComputer as
+standalone desired-state operations; CLI control-flow needs remain separate and
+may be reopened with a concrete use case. This adds no catalog ID or numeric
+closure: the former estimate did not establish an independently counted helper.
+
+Each batch records source/pins, preserved state, execution and recovery results,
+Defender observations where applicable, partial/deferred outcomes and the next
+action. Recheck all five whole-legacy ranges after each run; deferrals do not
+remove backlog outcomes and source tests do not establish native acceptance.
+
+## Host inspection and runner binding, 2026-11-02
+
+The supplied elevated output reports `RIDE-Win11-Test` Off, configuration version
+12.0, and seven Standard checkpoints. Their names and IDs are preserved in the
+[host evidence](../archive/evidence/fast-track-host-inspection-2026-11-02.json).
+The installed `RIDEWin11Test` configuration pins VM
+`6a5c9f91-91f9-44c5-924a-d1b5f863e16f` and clean checkpoint
+`91369e82-5ff2-49ef-87c4-c4518a77ae7b`
+(`RIDE-clean-test-base-26300.9711-20261029`), matching that inventory.
+Fresh read-only inspection outside the sandbox confirmed Off, task Ready and
+vTPM enabled; pending/running queues were empty and no recovery block was present.
+The sandbox's CIM denial is an execution-context restriction, not evidence that
+elevated host access is still blocked. No checkpoint restore, boot, guest test,
+installer or Defender change ran during this inspection. Recovery-key retrieval,
+guest readiness and current acceptance remain to be verified separately.
 
 ## Why the completion approach is being reassessed
 
@@ -76,8 +141,9 @@ not from the number of tests passed.
 The exact ranges and dated test evidence remain in the migration plan. The
 current Windows PowerShell 5.1 source batch passed 331/331; the PSScriptTools
 suite passed 7/7; the WFN full synthetic suite did not finish its large case.
-The broader 3,698-case aggregate remains incomplete. Native VM acceptance is
-blocked because host CIM access fails before VM/checkpoint inspection. Keep
+The broader 3,698-case aggregate remains incomplete. At the pause, host CIM
+failed before VM/checkpoint inspection; the host inspection above supersedes
+that access blocker for RIDE-Win11-Test, without claiming guest acceptance. Keep
 Defender-alerted NirSoft files excluded and do not materialize them during test
 work. See the linked per-batch evidence in the [migration plan](../MIGRATION-PLAN.md).
 
@@ -376,9 +442,9 @@ firewall providers were mocked; no VM or Windows state changed. The prior
 passed 145/145 in Windows PowerShell 5.1. These close source-test batches only,
 not a legacy component outcome.
 
-**Current blockers:** host CIM prevents inspection of RIDE-Win11-Test and its
-checkpoint, so no native component acceptance can be dispatched. OpenSSH Client
-media/dependencies and Telnet source identity remain unavailable. Windows
+**Current prerequisites:** RIDE-Win11-Test host/checkpoint inspection is verified
+above; current guest readiness and matching source media remain unverified.
+OpenSSH Client media/dependencies and Telnet source identity remain unavailable. Windows
 PowerShell 5.1 component/source compatibility has earlier passing evidence; the
 latest focused component regression passed in PowerShell 7.6.5. No
 Defender-based exclusion applies to these component tests; keep Defender-blocked
@@ -444,16 +510,14 @@ The latest related evidence is [Nov. 2 desktop shortcut/hash source regression](
 and [Nov. 1 run-retention/task/user-handoff regression](../archive/evidence/run-retention-task-recovery-handoff-regression-2026-11-01.json).
 These source results close no legacy outcome. Files/assets remains **25-35** and
 maintenance **8-12**; the total remains **126-180 exact / 125-180 rounded
-(about 155)**. Host CIM blocks native VM acceptance; actual disconnected delivery
+(about 155)**. Host inspection is now available; actual disconnected delivery
 and Windows acceptance remain separate.
 
-## Resume criterion
+## Execution and next action
 
-Resume when the completion approach has been reviewed. Start with an explicit
-legacy-outcome inventory for the workstream being discussed, separating
-implemented-but-open outcomes from unmigrated outcomes, candidates, and accepted
-or retired outcomes. Prioritize batches by the number of outcomes they can
-actually close and the acceptance resources they require. Preserve the existing
-authorization to run approved batches without pauses between them and commit
-each completed batch separately; do not resume automatically while this
-reassessment is pending.
+The approved order above supersedes the pause. Start with the light package
+track after recording the host/runner match. Reuse unchanged accepted evidence;
+record missing requirements without substituting another source-test sweep.
+Continue authorized independent work when a particular source, recovery input or
+pre-authorized route is unavailable. Commit completed batches separately and
+leave unfinished acceptance explicit at the internal checkpoint.
