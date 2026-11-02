@@ -971,3 +971,11 @@ contract amendment is needed. Owner: Windows maintainer. Follow-up:
 [native capability acceptance](windows-component-inventory.md#client-rsat-catalog-candidates).
 Review trigger: native servicing/restart evidence, failure or recovery changes,
 or affected capability promotion. Mocked tests do not establish native support.
+
+The subsequent guest scenario adds Windows-owned acceptance evidence under
+RB-03/04/08/09/11: exact guest attestation, explicit Windows Update source, normal
+engine snapshots, mixed-state recovery and retained partial failures. It does not
+change the CLI, catalog support, acquisition policy or saved-run schema. The same
+peer source comparison applies. Its 22 isolated cases per shell remain separate
+from native acceptance and host-route activation; see the
+[guest scenario source evidence](archive/evidence/client-capability-acceptance-source-2026-11-03.json).

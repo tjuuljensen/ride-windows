@@ -118,6 +118,59 @@ The dependency model follows Microsoft's
 the [RSAT installation guide](https://learn.microsoft.com/en-us/windows-server/administration/install-remote-server-administration-tools)
 describes the client edition prerequisites. Native target acceptance remains open.
 
+## Focused disposable-guest acceptance
+
+`tests/integration/Invoke-RideClientCapabilityAcceptance.ps1` prepares separate
+`OpenSSHClient` and `RSAT` scenarios. It is source-verified; no native capability
+run or installed unattended host route is claimed. Use only an already elevated
+native PowerShell session in the correlated disposable Hyper-V guest. The host
+must supply the exact computer/build/edition/revision, a fresh request ID and
+`RIDE_TEST_GUEST=1`, `RIDE_INTEGRATION_VM=1`, `RIDE_TEST_RUN_ID=<request-id>`.
+These markers supplement host VM/checkpoint binding; setting them on a workstation
+is not an execution route. The evidence root must already exist on a local drive.
+
+From the repository root inside that prepared guest:
+
+```powershell
+$selection = @{
+    Family = 'OpenSSHClient' # Or RSAT for all observed catalog members.
+    RunId = '<host-correlated-request-id>'
+    ExpectedComputerName = '<guest-computer-name>'
+    ExpectedBuild = '<build-number>'
+    ExpectedEditionId = '<edition-id>'
+    ExpectedRevision = 0 # Replace with the exact observed UBR.
+    ServicingSource = 'WindowsUpdate'
+    EvidenceRoot = '<existing-local-evidence-directory>'
+    DisposableVm = $true
+}
+.\tests\integration\Invoke-RideClientCapabilityAcceptance.ps1 @selection -WhatIf
+# Actual scenario; existing elevation and reviewed host preparation are required.
+.\tests\integration\Invoke-RideClientCapabilityAcceptance.ps1 @selection -Confirm:$false
+```
+
+The scenario records all capability names/states, previews without state/journal
+changes, installs, repeats, removes and restores the removal and initial install
+runs. It preserves initially installed members, including an entirely pre-existing
+selection where installation creates no run. Unrelated capability changes fail
+acceptance. Repeat apply and final repeat restore must leave journal fingerprints
+unchanged. OpenSSH additionally checks the native client's signed Microsoft binary
+identity/version when installed and its absence after removal, without executing
+the client or making a connection.
+
+Changed engine runs are exported byte-for-byte to private machine-scope evidence,
+including a run reported in a partial-failure exception. The original journals
+remain the recovery source. Failure, pending servicing or a DISM restart request
+stops the scenario; no automatic recovery/reboot/reset follows. Collect private
+evidence and resolve servicing before explicitly restoring the relevant saved
+run. A host timeout must retain the VM for inspection: stopping PowerShell does
+not prove DISM has stopped. Verify evidence export before checkpoint cleanup.
+
+`Passed` covers literal-state lifecycle on that exact target. It does not certify
+exact payload/version restoration, SSH user-data preservation, SSH connectivity,
+RSAT console/domain behavior, or restart recovery. The isolated tests and evidence
+are recorded in [guest scenario preparation](archive/evidence/client-capability-acceptance-source-2026-11-03.json).
+No supported target is promoted by source tests or candidate execution alone.
+
 ## Collect on an explicitly identified target
 
 Start in the repository root in an **already elevated**, native-bitness PowerShell

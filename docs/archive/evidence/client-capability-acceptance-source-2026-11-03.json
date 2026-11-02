@@ -1,0 +1,42 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T23:56:31.2601537Z",
+  "Status": "GuestSourceVerifiedHostRoutePending",
+  "Tests": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 22,
+      "Failed": 0,
+      "Total": 22
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 22,
+      "Failed": 0,
+      "Total": 22
+    }
+  ],
+  "EntryPointVersion": "0.1.0",
+  "EntryPointVersionChecks": [
+    "Windows PowerShell 5.1",
+    "PowerShell 7"
+  ],
+  "NativeServicingPerformed": false,
+  "ProtectedControllerChanged": false,
+  "Sources": [
+    {
+      "Path": "tests/integration/RIDE.ClientCapabilityAcceptance.psm1",
+      "Sha256": "6F6BF1D3AE76C9334B09B06CAC1F17ECD6E8FD7926984AAC58AA4F6A20857165"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideClientCapabilityAcceptance.ps1",
+      "Sha256": "8D6E2AFED77C6BB205EBC1146CCA10356060EE7B1221B902A0B946F92E2A2420"
+    },
+    {
+      "Path": "tests/ClientCapabilityAcceptance.Tests.ps1",
+      "Sha256": "19F82A5DAA2A9EE8869BC63620A317005A8A2876A173E03B82E2349532FB3132"
+    }
+  ],
+  "Boundary": "Engine-based preview/install/repeat/remove/saved restores. Mixed and all-installed baselines, collateral drift, partial servicing/recovery failure, evidence identity/source/revision and byte-preserving private export are checked with mocks and TestDrive. OpenSSH binary identity is observed without execution. No native acquisition, SSH user-data/connectivity, console/domain functionality or restart recovery claim.",
+  "HostRoute": "Not installed. Requires reviewed VM/checkpoint binding, fresh deadline/usage admission, retained timeout/failure, collection and verified reset; no ad hoc callback or UAC overnight."
+}
