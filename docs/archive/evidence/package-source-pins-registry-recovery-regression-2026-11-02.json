@@ -1,0 +1,70 @@
+{
+  "title": "Package source pins and inert recovery regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:41:49Z",
+  "scope": "Artcraft and chat package metadata, Cookie Cruncher inert file lifecycle, Gpg4win package boundaries, Raspberry Pi Imager source, RegRipper plugin recovery and Rufus configuration ownership.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "not enabled"
+  },
+  "files": [
+    "tests/ArtcraftPackages.Tests.ps1",
+    "tests/ChatPackagePins.Tests.ps1",
+    "tests/CookieCruncherPackage.Tests.ps1",
+    "tests/Gpg4winPackage.Tests.ps1",
+    "tests/RaspberryPiImagerPackage.Tests.ps1",
+    "tests/RegRipperPackage.Tests.ps1",
+    "tests/RufusPackage.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 7,
+    "testsDiscovered": 36,
+    "passed": 35,
+    "failed": 0,
+    "skipped": 1,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:01:45.330",
+    "status": "passed-with-skip",
+    "skipReason": "No explicit retained Cookie Cruncher archive fixture was supplied."
+  },
+  "safety": {
+    "payloadsAndArchives": "inert temporary fixtures or catalog metadata only",
+    "installersAndPublisherCalls": "not invoked",
+    "registryHivesAndEvidenceData": "not read or changed",
+    "temporaryData": "Pester TestDrive; absent after completion",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Package source-pin, inert lifecycle and recovery regression passed 35 runnable tests across seven suites."
+  ],
+  "retired": [],
+  "excluded": [
+    "Retained Cookie Cruncher archive lifecycle without its explicit payload fixture.",
+    "Native package installation and removal acceptance."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Host CIM access prevents querying RIDE-Win11-Test and registering a new VM acceptance request.",
+    "Windows PowerShell 5.1 Pester import remains blocked by AuthorizationManager format-data validation.",
+    "PSScriptTools and WFN full synthetic lifecycle suites remain incomplete.",
+    "Defender-blocked NirSoft runs remain excluded."
+  ]
+}
