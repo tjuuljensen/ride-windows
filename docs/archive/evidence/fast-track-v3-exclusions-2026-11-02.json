@@ -1,0 +1,31 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-11-02",
+  "Status": "ApprovedScopeDecisionRecorded",
+  "Authorization": "Approved fast-track fallback: include Recuva, Speccy and Defraggler only if exact official source and simple lifecycle are ready; otherwise exclude from v3. Keep CCleaner.",
+  "ExcludedFromV3": ["Recuva", "Speccy", "Defraggler"],
+  "RetainedSelected": ["CCleaner"],
+  "Reason": "No pinned, verified official payload and ready lifecycle are present in the reviewed repository for the excluded products.",
+  "CountBasis": {
+    "Source": "docs/migrations/application-review-rounds-2026-10-12.md",
+    "Mapping": "R12: InstallCCleaner/RemoveCCleaner covers four separate product outcomes: CCleaner portable, Defraggler, Recuva and Speccy.",
+    "LegacyOutcomesExcluded": 3,
+    "PackageRangeBefore": [37, 52],
+    "PackageRangeAfter": [34, 49],
+    "SettingsRange": [37, 57],
+    "ComponentsRange": [19, 24],
+    "FilesAndAssetsRange": [25, 35],
+    "MaintenanceRange": [8, 12],
+    "TotalBefore": [126, 180],
+    "TotalAfter": [123, 177],
+    "RoundedTotalAfter": [125, 175],
+    "ApproximateMidpoint": 150
+  },
+  "ReopenWhen": "An exact official artifact and install/repeat/remove plus owned-state recovery are ready, with native Defender acceptance; reconsider v3 scope explicitly.",
+  "WindowsUpdateAcquisitionAllowedFor": ["OpenSSH Client disposable-VM batch", "All RSAT capabilities available on the tested client target"],
+  "LocalSourceSilentWindowsUpdateFallbackAllowed": false,
+  "NativeTestsRun": false,
+  "MachineStateChanged": false,
+  "CatalogSupportChanged": false,
+  "LegacySourceRemoved": false
+}

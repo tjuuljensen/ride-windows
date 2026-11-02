@@ -55,6 +55,43 @@ Defender observations where applicable, partial/deferred outcomes and the next
 action. Recheck all five whole-legacy ranges after each run; deferrals do not
 remove backlog outcomes and source tests do not establish native acceptance.
 
+## V3 package exclusions and remaining inputs, 2026-11-02
+
+Apply the approved fallback disposition: **Recuva, Speccy and Defraggler are
+excluded from v3**. The repository has no pinned, verified official payload and
+ready lifecycle for these products. This is a scope decision, not an installation
+or test result. Keep CCleaner selected. Do not substitute mirrors or delete legacy
+source. Reopening an excluded product requires an exact official artifact,
+install/repeat/remove and owned-state recovery, with native Defender evidence.
+
+The [R12 mapping](application-review-rounds-2026-10-12.md) counts CCleaner,
+Defraggler, Recuva and Speccy as four separate legacy product outcomes. Excluding
+the latter three reduces the package range from 37-52 to **34-49**, and the total
+from 126-180 to **123-177**. The other four ranges are unchanged; the rounded
+range becomes **125-175**, now about **150** outcomes. Earlier estimates below
+are dated evidence. No product is newly supported or promoted by this decision.
+
+The explicit Windows Update acquisition decision removes the matching-media-only
+prerequisite for the OpenSSH Client and full available client RSAT VM batches.
+DISM may use configured servicing sources and Windows Update; permission does not
+prove availability on build 26300 or override machine policy. LocalSource retains
+its explicit source and no-Windows-Update-fallback boundary. Catalog integration,
+dependency observations and install/repeat/remove/recovery remain unimplemented
+or unaccepted as recorded in the component table.
+
+The selected custom-ride source supplies 14 Open Sauce Sans TTF files (900,084
+bytes total) and the retained SIL OFL 1.1 notice. Exact local copies are prepared;
+machine-scope installation and recovery remain open. Still needed: wallpaper and
+lock-screen image files, plus Wi-Fi profile XML supplied through a local path.
+Do not put Wi-Fi credentials in ordinary evidence or chat. See the
+[input inventory](../archive/evidence/custom-ride-asset-inputs-2026-11-02.json).
+
+The protected VM controller still needs the prepared portable-source filter
+refresh before another package run. Save that elevated setup for later under the
+approved no-new-UAC constraint. Refreshing it does not itself implement the
+unregistered OpenSSH Client/RSAT or other new acceptance routes. See the
+[controller evidence](../archive/evidence/mitec-staged-source-defender-attribution-2026-11-02.json).
+
 ## Host inspection and runner binding, 2026-11-02
 
 The supplied elevated output reports `RIDE-Win11-Test` Off, configuration version
@@ -369,8 +406,8 @@ These are not all represented by the 52 catalog candidates above:
 | Microsoft OpenJDK 25/21/17/11 side-by-side packages | Partial. Server 2025 lifecycle passed for all four versions, preserving shared `JAVA_HOME`/`PATH`/`.jar` state. Windows 11 acceptance and exact previous-version recovery remain open; no Windows 11 support claim. |
 | Three Sysmon Modular profiles | All three pinned 15.21 configuration artifacts were acquired and checksum-verified on 2026-11-02, with the pinned license and notices retained. The approved fast-track plan also selects explicit configuration apply/restore; that implementation and recoverable prior-configuration/native acceptance remain open. Nothing was installed or applied. |
 | Python runtime selectors | Partial. The auto-install setting candidate exists, but selected runtime bytes/manifests, offline-index ownership, manager/launcher coexistence, PATH/alias conflicts, recovery, and Windows acceptance remain open. |
-| CCleaner, Recuva, Speccy | Selected outcomes, no exact current publisher artifact pins/lifecycle yet. CCleaner installer route is versionless and its portable version is stale; Recuva/Speccy offer installer routes without a verified artifact. DNS/acquisition has blocked byte verification. |
-| Defraggler | User-selected legacy outcome remains unresolved; publisher EOL is confirmed and no local artifact was found. Needs a user disposition or a publisher-authorized retained source; do not invent a replacement package. |
+| CCleaner | Selected; no exact current publisher artifact pin/lifecycle yet. Installer and portable variants require separate exact artifact verification and recovery. |
+| Recuva, Speccy, Defraggler | Excluded from v3 under the approved fallback disposition above: no verified official payload and ready lifecycle. Three separate legacy product outcomes leave the v3 estimate; no native acceptance or replacement package is claimed. |
 | JoeWare UserDump and other unregistered JoeWare tools | Source/acquisition and exact member identities remain incomplete. AdMod is separate and remains the candidate described above. |
 | NTCore Filter Monitor, Vista4Experts, AntiMida | Unmigrated/unpinned. Publisher pages were reviewed, but exact archive bytes/hash/inventory are unavailable; no catalog candidate is claimed. |
 | BloodHound CE, SharpHound, AzureHound | Exact selected versions/notices/digests are documented, but selected archives are not retained locally; archive inventory, candidate package design, lifecycle and Windows acceptance remain open. Do not substitute a different AzureHound release. |
@@ -384,9 +421,10 @@ These are not all represented by the 52 catalog candidates above:
 | Arsenal Recon selection | Selected free-use products still need exact commits/artifacts/hashes/inventories and package lifecycle review. Keep each product separate; don't infer collection-wide acceptance. |
 | Wireshark legacy installer selector | The current MSI candidate does not by itself close the legacy EXE selector; deterministic variant selection and optional Npcap lifecycle/recovery remain open. |
 
-Across package work, **Defender active/no-alert evidence and RIDE-Win11-Test
-access remain blockers** because host CIM access fails before VM/checkpoint
-inspection. The user has settled Sysinternals licensing under prior specialist
+Across package work, **Defender active/no-alert evidence and activation of the
+prepared controller refresh remain open**. Host VM/checkpoint access is verified;
+the earlier sandbox CIM denial is not the current blocker. The user has settled
+Sysinternals licensing under prior specialist
 approval; `NeedsReview` markers are owner/version administration and do not
 block RIDE direct-download/install planning. Keep security exclusions separate
 from both decisions.
@@ -403,12 +441,12 @@ discovery-gated. The detailed family boundaries and accepted choices are in the
 | Component or outcome | Status | Remaining work / boundary |
 | --- | --- | --- |
 | Read-only component inventory | Source implementation and local checks passed: 75/75 on 2026-11-01, and inventory/client/OpenSSH source suites passed 109/109 on 2026-11-02. No native provider or VM ran. | Native inventory on intended Windows 11 and Server targets remains unaccepted. Inventory is tooling evidence, not a migrated activation outcome or recovery record. |
-| OpenSSH Client capability | Unregistered source candidate. Inventory, preparation, LocalSource identity/hash/build checks, policy fallback guard, and mocked lifecycle are implemented; latest combined source regression includes it. | Matching release media/CAB and dependencies are unavailable in the reviewed LabSources. Prove source completeness/no-network boundary, exact payload recovery, then Windows 11 and declared Server acceptance. |
+| OpenSSH Client capability | Unregistered source candidate. Inventory, preparation, LocalSource identity/hash/build checks, policy fallback guard, and mocked lifecycle are implemented; latest combined source regression includes it. | Implement the approved catalog installable capability and retire the standalone interface while preserving saved recovery. Explicit Windows Update acquisition is permitted in the VM; validate availability, dependencies, install/repeat/remove and recovery. LocalSource still requires validated matching media without silent Windows Update fallback. No target support is promoted. |
 | Telnet Client optional feature | Unregistered candidate; identity `TelnetClient` is known, but source identity/layout is unresolved. LocalSource servicing remains refused. | Identify target-matched payload/dependencies and exact recovery behavior, then perform native acceptance. Do not imply server/service/network exposure. |
 | OpenSSH Server capability | Catalog operation `component.openssh-server-capability`; pending acceptance, no supported target. Mocked lifecycle coverage contributes to the 109/109 source run. | Native install/repeat/remove/recovery on Windows 11 and Server 2025; preserve pre-existing service, firewall, configuration and host-key state. |
 | OpenSSH Server service (`sshd`) | Separate catalog operation `windows.openssh-server-service`; pending target acceptance. Mocked lifecycle/observation coverage exists. | Verify native startup/runtime, exact prior service state, activation and recovery on both declared targets. Capability presence does not start the service. |
 | OpenSSH Server inbound firewall rule | Separate catalog operation `windows.openssh-server-firewall`; candidate target metadata only. Firewall exposure is independent from capability and service. | Validate the exact existing TCP/22 rule, effective policy/profile and guarded restore on target. Do not create rules or claim reachability based on source tests. |
-| RSAT client capabilities | Selected for separate optional migration review; no component lifecycle operation is registered. | Choose exact subtools/role and edition, matching source, dependencies, recovery, and target acceptance. Server management features are a different provider/resource. |
+| RSAT client capabilities | All capabilities available on the tested client target are selected; no lifecycle operation is registered. | Capture the exact target inventory, implement explicit Windows Update acquisition, dependency handling, install/repeat/remove and recovery, then run native acceptance. Availability does not establish successful acquisition. Server management features are a different provider/resource. |
 | Hyper-V | Selected optional outcome; no component lifecycle operation is registered. | Establish hardware/edition and parent-feature requirements, reboot handling, ownership of existing VMs, and exact recovery on a disposable target. Host CIM denial also blocks current VM/checkpoint acceptance. |
 | Windows Sandbox | Selected optional outcome; no lifecycle operation is registered. | Establish edition/hardware/dependency and reboot behavior. Sandbox configuration, networking and exposed drives need a separately selected file/configuration workflow. |
 | WSL feature | Selected as an independent optional component, not enabled by default; no lifecycle operation is registered. | Identify exact feature/dependencies, source and recovery behavior. Feature removal must not remove distributions or their data. |
@@ -443,8 +481,10 @@ passed 145/145 in Windows PowerShell 5.1. These close source-test batches only,
 not a legacy component outcome.
 
 **Current prerequisites:** RIDE-Win11-Test host/checkpoint inspection is verified
-above; current guest readiness and matching source media remain unverified.
-OpenSSH Client media/dependencies and Telnet source identity remain unavailable. Windows
+above; new client acceptance routes and current guest readiness remain open.
+Windows Update acquisition is approved for OpenSSH Client and RSAT; matching local
+media is no longer their only permitted source. Dependencies and recovery still
+need validation. Telnet source identity remains unavailable. Windows
 PowerShell 5.1 component/source compatibility has earlier passing evidence; the
 latest focused component regression passed in PowerShell 7.6.5. No
 Defender-based exclusion applies to these component tests; keep Defender-blocked
