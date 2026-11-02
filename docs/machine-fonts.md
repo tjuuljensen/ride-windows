@@ -139,11 +139,50 @@ file creation is substituted with current-user private files for unelevated
 testing; the administrator/SYSTEM descriptor is checked in memory. This does not
 establish native machine ACL creation or font availability.
 
-Next, prepare the guarded guest route and use the selected real fonts on the
-disposable Windows target: verify install/repeat, current-session enumeration,
-machine registration and cross-session/restart availability; test owned removal
-and both saved-run restores; compare file hashes/permissions/metadata and the
-whole registry before checkpoint cleanup. Include collision and active-consumer
-failures without touching unrelated fonts. Native GUI/session behavior, machine
-state ACL creation, removal and exact recovery remain pending. See
+The guarded guest route below is source-tested. Native GUI/session behavior,
+machine-state ACL creation, removal and exact recovery remain pending. See
 [dated source evidence](archive/evidence/machine-font-lifecycle-source-2026-11-02.json).
+
+## Disposable-target acceptance entry point
+
+From the staged repository in the already elevated disposable Windows 11 x64
+guest, use `tests/integration/Invoke-RideFontAcceptance.ps1`. The controller must
+set `RIDE_TEST_GUEST=1`, `RIDE_INTEGRATION_VM=1` and a correlated
+`RIDE_TEST_RUN_ID`. Supply that request ID, the independently verified target
+name/build/edition, an existing local evidence root and the reviewed manifest
+for the real licensed fonts. The name-table-only unit fixtures are not fonts
+and must never be passed to native loading. Controller dispatch is still pending.
+
+```powershell
+.\tests\integration\Invoke-RideFontAcceptance.ps1 `
+  -RunId '<correlated-request-id>' -ManifestPath 'C:\Inputs\fonts.psd1' `
+  -ExpectedComputerName '<guest-name>' -ExpectedBuild '26300' `
+  -ExpectedEditionId 'EnterpriseEval' -EvidenceRoot 'C:\RIDE\FontEvidence' `
+  -DisposableVm -WhatIf
+```
+
+Use the same arguments with `-Confirm:$false` instead of `-WhatIf` for the
+authorized native run. Preview creates no evidence or recovery records. The
+runner refuses a workstation, mismatched target, reused evidence directory or
+existing selected fonts; missing elevation returns `NotRun`. It does not prompt
+for elevation, reboot or connect to another computer.
+
+The seven checks cover preview, install/readback, repeat, owned removal,
+restoration of removal, restoration of original absence and repeated restore.
+Readback combines captured file/registration state with independent native
+[font enumeration](https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-enumfontfamiliesexw)
+of every selected full name. The runner reads actual private machine records
+through their owner/DACL checks. It retains administrator-owned `before.json`,
+`installed.json`, `result.json` and lifecycle records in the request directory.
+Files, owner/group/DACL, timestamps, registration and unrelated registry state
+must match after each applicable restore.
+
+Any failing step stops without automatic cleanup. Inspect its stage, outstanding
+lifecycle run IDs and retained state before restoring completed runs. A VM
+checkpoint is a separate cleanup fallback and never a passing RIDE recovery.
+The runner reports current-session acceptance only. Cross-session visibility,
+restart availability and active-consumer behavior require separate native
+evidence; their absence does not become a pass when this scenario succeeds.
+The runner's ten orchestration/layout tests pass in both PowerShell editions
+with native providers mocked and no font APIs invoked; see
+[preparation evidence](archive/evidence/font-acceptance-preparation-2026-11-02.json).

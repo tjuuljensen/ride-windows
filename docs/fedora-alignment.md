@@ -405,3 +405,26 @@ No shared contract version/digest change is required.
 Owner: RIDE Windows maintainer. Follow-up: [machine-font native acceptance](machine-fonts.md#recovery-limits-and-native-acceptance).
 Review trigger: native guest execution, new font formats/targets, ownership or
 partial-recovery changes, or the release candidate. Native support remains gated.
+
+## Machine-font guest acceptance preparation, 2026-11-02
+
+Extends the existing `windows.machine-font-lifecycle` difference with a guarded
+native acceptance route; RB-02/03/04/07/08/09/10/11 remain unchanged. Explicit
+target/guest/request checks, preview, pre-change evidence, ownership-limited
+removal and conflict-aware saved restores preserve the shared behavior. A
+current-session pass does not claim cross-session/restart support. Missing
+prerequisites, failure and unrun native checks remain distinct from success.
+
+Compared against pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and the prior target/recovery review at `e287415`. Peer source hashes rechecked:
+`ride.sh` `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`;
+`lib/v3/common.sh` `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Last verified Fedora revision remains `3d9406e3888122d1407652336859e6217c09bcaa`.
+This Windows test route changes no shared contract, catalog/profile schema or
+Fedora feature claim; no version/digest update is required. Automated shared
+conformance remains pending.
+
+Owner: RIDE Windows maintainer. Follow-up: [font native acceptance](machine-fonts.md#disposable-target-acceptance-entry-point).
+Review trigger: controller dispatch/native execution, recovery scope changes or
+the release candidate. Native support promotion remains gated by actual results.

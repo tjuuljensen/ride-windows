@@ -1,0 +1,76 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-11-02",
+  "SourceBaseCommit": "3c20e6c",
+  "Status": "SourceValidatedNativePending",
+  "NativeAcceptancePassed": false,
+  "NativeApiCallsPerformed": false,
+  "SystemMutationPerformed": false,
+  "Tests": [
+    {
+      "Version": "7.6.5",
+      "Passed": 10,
+      "Failed": 0,
+      "Total": 10
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 10,
+      "Failed": 0,
+      "Total": 10
+    }
+  ],
+  "VersionChecks": {
+    "WindowsPowerShell51": "0.1.0",
+    "PowerShell7": "0.1.0"
+  },
+  "RepositoryValidation": {
+    "PowerShellFiles": 354,
+    "Groups": 9,
+    "Passed": true,
+    "Profiles": 5,
+    "Operations": 475
+  },
+  "TestBoundary": "Guest, registry, native enumeration and lifecycle providers mocked. TestDrive report files use current-user private ACLs; machine scope request asserted. Native C# compiled and layouts checked without calling APIs.",
+  "LayoutChecks": {
+    "ENUMLOGFONTEXWBytes": 348,
+    "ENUMLOGFONTEXWFullNameOffset": 92,
+    "LOGFONTWBytes": 92
+  },
+  "NativeScenario": [
+    "Preview does not change state",
+    "Install: exact bytes/registration and native full-name enumeration; actual machine-state owner/DACL validation",
+    "Repeat creates no run and changes no state",
+    "Owned removal restores initial absence and registry",
+    "Restore removal returns exact installed metadata and native names",
+    "Restore installation returns initial absence",
+    "Repeated restore changes nothing"
+  ],
+  "EvidenceRetention": [
+    "Administrator-owned before.json",
+    "Administrator-owned installed.json",
+    "Administrator-owned result.json",
+    "Machine lifecycle intent/applied files"
+  ],
+  "FailureBehavior": "Stops at failed step and retains outstanding run IDs; no blind cleanup, forced unload, reboot or checkpoint reset.",
+  "Limits": [
+    "Current-session scenario only; cross-session and restart checks remain pending.",
+    "Active consumer behavior requires separate native evidence.",
+    "Protected controller refresh/dispatch remains pending; no fresh UAC authorized."
+  ],
+  "SourceHashes": [
+    {
+      "Path": "tests/integration/RIDE.FontAcceptance.psm1",
+      "Sha256": "1EDD32AECBE90C52ABF55480FD7883B8F0FA61CAB140D71E211298219EC60D73"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideFontAcceptance.ps1",
+      "Sha256": "927FB39B9465D1F063A7EAD9571E858A92A094A01B5D73EE259C6BB2E62D4A23"
+    },
+    {
+      "Path": "tests/FontAcceptance.Tests.ps1",
+      "Sha256": "44780C01EAF73C5CE56A7C3F11AAD15249C7F5B1DA4903CDF9F86DBB1230DC15"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}
