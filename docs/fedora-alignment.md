@@ -428,3 +428,30 @@ conformance remains pending.
 Owner: RIDE Windows maintainer. Follow-up: [font native acceptance](machine-fonts.md#disposable-target-acceptance-entry-point).
 Review trigger: controller dispatch/native execution, recovery scope changes or
 the release candidate. Native support promotion remains gated by actual results.
+
+## Source-bound Sysmon configuration candidate, 2026-11-02
+
+Difference ID `windows.sysmon-configuration`; compatible Windows-native extension
+with shared behavior unchanged, covering RB-02/03/04/05/06/08/09/10/11. Explicit XML
+application remains separate from artifact acquisition and package installation.
+Exact target/binary identity, recoverable prior source, capture before mutation,
+preview without writes, fresh candidate opt-in and conflict-aware recovery apply.
+No default reset substitutes for captured restore. Partial runs expose an ID and
+retain private state; native outcomes remain unpromoted.
+
+Reviewed pinned contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645` and the peer
+target/candidate/journal/recovery review recorded at `e287415`; reread its common
+platform checks and rechecked unchanged source hashes: `ride.sh`
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+`lib/v3/common.sh`
+`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Last verified Fedora revision remains `3d9406e3888122d1407652336859e6217c09bcaa`.
+Windows event/service correlation does not imply Fedora feature parity. Shared
+verbs, profiles/catalog schema and contract version/digest remain unchanged;
+automated shared conformance remains pending.
+
+Owner: RIDE Windows maintainer. Reason: native Sysmon XML lifecycle requires
+Windows service/event evidence. Follow-up: [native configuration acceptance](sysmon-configuration.md#acceptance-still-required).
+Review trigger: known-baseline guest preparation, native apply/restore, new
+consumer/schema versions, recovery behavior changes or release-candidate review.

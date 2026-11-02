@@ -1,0 +1,139 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-11-02",
+  "SourceBaseCommit": "4bf3ec6",
+  "Status": "SourceValidatedNativePending",
+  "NativeAcceptancePassed": false,
+  "SysmonProcessInvoked": false,
+  "SystemMutationPerformed": false,
+  "Tests": [
+    {
+      "Version": "7.6.5",
+      "Passed": 14,
+      "Failed": 0,
+      "Total": 14
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 14,
+      "Failed": 0,
+      "Total": 14
+    }
+  ],
+  "SelectedInputs": [
+    {
+      "Status": "SourcesValidated",
+      "PowerShell": "7.6.5",
+      "Count": 3,
+      "NativeCallsPerformed": false,
+      "Artifacts": [
+        {
+          "ArtifactId": "sysmon-modular-balanced-15-21",
+          "FileName": "sysmonconfig.xml",
+          "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+          "Bytes": 360048,
+          "SchemaVersion": "4.91",
+          "Applied": false
+        },
+        {
+          "ArtifactId": "sysmon-modular-balanced-filedelete-15-21",
+          "FileName": "sysmonconfig-with-filedelete.xml",
+          "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+          "Bytes": 381927,
+          "SchemaVersion": "4.91",
+          "Applied": false
+        },
+        {
+          "ArtifactId": "sysmon-modular-excludes-only-15-21",
+          "FileName": "sysmonconfig-excludes-only.xml",
+          "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+          "Bytes": 103858,
+          "SchemaVersion": "4.91",
+          "Applied": false
+        }
+      ]
+    },
+    {
+      "Status": "SourcesValidated",
+      "PowerShell": "5.1.26100.9818",
+      "Count": 3,
+      "NativeCallsPerformed": false,
+      "Artifacts": [
+        {
+          "ArtifactId": "sysmon-modular-balanced-15-21",
+          "FileName": "sysmonconfig.xml",
+          "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+          "Bytes": 360048,
+          "SchemaVersion": "4.91",
+          "Applied": false
+        },
+        {
+          "ArtifactId": "sysmon-modular-balanced-filedelete-15-21",
+          "FileName": "sysmonconfig-with-filedelete.xml",
+          "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+          "Bytes": 381927,
+          "SchemaVersion": "4.91",
+          "Applied": false
+        },
+        {
+          "ArtifactId": "sysmon-modular-excludes-only-15-21",
+          "FileName": "sysmonconfig-excludes-only.xml",
+          "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+          "Bytes": 103858,
+          "SchemaVersion": "4.91",
+          "Applied": false
+        }
+      ]
+    }
+  ],
+  "RepositoryValidation": {
+    "Profiles": 5,
+    "Passed": true,
+    "PowerShellFiles": 356,
+    "Operations": 475,
+    "Groups": 9
+  },
+  "TestBoundary": "Inert XML, real TestDrive file bytes and ACLs. Sysmon process, service/signature/target and event providers mocked. Machine persistence substitutes user-private files and asserts Machine scope requests.",
+  "Implemented": [
+    "Hash-pinned local schema 4.91 XML and recoverable prior source matching latest event SHA-256",
+    "Exact Microsoft-signed standalone Sysmon64 executable and target identity checks",
+    "Private before/after XML plus intent before mutation",
+    "Checked source handle excludes writes/deletes while configuration process reads",
+    "Bounded process and output/event waits; matching new event and unchanged service required",
+    "No-op repeat and completed-run restore with conflict checks and fresh candidate opt-in",
+    "Read-only bounded saved-run completion"
+  ],
+  "RecoveryLimits": [
+    "Restores XML content; historical source path and event records are not restored.",
+    "Events already emitted and FileDelete archives remain.",
+    "Incomplete runs refuse automatic restore and retain run ID/source state.",
+    "SHA-256 configuration event correlation does not prove every rule outcome."
+  ],
+  "ControllerObservation": {
+    "Running": 0,
+    "Pending": 0,
+    "InstalledModuleSha256": "1F0E8325114E3C3402E9B71663AE9148A83858FDB2663DCC41C6A4763E86B8EC",
+    "MutationPerformed": false,
+    "AlreadyElevated": false,
+    "RecordedAtUtc": "2026-11-02T16:10:27.9451690Z",
+    "TaskState": "Ready",
+    "PortableRuntimeFilterPresent": false
+  },
+  "Remaining": [
+    "Known-baseline XML installation fixture in disposable VM",
+    "Guarded Sysmon guest scenario and protected controller refresh/dispatch",
+    "Actual apply/repeat/event/service verification and restore for all three XML files",
+    "Image workflows, font/WLAN native acceptance and full BitLocker batch"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.SysmonConfiguration.psm1",
+      "Sha256": "9AACB6BC3046CD96BAAF226AB9CCF152CBBFFB647D05E66FA1C865121F9F3A2B"
+    },
+    {
+      "Path": "tests/SysmonConfiguration.Tests.ps1",
+      "Sha256": "5341BF3C688781B517F9A5DF7B2216EECC76BC1BD71AA3C7B3D2D57119C700C5"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}
