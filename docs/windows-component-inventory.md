@@ -7,8 +7,56 @@ component, acquire payloads, select servicing media or reboot Windows.
 
 The inventory and saved-data lookup have isolated tests on Windows PowerShell 5.1
 and PowerShell 7. Native collection still needs acceptance on each intended Windows
-11 and Windows Server target. No component installer or supported-target claim is
-introduced by these tools.
+11 and Windows Server target. No supported-target claim is introduced by these
+inventory tools. The separate catalog capability candidate below implements a
+servicing lifecycle.
+
+## OpenSSH Client catalog candidate
+
+`component.openssh-client-capability` is the normal interface for new OpenSSH
+Client installations through configured servicing sources and Windows Update.
+Its catalog metadata explicitly declares `ServicingSource = WindowsUpdate`.
+Selecting this operation selects that acquisition route; it does not change
+Windows Update/WSUS policy or retry a LocalSource request over the network.
+Build 26300 payload availability remains unverified. The operation is an optional
+Windows 11 candidate, excluded from default profiles and without supported targets.
+
+Start at the repository root in an already elevated, native Windows PowerShell
+5.1 or PowerShell 7 session **inside the disposable Windows 11 test VM**. Preview
+does not acquire payloads, save a run or invoke a mutation handler. Actual changes
+and recovery require a fresh `-AllowCandidate` opt-in:
+
+```powershell
+.\ride.ps1 show component.openssh-client-capability
+.\ride.ps1 install -Id component.openssh-client-capability -WhatIf
+.\ride.ps1 install -Id component.openssh-client-capability -AllowCandidate
+.\ride.ps1 remove -Id component.openssh-client-capability -AllowCandidate
+.\ride.ps1 restore -RunId '<saved-run-id>' -AllowCandidate
+```
+
+Install and remove each save their own prior state and run ID. Restore the run
+whose change you intend to undo; a remove run restores presence, while a fresh
+install run restores absence. Restore is idempotent when the original state is
+already present, refuses a different machine/build/edition/revision or unexpected
+literal state, and retains the saved run on failure. Pending servicing/reboot
+blocks further changes. No command initiates a reboot.
+
+Recovery restores the **literal capability state conditionally**, not exact
+payload bytes or an earlier client version. Reinstallation requires that Windows
+can still obtain the capability from its configured sources or Windows Update.
+State capture does not retain a CAB. Verify DISM state and the native client's
+identity/version after install, repeat, remove and RIDE restore before accepting
+the candidate. Resetting the VM checkpoint is separate cleanup and does not prove
+RIDE recovery. SSH user data, server activation and firewall exposure are not
+managed by this client handler.
+
+Use the catalog commands instead of the old standalone Online transition entry
+point for new runs. `RIDE.ClientComponentLifecycle.psm1` remains a compatibility
+and recovery interface for existing `ClientComponentState` records and guarded
+LocalSource callers; its source/hash/policy checks are unchanged. Its run IDs are
+restored by `Restore-RideClientComponentTransition`, not `ride.ps1 restore`.
+The catalog records version-2 capability snapshots in normal engine runs and does
+not reinterpret legacy records or silently grant them Windows Update fallback.
 
 ## Collect on an explicitly identified target
 
@@ -223,7 +271,7 @@ results without initiating a reboot. A prior DisabledWithPayloadRemoved feature
 cannot be exactly restored just by disabling it. Removing a capability requires
 separate reacquisition/dependency and recovery evidence.
 
-### Removal recovery gate
+### Legacy LocalSource removal recovery gate
 
 On 2026-10-23, the user decided to restrict removal of OpenSSH Client and Telnet
 Client to cases with a validated recovery source. Do not offer an `Absent`
@@ -232,7 +280,10 @@ reacquired and restored. The current runner is unregistered and does not yet
 validate source identity, completeness, dependency coverage, or all network
 fallback paths; it must not be treated as satisfying this gate. Disposable-target
 acceptance must demonstrate source-matched apply and exact recovery before a
-removal operation can be exposed. See the [decision record](migrations/decision-session-2026-10-17.md#deferred-package-and-client-component-recovery-decisions-2026-10-23).
+removal operation can be exposed through that legacy source route. The later
+2026-11-02 decision permits the separate catalog OpenSSH Client Windows Update
+route above with declared conditional recovery; it does not loosen LocalSource
+or Telnet behavior. See the [decision record](migrations/decision-session-2026-10-17.md#deferred-package-and-client-component-recovery-decisions-2026-10-23).
 
 ### Local transition runner candidate
 

@@ -230,3 +230,32 @@ Compared contract 1.0.0 and the Fedora revision/source hashes recorded in the
 preceding target-exploration review. Owner: RIDE Windows maintainer; next review:
 configuration apply/restore or acquisition policy change. Native acceptance and
 shared conformance remain separate. See [evidence](archive/evidence/sysmon-modular-acquisition-2026-11-02.json).
+
+## OpenSSH Client catalog capability, 2026-11-02
+
+Compatible Windows capability extension; shared requirements unchanged
+(RB-02/03/04/05/07/08/09/10/11). The existing install/remove/restore verbs now
+route the exact OpenSSH Client catalog identity to its declared Windows Update
+servicing source. Completion continues to use the catalog. Preview writes no
+run and invokes no writer; actual candidate changes and recovery require fresh
+opt-in. The source policy is part of the operation and version-2 capability
+snapshot, not inferred from an earlier local-media request. No offline fallback
+or Windows policy override is added. Recovery is explicitly conditional on
+literal state, target/revision and source availability; exact previous payload
+bytes/version are not claimed. Old LocalSource records retain their original
+reader and strict source validation.
+
+Reviewed contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`
+and Fedora revision `3d9406e3888122d1407652336859e6217c09bcaa`:
+`ride.sh` SHA-256 `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`,
+`lib/v3/common.sh` SHA-256 `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+The peer still separates target and candidate checks; native Windows capability
+servicing is not a Fedora feature-parity claim. No contract version/digest change
+or shared conformance result is needed or claimed for this local extension.
+
+Owner: RIDE Windows maintainer. Next review: native capability acceptance,
+servicing-source/recovery changes, RSAT integration or the release candidate.
+Promotion remains blocked until native install/repeat/remove/RIDE restore and
+client identity/version checks pass. See the
+[operator workflow](windows-component-inventory.md#openssh-client-catalog-candidate).

@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.17.0
+  Version: 0.18.0
   Changelog:
+    0.18.0: Describe the source-explicit OpenSSH Client catalog lifecycle.
     0.17.0: Render optional coordinated hibernation-file choices and recovery limits.
     0.16.0: Render exact reviewed portable ZIP member selections.
     0.15.2: Distinguish user-bin startup PATH from color-only metadata.
@@ -85,7 +86,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.17.0'
+$script:ScriptVersion = '0.18.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -180,6 +181,7 @@ $lines.Add('')
 $lines.Add('## Windows component lifecycle')
 $lines.Add('')
 $lines.Add('Windows capabilities and capability-bound services are optional machine components with saved-run recovery rules. OpenSSH Server capability installation does not start the service or open the firewall. Service activation is selectable separately from capability installation. No firewall operation is registered in this candidate; any future inbound firewall choice must remain separate. Candidate targets are not supported until disposable Windows acceptance passes.')
+$lines.Add('OpenSSH Client declares Windows Update servicing explicitly. Its catalog install/remove commands save the prior literal capability state for conditional recovery; exact previous payload/version recovery is not promised. See the [client capability workflow](windows-component-inventory.md#openssh-client-catalog-candidate), including legacy LocalSource recovery boundaries.')
 $lines.Add('')
 $lines.Add('| Operation | Component or dependent service | Candidate targets | Rollback | Acceptance |')
 $lines.Add('| --- | --- | --- | --- | --- |')

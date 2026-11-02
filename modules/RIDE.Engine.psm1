@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.29.0
+  Version: 0.30.0
   Changelog:
+    0.30.0: Integrate the explicit Windows Update OpenSSH Client capability and conditional state recovery.
     0.29.0: Add explicit per-invocation target exploration with durable target audit.
     0.28.0: Allow explicit declared candidate targets for apply, preview and saved-run recovery.
     0.27.0: Integrate optional coordinated hibernation-file configuration and conditional recovery.
@@ -128,6 +129,7 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE-DesktopShortcuts.psm1') -Force -Err
 Import-Module (Join-Path $PSScriptRoot 'RIDE.BitLockerWorkflows.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.OpenSshServerObservation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.OpenSshServerCapabilityLifecycle.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.ClientCapability.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE-ProfileSettings.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserPathPreparation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyInventory.psm1') -Force -ErrorAction Stop
@@ -597,6 +599,7 @@ function Get-RideCurrentState {
     'DesktopShortcut' { return Get-RideDesktopShortcutState -Operation $Operation }
     'BitLockerWorkflow' { return Get-RideBitLockerVolumeObservation -MountPoint $Operation.MountPoint }
     'OpenSshServerCapability' { return Get-RideOpenSshServerEngineState }
+    'ClientCapability' { return Get-RideClientCapabilityState -Operation $Operation }
     'ProfileSetting' { return Get-RideProfileSettingState -Operation $Operation }
     'UserPath' {
       try { return [pscustomobject]@{ Available = $true; Observation = (Get-RideCurrentUserBinPathObservation) } }
@@ -663,6 +666,7 @@ function Get-RideCurrentValueText {
 
   if ($Operation.Kind -eq 'WindowsCapability') {
     if (-not $CurrentState.Available) { return 'Unavailable: ' + $CurrentState.Reason }
+    if ($Operation.Handler -eq 'ClientCapability') { return '{0}: {1}; source: {2}; conditional literal-state recovery' -f $Operation.CapabilityName, $CurrentState.CapabilityState, $Operation.ServicingSource }
     $service = @($CurrentState.Observation.Providers | Where-Object Name -CEQ 'Service' | Select-Object -First 1)[0]
     $firewall = @($CurrentState.Observation.Providers | Where-Object Name -CEQ 'Firewall' | Select-Object -First 1)[0]
     $serviceState = if ($service.Status -eq 'Captured') { '{0}/{1}' -f $service.Observation.StartMode, $service.Observation.State } else { $service.Status }
@@ -1193,7 +1197,11 @@ function Save-RideOperationSnapshot {
     [ordered]@{ Path = $CurrentState.Path; Present = [bool]$CurrentState.Present }
   }
   elseif ($Operation.Kind -eq 'WindowsCapability') {
-    [ordered]@{ SnapshotVersion = 1; OperationId = $Operation.Id; CapabilityState = [string]$CurrentState.CapabilityState; Observation = $CurrentState.Observation }
+    if ($Operation.Handler -eq 'ClientCapability') {
+      [ordered]@{ SnapshotVersion = 2; OperationId = $Operation.Id; CapabilityName = $Operation.CapabilityName; CapabilityState = [string]$CurrentState.CapabilityState; ExpectedState = $Operation.States[$DesiredState]; ServicingSource = $Operation.ServicingSource; WindowsContext = $CurrentState.Observation.WindowsContext }
+    } else {
+      [ordered]@{ SnapshotVersion = 1; OperationId = $Operation.Id; CapabilityState = [string]$CurrentState.CapabilityState; Observation = $CurrentState.Observation }
+    }
   }
   else {
     [ordered]@{ Present = [bool]$CurrentState.Present; Version = $CurrentState.DisplayVersion }
@@ -1787,6 +1795,9 @@ function Invoke-RidePlan {
         elseif ($operation.Kind -eq 'LocalPasswordMaximumAge') { Set-RideLocalPasswordAgeState -Operation $operation -State $item.State -ExpectedState $before }
         elseif ($operation.Kind -eq 'OwnedPowerPlan') { Set-RideOwnedPowerPlanState -Operation $operation -State $item.State -ExpectedState $before -OwnershipRoot (Join-Path (Get-RideStateRoot -Scope Machine) 'OwnedPowerPlans') }
         elseif ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation')) { Set-RideManagedSettingState -Operation $operation -State $item.State -ExpectedState $before }
+        elseif ($operation.Kind -eq 'WindowsCapability' -and $operation.Handler -eq 'ClientCapability') {
+          Set-RideClientCapabilityState -Operation $operation -State $item.State -ExpectedState $before -Confirm:$false | Out-Null
+        }
         elseif ($operation.Kind -eq 'WindowsCapability') {
           $context = $before.Observation.WindowsContext
           if ($item.State -eq 'Present') {
@@ -2625,7 +2636,9 @@ function Restore-RideRun {
     }
     if ($operation.RequiresUnelevatedUser -and -not $WhatIfPreference -and (Test-RideAdministrator)) { throw 'Restore this current-user package from a non-elevated PowerShell session.' }
     if ($record.Kind -ne $operation.Kind -or $record.Scope -ne $operation.Scope) { throw "Saved operation contract changed for '$($record.OperationId)'." }
-    if ($operation.Kind -eq 'WindowsCapability' -and ($record.Snapshot.SnapshotVersion -ne 1 -or $record.Snapshot.OperationId -cne $operation.Id -or $record.Snapshot.CapabilityState -cnotin @('Installed', 'NotPresent') -or -not $record.Snapshot.Observation)) { throw "Invalid saved Windows capability recovery record for '$($operation.Id)'." }
+    if ($operation.Kind -eq 'WindowsCapability' -and $operation.Handler -eq 'ClientCapability') {
+      Restore-RideClientCapabilityState -Operation $operation -Snapshot $record.Snapshot -ValidateOnly | Out-Null
+    } elseif ($operation.Kind -eq 'WindowsCapability' -and ($record.Snapshot.SnapshotVersion -ne 1 -or $record.Snapshot.OperationId -cne $operation.Id -or $record.Snapshot.CapabilityState -cnotin @('Installed', 'NotPresent') -or -not $record.Snapshot.Observation)) { throw "Invalid saved Windows capability recovery record for '$($operation.Id)'." }
     if ($operation.Kind -eq 'ProfileSetting') { Restore-RideProfileSettingState -Operation $operation -Snapshot $record.Snapshot -ValidateOnly }
     if ($operation.Kind -eq 'Hibernation') { Restore-RideHibernationState -Operation $operation -Snapshot $record.Snapshot -ValidateOnly }
     if ($operation.Kind -eq 'UserPath') {
@@ -2700,6 +2713,9 @@ function Restore-RideRun {
     elseif ($operation.Kind -eq 'WindowsService') {
       Assert-RideRequiredServiceCapability -Operation $operation
       Restore-RideWindowsServiceState -Operation $operation -Snapshot $record.Snapshot
+    }
+    elseif ($operation.Kind -eq 'WindowsCapability' -and $operation.Handler -eq 'ClientCapability') {
+      Restore-RideClientCapabilityState -Operation $operation -Snapshot $record.Snapshot -Confirm:$false | Out-Null
     }
     elseif ($operation.Kind -eq 'WindowsCapability') {
       $currentCapability = Get-RideOpenSshServerEngineState

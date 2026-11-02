@@ -65,6 +65,8 @@ captures explicit user/session observations. Its saved-data selector completes
 endpoint IDs from the supplied inventory without querying or changing audio.
 The [component inventory tool](docs/windows-component-inventory.md) keeps feature,
 capability and Server role observations separate; names complete from saved data.
+The optional [OpenSSH Client catalog candidate](docs/windows-component-inventory.md#openssh-client-catalog-candidate)
+uses explicit Windows Update servicing and conditional saved-state recovery.
 The [adapter inventory](docs/network-adapter-inventory.md) completes saved GUIDs
 without selecting or changing a network device.
 The [volume inventory](docs/volume-inventory.md) completes saved volume GUID paths

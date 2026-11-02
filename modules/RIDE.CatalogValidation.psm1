@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.32.0.
-  Changelog: 0.32.0: Validate coordinated hibernation choices and pending acceptance boundaries.
+  Owner: RIDE-Windows maintainers. Version: 0.33.0.
+  Changelog: 0.33.0: Validate the source-explicit OpenSSH Client capability candidate.
+    0.32.0: Validate coordinated hibernation choices and pending acceptance boundaries.
     0.31.0: Validate explicit EXE installer completion modes.
     0.30.0: Validate explicit staged BitLocker OS-volume workflows.
     0.29.0: Validate repository-bound, hash-pinned portable notice files.
@@ -880,11 +881,15 @@ function Get-RideCatalogValidationErrors {
       if ($operation.Rollback -ne 'Exact') { Add-Error "Desktop shortcut requires exact restore: $($operation.Id)" }
     }
     elseif ($operation.Kind -eq 'WindowsCapability') {
-      if ($operation.Handler -ne 'OpenSshServerCapability' -or $operation.CapabilityName -cne 'OpenSSH.Server~~~~0.0.1.0') { Add-Error "Unsupported Windows capability handler or identity: $($operation.Id)" }
+      $clientCapability = $operation.Handler -ceq 'ClientCapability'
+      if ($clientCapability) {
+        if ($operation.Id -cne 'component.openssh-client-capability' -or $operation.CapabilityName -cne 'OpenSSH.Client~~~~0.0.1.0' -or $operation.ServicingSource -cne 'WindowsUpdate' -or $operation.MinimumBuild -ne 22000) { Add-Error "Unsupported client capability identity, build or declared servicing source: $($operation.Id)" }
+      } elseif ($operation.Handler -ne 'OpenSshServerCapability' -or $operation.CapabilityName -cne 'OpenSSH.Server~~~~0.0.1.0') { Add-Error "Unsupported Windows capability handler or identity: $($operation.Id)" }
       if ($operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.Rollback -ne 'Conditional') { Add-Error "Windows capability requires machine scope, elevation, and conditional owned-state recovery: $($operation.Id)" }
       if (@(Compare-Object @('Get', 'Test', 'Install', 'Uninstall', 'Restore') @($operation.Actions)).Count -gt 0) { Add-Error "Windows capability lifecycle is incomplete: $($operation.Id)" }
       if (-not $operation.States -or $operation.States.Present -cne 'Installed' -or $operation.States.Absent -cne 'NotPresent' -or @($operation.States.Keys).Count -ne 2) { Add-Error "Windows capability requires Installed/NotPresent states: $($operation.Id)" }
-      if (-not $operation.PendingAcceptance -or @($operation.SupportedTargets).Count -ne 0 -or @($operation.CandidateTargets | Sort-Object) -join ',' -cne 'Windows 11,Windows Server 2025') { Add-Error "OpenSSH Server must remain pending Windows 11 and Windows Server 2025 acceptance: $($operation.Id)" }
+      $capabilityTargets = if ($clientCapability) { 'Windows 11' } else { 'Windows 11,Windows Server 2025' }
+      if (-not $operation.PendingAcceptance -or @($operation.SupportedTargets).Count -ne 0 -or @($operation.CandidateTargets | Sort-Object) -join ',' -cne $capabilityTargets) { Add-Error "Windows capability must remain pending its declared candidate acceptance ($capabilityTargets): $($operation.Id)" }
       if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Windows capability requires Microsoft HTTPS documentation: $($operation.Id)" }
       foreach ($field in @('ActivationSeparate', 'FirewallExposureSeparate')) { if ($operation[$field] -ne $true) { Add-Error "Windows capability must keep activation and firewall exposure separate: $($operation.Id) / $field" } }
     }

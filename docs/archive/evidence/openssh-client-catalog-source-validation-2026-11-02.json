@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 1,
+  "RecordedDate": "2026-11-02",
+  "Status": "SourceImplementedAndMockedTestsPassed",
+  "OperationId": "component.openssh-client-capability",
+  "CapabilityName": "OpenSSH.Client~~~~0.0.1.0",
+  "ServicingSource": "WindowsUpdate",
+  "CandidateTargets": ["Windows 11"],
+  "SupportedTargets": [],
+  "Recovery": "Conditional literal capability state; exact prior payload/version is not retained or promised.",
+  "LegacyRecoveryPreserved": true,
+  "LocalSourceBehaviorChanged": false,
+  "SourceChecks": [
+    {"Suite": "ClientCapability.Tests.ps1", "Edition": "Core", "Passed": 17, "Failed": 0},
+    {"Suite": "ClientCapability.Tests.ps1", "Edition": "Desktop", "PowerShellVersion": "5.1.26100.9818", "Passed": 17, "Failed": 0},
+    {"Suite": "Catalog.Tests.ps1", "Edition": "Core", "Passed": 98, "Failed": 0, "WindowsIntegrationExcluded": 1}
+  ],
+  "EarlierAttempts": [
+    "First combined run: 111 passed, 2 failed of 113. A real engine restore-preflight schema gap was fixed; an unintentionally included existing registry integration case was blocked by sandbox access.",
+    "Second combined run: 111 passed, 1 failed, 1 excluded of 113. Client test fixture used the same path for user and machine stores; corrected to separate scopes.",
+    "Expanded client-only run: 16 passed, 1 failed of 17. Test fixture root persisted across cases; corrected to a unique per-case TestDrive root.",
+    "Final client-only runs: 17/17 in both PowerShell editions. All native capability, identity, privilege and reboot providers mocked."
+  ],
+  "RegistryIntegrationIncident": {
+    "Attempted": true,
+    "Test": "Catalog.Tests.ps1 / captures and exactly restores registry subtree values, kinds, and security descriptors",
+    "PathPattern": "HKCU:\\Software\\RIDE-Tests\\RegistryKeySet-<random-guid>",
+    "Outcome": "Sandbox registry access denied during the test and cleanup.",
+    "ExactGuidRetained": false,
+    "ResidualState": "Unconfirmed; no broad deletion or host integration rerun attempted."
+  },
+  "Validation": {"Operations": 453, "Groups": 8, "Profiles": 5, "PowerShellFiles": 334},
+  "NativeCapabilityChanged": false,
+  "PayloadAcquired": false,
+  "VmRun": false,
+  "Promotion": false,
+  "Remaining": ["Native catalog install/repeat/remove/RIDE restore and client version verification", "Full available client RSAT implementation and dependency/recovery acceptance", "Prepared controller refresh at the next permitted elevated setup"]
+}

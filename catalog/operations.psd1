@@ -15822,6 +15822,30 @@
       AcceptanceNotes = 'This is an independent service activation candidate, separate from capability installation and firewall exposure; no separate firewall operation is registered in this source candidate. Keep supported targets empty until native Windows 11 and Windows Server 2025 checks verify service state, delayed-start preservation, exact restore, missing-capability refusal and repeat behavior.'
     }
     @{
+      Id = 'component.openssh-client-capability'
+      Name = 'OpenSSH Client capability (Windows Update)'
+      Kind = 'WindowsCapability'
+      Category = 'Windows components / Capabilities'
+      Description = 'Install or remove the native OpenSSH Client capability using configured servicing sources and Windows Update. Saves the prior literal capability state for conditional restore; exact payload/version recovery is not promised. Does not change servicing policy, SSH user data, server service or firewall settings, and never restarts Windows.'
+      SupportedTargets = @()
+      CandidateTargets = @('Windows 11')
+      PendingAcceptance = $true
+      MinimumBuild = 22000
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      Actions = @('Get', 'Test', 'Install', 'Uninstall', 'Restore')
+      Handler = 'ClientCapability'
+      Rollback = 'Conditional'
+      TargetDefaults = @{}
+      CapabilityName = 'OpenSSH.Client~~~~0.0.1.0'
+      ServicingSource = 'WindowsUpdate'
+      ActivationSeparate = $true
+      FirewallExposureSeparate = $true
+      States = @{ Present = 'Installed'; Absent = 'NotPresent' }
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse'
+      AcceptanceNotes = 'Optional Windows 11 candidate; no default profile selection or supported target until native catalog install/repeat/remove/restore and client version checks pass. The declared Windows Update route may use configured sources and does not override policy. Restore requires matching machine/build/edition/revision and refuses state drift; reinstallation depends on source availability. Existing LocalSource records retain their original guarded recovery path.'
+    }
+    @{
       Id = 'component.openssh-server-capability'
       Name = 'OpenSSH Server capability'
       Kind = 'WindowsCapability'
