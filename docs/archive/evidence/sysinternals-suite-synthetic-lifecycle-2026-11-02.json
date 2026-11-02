@@ -1,0 +1,65 @@
+{
+  "title": "Sysinternals Suite synthetic lifecycle regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:46:00Z",
+  "scope": "tests/SysinternalsSuitePackage.Tests.ps1 suite pin and inert 164-member archive lifecycle.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled"
+  },
+  "result": {
+    "testsDiscovered": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:09:22.398",
+    "status": "passed"
+  },
+  "coverage": [
+    "Pinned official Sysinternals Suite snapshot and accepted Windows 11 staging target metadata.",
+    "Missing and changed archive rejection before product writes.",
+    "Inert synthetic 164-member ZIP staging, repeat install, manifest verification, snapshot, removal and restore.",
+    "Independent product ownership, user-data preservation, and modified/unowned file recovery boundaries.",
+    "Network discovery and product launch mocked to fail if invoked."
+  ],
+  "safety": {
+    "archive": "synthetic inert text content; no publisher utility bytes extracted",
+    "systemStateChanged": false,
+    "vmQueriedOrChanged": false,
+    "productOrInstallerLaunched": false,
+    "networkInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "licenseDecision": "No license decision changed; the user's prior license-specialist approval for Sysinternals use through RIDE remains in effect.",
+  "resolved": [
+    "Current suite-level source and synthetic lifecycle repeat passed 8/8."
+  ],
+  "retired": [],
+  "excluded": [
+    "Functional execution of Sysinternals utilities is outside this package lifecycle suite by design.",
+    "VM acceptance and Defender-active/no-alert observation remain separate from this synthetic run."
+  ],
+  "partial": [
+    "No package migration outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester aggregate remains incomplete.",
+    "PSScriptTools 360-member synthetic lifecycle remains incomplete after two 15-minute attempts.",
+    "WFN 531-member synthetic lifecycle repeat remains incomplete.",
+    "Host CIM access still blocks RIDE-Win11-Test preflight and Defender-active/no-alert observation."
+  ]
+}
