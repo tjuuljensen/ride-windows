@@ -1,0 +1,156 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T19:53:28.0082900Z",
+  "Status": "FirstLogonWallpaperSourcePassed",
+  "NativeAcceptance": false,
+  "SourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 51,
+      "Failed": 0,
+      "Total": 51
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 51,
+      "Failed": 0,
+      "Total": 51
+    }
+  ],
+  "WallpaperCases": 35,
+  "SharedPngCases": 16,
+  "FocusedUnicodePathRerun": [
+    {
+      "PowerShell": "7.6.5",
+      "SelectedPassed": 1,
+      "Failed": 0,
+      "Discovered": 51,
+      "NotSelected": 50
+    },
+    {
+      "PowerShell": "5.1.26100.9818",
+      "SelectedPassed": 1,
+      "Failed": 0,
+      "Discovered": 51,
+      "NotSelected": 50
+    }
+  ],
+  "RealInputAndPolicyMetadata": [
+    {
+      "Status": "SourceAndPolicyMetadataVerified",
+      "PowerShell": "7.6.5",
+      "RecordedAtUtc": "2026-11-02T19:50:37.77419Z",
+      "Input": {
+        "Bytes": 966122,
+        "Height": 2160,
+        "FileName": "fedora_sharpened_4k.png",
+        "Width": 3840,
+        "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7"
+      },
+      "GeneratedTheme": {
+        "Written": false,
+        "Encoding": "UTF-16LE with BOM",
+        "Bytes": 650,
+        "Sha256": "64E9FDF234847359BFD9530B4B48194CCCFE87896039DAB6D5141565C2C34B23"
+      },
+      "PolicyMetadata": {
+        "Name": "CPL_Personalization_SetTheme",
+        "Origin": "Host PolicyDefinitions, not guest execution",
+        "Class": "Both",
+        "FileSha256": "FAD152E5BCBB19A432253CEC830E96A5FAD32A6487AB79B0267AFBCDDF47EBB5",
+        "ValueName": "ThemeFile",
+        "Key": "Software\\Policies\\Microsoft\\Windows\\Personalization"
+      },
+      "WindowsStateChanged": false,
+      "UserProfilesQueried": false,
+      "NativeVisualAcceptance": false
+    },
+    {
+      "Status": "SourceAndPolicyMetadataVerified",
+      "PowerShell": "5.1.26100.9818",
+      "RecordedAtUtc": "2026-11-02T19:50:47.2095371Z",
+      "Input": {
+        "Height": 2160,
+        "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+        "Width": 3840,
+        "FileName": "fedora_sharpened_4k.png",
+        "Bytes": 966122
+      },
+      "GeneratedTheme": {
+        "Written": false,
+        "Sha256": "64E9FDF234847359BFD9530B4B48194CCCFE87896039DAB6D5141565C2C34B23",
+        "Encoding": "UTF-16LE with BOM",
+        "Bytes": 650
+      },
+      "PolicyMetadata": {
+        "Name": "CPL_Personalization_SetTheme",
+        "Class": "Both",
+        "FileSha256": "FAD152E5BCBB19A432253CEC830E96A5FAD32A6487AB79B0267AFBCDDF47EBB5",
+        "Key": "Software\\Policies\\Microsoft\\Windows\\Personalization",
+        "ValueName": "ThemeFile",
+        "Origin": "Host PolicyDefinitions, not guest execution"
+      },
+      "WindowsStateChanged": false,
+      "UserProfilesQueried": false,
+      "NativeVisualAcceptance": false
+    }
+  ],
+  "Validation": {
+    "Status": "Passed",
+    "PowerShellFiles": 374,
+    "Operations": 475,
+    "Profiles": 5,
+    "Groups": 9
+  },
+  "Boundary": "Windows target, registry, user-profile inventory and machine ACL writers are mocked. Temporary PNG/theme files and current-user private test records are real. Real selected PNG decoding and host ADMX reading are read-only; no guest or native personalization was exercised.",
+  "Implementation": {
+    "OwnedFiles": 2,
+    "Policy": "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Personalization\\ThemeFile",
+    "Fixture": "tests/fixtures/default-wallpaper.acceptance.psd1",
+    "WallpaperStyle": "Aspect-preserving fill/crop",
+    "Module": "modules/RIDE.DefaultWallpaper.psm1",
+    "GeneratedThemeEncoding": "UTF-16LE with BOM and CRLF",
+    "CatalogPromotion": false,
+    "VisualStyle": "Built-in Aero"
+  },
+  "BehaviorBoundary": "Documented machine first-logon theme policy, not an ongoing forced wallpaper or a default-user hive/inbox-file overwrite. Native tests must establish first desktop appearance, other theme defaults, existing-user preservation and later user choice; theme generation alone does not prove wallpaper-only effects.",
+  "RecoveryBoundary": "Private intent before image/theme/policy, completed file identity/ACL/timestamp capture, exact prior policy/key recovery, owned-pair removal and partial-removal retry. Changed profile SID/path inventory refuses automatic recovery. No account/profile deletion or already-consumed per-user preference restoration. Inventory is not an exhaustive manually selected asset reference scan; no blind cleanup of incomplete apply.",
+  "UserLockScreenReview": "Image get/set API alone does not establish recovery of Spotlight/slideshow. The documented Cloud Data Store tool is a reader; absence/error is not Picture mode. It was not run. Full mode recovery and intended interactive-user execution remain unresolved.",
+  "GuestDispatched": false,
+  "ImageApplied": false,
+  "PolicyChanged": false,
+  "DefaultProfileHiveTouched": false,
+  "InboxFilesChanged": false,
+  "UserAccountCreatedOrRemoved": false,
+  "CloudSettingsReaderRun": false,
+  "Remaining": [
+    "Retained guest phases and owned test-user/profile creation/cleanup",
+    "First-logon image and collateral theme-default checks",
+    "Later user choice and prior-default visual recovery",
+    "Existing elevated native dispatch without fresh UAC",
+    "User lock-screen mode recovery and remaining font/WLAN/Sysmon/BitLocker native batches"
+  ],
+  "References": [
+    "https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_settheme",
+    "https://learn.microsoft.com/en-us/windows/win32/controls/themesfileformat-overview",
+    "https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-shell-setup-themes",
+    "https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen",
+    "https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#lock-screen",
+    "https://learn.microsoft.com/en-us/windows/apps/develop/settings/readclouddatasettings-exe"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.DefaultWallpaper.psm1",
+      "Sha256": "35C9945E1DC9CED12F9DCB7DE71D7D8AE57D7A7B34E6D3629F169261BADE60DE"
+    },
+    {
+      "Path": "tests/DefaultWallpaper.Tests.ps1",
+      "Sha256": "A64F70DD6C63BFCE3FB14E237109C64BD8FAD84D99137F76D92C523EE5398A73"
+    },
+    {
+      "Path": "tests/fixtures/default-wallpaper.acceptance.psd1",
+      "Sha256": "529956C77479DF0F1364D1305F02F91B1CDE741A98DD43FFF175CB48D6E664A4"
+    }
+  ],
+  "LegacyOutcomesClosed": 0
+}

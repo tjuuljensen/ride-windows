@@ -664,3 +664,32 @@ remain unrun; existing host elevation is unavailable.
 Follow-up: [native retained Sysmon acceptance](sysmon-configuration.md#retained-host-dispatch).
 Review trigger: elevated/protected execution route, native archive permissions,
 source/executable changes, recovery changes or release-candidate review.
+
+## Machine first-logon wallpaper candidate, 2026-11-02
+
+Adds `windows.default-wallpaper` source preparation through the documented
+machine ThemeFile first-logon policy. Shared behavior is unchanged
+(RB-03/04/06/08/09/10/11). Preview writes nothing; actual apply and restore
+require candidate opt-in and the exact elevated disposable target. Private
+machine state precedes writes. Captured machine policy/assets are recoverable
+within declared conflict limits; already-consumed user preferences are not
+silently reinterpreted as machine restore. Changed profile identity inventory
+refuses automatic removal. No default-user hive or inbox overwrite is used.
+
+Reviewed contract 1.0.0 digest remains
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645`.
+The preceding native target/candidate/recovery comparison at Fedora revision
+`3d9406e3888122d1407652336859e6217c09bcaa` remains applicable. Rechecked
+`ride.sh` SHA-256 `49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`
+and `lib/v3/common.sh` SHA-256 `8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+No shared CLI, catalog/profile schema, contract version or reference changes.
+Native user initialization and theme behavior are Windows-specific, not a Fedora
+parity claim. No automated shared-conformance pass is claimed.
+
+Owner: RIDE Windows maintainer. Reason: provide the requested new-user default
+through documented first-logon behavior while preserving existing users and
+owned recovery. Status: 35 lifecycle/generator cases plus 16 PNG cases pass in
+each shell; selected input and host policy metadata pass read-only checks.
+Follow-up: [native new-user and recovery acceptance](image-personalization.md#machine-first-logon-wallpaper-candidate).
+Review trigger: first-logon visual or collateral-default results, changed
+user-profile handling, source/target changes, native dispatch or release review.

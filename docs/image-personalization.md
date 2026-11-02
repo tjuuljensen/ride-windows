@@ -1,8 +1,8 @@
 # Image input preparation and pending personalization acceptance
 
-RIDE can validate selected local static PNG inputs and prepare a machine default
-lock-screen image through a guarded lifecycle candidate. Default wallpaper and
-per-user lock-screen handlers are not implemented yet. Source tests and policy
+RIDE can validate selected local static PNG inputs and prepare machine first-logon
+wallpaper and default lock-screen images through guarded lifecycle candidates.
+The per-user lock-screen handler is not implemented yet. Source tests and policy
 readback are not Windows visual acceptance passes.
 
 ## Validate an input
@@ -29,6 +29,97 @@ returns the exact validated `Content` byte array for a future lifecycle writer.
 That writer must use the returned bytes instead of reopening an input that may
 have changed. Validation does not edit the source, create an installed asset or
 change personalization. There is no system change to restore.
+
+## Machine first-logon wallpaper candidate
+
+`Set-RideDefaultWallpaperImage` uses the documented machine
+[Load a specific theme policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_settheme).
+It sets `HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization\ThemeFile`
+to a new owned `.theme` file referencing a new owned PNG. Windows documents this
+policy for first sign-in and permits users to personalize the theme afterwards.
+The candidate edits neither the default-user hive nor Windows inbox images.
+This is separate from the deprecated unattended `CustomDefaultThemeFile` setting
+and from forcing a wallpaper on existing user desktops.
+
+The generated theme uses the documented required desktop, visual-style and master
+selector sections. It selects the PNG with aspect-preserving fill/crop and the
+built-in Aero visual style, leaving other sections unspecified. A theme is broader
+than an image: native acceptance must check effects on colors, sounds, icons and
+other defaults, as well as the image. Source generation does not prove those
+defaults are preserved. The theme is UTF-16LE with BOM and CRLF for Windows INI
+consumption; module/test sources remain repository UTF-8/LF. Caller-supplied theme
+content is not accepted, and embedded image paths reject INI/environment syntax.
+
+Run only inside the selected, already elevated Windows 11 x64 Enterprise/Education
+Hyper-V test guest, with `RIDE_TEST_GUEST=1` and `RIDE_INTEGRATION_VM=1`. The same
+existing asset/state directory and parent ownership/read-access requirements as
+the [default lock-screen candidate](#machine-default-lock-screen-candidate) apply.
+This candidate has no accepted Windows target and does not add a catalog operation.
+The documented policy supports more editions than this initial candidate permits;
+that is not evidence of runtime acceptance on those editions.
+
+From the repository root in that guest:
+
+```powershell
+Import-Module .\modules\RIDE.DefaultWallpaper.psm1
+$pin = Import-PowerShellDataFile .\tests\fixtures\default-wallpaper.acceptance.psd1
+$selection = @{
+    Path = 'C:\Inputs\fedora_sharpened_4k.png'
+    ExpectedSha256 = $pin.Sha256
+    AssetDirectory = 'C:\RIDE-Test\Images'
+    StateDirectory = 'C:\RIDE-Test\State'
+    ExpectedComputerName = '<disposable-guest-name>'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+}
+Set-RideDefaultWallpaperImage @selection -WhatIf
+$run = Set-RideDefaultWallpaperImage @selection -AllowCandidate -Confirm:$false
+Set-RideDefaultWallpaperImage @selection -AllowCandidate -Confirm:$false
+Restore-RideDefaultWallpaperRun -RunId $run.RunId -StateDirectory $selection.StateDirectory -WhatIf
+Restore-RideDefaultWallpaperRun -RunId $run.RunId -StateDirectory $selection.StateDirectory -AllowCandidate -Confirm:$false
+```
+
+The schema-1 result reports Applied, AlreadyDesired, Restored, AlreadyRestored or
+Preview; `NativeVisualAcceptance` always remains false. Apply returns the run ID,
+PNG `AssetPath` and `ThemePath`. Saved run IDs and edition choices offer completion.
+Preview writes nothing. Actual apply and restore each require `-AllowCandidate`.
+Private machine intent captures the complete policy key state, directory security
+and user-profile SID/path inventory before either new file or policy is written.
+Completed records bind image/theme hashes, ACLs, attributes and timestamps. Repeat
+requires matching owned content and policy. No original image/theme is overwritten.
+
+Restore reinstates the captured policy or absence and removes only the unchanged
+owned theme/image pair. Unrelated values, child keys and prior key security must
+still match. A newly created key is removed only when empty, nonrecursively.
+Recovery can finish file removal after policy restoration or one owned file's
+removal was interrupted. Incomplete apply records do not authorize blind recovery.
+
+A changed user-profile SID/path inventory refuses automatic recovery before policy
+or asset removal: the first-logon policy may already have affected another user.
+The module never deletes accounts/profiles or restores those users' preferences.
+Its inventory guard is not an exhaustive reference scan for manually selected
+theme/image files. Existing consumers outside the declared lifecycle require
+inspection. Keep the guest and private records on any conflict or partial failure.
+
+The native scenario must retain evidence across these stages:
+
+1. Record the original policy/default appearance and an already initialized
+   control user's desktop and personalization defaults.
+2. Preview, apply, verify owned bytes/permissions and repeat with no new mutations.
+3. Create one uniquely owned disposable user/profile; verify its first desktop
+   displays the selected image, check other theme defaults and confirm the
+   pre-existing control user's settings did not change.
+4. Change the test user's wallpaper, sign out/in and verify the first-logon policy
+   does not replace that later choice. Export observations before fixture cleanup.
+5. Remove only that owned test account/profile through a verified fixture cleanup
+   route, then restore the machine policy/assets and repeat restoration. Do not
+   remove unrelated profiles merely to satisfy the recovery guard.
+6. Create a separate owned recovery-test user and verify the original first-logon
+   default is restored. Retain and export evidence before checkpoint cleanup.
+
+Guest orchestration, account/profile ownership cleanup and visible acceptance
+remain open. The [source evidence](archive/evidence/default-wallpaper-source-2026-11-02.json)
+does not establish that Windows consumed the generated theme.
 
 ## Machine default lock-screen candidate
 
@@ -297,9 +388,22 @@ records mocked host/VM checks and real temporary user-scope file/lock checks.
 
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
-| Machine/default wallpaper | Establish supported default-user behavior and an owned asset location; preserve default-profile state and verify a newly created disposable user's visible desktop. A forced wallpaper policy or current-user preference does not establish this outcome. |
+| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate is source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Guest orchestration remains open. |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
 | Machine default lock-screen image | Lifecycle, guest scenario and direct retained host dispatch/export are source-prepared. Already elevated execution, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
+
+For the user lock screen, the documented
+[LockScreen API](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen)
+provides image get/set methods; its image-feed methods are Windows 8.1-only.
+Microsoft also documents lock-screen mode in its
+[settings portability reference](https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#lock-screen),
+read through the
+[Cloud Data Store reader](https://learn.microsoft.com/en-us/windows/apps/develop/settings/readclouddatasettings-exe).
+That is a read interface, not a documented write/restore interface for Spotlight
+and slideshow. Missing reader data is not proof of Picture mode. No such reader
+was run and no user's settings were exported during this review. Mode recovery
+and intended interactive-user execution must be established before implementing
+or accepting the full user lock-screen workflow.
 
 Microsoft's detailed [default lock-screen policy documentation](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen)
 limits that policy to Enterprise, Education and Server editions. A Windows 11 Pro
