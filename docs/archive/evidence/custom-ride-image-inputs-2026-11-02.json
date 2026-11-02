@@ -1,0 +1,112 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T13:14:54.7931653Z",
+  "SourceRepository": "custom-ride",
+  "Status": "SelectedImageInputsPrepared",
+  "Authorization": "User supplied images and authorized choosing any for the pending asset batch on 2026-11-02.",
+  "PreviousEvidence": "custom-ride-asset-inputs-2026-11-02.json",
+  "ImageFiles": 9,
+  "UniqueImageHashes": 8,
+  "Inventory": [
+    {
+      "Source": "components/wallpaper/avatar_centered_1080p_1920x1080.png",
+      "Bytes": 178740,
+      "Sha256": "07331BE5E53513678BBE6388A1925B7298AABA27C112076A14F26F088D76BA96"
+    },
+    {
+      "Source": "components/wallpaper/avatar_centered_4K_3840x2160.png",
+      "Bytes": 275952,
+      "Sha256": "CCB588C20B7F0495ECCFA9E11764EB69B997552626AF2719491EA0F3A6B847BB"
+    },
+    {
+      "Source": "components/wallpaper/fedora_sharpened_1080p.png",
+      "Bytes": 476389,
+      "Sha256": "48523F6CD11B4D128D9700820A1080205B7BB3B45753F2CBDACD8FC1C7353B95"
+    },
+    {
+      "Source": "components/wallpaper/fedora_sharpened_4k.png",
+      "Bytes": 966122,
+      "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7"
+    },
+    {
+      "Source": "components/wallpaper/meh.ro2945.png",
+      "Bytes": 231920,
+      "Sha256": "6F58F091312D6D51989A092E97704930FF24DF8705E1374D70CF2609BB3E6458"
+    },
+    {
+      "Source": "components/wallpaper/suit_original_1080p.png",
+      "Bytes": 159591,
+      "Sha256": "6FFA89ACAC3597840DC1AD05304CC5C865E13F82C5D49E5899C0844572F32241"
+    },
+    {
+      "Source": "components/wallpaper/suit_sharpened_1080p.png",
+      "Bytes": 617065,
+      "Sha256": "1713F37FD2214144532DBCA47C8C40351C8DA6C0B3C67920C82F591215E8D4EF"
+    },
+    {
+      "Source": "components/wallpaper/suit_sharpened_4k.png",
+      "Bytes": 1333608,
+      "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB"
+    },
+    {
+      "Source": "components/pictures/wallpapers/meh.ro2945.png",
+      "Bytes": 231920,
+      "Sha256": "6F58F091312D6D51989A092E97704930FF24DF8705E1374D70CF2609BB3E6458"
+    }
+  ],
+  "Selections": [
+    {
+      "LegacyWorkflow": "ReplaceDefaultWallpapers",
+      "Role": "Default desktop wallpaper",
+      "Source": "components/wallpaper/fedora_sharpened_4k.png",
+      "PreparedPath": ".local/fast-track-20261102/assets/images/fedora_sharpened_4k.png",
+      "FileName": "fedora_sharpened_4k.png",
+      "Bytes": 966122,
+      "Width": 3840,
+      "Height": 2160,
+      "Format": "PNG",
+      "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+      "SelectionReason": "Right-aligned subject leaves a large dark area for desktop icons.",
+      "CopyVerified": true
+    },
+    {
+      "LegacyWorkflow": "SetLockScreen",
+      "Role": "User lock-screen image",
+      "Source": "components/wallpaper/avatar_centered_4K_3840x2160.png",
+      "PreparedPath": ".local/fast-track-20261102/assets/images/avatar_centered_4K_3840x2160.png",
+      "FileName": "avatar_centered_4K_3840x2160.png",
+      "Bytes": 275952,
+      "Width": 3840,
+      "Height": 2160,
+      "Format": "PNG",
+      "Sha256": "CCB588C20B7F0495ECCFA9E11764EB69B997552626AF2719491EA0F3A6B847BB",
+      "SelectionReason": "Centered low-contrast motif provides a distinct visual identity for the user lock-screen check.",
+      "CopyVerified": true
+    },
+    {
+      "LegacyWorkflow": "SetDefaultLockScreen",
+      "Role": "Default/new-user lock-screen image",
+      "Source": "components/wallpaper/suit_sharpened_4k.png",
+      "PreparedPath": ".local/fast-track-20261102/assets/images/suit_sharpened_4k.png",
+      "FileName": "suit_sharpened_4k.png",
+      "Bytes": 1333608,
+      "Width": 3840,
+      "Height": 2160,
+      "Format": "PNG",
+      "Sha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+      "SelectionReason": "Centered suit distinguishes the default/new-user scope from the user lock-screen fixture.",
+      "CopyVerified": true
+    }
+  ],
+  "LocalSelectionManifest": ".local/fast-track-20261102/assets/images/selection.json",
+  "ImagesModified": false,
+  "WindowsStateChanged": false,
+  "Installed": false,
+  "NativeAcceptancePassed": false,
+  "Remaining": [
+    "Machine/default-user image handlers and exact prior bytes, ACL and policy recovery",
+    "Separate native visible-effect checks for wallpaper, user lock screen and default/new-user lock screen",
+    "Approved local Wi-Fi profile XML and credential-safe recovery"
+  ],
+  "EstimateChange": 0
+}
