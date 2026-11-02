@@ -1,0 +1,94 @@
+{
+  "title": "MiTeC analysis tools Windows package-lifecycle evidence reconciliation",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:58:13Z",
+  "scope": "Reconcile the successful registered MiTeCAnalysisTools lifecycle run with current EXE Explorer and HexEdit candidate metadata; no new VM request was submitted.",
+  "run": {
+    "runId": "cac31c4095cc45a59db17144eaf1dbcb",
+    "suite": "MiTeCAnalysisTools",
+    "source": "Local source snapshot",
+    "sourceCommit": "0ff139fc84d989514f5804e3a9d1fba2967fa37d",
+    "contentIdentity": "Working-tree source-manifest hashes, including uncommitted changes",
+    "startedAtUtc": "2026-10-30T13:47:56.7574474Z",
+    "finishedAtUtc": "2026-10-30T13:59:21.8226011Z",
+    "target": "RIDE-Win11-Test",
+    "vmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "checkpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "controllerStatus": "Passed",
+    "controllerError": null,
+    "cleanupError": null,
+    "collectionError": null,
+    "evidenceExportError": null,
+    "expectedCases": 2,
+    "focusedStatus": "Passed",
+    "focusedError": null,
+    "cleanup": "ResetAndOff",
+    "evidenceCollected": true,
+    "toolExecuted": false,
+    "functionalAcceptance": "Pending"
+  },
+  "packages": [
+    {
+      "id": "package.mitec-exe-explorer",
+      "version": "3.7.5",
+      "archiveSha256": "87b3bbf80301de96b871da5f1d4ce742c38182ee2fbc4414a28a2e7133011c78",
+      "licenseReview": "NeedsReview",
+      "reviewOwner": "Unassigned"
+    },
+    {
+      "id": "package.mitec-hexedit",
+      "version": "7.1.0",
+      "archiveSha256": "cfe264a121c560d69e2bb95512be407f374164f2f79d0ddc4ceb7a8d0a09c788",
+      "licenseReview": "NeedsReview",
+      "reviewOwner": "Unassigned"
+    }
+  ],
+  "sourceComparison": {
+    "bothCatalogOperationRecordsMatchAcceptedSnapshot": true,
+    "portablePackageHandlerMatchesAcceptedSnapshot": true,
+    "focusedAcceptanceRunnerMatchesAcceptedSnapshot": true,
+    "acceptedScope": "Exact package file lifecycle only; runner marks functional acceptance Pending."
+  },
+  "disposition": {
+    "supportedTargets": [],
+    "candidateTargets": [
+      "Windows 11"
+    ],
+    "pendingAcceptance": true,
+    "defenderActiveNoAlert": "Not recorded",
+    "productBehavior": [
+      "EXE Explorer synthetic PE viewer behavior and VirusTotal/network handling remain pending.",
+      "HexEdit synthetic-copy editing and exact file recovery remain pending.",
+      "Neither utility was launched in the registered package lifecycle run."
+    ],
+    "licenseReviewGate": false,
+    "noLegacyOutcomesClosed": true,
+    "partialOutcomes": [
+      "MiTeC EXE Explorer package lifecycle is recorded; feature behavior and target support remain open.",
+      "MiTeC HexEdit package lifecycle is recorded; synthetic editing behavior and target support remain open."
+    ]
+  },
+  "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+  "localRegression": {
+    "file": "tests/MiTeCAnalysisTools.Tests.ps1",
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "duration": "00:00:27.748",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "blockers": [
+    "The registered package run did not collect Defender active/no-alert evidence.",
+    "Functional acceptance remains explicitly Pending.",
+    "Current host Task Scheduler and Hyper-V CIM access is denied, preventing another registered VM run from this session."
+  ],
+  "references": [
+    "Registered controller result: ProgramData RIDE TestAutomation results/cac31c4095cc45a59db17144eaf1dbcb/result.json",
+    "Focused lifecycle summary: results/cac31c4095cc45a59db17144eaf1dbcb/focused/result.json",
+    "Pinned payloads: results/cac31c4095cc45a59db17144eaf1dbcb/focused/payloads.json"
+  ]
+}

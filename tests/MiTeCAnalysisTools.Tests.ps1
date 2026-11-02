@@ -68,6 +68,16 @@ Describe 'MiTeC analysis package candidate <Id>' -ForEach @(
     $operation.AcceptanceNotes|Should -Match ([regex]::Escape($SelectedFeature))
   }
 
+  It 'records package lifecycle acceptance without claiming functional or Defender acceptance' {
+    $operation=$Catalog.Operations|Where-Object Id -CEQ $Id
+    $operation.AcceptanceNotes|Should -Match 'MiTeCAnalysisTools request cac31c4095cc45a59db17144eaf1dbcb passed its two-case package lifecycle batch'
+    $operation.AcceptanceNotes|Should -Match 'The runner marks FunctionalAcceptance Pending'
+    $operation.AcceptanceNotes|Should -Match 'Defender active/no-alert evidence was not recorded'
+    $operation.SupportedTargets.Count|Should -Be 0
+    $operation.CandidateTargets|Should -Be @('Windows 11')
+    $operation.PendingAcceptance|Should -BeTrue
+  }
+
   It 'rechecks retained publisher archive and exact selected member hashes when source bytes are staged' {
     $row=$Evidence.Products|Where-Object Id -CEQ $Id
     $archiveRelative=if($Id -ceq 'package.mitec-exe-explorer'){'.local/remaining-collections-20261017/EXE.zip'}else{'.local/remaining-collections-20261017/HEXEdit.zip'}

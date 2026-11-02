@@ -12295,7 +12295,7 @@
       Name = 'MiTeC EXE Explorer'
       Kind = 'Package'
       Category = 'Software / File viewers'
-      Description = 'Stage the pinned x86 and x64 EXE Explorer files. Package staging does not launch the viewer, open or export executable contents, submit files to VirusTotal, configure an API key, or perform network lookups. Synthetic file behavior and Windows target acceptance remain pending.'
+      Description = 'Stage the pinned x86 and x64 EXE Explorer files. Package staging does not launch the viewer, open or export executable contents, submit files to VirusTotal, configure an API key, or perform network lookups. A registered package lifecycle batch passed; synthetic file behavior, Defender active/no-alert evidence and Windows target support remain pending.'
       SupportedTargets = @()
       PendingAcceptance = $true
       CandidateTargets = @('Windows 11')
@@ -12326,14 +12326,14 @@
       PortableMembers = @('EXE.exe', 'EXE64.exe')
       DefaultVariant = 'portable'
       Variants = @{ portable = @{} }
-      AcceptanceNotes = 'The retained publisher ZIP SHA-256 and both member hashes were rechecked; no publisher digest was found. Use synthetic non-sensitive PE files and isolated export destinations for later viewer behavior. Keep VirusTotal, API-key and other network behavior disabled until the request and data handling are explicitly reviewed. No executable or analyzed input was opened during candidate preparation.'
+      AcceptanceNotes = 'The retained publisher ZIP SHA-256 and both member hashes were rechecked; no publisher digest was found. Registered MiTeCAnalysisTools request cac31c4095cc45a59db17144eaf1dbcb passed its two-case package lifecycle batch with evidence collected, the configured checkpoint restored and no executable launched. The runner marks FunctionalAcceptance Pending. Defender active/no-alert evidence was not recorded, so keep Windows 11 unsupported and pending. Use synthetic non-sensitive PE files and isolated export destinations for later viewer behavior. Keep VirusTotal, API-key and other network behavior disabled until the request and data handling are explicitly reviewed.'
     }
     @{
       Id = 'package.mitec-hexedit'
       Name = 'MiTeC HexEdit'
       Kind = 'Package'
       Category = 'Software / File editors'
-      Description = 'Stage the pinned x86 HexEdit executable. Package staging does not launch the editor, edit files, dump process memory, or read/write raw disks. Synthetic copy editing and exact recovery behavior plus Windows target acceptance remain pending.'
+      Description = 'Stage the pinned x86 HexEdit executable. Package staging does not launch the editor, edit files, dump process memory, or read/write raw disks. A registered package lifecycle batch passed; synthetic copy editing, Defender active/no-alert evidence and Windows target support remain pending.'
       SupportedTargets = @()
       PendingAcceptance = $true
       CandidateTargets = @('Windows 11')
@@ -12364,7 +12364,7 @@
       PortableMembers = @('HEXEdit.exe')
       DefaultVariant = 'portable'
       Variants = @{ portable = @{} }
-      AcceptanceNotes = 'The retained publisher ZIP SHA-256 and selected executable hash were rechecked; no publisher digest was found. Any edit test must use a disposable synthetic file copy and verify exact backup/recovery. Keep live memory and raw-disk features outside acceptance unless a separately isolated target and recovery plan is prepared. No executable, file, memory target or disk target was opened during candidate preparation.'
+      AcceptanceNotes = 'The retained publisher ZIP SHA-256 and selected executable hash were rechecked; no publisher digest was found. Registered MiTeCAnalysisTools request cac31c4095cc45a59db17144eaf1dbcb passed its two-case package lifecycle batch with evidence collected, the configured checkpoint restored and no executable launched. The runner marks FunctionalAcceptance Pending. Defender active/no-alert evidence was not recorded, so keep Windows 11 unsupported and pending. Any edit test must use a disposable synthetic file copy and verify exact backup/recovery. Keep live memory and raw-disk features outside acceptance unless a separately isolated target and recovery plan is prepared.'
     }
     @{
       Id = 'package.mitec-dfm-editor'
