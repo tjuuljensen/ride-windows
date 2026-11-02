@@ -85,6 +85,22 @@ profile settings and scope, preserve existing profiles, and prove recovery befor
 checkpoint cleanup. Do not connect to a real network. No adapter is needed for
 generation tests; no suitable adapter means native import is untested, not passed.
 
+The isolated `RIDE.WirelessNative.psm1` provider now supplies bounded profile
+list/read/set/delete/order calls for the future lifecycle handler. Its fake-API
+tests verify call arguments, error reporting and allocation/handle cleanup in
+both PowerShell editions. Loading it performs no WLAN calls. It does not expose
+an independently recoverable import command or establish native acceptance.
+
+Recovery must distinguish replacement from deletion: `WlanSetProfile` with a null
+security descriptor preserves permissions on an existing all-user profile,
+whereas deletion/recreation needs the original permissions as well as XML and
+order. `WlanGetProfile` returns granted access flags, not the complete per-profile
+security descriptor. Do not label an XML-only delete/recreate round trip exact
+recovery. The synthetic fixture can establish explicit known permissions; native
+lifecycle integration and ownership/conflict checks remain required.
+See Microsoft's [profile set semantics](https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlansetprofile)
+and [profile retrieval semantics](https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlangetprofile).
+
 ## Read-only wireless profile inventory
 
 Capture basic stored Wi-Fi profile metadata visible to an explicitly identified

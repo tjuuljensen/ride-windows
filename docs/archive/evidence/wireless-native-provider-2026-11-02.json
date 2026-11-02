@@ -1,0 +1,88 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T13:52:46.2722038Z",
+  "Kind": "WirelessNativeProviderValidation",
+  "SourceBaseCommit": "83c728a",
+  "Status": "ProviderSourceValidatedLifecyclePending",
+  "Goal": "Finish approved Wi-Fi, font/image, Sysmon and BitLocker acceptance without routine confirmation pauses",
+  "Scope": "Provider only; no independent recoverable import command",
+  "Validation": [
+    {
+      "PowerShell": "7.6.5",
+      "Passed": 8,
+      "Failed": 0
+    },
+    {
+      "PowerShell": "5.1.26100.9818",
+      "Passed": 8,
+      "Failed": 0
+    }
+  ],
+  "Coverage": [
+    "Interface and case-sensitive profile identity, order and unknown flag preservation",
+    "Bounded native text/list allocation handling",
+    "Explicit encrypted/plaintext profile-read mode and missing/access distinction",
+    "All-user set overwrite/security forwarding; numeric errors omit profile XML",
+    "Delete and profile order calls bind to exact identity",
+    "Cleanup on provider, negotiation, release and close failures"
+  ],
+  "TestRegistryEnabled": false,
+  "TestResultEnabled": false,
+  "ExcludedTags": [
+    "WindowsIntegration"
+  ],
+  "NativeWlanCallsPerformed": false,
+  "VmMutationPerformed": false,
+  "NativeAcceptancePassed": false,
+  "RepositoryValidation": {
+    "Passed": true,
+    "Operations": 475,
+    "Groups": 9,
+    "Profiles": 5,
+    "PowerShellFiles": 341,
+    "GeneratedDocumentationCurrent": true
+  },
+  "ControllerObservation": {
+    "RecordedAtUtc": "2026-11-02T13:51:12.3395402Z",
+    "AlreadyElevated": false,
+    "VmName": "RIDE-Win11-Test",
+    "VmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "VmState": "Off",
+    "ConfiguredCheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "PendingRequests": 0,
+    "RunningRequests": 0,
+    "RecoveryBlocked": false,
+    "Tasks": [
+      {
+        "TaskPath": "\\RIDE\\",
+        "TaskName": "RIDEWin11Test",
+        "State": 3
+      }
+    ],
+    "MutationPerformed": false
+  },
+  "RecoveryFinding": "XML and granted-access flags do not capture the full per-profile security descriptor. Existing all-user XML replacement can preserve permissions using a native null descriptor; deletion/recreation needs captured or known original permissions.",
+  "Remaining": [
+    "Durable credential-safe lifecycle journal",
+    "Ownership/conflict and exact recovery checks",
+    "Synthetic native profile lifecycle with known permissions/order and no connection",
+    "Protected controller refresh under already-elevated setup; no new UAC",
+    "Remaining font/image, Sysmon and full BitLocker tests"
+  ],
+  "LegacyOutcomesClosed": 0,
+  "SourceHashes": [
+    {
+      "Path": "modules/RIDE.WirelessNative.psm1",
+      "Sha256": "3F41A7954EB22AAADCA3F93FEE33EB2CCAF07C7FC65735FDC26B96B5C64A847B"
+    },
+    {
+      "Path": "tests/WirelessNative.Tests.ps1",
+      "Sha256": "23F5AC26223AED4FC58408C2E473C139C2C7D9F6D358294942E5F698AFFA552A"
+    }
+  ],
+  "Sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlangetprofile",
+    "https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlansetprofile",
+    "https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlandeleteprofile"
+  ]
+}
