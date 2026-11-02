@@ -1,0 +1,42 @@
+{
+  "title": "MiTeC DFM Editor, Task Manager DeLuxe and Network Scanner package source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:11:28Z",
+  "tests": {
+    "files": [
+      "tests/MiTecDFMEditor.Tests.ps1",
+      "tests/MiTeCTaskManagerDeluxe.Tests.ps1",
+      "tests/MiTeCNetworkScanner.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 13,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 2,
+    "skipReasons": [
+      "Task Manager DeLuxe retained TMX.zip archive fixture not supplied.",
+      "Network Scanner retained NetScanner.zip archive fixture not supplied."
+    ],
+    "duration": "00:02:01.440",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "syntheticLifecycleAndAvailableDfmArchiveChecksPassed": true,
+    "productExecuted": false,
+    "networkUsed": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "windowsAcceptance": "Pending"
+  },
+  "blockers": [
+    "TMX and NetScanner retained publisher archive checks need explicit fixtures.",
+    "MiTeC product behavior and native Windows target acceptance remain pending.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
