@@ -1,0 +1,71 @@
+{
+  "title": "Automation, toolkit and update-notification source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T00:47:59Z",
+  "scope": "Four focused Terminal JSONC, automation helper, toolkit update preparation and Windows Update notification policy suites.",
+  "environment": {
+    "shell": "PowerShell",
+    "version": "7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled",
+    "windowsIntegration": "excluded"
+  },
+  "files": [
+    "tests/TerminalJsonc.Tests.ps1",
+    "tests/TestAutomation.Tests.ps1",
+    "tests/ToolkitUpdatePreparation.Tests.ps1",
+    "tests/UpdateNotificationPolicy.Tests.ps1"
+  ],
+  "result": {
+    "filesDiscovered": 4,
+    "testsDiscovered": 270,
+    "passed": 268,
+    "failed": 0,
+    "skipped": 2,
+    "inconclusive": 0,
+    "notRun": 0,
+    "duration": "00:01:04.053",
+    "status": "passed with host-specific skips",
+    "skipReason": "Two controller host-preflight cases require 64-bit Windows PowerShell Desktop; this run used PowerShell 7 Core."
+  },
+  "coverage": [
+    "Terminal JSONC configuration preview and validation.",
+    "Automation runner scenario construction and WhatIf previews.",
+    "Toolkit update preparation.",
+    "Windows Update notification policy preview and restore."
+  ],
+  "safety": {
+    "automationHandlers": "mocked or preview-only",
+    "systemStateChanged": false,
+    "vmProvisionedOrQueried": false,
+    "networkOrInstallerInvoked": false,
+    "defenderAlertedExecutablesLaunched": false
+  },
+  "resolved": [
+    "Selected automation, toolkit and notification source regressions passed 268 tests."
+  ],
+  "retired": [],
+  "excluded": [
+    "Two 64-bit Windows PowerShell Desktop host-preflight cases.",
+    "Live controller execution and VM integration.",
+    "Defender-blocked executable runtime checks."
+  ],
+  "partial": [
+    "No legacy outcome closes in this source-test batch."
+  ],
+  "estimates": {
+    "settings": "37-57",
+    "packages": "37-52",
+    "components": "19-24",
+    "filesAndAssets": "25-35",
+    "maintenance": "8-12",
+    "exactTotal": "126-180",
+    "roundedTotal": "125-180/about 155",
+    "changeReason": "No legacy outcome closed; ranges remain unchanged."
+  },
+  "blockers": [
+    "Repository-wide Pester sweep remains without an aggregate result.",
+    "PSScriptTools 360-member synthetic lifecycle remains incomplete after two 15-minute attempts.",
+    "Host CIM access blocks VM acceptance."
+  ]
+}
