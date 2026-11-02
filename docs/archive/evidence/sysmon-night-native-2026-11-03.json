@@ -1,0 +1,520 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T23:37:02.1698621Z",
+  "Status": "ThreeConfigurationLifecyclesPassed",
+  "RunId": "daf527de77e648cab9563abd07ec480e",
+  "Results": [
+    {
+      "RequestId": "912cecd887c547dca12daf277c424291",
+      "RunId": "daf527de77e648cab9563abd07ec480e",
+      "Family": "Sysmon",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Prepared",
+      "StartedAtUtc": "2026-11-02T23:25:34.5760013Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "daf527de77e648cab9563abd07ec480e",
+        "LeaseId": "6dbed62a917c487787a799ed36839cdf",
+        "Phase": "Prepare",
+        "Status": "Prepared",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6dbed62a917c487787a799ed36839cdf\\export.29293de455ba4e1a8ec47e1ba208ae08",
+          "FileCount": 20,
+          "GuestStatus": "Collected",
+          "BaselineLoaded": true,
+          "ArchiveExportComplete": true
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "SysmonAcceptanceFixture",
+          "RunId": "daf527de77e648cab9563abd07ec480e",
+          "RecordedAtUtc": "2026-11-02T23:26:51.2533155Z",
+          "Status": "Prepared",
+          "Reason": null,
+          "Stage": "Complete",
+          "FailureLocation": null,
+          "NativeAcceptancePassed": false,
+          "RecoveryRequired": false,
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "SysmonVersion": "15.22",
+          "ExecutableSha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352",
+          "InstalledExecutablePath": "C:\\Windows\\Sysmon64.exe",
+          "BaselineConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\fixture\\daf527de77e648cab9563abd07ec480e\\baseline.xml",
+          "BaselineConfigurationSha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\fixture\\daf527de77e648cab9563abd07ec480e",
+          "ServiceAndEvent": {
+            "Context": {
+              "ComputerName": "RIDE-WIN11-TEST",
+              "Build": "26300",
+              "EditionId": "EnterpriseEval",
+              "Revision": 9711,
+              "InstallationType": "Client",
+              "NativeProcess": true,
+              "Architecture": "AMD64",
+              "UserSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+              "Administrator": true,
+              "ExecutablePath": "C:\\Windows\\Sysmon64.exe",
+              "ExecutableSha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352",
+              "SysmonVersion": "15.22",
+              "ServicePathName": "C:\\Windows\\Sysmon64.exe",
+              "ServiceStartMode": "Auto",
+              "ServiceState": "Running"
+            },
+            "ConfigurationEvent": {
+              "RecordId": 1,
+              "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+              "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\fixture\\daf527de77e648cab9563abd07ec480e\\baseline.xml"
+            },
+            "LastErrorRecordId": 0
+          },
+          "FixtureRemovalPerformed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "1aa06158-c9d6-4265-983b-52e57ee5fce3",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6dbed62a917c487787a799ed36839cdf",
+        "RecordedAtUtc": "2026-11-02T23:26:00.3554008Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.SysmonConfiguration.psm1",
+            "Bytes": 22036,
+            "Sha256": "E559091FA575D02EAC37A4C915AB6C6FB651539DA4ACA7E3B844E6F2023BC1CE"
+          },
+          {
+            "Path": "modules/RIDE.CatalogData.psm1",
+            "Bytes": 5201,
+            "Sha256": "836234FFE3082033CB9D4FA9470DA610048DBA720D848E52D0D769395E898954"
+          },
+          {
+            "Path": "catalog/operations.psd1",
+            "Bytes": 1247332,
+            "Sha256": "C313195313AD10259585B7D3286B9997FC12BBABF34A61A7178808401E597ED2"
+          },
+          {
+            "Path": "tests/integration/RIDE.SysmonAcceptance.psm1",
+            "Bytes": 27337,
+            "Sha256": "DCFBA41D86493D4A0915BB56A301448966AD9DC2FFEC36126046ACADCD01104E"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-configurations.acceptance.psd1",
+            "Bytes": 900,
+            "Sha256": "DA9ED40186EF3B6D4ABE1DA434B93328C6AC54F0A9B0F5AE818C0D407A6E55FD"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-executable.acceptance.psd1",
+            "Bytes": 1181,
+            "Sha256": "7422298317AA4038AD54CF6D1E76A5635BAD83E4ABA5F5BB7B0D96AB07699C45"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-baseline.synthetic.xml",
+            "Bytes": 462,
+            "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB"
+          },
+          {
+            "Path": "inputs/executable/Sysmon64.exe",
+            "Bytes": 3203368,
+            "Sha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352"
+          },
+          {
+            "Path": "inputs/executable/Eula.txt",
+            "Bytes": 7490,
+            "Sha256": "8329BCBADC7F81539A4969CA13F0BE5B8EB7652B912324A1926FC9BFB6EC005A"
+          },
+          {
+            "Path": "inputs/executable/readme.txt",
+            "Bytes": 7903,
+            "Sha256": "0F2FF4D516AA1D265C13805CEBC2FE9042556C1BB7E8EB2E6C289D5255242AC9"
+          },
+          {
+            "Path": "inputs/configurations/license.md",
+            "Bytes": 1023,
+            "Sha256": "FD80A26FBB3F644AF1FA994134446702932968519797227E07A1368DEA80F0BC"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-balanced-15-21/a45dedb13a43/sysmonconfig.xml",
+            "Bytes": 360048,
+            "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-balanced-filedelete-15-21/a45dedb13a43/sysmonconfig-with-filedelete.xml",
+            "Bytes": 381927,
+            "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-excludes-only-15-21/a45dedb13a43/sysmonconfig-excludes-only.xml",
+            "Bytes": 103858,
+            "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4"
+          }
+        ]
+      },
+      "HostModuleSha256": "B20F0A601BAD0D9ACA650FC1D2D636446E56085C022B4524C9C51E87B8026EBA",
+      "FinishedAtUtc": "2026-11-02T23:27:15.6013993Z"
+    },
+    {
+      "RequestId": "bed8bf8d3f4d45ffb0549bcc500ccfc0",
+      "RunId": "daf527de77e648cab9563abd07ec480e",
+      "Family": "Sysmon",
+      "Phase": "Configurations",
+      "Preview": false,
+      "Status": "Passed",
+      "StartedAtUtc": "2026-11-02T23:28:08.6245865Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "daf527de77e648cab9563abd07ec480e",
+        "LeaseId": "6dbed62a917c487787a799ed36839cdf",
+        "Phase": "Configurations",
+        "Status": "Passed",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": true,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6dbed62a917c487787a799ed36839cdf\\export.63fce60a77624e15bfae8bc94dd976f0",
+          "FileCount": 35,
+          "GuestStatus": "Collected",
+          "BaselineLoaded": true,
+          "ArchiveExportComplete": true
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "SysmonConfigurationAcceptance",
+          "RunId": "daf527de77e648cab9563abd07ec480e",
+          "RecordedAtUtc": "2026-11-02T23:28:39.4927205Z",
+          "Status": "Passed",
+          "Reason": null,
+          "Stage": "Complete",
+          "FailureLocation": null,
+          "NativeAcceptancePassed": true,
+          "RecoveryRequired": false,
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "SysmonVersion": "15.22",
+          "ExecutableSha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352",
+          "ReleaseTag": "configs-a45dedb13a43",
+          "BaselineSha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+          "Profiles": [
+            {
+              "ArtifactId": "sysmon-modular-balanced-15-21",
+              "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+              "RunId": "90d8293293f342a89d54270e8cfe5040",
+              "Restored": true,
+              "Checks": [
+                "PreviewNoChanges",
+                "AppliedSourceEventAndServiceVerified",
+                "RepeatNoChanges",
+                "BaselineRestoredAndServiceVerified",
+                "RepeatedRestoreNoChanges"
+              ],
+              "Before": {
+                "RecordId": 1,
+                "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\fixture\\daf527de77e648cab9563abd07ec480e\\baseline.xml"
+              },
+              "Applied": {
+                "RecordId": 57,
+                "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\90d8293293f342a89d54270e8cfe5040.sysmon.after.xml"
+              },
+              "Recovered": {
+                "RecordId": 69,
+                "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\90d8293293f342a89d54270e8cfe5040.sysmon.before.xml"
+              }
+            },
+            {
+              "ArtifactId": "sysmon-modular-balanced-filedelete-15-21",
+              "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+              "RunId": "a061b9137c8a4ebda0765a51fff99948",
+              "Restored": true,
+              "Checks": [
+                "PreviewNoChanges",
+                "AppliedSourceEventAndServiceVerified",
+                "RepeatNoChanges",
+                "BaselineRestoredAndServiceVerified",
+                "RepeatedRestoreNoChanges"
+              ],
+              "Before": {
+                "RecordId": 69,
+                "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\90d8293293f342a89d54270e8cfe5040.sysmon.before.xml"
+              },
+              "Applied": {
+                "RecordId": 78,
+                "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\a061b9137c8a4ebda0765a51fff99948.sysmon.after.xml"
+              },
+              "Recovered": {
+                "RecordId": 92,
+                "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\a061b9137c8a4ebda0765a51fff99948.sysmon.before.xml"
+              }
+            },
+            {
+              "ArtifactId": "sysmon-modular-excludes-only-15-21",
+              "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+              "RunId": "a3962f4c4d454ba593f4f35fdecbe242",
+              "Restored": true,
+              "Checks": [
+                "PreviewNoChanges",
+                "AppliedSourceEventAndServiceVerified",
+                "RepeatNoChanges",
+                "BaselineRestoredAndServiceVerified",
+                "RepeatedRestoreNoChanges"
+              ],
+              "Before": {
+                "RecordId": 92,
+                "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\a061b9137c8a4ebda0765a51fff99948.sysmon.before.xml"
+              },
+              "Applied": {
+                "RecordId": 101,
+                "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\a3962f4c4d454ba593f4f35fdecbe242.sysmon.after.xml"
+              },
+              "Recovered": {
+                "RecordId": 375,
+                "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB",
+                "ConfigurationPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e\\state\\a3962f4c4d454ba593f4f35fdecbe242.sysmon.before.xml"
+              }
+            }
+          ],
+          "StateRunIds": [
+            "90d8293293f342a89d54270e8cfe5040",
+            "a061b9137c8a4ebda0765a51fff99948",
+            "a3962f4c4d454ba593f4f35fdecbe242"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\6dbed62a917c487787a799ed36839cdf\\evidence\\daf527de77e648cab9563abd07ec480e",
+          "RuleDetectionCoverageClaimed": false,
+          "ArchiveCleanupPerformed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "393df45a-fe41-4ab5-854f-2fb5e7842f8b",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6dbed62a917c487787a799ed36839cdf",
+        "RecordedAtUtc": "2026-11-02T23:28:30.6388273Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.SysmonConfiguration.psm1",
+            "Bytes": 22036,
+            "Sha256": "E559091FA575D02EAC37A4C915AB6C6FB651539DA4ACA7E3B844E6F2023BC1CE"
+          },
+          {
+            "Path": "modules/RIDE.CatalogData.psm1",
+            "Bytes": 5201,
+            "Sha256": "836234FFE3082033CB9D4FA9470DA610048DBA720D848E52D0D769395E898954"
+          },
+          {
+            "Path": "catalog/operations.psd1",
+            "Bytes": 1247332,
+            "Sha256": "C313195313AD10259585B7D3286B9997FC12BBABF34A61A7178808401E597ED2"
+          },
+          {
+            "Path": "tests/integration/RIDE.SysmonAcceptance.psm1",
+            "Bytes": 27337,
+            "Sha256": "DCFBA41D86493D4A0915BB56A301448966AD9DC2FFEC36126046ACADCD01104E"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-configurations.acceptance.psd1",
+            "Bytes": 900,
+            "Sha256": "DA9ED40186EF3B6D4ABE1DA434B93328C6AC54F0A9B0F5AE818C0D407A6E55FD"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-executable.acceptance.psd1",
+            "Bytes": 1181,
+            "Sha256": "7422298317AA4038AD54CF6D1E76A5635BAD83E4ABA5F5BB7B0D96AB07699C45"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-baseline.synthetic.xml",
+            "Bytes": 462,
+            "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB"
+          },
+          {
+            "Path": "inputs/executable/Sysmon64.exe",
+            "Bytes": 3203368,
+            "Sha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352"
+          },
+          {
+            "Path": "inputs/executable/Eula.txt",
+            "Bytes": 7490,
+            "Sha256": "8329BCBADC7F81539A4969CA13F0BE5B8EB7652B912324A1926FC9BFB6EC005A"
+          },
+          {
+            "Path": "inputs/executable/readme.txt",
+            "Bytes": 7903,
+            "Sha256": "0F2FF4D516AA1D265C13805CEBC2FE9042556C1BB7E8EB2E6C289D5255242AC9"
+          },
+          {
+            "Path": "inputs/configurations/license.md",
+            "Bytes": 1023,
+            "Sha256": "FD80A26FBB3F644AF1FA994134446702932968519797227E07A1368DEA80F0BC"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-balanced-15-21/a45dedb13a43/sysmonconfig.xml",
+            "Bytes": 360048,
+            "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-balanced-filedelete-15-21/a45dedb13a43/sysmonconfig-with-filedelete.xml",
+            "Bytes": 381927,
+            "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-excludes-only-15-21/a45dedb13a43/sysmonconfig-excludes-only.xml",
+            "Bytes": 103858,
+            "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4"
+          }
+        ]
+      },
+      "HostModuleSha256": "B20F0A601BAD0D9ACA650FC1D2D636446E56085C022B4524C9C51E87B8026EBA",
+      "FinishedAtUtc": "2026-11-02T23:29:16.41574Z"
+    },
+    {
+      "RequestId": "d979b547a6d247d3b12143196dfc585a",
+      "RunId": "daf527de77e648cab9563abd07ec480e",
+      "Family": "Sysmon",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-02T23:30:06.7356454Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "daf527de77e648cab9563abd07ec480e",
+        "LeaseId": "6dbed62a917c487787a799ed36839cdf",
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6dbed62a917c487787a799ed36839cdf\\export.ca18387ffaaf49fc8fc0dc1b81dbb1a3",
+          "FileCount": 36,
+          "GuestStatus": "Collected",
+          "BaselineLoaded": true,
+          "ArchiveExportComplete": true
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.6dbed62a917c487787a799ed36839cdf",
+        "RecordedAtUtc": "2026-11-02T23:30:28.4288412Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.SysmonConfiguration.psm1",
+            "Bytes": 22036,
+            "Sha256": "E559091FA575D02EAC37A4C915AB6C6FB651539DA4ACA7E3B844E6F2023BC1CE"
+          },
+          {
+            "Path": "modules/RIDE.CatalogData.psm1",
+            "Bytes": 5201,
+            "Sha256": "836234FFE3082033CB9D4FA9470DA610048DBA720D848E52D0D769395E898954"
+          },
+          {
+            "Path": "catalog/operations.psd1",
+            "Bytes": 1247332,
+            "Sha256": "C313195313AD10259585B7D3286B9997FC12BBABF34A61A7178808401E597ED2"
+          },
+          {
+            "Path": "tests/integration/RIDE.SysmonAcceptance.psm1",
+            "Bytes": 27337,
+            "Sha256": "DCFBA41D86493D4A0915BB56A301448966AD9DC2FFEC36126046ACADCD01104E"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-configurations.acceptance.psd1",
+            "Bytes": 900,
+            "Sha256": "DA9ED40186EF3B6D4ABE1DA434B93328C6AC54F0A9B0F5AE818C0D407A6E55FD"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-executable.acceptance.psd1",
+            "Bytes": 1181,
+            "Sha256": "7422298317AA4038AD54CF6D1E76A5635BAD83E4ABA5F5BB7B0D96AB07699C45"
+          },
+          {
+            "Path": "tests/fixtures/sysmon-baseline.synthetic.xml",
+            "Bytes": 462,
+            "Sha256": "3D317D0CC4F79C95F3DD01A0C14F8DFCEDFC9C05FA360E6252DB794113E14BBB"
+          },
+          {
+            "Path": "inputs/executable/Sysmon64.exe",
+            "Bytes": 3203368,
+            "Sha256": "83D31F2478DC6716CFDBF69E5C384BF043072B5F0D8D7B2EEA365F709FDA4352"
+          },
+          {
+            "Path": "inputs/executable/Eula.txt",
+            "Bytes": 7490,
+            "Sha256": "8329BCBADC7F81539A4969CA13F0BE5B8EB7652B912324A1926FC9BFB6EC005A"
+          },
+          {
+            "Path": "inputs/executable/readme.txt",
+            "Bytes": 7903,
+            "Sha256": "0F2FF4D516AA1D265C13805CEBC2FE9042556C1BB7E8EB2E6C289D5255242AC9"
+          },
+          {
+            "Path": "inputs/configurations/license.md",
+            "Bytes": 1023,
+            "Sha256": "FD80A26FBB3F644AF1FA994134446702932968519797227E07A1368DEA80F0BC"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-balanced-15-21/a45dedb13a43/sysmonconfig.xml",
+            "Bytes": 360048,
+            "Sha256": "64BEC37BA849C5F2934A55D2A29E7DDFAE46A30D56F7F2908D1F8A454898797E"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-balanced-filedelete-15-21/a45dedb13a43/sysmonconfig-with-filedelete.xml",
+            "Bytes": 381927,
+            "Sha256": "A7832F4423AAE16E39342E08F3A2962291EAFB7972EB9DFB070009781FDE50D9"
+          },
+          {
+            "Path": "inputs/configurations/sysmon-modular-excludes-only-15-21/a45dedb13a43/sysmonconfig-excludes-only.xml",
+            "Bytes": 103858,
+            "Sha256": "4C7D27BC2847F7DE816DDDE90E7DE37D5B9473461B27424882E9B93F00CD28A4"
+          }
+        ]
+      },
+      "HostModuleSha256": "B20F0A601BAD0D9ACA650FC1D2D636446E56085C022B4524C9C51E87B8026EBA",
+      "FinishedAtUtc": "2026-11-02T23:30:42.4302177Z"
+    }
+  ],
+  "LegacyMapping": {
+    "ArtifactChoices": 3,
+    "Scope": "Selected replacement: pinned independent download choices plus separately authorized explicit configuration apply/recovery. The old unconditional tools-subfolder overwrite is not reinstated.",
+    "Selector": "GetSysmonOlafXML",
+    "SelectedLegacyOutcomesCompleted": 1,
+    "LegacySourceSha256": "4827A032607E96A2EB49BD53BB02BDEAB860A5481A1AB68954480452A3F4CDEA"
+  },
+  "Boundary": "Windows 11 EnterpriseEval build 26300, pinned Microsoft-signed AMD64 Sysmon 15.22 and three schema-4.91 XML profiles from configs-a45dedb13a43. Each passed preview, source/event/service apply readback, repeat, exact captured XML baseline recovery and repeat restore. Final baseline loaded; point-in-time event/archive export verified before checkpoint reset and hold release. No exhaustive detection-rule effectiveness, populated protected archive access, other builds/editions/versions or Sysmon package uninstall acceptance is claimed.",
+  "ContractVersion": "1.1.0",
+  "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+  "FedoraSourceHashes": {
+    "Ride": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "Common": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878"
+  },
+  "Alignment": "Native Windows evidence only; acquisition remains separate from explicit configuration application. No shared CLI or support matrix change."
+}

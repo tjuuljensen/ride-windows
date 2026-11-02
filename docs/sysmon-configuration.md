@@ -2,7 +2,9 @@
 
 `modules/RIDE.SysmonConfiguration.psm1` provides a candidate workflow for an
 already running standalone `Sysmon64` service on native Windows 11 x64 with
-PowerShell 5.1 or 7. Native acceptance remains pending. Downloading the three
+PowerShell 5.1 or 7. The selected three-configuration lifecycle passed on Windows
+11 EnterpriseEval build 26300 with Windows PowerShell 5.1 and pinned Sysmon 15.22;
+other target/version combinations remain candidates. Downloading the three
 catalogued Sysmon Modular XML artifacts never applies them, and this workflow
 does not install Sysmon or change its service startup settings.
 
@@ -31,9 +33,10 @@ baseline. The [input verification evidence](archive/evidence/sysmon-complete-inp
 records these checks. It does not establish installation or configuration acceptance.
 
 The XML artifacts still target **15.21**. Selecting the retained **15.22** binary
-does not relabel those artifacts or prove compatibility. The disposable run must
-verify that this exact binary accepts each XML, produces the expected events and
-recovers the known baseline. Do not replace a pin with whatever executable happens
+does not relabel those artifacts. The [native acceptance run](archive/evidence/sysmon-night-native-2026-11-03.json)
+verified that this exact binary accepts each XML, produces matching configuration
+events, remains healthy and recovers the known baseline. Do not replace a pin
+with whatever executable happens
 to be installed, and do not interpret retained publisher notices as redistribution
 approval or a personal/company license-review decision.
 
@@ -66,7 +69,7 @@ $selection = @{
   PriorConfigurationSha256 = '<reviewed-prior-xml-sha256>'
   ExecutablePath = 'C:\Windows\Sysmon64.exe'
   ExpectedExecutableSha256 = '<reviewed-service-executable-sha256>'
-  ExpectedSysmonVersion = '15.21'
+  ExpectedSysmonVersion = '15.22'
   ExpectedComputerName = '<disposable-guest-name>'
   ExpectedBuild = '26300'
   ExpectedEditionId = 'EnterpriseEval'
@@ -125,7 +128,7 @@ deleted files; Microsoft notes that its archive can grow substantially. Use the
 disposable guest for the approved three-configuration scenario and retain that
 distinction in its evidence. See [Sysmon FileDelete behavior](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon#event-id-23-filedelete-file-delete-archived).
 
-## Acceptance still required
+## Native acceptance and remaining scope
 
 The focused source tests use inert XML and mocked Sysmon, service and event
 providers. They prove capture/recovery control flow and file checks, not native
@@ -140,8 +143,14 @@ before/after events and private state. Starting from undocumented/default
 configuration is not sufficient for this XML recovery workflow; establish the
 known fixture during separate disposable installation preparation.
 
-The guarded guest scenario and optional known-baseline fixture preparation are
-source-tested; protected controller dispatch and actual execution remain pending.
+The guarded guest scenario completed natively for all three pinned profiles on
+EnterpriseEval build 26300 with Sysmon 15.22. All 15 checks passed: preview,
+apply/source-event/service readback, repeat, baseline restore and repeated restore
+for each profile. Final evidence export covered 36 files; the baseline was loaded
+and point-in-time archive coverage was complete before ResetAndOff and hold
+release. See [native evidence](archive/evidence/sysmon-night-native-2026-11-03.json).
+This establishes the selected configuration lifecycle, not exhaustive detection
+coverage, arbitrary unknown prior configuration recovery or other target versions.
 See [dated source evidence](archive/evidence/sysmon-configuration-source-2026-11-02.json)
 and the [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md#required-evidence-by-remaining-family).
 
@@ -298,8 +307,10 @@ The collection is a point-in-time export, not an atomic snapshot of all activity
 Sysmon's [archive directory is protected by a SYSTEM ACL](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon).
 The route does not change that ACL or start a SYSTEM helper. If the existing
 guest account cannot read an archive, or evidence exceeds the limits, collection
-fails and the VM/hold remain for a separately reviewed export. The native archive
-permission and transport behavior still need verification. Event log export uses
+fails and the VM/hold remain for a separately reviewed export. The accepted native
+run verified transport and export of its current contents;
+access to a populated SYSTEM-only archive and growth beyond the bounds remain
+separate cases, not claims of the configuration lifecycle run. Event log export uses
 the [Windows EventLogSession API](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.eventing.reader.eventlogsession.exportlog),
 without clearing the channel.
 
@@ -327,4 +338,4 @@ host dependency/Hyper-V calls have no additional watchdog.
 
 The [host source evidence](archive/evidence/sysmon-vm-source-2026-11-02.json)
 separates mocked dispatch checks, real local input checks and installed-controller
-preview from unrun native installation, transport, archive export and recovery.
+preview from the later [native installation/configuration/recovery evidence](archive/evidence/sysmon-night-native-2026-11-03.json).
