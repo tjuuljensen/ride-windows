@@ -1,0 +1,38 @@
+{
+  "title": "Sysinternals combined source regression retry interrupted",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T05:08:58Z",
+  "tests": {
+    "files": [
+      "tests/SysinternalsProductPackages.Tests.ps1",
+      "tests/SysinternalsSuitePackage.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 80,
+    "aggregateResult": "None; interrupted without Pester summary",
+    "completedOutput": "The nine independent-product describe blocks printed passing results. In the Sysinternals Suite block, four tests printed as passed; the next shared-folder ownership check produced no result.",
+    "elapsed": "approximately 6 minutes",
+    "skippedCount": "Not available without aggregate result",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "reason": "The combined run remained inside the suite-level synthetic ownership test without output. It was stopped to continue with other authorized source batches.",
+  "effects": {
+    "sysinternalsUtilitiesLaunched": false,
+    "networkUsed": false,
+    "vmAccessed": false,
+    "hostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "noNewAcceptanceCredit": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "userApprovedLicenseDecision": "Unchanged; no license gate added."
+  },
+  "blockers": [
+    "The combined suite-level 164-member shared-folder ownership lifecycle produced no result in this retry; previous separate Sysinternals records remain the accepted source evidence.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
