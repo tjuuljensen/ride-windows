@@ -748,3 +748,30 @@ native-wrapper compilation pass; actual local-account/profile APIs remain unrun.
 Follow-up: [owned wallpaper test-user procedure](image-personalization.md#owned-wallpaper-test-users).
 Review trigger: retained dispatch/credential handling, native account/profile
 behavior, first-logon results, source/target changes or release review.
+
+## Retained wallpaper host dispatch, 2026-11-02
+
+Adds Windows-only host dispatch for the prepared machine and owned-user phases.
+No shared CLI/catalog/profile schema, supported-target or contract change.
+RB-03/08/09/10/11 preserve preview, target/privilege gates, captured recovery and
+source/native evidence separation. Explicit phase invocations use a retained
+lease; a verified export precedes owned-user deletion and checkpoint cleanup.
+Synthetic SecureString input is separate from descriptors and evidence. Native
+transport, account/profile behavior and interactive first desktops remain unrun.
+
+Rechecked contract 1.0.0 SHA-256
+`80B912E668F948F77EE9EF05F2D10254F83F08EB42C5FA504FE737AEC25BD645` and peer files
+`ride.sh` (`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266`)
+and `lib/v3/common.sh`
+(`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`).
+These preserve the preceding comparison at previously recorded Fedora revision
+`3d9406e3888122d1407652336859e6217c09bcaa`; this run does not claim a freshly
+queried peer HEAD, Fedora fixture parity or automated shared conformance.
+
+Owner: RIDE Windows maintainer. Reason: preserve first-sign-in evidence across
+machine changes and owned-user cleanup. Status: 34/34 focused source cases per
+shell plus actual source/input gates and installed read-only Prepare preview.
+Follow-up: [wallpaper host procedure](image-personalization.md#wallpaper-retained-host-dispatch).
+Review trigger: native transport/lifecycle/visual acceptance, phase or recovery
+changes, target changes or release review. Existing elevated execution remains
+unavailable; no new UAC request or installed controller mutation occurred.

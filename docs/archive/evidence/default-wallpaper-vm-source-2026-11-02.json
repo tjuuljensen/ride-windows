@@ -1,0 +1,122 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T20:36:09.0139717Z",
+  "Status": "DefaultWallpaperRetainedHostDispatchSourcePrepared",
+  "ParentCommit": "0e9c2b1",
+  "NativeAcceptance": false,
+  "FocusedSourceResults": [
+    {
+      "Version": "7.6.5",
+      "Passed": 34,
+      "Failed": 0,
+      "Total": 34
+    },
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 34,
+      "Failed": 0,
+      "Total": 34
+    }
+  ],
+  "SourceImportAndPinnedInput": [
+    {
+      "Status": "SourceImportGatePassed",
+      "PowerShell": "7.6.5",
+      "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+      "Bytes": 966122,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false
+    },
+    {
+      "Status": "SourceImportGatePassed",
+      "PowerShell": "5.1.26100.9818",
+      "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+      "Bytes": 966122,
+      "NativeVmCalls": false,
+      "ControllerHoldCreated": false
+    }
+  ],
+  "InstalledPreview": {
+    "Status": "Preview",
+    "PowerShell": "5.1.26100.9818",
+    "NativeAcceptancePassed": false,
+    "ExistingConfigurationRead": true,
+    "RealPinnedImageRead": true,
+    "HoldPresenceUnchanged": true,
+    "VmQueried": false,
+    "RecordedAtUtc": "2026-11-02T20:28:48.3221794Z"
+  },
+  "HostObservation": {
+    "ObservedAtUtc": "2026-11-02T20:28:46.1638052Z",
+    "AlreadyElevated": false,
+    "PowerShell": "5.1.26100.9818",
+    "InstalledModuleSha256": "1F0E8325114E3C3402E9B71663AE9148A83858FDB2663DCC41C6A4763E86B8EC",
+    "PortableRuntimeFilterPresent": false,
+    "Pending": 0,
+    "Running": 0,
+    "ExistingBlock": false,
+    "VmQueried": false,
+    "ControllerChanged": false,
+    "UacRequested": false
+  },
+  "Boundary": "Hyper-V, PowerShell Direct, guest phases, credential lookup and retained coordination calls are mocked. Snapshot/export hashing, private TestDrive records and job-result validation run locally. Separate source import/input gates and the real installed Prepare WhatIf read configuration and the pinned PNG without VM calls, hold creation or Windows state changes.",
+  "Phases": [
+    "Prepare",
+    "CreateUser",
+    "InspectUser",
+    "RemoveUser",
+    "Apply",
+    "Restore",
+    "Collect",
+    "Reset"
+  ],
+  "Implementation": {
+    "Evidence": "Bounded retained directory only, not entire user profiles or automatic screenshots",
+    "Password": "Synthetic SecureString passed separately through the fixed remoting call, absent from descriptors and reports",
+    "Reset": "Explicit verified export, pinned checkpoint restore, Off verification and matching hold release",
+    "Snapshot": "Exactly six source/data files and one pinned wallpaper PNG, verified at both ends",
+    "OwnedUserCleanup": "Requires a verified nonempty export before deletion; exports again after the phase",
+    "NativeResult": "Machine lifecycle and fixture results remain separate from visual/first-logon acceptance; all host NativeAcceptancePassed flags stay false"
+  },
+  "Recovery": "Every failure retains the guest and hold. Failed guest phases attempt partial export. Pre-cleanup export failure prevents user removal. Reset retry from Off requires a saved reset intent and unchanged private export. Early preparation failures without a usable descriptor/intent require controller inspection. Local job timeout is not proof remote activity has stopped.",
+  "NativeChecksExecuted": 0,
+  "GuestDispatched": false,
+  "ControllerHoldCreated": false,
+  "AccountCreated": false,
+  "ProfileDeleted": false,
+  "WindowsStateChanged": false,
+  "LegacyOutcomesClosed": 0,
+  "Remaining": [
+    "Already elevated registered host execution without a new UAC prompt",
+    "Actual PowerShell Direct SecureString transport, native account/profile/session APIs and exact machine lifecycle",
+    "Interactive Control, FirstLogon and Recovery desktops, collateral theme defaults, later user choice and original-default appearance",
+    "Export actual visual observations before fixture cleanup and checkpoint reset",
+    "Fonts/WLAN retained dispatch, user lock-screen mode recovery and full BitLocker native scenarios"
+  ],
+  "References": [
+    "https://learn.microsoft.com/en-us/powershell/scripting/learn/security-features",
+    "https://devblogs.microsoft.com/powershell/how-objects-are-sent-to-and-from-remote-sessions/"
+  ],
+  "SourceHashes": [
+    {
+      "Path": "tests/integration/RIDE.DefaultWallpaperVm.psm1",
+      "Sha256": "D2A5176202065017369007668124D97B0068A60F98EDF848A891C8D069224568"
+    },
+    {
+      "Path": "tests/DefaultWallpaperVm.Tests.ps1",
+      "Sha256": "CDB7D5ED39AC0929449775542DEC122B0CA97C06BDC16C65F05DB5AA6CFBF917"
+    },
+    {
+      "Path": "tests/integration/RIDE.WallpaperTestUser.psm1",
+      "Sha256": "A871D9C96046F7FA7C6AD21BBD08D9C3DF5C3520787ABB5390A33D366CD0F035"
+    },
+    {
+      "Path": "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+      "Sha256": "322EAE7D47DC85C7B0F6B08DD1F04C7E692B0D8BA26D595DF74C3538349F9CF8"
+    },
+    {
+      "Path": "tests/integration/RIDE.RetainedGuest.psm1",
+      "Sha256": "7E516B1459E57A98864EDA85A9879BE4C2D6CB2076231D2249A60BD40941E26D"
+    }
+  ]
+}

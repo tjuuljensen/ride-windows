@@ -117,9 +117,9 @@ The native scenario must retain evidence across these stages:
 6. Create a separate owned recovery-test user and verify the original first-logon
    default is restored. Retain and export evidence before checkpoint cleanup.
 
-The machine apply/restore guest phases and owned test-user fixture below are
-source-prepared. Retained host dispatch and native account/profile and visual
-acceptance remain open.
+The machine guest phases, owned test-user fixture and retained host dispatch
+below are source-prepared. Existing elevated execution, native account/profile
+behavior and visual acceptance remain open.
 The [source evidence](archive/evidence/default-wallpaper-source-2026-11-02.json)
 does not establish that Windows consumed the generated theme.
 
@@ -285,6 +285,108 @@ wallpaper behavior. Phase failures retain intent and any saved SID; cleanup
 failures add a private stage record. Purpose/edition values and correlated/saved
 request IDs offer bounded, read-only completion. Source checks are recorded in
 [fixture evidence](archive/evidence/wallpaper-test-user-source-2026-11-02.json).
+
+### Wallpaper retained host dispatch
+
+Import `tests/integration/RIDE.DefaultWallpaperVm.psm1` from the registered
+checkout in an already elevated native Windows PowerShell 5.1 host session.
+The installed controller/AutomatedLab prerequisites and
+[retained reservation boundary](#retained-host-coordination) apply. Do not use
+the generic reset-per-request queue for this scenario. The dispatcher uses the
+existing lab credential and fixed PowerShell Direct scriptblock; it does not
+request UAC, register a task or start an interactive sign-in.
+
+Prepare reserves the idle Off guest, restores the pinned checkpoint and stages
+exactly six source/data files plus `fedora_sharpened_4k.png`. Both ends verify
+the selected bytes. The guest name, Hyper-V identity, x64 architecture, Windows
+build/edition and elevation must match; later native phases also require the
+prepared build revision. No legacy/component asset directory is traversed.
+The snapshot includes the wallpaper lifecycle, guest phases, owned-user fixture,
+image/private-file helpers and image pin. The host hold persists between calls.
+
+The following sequence requires the interactive observations described above.
+Review each result and stop on `Failed`; comments are separate evidence gates,
+not automated sign-ins or visual assertions. Supply `$testPassword` as a synthetic
+`SecureString` retained privately by the harness. CreateUser requires 16-128
+characters; preview does not require a password. This is distinct from the lab
+credential used to reach the guest. The dispatcher passes the SecureString as a
+separate remoting argument and never writes it to its snapshot, descriptor or
+phase reports. PowerShell documents SecureString remoting key exchange in its
+[security features](https://learn.microsoft.com/en-us/powershell/scripting/learn/security-features).
+Actual PowerShell Direct transport remains a native acceptance gate.
+
+```powershell
+Import-Module .\tests\integration\RIDE.DefaultWallpaperVm.psm1
+$session = @{
+    ConfigurationPath = '<installed-controller-configuration.json>'
+    RunId = [guid]::NewGuid().ToString('N')
+}
+$prepare = @{
+    Phase = 'Prepare'
+    SourcePath = '<local-path-to-fedora_sharpened_4k.png>'
+    ExpectedBuild = '26300'
+    ExpectedEditionId = 'EnterpriseEval'
+}
+Invoke-RideDefaultWallpaperVmPhase @session @prepare -WhatIf
+$prepared = Invoke-RideDefaultWallpaperVmPhase @session @prepare -Confirm:$false
+$control = Invoke-RideDefaultWallpaperVmPhase @session -Phase CreateUser -Purpose Control -UserPassword $testPassword -Confirm:$false
+# Sign in as Control; record its original desktop and other theme defaults.
+Invoke-RideDefaultWallpaperVmPhase @session -Phase InspectUser -Purpose Control -Confirm:$false
+$applied = Invoke-RideDefaultWallpaperVmPhase @session -Phase Apply -Confirm:$false
+$first = Invoke-RideDefaultWallpaperVmPhase @session -Phase CreateUser -Purpose FirstLogon -UserPassword $testPassword -Confirm:$false
+# Verify FirstLogon's desktop/defaults and later wallpaper choice after sign-out/in.
+# Verify Control is unchanged. Export visual observations and sign FirstLogon out.
+Invoke-RideDefaultWallpaperVmPhase @session -Phase InspectUser -Purpose FirstLogon -Confirm:$false
+Invoke-RideDefaultWallpaperVmPhase @session -Phase RemoveUser -Purpose FirstLogon -Confirm:$false
+$restored = Invoke-RideDefaultWallpaperVmPhase @session -Phase Restore -Confirm:$false
+$recovery = Invoke-RideDefaultWallpaperVmPhase @session -Phase CreateUser -Purpose Recovery -UserPassword $testPassword -Confirm:$false
+# Sign in as Recovery; verify the original first-logon default and export visuals.
+# Sign Recovery and Control out normally before their owned fixture cleanup.
+Invoke-RideDefaultWallpaperVmPhase @session -Phase RemoveUser -Purpose Recovery -Confirm:$false
+Invoke-RideDefaultWallpaperVmPhase @session -Phase RemoveUser -Purpose Control -Confirm:$false
+Invoke-RideDefaultWallpaperVmPhase @session -Phase Collect -Confirm:$false
+Invoke-RideDefaultWallpaperVmPhase @session -Phase Reset -Confirm:$false
+```
+
+CreateUser, InspectUser and RemoveUser require only their named Purpose selection;
+UserPassword is accepted only by CreateUser. InspectUser reads guest account/profile
+state, then the host records and exports that observation. The dispatcher validates
+the fixture's request, lease, purpose, generated account name, SID, result schema
+and relevant state. It does not infer an initialized desktop from profile presence
+or enforce the operator's full visual sequence. All phase results retain
+`NativeAcceptancePassed=false`.
+
+Each phase exports the bounded retained guest directory into a new private host
+export below `retained.<lease-id>`. Collection includes staged sources, private
+machine/fixture records and observations actually placed in that directory;
+it does not copy entire user profiles or automatically capture screenshots.
+Save visual evidence separately before deleting its fixture. Limits are 512
+entries, 16 MiB per file and 32 MiB total; unsafe paths, reparse points, changed
+bytes or unreadable/oversized evidence refuse. Host readback verifies the export.
+RemoveUser requires a verified nonempty export **before** dispatching deletion
+and exports again afterwards. A failed pre-cleanup export cannot delete a user.
+
+Reports use schema 1 and include Phase, Purpose, Stage, Status, GuestResult,
+PreCleanupExport, EvidenceExport, RecoveryRequired and Store. In addition to the
+machine phase statuses, user phases return Created/AlreadyCreated, Observed or
+Removed/AlreadyRemoved. Removal is fixture cleanup; Restore is the separate
+captured machine-setting recovery. The private guest fixture directory is
+`C:\ProgramData\RIDE\RetainedAcceptance\<lease-id>\users`.
+
+Failures retain the guest and hold; failed guest actions attempt partial export.
+Reset is explicit checkpoint cleanup or deliberate abandonment after evidence
+inspection. It exports first, verifies the pinned guest is Off after reset, then
+releases only the matching hold. Reset from an already Off guest requires a saved
+reset intent and unchanged verified export. Early preparation failures without a
+session/intent require controller inspection. None of these cleanup results proves
+RIDE restored a setting or that the original image is visible.
+
+Remote jobs have a 180-second limit and readiness a separate three-minute loop.
+A timed-out local job does not prove all guest activity has stopped; inspect before
+recovery. Existing host Hyper-V/dependency calls have no additional watchdog.
+All phases offer `-WhatIf`; phase, purpose, edition and retained run IDs offer
+completion. The real installed Prepare preview and both-shell source checks are
+recorded in [dispatch evidence](archive/evidence/default-wallpaper-vm-source-2026-11-02.json).
 
 ## Machine default lock-screen candidate
 
@@ -553,7 +655,7 @@ records mocked host/VM checks and real temporary user-scope file/lock checks.
 
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
-| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate, machine guest phases and owned account/profile fixture are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Retained host dispatch, native fixture cleanup and visual acceptance remain open. |
+| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate, guest phases, owned account/profile fixture and retained host dispatch are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Existing elevation, native transport/fixture cleanup and visual acceptance remain open. |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
 | Machine default lock-screen image | Lifecycle, guest scenario and direct retained host dispatch/export are source-prepared. Already elevated execution, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
 
