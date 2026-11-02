@@ -1,0 +1,39 @@
+{
+  "title": "MiTeC viewer, UUID Generator and SQLite Query package source regression",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T04:09:01Z",
+  "tests": {
+    "files": [
+      "tests/MitecViewerPackages.Tests.ps1",
+      "tests/MiTecUuidGenerator.Tests.ps1",
+      "tests/MiTeCSqliteQuery.Tests.ps1"
+    ],
+    "shell": "PowerShell 7.6.5",
+    "pester": "5.7.1",
+    "discovered": 21,
+    "passed": 20,
+    "failed": 0,
+    "skipped": 1,
+    "skippedCheck": "MiTeC SQLite Query retained archive fixture not supplied.",
+    "duration": "00:00:43.236",
+    "testRegistry": "disabled because sandbox HKCU access is denied"
+  },
+  "scope": {
+    "syntheticLifecyclePassed": true,
+    "productExecuted": false,
+    "networkUsed": false,
+    "vmOrHostWindowsStateChanged": false,
+    "defenderAlertedFilesAccessed": false
+  },
+  "disposition": {
+    "noLegacyOutcomesClosed": true,
+    "estimatesUnchanged": "Settings 37-57, packages 37-52, components 19-24, files/assets 25-35, maintenance 8-12; exact 126-180, rounded 125-180/about 155.",
+    "windowsAcceptance": "Pending"
+  },
+  "blockers": [
+    "The SQLite Query real-archive comparison needs an explicit retained archive fixture.",
+    "MiTeC viewer feature behavior and native Windows target acceptance remain pending.",
+    "Host Hyper-V and Task Scheduler access remains denied for new VM acceptance.",
+    "Defender-blocked NirSoft tests remain excluded."
+  ]
+}
