@@ -1,0 +1,83 @@
+{
+  "title": "Pre-optional unit test batch 3",
+  "date": "2026-11-02",
+  "recordedAtUtc": "2026-11-02T03:33:11Z",
+  "scope": "Twenty test files before OptionalWindowsSettings in the bounded non-blocked unit sweep.",
+  "environment": {
+    "shell": "PowerShell 7.6.5",
+    "pesterVersion": "5.7.1",
+    "testRegistry": "disabled because sandbox HKCU registry access is denied",
+    "windowsIntegrationTags": "excluded"
+  },
+  "testFiles": [
+    "Hibernation.Tests.ps1",
+    "HibernationAcceptance.Tests.ps1",
+    "InstalledRegistrationInventory.Tests.ps1",
+    "InstallerCompletion.Tests.ps1",
+    "InstallerInspection.Tests.ps1",
+    "InteractiveGuestTests.Tests.ps1",
+    "JoeWareAdModEngineRoute.Tests.ps1",
+    "KeyboardSettings.Tests.ps1",
+    "LabProvisioning.Tests.ps1",
+    "LegacyDeploymentMapping.Tests.ps1",
+    "Libraries.Tests.ps1",
+    "LibraryAuthoring.Tests.ps1",
+    "LicenseReviews.Tests.ps1",
+    "LocalPasswordAge.Tests.ps1",
+    "LocalPasswordComplexityCandidate.Tests.ps1",
+    "LocalUserInventory.Tests.ps1",
+    "MacVendor.Tests.ps1",
+    "ManagedSettings.Tests.ps1",
+    "MediaPolicies.Tests.ps1",
+    "MiTeCAnalysisTools.Tests.ps1"
+  ],
+  "result": {
+    "testsDiscovered": 367,
+    "passed": 366,
+    "failed": 0,
+    "skipped": 1,
+    "duration": "00:06:36.448",
+    "skips": [
+      "One optional retained publisher archive fixture check was skipped because its explicit archive path was unavailable."
+    ]
+  },
+  "safety": {
+    "windowsIntegrationTestsRun": false,
+    "vmQueriedOrChanged": false,
+    "hostSettingsChanged": false,
+    "networkOrInstallerInvoked": false,
+    "productExecutablesLaunched": false,
+    "defenderAlertFilesOrNirSoftTestAccessed": false
+  },
+  "migration": {
+    "resolved": [
+      "All 366 runnable selected hibernation, installer/source, interactive boundary, authoring, license-store, local inventory, and MiTeC analysis cases passed."
+    ],
+    "retired": [],
+    "excluded": [
+      "NirSoft collection suite, oversized PSScriptTools/WFN lifecycle files and WindowsIntegration-tagged tests remained excluded."
+    ],
+    "deferred": [
+      "One retained publisher archive fixture check remains unavailable without an explicit local path."
+    ],
+    "partial": [
+      "No legacy outcome closes; the bounded pre-Optional sweep is still in progress."
+    ],
+    "estimates": {
+      "settings": "37-57",
+      "packages": "37-52",
+      "components": "19-24",
+      "filesAndAssets": "25-35",
+      "maintenance": "8-12",
+      "exactTotal": "126-180",
+      "roundedTotal": "125-180/about 155",
+      "changeReason": "Passing source and mocked lifecycle checks close no legacy feature/product outcome; ranges remain unchanged."
+    },
+    "blockers": [
+      "Pre-Optional bounded batches remain to run.",
+      "PSScriptTools 360-member and WFN 531-member synthetic lifecycle tests remain incomplete.",
+      "Host CIM access blocks RIDE-Win11-Test acceptance.",
+      "Defender-blocked tools remain excluded."
+    ]
+  }
+}
