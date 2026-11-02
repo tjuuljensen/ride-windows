@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "1.0.0",
+  "contractVersion": "1.1.0",
   "reviewedOn": "2026-11-01",
   "reviewedSources": {
     "rideWindows": {
@@ -166,7 +166,7 @@
       "disposition": "permanent-platform-difference",
       "decisionStatus": "source-reviewed",
       "owner": ["RIDE-Windows maintainers", "RIDE-Fedora maintainers"],
-      "reason": "PowerShell object formatting and Bash JSON/TSV output are native human interfaces. Shared automation needs an explicitly versioned opt-in result contract, not identical console formatting.",
+      "reason": "PowerShell objects and Bash JSON/TSV are native interfaces. Contract 1.1.0 defines show pipeline behavior with versioned native results; a common JSON schema remains separate work. See the 2026-11-02 show pipeline entries in both alignment registers for implementation gaps.",
       "ruleIds": ["RB-10", "RB-11"],
       "evidence": [{ "windows": "ride.ps1 output dispatch at reviewed source revision", "fedora": "ride.sh output dispatch at reviewed source revision" }],
       "linkedWork": ["ALIGN-08"],
