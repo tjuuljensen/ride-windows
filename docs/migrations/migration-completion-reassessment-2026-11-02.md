@@ -92,6 +92,76 @@ approved no-new-UAC constraint. Refreshing it does not itself implement the
 unregistered OpenSSH Client/RSAT or other new acceptance routes. See the
 [controller evidence](../archive/evidence/mitec-staged-source-defender-attribution-2026-11-02.json).
 
+## Remaining test strategy assessment, 2026-11-02
+
+The main delivery problem is repeated source regression without closing native
+acceptance or missing implementation. The remaining 123-177 legacy outcomes are
+not 123-177 tests: the estimate includes deferred, partially mapped and unimplemented
+work. A new source-suite pass must not be reported as progress on native behavior.
+Use the approved fast track below; do not add a broad test sweep just because a
+native runner is unavailable.
+
+### Required evidence by remaining family
+
+| Family | Minimum v3 acceptance | Reuse or omit | Current next action |
+| --- | --- | --- | --- |
+| ETL2PCAPNG | Exact official pinned artifact, digest and retained notices; acquisition only. | The 2026-11-02 download evidence already meets the selected boundary. No launch or installation test. | Reuse the completed acquisition evidence. |
+| MiTeC portable packages | For each selected package: exact source/version, install, repeat/no-op, remove, exact owned-file recovery and preserved unrelated files. Capture active Defender protection and no relevant new detection. | Test shared extraction, path validation and collision/failure handling once per changed handler using inert fixtures; do not rerun every feature of every utility. MiTeC feature testing belongs to 3.1. | Activate the prepared portable-only controller staging filter at the next permitted elevated setup, then run focused package lifecycles. No alerted NirSoft/PasswordScan payload is part of staging or testing. |
+| Gpg4win, RegRipper, Rufus, TMOG | Exact package and install/repeat/remove/recovery. Gpg4win must preserve synthetic pre-existing GnuPG user data; retain relevant product-specific data/ownership fixtures. | No encryption workflow, data collection, USB/media writes or paid activation. Reuse unchanged handler checks. | Prepare narrowly selected package batches; avoid bringing unrelated batch members into a run. |
+| NTCore Explorer Suite and other accepted package lifecycles | Fill the specifically missing evidence, including Defender evidence where absent. | Reuse retained accepted lifecycle evidence when operation, handler, artifact and target remain applicable. Do not repeat a full lifecycle solely to obtain another source-test count. | Establish what the retained run actually records. Fresh Defender observations cannot retrospectively certify a past run; if evidence cannot be recovered, repeat only the bounded affected native scenario. |
+| Ordinary registry/service/power settings | Apply, repeat, live state readback and exact prior-state restoration; preserve unrelated state. Add one effect-specific observation where registry/service state alone cannot prove the user-facing claim. | Reuse the accepted T480 F1 and Win11/Server 2025 PowerShell appearance evidence within their recorded scope. Run negative/error cases against changed handlers, not a full fresh matrix for every value. | Complete the already-authorized five desktop icons/ClassicStartMenu visual check with exact recovery. Keep unmapped and high-impact settings deferred. |
+| OpenSSH Client | Through the catalog: install using the explicitly chosen source, native capability readback, repeat, remove and restore. Check the native client executable identity/version after installation; no external SSH connection is required for capability lifecycle acceptance. | Windows Update is explicitly permitted in the disposable VM. A matching local CAB is not an additional gate for that route. Preserve LocalSource checks when that route is selected. Do not claim exact previous payload/version recovery from literal capability state. | Implement catalog integration and preserve old saved recovery before retiring the standalone interface. Then add a focused native acceptance route. |
+| Client RSAT | Inventory every capability available on the exact client target, record initial states, install the selected available set, verify state and repeat behavior, remove in dependency-safe order and restore the captured state. Record automatically added dependencies and partial failures. | Test availability and lifecycle of each capability; do not require a real domain or feature exercise for every management console. Client evidence does not cover Server roles. | Implement target inventory selection, dependency handling, conditional recovery and a native route. Source permission is settled; successful acquisition is not yet established. |
+| OpenSSH Server capability/service/firewall | Keep installation, service activation and inbound exposure separate; prove preservation of existing configuration and keys, missing-capability refusal, repeat behavior and their declared recovery on each candidate target. | Existing mocked provider suites cover their source logic. Do not widen client acceptance into server support or open a firewall merely to test installation. | Use the existing focused implementations when an authorized native route is ready; fill their native evidence only. |
+| BitLocker | On disposable volumes: prove test-key retrieval first, enrollment, selected method/policy behavior, TPM+PIN boot, actual recovery-key unlock and complete decryption. Verify OS/fixed/removable policy effects in their separate scopes. | Keep these stronger tests. vTPM enabled, mocked calls, a policy registry value or a successful encryption command cannot replace boot/unlock/recovery evidence. | Finish the staged recovery-first scenario and its controlled reboot route. Do not start encryption before usable test-key retrieval is verified. |
+| Three Sysmon configurations | Save a genuinely recoverable prior configuration, explicitly apply each pinned XML, verify acceptance by Sysmon and restore the prior configuration. Check service health and the configuration-change evidence. | Reuse the acquired XML/checksum/license evidence. No automatic configuration during package installation; no exhaustive detection-rule testing for v3. A text configuration dump is not assumed to be restorable XML. | Implement source-bound configuration capture/apply/restore before native testing. |
+| Machine fonts | Install the 14 selected fonts, verify machine registration and availability, repeat, remove and restore previous files/registration/permissions exactly. Use collision fixtures without touching unrelated fonts. | The exact input hashes and retained notice are ready. Do not test every glyph or repeat source acquisition. | Implement the focused machine-scope handler and recovery, then test in the VM. |
+| Wallpaper and both lock-screen workflows | Apply the selected images in their separate scopes, verify the visible effect under applicable edition/policy conditions, repeat and restore prior bytes, permissions and policy. | Shared file/ACL failure cases can be covered once by inert unit fixtures. A copied file alone does not prove the displayed image changed. | Obtain exact image paths; handler/recovery and native acceptance remain open. No broad ownership or ACL reset. |
+| Wi-Fi profile import | With an approved local profile and an appropriate adapter: import into the intended scope, verify profile identity/settings, repeat, remove only the owned profile and restore the previous profile through a credential-safe path. | No real network connection is required to claim profile import only; connection behavior would require a separately stated claim and fixture. Do not place keys in ordinary logs or evidence. | Obtain the local XML input and prepare recovery. A VM without a suitable WLAN adapter cannot establish native import support; workstation mutation is not authorized for this batch. |
+| Run retention, scheduled tasks, Caffeine | Synthetic disposable run records and a dedicated test task: preview, apply and preservation of unrelated records/tasks, plus the operation's documented recovery or deliberate non-restorable boundary. Caffeine needs package presence only in this track. | Reuse focused mocked checks. No destructive system cleanup, update/cache reset, reboot or Sysprep scenario. | Use a prepared native route if available; otherwise retain a specific missing-route disposition. |
+| Unsupported-target exploration | Test audit creation before mutation, actual target identity, fresh per-invocation opt-in and retention of candidate, privilege, integrity and recovery guards. Include one disposable native invocation once a route is ready. | Reuse the completed focused source checks; do not run every product on every unsupported target. This option never promotes SupportedTargets. | Complete a narrow native audit check and the existing alignment review before promotion. |
+| Explicitly deferred/excluded work | No v3 execution until its recorded disposition is reopened. | Recuva/Speccy/Defraggler are excluded. Preserve the recorded deferrals for hardware, drivers, mutable tooling, disruptive maintenance and unmapped settings; do not generate tests for them to make the active queue look busier. | Maintain the existing register and reopening conditions. |
+
+### Execution and stopping rules
+
+1. Run focused source checks only for changed implementation, recovery and CLI
+   contracts. Use Windows-native PowerShell; validate both supported PowerShell
+   editions where compatibility can differ. Use inert fixtures and mock system
+   mutation. Do not repeat a passed suite without a relevant change or unresolved
+   failure. A final source validation remains a release check, not a per-batch tax.
+2. Bind each native run to source/handler revision, exact artifact or configuration
+   identity, Windows edition/build/architecture and initial state. Reuse evidence
+   only where those facts and the acceptance claim remain applicable. Run the
+   affected native scenario on each target being promoted; Windows 11 evidence
+   does not establish Server or another architecture's behavior.
+3. Preflight the controller once after its refresh, then run one focused portable
+   lifecycle batch. If staging and recovery pass, continue the selected package
+   queue. On a failure, retain the result, identify its layer and fix that layer;
+   do not repeat the unchanged run or replace it with a large unrelated unit suite.
+4. Separate RIDE recovery from lab cleanup. Exercise the operation's saved-state
+   restore and inspect its result before resetting the VM. A checkpoint revert is
+   a safety fallback and test isolation, never proof that RIDE restored state.
+   Where recovery is conditional or presence-only, report that limit and test the
+   declared behavior; do not silently label it exact.
+5. Make one result per legacy outcome: accepted within its defined scope, failed
+   with actionable evidence, missing implementation/input/route, or explicitly
+   deferred/excluded. Mark no-op, skipped and unavailable separately. A package
+   can pass lifecycle while its deferred feature tests remain outside the claim.
+6. Once the essential checks pass, close that outcome and move on. Broaden testing
+   only when changed shared code, a failure or a concrete unresolved risk justifies
+   it. Final release/bootstrap/offline delivery and cross-platform review remain
+   their existing separate gates; they are not automatically required for this
+   internal checkpoint.
+
+The immediate critical path is controller activation for prepared package runs,
+and missing implementation for OpenSSH Client/RSAT, Sysmon configuration and
+machine assets. These are not interchangeable blockers. Images and Wi-Fi XML
+remain external inputs; BitLocker needs its stronger recovery/boot fixture.
+No defensible remaining test count or elapsed-time estimate follows from the
+legacy outcome range alone. Record the runnable cases after these implementations
+and routes are concrete, rather than promising completion from the source-test
+total. This assessment adds no acceptance result or scope reduction.
+
 ## Host inspection and runner binding, 2026-11-02
 
 The supplied elevated output reports `RIDE-Win11-Test` Off, configuration version
