@@ -171,6 +171,59 @@ RSAT console/domain behavior, or restart recovery. The isolated tests and eviden
 are recorded in [guest scenario preparation](archive/evidence/client-capability-acceptance-source-2026-11-03.json).
 No supported target is promoted by source tests or candidate execution alone.
 
+### Retained host phases
+
+`tests/integration/RIDE.ClientCapabilityVm.psm1` provides a source-verified direct
+host route. Its 29 isolated checks per PowerShell edition and read-only preview
+against the registered controller do not install a scheduled task or perform
+native servicing. The existing overnight broker does not accept these families.
+Do not submit them under a package, font or other unrelated family.
+
+Run from the registered checkout root in an **already elevated native Windows
+PowerShell 5.1 x64 host session**. The registered VM must be Off, its pinned
+checkpoint must exist, and the controller must be idle with no retained hold.
+Use its protected installed configuration and existing lab credential. The route
+never launches UAC, asks for a password or changes the registration.
+
+```powershell
+Import-Module .\tests\integration\RIDE.ClientCapabilityVm.psm1
+$request = [guid]::NewGuid().ToString('N')
+$owner = @{
+    ConfigurationPath = '<protected-installed-configuration.json>'
+    RunId = $request
+}
+$target = @{
+    Family = 'OpenSSHClient' # Or RSAT in a separate clean VM run.
+    ServicingSource = 'WindowsUpdate'
+    ExpectedBuild = '<exact-build>'
+    ExpectedEditionId = 'EnterpriseEval' # Replace with the exact guest edition.
+    ExpectedRevision = 0 # Replace with the exact observed UBR.
+}
+Invoke-RideClientCapabilityVmPhase @owner @target -Phase Prepare -WhatIf
+Invoke-RideClientCapabilityVmPhase @owner @target -Phase Prepare -Confirm:$false
+Invoke-RideClientCapabilityVmPhase @owner -Phase Lifecycle -TimeoutSeconds 1800 -Confirm:$false
+Invoke-RideClientCapabilityVmPhase @owner -Phase Collect -Confirm:$false
+# Inspect the phase report and verified export before explicitly cleaning up.
+Invoke-RideClientCapabilityVmPhase @owner -Phase Reset -Confirm:$false
+```
+
+Prepare reserves the VM, snapshots only engine modules, catalog, profiles and the
+guest scenario, restores the pinned checkpoint and stages the hash-verified source.
+Lifecycle permits one admission for that request. All later phases verify the
+saved lease, registration digest, target and source. Errors retain the guest and
+lease. An actual unattended caller must separately enforce its time/usage limits
+and leave collection/reset time before admitting Lifecycle; this module is not an
+account-usage monitor or an installed queue.
+
+Reset requires a fresh verified export. If Lifecycle was admitted without a
+terminal guest report, reset is refused because DISM may still be running after
+the PowerShell job timeout. A terminal Failed report permits explicitly requested
+checkpoint cleanup after export but remains failed acceptance. Reset verifies Off
+before releasing the lease. Interrupted preparation/reset with an Off guest needs
+retained-state inspection; this initial route does not adopt an Off-guest reset
+retry or silently release the hold. Preserve the private store and controller block.
+See [host route source evidence](archive/evidence/client-capability-host-source-2026-11-03.json).
+
 ## Collect on an explicitly identified target
 
 Start in the repository root in an **already elevated**, native-bitness PowerShell

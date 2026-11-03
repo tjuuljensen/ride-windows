@@ -10,6 +10,11 @@ This runbook is intended for an advanced first-time contributor setting up a dis
 
 The VM is for integration tests that change Windows state. Routine validation and mocked Pester tests remain available through the repository's GitHub Actions workflow and do not require a VM.
 
+The focused [OpenSSH Client/RSAT retained route](../../docs/windows-component-inventory.md#retained-host-phases)
+has source-verified guest and host scenarios. It requires existing host elevation;
+its read-only registration preview is not an installed unattended queue or native
+capability acceptance. Do not route it through unrelated fixed package/asset batches.
+
 For a controller that stalls before guest execution, use the
 [bounded host-preparation probe](automatedlab-tasks.md#bounded-host-preparation).
 It checks dependencies, lab identity and source copying within five minutes,

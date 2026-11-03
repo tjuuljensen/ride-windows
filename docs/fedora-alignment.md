@@ -979,3 +979,11 @@ change the CLI, catalog support, acquisition policy or saved-run schema. The sam
 peer source comparison applies. Its 22 isolated cases per shell remain separate
 from native acceptance and host-route activation; see the
 [guest scenario source evidence](archive/evidence/client-capability-acceptance-source-2026-11-03.json).
+
+The retained host route adds platform-owned VM/checkpoint/source binding and
+verified export before reset. Timeout without a terminal guest result leaves the
+VM and lease retained; checkpoint cleanup cannot change a failed lifecycle into
+success. This applies RB-08/09/11 without changing the shared contract or production
+privilege path. The installed task remains unchanged. The same source comparison
+applies; review again for queue activation, interrupted-run recovery changes or
+native promotion. See [host source evidence](archive/evidence/client-capability-host-source-2026-11-03.json).
