@@ -933,12 +933,15 @@ pipeline coverage or establish automated shared conformance. The capability
 register's contract version follows the new pin; unrelated source reviews remain
 as previously dated.
 
-Next action: finish Windows native tests, implement the Fedora sibling and add
-paired ALIGN-05 fixtures for the acceptance cases in the canonical section.
-Review trigger: either client's selection/output/error semantics change, paired
-fixtures are added, or final v3 release review. Keep the affected capability's
-promotion gated on documented disposition of those gaps. This is CLI contract
-work, not a legacy migration run; no legacy outcome or estimate changes.
+That 2026-11-02 snapshot preceded shared scenario revision 1.1.0,
+recorded below. Next actions: run the mapped Windows Pester suite,
+implement the Fedora show-pipeline sibling, and add paired ALIGN-05
+fixtures for the remaining acceptance cases. The Fedora UID 0 namespace
+preview case is recorded below. Review when either client changes its
+selection, output, or error semantics, when paired fixtures are added,
+or before final v3 release. Keep affected capability promotion gated on
+the documented gaps. This CLI contract work changes no legacy migration
+outcome or estimate.
 
 ## Overnight native package evidence, 2026-11-02
 
@@ -1231,3 +1234,46 @@ contract amendment is needed. Owner: Windows maintainer. Follow-up and review
 trigger: [scoped package promotion](migrations/migration-completion-reassessment-2026-11-02.md#catalog-package-candidates)
 or any separately requested driver scenario. Native file acceptance does not
 transfer to application/driver behavior or another target.
+
+## Shared behavior scenarios 1.1.0, 2026-11-03
+
+ALIGN-05 / owners: RIDE Windows and RIDE Fedora maintainers. The Windows-owned
+canonical shared scenario set now pins revision `1.1.0` and adds RB08-01
+privilege refusal before state observation and RB07-01 reverse dependency order
+for explicit profile removal. The Windows adapter maps these to the existing
+`CandidateExecution.Tests.ps1` machine-elevation case and
+`PackageDependencyPlanning.Tests.ps1` dependent-removal case. The Windows
+contract test now checks the scenario byte digest pinned by its adapter.
+
+Fedora maps the same cases to mocked CLI tests for system privilege refusal and
+profile removal ordering. It also runs restore preview as EUID 0 inside an
+isolated user/mount namespace with run state on tmpfs; the CLI refuses before
+calling the settings observer or writing a new journal. The focused suite
+passes. The peer Fedora record is
+[Windows alignment](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/windows-alignment.md#align-05-shared-scenario-expansion-2026-11-03).
+Windows Pester execution remains unverified because Pester 5 is unavailable in
+the current Linux environment; PowerShell parsing succeeds. ALIGN-05 stays
+open until native Pester runs against the current adapter.
+
+## Status operation and view selectors, 2026-11-03
+
+ALIGN-08 is a compatible CLI extension under RB-01, RB-02, RB-10, and RB-12.
+The pinned 1.1.0 contract requires documented native selectors and preservation
+of published positional syntax without prescribing identical option spelling.
+The paired implementation retains each client's positional form. Linux keeps
+`ride.sh status <operation-id>` and adds
+`status --id <operation-id>` plus `status --view <view>`. Windows keeps
+`ride.ps1 status [view]`, adds `-View <view>` and adds `-OperationId <id>`;
+`-OperationId` may be combined with `-Profile` only when that profile selects
+the operation. The native option spelling differs, but both clients now provide
+explicit operation and view selection without reinterpreting existing syntax.
+
+Windows CLI 0.19.0 forwards the selectors to Engine 0.33.0 and completes
+`-OperationId` from the local catalog. Mocked CLI routing, engine filtering, and
+completion Pester cases were added. Pester 5 is unavailable in this Linux
+environment, so suite execution remains unverified. PowerShell AST parsing,
+three fake-engine routing/refusal smoke cases, and a local catalog completion
+smoke check passed. The source revision and file hashes are recorded in the
+capability-differences register. Paired profile and state-preview examples are
+in both READMEs. Review this difference if positional syntax, completion data
+sources, or the status row contract changes.

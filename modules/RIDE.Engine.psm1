@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.32.0
+  Version: 0.33.0
   Changelog:
+    0.33.0: Add exact operation filtering to status while retaining view and profile comparisons.
     0.32.0: Return schema-1 show objects with nested group member observations.
     0.31.0: Plan all observed client RSAT capabilities with dependency-safe lifecycle and recovery order.
     0.30.0: Integrate the explicit Windows Update OpenSSH Client capability and conditional state recovery.
@@ -93,7 +94,7 @@
 #>
 
 
-$script:ModuleVersion = '0.32.0'
+$script:ModuleVersion = '0.33.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -2391,6 +2392,13 @@ function Get-RideStatus {
     all (default), packages, groups, settings, or a catalog category. profiles is rejected; supply
     Profile for comparisons.
 
+  .PARAMETER OperationId
+    Optional exact operation ID. When Profile is supplied, the ID must be selected by that profile.
+
+  .EXAMPLE
+    Get-RideStatus -OperationId 'windows.sample'
+    Inspect one operation's platform-default state.
+
   .EXAMPLE
     Get-Help Get-RideStatus -Full
     Inspect this command's contract without invoking its implementation.
@@ -2407,15 +2415,22 @@ function Get-RideStatus {
 
   #>
 
-  param([hashtable] $Profile, [string] $View = 'all')
+  param([hashtable] $Profile, [string] $View = 'all', [string] $OperationId)
 
   if ($View -match '^(?i:profiles?)$') { throw "The 'profiles' view applies to list. For status, select one profile with -Profile <file>." }
   $catalog = Get-RideCatalog
   $rows = New-Object System.Collections.Generic.List[object]
+  if ($OperationId -and -not ($catalog.Operations | Where-Object { $_.Id -ceq $OperationId } | Select-Object -First 1)) {
+    throw "Status operation ID '$OperationId' was not found in the catalog."
+  }
 
   if ($PSBoundParameters.ContainsKey('Profile')) {
     $plan = @(Get-RidePlan -Profile $Profile)
+    if ($OperationId -and -not ($plan | Where-Object { $_.Operation.Id -ceq $OperationId } | Select-Object -First 1)) {
+      throw "Status operation ID '$OperationId' is not selected by the supplied profile."
+    }
     foreach ($item in $plan) {
+      if ($OperationId -and $item.Operation.Id -cne $OperationId) { continue }
       if (-not (Test-RideStatusView -Operation $item.Operation -View $View -Catalog $catalog)) { continue }
       $current = Get-RideCurrentState -Operation $item.Operation
       $desiredValue = if ($item.Operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation')) {
@@ -2459,6 +2474,7 @@ function Get-RideStatus {
     $target = Get-RidePlatform
   foreach ($operation in $catalog.Operations) {
       if ($operation.Kind -eq 'Artifact') { continue }
+      if ($OperationId -and $operation.Id -cne $OperationId) { continue }
       if (-not (Test-RideStatusView -Operation $operation -View $View -Catalog $catalog)) { continue }
       if ($operation.PendingAcceptance) { continue }
       if ($operation.Kind -eq 'Package') { $operation = Resolve-RideLifecycleSelection -Operation $operation -Removal }
