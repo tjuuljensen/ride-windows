@@ -1170,3 +1170,17 @@ No contract amendment is needed. Owner: Windows maintainer. Follow-up and review
 trigger: [remaining native font availability](machine-fonts.md), including the
 immediate removal failure and any future session/restart/consumer scenario.
 Later clean observations do not erase an earlier failure or grant target support.
+
+## WinPmem file-only native evidence, 2026-11-03
+
+RB-11 Windows-owned evidence adds active/no-alert Defender observation to the
+existing file-only route and corrects catalog signature wording using acquired
+bytes. The outer wrapper reports NotSigned; its exact publisher hash matches.
+No operation ID, pin, privilege, source policy, recovery or support declaration
+changes. Contract 1.1.0 and unchanged compared Fedora hashes are recorded in
+[evidence](archive/evidence/winpmem-night-native-2026-11-03.json). All 14 native
+package/recovery checks passed without executable or driver launch. No shared
+contract amendment is needed. Owner: Windows maintainer. Follow-up and review
+trigger: [scoped package promotion](migrations/migration-completion-reassessment-2026-11-02.md#catalog-package-candidates)
+or any separately requested driver scenario. Native file acceptance does not
+transfer to application/driver behavior or another target.

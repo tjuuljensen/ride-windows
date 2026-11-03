@@ -1,0 +1,188 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T05:17:14.9719927Z",
+  "Status": "NativePackageLifecycleAndDefenderPassed",
+  "RunId": "f19f200572664c239b4aa023d28e72d6",
+  "Queue": {
+    "StartedAtUtc": "2026-11-03T03:35:18.5280176Z",
+    "Status": "Completed",
+    "DeadlineUtc": "2026-11-03T06:30:00+01:00",
+    "Runs": [
+      {
+        "Batch": "WinPmem",
+        "StartedAtUtc": "2026-11-03T03:35:20.2972692Z",
+        "Status": "Passed",
+        "Receipt": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\night-20261102\\queue-08688e87cdea473db3f9d949875ba97f\\WinPmem-receipt.json",
+        "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\f19f200572664c239b4aa023d28e72d6",
+        "FinishedAtUtc": "2026-11-03T03:41:06.6422873Z"
+      }
+    ],
+    "Error": null,
+    "FinishedAtUtc": "2026-11-03T03:41:07.3389362Z"
+  },
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 85,
+      "Failed": 0,
+      "Total": 85
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 85,
+      "Failed": 0,
+      "Total": 85
+    }
+  ],
+  "Validation": "Passed: 475 operations, 9 groups, 5 profiles, 400 PowerShell files; generated documentation current.",
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "RecordedAtUtc": "2026-11-03T03:30:56.6855451Z",
+    "Status": "PinnedPayloadAndNoticeAcquired",
+    "Uri": "https://github.com/Velocidex/WinPmem/releases/download/v4.1.dev1/go-winpmem_amd64_1.0-rc2_signed.exe",
+    "ExpectedSha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+    "PayloadExecuted": false,
+    "DriverLoaded": false,
+    "Error": null,
+    "Length": 5257728,
+    "Sha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+    "SignatureStatus": "NotSigned",
+    "SignerSubject": null,
+    "SignerThumbprint": null,
+    "LicenseUri": "https://raw.githubusercontent.com/Velocidex/WinPmem/v4.1.dev1/LICENSE",
+    "LicenseSha256": "81C873E2863DC9D5089A048407A8F7CAF2DB087EC273BF157F32D5B2E3DD66A9"
+  },
+  "NativeSummary": {
+    "Batch": "WinPmem",
+    "ExpectedCases": 1,
+    "Completed": 1,
+    "Passed": 1,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "FocusedResult": {
+    "RunId": "f19f200572664c239b4aa023d28e72d6",
+    "Batch": "WinPmem",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 1,
+    "Status": "Passed",
+    "Error": null,
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Scenarios": [
+    {
+      "Id": "package.winpmem",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "e586c3621c0049f4890cf43b02f2820e",
+        "b2f9455ac052424caa11ac3519cc57cf",
+        "242ffaca71824541906e3e109a1bebc6"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "go-winpmem_amd64_1.0-rc2_signed.exe",
+          "Sha256": "86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4",
+          "AuthenticodeStatus": "NotSigned",
+          "SignerThumbprint": null
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.winpmem' failed. Run ID: c39dbb876e284464b25f74f22212817f. Saved state: package.winpmem. Completed operations: <none>. Failed operation: package.winpmem. Unfinished operations: package.winpmem. Recovery: run '.\\ride.ps1 restore -RunId c39dbb876e284464b25f74f22212817f', then reapply the same profile. Error: Portable destination collision: go-winpmem_amd64_1.0-rc2_signed.exe",
+      "ModifiedRefusal": "RIDE operation 'package.winpmem' failed. Run ID: 1048de0acb5b4462929e382db8254a3f. Saved state: package.winpmem. Completed operations: <none>. Failed operation: package.winpmem. Unfinished operations: package.winpmem. Recovery: run '.\\ride.ps1 restore -RunId 1048de0acb5b4462929e382db8254a3f', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "Defender": [
+    {
+      "ObservedAtUtc": "2026-11-03T03:40:48.0430397Z",
+      "SinceUtc": "2026-11-03T03:37:40.677188Z",
+      "AMServiceEnabled": true,
+      "AntivirusEnabled": true,
+      "RealTimeProtectionEnabled": true,
+      "ActiveThreatIds": [],
+      "ActiveThreats": [],
+      "Detections": [],
+      "Passed": true,
+      "ExclusionsChanged": false,
+      "PayloadsAccessed": false
+    },
+    {
+      "ObservedAtUtc": "2026-11-03T03:40:57.5388172Z",
+      "SinceUtc": "2026-11-03T03:37:40.677188Z",
+      "AMServiceEnabled": true,
+      "AntivirusEnabled": true,
+      "RealTimeProtectionEnabled": true,
+      "ActiveThreatIds": [],
+      "ActiveThreats": [],
+      "Detections": [],
+      "Passed": true,
+      "ExclusionsChanged": false,
+      "PayloadsAccessed": false
+    }
+  ],
+  "SourceFiles": [
+    {
+      "Sha256": "14BABDB34BFFFC46C34BF60AB0FAA78AE2F69E001C751545CD618169513073CC",
+      "Path": "catalog/operations.psd1"
+    },
+    {
+      "Sha256": "F8097673B25DDEADF5AF5973BEFFE828352F617339F09C3C875759C9FE9C12C9",
+      "Path": "tests/integration/Invoke-RidePortableAcceptance.ps1"
+    },
+    {
+      "Sha256": "493556988BF335EFFE62BD5B60200305C3B6CCF869217487B0424647D132EC63",
+      "Path": "tests/PortableAcceptanceAutomation.Tests.ps1"
+    },
+    {
+      "Sha256": "1387D8D9690F6CA65A3E11A0872A796259FAF97F7A2A42E27F2B45D26762DB0E",
+      "Path": "tests/WinPmemPackage.Tests.ps1"
+    }
+  ],
+  "InstalledControllerSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+  "InstalledPortableHostSha256": "CBAE70D3D018B007D801FFD595906D1514211669D3F89F819E6454C684F1394B",
+  "Boundary": "The pre-existing fixed WinPmem route staged and removed only the exact owned executable. Fourteen lifecycle/conflict/preservation checks, exact saved-file recovery and active/no-alert Defender passed. ToolExecuted=false; no driver load, service creation, test signing, memory capture or WinPmem launch. Outer wrapper Authenticode NotSigned on host and guest; embedded driver signatures not independently verified. Tagged Apache license retained. Export and ResetAndOff passed. No installed controller refresh or UAC.",
+  "Remaining": "Catalog remains candidate pending scoped acceptance/promotion review. Driver/application behavior and other targets are unverified.",
+  "Alignment": {
+    "Impact": "RB-11 Windows-owned native package evidence and accurate signature description; no shared lifecycle, privilege or recovery change.",
+    "ContractVersion": "1.1.0",
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938"
+  }
+}

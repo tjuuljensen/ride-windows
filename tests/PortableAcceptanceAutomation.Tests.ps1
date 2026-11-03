@@ -22,7 +22,7 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.20.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.15.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.3.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.21.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.15.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.3.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
@@ -379,6 +379,15 @@ Describe 'Focused portable acceptance boundaries' {
     $cases[0].Operation.CandidateTargets|Should -Contain 'Windows 11'
     $cases[0].Operation.SupportedTargets|Should -Be @()
     $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'requires Defender evidence for the <Batch> file-only route before lifecycle changes' -ForEach @(@{Batch='WinPmem'},@{Batch='WindowsFirewallNotifier'}) {
+    $tokens=$null;$errors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $script:Root 'Invoke-RidePortableAcceptance.ps1'),[ref]$tokens,[ref]$errors)
+    $errors.Count|Should -Be 0
+    $assignment=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.AssignmentStatementAst] -and $node.Left.Extent.Text -ceq '$defenderRequired'},$true))
+    $assignment.Count|Should -Be 1
+    $ids=@((Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch $Batch).Id)
+    & ([scriptblock]::Create($assignment[0].Right.Extent.Text))|Should -BeTrue
   }
   It 'selects all 531 WFN members and notices without promoting support' {
     $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch WindowsFirewallNotifier)

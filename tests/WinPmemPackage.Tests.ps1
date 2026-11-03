@@ -25,7 +25,7 @@ BeforeAll {
     Where-Object Id -eq 'package.winpmem' | Select-Object -First 1
 }
 
-Describe 'WinPmem signed production deployment candidate' {
+Describe 'WinPmem production file deployment candidate' {
   It 'pins the publisher production asset and its published digest' {
     $script:WinPmem.Kind | Should -BeExactly 'Package'
     $script:WinPmem.InstallerType | Should -BeExactly 'Portable'
@@ -35,6 +35,7 @@ Describe 'WinPmem signed production deployment candidate' {
     $script:WinPmem.ExpectedSha256 | Should -BeExactly '86691bb4af2c17dd9ec4834c04a99ad51e04f780a07d1b05bc382a5d1892e0c4'
     $script:WinPmem.Architecture | Should -BeExactly 'x64'
     $script:WinPmem.RequiredFiles | Should -Contain 'go-winpmem_amd64_1.0-rc2_signed.exe'
+    $script:WinPmem.Description | Should -Match 'outer executable as NotSigned'
   }
 
   It 'keeps the candidate unsupported until target acceptance is complete' {

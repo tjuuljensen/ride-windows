@@ -14243,10 +14243,10 @@
     }
     @{
       Id = 'package.winpmem'
-      Name = 'WinPmem signed production acquisition executable (x64 candidate)'
+      Name = 'WinPmem production userspace executable (x64 candidate)'
       Kind = 'Package'
       Category = 'Software / Forensics'
-      Description = 'Stage the pinned official signed WinPmem Go executable as an owned file without launching it. Driver loading and memory capture are explicit operator actions and are not package installation behavior. Exact local bytes, Authenticode signer, driver lifecycle/recovery and Windows target behavior remain pending acceptance.'
+      Description = 'Stage the pinned official WinPmem Go executable as an owned file without launching it. The publisher-selected asset contains older signed drivers, but Windows reports the outer executable as NotSigned; its complete bytes match the catalog SHA-256. Driver loading and memory capture are explicit operator actions and are not package installation behavior. Driver lifecycle/recovery and Windows target behavior remain pending acceptance.'
       SupportedTargets = @()
       CandidateTargets = @('Windows 11')
       PendingAcceptance = $true
@@ -14268,7 +14268,7 @@
       ProductUri = 'https://github.com/Velocidex/WinPmem'
       License = 'Apache-2.0; retain the upstream license and notices'
       LicenseUri = 'https://github.com/Velocidex/WinPmem/blob/master/LICENSE'
-      AcceptanceNotes = 'The publisher marks the 4.1 development drivers as test-signed and directs production users to this separate signed Go executable with the older drivers. The release asset page publishes the pinned SHA-256, but local acquisition failed because github.com did not resolve; the bytes and Authenticode signer are not locally verified. Test only on disposable Windows guests. Driver loading, service cleanup, reboot recovery and memory capture must remain explicit and separately accepted; no Windows target is supported by this candidate.'
+      AcceptanceNotes = 'The publisher marks the 4.1 development drivers as test-signed and directs production users to this separate Go executable containing older signed drivers. The 5,257,728-byte asset acquired on 2026-11-03 matches the published/catalog SHA-256. Get-AuthenticodeSignature reports NotSigned for the outer executable; the filename is not evidence of an Authenticode signature on that wrapper. The tag license is retained. Embedded drivers were not loaded or independently verified. Driver loading, service cleanup, reboot recovery and memory capture remain separate acceptance; no Windows target is supported by this candidate.'
       InstallerArguments = ''
       UninstallerArguments = ''
       Rollback = 'Exact'
