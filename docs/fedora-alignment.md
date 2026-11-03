@@ -188,6 +188,13 @@ opt-in. Offline missing/corrupt/omitted/target mismatch refusals must survive th
 override. Native execution is pending; this adds no shared interface or target
 support. ALIGN-TARGET-01, its owner and promotion/release review trigger remain open.
 
+The [follow-up native run](archive/evidence/offline-target-exploration-night-native-2026-11-03.json)
+passed all 34 checks, including actual-target apply/restore audits, fresh opt-in,
+preview, exact original-absence recovery and all offline refusals with the switch.
+The fixture only raises Caffeine's minimum build in memory; published source and
+support metadata remain unchanged. This resolves that narrow native evidence gap;
+ALIGN-TARGET-01 and broader OS/handler acceptance remain open before promotion.
+
 ## Sysmon Modular checksum decoding and acquisition, 2026-11-02
 
 Shared behavior unchanged (RB-05/11): decode a bounded UTF-8 byte response in
