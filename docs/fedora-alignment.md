@@ -177,6 +177,17 @@ its promotion until reviewed; unrelated development can continue.
 See [operator behavior and recovery](unsupported-target-exploration.md) and
 [source evidence](archive/evidence/unsupported-target-source-validation-2026-11-02.json).
 
+The 2026-11-03 native-scenario preparation compares adopted contract 1.1.0
+(`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`)
+with current Fedora `ride.sh`/`common.sh` hashes recorded in
+[117-case source evidence](archive/evidence/offline-target-exploration-source-2026-11-03.json).
+Fedora still rejects undeclared targets separately from candidate permission.
+The existing offline Caffeine route now tests a synthetic minimum-build
+restriction with real Windows engine/file recovery, actual-target audit and fresh
+opt-in. Offline missing/corrupt/omitted/target mismatch refusals must survive the
+override. Native execution is pending; this adds no shared interface or target
+support. ALIGN-TARGET-01, its owner and promotion/release review trigger remain open.
+
 ## Sysmon Modular checksum decoding and acquisition, 2026-11-02
 
 Shared behavior unchanged (RB-05/11): decode a bounded UTF-8 byte response in

@@ -22,7 +22,7 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.19.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.14.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.19.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.14.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.3.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
@@ -83,6 +83,29 @@ Describe 'Focused portable acceptance boundaries' {
     $bytes.Length|Should -Be 1024
     [BitConverter]::ToUInt16($bytes,0x84)|Should -Be 0x14c
     Get-PeCharacteristics $bytes|Should -Be 0x0102
+  }
+  It 'builds only a minimum-build override fixture without changing Caffeine catalog metadata' {
+    $path=Join-Path $script:Root 'Invoke-RideOfflineAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    @($parseErrors).Count|Should -Be 0
+    $definition=$ast.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'New-OfflineTargetExplorationFixture'},$true)
+    . ([scriptblock]::Create($definition.Extent.Text))
+    $operation=(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch OfflineCaffeine).Operation
+    $operation.SelectedVariant='portable'
+    $before=ConvertTo-Json -InputObject $operation -Depth 20 -Compress
+    $fixture=New-OfflineTargetExplorationFixture $operation 26300
+    $fixture.MinimumBuild|Should -Be 26301
+    (ConvertTo-Json -InputObject $operation -Depth 20 -Compress)|Should -BeExactly $before
+    foreach($key in $operation.Keys|Where-Object {$_ -cne 'MinimumBuild'}){
+      (ConvertTo-Json -InputObject $fixture[$key] -Depth 20 -Compress)|Should -BeExactly (ConvertTo-Json -InputObject $operation[$key] -Depth 20 -Compress)
+    }
+    $candidate=$operation.Clone();$candidate.PendingAcceptance=$true
+    {New-OfflineTargetExplorationFixture $candidate 26300}|Should -Throw '*accepted machine-scope Caffeine*'
+    $other=$operation.Clone();$other.Id='package.other'
+    {New-OfflineTargetExplorationFixture $other 26300}|Should -Throw '*accepted machine-scope Caffeine*'
+    $limited=$operation.Clone();$limited.RequiresAdmin=$false
+    {New-OfflineTargetExplorationFixture $limited 26300}|Should -Throw '*accepted machine-scope Caffeine*'
   }
   It 'parses the isolated PSScriptTools runtime probe without executing it' {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'

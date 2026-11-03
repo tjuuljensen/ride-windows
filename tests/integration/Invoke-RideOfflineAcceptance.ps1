@@ -7,6 +7,8 @@
   guest and runs its own CLI for install/profile apply, repeat and saved recovery.
   Checks Defender before/after. Never runs Caffeine; cross-machine delivery and
   full-set bundles remain separate acceptance work.
+  An in-memory Caffeine minimum-build fixture additionally verifies explicit
+  target exploration and fresh recovery opt-in without editing catalog support.
 .PARAMETER ExpectedComputerName
   Exact disposable guest identity supplied by the checkpoint-backed host runner.
 .PARAMETER EvidencePath
@@ -27,8 +29,10 @@
   Compatibility: Elevated Windows PowerShell 5.1 in disposable Windows 11 x64.
   Effects: Guest network adapters disabled; owned package/state and test bundle writes.
   Recovery: Saved-run checks; outer runner restores the registered checkpoint.
-  Author: RIDE-Windows maintainers. Version: 0.2.0.
-  Changelog: 0.2.0: Exercise production assembly, guest-local bundle transfer,
+  Author: RIDE-Windows maintainers. Version: 0.3.0.
+  Changelog: 0.3.0: Add native minimum-build exploration audit/recovery checks
+    and verify exploration cannot bypass offline integrity or target binding.
+    0.2.0: Exercise production assembly, guest-local bundle transfer,
     bundled CLI execution and read-only Defender observations.
     0.1.1: Require a valid positive preflight before negative cases.
     0.1.0: Add disconnected source-bound portable execution acceptance.
@@ -36,7 +40,7 @@
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ExpectedComputerName,[string]$EvidencePath,
   [ValidateSet('OfflineCaffeine')][string]$Batch='OfflineCaffeine',[switch]$DisposableVm,[switch]$Version)
-if($Version){'0.2.0';return}
+if($Version){'0.3.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest; no workstation integration is permitted.'}
 if((Get-CimInstance Win32_ComputerSystem).Model -notmatch 'Virtual Machine'){throw 'Virtual-machine identity required.'}
@@ -69,6 +73,15 @@ function Saved-OfflineRun($Output){
   $id=($Output|Where-Object {$_ -is [string] -and $_ -match '^Run ID: '}|Select-Object -Last 1)-replace '^Run ID: ',''
   Assert-Offline ($id -match '^[a-f0-9]{32}$') 'No saved run ID returned.'
   $row.RunIds+=@($id);$id
+}
+function New-OfflineTargetExplorationFixture {
+  param([hashtable]$Operation,[ValidateRange(22000,999998)][int]$Build)
+  if($Operation.Id -cne 'package.caffeine' -or $Operation.Kind -cne 'Package' -or
+     $Operation.InstallerType -cne 'Portable' -or $Operation.SelectedVariant -cne 'portable' -or
+     $Operation.Scope -cne 'Machine' -or -not $Operation.RequiresAdmin -or $Operation.PendingAcceptance){throw 'Target exploration requires the accepted machine-scope Caffeine portable selection.'}
+  $fixture=$Operation.Clone()
+  $fixture.MinimumBuild=$Build+1
+  $fixture
 }
 try{
   Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force
@@ -148,11 +161,14 @@ try{
     }
     $badPath=Join-Path $bundle ($negative+'.json')
     $bad|ConvertTo-Json -Depth 15|Set-Content -LiteralPath $badPath -Encoding UTF8
-    $failure=$null
-    try{$null=Invoke-RidePlan $plan -OfflineBundle $badPath -OfflineProfileId acceptance -OfflineCatalogFileId catalog -Confirm:$false}catch{$failure=$_.Exception.Message}
-    Assert-Offline ([bool]$failure -and (State-Fingerprint) -ceq $before -and -not (Get-RideCurrentState $op).Present) ('Preflight failed to refuse without mutation: '+$negative)
-    $row.Checks+=@($negative+'Refused')
-    $row[$negative]=$failure
+    foreach($exploration in @($false,$true)){
+      $failure=$null
+      try{$null=Invoke-RidePlan $plan -OfflineBundle $badPath -OfflineProfileId acceptance -OfflineCatalogFileId catalog -AllowUnsupportedTarget:$exploration -Confirm:$false}catch{$failure=$_.Exception.Message}
+      $label=$negative+$(if($exploration){'WithExploration'}else{''})
+      Assert-Offline ([bool]$failure -and (State-Fingerprint) -ceq $before -and -not (Get-RideCurrentState $op).Present) ('Preflight failed to refuse without mutation: '+$label)
+      $row.Checks+=@($label+'Refused')
+      $row[$label]=$failure
+    }
   }
   $cli=Join-Path $bundle 'ride/ride.ps1'
   Assert-Offline ((& $cli -Version) -ceq $engineVersion) 'Bundled engine version differs.'
@@ -182,6 +198,50 @@ try{
   Assert-Offline (-not (Get-RideCurrentState $op).Present) 'Profile absence recovery failed.'
   Assert-Offline (-not @(Get-NetAdapter -IncludeHidden|Where-Object Status -eq Up).Count) 'Guest network became available during acceptance.'
   $row.Checks+=@('CliProfileApply','RepeatProfileApply','Remove','ExactRemovalRestore','ProfileAbsenceRestore','StillDisconnected')
+  # Only the plan's minimum-build metadata changes. Published catalog/bundle
+  # bytes, support declarations, payload, privilege and offline gates stay bound.
+  $originalMetadata=ConvertTo-Json -InputObject $op -Depth 20 -Compress
+  $fixture=New-OfflineTargetExplorationFixture -Operation $op -Build ([int]$target.CurrentBuildNumber)
+  $explorationPlan=@([pscustomobject]@{Operation=$fixture;State='Present'})
+  $unchanged=State-Fingerprint
+  $refused=$null
+  try{$null=Invoke-RidePlan $explorationPlan @offline -Confirm:$false}catch{$refused=$_.Exception.Message}
+  Assert-Offline ($refused -like '*requires Windows build*' -and (State-Fingerprint) -ceq $unchanged -and -not (Get-RideCurrentState $op).Present) 'Minimum-build fixture was not refused before mutation.'
+  $row.Checks+=@('ExplorationRequiresExplicitOptIn')
+  $null=Invoke-RidePlan $explorationPlan @offline -AllowUnsupportedTarget -WhatIf
+  Assert-Offline ((State-Fingerprint) -ceq $unchanged -and -not (Get-RideCurrentState $op).Present) 'Exploration preview changed state.'
+  $row.Checks+=@('ExplorationPreviewNoWrites')
+  $explorationRun=Saved-OfflineRun @(Invoke-RidePlan $explorationPlan @offline -AllowUnsupportedTarget -Confirm:$false)
+  Assert-Offline (Test-RideDesiredState $op Present) 'Exploration fixture install failed.'
+  $explorationDirectory=Join-Path $stateRoot $explorationRun
+  $applyAudit=@((Get-Content -LiteralPath (Join-Path $explorationDirectory '_manifest.json') -Raw|ConvertFrom-Json).TargetExploration)
+  Assert-Offline ($applyAudit.Count -eq 1 -and $applyAudit[0].Unsupported -and $applyAudit[0].AllowUnsupportedTarget -and $applyAudit[0].Build -eq [int]$target.CurrentBuildNumber -and $applyAudit[0].EditionId -ceq $target.EditionID -and $applyAudit[0].Action -ceq 'Apply' -and 'BelowMinimumBuild' -in $applyAudit[0].OverriddenRestrictions) 'Exploration apply audit differs from actual target and fixture.'
+  $row.Checks+=@('ExplorationInstallAndActualTargetAudit')
+  $unchanged=State-Fingerprint
+  $refused=$null
+  try{$null=Invoke-RidePlan $explorationPlan @offline -Confirm:$false}catch{$refused=$_.Exception.Message}
+  Assert-Offline ($refused -like '*requires Windows build*' -and (State-Fingerprint) -ceq $unchanged -and (Get-RideCurrentState $op).Present) 'Exploration opt-in leaked to a later invocation.'
+  Assert-Offline ('No changes were needed; no state record was created.' -in @(Invoke-RidePlan $explorationPlan @offline -AllowUnsupportedTarget -Confirm:$false)) 'Explicit exploration repeat was not a no-op.'
+  $row.Checks+=@('ExplorationFreshApplyOptInAndRepeat')
+  $refused=$null
+  try{$null=Restore-RideRun $explorationRun -Confirm:$false}catch{$refused=$_.Exception.Message}
+  Assert-Offline ($refused -like '*requires Windows build*' -and (State-Fingerprint) -ceq $unchanged -and (Get-RideCurrentState $op).Present) 'Exploration restore did not require fresh opt-in.'
+  $row.Checks+=@('ExplorationRestoreRequiresFreshOptIn')
+  $null=Restore-RideRun $explorationRun -AllowUnsupportedTarget -WhatIf
+  Assert-Offline ((State-Fingerprint) -ceq $unchanged -and (Get-RideCurrentState $op).Present) 'Exploration restore preview changed state.'
+  $row.Checks+=@('ExplorationRestorePreviewNoWrites')
+  $null=Restore-RideRun $explorationRun -AllowUnsupportedTarget -Confirm:$false
+  Assert-Offline (-not (Get-RideCurrentState $op).Present) 'Exploration original-absence recovery failed.'
+  $restoreLogs=@(Get-ChildItem -LiteralPath $explorationDirectory -File -Force -Filter '.target-exploration-*.log')
+  Assert-Offline ($restoreLogs.Count -eq 1) 'Exploration restore audit missing or duplicated.'
+  $restoreAudit=Get-Content -LiteralPath $restoreLogs[0].FullName -Raw|ConvertFrom-Json
+  Assert-Offline ($restoreAudit.Action -ceq 'Restore' -and $restoreAudit.Unsupported -and $restoreAudit.Build -eq [int]$target.CurrentBuildNumber -and 'BelowMinimumBuild' -in $restoreAudit.OverriddenRestrictions) 'Exploration restore audit differs.'
+  $row.Checks+=@('ExplorationExactAbsenceRestoreAndAudit')
+  Assert-Offline ((ConvertTo-Json -InputObject $op -Depth 20 -Compress) -ceq $originalMetadata) 'Exploration fixture modified source metadata.'
+  Assert-Offline ((Get-FileHash -LiteralPath (Join-Path $bundle 'ride/catalog/operations.psd1')).Hash -ieq ($preparedManifest.Files|Where-Object Id -eq catalog).Sha256) 'Exploration changed published catalog bytes.'
+  Assert-Offline (-not @(Get-NetAdapter -IncludeHidden|Where-Object Status -eq Up).Count) 'Guest network became available during exploration.'
+  $row.Checks+=@('ExplorationPreservesCatalogAndDisconnectedState')
+  @{Fixture='CaffeineMinimumBuildOneAboveActual';FixtureMinimumBuild=$fixture.MinimumBuild;PublishedCatalogChanged=$false;RunId=$explorationRun;ApplyAudit=$applyAudit;RestoreAudit=$restoreAudit;Boundary='Native engine and file handler with synthetic unsupported minimum-build metadata; no actual OS support promotion or altered offline bundle target.'}|ConvertTo-Json -Depth 10|Set-Content -LiteralPath (Join-Path $evidence 'target-exploration.json') -Encoding UTF8
   $row.FileEvidence=$owned;$row.Status='Passed'
 }catch{$row.Error=$_.Exception.Message}
 finally{

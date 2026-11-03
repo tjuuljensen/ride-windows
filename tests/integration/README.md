@@ -244,6 +244,18 @@ or distribution approval. Inspect `network-before.json`, `network-after.json`,
 `bundle-manifest.json`, scenarios and the host recovery result. Broader installer,
 servicing, dependency and interruption acceptance remains separate.
 
+The same disconnected Caffeine route also tests `-AllowUnsupportedTarget` using
+an in-memory copy of its resolved operation with `MinimumBuild` set one above the
+actual guest build. Published catalog/bundle bytes, payload identity, supported
+targets and privilege metadata stay unchanged. The real engine and file handler
+must refuse ordinary apply, leave preview unchanged, record the actual target on
+explicit apply, require fresh apply/restore opt-in, and restore original absence
+with a separate restore audit. Inspect `target-exploration.json` and saved state.
+This synthetic restriction does not establish support for another Windows build
+or bypass candidate acceptance. Missing/corrupt/omitted payload and mismatched
+offline target cases run both with and without the override and must still refuse
+before mutation. The Windows/Fedora alignment decision remains open separately.
+
 For repeated `NTCore`, `NTCoreAdditional`, `MiTeCMailHistoryViewers`, `MiTeCAnalysisTools`, `MiTeCSystemAndTelephony`, `PSScriptTools`, `OfflineCaffeine`, `SQLiteQuery`,
 `MiTeCUtilityFiles`, `SysinternalsSuite`, `ImageMagick` and `RawCopy` batches, prefer the
 registered task instead of launching this standalone host runner with `RunAs`

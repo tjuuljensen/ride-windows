@@ -1,0 +1,60 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T01:52:46.5147307Z",
+  "Status": "SourcePassedNativePending",
+  "Suite": "OfflineCaffeine",
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 117,
+      "Failed": 0,
+      "Total": 117
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 117,
+      "Failed": 0,
+      "Total": 117
+    }
+  ],
+  "SourceFiles": [
+    {
+      "Sha256": "79845019D1CCA00DAF8F3113B96D79FBC632320DAEB9CC99F019943B94B3AE54",
+      "Path": "tests/integration/Invoke-RideOfflineAcceptance.ps1"
+    },
+    {
+      "Sha256": "E0108FEA5F682E1DB278F731D2916986691767847B6810D85C76CAE1F36DB8C0",
+      "Path": "tests/PortableAcceptanceAutomation.Tests.ps1"
+    }
+  ],
+  "Fixture": "Resolved accepted Caffeine portable operation cloned in memory; MinimumBuild set one above actual guest build. No published catalog, support, payload or privilege metadata changes.",
+  "NativeChecks": [
+    "ExplicitApplyOptIn",
+    "PreviewNoWrites",
+    "ActualTargetApplyAudit",
+    "FreshApplyOptInAndRepeat",
+    "FreshRestoreOptIn",
+    "RestorePreviewNoWrites",
+    "ExactAbsenceRecoveryAndRestoreAudit",
+    "OriginalMetadataCatalogBytesAndDisconnectedNetwork"
+  ],
+  "OfflineRefusals": [
+    "MissingPayload",
+    "CorruptPayloadPin",
+    "OmittedPayload",
+    "WrongTarget"
+  ],
+  "OfflineRefusalModes": [
+    "Default",
+    "AllowUnsupportedTarget"
+  ],
+  "Boundary": "Existing fixed Caffeine package route, real disconnected engine/file-handler lifecycle, no new payload or utility execution. Synthetic unsupported metadata establishes override behavior only, not OS support. This does not activate another controller or remove the separate candidate gate.",
+  "Alignment": {
+    "OpenFollowup": "ALIGN-TARGET-01 remains open before promotion; no shared contract amendment.",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "ContractVersion": "1.1.0",
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "Impact": "Acceptance of existing intentional Windows RB-08 difference, with RB-03/04/05/09/11 safeguards. Fedora still refuses undeclared targets separately from candidate permission."
+  }
+}
