@@ -1191,6 +1191,21 @@ trigger: [remaining native font availability](machine-fonts.md), including the
 immediate removal failure and any future session/restart/consumer scenario.
 Later clean observations do not erase an earlier failure or grant target support.
 
+## Gpg4win and TMOG native corrections, 2026-11-03
+
+Shared behavior is unchanged under contract 1.1.0 (RB-04/08/09/11/12).
+Gpg4win's final NSIS destination now follows the documented unquoted `/D=`
+syntax. The TMOG acceptance fixture maps pinned release 1.0.1 to observed
+registration 1.0.1.0, retaining exact matching for other releases/products.
+Native sources, compared Fedora HEAD/provider hashes and 54 passing tests per
+PowerShell edition are recorded in [source evidence](archive/evidence/gpg4win-tmog-installer-corrections-source-2026-11-03.json).
+Fedora's native package provider has no NSIS argument contract. No public CLI,
+pin, target promotion, privilege, component selection or recovery semantics
+change; no contract amendment or shared conformance claim is needed.
+Owner: Windows maintainer. Follow-up and review trigger: corrected native
+install/repeat/remove/recovery runs in the [current assessment](migrations/migration-completion-reassessment-2026-11-03.md).
+The prior failed runs remain evidence; the NSIS fix is not proof of crash cause.
+
 ## WinPmem file-only native evidence, 2026-11-03
 
 RB-11 Windows-owned evidence adds active/no-alert Defender observation to the

@@ -106,7 +106,9 @@ Describe 'Gpg4win installer configuration staging' {
 
       $script:gpg4winArguments | Should -Match '/CurrentUser'
       $expectedInstallDirectory = Join-Path (Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'Programs') 'Gpg4win'
-      $script:gpg4winArguments | Should -Match ([regex]::Escape('/D="' + $expectedInstallDirectory + '"'))
+      # NSIS consumes the complete unquoted final /D= tail, including spaces.
+      $script:gpg4winArguments | Should -Match ([regex]::Escape('/D=' + $expectedInstallDirectory) + '$')
+      $script:gpg4winArguments | Should -Not -Match '/D="'
       $script:gpg4winDataAbsentDuringInstall | Should -BeTrue
       (Get-Content -LiteralPath (Join-Path $script:gpg4winKeyDirectory 'gpg.conf') -Raw) | Should -BeExactly 'synthetic user setting'
       $script:gpg4winConfigurationText | Should -Match '(?m)^inst_kleopatra=true\r?$'
@@ -116,6 +118,14 @@ Describe 'Gpg4win installer configuration staging' {
       }
       Test-Path -LiteralPath $script:gpg4winConfigurationPath | Should -BeFalse
       Should -Invoke Invoke-RidePackageInstallerProcess -Exactly 1
+    }
+
+    It 'retains a space-containing NSIS destination as the unquoted final argument' {
+      $operation.LocalAppDataInstallDirectory='Gpg4win Test Destination'
+      Install-RidePackage -Operation $operation -CacheDirectory $TestDrive | Out-Null
+      $expectedInstallDirectory=Join-Path (Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'Programs') 'Gpg4win Test Destination'
+      $script:gpg4winArguments | Should -Match ([regex]::Escape('/D='+$expectedInstallDirectory)+'$')
+      $script:gpg4winArguments | Should -Not -Match '/D="'
     }
 
     It 'cleans temporary configuration if the installer process fails' {

@@ -8,7 +8,7 @@
   Invoke-Pester ./tests/FocusedApplicationSelection.Tests.ps1
 .NOTES
   Compatibility: Pester 5.7.1; native Windows PowerShell 5.1 and PowerShell 7.
-  Version: 0.2.2. Changelog: Verify bounded Mail Checker executable location from old ARP metadata.
+  Version: 0.2.3. Changelog: Verify exact TMOG release-to-registration version mapping.
 #>
 BeforeAll {
   $script:repo=Split-Path -Parent $PSScriptRoot
@@ -18,10 +18,18 @@ BeforeAll {
   $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'),[ref]$tokens,[ref]$errors)
   if($errors.Count){throw ($errors -join '; ')}
   $script:applicationAst=$ast
-  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','Resolve-RideMailCheckerInstallDirectory','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
+  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','Resolve-RideMailCheckerInstallDirectory','Get-RideApplicationExpectedInstalledVersion','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
   $definitions=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -in $names},$true))
   if($definitions.Count -ne $names.Count){throw 'Focused pure helper definitions differ.'}
   . ([scriptblock]::Create(($definitions|ForEach-Object {$_.Extent.Text}) -join "`n"))
+}
+Describe 'Exact installed application version expectations' {
+  It 'maps only the observed TMOG release and retains exact version gates elsewhere' {
+    Get-RideApplicationExpectedInstalledVersion @{Id='package.tmog';PackageVersion='1.0.1'} 1|Should -BeExactly '1.0.1.0'
+    Get-RideApplicationExpectedInstalledVersion @{Id='package.tmog';PackageVersion='1.0.2'} 1|Should -BeExactly '1.0.2'
+    Get-RideApplicationExpectedInstalledVersion @{Id='package.other';PackageVersion='1.0.1'} 1|Should -BeExactly '1.0.1'
+    Get-RideApplicationExpectedInstalledVersion @{Id='package.hashcheck';PackageVersion='2.6.3'} 11|Should -BeExactly '2.6.3.0'
+  }
 }
 Describe 'Fixed Mail Checker guest selection' {
   BeforeEach {

@@ -45,7 +45,8 @@ retains executable/process/error evidence. See [source checks](../archive/eviden
 | WFN | Prepared native file lifecycle route | Existing route does not launch; no firewall actions | Scoped startup separate from firewall actions. |
 | InfoBar and Project Maker | Prepared focused routes; earlier partial evidence retained | Pinned startup checks prepared; 40 startup/selection/candidate tests passed per shell. [Source evidence](../archive/evidence/infobar-project-maker-startup-source-2026-11-03.json). Native startup pending. | Synthetic features deferred to v3.1. |
 | Gpg4win | Native installer failed again with `0xC0000005`; 73 guest regression tests and separate checkpoint recovery passed. [Evidence](../archive/evidence/gpg4win-installer-failure-native-2026-11-03.json). | Not reached | Diagnose installer failure before startup or feature acceptance. |
-| NTCore Explorer Suite, TMOG | Prepared focused routes; earlier partial evidence retained | Native startup still to be established | Features after lifecycle/startup acceptance. |
+| TMOG | Installed, then exact version assertion failed: release 1.0.1 registers 1.0.1.0. Checkpoint recovery passed. [Evidence](../archive/evidence/tmog-version-assertion-native-2026-11-03.json). Corrected native retry pending. | Not exercised by this lifecycle route | Establish startup for v3 fast track; feature coverage in v3.1. |
+| NTCore Explorer Suite | Prepared focused route; earlier partial evidence retained | Native startup still to be established | Features after lifecycle/startup acceptance. |
 
 The [Nov 3 status](migration-completion-reassessment-2026-11-03.md) and
 [overnight case index](../archive/evidence/overnight-closeout-2026-11-03.json)

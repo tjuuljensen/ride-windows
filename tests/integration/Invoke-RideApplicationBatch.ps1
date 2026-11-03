@@ -66,8 +66,9 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.24.2.
-  Changelog: 0.24.2: Verify Mail Checker's pinned executable when ARP omits DisplayVersion.
+  Owner: RIDE-Windows maintainers. Version: 0.24.3.
+  Changelog: 0.24.3: Match pinned TMOG 1.0.1 to its observed 1.0.1.0 registration.
+    0.24.2: Verify Mail Checker's pinned executable when ARP omits DisplayVersion.
     0.24.1: Carry candidate consent and explicit removal/recovery through Mail Checker.
     0.24.0: Add pinned InfoBar/Project Maker startup checks; features deferred to v3.1.
     0.23.0: Add exact Mail Checker startup smoke check; features deferred to v3.1.
@@ -119,7 +120,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12,13)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.24.2'
+$script:ScriptVersion='0.24.3'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -159,6 +160,13 @@ if($UnelevatedChild -and ($workerElevated -or $workerIdentity.User.Value -cne $E
 if($UnelevatedChild -and ([Environment]::GetFolderPath('LocalApplicationData') -ine $ExpectedLocalAppData)){throw 'Limited worker profile does not match the authorized guest user.'}
 if(-not $UnelevatedChild -and ($ExpectedUserSid -or $ExpectedLocalAppData)){throw 'Identity correlation requires the internal limited worker.'}
 if(-not $PSCmdlet.ShouldProcess('Disposable guest',"Run applications batch $Batch")){return}
+
+function Get-RideApplicationExpectedInstalledVersion {
+  param([hashtable]$Package,[int]$SelectedBatch)
+  if($SelectedBatch -eq 11){return '2.6.3.0'}
+  if($Package.Id -ceq 'package.tmog' -and $Package.PackageVersion -ceq '1.0.1'){return '1.0.1.0'}
+  return [string]$Package.PackageVersion
+}
 
 function Get-RideOpenJdkPreservationSnapshot {
   $state=[ordered]@{
@@ -716,7 +724,7 @@ foreach($scenario in $scenarios){
     if($Batch -in @(6,7,9,10,11) -or $PackageId -cin @('package.gpg4win','package.tmog')){
       # HashCheck release 2.6.3 registers DisplayVersion 2.6.3.0; retain an
       # exact assertion rather than loosening version checks for other packages.
-      $expectedInstalledVersion=if($Batch -eq 11){'2.6.3.0'}else{[string]$package.PackageVersion}
+      $expectedInstalledVersion=Get-RideApplicationExpectedInstalledVersion $package $Batch
       if([string]$installed.DisplayVersion -cne $expectedInstalledVersion){throw "Installed package version '$($installed.DisplayVersion)' does not match expected installed version '$expectedInstalledVersion' for release '$($package.PackageVersion)'."}
       $scenarioResult.Checks+=@('RIDEManagedInstall','PinnedPackageVersion')
     }

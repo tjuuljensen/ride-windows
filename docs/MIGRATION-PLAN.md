@@ -5,15 +5,26 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
-| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper file lifecycles and eighteen MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; two network tools remain unrun. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Core fixture prepared; native runtime and shared-BDE recovery remain open. No additional legacy closure counted. |
+| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper file lifecycles and eighteen MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. Tested installer/fixture corrections await native retries. Two network tools remain unrun. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Core fixture prepared; native runtime and shared-BDE recovery remain open. No additional legacy closure counted. |
 | Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
 | Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but immediate native visibility failed; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN prerequisites remain unavailable. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 Gpg4win installer failed again; verified checkpoint recovery allowed unattended continuation to TMOG. Mail Checker/RegRipper passes retained; MiTeC has 18 passing variants across 13 products.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 TMOG version assertion failed after installation; checkpoint recovered. Gpg4win/TMOG corrections passed 54 tests per shell; native retries pending. MiTeC has 18 passing variants across 13 products.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
 
 ## Fast-track startup and controller corrections, 2026-11-03
+
+TMOG follow-up installed successfully but stopped on the fixture's 1.0.1 versus
+observed 1.0.1.0 registration mismatch; 61 guest regression tests and checkpoint
+recovery passed. The exact expectation is corrected. Gpg4win's final `/D=` path
+now follows documented unquoted NSIS syntax, including spaces. Fifty-four tests
+passed per shell; corrected native retries are queued after independent coverage.
+See [TMOG native evidence](archive/evidence/tmog-version-assertion-native-2026-11-03.json)
+and [source corrections](archive/evidence/gpg4win-tmog-installer-corrections-source-2026-11-03.json).
+These runs close, retire or exclude no additional legacy outcome. All five ranges
+were reviewed unchanged at 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175
+and rounded 120-175. Failed/partial acceptance remains counted.
 
 Follow-up at 10:23 Copenhagen: Gpg4win installation again failed with
 `0xC0000005`; all 73 guest regression tests and separate checkpoint recovery

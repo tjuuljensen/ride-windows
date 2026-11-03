@@ -1,0 +1,94 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T10:32:17.6828423+01:00",
+  "Status": "SourceTestedNativeRetryPending",
+  "Changes": [
+    "Gpg4win final NSIS /D= argument is unquoted, including space-containing paths; /C= configuration quoting is preserved.",
+    "Pinned TMOG release 1.0.1 expects the observed exact registration version 1.0.1.0; other products/releases retain their exact version gates."
+  ],
+  "Sources": [
+    "https://nsis.sourceforge.io/Docs/Chapter3.html",
+    "https://www.gpg4win.org/doc/en/gpg4win-compendium_35.html"
+  ],
+  "NativeFailureEvidence": [
+    "gpg4win-installer-failure-native-2026-11-03.json",
+    "tmog-version-assertion-native-2026-11-03.json"
+  ],
+  "Tests": [
+    {
+      "Passed": 54,
+      "AtUtc": "2026-11-03T09:30:31.4032331Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "Failed": 0,
+      "Passed": 54,
+      "Skipped": 0,
+      "PowerShell": "7.6.5",
+      "AtUtc": "2026-11-03T09:30:19.5173588Z",
+      "Edition": "Core"
+    }
+  ],
+  "Files": [
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "E0D48E7FAFA5B53004C1AB28A9928ECDF722CBABE004E49741A655AB7516B1A9"
+    },
+    {
+      "Path": "tests/Gpg4winPackage.Tests.ps1",
+      "Sha256": "3CBF6026166A71DA82BCCA33B5BF6438960195D7DF2EBA493CB1CD7C561ECDB7"
+    },
+    {
+      "Path": "tests/FocusedApplicationSelection.Tests.ps1",
+      "Sha256": "4F0D4848DC6F7B38676462F1225F8CF2A6DE71300D98A697AF789B0EC038846D"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1",
+      "Sha256": "F41B4AA4C56963A625E14B7D968428A59B7AC9CFEA8473692EA226FBD7B62079"
+    }
+  ],
+  "Alignment": {
+    "Rules": [
+      "RB-04",
+      "RB-08",
+      "RB-09",
+      "RB-11",
+      "RB-12"
+    ],
+    "ContractVersion": "1.1.0",
+    "FedoraHead": "1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "PeerReview": "Native dnf-package install/remove branch; no NSIS interface or shared schema change.",
+    "Classification": "Shared behavior unchanged; native installer argument and acceptance-fixture corrections",
+    "FedoraProvidersSha256": "005C325CDAA3DA489A4A5FD4A1A54FB05FD3D9A2C0DA29EFA7EEEB88B7F36A6D"
+  },
+  "Limits": [
+    "Correcting documented NSIS syntax does not establish the cause of the prior crash.",
+    "Native install/repeat/uninstall/recovery acceptance is pending for both corrected paths.",
+    "No supported targets, privilege, pin, component selection or recovery semantics changed."
+  ],
+  "RemainingEstimate": {
+    "Maintenance": "8-12",
+    "Components": "19-24",
+    "LegacyClosure": false,
+    "Packages": "34-49",
+    "FilesAndAssets": "23-33",
+    "Settings": "37-57",
+    "Rounded": "120-175",
+    "Exact": "121-175"
+  },
+  "RepositoryValidation": {
+    "Edition": "Core",
+    "Passed": true,
+    "PowerShell": "7.6.5",
+    "Profiles": 5,
+    "Groups": 9,
+    "PowerShellFiles": 404,
+    "GeneratedOperationReference": "Current",
+    "Operations": 475
+  }
+}

@@ -33,6 +33,16 @@ See [Gpg4win failure](../archive/evidence/gpg4win-installer-failure-native-2026-
 Remaining prepared package routes continue without another controller refresh; the queue
 checks recovery and the user's 10% usage reserve before each new admission.
 
+TMOG installed and reported version 1.0.1.0, then the test's expectation of 1.0.1
+failed; its 61 guest regression tests and separate checkpoint recovery passed.
+The exact release-to-registration expectation is corrected. Gpg4win's quoted
+NSIS `/D=` destination also violated documented installer syntax and is now
+unquoted. Fifty-four tests passed per PowerShell edition, including a destination
+with spaces. Neither source fix establishes native acceptance or crash cause.
+One corrected retry per product is queued after the independent packages and
+retained font/WLAN diagnostics. See [TMOG failure](../archive/evidence/tmog-version-assertion-native-2026-11-03.json)
+and [source checks/references](../archive/evidence/gpg4win-tmog-installer-corrections-source-2026-11-03.json).
+
 OpenSSH Client preparation passed, but lifecycle preflight rejected a pending
 servicing restart. Evidence-preserving attended recovery reset the pinned VM,
 released its hold and removed the capability queue. Preflight reporting is fixed

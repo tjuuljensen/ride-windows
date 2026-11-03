@@ -14424,7 +14424,7 @@
       ProductUri = 'https://www.gpg4win.org/'
       License = 'GPL-family licenses and separate component notices; retain the publisher license and notice files'
       LicenseUri = 'https://www.gpg4win.org/license.html'
-      InstallerArguments = '/S /CurrentUser /C="{InstallerConfigurationPath}" /D="{InstallDirectory}"'
+      InstallerArguments = '/S /CurrentUser /C="{InstallerConfigurationPath}" /D={InstallDirectory}'
       InstallerConfigurationSection = 'gpg4win'
       InstallerConfiguration = @{
         inst_kleopatra = $true
