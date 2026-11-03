@@ -11,8 +11,9 @@
   service/interface and an existing local evidence root. No UAC or service start.
   Recovery: Restore completed run IDs in reverse order after inspecting failures;
   incomplete intent requires inspection. Checkpoint cleanup is a separate fallback.
-  Version: 0.1.1.
-  Changelog: 0.1.1: Add private interface-only observation for retained dispatch.
+  Version: 0.1.2.
+  Changelog: 0.1.2: Retain observed WLAN service state when prerequisites are unavailable.
+  0.1.1: Add private interface-only observation for retained dispatch.
   0.1.0: Add synthetic native lifecycle and exact observed-order checks.
 .LINK
   ../../docs/wireless-profile-inventory.md
@@ -52,7 +53,7 @@ function Get-RideWirelessAcceptanceInterfaceRows {
 function Get-RideWirelessAcceptanceInterfaces {
   # Internal read-only helper called after the retained remote target guard.
   $context=Get-RideWirelessAcceptanceEnvironment
-  $result=[pscustomobject]@{SchemaVersion=1;Kind='WirelessInterfaceObservation';Status='NotRun';Reason='WlanServiceUnavailable';Interfaces=@();ProfileContentRead=$false;ConnectionAttempted=$false;NativeAcceptancePassed=$false}
+  $result=[pscustomobject]@{SchemaVersion=1;Kind='WirelessInterfaceObservation';Status='NotRun';Reason='WlanServiceUnavailable';WlanService=[string]$context.WlanService;Interfaces=@();ProfileContentRead=$false;ConnectionAttempted=$false;NativeAcceptancePassed=$false}
   if($context.WlanService -cne 'Running'){return $result}
   try{$rows=@(Get-RideWirelessAcceptanceInterfaceRows)}catch{$result.Reason='WlanInterfaceUnavailable';return $result}
   if(-not $rows.Count){$result.Reason='NoWlanInterfaces';return $result}

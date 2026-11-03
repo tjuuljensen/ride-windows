@@ -5,15 +5,31 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
-| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus file lifecycle and eleven MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed; two network tools remain unrun. Mail Checker harness defects corrected, native retry running. PSScriptTools Core fixture prepared; native runtime and shared-BDE recovery remain open. No additional legacy closure counted. |
+| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus file lifecycle and seventeen MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed; two network tools remain unrun. Mail Checker installed; pinned executable readback retry running. PSScriptTools Core fixture prepared; native runtime and shared-BDE recovery remain open. No additional legacy closure counted. |
 | Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
 | Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but immediate native visibility failed; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN prerequisites remain unavailable. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 Network Scanner x64 passed, x86 startup crashed; VM recovery passed. Mail Checker candidate/removal harness corrected and retry running.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 Six system-viewer cases passed, bringing MiTeC to 17 passing variants. Scanner x86 remains failed; Mail Checker installed and readback retry running.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
 
 ## Fast-track startup and controller corrections, 2026-11-03
+
+Latest follow-up: all six MiTeC system viewers passed 15 checks each, including
+startup, removal/recovery and Defender, with a passing outer controller result.
+Attended MiTeC totals are now 17 passing variants across 12 products; Scanner
+x86 remains failed and DirList/Network Meter remain unrun. Mail Checker installed
+after candidate consent was fixed, then stopped on empty ARP DisplayVersion.
+Exact executable hash/version readback is prepared (48 tests per shell) and a
+native retry is running. WLAN prerequisite reporting now retains the observed
+service status (57 tests per shell); its next native read-only preparation is
+pending. No service was started and no connection was attempted.
+See [system viewers](archive/evidence/mitec-system-viewers-fast-track-native-2026-11-03.json),
+[Mail Checker readback](archive/evidence/mail-checker-version-readback-2026-11-03.json)
+and [WLAN source checks](archive/evidence/wireless-service-diagnostics-source-2026-11-03.json).
+No additional legacy outcome closed, retired or excluded. All five ranges were
+reviewed unchanged: settings 37-57, packages 34-49, components 19-24,
+files/assets 23-33, maintenance 8-12; total 121-175 exact / 120-175 rounded.
 
 JSON/XML Viewer x64/x86 passed four native guest cases with 15 checks each,
 bounded startup without observed errors, exact recovery and active/no-alert

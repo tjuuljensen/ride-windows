@@ -25,10 +25,14 @@ Describe 'Retained guest WLAN interface observation' {
       $result.Status|Should -Be Available;$result.Interfaces.Count|Should -Be 1
       $result.NativeAcceptancePassed|Should -BeFalse;$result.ConnectionAttempted|Should -BeFalse;$result.ProfileContentRead|Should -BeFalse
     }
-    It 'reports a missing service without querying native interfaces or starting it' {
-      Mock Get-RideWirelessAcceptanceEnvironment {[pscustomobject]@{WlanService='Absent'}}
+    It 'retains unavailable service state <ServiceState> without querying native interfaces or starting it' -ForEach @(
+      @{ServiceState='Absent'},@{ServiceState='Stopped'},@{ServiceState='StartPending'}
+    ) {
+      $script:observedServiceState=$ServiceState
+      Mock Get-RideWirelessAcceptanceEnvironment {[pscustomobject]@{WlanService=$script:observedServiceState}}
       $result=Get-RideWirelessAcceptanceInterfaces
       $result.Status|Should -Be NotRun;$result.Reason|Should -Be WlanServiceUnavailable
+      $result.WlanService|Should -BeExactly $ServiceState
       Should -Invoke Get-RideWirelessAcceptanceInterfaceRows -Times 0 -Exactly
     }
     It 'reports an empty native interface list as NotRun' {

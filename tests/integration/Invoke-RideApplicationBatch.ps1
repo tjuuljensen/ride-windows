@@ -66,8 +66,9 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.24.1.
-  Changelog: 0.24.1: Carry candidate consent and explicit removal/recovery through Mail Checker.
+  Owner: RIDE-Windows maintainers. Version: 0.24.2.
+  Changelog: 0.24.2: Verify Mail Checker's pinned executable when ARP omits DisplayVersion.
+    0.24.1: Carry candidate consent and explicit removal/recovery through Mail Checker.
     0.24.0: Add pinned InfoBar/Project Maker startup checks; features deferred to v3.1.
     0.23.0: Add exact Mail Checker startup smoke check; features deferred to v3.1.
     0.22.0: Add fixed Mail Checker 7.2.0 package lifecycle with Defender
@@ -118,7 +119,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12,13)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.24.1'
+$script:ScriptVersion='0.24.2'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -543,6 +544,37 @@ function Get-SavedRunId($Output){
   if(-not $id){throw 'Scenario did not return a saved run.'};$id
 }
 
+function Resolve-RideMailCheckerInstallDirectory {
+  param([Parameter(Mandatory)]$Installed,[string[]]$AllowedRoots=@(${env:ProgramFiles(x86)},$env:ProgramFiles))
+  if(-not $Installed.Present -or $Installed.DisplayName -cne 'Mail Checker'){throw 'Exact Mail Checker registration is required.'}
+  $directory=[string]$Installed.InstallLocation
+  if(-not $directory){
+    # Old Inno registration may omit InstallLocation and DisplayVersion. Derive
+    # only a directory from its direct uninstall executable; never execute it here.
+    $match=[regex]::Match([string]$Installed.UninstallString,'^(?:"(?<path>[A-Za-z]:\\[^"\r\n]+\\unins\d{3}\.exe)"|(?<path>[A-Za-z]:\\[^"\r\n]+\\unins\d{3}\.exe))$',[Text.RegularExpressions.RegexOptions]::IgnoreCase)
+    if(-not $match.Success){throw 'Mail Checker has no bounded installer-reported directory.'}
+    $directory=Split-Path -Parent $match.Groups['path'].Value
+  }
+  if($directory -notmatch '^[A-Za-z]:\\'){throw 'Mail Checker directory must be an absolute local path.'}
+  $directory=[IO.Path]::GetFullPath($directory).TrimEnd('\')
+  $inside=@($AllowedRoots|Where-Object {$_ -and $directory.StartsWith([IO.Path]::GetFullPath($_).TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)})
+  if(-not $inside.Count){throw 'Mail Checker directory is outside the Program Files roots.'}
+  $directory
+}
+
+function Get-RideMailCheckerInstalledIdentity {
+  param([Parameter(Mandatory)]$Installed)
+  $directory=Resolve-RideMailCheckerInstallDirectory -Installed $Installed
+  $path=Join-Path $directory 'MAILCHECKER.EXE'
+  for($node=[IO.FileInfo]::new($path);$null -ne $node;$node=$(if($node -is [IO.FileInfo]){$node.Directory}else{$node.Parent})){
+    if($node.Exists -and ($node.Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'Mail Checker executable path contains a reparse point.'}
+  }
+  $file=Get-Item -LiteralPath $path -ErrorAction Stop
+  $sha256=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
+  if($file.PSIsContainer -or $sha256 -cne '9104F5E92BA0CB0333CC5312FD6E97B944D9EE2DA91771B99E19E47BA9D5167F' -or $file.VersionInfo.FileVersion -cne '7.2.0.0'){throw 'Installed Mail Checker executable differs from the pinned 7.2.0.0 payload.'}
+  [pscustomobject]@{Executable=$path;InstallDirectory=$directory;Sha256=$sha256;FileVersion=$file.VersionInfo.FileVersion;RegisteredDisplayVersion=$Installed.DisplayVersion;VersionSource='Pinned executable file metadata; ARP version retained separately'}
+}
+
 function Write-RideApplicationProgress {
   param([Parameter(Mandatory)][string]$PackageId,[Parameter(Mandatory)][string]$Stage)
   if(-not $env:RIDE_TEST_EVIDENCE_PATH){return}
@@ -677,15 +709,22 @@ foreach($scenario in $scenarios){
     $scenarioStage='Verify installed package state'
     Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
     $installed=Get-RideCurrentState $plan[0].Operation
+    if($Batch -eq 13){$scenarioResult.InstalledRegistration=$installed}
     if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Installation did not establish the desired state.'}
     if($userDataFixtures.Count){Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Package installation'}elseif($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Installation changed existing profile data.'}
     $scenarioResult.Version=$installed.DisplayVersion
-    if($Batch -in @(6,7,9,10,11,13) -or $PackageId -cin @('package.gpg4win','package.tmog')){
+    if($Batch -in @(6,7,9,10,11) -or $PackageId -cin @('package.gpg4win','package.tmog')){
       # HashCheck release 2.6.3 registers DisplayVersion 2.6.3.0; retain an
       # exact assertion rather than loosening version checks for other packages.
       $expectedInstalledVersion=if($Batch -eq 11){'2.6.3.0'}else{[string]$package.PackageVersion}
       if([string]$installed.DisplayVersion -cne $expectedInstalledVersion){throw "Installed package version '$($installed.DisplayVersion)' does not match expected installed version '$expectedInstalledVersion' for release '$($package.PackageVersion)'."}
       $scenarioResult.Checks+=@('RIDEManagedInstall','PinnedPackageVersion')
+    }
+    if($Batch -eq 13){
+      $mailIdentity=Get-RideMailCheckerInstalledIdentity -Installed $installed
+      $scenarioResult.ExecutableIdentity=$mailIdentity
+      $scenarioResult.Version=$mailIdentity.FileVersion
+      $scenarioResult.Checks+=@('RIDEManagedInstall','PinnedExecutableIdentityAndVersion')
     }
     if($Batch -in @(9,10,13)){
       $startupPin=switch($Batch){
@@ -695,9 +734,10 @@ foreach($scenario in $scenarios){
       }
       $scenarioStage='Observe bounded application startup'
       Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
-      if(-not $installed.InstallLocation){throw 'Application install location is unavailable; do not guess the executable path.'}
+      $startupDirectory=if($Batch -eq 13){$mailIdentity.InstallDirectory}else{$installed.InstallLocation}
+      if(-not $startupDirectory){throw 'Application install location is unavailable; do not guess the executable path.'}
       Import-Module (Join-Path $PSScriptRoot 'RIDE.FastTrackStartup.psm1') -Force
-      $scenarioResult.StartupEvidence=Invoke-RideFastTrackStartup -ExecutablePath (Join-Path $installed.InstallLocation $startupPin.Name) -ExpectedSha256 $startupPin.Sha256
+      $scenarioResult.StartupEvidence=Invoke-RideFastTrackStartup -ExecutablePath (Join-Path $startupDirectory $startupPin.Name) -ExpectedSha256 $startupPin.Sha256
       $scenarioResult.Checks+='BoundedStartupNoErrorObserved'
       $scenarioResult.FeatureAcceptance='Deferred to v3.1; bounded startup only'
     }
@@ -804,6 +844,10 @@ foreach($scenario in $scenarios){
       if(-not(Test-RideDesiredState $plan[0].Operation Present)){throw 'Compensating removal recovery did not establish presence.'}
       if($Batch -in @(6,7,8,9,10,11,12,13)){$scenarioResult.Checks+='SavedRemovalRecovery'}
       $scenarioResult.RemovalRecoveryVersion=(Get-RideCurrentState $plan[0].Operation).DisplayVersion
+      if($Batch -eq 13){
+        $scenarioResult.RemovalRecoveryIdentity=Get-RideMailCheckerInstalledIdentity -Installed (Get-RideCurrentState $plan[0].Operation)
+        $scenarioResult.RemovalRecoveryVersion=$scenarioResult.RemovalRecoveryIdentity.FileVersion
+      }
       if($Batch -eq 8){Assert-RideOpenJdkPreservation -Expected $openJdkBaseline -Stage 'removal'}
       if($scenario.Id -eq 'package.vcredist-v14-x64'){
         $scenarioResult.Checks+=@('RepeatInstall','RemovalPreview','RIDERemoval','RepeatRemoval','SavedRemovalRecovery','SavedInstallRecovery')

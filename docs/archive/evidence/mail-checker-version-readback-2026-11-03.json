@@ -1,0 +1,126 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T08:54:51.7764801Z",
+  "Status": "InstallObservedVersionReadbackFailedRecovered",
+  "RunId": "e6892f445c584ad88d43f99a9295abce",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "e6892f445c584ad88d43f99a9295abce",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch13",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T08:36:36.6677873Z",
+    "FinishedAtUtc": "2026-11-03T08:45:09.2140592Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Guest": {
+    "SchemaVersion": 1,
+    "RunId": "e6892f445c584ad88d43f99a9295abce",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 55,
+      "Passed": 55
+    },
+    "Error": "Applications batch 13 has failed scenarios; see application evidence.",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Cases": {
+    "Id": "package.mitec-mail-checker",
+    "Variant": "installed",
+    "Target": "Windows 11",
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "InstallationType": "Client",
+    "Scope": "Machine",
+    "Provider": "DirectHttps",
+    "Applicability": "Applicable to deployment lifecycle",
+    "Status": "Failed",
+    "Version": null,
+    "Error": "Installed package version '' does not match expected installed version '7.2.0' for release '7.2.0'.",
+    "Recovery": false,
+    "ProfilePreservation": null,
+    "UserDataPreservation": null,
+    "UserDataFixtures": [],
+    "RemovalRecoveryVersion": null,
+    "Checks": [],
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "Elevated": true,
+    "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+  },
+  "Progress": [
+    {
+      "AtUtc": "2026-11-03T08:44:22.799264Z",
+      "PackageId": "package.mitec-mail-checker",
+      "Stage": "Build installation plan"
+    },
+    {
+      "AtUtc": "2026-11-03T08:44:22.8130544Z",
+      "PackageId": "package.mitec-mail-checker",
+      "Stage": "Read pre-install state"
+    },
+    {
+      "AtUtc": "2026-11-03T08:44:23.1948053Z",
+      "PackageId": "package.mitec-mail-checker",
+      "Stage": "Preview installation"
+    },
+    {
+      "AtUtc": "2026-11-03T08:44:24.0570686Z",
+      "PackageId": "package.mitec-mail-checker",
+      "Stage": "Install package"
+    },
+    {
+      "AtUtc": "2026-11-03T08:44:30.793049Z",
+      "PackageId": "package.mitec-mail-checker",
+      "Stage": "Verify installed package state"
+    }
+  ],
+  "HostRecoveryVerified": true,
+  "StartupRun": false,
+  "Correction": "Preserve ARP metadata; verify exact pinned MAILCHECKER.EXE SHA-256 and FileVersion 7.2.0.0. Use explicit InstallLocation or direct Inno uninstall directory within Program Files; recheck executable after compensating recovery.",
+  "SourceSha256": "2FB14B70231891758AF8C20619B70EA253C4B9B3D890BBAF446B25EBD546D27A",
+  "SourceChecks": [
+    {
+      "Passed": 48,
+      "AtUtc": "2026-11-03T08:48:58.2725607Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "PowerShell": "7.6.5",
+      "AtUtc": "2026-11-03T08:48:53.5509319Z",
+      "Skipped": 0,
+      "Passed": 48,
+      "Edition": "Core",
+      "Failed": 0
+    }
+  ]
+}

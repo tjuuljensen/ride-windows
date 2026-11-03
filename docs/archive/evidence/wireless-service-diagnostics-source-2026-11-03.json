@@ -1,0 +1,26 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T08:54:51.8367745Z",
+  "Status": "SourcePreparedNativePending",
+  "Change": "Retain observed WLAN service state in the read-only prerequisite report instead of conflating absent and stopped services.",
+  "Checks": [
+    {
+      "Passed": 57,
+      "AtUtc": "2026-11-03T08:52:32.6497158Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "Passed": 57,
+      "Failed": 0,
+      "Skipped": 0,
+      "AtUtc": "2026-11-03T08:52:21.7317471Z",
+      "Edition": "Core",
+      "PowerShell": "7.6.5"
+    }
+  ],
+  "SourceSha256": "4CF9B9E76A1BA54BED05A296A08D5D8AFC0689A9CA752A4E1748CF8450B13FE1",
+  "Boundary": "No service start, adapter change, profile content, scan or connection; native WLAN lifecycle remains unrun."
+}

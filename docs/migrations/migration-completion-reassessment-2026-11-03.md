@@ -4,6 +4,15 @@
 
 ### Attended resumption decisions, 2026-11-03
 
+Six system-viewer products subsequently passed all 15 guest checks each and
+the outer controller result, with verified checkpoint recovery and Defender.
+This brings the attended MiTeC passing startup/lifecycle count to 17 variants
+across 12 products. See [system-viewer evidence](../archive/evidence/mitec-system-viewers-fast-track-native-2026-11-03.json).
+Mail Checker installed after the candidate fix, then stopped before startup on
+an empty ARP DisplayVersion. A bounded pinned-executable/version readback is
+prepared (48 tests per shell); its native retry is running. See
+[version-readback evidence](../archive/evidence/mail-checker-version-readback-2026-11-03.json).
+
 Network Scanner x64 subsequently passed its 15-check startup/lifecycle case;
 x86 produced APPCRASH `0x0eedfade` and stopped that batch before DirList and
 Network Meter. Defender and VM checkpoint recovery passed. Mail Checker's
@@ -134,7 +143,7 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
 | RegRipper / Rufus | Exact retained pins, bounded portable routes; 145 selected source tests per shell. [Evidence](../archive/evidence/regripper-rufus-routes-source-2026-11-03.json). Rufus native file lifecycle/recovery/Defender passed. | RegRipper native lifecycle remains; Rufus was not launched. |
-| Remaining MiTeC portable batches | Ten viewer/development variants and Network Scanner x64 passed guest startup/lifecycle checks. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; system viewers queued. Features stay deferred. |
+| Remaining MiTeC portable batches | Seventeen variants / twelve products passed guest startup/lifecycle checks, including all six system viewers with a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; reordered follow-up prepared. Features stay deferred. |
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). | Synthetic GnuPG user data and machine TMOG lifecycle. Earlier Gpg installer `0xC0000005` remains unresolved until a successful native run. |
 | MiTeC Mail Checker | Exact 7.2.0 route, version/Defender and compensating presence recovery; 162 selected source tests per shell. [Evidence](../archive/evidence/mailchecker-route-source-2026-11-03.json). | Installer lifecycle without account setup or mail access. |
 | WFN | Full pinned 531-member payload route; 182 selected route tests per shell. Full inert lifecycle now passes in both shells after path-validation optimization. [Route](../archive/evidence/wfn-route-source-2026-11-03.json), [optimization](../archive/evidence/portable-path-optimization-2026-11-03.json). | Native package lifecycle and Defender; no launch or firewall changes. Caffeine validates the changed handler, not WFN itself. |

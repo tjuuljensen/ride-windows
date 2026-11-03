@@ -8,7 +8,7 @@
   Invoke-Pester ./tests/FocusedApplicationSelection.Tests.ps1
 .NOTES
   Compatibility: Pester 5.7.1; native Windows PowerShell 5.1 and PowerShell 7.
-  Version: 0.2.1. Changelog: Require Mail Checker explicit uninstall/recovery admission.
+  Version: 0.2.2. Changelog: Verify bounded Mail Checker executable location from old ARP metadata.
 #>
 BeforeAll {
   $script:repo=Split-Path -Parent $PSScriptRoot
@@ -18,7 +18,7 @@ BeforeAll {
   $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'),[ref]$tokens,[ref]$errors)
   if($errors.Count){throw ($errors -join '; ')}
   $script:applicationAst=$ast
-  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
+  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','Resolve-RideMailCheckerInstallDirectory','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
   $definitions=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -in $names},$true))
   if($definitions.Count -ne $names.Count){throw 'Focused pure helper definitions differ.'}
   . ([scriptblock]::Create(($definitions|ForEach-Object {$_.Extent.Text}) -join "`n"))
@@ -57,6 +57,39 @@ Describe 'Fixed Mail Checker guest selection' {
   It 'refuses changed privilege, installer or release metadata <Field>' -ForEach @(
     @{Field='Scope';Value='User'},@{Field='RequiresAdmin';Value=$false},@{Field='RequiresUnelevatedUser';Value=$true},@{Field='InstallerType';Value='Portable'},@{Field='PackageVersion';Value='7.2.1'}
   ) {$script:mailOperation[$Field]=$Value;{Assert-RideMailCheckerScenario @($script:mailScenario) 'Windows 11'}|Should -Throw '*pinned 7.2.0 elevated machine installer*'}
+}
+Describe 'Old Mail Checker installer registration paths' {
+  BeforeEach {
+    $script:installed=@{Present=$true;DisplayName='Mail Checker';DisplayVersion=$null;InstallLocation=$null;UninstallString='"C:\Program Files (x86)\Mail Checker\unins000.exe"'}
+    $script:roots=@('C:\Program Files (x86)','C:\Program Files')
+  }
+  It 'uses the direct quoted Inno uninstall directory when location/version are absent' {
+    Resolve-RideMailCheckerInstallDirectory $script:installed $script:roots|Should -BeExactly 'C:\Program Files (x86)\Mail Checker'
+    $script:installed.DisplayVersion|Should -BeNullOrEmpty
+  }
+  It 'accepts the direct unquoted uninstall path without executing it' {
+    $script:installed.UninstallString='C:\Program Files (x86)\Mail Checker\unins000.exe'
+    Resolve-RideMailCheckerInstallDirectory $script:installed $script:roots|Should -BeExactly 'C:\Program Files (x86)\Mail Checker'
+  }
+  It 'prefers an explicit installation directory within Program Files' {
+    $script:installed.InstallLocation='C:\Program Files\Mail Checker'
+    $script:installed.UninstallString=$null
+    Resolve-RideMailCheckerInstallDirectory $script:installed $script:roots|Should -BeExactly $script:installed.InstallLocation
+  }
+  It 'refuses ambiguous or indirect uninstall commands <Command>' -ForEach @(
+    @{Command='cmd.exe /c unins000.exe'},@{Command='"C:\Program Files (x86)\Mail Checker\unins000.exe" /extra'},@{Command='C:\Windows\unins000.exe'}
+  ) {
+    $script:installed.UninstallString=$Command
+    {Resolve-RideMailCheckerInstallDirectory $script:installed $script:roots}|Should -Throw
+  }
+  It 'refuses a path escaping the installation roots' {
+    $script:installed.InstallLocation='C:\Program Files\..\Windows'
+    {Resolve-RideMailCheckerInstallDirectory $script:installed $script:roots}|Should -Throw '*outside*'
+  }
+  It 'refuses an unrelated registration' {
+    $script:installed.DisplayName='Other product'
+    {Resolve-RideMailCheckerInstallDirectory $script:installed $script:roots}|Should -Throw '*Exact Mail Checker*'
+  }
 }
 Describe 'Fixed Gpg4win and TMOG guest selection' {
   It 'selects only <Id> and retains its intended privilege context' -ForEach @(
