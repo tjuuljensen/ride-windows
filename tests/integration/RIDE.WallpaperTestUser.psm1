@@ -9,7 +9,9 @@
   No password is persisted or returned. Sign-in and visual evidence are separate.
 .NOTES
   Native Windows PowerShell 5.1/7 x64; candidate Windows 11 Enterprise/Education
-  Hyper-V guest with existing elevation and correlated test markers. Version: 0.1.0.
+  Hyper-V guest with existing elevation and correlated test markers. Version: 0.1.1.
+  Changelog: 0.1.1: Bind the member SID as a LocalPrincipal-compatible string
+  and retain the underlying fixture-creation error for diagnosis.
   No UAC, logon, forced logoff, reboot, checkpoint reset or recursive shell deletion.
   Incomplete creation without a saved SID requires inspection. Failed cleanup may
   leave the owned account disabled; retain its private records and retry cleanup.
@@ -91,7 +93,7 @@ function New-RideWallpaperUserNative {
 }
 function Add-RideWallpaperUserGroup {
   param([string]$Sid)
-  Add-LocalGroupMember -SID 'S-1-5-32-545' -Member ([Security.Principal.SecurityIdentifier]::new($Sid)) -ErrorAction Stop -Confirm:$false
+  Add-LocalGroupMember -SID 'S-1-5-32-545' -Member $Sid -ErrorAction Stop -Confirm:$false
 }
 function Disable-RideWallpaperUserNative {
   param([string]$Sid)
@@ -220,7 +222,7 @@ function New-RideWallpaperTestUser {
     $state=Get-RideWallpaperUserState $created
     if(($state.Groups -join ';') -cne 'S-1-5-32-545' -or $state.Profile -or $state.SessionCount){throw 'Standard fixture membership or fresh-profile state differs.'}
     New-RideWallpaperUserResult $selection Created $created $state
-  }catch{throw ('Fixture creation incomplete; retain private records for '+$RunId+'/'+$selection.Purpose+'. No automatic account/profile cleanup was attempted.')}
+  }catch{throw [InvalidOperationException]::new(('Fixture creation incomplete; retain private records for '+$RunId+'/'+$selection.Purpose+'. No automatic account/profile cleanup was attempted. Cause: '+$_.Exception.Message),$_.Exception)}
 }
 
 function Get-RideWallpaperTestUser {

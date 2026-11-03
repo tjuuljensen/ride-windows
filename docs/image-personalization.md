@@ -188,13 +188,22 @@ records mocked orchestration tests and read-only real input checks, not VM resul
 
 ### Owned wallpaper test users
 
+The Nov 3 first native fixture attempt created an owned account but failed its
+group membership step. Saved-SID cleanup and checkpoint reset passed. Helper
+0.1.1 corrects member-SID binding and preserves the underlying error; 33 tests
+passed per shell. The corrected native retry remains separate from source
+acceptance. See [evidence](archive/evidence/wallpaper-fixture-member-binding-fix-2026-11-03.json).
+
+
 `tests/integration/RIDE.WallpaperTestUser.psm1` provides `New-`, `Get-` and
 `Remove-RideWallpaperTestUser` for the Control, FirstLogon and Recovery fixtures.
 Use these only in the selected, already elevated disposable guest with the same
 controller request marker as the wallpaper phase. An existing private fixture
 directory must be outside the test profiles, administrator/SYSTEM owned and
 writable only by those principals. Native local-account/CIM APIs are required.
-No account/profile change has yet been verified on the test VM.
+The first native attempt verified owned account creation and saved-SID removal,
+but failed group membership before sign-in. Native profile initialization and
+profile cleanup remain pending the corrected run.
 
 From the staged repository root in that guest, import the module and supply a
 synthetic `SecureString` password of 16-128 characters through the private test

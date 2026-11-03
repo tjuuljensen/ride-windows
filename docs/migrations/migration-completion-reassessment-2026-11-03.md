@@ -2,6 +2,18 @@
 
 ## Current status
 
+### Wallpaper fixture correction, 2026-11-03
+
+Wallpaper's first native control-user creation stopped before image application:
+the owned account existed without group membership, profile or session. Its
+saved-SID cleanup and checkpoint reset passed. Native inert conversion reproduced
+the helper's invalid SecurityIdentifier-to-LocalPrincipal binding; version 0.1.1
+passes the member SID string and retains the underlying error. All 33 focused
+tests passed in each PowerShell edition. A clean corrected run is in progress.
+See [fixture failure, recovery and source checks](../archive/evidence/wallpaper-fixture-member-binding-fix-2026-11-03.json). No additional legacy
+outcome closed: 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175 and
+rounded 120-175 remain unchanged.
+
 ### Attended image testing resumed, 2026-11-03
 
 The attended default-lock test on 2026-11-03 verified the signed-out sign-in

@@ -1,0 +1,223 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T13:50:32.2867910+00:00",
+  "Status": "NativeFixtureFailureRecoveredSourceCorrected",
+  "RunId": "b42e60b1426140808ba5e7beaecd4529",
+  "Phases": [
+    {
+      "Phase": "Prepare",
+      "Error": null,
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.15c6aeee2d8b4e5b860d79fb15d99c21\\export.d8b7bae8d94041d58f0e6734616878da",
+        "FileCount": 8,
+        "GuestStatus": "Collected"
+      },
+      "Status": "Prepared",
+      "GuestResult": {
+        "SchemaVersion": 1,
+        "Kind": "DefaultWallpaperVmPreparation",
+        "RunId": "b42e60b1426140808ba5e7beaecd4529",
+        "LeaseId": "15c6aeee2d8b4e5b860d79fb15d99c21",
+        "Status": "Prepared",
+        "Context": {
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "Revision": 9711
+        },
+        "NativeAcceptancePassed": false,
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "08f76841-e9d2-4a3a-8f68-da5bd97c39bd",
+        "PSShowComputerName": true
+      },
+      "RecoveryRequired": true,
+      "RequestId": "fc00b18a731d40a6bdb1427bb425ab2d"
+    },
+    {
+      "Phase": "CreateUser",
+      "Error": "Fixture creation incomplete; retain private records for b42e60b1426140808ba5e7beaecd4529/Control. No automatic account/profile cleanup was attempted.",
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.15c6aeee2d8b4e5b860d79fb15d99c21\\export.7a5f45248cc4496ebd114df57668b4c2",
+        "FileCount": 10,
+        "GuestStatus": "Collected"
+      },
+      "Status": "Failed",
+      "GuestResult": null,
+      "RecoveryRequired": true,
+      "RequestId": "e8c371a3426248f18ef84f5982eb9f6a"
+    },
+    {
+      "Phase": "InspectUser",
+      "Error": null,
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.15c6aeee2d8b4e5b860d79fb15d99c21\\export.d0ffe639dd21484cac31425191a96630",
+        "FileCount": 10,
+        "GuestStatus": "Collected"
+      },
+      "Status": "Observed",
+      "GuestResult": {
+        "SchemaVersion": 1,
+        "Kind": "DefaultWallpaperVmUserPhase",
+        "RunId": "b42e60b1426140808ba5e7beaecd4529",
+        "LeaseId": "15c6aeee2d8b4e5b860d79fb15d99c21",
+        "Phase": "InspectUser",
+        "Purpose": "Control",
+        "Status": "Observed",
+        "Context": {
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "Revision": 9711
+        },
+        "FixtureResult": {
+          "SchemaVersion": 1,
+          "Kind": "WallpaperTestUserResult",
+          "RunId": "b42e60b1426140808ba5e7beaecd4529",
+          "Purpose": "Control",
+          "Status": "Observed",
+          "Name": "ridewp_c_b42e60b142",
+          "Sid": "S-1-5-21-3381495413-3650599264-2815280620-1002",
+          "ProfilePath": "C:\\Users\\ridewp_c_b42e60b142",
+          "State": {
+            "Account": {
+              "Name": "ridewp_c_b42e60b142",
+              "Sid": "S-1-5-21-3381495413-3650599264-2815280620-1002",
+              "Description": "RIDE-WP:b42e60b1426140808ba5e7beaecd4529:C",
+              "Enabled": true,
+              "Source": "Local"
+            },
+            "Profile": null,
+            "Groups": [],
+            "SessionCount": 0,
+            "ProfileDirectoryExists": false
+          },
+          "NativeFirstLogonAcceptancePassed": false,
+          "NativeAcceptancePassed": false
+        },
+        "NativeAcceptancePassed": false,
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "b81b001f-72a8-4d02-98e8-23cb8ca2fe7f",
+        "PSShowComputerName": true
+      },
+      "RecoveryRequired": true,
+      "RequestId": "a3b017989729428ca0995d41b3b46e5c"
+    },
+    {
+      "Phase": "RemoveUser",
+      "Error": null,
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.15c6aeee2d8b4e5b860d79fb15d99c21\\export.ec58643432374ace88b15941696386d6",
+        "FileCount": 12,
+        "GuestStatus": "Collected"
+      },
+      "Status": "Removed",
+      "GuestResult": {
+        "SchemaVersion": 1,
+        "Kind": "DefaultWallpaperVmUserPhase",
+        "RunId": "b42e60b1426140808ba5e7beaecd4529",
+        "LeaseId": "15c6aeee2d8b4e5b860d79fb15d99c21",
+        "Phase": "RemoveUser",
+        "Purpose": "Control",
+        "Status": "Removed",
+        "Context": {
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "Revision": 9711
+        },
+        "FixtureResult": {
+          "SchemaVersion": 1,
+          "Kind": "WallpaperTestUserResult",
+          "RunId": "b42e60b1426140808ba5e7beaecd4529",
+          "Purpose": "Control",
+          "Status": "Removed",
+          "Name": "ridewp_c_b42e60b142",
+          "Sid": "S-1-5-21-3381495413-3650599264-2815280620-1002",
+          "ProfilePath": "C:\\Users\\ridewp_c_b42e60b142",
+          "State": {
+            "Account": null,
+            "Profile": null,
+            "Groups": [],
+            "SessionCount": 0,
+            "ProfileDirectoryExists": false
+          },
+          "NativeFirstLogonAcceptancePassed": false,
+          "NativeAcceptancePassed": false
+        },
+        "NativeAcceptancePassed": false,
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "5aab40c1-058c-4768-9e0c-cab4434f9aad",
+        "PSShowComputerName": true
+      },
+      "RecoveryRequired": true,
+      "RequestId": "0abc31a3d95e43478334fe890c8eac46"
+    },
+    {
+      "Phase": "Reset",
+      "Error": null,
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.15c6aeee2d8b4e5b860d79fb15d99c21\\export.414e66c2079141478d90f52330fb38d2",
+        "FileCount": 12,
+        "GuestStatus": "Collected"
+      },
+      "Status": "ResetAndOff",
+      "GuestResult": null,
+      "RecoveryRequired": false,
+      "RequestId": "e14406730c6f479eb14edac77e47672e"
+    }
+  ],
+  "Diagnosis": "Owned account existed, enabled, with no profile/session/group membership. The fixture passed a SecurityIdentifier object to Member; an inert native Windows PowerShell conversion reproduced rejection by LocalPrincipal. SID string conversion succeeds. Original generic creation catch did not retain the underlying exception, so no original native exception record is claimed.",
+  "Correction": "Pass the SID string and preserve the underlying creation exception. No broader account selection or cleanup behavior changed.",
+  "Tests": [
+    {
+      "Passed": 33,
+      "AtUtc": "2026-11-03T13:48:34.6105657Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "Passed": 33,
+      "Skipped": 0,
+      "Failed": 0,
+      "Edition": "Core",
+      "AtUtc": "2026-11-03T13:48:22.3703929Z",
+      "PowerShell": "7.6.5"
+    }
+  ],
+  "TemporaryDispatcher": {
+    "Scope": "Adds only wallpaper CreateUser/InspectUser/RemoveUser and named fixture purposes; current-account DPAPI password transport; unchanged expiry.",
+    "ChecksPerEdition": 13,
+    "Install": {
+      "Status": "Passed",
+      "StartedAtUtc": "2026-11-03T14:40:14.3269826+01:00",
+      "Error": null,
+      "VmChanged": false,
+      "InstalledSha256": "44288D6C416B347320BF1DF41215FA148821AE4129DDBCB9FE61C2B968881BD9",
+      "BackupSha256": "7CEA35DBE590E67CE675F856F8D3D42BAFF02A8E6939397AE9403D15B849384C",
+      "FinishedAtUtc": "2026-11-03T14:40:18.710899+01:00"
+    }
+  },
+  "Source": [
+    {
+      "Sha256": "AD7DC0ED242F83B495F7AE1CC5217FA5FEFA49DBC34414CED4ABB65155E972AB",
+      "Path": "tests/integration/RIDE.WallpaperTestUser.psm1"
+    },
+    {
+      "Sha256": "3EBB34213D5594EFEEDF2E183E51235712870D622EA8773EA3C799B73D717325",
+      "Path": "tests/WallpaperTestUser.Tests.ps1"
+    }
+  ],
+  "Reference": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/add-localgroupmember?view=powershell-5.1",
+  "Limits": [
+    "Wallpaper was not applied and no user signed in during the failed fixture run.",
+    "Owned account removal and checkpoint recovery passed; corrected native retry is separate.",
+    "No legacy outcome closed; all five estimate ranges unchanged, exact 121-175 / rounded 120-175."
+  ]
+}

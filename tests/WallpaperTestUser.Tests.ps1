@@ -7,9 +7,24 @@
 .EXAMPLE
   Invoke-Pester ./tests/WallpaperTestUser.Tests.ps1
 .NOTES
-  Native Windows PowerShell 5.1/7 and Pester 5. Version: 0.1.0.
+  Native Windows PowerShell 5.1/7 and Pester 5. Version: 0.1.1.
 #>
 BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot 'integration/RIDE.WallpaperTestUser.psm1') -Force}
+Describe 'Native wallpaper fixture member binding' {
+  InModuleScope RIDE.WallpaperTestUser {
+    It 'passes a member that binds to the real LocalPrincipal parameter type' {
+      Import-Module Microsoft.PowerShell.LocalAccounts -ErrorAction Stop
+      Mock Add-LocalGroupMember {
+        param($SID,$Member)
+        $principal=[Management.Automation.LanguagePrimitives]::ConvertTo(@($Member)[0],[Microsoft.PowerShell.Commands.LocalPrincipal])
+        $principal.Name | Should -BeExactly 'S-1-5-21-101-202-303-1001'
+        [string]$SID | Should -BeExactly 'S-1-5-32-545'
+      }
+      Add-RideWallpaperUserGroup 'S-1-5-21-101-202-303-1001'
+      Should -Invoke Add-LocalGroupMember -Times 1 -Exactly
+    }
+  }
+}
 Describe 'Owned wallpaper user fixtures' {
   InModuleScope RIDE.WallpaperTestUser {
     BeforeEach {
@@ -113,7 +128,7 @@ Describe 'Owned wallpaper user fixtures' {
     }
     It 'retains incomplete creation intent and refuses blind retry without a saved SID' {
       Mock New-RideWallpaperUserNative {throw 'Synthetic provider failure.'}
-      {New-RideWallpaperTestUser @script:parameters}|Should -Throw '*creation incomplete*'
+      {New-RideWallpaperTestUser @script:parameters}|Should -Throw '*creation incomplete*Cause: Synthetic provider failure.*'
       Test-Path -LiteralPath ($script:selection.Prefix+'.intent.json')|Should -BeTrue
       {New-RideWallpaperTestUser @script:parameters}|Should -Throw '*Incomplete fixture creation*'
       Should -Invoke Remove-RideWallpaperUserNative -Times 0 -Exactly
