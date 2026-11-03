@@ -1,0 +1,403 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T00:58:20.1488281Z",
+  "Status": "NativeLifecycleAndDefenderPassed",
+  "RunId": "5f55ebb5d4f0482195236bb2152be71a",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "5f55ebb5d4f0482195236bb2152be71a",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "SysinternalsProducts",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T00:50:02.7317882Z",
+    "FinishedAtUtc": "2026-11-03T00:57:09.9533083Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "5f55ebb5d4f0482195236bb2152be71a",
+      "Batch": "SysinternalsProducts",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 9,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "GuestSummary": {
+    "Batch": "SysinternalsProducts",
+    "ExpectedCases": 9,
+    "Completed": 9,
+    "Passed": 9,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Scenarios": [
+    {
+      "Id": "package.sysinternals-process-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "56f68331ca0c4822bded6752f4296557",
+        "9807fa5295854f30ab80ccd9224e0d0b",
+        "3f0cefd7ebe5470db1c9f09d18135521"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-autoruns",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "b63eab2f61444d4291a8a3c464e1d575",
+        "962043b7dca2489ebec3fc3980865434",
+        "d076621bfcfa4dac9d29c14f9b915985"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-tcpview",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "50bf4437c4c84accbce6faeee9b90d14",
+        "bbe0828382a44eb3bc0456fd70edfaef",
+        "bc432ead89f4415e92e89dbaf6b84f91"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-procmon",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "d4debd0fb8ee4e3eb36405d51fb472e8",
+        "625ffa0f96284242b21cbba662c7cf11",
+        "8397eb9b287a49a5afd829cb038234fb"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-rammap",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "31c8c523f53c43f2ae97f9ba540a22cf",
+        "020226b195ab45b78a11ee43c1091721",
+        "72c205278d5642fa9a903393b32273cf"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-disk2vhd",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "9db92b14537d41f89fc5b8039cad45e4",
+        "96cb30e49fb94edf9c54ec2640b82008",
+        "8e3c72bb0d1e4775bebef8fdba79102c"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-sigcheck",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "8444329ae2734d0a87a0c93320c4b223",
+        "36bd3ccf26dc46f5a64d4ca2bb67736e",
+        "2e2767f953354a35a7628acbb671fdc4"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-strings",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "083373ce0528444fa099845dfa73e04f",
+        "f27823ee179e41268ab4906fa0a2f16c",
+        "31df6cc2129b495e82283b141042fec9"
+      ]
+    },
+    {
+      "Id": "package.sysinternals-handle",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "e05831def58f4322ba04b1c7c03bc5ab",
+        "1b85fd808581482180da5a6b887a4ea5",
+        "757ae3fe62fa4112abf1e08811b9d9bf"
+      ]
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T00:55:20.7172266Z",
+    "SinceUtc": "2026-11-03T00:52:14.700877Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T00:56:51.8688607Z",
+    "SinceUtc": "2026-11-03T00:52:14.700877Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "SourceContext": {
+    "SourceCommit": "55af8cc1c6dbdea5bb62d65b8d5b37d092aaf326",
+    "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes"
+  },
+  "SourceManifestSha256": "0C1E9BE346839B5BE1F078D3F170BCBE06238F2CABB232E6B0A9CEB62AAD018F",
+  "SourceFileCount": 2134,
+  "ExcludedSourceRootCount": 0,
+  "ArtifactIdentities": [
+    {
+      "Id": "package.sysinternals-autoruns",
+      "FileName": "Autoruns.zip",
+      "Sha256": "7b3a8eed819f732a3e4c134aecaeaebb8d643a46490ccddb82cc8a1a745c4cf7"
+    },
+    {
+      "Id": "package.sysinternals-disk2vhd",
+      "FileName": "Disk2vhd.zip",
+      "Sha256": "c294d279bf98645f84452989f320b561bf58609e35d85de47ea19ef583880821"
+    },
+    {
+      "Id": "package.sysinternals-handle",
+      "FileName": "Handle.zip",
+      "Sha256": "279aaf8eccb6f79147f4dcc6ba091fb895c4cb8b199a0dd186a4c76bc519d2cd"
+    },
+    {
+      "Id": "package.sysinternals-process-explorer",
+      "FileName": "ProcessExplorer.zip",
+      "Sha256": "dab147316264b89ae46ae2ad7d8a94116848ef0b703bcac8de9ff22689ce9d51"
+    },
+    {
+      "Id": "package.sysinternals-procmon",
+      "FileName": "ProcessMonitor.zip",
+      "Sha256": "477754bf299c9e5b311c5666f7a4a48dfdb21265eaa8f0cca70ef9d9552e3a10"
+    },
+    {
+      "Id": "package.sysinternals-rammap",
+      "FileName": "RAMMap.zip",
+      "Sha256": "6536a8107a3fb391e4443f2742366067341a7da50de89f99ca0b2390120dd0cc"
+    },
+    {
+      "Id": "package.sysinternals-sigcheck",
+      "FileName": "Sigcheck.zip",
+      "Sha256": "8756099c1ce3d3f450245c0d4b39aeb5b29309f56bf77f8c18f1469c418abf12"
+    },
+    {
+      "Id": "package.sysinternals-strings",
+      "FileName": "Strings.zip",
+      "Sha256": "b1a0a3dc5f639af1c98ae5832676727646eb3d543640e65e310dff747e733a25"
+    },
+    {
+      "Id": "package.sysinternals-tcpview",
+      "FileName": "TCPView.zip",
+      "Sha256": "4fc5ceba3e1b27ad95a24df35d094b454ec5f9478e12a8ca2b1b222705b9683b"
+    }
+  ],
+  "Boundary": "Real disposable Windows 11 build 26300 native package lifecycles; exact owned-file RIDE recovery precedes checkpoint cleanup. Defender active before and after with no detections or exclusion changes. Application features, collection and analysis tools are not exercised. Source working-tree hashes bind the run; no blanket target or release promotion.",
+  "Alignment": {
+    "Review": "Read adopted contract and peer privilege/target/candidate gates; source hashes rechecked. No fresh peer HEAD claim.",
+    "FedoraPreviouslyComparedRevision": "3d9406e3888122d1407652336859e6217c09bcaa",
+    "Impact": "Windows native evidence only; shared behavior unchanged",
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938"
+  }
+}
