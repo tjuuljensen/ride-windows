@@ -7,11 +7,14 @@
   Failures retain evidence and never reset the VM or force font consumers closed.
   Native-name absence failures do not prevent saved recovery when file and
   registry readback is exact; native acceptance still fails independently.
+  A removal mismatch also records a bounded fresh-process native observation;
+  that diagnostic cannot convert the original failure into a pass.
 .NOTES
   Compatibility: Candidate Windows 11 x64; native PowerShell 5.1 and 7.
   Prerequisites: Existing elevation, correlated Hyper-V guest and real licensed fonts.
   Recovery: Retain private run records; incomplete runs need inspection.
-  Version: 0.3.0. Changelog: Record process identity for native enumeration evidence.
+  Version: 0.4.0. Changelog: Observe removal mismatches in a fresh read-only process.
+  0.3.0: Record process identity for native enumeration evidence.
   0.2.0: Exercise saved recovery after isolated native-name gaps; retain separate
   durable lifecycle and native-enumeration results.
 .LINK
@@ -84,6 +87,42 @@ namespace Ride.FontAcceptanceV1 {
  }
 }
 '@ -ErrorAction Stop
+}
+
+function Get-RideFontAcceptanceFreshProcessNames {
+  param([Parameter(Mandatory)][object[]]$Selection)
+  if($env:RIDE_TEST_GUEST -cne '1' -or $env:RIDE_INTEGRATION_VM -cne '1' -or $env:RIDE_TEST_RUN_ID -cnotmatch '^[a-f0-9]{32}$'){throw 'Fresh font observation requires the correlated disposable guest.'}
+  $moduleBytes=[Text.Encoding]::UTF8.GetBytes($MyInvocation.MyCommand.Module.Path)
+  $selectionBytes=[Text.Encoding]::UTF8.GetBytes((ConvertTo-Json -InputObject @($Selection.FullName) -Compress))
+  $command=@'
+$ErrorActionPreference='Stop'
+$module=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('__MODULE__'))
+$selected=@([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('__SELECTION__'))|ConvertFrom-Json)
+Import-Module -Name $module -Force
+$names=@(& (Get-Module RIDE.FontAcceptance) {Initialize-RideFontAcceptanceNative;[Ride.FontAcceptanceV1.Enumeration]::Read()})
+$result=@{ProcessId=$PID;ObservedAtUtc=[datetime]::UtcNow.ToString('o');NativeNames=@($selected|Where-Object {$_ -cin $names})}
+[Console]::Out.Write((ConvertTo-Json -InputObject $result -Compress))
+'@
+  $command=$command.Replace('__MODULE__',[Convert]::ToBase64String($moduleBytes)).Replace('__SELECTION__',[Convert]::ToBase64String($selectionBytes))
+  $start=[Diagnostics.ProcessStartInfo]::new()
+  $start.FileName=Join-Path $env:WINDIR 'System32/WindowsPowerShell/v1.0/powershell.exe'
+  $start.Arguments='-NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand '+[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
+  $start.UseShellExecute=$false;$start.CreateNoWindow=$true;$start.RedirectStandardOutput=$true;$start.RedirectStandardError=$true
+  $process=[Diagnostics.Process]::new();$process.StartInfo=$start
+  try {
+    if(-not $process.Start()){throw 'Fresh font observation process did not start.'}
+    $output=$process.StandardOutput.ReadToEndAsync();$errors=$process.StandardError.ReadToEndAsync()
+    if(-not $process.WaitForExit(30000)){
+      $process.Kill();$null=$process.WaitForExit(5000)
+      throw 'Fresh font observation exceeded its 30-second bound.'
+    }
+    $text=$output.GetAwaiter().GetResult();$errorText=$errors.GetAwaiter().GetResult()
+    if($process.ExitCode -ne 0 -or $errorText -or $text.Length -gt 1048576){throw 'Fresh font observation failed or exceeded its output bound.'}
+    $observed=$text|ConvertFrom-Json
+    if($observed.ProcessId -ne $process.Id -or $observed.ProcessId -eq $PID -or $null -eq $observed.NativeNames -or @($observed.NativeNames|Where-Object {$_ -cnotin $Selection.FullName}).Count){throw 'Fresh font observation identity or selection differs.'}
+    $observed|Add-Member NoteProperty Status 'Observed'
+    $observed
+  } finally {$process.Dispose()}
 }
 
 function Get-RideFontAcceptanceSnapshot {
@@ -215,6 +254,20 @@ function Invoke-RideFontAcceptance {
     if(-not (Test-RideFontAcceptanceDurableEqual $before $afterRemoval)){throw 'Removal did not restore absent files, registration and permissions.'}
     $durableChecks.Add('RemovedFilesRegistrationAndPermissions')
     if(Test-RideFontAcceptanceEqual $before.NativeNames $afterRemoval.NativeNames){$checks.Add('RemovedToInitialState')}else{$nativeFailures.Add('Remove')}
+    if('Remove' -in $nativeFailures){
+      try{$fresh=Get-RideFontAcceptanceFreshProcessNames -Selection $selection}
+      catch{$fresh=[pscustomobject]@{Status='Failed';Error=$_.Exception.Message;NativeNames=$null}}
+      if($fresh.Status -ceq 'Observed'){
+        # A paired parent read separates process-specific visibility from simple
+        # convergence during child startup. Neither observation replaces the gate.
+        try{
+          $parentAfterFresh=Get-RideFontAcceptanceSnapshot $context $selection
+          $fresh|Add-Member NoteProperty ParentNativeNamesAfterFresh @($parentAfterFresh.NativeNames)
+        }catch{$fresh|Add-Member NoteProperty ParentObservationError $_.Exception.Message}
+      }
+      Save-RideFontAcceptanceReport (Join-Path $directory 'after-removal-fresh-process.json') $fresh
+      $report|Add-Member NoteProperty RemovalFreshProcessObservation $fresh
+    }
     $report.Stage='RestoreRemoval'
     Assert-RideFontAcceptanceResult (Restore-RideMachineFontRun -RunId $removed.RunId -StateDirectory $state -AllowCandidate -Confirm:$false) Restored
     $restoredRemoval=Get-RideFontAcceptanceSnapshot $context $selection

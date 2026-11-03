@@ -1,0 +1,27 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T09:13:35.7475823Z",
+  "Status": "SourcePreparedNativePending",
+  "Change": "On native font removal mismatch, collect a bounded fresh-process enumeration and then re-read the parent process. Preserve the original failure and continue saved recovery even if diagnostics fail.",
+  "Checks": [
+    {
+      "Passed": 52,
+      "AtUtc": "2026-11-03T09:10:56.6947989Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "Skipped": 0,
+      "Failed": 0,
+      "PowerShell": "7.6.5",
+      "AtUtc": "2026-11-03T09:10:34.519411Z",
+      "Edition": "Core",
+      "Passed": 52
+    }
+  ],
+  "SourceSha256": "B4C58B04C02FF1B450B4CBDCF537B519EE83F56BC892351744CAE24945CDB6CF",
+  "EmbeddedChildScriptParser": "Passed",
+  "Boundary": "Read-only child, 30-second bound, selected names only, no forced font unload/cache deletion/consumer termination. No changed acceptance threshold."
+}

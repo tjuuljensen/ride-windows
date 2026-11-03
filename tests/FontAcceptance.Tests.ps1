@@ -7,8 +7,8 @@
 .EXAMPLE
   Invoke-Pester ./tests/FontAcceptance.Tests.ps1
 .NOTES
-  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.3.0.
-  Changelog: Verify enumeration process identity without invoking font APIs.
+  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.4.0.
+  Changelog: Preserve removal failures and recovery across paired process diagnostics.
 #>
 BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot 'integration/RIDE.FontAcceptance.psm1') -Force}
 Describe 'Guarded machine-font guest acceptance' {
@@ -27,6 +27,7 @@ Describe 'Guarded machine-font guest acceptance' {
       $script:context|Add-Member NoteProperty ProcessIdentity ([pscustomobject]@{ProcessId=123;ProcessStartUtc='2026-11-03T00:00:00.0000000Z';SessionId=1})
       Mock Read-RideFontAcceptanceSelection {$script:selection}
       Mock Get-RideFontAcceptanceSnapshot {if($script:present){$script:installed}else{$script:absent}}
+      Mock Get-RideFontAcceptanceFreshProcessNames {[pscustomobject]@{Status='Observed';ProcessId=456;NativeNames=@()}}
       Mock Assert-RideFontAcceptanceRecords {}
       Mock New-RidePrivateFileStream {param($Path,$Scope) & (Get-Module RIDE.PrivateFiles) {param($path) New-RidePrivateFileStream -Path $path -Scope User} $Path}
       Mock Install-RideMachineFonts {
@@ -163,7 +164,10 @@ Describe 'Guarded machine-font guest acceptance' {
       $result.RecoveryRequired|Should -BeTrue
       Should -Invoke Restore-RideMachineFontRun -Times 0 -Exactly
     }
-    It 'retains a removal enumeration failure even when the final native state recovers' {
+    It 'retains removal failure and finishes recovery with fresh-process diagnostic <FreshStatus>' -ForEach @(
+      @{FreshStatus='Observed'},@{FreshStatus='Failed'}
+    ) {
+      if($FreshStatus -eq 'Failed'){Mock Get-RideFontAcceptanceFreshProcessNames {throw 'Synthetic fresh reader failure'}}
       Mock Remove-RideMachineFonts {
         $script:present=$false;$script:absent.NativeNames=@('Synthetic Regular')
         [pscustomobject]@{SchemaVersion=1;Status='Applied';RunId=$script:removeId}
@@ -182,6 +186,10 @@ Describe 'Guarded machine-font guest acceptance' {
       $result.DurableLifecyclePassed|Should -BeTrue
       $result.NativeEnumerationFailures|Should -Be @('Remove')
       $result.Checks|Should -Contain 'InitialStateRestored'
+      $result.RemovalFreshProcessObservation.Status|Should -BeExactly $FreshStatus
+      if($FreshStatus -eq 'Observed'){$result.RemovalFreshProcessObservation.ParentNativeNamesAfterFresh|Should -Be @('Synthetic Regular')}
+      Test-Path -LiteralPath (Join-Path $result.EvidenceDirectory 'after-removal-fresh-process.json')|Should -BeTrue
+      Should -Invoke Get-RideFontAcceptanceFreshProcessNames -Times 1 -Exactly
     }
     It 'detects recovery metadata drift and leaves the install recovery outstanding' {
       Mock Restore-RideMachineFontRun {

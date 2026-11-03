@@ -4,63 +4,45 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Six system-viewer products subsequently passed all 15 guest checks each and
-the outer controller result, with verified checkpoint recovery and Defender.
-This brings the attended MiTeC passing startup/lifecycle count to 17 variants
-across 12 products. See [system-viewer evidence](../archive/evidence/mitec-system-viewers-fast-track-native-2026-11-03.json).
-Mail Checker installed after the candidate fix, then stopped before startup on
-an empty ARP DisplayVersion. A bounded pinned-executable/version readback is
-prepared (48 tests per shell); its native retry is running. See
-[version-readback evidence](../archive/evidence/mail-checker-version-readback-2026-11-03.json).
+Evidence through 10:10 Copenhagen: **18 MiTeC variants across 13 products passed
+installation, bounded startup, removal and recovery**. This includes Mail Checker,
+which passed nine explicit lifecycle checks and 63 guest regression tests. Its
+old uninstall registration omits DisplayVersion; the exact executable hash and
+FileVersion 7.2.0.0 were verified instead, including after compensating recovery.
+No mail accounts, credentials or mail operations were used. See the
+[Mail Checker result](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json)
+and [product fast-track register](package-fast-track-register.md).
 
-Network Scanner x64 subsequently passed its 15-check startup/lifecycle case;
-x86 produced APPCRASH `0x0eedfade` and stopped that batch before DirList and
-Network Meter. Defender and VM checkpoint recovery passed. Mail Checker's
-corrected candidate-admission retry is running without a new elevation prompt.
-See [network evidence](../archive/evidence/mitec-network-fast-track-native-2026-11-03.json).
+Ten viewer/development variants passed in the guest while the old outer controller
+incorrectly rejected their startup flag. Both results remain recorded; the
+controller fix was installed and subsequently passed the six system-viewer cases.
+Network Scanner x64 passed, but x86 produced APPCRASH `0x0eedfade` in session 0.
+DirList and Network Meter were not reached; a follow-up keeps all four cases and
+places the known failing variant last. No interactive UI or deeper product
+functionality is claimed; that work is deferred to v3.1.
 
-Four JSON/XML Viewer variants subsequently passed 15 guest checks each, including
-bounded startup, removal, exact recovery and Defender. Six development variants
-also passed: DFM Editor Delphi 11/12, Task Manager DeLuxe x64/x86 and Interbase
-Query x64/x86. The then-installed controller
-still expected no tool execution and marked the outer request failed; preserve
-that discrepancy. Mail Checker's first run stopped before installation because
-the trimmed snapshot lacked required Terminal palette data. Both runs recovered
-the pinned VM. The controller corrections passed 60 selected tests per shell,
-and the corrected trimmed snapshot passed catalog validation. Protected refresh
-passed with matching installed hash and Ready/Off verification; Mail Checker
-retry passed 54 guest tests but stopped before installation on missing candidate
-consent. That scoped harness defect is fixed and another retry is prepared;
-host recovery passed. See the [candidate failure/correction](../archive/evidence/mail-checker-candidate-admission-2026-11-03.json),
-[viewer evidence](../archive/evidence/mitec-viewers-fast-track-native-2026-11-03.json)
-and [development evidence](../archive/evidence/mitec-development-fast-track-native-2026-11-03.json)
-and [controller correction record](../archive/evidence/fast-track-controller-corrections-2026-11-03.json).
+Rufus and RegRipper each passed their native file lifecycle with Defender and
+verified reset/off recovery. Neither tool was launched. See
+[Rufus](../archive/evidence/attended-routes-activation-and-rufus-native-2026-11-03.json)
+and [RegRipper](../archive/evidence/regripper-native-file-lifecycle-2026-11-03.json).
+At this checkpoint, the ordinary-account queue had advanced to Gpg4win. Remaining
+prepared package routes continue without another controller refresh; the queue
+checks recovery and the user's 10% usage reserve before each new admission.
 
-Package controller refresh and capability/asset task activation passed. Both
-ordinary-account previews passed. The first refreshed native route, Rufus,
-passed all 14 lifecycle checks with Defender, verified evidence export and
-ResetAndOff recovery. No tool launch or media operation occurred. OpenSSH Client preparation passed, but native lifecycle stopped on a pending
-servicing restart. A missing preflight terminal report required one further
-attended recovery: evidence was exported, no servicing process was present,
-the pinned VM was reset/off and its hold released. The capability task was
-removed; OpenSSH/RSAT remain deferred until the prerequisite is resolved. See [activation and Rufus evidence](../archive/evidence/attended-routes-activation-and-rufus-native-2026-11-03.json).
+OpenSSH Client preparation passed, but lifecycle preflight rejected a pending
+servicing restart. Evidence-preserving attended recovery reset the pinned VM,
+released its hold and removed the capability queue. Preflight reporting is fixed
+in source; OpenSSH/RSAT native acquisition remains deferred. See
+[capability failure/recovery](../archive/evidence/client-capability-native-preflight-and-recovery-2026-11-03.json).
+The package queue has since demonstrated unattended submission, failure capture,
+recovery and continuation. No host integration tests or new release occurred.
 
-The user authorized activation of prepared routes and continued unattended
-testing. See [capability failure/recovery evidence](../archive/evidence/client-capability-native-preflight-and-recovery-2026-11-03.json). All VMware installation support, including profile/path preferences,
-is retired from v3. The package outcome was already retired on Oct 24; the
-additional retirement covers the one directory-preference outcome represented
-by `SetVMDirUserhome` and `SetVMDirDocuments`. No existing VMware installation,
-preferences or VM files are changed. The current catalog/profiles contain no
-VMware entries. Files/assets now stand at 23-33 and total remaining work at
-121-175 exact; the rounded 120-175 estimate is unchanged. Tables below retain
-the earlier overnight checkpoint comparison.
-
-Downloaded ordinary tools now use install, startup without observed errors and
-uninstall as the fast-track gate. Deeper functionality is deferred to v3.1;
-Mail Checker needs no mail account or send/delete fixture for this gate. Keep
-recovery, exact source/version and Defender evidence. The
-[fast-track register](package-fast-track-register.md) separates previous
-file-only results from startup acceptance and deferred feature coverage.
+All VMware installation support and profile/path preferences are retired from
+v3. Installation was already retired on Oct 24; the Nov 3 decision retires one
+additional directory-preference outcome (home/Documents are alternatives).
+Existing installations, preferences and VM files are untouched. No VMware entry
+exists in the current catalog/profiles. Remaining work is now **121-175 exact /
+120-175 rounded**, retaining partial and deferred outcomes.
 
 ### Overnight checkpoint
 
@@ -68,10 +50,10 @@ The fast track produced substantial Windows 11 package lifecycle evidence, but
 **the requested testing is not complete**. This assessment reconciles progress
 since the [2026-11-02 assessment](migration-completion-reassessment-2026-11-02.md)
 through the [overnight closeout](../archive/evidence/overnight-closeout-2026-11-03.json).
-It adds no new runtime acceptance. The earlier document retains the detailed
-component inventories and approved decisions; this document is the current
-status and next-action summary. The [migration plan](../MIGRATION-PLAN.md)
-remains authoritative for estimates.
+The following overnight results retain their original acceptance boundaries;
+attended progress is recorded above and in the fast-track register. The earlier
+document retains detailed component inventories and approved decisions. The
+[migration plan](../MIGRATION-PLAN.md) remains authoritative for estimates.
 
 The main results are **29 passing package/variant cases across 28 catalog IDs**,
 one bounded disconnected Caffeine installation, and three Sysmon configuration
@@ -86,15 +68,16 @@ other Windows targets, catalog promotion or release readiness.
 | --- | ---: | ---: | --- |
 | Settings | 37-57 | 37-57 | Existing evidence retained; icon observation did not run and BitLocker remains gated by effective policy and boot/recovery evidence. |
 | Packages | 37-52 | 34-49 | Recuva, Speccy and Defraggler excluded from v3 by the user. Native acceptance advanced for already-migrated candidates; those tests do not constitute additional legacy closures. |
-| Windows components | 19-24 | 19-24 | OpenSSH Client/RSAT lifecycle and expiring queue prepared and source-tested; native servicing not run. |
-| Files and assets | 25-35 | 24-34 | Sysmon configuration replacement completed one legacy outcome; font/image partial results and Wi-Fi prerequisites remain. |
+| Windows components | 19-24 | 19-24 | OpenSSH preparation passed; native lifecycle stopped at pending-restart preflight before DISM changes. Evidence recovered, capability queue removed; RSAT unrun. |
+| Files and assets | 25-35 | 23-33 | Sysmon configuration replacement completed one legacy outcome; VMware directory preferences retired one more. Font/image partial results and Wi-Fi prerequisites remain. |
 | Maintenance | 8-12 | 8-12 | Bounded offline Caffeine evidence improved; general maintenance and release acceptance remain open. |
-| **Total** | **126-180** | **122-176** | **Three scope exclusions plus one completed legacy outcome. Current rounded estimate: 120-175, about 150.** |
+| **Total** | **126-180** | **121-175** | **Three product exclusions, one Sysmon closure and one VMware-preference retirement. Current rounded estimate: 120-175, about 150.** |
 
 These are legacy feature/product estimates, not counts of catalog IDs or failed
 tests. After yesterday's three exclusions the intermediate total was 123-177;
-the overnight Sysmon closure reduced it to 122-176. This review closes no further
-outcome. All five ranges were reviewed and retain partial/deferred scope.
+the overnight Sysmon closure reduced it to 122-176 and the VMware-preference
+retirement to 121-175. Native package tests improve acceptance without counting
+already-migrated outcomes again. All five ranges retain partial/deferred scope.
 
 ## Verified native progress
 
@@ -142,10 +125,10 @@ verified recovery. Do not infer acceptance from registration or source tests.
 
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
-| RegRipper / Rufus | Exact retained pins, bounded portable routes; 145 selected source tests per shell. [Evidence](../archive/evidence/regripper-rufus-routes-source-2026-11-03.json). Rufus native file lifecycle/recovery/Defender passed. | RegRipper native lifecycle remains; Rufus was not launched. |
+| RegRipper / Rufus | Both native file lifecycle/recovery/Defender routes passed. | Neither executable was launched; startup and utility actions remain separate. |
 | Remaining MiTeC portable batches | Seventeen variants / twelve products passed guest startup/lifecycle checks, including all six system viewers with a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; reordered follow-up prepared. Features stay deferred. |
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). | Synthetic GnuPG user data and machine TMOG lifecycle. Earlier Gpg installer `0xC0000005` remains unresolved until a successful native run. |
-| MiTeC Mail Checker | Exact 7.2.0 route, version/Defender and compensating presence recovery; 162 selected source tests per shell. [Evidence](../archive/evidence/mailchecker-route-source-2026-11-03.json). | Installer lifecycle without account setup or mail access. |
+| MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload route; 182 selected route tests per shell. Full inert lifecycle now passes in both shells after path-validation optimization. [Route](../archive/evidence/wfn-route-source-2026-11-03.json), [optimization](../archive/evidence/portable-path-optimization-2026-11-03.json). | Native package lifecycle and Defender; no launch or firewall changes. Caffeine validates the changed handler, not WFN itself. |
 | InfoBar / Project Maker / NTCore Explorer Suite | Corrected runtime snapshot installed. InfoBar/Project Maker pinned startup checks prepared; Explorer Suite remains lifecycle-only. | Run queued native routes with Defender; retain earlier presence evidence without calling it current acceptance. |
 | OpenSSH Client / full available client RSAT | Preparation passed; OpenSSH lifecycle rejected a pending servicing restart before installation. Evidence exported and checkpoint recovered; capability queue removed. Preflight reporting fix passed 53 tests per shell. | Resolve baseline readiness, then activate the corrected queue and run native DISM with already-approved Windows Update acquisition. RSAT has not run; payload availability remains unverified. |
