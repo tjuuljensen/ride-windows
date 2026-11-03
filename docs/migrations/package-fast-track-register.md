@@ -30,6 +30,7 @@ retains executable/process/error evidence. See [source checks](../archive/eviden
 
 | Products | Lifecycle evidence | Startup evidence | v3.1 follow-up |
 | --- | --- | --- | --- |
+| MiTeC SQLite Query | Passed all 15 checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/mitec-sqlite-fast-track-native-2026-11-03.json). | Bounded session-0 startup passed without supplied databases or queries | Synthetic database features and interactive UI. |
 | MiTeC UUID Generator, Certificate Generator and Certificate Information | Three cases passed all 15 checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/mitec-utilities-fast-track-native-2026-11-03.json). | Bounded session-0 startup passed; no certificate issuance, key generation or certificate-management action selected | Synthetic features and interactive UI. |
 | MiTeC Mail Viewer, Email History Browser, Internet History Browser and Instant Messaging History Browser | Four cases passed all 15 checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/mitec-mail-history-fast-track-native-2026-11-03.json). | Bounded session-0 startup passed without supplied accounts, messages or history files | Synthetic file parsing/features and interactive UI. |
 | MiTeC EXE Explorer and HexEdit | Both passed all 15 lifecycle/startup checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/mitec-analysis-fast-track-native-2026-11-03.json). | Both EXE Explorer executables and HexEdit passed bounded session-0 startup | Synthetic features and interactive UI. |

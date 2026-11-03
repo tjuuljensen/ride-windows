@@ -1,0 +1,182 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T11:04:30.8192661+00:00",
+  "Status": "Passed",
+  "RunId": "b8441771da324fffa2f33d41162a4d43",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "b8441771da324fffa2f33d41162a4d43",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "SQLiteQuery",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T10:56:42.7860064Z",
+    "FinishedAtUtc": "2026-11-03T11:03:44.4629221Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "b8441771da324fffa2f33d41162a4d43",
+      "Batch": "SQLiteQuery",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 1,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": true,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "Focused": {
+    "RunId": "b8441771da324fffa2f33d41162a4d43",
+    "Batch": "SQLiteQuery",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 1,
+    "Status": "Passed",
+    "Error": null,
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Guest": {
+    "Batch": "SQLiteQuery",
+    "ExpectedCases": 1,
+    "Completed": 1,
+    "Passed": 1,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-sqlite-query",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "4b5bd1ad03454ee7b4f288a0ff62f99d",
+        "258b0c2608e24514997ff21a29a0f2b9",
+        "a1f73f505ab54fe6a77db826e708744c"
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-sqlite-query\\sqlite3.exe",
+          "Sha256": "01a6c2e43ecffadac3c3c7792c02604a87032d3a6d0f10bba8e7401b83ff3324",
+          "StartedAtUtc": "2026-11-03T11:03:05.4230025Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 7144,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        },
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-sqlite-query\\SQLiteQuery.exe",
+          "Sha256": "00bdc0c929a782563ecd3c3cf1d393405432bec9278ebbd7c19987b4d2ba0128",
+          "StartedAtUtc": "2026-11-03T11:03:15.1277686Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 1184,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "StartupDeferred": null
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T11:03:01.0490472Z",
+    "SinceUtc": "2026-11-03T10:59:40.295775Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T11:03:32.8549713Z",
+    "SinceUtc": "2026-11-03T10:59:40.295775Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "QueueReceipt": {
+    "Batch": "SQLiteQuery",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T10:56:37.9750143Z",
+    "RunId": "b8441771da324fffa2f33d41162a4d43",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\b8441771da324fffa2f33d41162a4d43",
+    "Error": null,
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T11:03:46.3848204Z"
+  },
+  "Limits": [
+    "Bounded session-0 startup without supplied databases or queries.",
+    "Deeper SQL/database functionality and interactive UI remain deferred to v3.1.",
+    "No additional legacy closure or support promotion."
+  ],
+  "RemainingEstimate": {
+    "Settings": "37-57",
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "Packages": "34-49",
+    "Rounded": "120-175",
+    "Exact": "121-175",
+    "FilesAndAssets": "23-33"
+  }
+}
