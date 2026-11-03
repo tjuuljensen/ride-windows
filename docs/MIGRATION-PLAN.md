@@ -5,15 +5,39 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
-| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper/WFN file lifecycles and Explorer Suite installer lifecycle and 31 MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. InfoBar passed its corrected regression gate but timed out during installation; checkpoint recovery passed. Its completion/logging correction passed source checks; native retry pending. Project Maker passed nine native checks; remaining corrections are active. DirList and Network Meter now passed; Scanner x86 remains failed. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Desktop/Core runtime and package recovery passed; shared-BDE recovery remains open. No additional legacy closure counted. |
+| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper/WFN file lifecycles and Explorer Suite installer lifecycle and 31 MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. InfoBar passed its corrected regression gate but timed out during installation; checkpoint recovery passed. Its completion/logging correction passed source checks; native retry pending. Project Maker passed nine native checks; Gpg4win correction reproduced the crash. Remaining corrections stopped before admission at user request. DirList and Network Meter now passed; Scanner x86 remains failed. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Desktop/Core runtime and package recovery passed; shared-BDE recovery remains open. No additional legacy closure counted. |
 | Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
 | Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but native visibility failed; fresh-child reporting correction passed 52 tests per shell and awaits retry; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN preparation observed WlanSvc Stopped; native profile acceptance remains unrun. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 Project Maker passed install/startup/removal/recovery and 464 guest regressions; MiTeC tally is 31 variants / 26 products. InfoBar timeout retained; remaining package, font and InfoBar diagnostic routes continue unattended.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 requested stop after corrected Gpg4win reproduced 0xC0000005; 76 guest tests, Defender and checkpoint recovery passed. VM Off, workers idle, queues empty, no hold. MiTeC retains 31 variants / 26 products; remaining-components report written.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
 
 ## Fast-track startup and controller corrections, 2026-11-03
+
+The user requested a stop after the active test. Gpg4win's corrected retry
+finished Failed at 13:20 Copenhagen, reproducing installer exit `0xC0000005`.
+All 76 guest regression tests passed; Defender and separate checkpoint recovery
+passed. Product recovery was false and startup was not reached. Corrected NSIS
+destination syntax did not resolve the crash; its cause remains unproven. See
+[final Gpg4win evidence](archive/evidence/gpg4win-corrected-installer-failure-native-2026-11-03.json).
+
+At 13:21 Copenhagen the pinned VM was Off, both workers Ready, queues empty,
+and no recovery hold or retained request remained. The correction queue stopped
+after three runs. Font and InfoBar waiting clients exited with zero requests;
+their generic StoppedForInspection status records the explicit stop request,
+not a new native failure. TMOG and System Information/TAPI were not admitted.
+The stop marker remains; existing expiring workers are registered but idle.
+See [stop evidence](archive/evidence/attended-requested-stop-2026-11-03.json).
+
+Project Maker's latest native pass brings MiTeC to 31 passing variants / 26
+products. Windows shared-scenario and status tests now have both-edition evidence;
+the stale search assertion was corrected and its full file passed. No further
+native tests are scheduled by this client. No new legacy outcome closed, retired
+or was excluded: all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12,
+exact 121-175, rounded 120-175. The remaining components and next-session order
+are in the [v3 remaining-components report](migrations/v3-remaining-components-status-2026-11-03.md).
+
 
 Project Maker 1.9.0 passed all nine native lifecycle checks, including eight-second
 startup with its pinned executable, repeat installation/removal and compensating

@@ -1251,9 +1251,11 @@ isolated user/mount namespace with run state on tmpfs; the CLI refuses before
 calling the settings observer or writing a new journal. The focused suite
 passes. The peer Fedora record is
 [Windows alignment](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/windows-alignment.md#align-05-shared-scenario-expansion-2026-11-03).
-Windows Pester execution remains unverified because Pester 5 is unavailable in
-the current Linux environment; PowerShell parsing succeeds. ALIGN-05 stays
-open until native Pester runs against the current adapter.
+Windows Pester execution was subsequently completed on Windows PowerShell 5.1
+and PowerShell 7. All mapped scenario files ran; one stale search message
+assertion was corrected and its complete file passed in both editions. Original
+failures remain recorded. See [Windows evidence](archive/evidence/shared-behavior-and-status-windows-pester-2026-11-03.json).
+ALIGN-05's wider paired CI and conformance work remains open.
 
 ## Status operation and view selectors, 2026-11-03
 
@@ -1270,8 +1272,10 @@ explicit operation and view selection without reinterpreting existing syntax.
 
 Windows CLI 0.19.0 forwards the selectors to Engine 0.33.0 and completes
 `-OperationId` from the local catalog. Mocked CLI routing, engine filtering, and
-completion Pester cases were added. Pester 5 is unavailable in this Linux
-environment, so suite execution remains unverified. PowerShell AST parsing,
+completion Pester cases were added. Subsequent native Windows execution passed
+the CLI and 15 status-presentation cases per shell; all 38 corrected search cases
+also passed per shell. See [Windows evidence](archive/evidence/shared-behavior-and-status-windows-pester-2026-11-03.json).
+The broader ALIGN-08 output contract remains open. PowerShell AST parsing,
 three fake-engine routing/refusal smoke cases, and a local catalog completion
 smoke check passed. The source revision and file hashes are recorded in the
 capability-differences register. Paired profile and state-preview examples are

@@ -915,7 +915,9 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
   Done when both clients report the same contract/scenario revision and a seeded
   mismatch fails; no live workstation mutation is used. 2026-11-03: revision
   1.1.0 adds privilege refusal and reverse dependency removal; Windows mappings
-  reuse focused Pester cases. Pester execution is still pending.
+  reuse focused Pester cases. Windows Pester ran in both editions; the corrected
+  search file and all mapped scenarios passed. Paired CI/conformance remains open.
+  See [Windows evidence](docs/archive/evidence/shared-behavior-and-status-windows-pester-2026-11-03.json).
 - [ ] **ALIGN-06:** Turn existing comparison gaps into a structured capability and
   difference register in each repo, with stable IDs, owner, reason, rule IDs,
   evidence, linked work and review/removal trigger. Done when every matrix row has
@@ -932,7 +934,9 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
   selectors alongside its existing positional view; `-OperationId` completes
   from the local catalog. Linux provides equivalent selectors with Bash option
   syntax. Focused Pester cases and a fake-engine PowerShell smoke check were added;
-  native Pester execution remains pending because Pester 5 is unavailable here.
+  native Windows Pester subsequently passed the CLI, corrected search and status
+  filtering cases in both editions. Broader output-contract work remains open;
+  see [evidence](docs/archive/evidence/shared-behavior-and-status-windows-pester-2026-11-03.json).
 - [ ] **ALIGN-09:** Before final v3, record the published immutable contract
   reference, verify both digest pins, close all preceding tasks or record explicit
   owner-approved deferrals, and review the final consumers with proportionate

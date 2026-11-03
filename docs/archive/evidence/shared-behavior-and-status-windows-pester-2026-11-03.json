@@ -1,0 +1,127 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T12:17:46.2781882+00:00",
+  "Status": "FocusedWindowsChecksPassedAfterAssertionCorrection",
+  "SourceCommitBeforeCorrection": "3afeacf",
+  "Results": [
+    {
+      "File": "alignment-native-pester-Desktop.json",
+      "Result": {
+        "Passed": 229,
+        "AtUtc": "2026-11-03T12:16:38.7718518Z",
+        "Failed": 1,
+        "Edition": "Desktop",
+        "PowerShell": "5.1.26100.9818",
+        "Skipped": 0
+      }
+    },
+    {
+      "File": "alignment-native-pester-Core.json",
+      "Result": {
+        "Passed": 229,
+        "PowerShell": "7.6.5",
+        "Skipped": 0,
+        "Edition": "Core",
+        "AtUtc": "2026-11-03T12:13:00.5474434Z",
+        "Failed": 1
+      }
+    },
+    {
+      "File": "status-selector-pester-Desktop.json",
+      "Result": {
+        "Passed": 15,
+        "AtUtc": "2026-11-03T12:14:01.5290544Z",
+        "Failed": 0,
+        "Edition": "Desktop",
+        "PowerShell": "5.1.26100.9818",
+        "Skipped": 0
+      }
+    },
+    {
+      "File": "status-selector-pester-Core.json",
+      "Result": {
+        "Edition": "Core",
+        "Skipped": 0,
+        "Passed": 15,
+        "AtUtc": "2026-11-03T12:13:40.0666393Z",
+        "Failed": 0,
+        "PowerShell": "7.6.5"
+      }
+    },
+    {
+      "File": "search-selector-correction-Desktop.json",
+      "Result": {
+        "Passed": 38,
+        "AtUtc": "2026-11-03T12:15:34.5435381Z",
+        "Failed": 0,
+        "Edition": "Desktop",
+        "PowerShell": "5.1.26100.9818",
+        "Skipped": 0
+      }
+    },
+    {
+      "File": "search-selector-correction-Core.json",
+      "Result": {
+        "Failed": 0,
+        "AtUtc": "2026-11-03T12:14:51.9756628Z",
+        "Passed": 38,
+        "Skipped": 0,
+        "PowerShell": "7.6.5",
+        "Edition": "Core"
+      }
+    }
+  ],
+  "Correction": "Search rejection assertion now expects the documented message that -View supports search and status; production behavior unchanged.",
+  "Acceptance": "All 12 scenario mappings exercised through their mapped Windows test files. The six-file run had 229 passes/one stale message failure per shell; the full corrected Search file passed 38/38 per shell. Separate status presentation/filtering file passed 15/15 per shell. Combined distinct coverage is 245 cases per shell, not a single post-fix full-suite execution.",
+  "Files": [
+    {
+      "Path": "ride.ps1",
+      "Sha256": "2A06F47B24AE5EF5DE87480EEC7384A030DBC67139924409DE14426BAA2C68F9"
+    },
+    {
+      "Path": "modules/RIDE.Engine.psm1",
+      "Sha256": "053D90011AC0D7C480208DDC2816DFA249CF171B3295EC0CC74F5A9ED8A9BA9D"
+    },
+    {
+      "Path": "tests/BehaviorContract.Tests.ps1",
+      "Sha256": "AD83329784A8CA35F3892CB4F83D1B47B0064585FFDCDFF42C385225479BA177"
+    },
+    {
+      "Path": "tests/CliShouldProcess.Tests.ps1",
+      "Sha256": "8CE6B1DE3EEAA37C041A3512E3134A72514C27B84A39F820A5E54D6BA4B5AF42"
+    },
+    {
+      "Path": "tests/CandidateExecution.Tests.ps1",
+      "Sha256": "0DE8FAD92ADBBA26BDB4C7E8ABA466399239C903BB85F179B716A4DEB1E14E6C"
+    },
+    {
+      "Path": "tests/PackageDependencyPlanning.Tests.ps1",
+      "Sha256": "3AB4C4E43F3850F1952585FF1E1839AE499ABFBA6938EDC752C77D67C394DAC6"
+    },
+    {
+      "Path": "tests/Catalog.Tests.ps1",
+      "Sha256": "FE6F0609EA92CA258EAC9820AB045F8D309DD26F531BBCE2F552A40A5D13F65C"
+    },
+    {
+      "Path": "tests/Search.Tests.ps1",
+      "Sha256": "986685DA88F0625E0203A6E67373601B5FD5BE41042926FE2C0EEB97582DF9E8"
+    },
+    {
+      "Path": "tests/SettingPresentation.Tests.ps1",
+      "Sha256": "97BC0AF11C33C5042796C52E0AE67A62E0CD3043FE3468644616BC9ABB3F8AA1"
+    },
+    {
+      "Path": "tests/fixtures/behavior-scenario-windows-adapter.json",
+      "Sha256": "362629860E819BFF7AB1F81CEF82AFBD4D2C41CC334C15B5AD74A87C05D27C23"
+    },
+    {
+      "Path": "docs/models/behavior-scenarios.json",
+      "Sha256": "9353770486CFC7768F8D2DD4BF0DB646FFF894E591974F07409035DF7F2D3632"
+    }
+  ],
+  "Limits": [
+    "Mocked Windows-native tests only; no new live handler, installer or target acceptance.",
+    "ALIGN-05 CI/cross-client completion and wider ALIGN-08 output contract remain open.",
+    "Original failed run results are retained."
+  ]
+}

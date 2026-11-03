@@ -2,6 +2,32 @@
 
 ## Current status
 
+### Requested stop and final result, 2026-11-03
+
+The user requested a stop after the active test. Gpg4win's corrected retry
+finished Failed at 13:20 Copenhagen, reproducing installer exit `0xC0000005`.
+All 76 guest regression tests passed; Defender and separate checkpoint recovery
+passed. Product recovery was false and startup was not reached. Corrected NSIS
+destination syntax did not resolve the crash; its cause remains unproven. See
+[final Gpg4win evidence](../archive/evidence/gpg4win-corrected-installer-failure-native-2026-11-03.json).
+
+At 13:21 Copenhagen the pinned VM was Off, both workers Ready, queues empty,
+and no recovery hold or retained request remained. The correction queue stopped
+after three runs. Font and InfoBar waiting clients exited with zero requests;
+their generic StoppedForInspection status records the explicit stop request,
+not a new native failure. TMOG and System Information/TAPI were not admitted.
+The stop marker remains; existing expiring workers are registered but idle.
+See [stop evidence](../archive/evidence/attended-requested-stop-2026-11-03.json).
+
+Project Maker's latest native pass brings MiTeC to 31 passing variants / 26
+products. Windows shared-scenario and status tests now have both-edition evidence;
+the stale search assertion was corrected and its full file passed. No further
+native tests are scheduled by this client. No new legacy outcome closed, retired
+or was excluded: all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12,
+exact 121-175, rounded 120-175. The remaining components and next-session order
+are in the [v3 remaining-components report](v3-remaining-components-status-2026-11-03.md).
+
+
 ### Project Maker native fast-track pass, 2026-11-03
 
 Project Maker 1.9.0 passed all nine native lifecycle checks, including eight-second
@@ -34,7 +60,7 @@ rounded 120-175. Failed, partial and deferred outcomes remain counted.
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 13:11 Copenhagen: **31 MiTeC variants across 26 products passed
+Evidence through 13:21 Copenhagen: **31 MiTeC variants across 26 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -253,11 +279,11 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
 | RegRipper / Rufus | Both native file lifecycle/recovery/Defender routes passed. | Neither executable was launched; startup and utility actions remain separate. |
-| Remaining MiTeC portable batches | 29 portable variants / 24 products passed guest startup/lifecycle checks, plus installed Mail Checker for 30 variants / 25 products overall. System viewers, analysis, mail/history, utility and SQLite tools have passing outer results. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | System Information/TAPI has a corrected retry; the original GetSys failure remains. Features stay deferred. |
-| Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; tested corrections and bounded TMOG startup await native retries. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
+| Remaining MiTeC portable batches | 29 portable variants / 24 products passed guest startup/lifecycle checks, plus installed Mail Checker and Project Maker for 31 variants / 26 products overall. System viewers, analysis, mail/history, utility and SQLite tools have passing outer results. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | System Information/TAPI has a corrected retry; the original GetSys failure remains. Features stay deferred. |
+| Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; corrected Gpg4win retry reproduced the crash with 76 guest tests passed. TMOG correction/startup remains unrun at the requested stop. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload passed 14 native file lifecycle checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json). | Executable startup and firewall behavior are separate; neither was exercised. |
-| InfoBar / Project Maker / NTCore Explorer Suite | InfoBar/Project Maker stopped before installation at stale regression assertions; source correction passes 138 tests with three skips per shell. Explorer Suite passed native installer lifecycle/recovery and Defender with corrected guest tests. | Corrected InfoBar/Project Maker startup/lifecycle retries queued. Explorer Suite executable startup and version readback remain separate. |
+| InfoBar / Project Maker / NTCore Explorer Suite | InfoBar subsequently timed out after its corrected regression gate; checkpoint recovered. Project Maker passed nine native lifecycle/startup/recovery checks. Explorer Suite passed native installer lifecycle/recovery and Defender with corrected guest tests. | InfoBar completion/logging retry was stopped before admission. Project Maker fast-track passed. Explorer Suite executable startup and version readback remain separate. |
 | OpenSSH Client / full available client RSAT | Preparation passed; OpenSSH lifecycle rejected a pending servicing restart before installation. Evidence exported and checkpoint recovered; capability queue removed. Preflight reporting fix passed 53 tests per shell. | Resolve baseline readiness, then activate the corrected queue and run native DISM with already-approved Windows Update acquisition. RSAT has not run; payload availability remains unverified. |
 
 The capability queue is separate from the package controller. Its
@@ -305,7 +331,7 @@ last-observed facts, not a new inspection of today's host. The last recorded
 token balance was 35%; the night closed before the 06:30 deadline. No push,
 tag or release was performed.
 
-Current execution order after attended activation:
+Historical execution order after attended activation (superseded by the requested stop above; no automatic continuation):
 
 1. The protected controller refresh and unattended terminal/export/reset cycle
    are verified. Continue the active finite package queue without another UAC

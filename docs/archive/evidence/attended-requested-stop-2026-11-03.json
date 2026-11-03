@@ -1,0 +1,312 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T12:23:04.3274969+00:00",
+  "Status": "StoppedByUserAfterCurrentTest",
+  "StopRequest": {
+    "RequestedAtUtc": "2026-11-03T13:16:53.2453876+01:00",
+    "Reason": "User requested finish current test, archive status and remaining v3 report, then stop. Do not admit another batch."
+  },
+  "HostObservation": {
+    "Tasks": [
+      {
+        "TaskName": "RIDEWin11NightRetained",
+        "State": "Ready"
+      },
+      {
+        "TaskName": "RIDEWin11Test",
+        "State": "Ready"
+      }
+    ],
+    "Pending": 0,
+    "RetainedRunning": false,
+    "Running": 0,
+    "RetainedPending": false,
+    "HoldExists": false,
+    "ObservedAtUtc": "2026-11-03T13:21:24.0375051+01:00",
+    "VM": {
+      "Id": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "Name": "RIDE-Win11-Test",
+      "State": "Off"
+    }
+  },
+  "Usage": {
+    "ObservedAtUtc": "2026-11-03T13:22:59.013216+01:00",
+    "RemainingPercent": 18,
+    "OrdinaryUsageAllowed": true
+  },
+  "CompletedPackageQueues": [
+    {
+      "StartedAtUtc": "2026-11-03T08:53:40.1134828Z",
+      "Status": "QueueExhausted",
+      "Batches": [
+        "ApplicationsBatch13",
+        "RegRipper",
+        "ApplicationsBatch1Gpg4win",
+        "ApplicationsBatch1TMOG",
+        "WindowsFirewallNotifier",
+        "ApplicationsBatch9",
+        "ApplicationsBatch10",
+        "ApplicationsBatch12"
+      ],
+      "Runs": [
+        {
+          "Batch": "ApplicationsBatch13",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T08:53:43.3163154Z",
+          "RunId": "06e19aade1444b2c8436fcabeb5536f0",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\06e19aade1444b2c8436fcabeb5536f0",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T09:01:55.5899516Z"
+        },
+        {
+          "Batch": "RegRipper",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T09:01:57.3150613Z",
+          "RunId": "f34e9ea1d5b54475b50ca7a650032d5d",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\f34e9ea1d5b54475b50ca7a650032d5d",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T09:09:03.4146838Z"
+        },
+        {
+          "Batch": "ApplicationsBatch1Gpg4win",
+          "Status": "Failed",
+          "StartedAtUtc": "2026-11-03T09:09:05.0233187Z",
+          "RunId": "69525649b962462398f37e61c257e062",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\69525649b962462398f37e61c257e062",
+          "Error": "Test controller exited with code 1. See controller-errors.log.",
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T09:18:29.5229653Z"
+        },
+        {
+          "Batch": "ApplicationsBatch1TMOG",
+          "Status": "Failed",
+          "StartedAtUtc": "2026-11-03T09:18:31.0723238Z",
+          "RunId": "dcadc83e8dfd4a34bb60b285ccea705e",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\dcadc83e8dfd4a34bb60b285ccea705e",
+          "Error": "Test controller exited with code 1. See controller-errors.log.",
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T09:26:50.0144557Z"
+        },
+        {
+          "Batch": "WindowsFirewallNotifier",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T09:26:51.8037354Z",
+          "RunId": "d771c3c427c74eb393df163bfb9041c0",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\d771c3c427c74eb393df163bfb9041c0",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T09:39:26.2379293Z"
+        },
+        {
+          "Batch": "ApplicationsBatch9",
+          "Status": "Failed",
+          "StartedAtUtc": "2026-11-03T09:39:27.9096526Z",
+          "RunId": "606c5eed91414d8cabc276cba5203bbf",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\606c5eed91414d8cabc276cba5203bbf",
+          "Error": "Test controller exited with code 1. See controller-errors.log.",
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T09:51:48.3969752Z"
+        },
+        {
+          "Batch": "ApplicationsBatch10",
+          "Status": "Failed",
+          "StartedAtUtc": "2026-11-03T09:51:49.1497339Z",
+          "RunId": "bc4ad384faba4e84b34072da3d321728",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\bc4ad384faba4e84b34072da3d321728",
+          "Error": "Test controller exited with code 1. See controller-errors.log.",
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T10:04:39.3248885Z"
+        },
+        {
+          "Batch": "ApplicationsBatch12",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T10:04:40.1299718Z",
+          "RunId": "c93b6c49273b4203937436701798c700",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\c93b6c49273b4203937436701798c700",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T10:16:49.8238291Z"
+        }
+      ],
+      "Error": null,
+      "FinishedAtUtc": "2026-11-03T10:16:49.8287941Z"
+    },
+    {
+      "StartedAtUtc": "2026-11-03T10:20:29.5070199Z",
+      "Status": "QueueExhausted",
+      "Batches": [
+        "MiTeCNetworkUtilities",
+        "MiTeCSystemAndTelephony",
+        "MiTeCAnalysisTools",
+        "MiTeCMailHistoryViewers",
+        "MiTeCUtilityFiles",
+        "SQLiteQuery",
+        "PSScriptTools"
+      ],
+      "Runs": [
+        {
+          "Batch": "MiTeCNetworkUtilities",
+          "Status": "Failed",
+          "StartedAtUtc": "2026-11-03T10:20:31.9428566Z",
+          "RunId": "5de3386830244faca96bc70e561a7070",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\5de3386830244faca96bc70e561a7070",
+          "Error": "Test controller exited with code 1. See controller-errors.log.",
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T10:27:42.1619824Z"
+        },
+        {
+          "Batch": "MiTeCSystemAndTelephony",
+          "Status": "Failed",
+          "StartedAtUtc": "2026-11-03T10:27:43.896832Z",
+          "RunId": "64b0348c086b4c0697c40835803166ef",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\64b0348c086b4c0697c40835803166ef",
+          "Error": "Test controller exited with code 1. See controller-errors.log.",
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T10:33:38.6620639Z"
+        },
+        {
+          "Batch": "MiTeCAnalysisTools",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T10:33:40.1810501Z",
+          "RunId": "0830391acd5947c8acb2580ed70298f0",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\0830391acd5947c8acb2580ed70298f0",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T10:40:32.4256012Z"
+        },
+        {
+          "Batch": "MiTeCMailHistoryViewers",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T10:40:34.1940156Z",
+          "RunId": "309e492d426548a2a99da26d34f97a22",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\309e492d426548a2a99da26d34f97a22",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T10:49:13.4607593Z"
+        },
+        {
+          "Batch": "MiTeCUtilityFiles",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T10:49:14.4151087Z",
+          "RunId": "5467350f310d420593c0d43c698483b2",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\5467350f310d420593c0d43c698483b2",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T10:56:36.9716744Z"
+        },
+        {
+          "Batch": "SQLiteQuery",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T10:56:37.9750143Z",
+          "RunId": "b8441771da324fffa2f33d41162a4d43",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\b8441771da324fffa2f33d41162a4d43",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T11:03:46.3848204Z"
+        },
+        {
+          "Batch": "PSScriptTools",
+          "Status": "Passed",
+          "StartedAtUtc": "2026-11-03T11:03:48.4276935Z",
+          "RunId": "5d97c53bdbb74a7388218340f73ff695",
+          "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\5d97c53bdbb74a7388218340f73ff695",
+          "Error": null,
+          "RecoveryVerified": true,
+          "FinishedAtUtc": "2026-11-03T11:15:16.4573591Z"
+        }
+      ],
+      "Error": null,
+      "FinishedAtUtc": "2026-11-03T11:15:17.0773854Z"
+    }
+  ],
+  "CorrectionQueue": {
+    "StartedAtUtc": "2026-11-03T11:23:29.3659989Z",
+    "Status": "StoppedByRequest",
+    "Batches": [
+      "ApplicationsBatch9",
+      "ApplicationsBatch10",
+      "ApplicationsBatch1Gpg4win",
+      "ApplicationsBatch1TMOG",
+      "MiTeCSystemAndTelephony"
+    ],
+    "Runs": [
+      {
+        "Batch": "ApplicationsBatch9",
+        "Status": "TimedOut",
+        "StartedAtUtc": "2026-11-03T11:23:31.8942141Z",
+        "RunId": "d72aab7aef1d4fd59e62b349a1cf31cd",
+        "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\d72aab7aef1d4fd59e62b349a1cf31cd",
+        "Error": "RIDE run d72aab7aef1d4fd59e62b349a1cf31cd TimedOut: Test controller exceeded its timeout; process tree terminated. . Results: C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\d72aab7aef1d4fd59e62b349a1cf31cd",
+        "RecoveryVerified": true,
+        "FinishedAtUtc": "2026-11-03T11:54:13.074961Z",
+        "Review": "Terminal timeout with successful collection/cleanup/export; tasks Ready, pinned VM Off, queues empty and hold absent before continuation."
+      },
+      {
+        "Batch": "ApplicationsBatch10",
+        "Status": "Passed",
+        "StartedAtUtc": "2026-11-03T11:56:38.3825394Z",
+        "RunId": "413339cb13604d1ab82f87abd88444a3",
+        "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\413339cb13604d1ab82f87abd88444a3",
+        "Error": null,
+        "RecoveryVerified": true,
+        "FinishedAtUtc": "2026-11-03T12:09:58.7680804Z"
+      },
+      {
+        "Batch": "ApplicationsBatch1Gpg4win",
+        "Status": "Failed",
+        "StartedAtUtc": "2026-11-03T12:09:59.4627842Z",
+        "RunId": "c859d2bc73e54f4a82d8216c53e1a085",
+        "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\c859d2bc73e54f4a82d8216c53e1a085",
+        "Error": "Test controller exited with code 1. See controller-errors.log.",
+        "RecoveryVerified": true,
+        "FinishedAtUtc": "2026-11-03T12:20:42.9429631Z"
+      }
+    ],
+    "Error": null,
+    "FinishedAtUtc": "2026-11-03T12:20:43.6560118Z",
+    "ResumedAtUtc": "2026-11-03T11:56:36.7226083Z"
+  },
+  "StoppedFontFollowup": {
+    "StartedAtUtc": "2026-11-03T12:57:08.3986351+01:00",
+    "Status": "StoppedForInspection",
+    "Runs": [],
+    "Error": "Stop requested while waiting.",
+    "FinishedAtUtc": "2026-11-03T13:16:57.0255401+01:00"
+  },
+  "StoppedInfoBarFollowup": {
+    "StartedAtUtc": "2026-11-03T12:09:06.166077Z",
+    "Status": "StoppedForInspection",
+    "Batches": [
+      "ApplicationsBatch9"
+    ],
+    "Runs": [],
+    "Error": "Stop requested.",
+    "FinishedAtUtc": "2026-11-03T12:16:57.7623945Z"
+  },
+  "FinalRunId": "c859d2bc73e54f4a82d8216c53e1a085",
+  "FinalRunStatus": "Failed",
+  "FinalRunEvidence": "gpg4win-corrected-installer-failure-native-2026-11-03.json",
+  "UnrunPrepared": [
+    "ApplicationsBatch1TMOG",
+    "MiTeCSystemAndTelephony",
+    "Corrected font reader lifecycle",
+    "InfoBar completion/logging retry"
+  ],
+  "RemainingEstimate": {
+    "Exact": "121-175",
+    "Packages": "34-49",
+    "FilesAndAssets": "23-33",
+    "Components": "19-24",
+    "Rounded": "120-175",
+    "Settings": "37-57",
+    "Maintenance": "8-12"
+  },
+  "Limits": [
+    "No further tests admitted after the user stop.",
+    "Existing expiring worker tasks remain registered and idle; no pending request or recovery hold.",
+    "Migration/testing goal remains incomplete.",
+    "No new legacy closure, retirement or exclusion; no push, tag or release."
+  ]
+}

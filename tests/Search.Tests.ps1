@@ -227,7 +227,7 @@ Describe 'Search runner and completion' {
     }
     { & $script:Runner list -Query x } | Should -Throw '*only supported*'
     { & $script:Runner list -Field Name } | Should -Throw '*only supported*'
-    { & $script:Runner list -View packages } | Should -Throw '*only supported*'
+    { & $script:Runner list -View packages } | Should -Throw '-View is supported by search and status only.'
     { & $script:Runner search x -Regex } | Should -Throw
   }
 
