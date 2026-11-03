@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 12:04 Copenhagen: **30 MiTeC variants across 25 products passed
+Evidence through 12:17 Copenhagen: **30 MiTeC variants across 25 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -47,7 +47,13 @@ generation or certificate-management action was selected. See
 
 SQLite Query then passed all 15 checks, Defender and checkpoint recovery without
 supplied databases or queries. See [SQLite evidence](../archive/evidence/mitec-sqlite-fast-track-native-2026-11-03.json).
-The pinned PSScriptTools PowerShell 7 runtime fixture is now under native test.
+PSScriptTools and ThreadJob then passed their package lifecycles, Defender and
+checkpoint recovery. All four dependency-present/missing probes passed in
+Windows PowerShell 5.1 and PowerShell 7.6.5. Core used the signed run-local ZIP
+fixture; its temporary host staging copy was removed after verified recovery.
+See [dual-edition runtime evidence](../archive/evidence/psscripttools-dual-edition-runtime-native-2026-11-03.json).
+The seven-run coverage queue is exhausted: five outer passes and two failures,
+all with verified checkpoint recovery. Font diagnostics started automatically.
 
 Rufus and RegRipper each passed their native file lifecycle with Defender and
 verified reset/off recovery. Neither tool was launched. See
@@ -177,7 +183,7 @@ Evidence: [package case index](../archive/evidence/overnight-closeout-2026-11-03
 | Component | Result | Remaining acceptance |
 | --- | --- | --- |
 | Caffeine offline portable package | Latest changed-handler run passed 34 checks, including disconnected guest execution, owned recovery and Defender. Earlier production assembly/transfer proof retained. | One package proves a bounded offline route; broader bundles, installer types and `ALIGN-TARGET-01` remain open. No Caffeine launch. [Latest evidence](../archive/evidence/portable-path-offline-native-2026-11-03.json), [assembly/disconnection evidence](../archive/evidence/offline-target-exploration-night-native-2026-11-03.json). |
-| PSScriptTools and ThreadJob | File lifecycle/recovery and Windows PowerShell Desktop runtime passed, including exact ThreadJob dependency origin and missing-dependency behavior. | Overall runtime batch remains failed/partial because PowerShell Core was absent. Supply an explicit PowerShell 7 fixture; do not repeat unchanged Desktop tests. [Evidence](../archive/evidence/psscripttools-desktop-night-native-2026-11-03.json). |
+| PSScriptTools and ThreadJob | File lifecycle/recovery and all four Desktop/Core runtime probes now passed, including exact ThreadJob dependency origin, drawing/thread-job checks and missing-dependency behavior. [Current evidence](../archive/evidence/psscripttools-dual-edition-runtime-native-2026-11-03.json). | Earlier Core-absent partial result remains [historical evidence](../archive/evidence/psscripttools-desktop-night-native-2026-11-03.json). Broader features and other Windows targets remain separate; no persistent runtime installation or PATH edit. |
 | Sysmon configurations | Three selected profiles passed five checks each, including repeat apply, synthetic prior-XML restore and service/event observation. Verified export and reset/off. | Closes the one `GetSysmonOlafXML` replacement outcome. Does not prove unknown-baseline recovery, package uninstall or other targets. [Evidence](../archive/evidence/sysmon-night-native-2026-11-03.json). |
 | Machine fonts | Fourteen approved OpenSauceSans fonts tested; six of seven native checks and four of four durable recovery checks passed. Both saved restores passed; final/repeated native enumeration and three later processes were clean. | Immediate removal enumeration failed. Native acceptance remains failed; later clean observations do not explain that failure or prove interactive/restart behavior. No forced unload, cache deletion or consumer termination. [Evidence](../archive/evidence/font-process-night-native-2026-11-03.json). |
 | Default/new-user lock image | Six durable file/policy/ACL and recovery checks passed. | Visual and new-user acceptance remain open; current-user Picture/Slideshow/Spotlight recovery is separate. [Evidence](../archive/evidence/default-lock-night-native-2026-11-02.json). |
@@ -258,10 +264,9 @@ Current execution order after attended activation:
    are verified. Continue the active finite package queue without another UAC
    request. Check the fresh 10% usage reserve, expiry and recovery before each
    admission; an unresolved hold stops use of the VM.
-2. The first queue is exhausted with all eight checkpoint recoveries verified.
-   Continue the prepared coverage queue: startup coverage for earlier file-only
-   MiTeC cases and the pinned portable PowerShell 7 runtime fixture.
-   Preserve failures and continue only after verified checkpoint recovery.
+2. The first queue and seven-run coverage queue are exhausted with all 15
+   checkpoint recoveries verified. Preserve their product failures separately
+   from passing cases; PSScriptTools now has both-edition runtime acceptance.
 3. After package recovery, run the paired font-process diagnostic and read-only
    WLAN prerequisite observation through the registered retained task. Keep the
    original font failure gate; do not start WLAN services or connect to a network.
