@@ -2,6 +2,20 @@
 
 ## Current status
 
+### Project Maker native fast-track pass, 2026-11-03
+
+Project Maker 1.9.0 passed all nine native lifecycle checks, including eight-second
+startup with its pinned executable, repeat installation/removal and compensating
+presence recovery. All 464 guest regression tests passed (four skipped); Defender
+and separate checkpoint recovery passed. Previous-version recovery, interactive
+UI and product features are not claimed. See
+[native evidence](../archive/evidence/project-maker-fast-track-native-2026-11-03.json).
+The distinct MiTeC tally is now 31 passing variants across 26 products. Gpg4win,
+TMOG and the corrected System Information/TAPI route follow unattended, then the
+font diagnostic and InfoBar retry. No additional legacy outcome is counted again:
+all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175,
+rounded 120-175; unresolved acceptance stays included.
+
 ### InfoBar timeout and unattended continuation, 2026-11-03
 
 InfoBar's corrected regression gate passed 464 tests (four skipped), but the
@@ -20,7 +34,7 @@ rounded 120-175. Failed, partial and deferred outcomes remain counted.
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 13:08 Copenhagen: **30 MiTeC variants across 25 products passed
+Evidence through 13:11 Copenhagen: **31 MiTeC variants across 26 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
