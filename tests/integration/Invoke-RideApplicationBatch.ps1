@@ -8,10 +8,16 @@
   Project Maker also retains its Inno Setup log for timeout diagnosis.
   InfoBar, Project Maker and NTCore Explorer Suite require active Defender with
   no new detection since guest boot, recorded before and after the lifecycle.
+  Focused Gpg4win/TMOG selections also require coordinator-owned Defender checks.
+  Gpg4win runs under an isolated limited user and preserves synthetic GnuPG data;
+  TMOG preserves synthetic LocalAppData content. No encryption, product launch,
+  screensaver selection or paid activation is exercised.
 .PARAMETER Batch
   Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), side-by-side Microsoft OpenJDK versions on Server 2025 (8), MiTeC InfoBar on Windows 11 (9), MiTeC Project Maker on Windows 11 (10), HashCheck on Windows 11 (11), or NTCore Explorer Suite on Windows 11 (12).
 .PARAMETER PackageId
-  For batch 12, the exact package ID package.ntcore-explorer-suite. No other package is accepted.
+  For batch 12, exactly package.ntcore-explorer-suite. For batch 1, optionally
+  select only package.gpg4win or package.tmog using their existing scope and
+  user-data recovery scenario. No arbitrary package selection is accepted.
 .PARAMETER Variant
   Limit batch 3 to one Docker Desktop variant. all-users runs only the elevated system-wide edition.
 .PARAMETER PackageScope
@@ -41,6 +47,12 @@
 .EXAMPLE
   .\Invoke-RideApplicationBatch.ps1 -Batch 12 -PackageId package.ntcore-explorer-suite
   Exercise only the pinned NTCore Explorer Suite installer lifecycle on Windows 11 without launching suite utilities.
+.EXAMPLE
+  .\Invoke-RideApplicationBatch.ps1 -Batch 1 -PackageId package.gpg4win
+  In the attested disposable guest, coordinate only Gpg4win under a limited user.
+.EXAMPLE
+  .\Invoke-RideApplicationBatch.ps1 -Batch 1 -PackageId package.tmog
+  In the attested disposable guest, exercise only the TMOG installer and recovery.
 .INPUTS
   None.
 .OUTPUTS
@@ -49,8 +61,10 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.20.0.
-  Changelog: 0.20.0: Require Defender evidence for focused InfoBar, Project Maker and Explorer Suite acceptance.
+  Owner: RIDE-Windows maintainers. Version: 0.21.0.
+  Changelog: 0.21.0: Add exact Gpg4win/TMOG batch-1 selection, preserved limited-user
+    handoff and coordinator-owned Defender evidence.
+    0.20.0: Require Defender evidence for focused InfoBar, Project Maker and Explorer Suite acceptance.
     0.19.4: Retain machine lifecycle stage progress and Project Maker installer diagnostics on timeout.
     0.19.3: Admit the exact Batch 12 candidate to the guest-only catalog and include its removal/recovery checks.
     0.19.2: Check HashCheck's observed four-part installed version without changing its release pin.
@@ -93,14 +107,34 @@
     0.1.0: Add two package-only migration suites.
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
-param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.20.0'
+param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
+$script:ScriptVersion='0.21.0'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
 if($Variant -and $Batch -ne 3){throw 'Variant selection is supported only by application batch 3.'}
-if($Batch -eq 12 -and $PackageId -cne 'package.ntcore-explorer-suite'){throw 'ApplicationsBatch12 requires exactly -PackageId package.ntcore-explorer-suite.'}
-if($Batch -ne 12 -and $PackageId){throw '-PackageId is supported only by ApplicationsBatch12.'}
+function Assert-RideApplicationPackageSelection {
+  param([int]$SelectedBatch,[string]$SelectedPackageId)
+  if($SelectedBatch -eq 12){
+    if($SelectedPackageId -cne 'package.ntcore-explorer-suite'){throw 'ApplicationsBatch12 requires exactly -PackageId package.ntcore-explorer-suite.'}
+  }elseif($SelectedPackageId -and ($SelectedBatch -ne 1 -or $SelectedPackageId -cnotin @('package.gpg4win','package.tmog'))){
+    throw '-PackageId requires the fixed batch-1 Gpg4win/TMOG selection or batch-12 Explorer Suite.'
+  }
+}
+function Test-RideApplicationBatchSelection {
+  param($Operation,[int]$SelectedBatch,[string]$SelectedPackageId)
+  if($SelectedPackageId){return $Operation.Id -ceq $SelectedPackageId}
+  if($SelectedBatch -eq 8){return $Operation.MigrationBatch -eq 'OpenJDKCompatibility'}
+  return $Operation.MigrationBatch -eq "ApplicationsBatch$SelectedBatch"
+}
+function Assert-RideFocusedApplicationScenario {
+  param([object[]]$Scenarios,[string]$Target,[string]$SelectedPackageId)
+  if($SelectedPackageId -cnotin @('package.gpg4win','package.tmog') -or $Target -cne 'Windows 11' -or $Scenarios.Count -ne 1 -or $Scenarios[0].Id -cne $SelectedPackageId -or $Scenarios[0].Variant -cne 'installed'){throw 'Focused Gpg4win/TMOG acceptance requires exactly its installed Windows 11 selection.'}
+  $selected=$Scenarios[0].Selected
+  if($SelectedPackageId -ceq 'package.gpg4win' -and ($selected.Scope -cne 'User' -or -not $selected.RequiresUnelevatedUser -or $selected.RequiresAdmin)){throw 'Focused Gpg4win acceptance requires the limited intended-user context.'}
+  if($SelectedPackageId -ceq 'package.tmog' -and ($selected.Scope -cne 'Machine' -or -not $selected.RequiresAdmin -or $selected.RequiresUnelevatedUser)){throw 'Focused TMOG acceptance requires the elevated machine context.'}
+}
+Assert-RideApplicationPackageSelection -SelectedBatch $Batch -SelectedPackageId $PackageId
 $workerIdentity=[Security.Principal.WindowsIdentity]::GetCurrent()
 $workerElevated=([Security.Principal.WindowsPrincipal]::new($workerIdentity)).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if($UnelevatedChild -and ($workerElevated -or $workerIdentity.User.Value -cne $ExpectedUserSid)){throw 'Limited worker identity or elevation does not match the authorized guest context.'}
@@ -258,7 +292,7 @@ foreach($package in $catalog.Operations | Where-Object Kind -eq 'Package'){
   $names=if($package.Variants){@($package.Variants.Keys)}else{@('installed')}
   foreach($packageVariant in $names){
     $selected=Resolve-RidePackageSelection -Operation $package -Variant $packageVariant
-    $batchMatch=if($Batch -eq 8){$selected.MigrationBatch -eq 'OpenJDKCompatibility'}elseif($Batch -eq 12){$package.Id -ceq $PackageId}else{$selected.MigrationBatch -eq "ApplicationsBatch$Batch"}
+    $batchMatch=Test-RideApplicationBatchSelection -Operation $selected -SelectedBatch $Batch -SelectedPackageId $PackageId
     if($batchMatch -and (-not $Variant -or $packageVariant -eq $Variant)){
       if(Test-RidePackageTargetEligibility -Operation $selected -Target $target){$scenarios+=@{Id=$package.Id;Variant=$packageVariant;Selected=$selected}}
       else{$targetExcluded+=@{Id=$package.Id;Variant=$packageVariant;Selected=$selected}}
@@ -269,6 +303,9 @@ if(-not $scenarios.Count){throw 'No application scenarios were selected.'}
 if($PackageScope -eq 'Machine'){$scenarios=@($scenarios|Where-Object {-not $_.Selected.RequiresUnelevatedUser})}
 elseif($PackageScope -eq 'User'){$scenarios=@($scenarios|Where-Object {$_.Selected.RequiresUnelevatedUser})}
 if(-not $scenarios.Count){throw "ApplicationsBatch$Batch has no packages in the selected '$PackageScope' scope."}
+if($Batch -eq 1 -and $PackageId){
+  Assert-RideFocusedApplicationScenario -Scenarios $scenarios -Target $target -SelectedPackageId $PackageId
+}
 if($Batch -eq 5 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.vcredist-v14-x64')){throw 'ApplicationsBatch5 must select exactly the Microsoft Visual C++ v14 x64 package.'}
 if($Batch -eq 6){
   $expectedIds=@('package.photocraft','package.vectorcraft','package.filmcraft','package.lightcraft','package.pdfcraft','package.effectcraft','package.designcraft','package.wordcraft','package.soundcraft','package.deckcraft','package.cadcraft','package.gridcraft')
@@ -289,7 +326,7 @@ $results=New-Object System.Collections.Generic.List[object]
 $jsonResults=New-Object System.Collections.Generic.List[string]
 $evidenceFile=if($UnelevatedChild){"applications-batch$Batch-user.json"}else{"applications-batch$Batch.json"}
 $evidencePath=if($env:RIDE_TEST_EVIDENCE_PATH){Join-Path $env:RIDE_TEST_EVIDENCE_PATH $evidenceFile}else{$null}
-$defenderRequired=$Batch -in @(9,10,12)
+$defenderRequired=(-not $UnelevatedChild) -and ($Batch -in @(9,10,12) -or $PackageId -cin @('package.gpg4win','package.tmog'))
 if($defenderRequired){
   if(-not $evidencePath){throw 'Focused package Defender acceptance requires an evidence directory.'}
   Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force
@@ -395,10 +432,11 @@ namespace RideTest {
     $scriptPath=$PSCommandPath.Replace("'","''")
     $workerEvidencePath=$workerRoot.Replace("'","''")
     $localAppData=$localAppDataPath.Replace("'","''")
-    $command="try{[IO.File]::WriteAllText('$workerEvidencePath/application-user-bootstrap.log', [Security.Principal.WindowsIdentity]::GetCurrent().User.Value);`$env:RIDE_INTEGRATION_VM='1';`$env:RIDE_TEST_EVIDENCE_PATH='$workerEvidencePath';`$env:RIDE_TEST_RUN_ID='$($env:RIDE_TEST_RUN_ID)'; & '$scriptPath' -Batch $Batch -UnelevatedChild -ExpectedUserSid '$($testUser.SID.Value)' -ExpectedLocalAppData '$localAppData' *> '$workerEvidencePath/application-user-worker.log';exit 0}catch{[IO.File]::AppendAllText('$workerEvidencePath/application-user-worker.log',(`$_ | Out-String));exit 1}"
+    $packageArgument=if($PackageId){" -PackageId '$PackageId'"}else{''}
+    $command="try{[IO.File]::WriteAllText('$workerEvidencePath/application-user-bootstrap.log', [Security.Principal.WindowsIdentity]::GetCurrent().User.Value);`$env:RIDE_INTEGRATION_VM='1';`$env:RIDE_TEST_EVIDENCE_PATH='$workerEvidencePath';`$env:RIDE_TEST_RUN_ID='$($env:RIDE_TEST_RUN_ID)'; & '$scriptPath' -Batch $Batch$packageArgument -UnelevatedChild -ExpectedUserSid '$($testUser.SID.Value)' -ExpectedLocalAppData '$localAppData' *> '$workerEvidencePath/application-user-worker.log';exit 0}catch{[IO.File]::AppendAllText('$workerEvidencePath/application-user-worker.log',(`$_ | Out-String));exit 1}"
     $encoded=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($command))
     $action=New-ScheduledTaskAction -Execute (Join-Path $PSHOME 'powershell.exe') -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand $encoded" -WorkingDirectory (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
-    $workerTimeoutMinutes=if($Batch -eq 1){60}elseif($Batch -eq 3){45}else{20}
+    $workerTimeoutMinutes=if($Batch -eq 1 -and $PackageId -ceq 'package.gpg4win'){20}elseif($Batch -eq 1){60}elseif($Batch -eq 3){45}else{20}
     $settings=New-ScheduledTaskSettingsSet -ExecutionTimeLimit (New-TimeSpan -Minutes $workerTimeoutMinutes) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
     $childPath=Join-Path $workerRoot "applications-batch$Batch-user.json"
     # Enable diagnostic history only inside this disposable guest; checkpoint
@@ -620,7 +658,7 @@ foreach($scenario in $scenarios){
     if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Installation did not establish the desired state.'}
     if($userDataFixtures.Count){Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Package installation'}elseif($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Installation changed existing profile data.'}
     $scenarioResult.Version=$installed.DisplayVersion
-    if($Batch -in @(6,7,9,10,11)){
+    if($Batch -in @(6,7,9,10,11) -or $PackageId -cin @('package.gpg4win','package.tmog')){
       # HashCheck release 2.6.3 registers DisplayVersion 2.6.3.0; retain an
       # exact assertion rather than loosening version checks for other packages.
       $expectedInstalledVersion=if($Batch -eq 11){'2.6.3.0'}else{[string]$package.PackageVersion}

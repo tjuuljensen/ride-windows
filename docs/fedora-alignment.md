@@ -1025,3 +1025,19 @@ No shared-contract amendment is needed. Owner: Windows maintainer. Follow-up:
 Review trigger: attended activation, native results, source-pin changes or target
 promotion. The 145 selected mocked/source cases per shell do not establish native
 Defender or package acceptance.
+
+## Fixed Gpg4win and TMOG installer acceptance, 2026-11-03
+
+Impact: Windows-owned RB-03/04/08/09/11 route narrowing. Existing batch-1 package
+and recovery behavior is reused for one named package at a time. Gpg4win's
+limited-user SID/profile handoff remains mandatory; TMOG remains machine scoped.
+The coordinator records Defender observations and the new capability is required
+before protected dispatch. Source selection does not grant installed capability
+or target acceptance. Pinned contract 1.1.0 and the same reviewed Fedora target/
+candidate guards apply; compared hashes are in
+[source evidence](archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json).
+No shared-contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[focused installer procedure](../tests/integration/README.md#focused-gpg4win-and-tmog-installer-acceptance).
+Review trigger: attended activation, native user-data/recovery results, source
+changes or target promotion. Compensating package presence and synthetic data
+preservation do not establish exact prior-version or all-application-state recovery.

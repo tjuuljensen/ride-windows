@@ -405,6 +405,46 @@ further work. Evidence is collected before recovery, including after failure.
 GUI behavior, parser correctness and real licence/settings activation remain
 separate acceptance gates; this runner does not promote catalog support.
 
+### Focused Gpg4win and TMOG installer acceptance
+
+The `ApplicationsBatch1Gpg4win` and `ApplicationsBatch1TMOG` routes select one
+catalog-pinned installed package each. They reuse batch 1's install/repeat,
+explicit uninstall/repeat, compensating presence recovery and synthetic user-data
+preservation checks. Both require Windows 11, exact installed-version readback
+and active/no-alert Defender observations from the elevated guest coordinator.
+Gpg4win installation runs under an isolated limited user; its synthetic GnuPG
+configuration contains no key or certificate. TMOG runs in machine scope and
+preserves a synthetic LocalAppData file. Neither launches the product, performs
+encryption, selects a screensaver or activates paid features. Presence recovery
+does not establish exact prior-version or all-application-state recovery.
+
+Prerequisites: an idle registered disposable Windows 11 VM/checkpoint, normal
+publisher connectivity or a valid pinned guest cache, and an attended controller
+refresh that declares `Gpg4winTmogLifecycleV1`. These routes use normal pinned
+publisher acquisition; host-retained installer verification alone does not stage
+the guest cache. The client refuses an older controller before queueing and does
+not request elevation automatically. Gpg4win's limited worker has a 20-minute
+execution bound; allow 30 minutes for the complete host request and collection.
+
+From the repository root as the ordinary registered account, run one request,
+inspect its package, user-data, Defender and cleanup evidence, and wait for idle
+before starting the other:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ApplicationsBatch1Gpg4win -TimeoutMinutes 30
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ApplicationsBatch1TMOG -TimeoutMinutes 30
+```
+
+The guest exports `applications-batch1.json`, scoped child/progress records and
+Defender observations. Require the expected single package row and preserved
+synthetic data after install, uninstall and saved recovery. Child SID/profile and
+limited-token observations must agree. Test account/task/profile cleanup and the
+host's final checkpoint reset are separate from RIDE package recovery. Retain
+partial evidence after failure; source checks and identity verification do not
+establish native acceptance. Gpg4win's earlier installer crash remains unresolved
+until a focused native run succeeds.
+
 ### Existing application suites
 
 `ApplicationsBatch1` selects conventional application candidates;
