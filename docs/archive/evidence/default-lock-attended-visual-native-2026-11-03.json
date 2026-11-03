@@ -1,0 +1,221 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T13:41:44.5738702+00:00",
+  "RunId": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+  "Status": "ScopedSignedOutVisualApplyAndRecoveryPassed",
+  "Target": "Windows 11 EnterpriseEval 26300.9711",
+  "Observations": [
+    {
+      "Sha256": "582E3FA72A7D6F24F2AB9CA680C16D87A8BD9B4F834EF1C47BFB06BEB13774AD",
+      "ObservedAtUtc": "2026-11-03T14:30:58.1472299+01:00",
+      "Screenshot": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\attended-20261103\\attended-default-lock-before.png",
+      "UserDescription": "italy style house at a lake - user 'admin' ready to log in",
+      "Observer": "User",
+      "Limit": "Sign-in screen observation; actual lock-screen overlay not yet separately captured.",
+      "Phase": "BeforeApply",
+      "ImageDescription": "Signed-out password prompt for admin with a lakeside building background; no password entered in screenshot.",
+      "RunId": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf"
+    },
+    {
+      "ImageDescription": "Signed-out admin password prompt over the selected black suit/red tie background.",
+      "RunId": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+      "Sha256": "70F7D9CE066D33E0DBAA023721A645D6C029C8E5DAC9B6F4D938C374C302BFAF",
+      "ObservedAtUtc": "2026-11-03T14:34:06.8119471+01:00",
+      "Phase": "AfterApply",
+      "Observer": "User screenshot reviewed by assistant",
+      "VisualAppliedImageObserved": true,
+      "Screenshot": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\attended-20261103\\attended-default-lock-applied.png",
+      "Limit": "Sign-in background observed; clock-overlay lock screen and other users/editions not independently observed. Password field masked; no credential content captured."
+    },
+    {
+      "Observer": "User screenshot reviewed by assistant",
+      "ImageDescription": "Signed-out admin password prompt shows the original lakeside building again.",
+      "RunId": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+      "ObservedAtUtc": "2026-11-03T14:37:12.8103886+01:00",
+      "Sha256": "EE379808CC79D1A128125D35C155EAA52D05A64A3BE4C9DDE08754DA4E0212B6",
+      "VisualRecoveryObserved": true,
+      "Phase": "AfterRestore",
+      "Limit": "Signed-out sign-in background verified; no claim for other users, editions or current-user image modes.",
+      "Screenshot": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\attended-20261103\\attended-default-lock-restored.png"
+    }
+  ],
+  "Phases": [
+    {
+      "RequestId": "029eb79d3aa140a18d6792cc394bba47",
+      "Phase": "Prepare",
+      "Status": "Prepared",
+      "Error": null,
+      "HostModuleSha256": "83D066764D83F86FECD66A7D81D91301593ABDA941CC652C02AECF697DFD7D09",
+      "GuestResult": {
+        "SchemaVersion": 1,
+        "Kind": "DefaultLockVmPreparation",
+        "RunId": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+        "LeaseId": "42950d13b4ce406fabfcea9cefeb23da",
+        "Status": "Prepared",
+        "Context": {
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "Revision": 9711
+        },
+        "NativeAcceptancePassed": false,
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "6620506d-9c4d-400e-8a6c-809d279bab1a",
+        "PSShowComputerName": true
+      },
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.42950d13b4ce406fabfcea9cefeb23da\\export.0971424ce5c8410bbb6bb27f08e404d3",
+        "FileCount": 7,
+        "GuestStatus": "Collected"
+      },
+      "RecoveryRequired": true,
+      "FinishedAtUtc": "2026-11-03T13:29:32.8732729Z"
+    },
+    {
+      "RequestId": "8cf733639ece46748c39ab2f0c138e19",
+      "Phase": "Apply",
+      "Status": "AwaitingVisualVerification",
+      "Error": null,
+      "HostModuleSha256": "83D066764D83F86FECD66A7D81D91301593ABDA941CC652C02AECF697DFD7D09",
+      "GuestResult": {
+        "SchemaVersion": 1,
+        "Kind": "DefaultLockScreenAcceptance",
+        "RunId": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+        "Phase": "Apply",
+        "RecordedAtUtc": "2026-11-03T13:31:45.8925587Z",
+        "Status": "AwaitingVisualVerification",
+        "Stage": "RetainedForVisualCheck",
+        "Reason": null,
+        "Error": null,
+        "Context": {
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "Revision": 9711,
+          "InstallationType": "Client",
+          "NativeProcess": true,
+          "Architecture": "AMD64",
+          "Administrator": true,
+          "Guest": true,
+          "RunMarker": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf"
+        },
+        "NativeLifecycleAcceptancePassed": false,
+        "NativeVisualAcceptancePassed": false,
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "LifecycleRunId": "84500fd107504508bb8460c251aa8fe3",
+        "AssetPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\42950d13b4ce406fabfcea9cefeb23da\\evidence\\c8efdf5f3b8d4fcc8358b06fa0b7d7cf\\images\\84500fd107504508bb8460c251aa8fe3.png",
+        "SourceSha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+        "Checks": [
+          "PreviewNoChanges",
+          "AppliedPolicyImageAndPrivateState",
+          "RepeatNoChanges"
+        ],
+        "StateRunIds": [
+          "84500fd107504508bb8460c251aa8fe3"
+        ],
+        "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\42950d13b4ce406fabfcea9cefeb23da\\evidence\\c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "7a0e571c-d71a-4282-844c-3d7f8add0428",
+        "PSShowComputerName": true
+      },
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.42950d13b4ce406fabfcea9cefeb23da\\export.80273cc9e42143239104d85c265802f2",
+        "FileCount": 13,
+        "GuestStatus": "Collected"
+      },
+      "RecoveryRequired": true,
+      "FinishedAtUtc": "2026-11-03T13:31:53.9942305Z"
+    },
+    {
+      "RequestId": "d9e6612b85e240e6b3842196595c2794",
+      "Phase": "Restore",
+      "Status": "LifecyclePassedVisualPending",
+      "Error": null,
+      "HostModuleSha256": "83D066764D83F86FECD66A7D81D91301593ABDA941CC652C02AECF697DFD7D09",
+      "GuestResult": {
+        "SchemaVersion": 1,
+        "Kind": "DefaultLockScreenAcceptance",
+        "RunId": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+        "Phase": "Restore",
+        "RecordedAtUtc": "2026-11-03T13:35:03.2439422Z",
+        "Status": "LifecyclePassedVisualPending",
+        "Stage": "RetainedForVisualRecoveryCheck",
+        "Reason": null,
+        "Error": null,
+        "Context": {
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "Revision": 9711,
+          "InstallationType": "Client",
+          "NativeProcess": true,
+          "Architecture": "AMD64",
+          "Administrator": true,
+          "Guest": true,
+          "RunMarker": "c8efdf5f3b8d4fcc8358b06fa0b7d7cf"
+        },
+        "NativeLifecycleAcceptancePassed": true,
+        "NativeVisualAcceptancePassed": false,
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "LifecycleRunId": "84500fd107504508bb8460c251aa8fe3",
+        "AssetPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\42950d13b4ce406fabfcea9cefeb23da\\evidence\\c8efdf5f3b8d4fcc8358b06fa0b7d7cf\\images\\84500fd107504508bb8460c251aa8fe3.png",
+        "SourceSha256": "F3BBA02539F9CF1A74A78197A32F39431D0BCF24BBC17C67BC2560C12CC5BEDB",
+        "Checks": [
+          "RestorePreviewNoChanges",
+          "CapturedStateRestored",
+          "RepeatedRestoreNoChanges"
+        ],
+        "StateRunIds": [
+          "84500fd107504508bb8460c251aa8fe3"
+        ],
+        "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\42950d13b4ce406fabfcea9cefeb23da\\evidence\\c8efdf5f3b8d4fcc8358b06fa0b7d7cf",
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "16d8f5c0-3c13-4851-bbde-18257e1fec3f",
+        "PSShowComputerName": true
+      },
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.42950d13b4ce406fabfcea9cefeb23da\\export.e182699583fd494ebc4bdd19a861ec54",
+        "FileCount": 13,
+        "GuestStatus": "Collected"
+      },
+      "RecoveryRequired": true,
+      "FinishedAtUtc": "2026-11-03T13:35:08.3893776Z"
+    },
+    {
+      "RequestId": "c18a1d8e1d2b484c8c79045c4ad4db0e",
+      "Phase": "Reset",
+      "Status": "ResetAndOff",
+      "Error": null,
+      "HostModuleSha256": "83D066764D83F86FECD66A7D81D91301593ABDA941CC652C02AECF697DFD7D09",
+      "GuestResult": null,
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.42950d13b4ce406fabfcea9cefeb23da\\export.7abe210776514bd199ceb02d377f814e",
+        "FileCount": 13,
+        "GuestStatus": "Collected"
+      },
+      "RecoveryRequired": false,
+      "FinishedAtUtc": "2026-11-03T13:38:42.2299904Z"
+    }
+  ],
+  "Acceptance": {
+    "CatalogPromotion": false,
+    "SignedOutImageRestored": true,
+    "SignedOutImageApplied": true,
+    "ClockOverlayIndependentlyObserved": false,
+    "OtherUsersOrTargetsAccepted": false,
+    "CheckpointResetAndHoldRelease": true,
+    "DurableLifecycle": true
+  },
+  "Limits": [
+    "User supplied before/applied/restored screenshots; images retained locally with hashes, not added to repository payloads.",
+    "The independent visual result supplements the scripted NativeVisualAcceptance=false reports without rewriting them.",
+    "Current-user Picture/Slideshow/Spotlight handler and wallpaper first-logon tests remain separate.",
+    "No additional legacy outcome deduction; remaining estimate 121-175 exact / 120-175 rounded."
+  ]
+}

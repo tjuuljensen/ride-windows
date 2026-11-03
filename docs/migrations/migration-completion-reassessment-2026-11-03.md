@@ -2,6 +2,21 @@
 
 ## Current status
 
+### Attended image testing resumed, 2026-11-03
+
+The attended default-lock test on 2026-11-03 verified the signed-out sign-in
+background changing from the original lakeside image to the selected suit/red
+tie and back after RIDE restore. Six durable lifecycle checks, evidence export
+and checkpoint reset/hold release passed. Screenshots are retained locally with
+hashes. Scope is EnterpriseEval 26300.9711, signed-out sign-in background only;
+other users/targets, current-user image modes and catalog promotion remain open.
+Wallpaper first-logon testing is now active with the user present. No legacy
+outcome is deducted: all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12,
+exact 121-175, rounded 120-175.
+
+See [correlated visual evidence](../archive/evidence/default-lock-attended-visual-native-2026-11-03.json).
+
+
 ### Requested stop and final result, 2026-11-03
 
 The user requested a stop after the active test. Gpg4win's corrected retry

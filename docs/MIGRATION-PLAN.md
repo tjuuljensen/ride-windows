@@ -7,11 +7,25 @@
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
 | Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper/WFN file lifecycles and Explorer Suite installer lifecycle and 31 MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. InfoBar passed its corrected regression gate but timed out during installation; checkpoint recovery passed. Its completion/logging correction passed source checks; native retry pending. Project Maker passed nine native checks; Gpg4win correction reproduced the crash. Remaining corrections stopped before admission at user request. DirList and Network Meter now passed; Scanner x86 remains failed. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Desktop/Core runtime and package recovery passed; shared-BDE recovery remains open. No additional legacy closure counted. |
 | Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
-| Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but native visibility failed; fresh-child reporting correction passed 52 tests per shell and awaits retry; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN preparation observed WlanSvc Stopped; native profile acceptance remains unrun. |
+| Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but native visibility failed; fresh-child reporting correction passed 52 tests per shell and awaits retry; default lock-image signed-out visual apply/restore passed on EnterpriseEval; wallpaper visual/new-user proof remains pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN preparation observed WlanSvc Stopped; native profile acceptance remains unrun. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 requested stop after corrected Gpg4win reproduced 0xC0000005; 76 guest tests, Defender and checkpoint recovery passed. VM Off, workers idle, queues empty, no hold. MiTeC retains 31 variants / 26 products; remaining-components report written.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 attended default-lock signed-out image apply and visible restoration passed, with six lifecycle checks and verified reset/release. Wallpaper first-logon testing resumed with the user present; no legacy deduction.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
+
+## Attended image acceptance, 2026-11-03
+
+The attended default-lock test on 2026-11-03 verified the signed-out sign-in
+background changing from the original lakeside image to the selected suit/red
+tie and back after RIDE restore. Six durable lifecycle checks, evidence export
+and checkpoint reset/hold release passed. Screenshots are retained locally with
+hashes. Scope is EnterpriseEval 26300.9711, signed-out sign-in background only;
+other users/targets, current-user image modes and catalog promotion remain open.
+Wallpaper first-logon testing is now active with the user present. No legacy
+outcome is deducted: all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12,
+exact 121-175, rounded 120-175.
+
+See [correlated visual evidence](archive/evidence/default-lock-attended-visual-native-2026-11-03.json).
 
 ## Fast-track startup and controller corrections, 2026-11-03
 

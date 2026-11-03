@@ -708,12 +708,22 @@ source checks in each shell. The
 [phased guest preparation evidence](archive/evidence/default-lock-screen-acceptance-preparation-2026-11-02.json)
 adds 17 orchestration/source/directory checks per shell, plus a real pinned-input
 check. Those preparation records contain no native image application.
-The later [overnight native default-lock run](archive/evidence/default-lock-night-native-2026-11-02.json)
+The [attended Nov 3 visual run](archive/evidence/default-lock-attended-visual-native-2026-11-03.json)
+subsequently verified the signed-out sign-in background on EnterpriseEval
+26300.9711: the original lakeside image changed to the selected suit/red tie,
+and the original image returned after RIDE restoration. User-provided screenshots
+were retained locally with hashes. All six machine lifecycle checks and verified
+export/reset/release passed. The clock-overlay screen, other users/targets and
+current-user image modes were not independently accepted. This scoped visual
+evidence does not promote a catalog operation or rewrite the scripted visual
+flags, which remain false by design.
+
+The earlier [overnight native default-lock run](archive/evidence/default-lock-night-native-2026-11-02.json)
 passed preview/apply/repeat and exact restore/repeat restore on Windows 11
 EnterpriseEval build 26300. An initial policy permission readback failure was
 repaired by reading permissions from the same opened registry handle as values;
-the wallpaper reader uses the same repair. Visible initial/applied/restored
-lock-screen appearance remains unverified, and no broader target is promoted.
+the wallpaper reader uses the same repair. That earlier run had no visual
+acceptance; the scoped Nov 3 observation above supplies the later evidence.
 The [overnight native wallpaper run](archive/evidence/wallpaper-night-native-2026-11-02.json)
 passed all six machine lifecycle checks on the same target, including exact
 captured policy/file recovery. Verified evidence export preceded checkpoint reset
