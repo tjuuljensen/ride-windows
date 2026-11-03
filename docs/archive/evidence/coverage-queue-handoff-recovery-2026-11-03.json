@@ -1,0 +1,93 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T10:25:53.0876036+00:00",
+  "Status": "CoverageQueueResumed",
+  "PrimaryStatus": "QueueExhausted",
+  "PrimaryRuns": [
+    {
+      "Batch": "ApplicationsBatch13",
+      "Status": "Passed",
+      "RunId": "06e19aade1444b2c8436fcabeb5536f0",
+      "RecoveryVerified": true
+    },
+    {
+      "Batch": "RegRipper",
+      "Status": "Passed",
+      "RunId": "f34e9ea1d5b54475b50ca7a650032d5d",
+      "RecoveryVerified": true
+    },
+    {
+      "Batch": "ApplicationsBatch1Gpg4win",
+      "Status": "Failed",
+      "RunId": "69525649b962462398f37e61c257e062",
+      "RecoveryVerified": true
+    },
+    {
+      "Batch": "ApplicationsBatch1TMOG",
+      "Status": "Failed",
+      "RunId": "dcadc83e8dfd4a34bb60b285ccea705e",
+      "RecoveryVerified": true
+    },
+    {
+      "Batch": "WindowsFirewallNotifier",
+      "Status": "Passed",
+      "RunId": "d771c3c427c74eb393df163bfb9041c0",
+      "RecoveryVerified": true
+    },
+    {
+      "Batch": "ApplicationsBatch9",
+      "Status": "Failed",
+      "RunId": "606c5eed91414d8cabc276cba5203bbf",
+      "RecoveryVerified": true
+    },
+    {
+      "Batch": "ApplicationsBatch10",
+      "Status": "Failed",
+      "RunId": "bc4ad384faba4e84b34072da3d321728",
+      "RecoveryVerified": true
+    },
+    {
+      "Batch": "ApplicationsBatch12",
+      "Status": "Passed",
+      "RunId": "c93b6c49273b4203937436701798c700",
+      "RecoveryVerified": true
+    }
+  ],
+  "HandoffFailure": "Ordinary-account waiter encountered an exclusive status-file lock before submitting coverage work.",
+  "Correction": "Bounded shared-file JSON reads retry transient lock/partial reads for approximately five seconds; malformed/unavailable records still fail closed.",
+  "ReadCheck": {
+    "ExclusiveLockRefused": true,
+    "SharedWriterReadPassed": true,
+    "AtUtc": "2026-11-03T11:24:35.6944721+01:00",
+    "VmRequests": 0,
+    "ExclusiveLockSeconds": 4.989394,
+    "Edition": "Desktop",
+    "PostReleaseReadPassed": true
+  },
+  "CoverageReceipt": {
+    "GuestGitHubAuthentication": "Anonymous",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\5de3386830244faca96bc70e561a7070",
+    "RunId": "5de3386830244faca96bc70e561a7070"
+  },
+  "PreservedEmptyWaitRecords": [
+    "retained-followup-before-poll-restart.json",
+    "retained-followup-before-shared-read.json"
+  ],
+  "VmWorkersStopped": false,
+  "VmProcessesStopped": false,
+  "NewUacRequested": false,
+  "Limits": [
+    "Only the two owned waiting clients with zero retained requests were restarted.",
+    "All eight primary runs required verified recovery before the new coverage request.",
+    "Queue exhaustion is not migration completion."
+  ],
+  "RemainingEstimate": {
+    "Packages": "34-49",
+    "Rounded": "120-175",
+    "Components": "19-24",
+    "Settings": "37-57",
+    "FilesAndAssets": "23-33",
+    "Maintenance": "8-12",
+    "Exact": "121-175"
+  }
+}

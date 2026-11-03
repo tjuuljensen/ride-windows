@@ -1,0 +1,144 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T10:23:31.4723798+00:00",
+  "Status": "NativeInstallerLifecyclePassed",
+  "RunId": "c93b6c49273b4203937436701798c700",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "c93b6c49273b4203937436701798c700",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch12",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T10:04:43.4498748Z",
+    "FinishedAtUtc": "2026-11-03T10:16:48.1206152Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Guest": {
+    "SchemaVersion": 1,
+    "RunId": "c93b6c49273b4203937436701798c700",
+    "Status": "Passed",
+    "ValidationPassed": true,
+    "IntegrationPassed": true,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 468,
+      "Passed": 464
+    },
+    "Error": null,
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression",
+    "IntegrationSuite": "ApplicationsBatch12"
+  },
+  "Cases": [
+    {
+      "Id": "package.ntcore-explorer-suite",
+      "Variant": "installed",
+      "Target": "Windows 11",
+      "OS": "Microsoft Windows 11 Enterprise Evaluation",
+      "Build": "26300",
+      "InstallationType": "Client",
+      "Scope": "Machine",
+      "Provider": "DirectHttps",
+      "Applicability": "Applicable to deployment lifecycle",
+      "Status": "Passed",
+      "Version": null,
+      "Error": null,
+      "Recovery": true,
+      "ProfilePreservation": null,
+      "UserDataPreservation": null,
+      "UserDataFixtures": [],
+      "RemovalRecoveryVersion": null,
+      "Checks": [
+        "RepeatInstall",
+        "RemovalPreview",
+        "RIDERemoval",
+        "RepeatRemoval",
+        "SavedRemovalRecovery",
+        "SavedInstallRecovery"
+      ],
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+      "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Elevated": true,
+      "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T10:15:51.0158133Z",
+    "SinceUtc": "2026-11-03T10:06:13.569294Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T10:16:31.1737848Z",
+    "SinceUtc": "2026-11-03T10:06:13.569294Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "QueueReceipt": {
+    "Batch": "ApplicationsBatch12",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T10:04:40.1299718Z",
+    "RunId": "c93b6c49273b4203937436701798c700",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\c93b6c49273b4203937436701798c700",
+    "Error": null,
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T10:16:49.8238291Z"
+  },
+  "CorrectedRegressionSnapshot": [
+    {
+      "Path": "tests\\ApplicationPackages.Tests.ps1",
+      "SHA256": "237C89F91AB86315E128DEBB42D839449E09C7BEBE18D1F41E45BA438AA53E1F"
+    }
+  ],
+  "Limits": [
+    "Installer lifecycle and compensating presence recovery only; suite utilities were not launched.",
+    "ARP DisplayVersion and removal recovery version remain null; no executable version readback is claimed.",
+    "Guest regression: 464 passed, zero failed, four skipped.",
+    "No new target promotion or legacy outcome closure."
+  ],
+  "RemainingEstimate": {
+    "Exact": "121-175",
+    "FilesAndAssets": "23-33",
+    "Settings": "37-57",
+    "Maintenance": "8-12",
+    "Components": "19-24",
+    "Packages": "34-49",
+    "Rounded": "120-175"
+  }
+}

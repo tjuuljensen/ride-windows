@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 11:00 Copenhagen: **18 MiTeC variants across 13 products passed
+Evidence through 11:25 Copenhagen: **18 MiTeC variants across 13 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -54,7 +54,10 @@ without requiring an obsolete literal batch list. The complete application
 package file passed 138 tests with three skips per shell. Project Maker's earlier
 snapshot also stopped at the same three assertions before installation, with
 the same guest counts and verified recovery. Corrected retries for both products
-are queued; Explorer Suite is running with corrected tests.
+are queued. Explorer Suite subsequently passed its installer lifecycle,
+compensating presence recovery and Defender checks, with 464 guest tests passed
+and four skipped. Its ARP version remains absent and suite utilities were not
+launched. See [Explorer Suite evidence](../archive/evidence/explorer-suite-native-installer-lifecycle-2026-11-03.json).
 See [InfoBar failure](../archive/evidence/infobar-regression-gate-native-2026-11-03.json),
 [Project Maker failure](../archive/evidence/project-maker-regression-gate-native-2026-11-03.json)
 and [regression corrections](../archive/evidence/application-regression-version-corrections-source-2026-11-03.json).
@@ -62,6 +65,15 @@ TMOG's later retry also includes a pinned eight-second
 startup check; 50 startup/selection/candidate tests passed per shell. This
 preparation is [source evidence](../archive/evidence/tmog-fast-track-startup-source-2026-11-03.json),
 not a native startup result.
+
+The first queue finished eight runs (four passes and four failures), all with
+verified checkpoint recovery. Its coverage handoff initially stopped on a
+status-file lock before submitting a request. Bounded shared reads now tolerate
+short writes and still refuse an unavailable record after approximately five
+seconds; an inert Windows PowerShell check verified both cases. Only empty
+waiting clients were restarted; original records were preserved. The network
+coverage request was then submitted without new UAC. See
+[handoff evidence](../archive/evidence/coverage-queue-handoff-recovery-2026-11-03.json).
 
 OpenSSH Client preparation passed, but lifecycle preflight rejected a pending
 servicing restart. Evidence-preserving attended recovery reset the pinned VM,
@@ -164,7 +176,7 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; tested corrections and bounded TMOG startup await native retries. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload passed 14 native file lifecycle checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json). | Executable startup and firewall behavior are separate; neither was exercised. |
-| InfoBar / Project Maker / NTCore Explorer Suite | Corrected runtime snapshot installed. InfoBar stopped at stale guest regression assertions before installation; source correction passes 138 tests with three skips per shell. InfoBar/Project Maker startup checks prepared; Explorer Suite remains lifecycle-only. | Corrected InfoBar retry queued; Project Maker/Explorer Suite runs remain independent. Require Defender and product lifecycle/startup evidence as applicable. |
+| InfoBar / Project Maker / NTCore Explorer Suite | InfoBar/Project Maker stopped before installation at stale regression assertions; source correction passes 138 tests with three skips per shell. Explorer Suite passed native installer lifecycle/recovery and Defender with corrected guest tests. | Corrected InfoBar/Project Maker startup/lifecycle retries queued. Explorer Suite executable startup and version readback remain separate. |
 | OpenSSH Client / full available client RSAT | Preparation passed; OpenSSH lifecycle rejected a pending servicing restart before installation. Evidence exported and checkpoint recovered; capability queue removed. Preflight reporting fix passed 53 tests per shell. | Resolve baseline readiness, then activate the corrected queue and run native DISM with already-approved Windows Update acquisition. RSAT has not run; payload availability remains unverified. |
 
 The capability queue is separate from the package controller. Its
