@@ -4,12 +4,60 @@
 
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
-| Settings | 37-57 | Latest batch review, 2026-11-03: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: reuse narrow F1/profile evidence; icons and critical BitLocker acceptance selected, unmapped/high-risk work deferred. 2026-11-01; User proxy inventory, preparation and lifecycle regression passed 103/103. Firewall and WinHTTP proxy current-source regression passed 42/42. CEIP, media, server and Windows Update policy source regression passed 43/43. Hibernation candidate state and acceptance-runner regression passed 28/28. BitLocker policy, engine projection and workflow source regression passed 31/31. Sixty-setting and registry failure regression passed 137/137. Explorer, network/sound and keyboard setting source regression passed 74/74. Service and power setting regression passed 68/68. Managed settings current-source regression passed 11/11. Optional Windows settings current-source regression passed 365/365. Profile settings current-source regression passed 37/37. Remaining-setting catalog and mocked lifecycle regression passed 81/81. Current SettingPresentation regression passed 14/14. Prior 41 native lifecycles / 107 states remain passed; six unavailable and feature/UI/restart checks remain open. F1 promoted for File Explorer on Windows 11 with build 26300 minimum; pending BitLocker policies removed from defaults. Profile cleanup complete. Optional hibernation candidate has a prepared 18-case disposable fixture; Windows PowerShell 5.1 read-only inspection corrected. Explicit candidate execution, preview and restore now use -AllowCandidate; native lifecycle acceptance and legacy menu/mirror scope remain open. Alignment review: shared setting/preview rules adopted; runtime gaps remain ALIGN-03/04. |
-| Packages | 34-49 | Latest batch review, 2026-11-03: 29 package/variant cases across 28 IDs have 14 native lifecycle/recovery checks and clean Defender each; pending runtime/target decisions remain explicit. <br> 2026-11-02 fast-track review: selected light lifecycle/acquisition families authorized; all MiTeC feature checks deferred to 3.1, alert files excluded. 2026-11-02; the focused generated inert PSScriptTools 360-member source lifecycle passed 7/7. MiTeC/NTCore source batches reported 119/131 scoped cases with 12 retained-archive fixture skips; no package/legacy outcome closed. User-approved fast track: ordinary user-mode products require exact package source/version, install/repeat/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; the user's prior RIDE v2 license-specialist approval is settled, with no additional licensing gate or default per-tool testing. Defender active/no-alert evidence is still absent for some accepted VM runs; host inspection is now available; new guest acceptance remains open. WFN compact checks passed 2/2; its full 531-member synthetic lifecycle now passes in both shells after path-validation optimization. Native WFN/Defender acceptance remains open. NirLauncher stays filtered and lifecycle runs remain excluded due to the reported Defender alerts; x64 collection lifecycle passed locally for 47 selected members, with Windows/Defender acceptance open. 52 catalog package operations remain pending candidates; InfoBar lifecycle is now selected and its feature checks remain deferred. See the per-component status and separate unmigrated selector register in docs/migrations/migration-completion-reassessment-2026-11-02.md. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
-| Components | 19-24 | Latest batch review, 2026-11-03: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: host checkpoint matched; catalog OpenSSH Client and full available client RSAT permit explicit Windows Update acquisition and still require recovery. 2026-11-02; component inventory/client preparation/lifecycle plus OpenSSH Server capability/service/observation source regression passed 109/109 with mocked providers; no native component outcome closed. Native VM acceptance remains open; host/checkpoint inspection is verified; OpenSSH Client integration/recovery and Telnet source identity remain unresolved. See the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
-| Files and assets | 24-34 | Latest batch review, 2026-11-03: Sysmon replacement closed earlier this night; font durable recovery passed with native visibility partial. Image visuals and WLAN prerequisites remain open. <br> 2026-11-02 fast-track review: explicit Sysmon config selected; machine fonts/wallpaper/lock-screen/Wi-Fi wait for exact inputs and recovery. 2026-11-02; offline bundle/execution/profile/portable-selection source regression passed 238/238 across seven suites using inert fixtures; actual bundle transfer, acquisition, installation and disconnected Windows acceptance remain open. Desktop shortcut/hash source regression passed 18/19 with one Windows PowerShell-only skip; native shell acceptance remains open. No legacy outcome closed; see the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
-| Maintenance | 8-12 | Latest batch review, 2026-11-03: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: prepared retention/task acceptance only; disruptive actions deferred and standalone control-flow helpers retired. 2026-11-02; run-state retention, scheduled-task and Defender recovery source regression passed 60/60 with mocked providers; no host/VM state changed. Earlier Caffeine source tests passed 20/20 and run-retention/task/handoff passed 48/48. Native cleanup, update, reboot and user-interaction actions remain open; current guest recovery/acceptance remains to be verified. No legacy outcome closed; see the per-action register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
-| **Total** | **122-176 exact** | **Latest run: 2026-11-03 Overnight closeout: 29 package/variant lifecycle passes across 28 IDs; partial fonts/Core/WLAN/visuals retained; idle/off cleanup verified. UI approval timeout cost about 90 minutes.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. See the latest dated run below; checkpoint cleanup is separate from RIDE recovery. |
+| Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
+| Packages | 34-49 | Reviewed 2026-11-03: 29 package/variant cases across 28 IDs passed 14 native lifecycle/recovery checks each with clean active Defender. Prepared remaining package routes still need controller activation/native runs; PSScriptTools Core is missing and Paradox/BDE recovery remains open. Three Nov 2 product exclusions reduced this range; the new acceptance does not double-count legacy closure. |
+| Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client/full available client RSAT lifecycle and expiring queue are source-ready. Explicit Windows Update acquisition is already approved; native build 26300 servicing/recovery remains untested. Telnet source identity and deferred component outcomes remain open. |
+| Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but immediate native visibility failed; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN prerequisites remain unavailable. |
+| Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 Attended route activation passed; capability/asset previews and Rufus native lifecycle/recovery passed. VMware preferences retired; revised fast-track startup evidence remains separate.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+
+See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
+
+## Attended activation and fast-track scope decisions, 2026-11-03
+
+The user authorized activation of prepared test routes and continued unattended
+execution. Package controller refresh, finite capability registration and renewed
+asset registration passed; no-change capability and asset previews completed
+through ordinary-account task submission. Rufus passed 14 native lifecycle checks with Defender, verified export and
+ResetAndOff recovery; no tool launch. OpenSSH Client failed readiness on a pending servicing restart after preparation.
+Its missing terminal preflight record required attended evidence-preserving
+checkpoint recovery and capability queue removal. The fixed preflight reporting
+passed 53 source tests per shell; native capability acceptance remains deferred. See the [activation/proof record](archive/evidence/attended-routes-activation-and-rufus-native-2026-11-03.json).
+
+All VMware support is retired from v3, including installation and profile/path
+settings. Workstation installation was already retired on Oct 24 and is not
+counted again. Retiring the remaining VM-directory preference outcome (the
+home/Documents selectors are alternative choices) reduces files/assets from
+24-34 to 23-33 and exact total from 122-176 to 121-175. Rounded 120-175 remains
+unchanged. Existing VMware installations, preferences and VM files are preserved.
+No current catalog/profile VMware entry exists to remove. All five group ranges
+were reviewed; settings 37-57, packages 34-49, components 19-24 and maintenance
+8-12 remain unchanged. All other partial and deferred outcomes remain counted.
+
+Ordinary downloaded tools now require installation, bounded startup without
+observed errors and uninstall for fast-track acceptance. Deeper functionality
+is deferred to v3.1, including Mail Checker mail operations. Exact sources,
+Defender, repeat behavior and declared recovery remain required. The
+[fast-track register](migrations/package-fast-track-register.md) records products
+and distinguishes earlier file-only evidence from startup acceptance. No test
+pass or supported-target promotion is inferred from this policy change.
+
+## Status reassessment since Nov 2, 2026-11-03
+
+Created the [Nov 3 reassessment](migrations/migration-completion-reassessment-2026-11-03.md)
+from the Nov 2 decisions and recorded overnight evidence. The review distinguishes
+29 passing package/variant cases across 28 IDs from source-only routes, partial
+font/image/PSScriptTools acceptance and unrun WLAN/client-capability work. It
+records the UI approval timeout, last-observed idle/off cleanup and the next
+attended controller setup followed by finite native batches.
+
+Since Nov 2 morning, the exact estimate moved from 126-180 to 122-176: Recuva,
+Speccy and Defraggler were excluded from v3, and the Sysmon configuration
+replacement completed one legacy outcome. This documentation-only review
+resolves no further outcome, retires or excludes nothing new, and preserves all
+partial/deferred scope. All five group ranges and the rounded 120-175 total
+remain unchanged from the overnight closeout. No controller was activated,
+Windows state changed, new native acceptance claimed or release promoted.
 
 ## Overnight closeout and remaining acceptance, 2026-11-03
 

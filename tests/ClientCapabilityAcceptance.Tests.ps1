@@ -79,6 +79,26 @@ Describe 'Disposable client capability acceptance' {
       $result.LifecycleRuns[0].Restored|Should -BeTrue
       @($script:events)|Should -Be @('Preview','NoChange','NoChange','NotPresent','Restore','Restore')
     }
+    It 'persists readiness refusal as terminal failure without starting servicing' {
+      Mock Assert-RideCapabilityAcceptanceReady {throw 'A servicing restart is pending; retain evidence without further changes.'}
+      $result=Invoke-RideClientCapabilityAcceptance @script:parameters
+      $result.Status|Should -Be 'Failed'
+      $result.Reason|Should -Be 'ReadinessPreflightRejected'
+      $result.Stage|Should -Be 'Preflight'
+      $result.RecoveryRequired|Should -BeFalse
+      $result.LifecyclePassed|Should -BeFalse
+      $terminal=Get-Content -LiteralPath (Join-Path $result.EvidenceDirectory 'result.json') -Raw|ConvertFrom-Json
+      $terminal.RunId|Should -Be $script:request
+      $terminal.Status|Should -Be 'Failed'
+      Should -Invoke Invoke-RidePlan -Times 0 -Exactly
+      Should -Invoke Get-RideSingleOperationPlan -Times 0 -Exactly
+    }
+    It 'keeps a rejected readiness preview read-only' {
+      Mock Assert-RideCapabilityAcceptanceReady {throw 'Pending restart fixture'}
+      {Invoke-RideClientCapabilityAcceptance @script:parameters -WhatIf}|Should -Throw '*Pending restart*'
+      Test-Path -LiteralPath (Join-Path $TestDrive $script:request)|Should -BeFalse
+      Should -Invoke Invoke-RidePlan -Times 0 -Exactly
+    }
     It 'previews without evidence, engine calls or state changes' {
       $result=Invoke-RideClientCapabilityAcceptance @script:parameters -WhatIf
       $result.Status|Should -Be Preview

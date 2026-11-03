@@ -45,6 +45,11 @@ declares each operation's support, actions, references and recovery limits.
 - [Task list](../TODO.md): priorities and future work.
 - [Migration plan](MIGRATION-PLAN.md): current legacy outcome estimates and
   release acceptance, including documentation and licensing requirements.
+- [Migration status, 2026-11-03](migrations/migration-completion-reassessment-2026-11-03.md):
+  progress since Nov 2, verified overnight results, remaining native tests and
+  the next execution order.
+- [Package fast-track register](migrations/package-fast-track-register.md):
+  install/startup/uninstall evidence and feature coverage deferred to v3.1.
 - [Full remaining migration analysis and decisions](migrations/remaining-migrations-follow-up.md):
   all five groups, matching implementation batches, questions for the user's
   return and postponed elevation; includes the source coverage audit.

@@ -1,0 +1,75 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T07:41:12.4624225Z",
+  "Status": "SourceChecksPassedNativeStartupPending",
+  "FastTrack": [
+    {
+      "Passed": 26,
+      "PowerShell": "5.1.26100.9818",
+      "Failed": 0,
+      "AtUtc": "2026-11-03T07:32:50.5967447Z",
+      "Edition": "Desktop",
+      "Skipped": 0
+    },
+    {
+      "Failed": 0,
+      "Skipped": 0,
+      "Edition": "Core",
+      "PowerShell": "7.6.5",
+      "Passed": 26,
+      "AtUtc": "2026-11-03T07:32:47.6407219Z"
+    }
+  ],
+  "CapabilityPreflight": [
+    {
+      "Passed": 53,
+      "PowerShell": "5.1.26100.9818",
+      "Failed": 0,
+      "AtUtc": "2026-11-03T07:39:54.7667069Z",
+      "Edition": "Desktop",
+      "Skipped": 0
+    },
+    {
+      "AtUtc": "2026-11-03T07:39:58.2392353Z",
+      "PowerShell": "7.6.5",
+      "Skipped": 0,
+      "Failed": 0,
+      "Passed": 53,
+      "Edition": "Core"
+    }
+  ],
+  "Sources": [
+    {
+      "Sha256": "47268129640B215C8C6AD47263BFF8EAA769BCCE06FC16A4368FD057FFDECFDF",
+      "Path": "tests/integration/RIDE.FastTrackStartup.psm1"
+    },
+    {
+      "Sha256": "9CF38EBB3E9828E1CF485E5A8FA7C8412C6B07B67AEBC2914FD4DE2039F6BAE0",
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1"
+    },
+    {
+      "Sha256": "086CAE24D33B902488EDF766FD0966CD19AFD3193C99B98979D162BAAFD3EA95",
+      "Path": "tests/integration/Invoke-RidePortableAcceptance.ps1"
+    },
+    {
+      "Sha256": "D7D624F86626EDB54196D71FA31862BAFFA916B4AA500ECF9DC3FEA014C79912",
+      "Path": "tests/integration/RIDE.ClientCapabilityAcceptance.psm1"
+    },
+    {
+      "Sha256": "16A543296541A8AF0C8E0D31CAF1E7A4DBC8DFD90827D015A9B727BA16BC5A63",
+      "Path": "tests/FastTrackStartup.Tests.ps1"
+    },
+    {
+      "Sha256": "13EC15B16D143FCAF51EE09F3049DB359DF380C5BEF95CAEAA57263648C04480",
+      "Path": "tests/ClientCapabilityAcceptance.Tests.ps1"
+    }
+  ],
+  "NativeCallsMocked": true,
+  "WorkstationPayloadExecuted": false,
+  "Notes": [
+    "Bounded startup captures exact executable identity and observed process/event errors, not features",
+    "Mail Checker executable hash comes from retained publisher installer static extraction",
+    "Readiness refusal now saves terminal Failed evidence before any plan/servicing; WhatIf remains read-only",
+    "Capability queue was removed after attended recovery; corrected capability source not activated"
+  ]
+}

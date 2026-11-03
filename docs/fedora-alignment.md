@@ -10,6 +10,26 @@ same date. Remaining recommendations are tracked final-v3 tasks, not implemented
 CLI behavior.
 Native installers, target acceptance and recovery evidence remain platform-owned.
 
+## Native fast-track scope decision, 2026-11-03
+
+The user retired all Windows VMware installation/profile/path support and chose
+install, bounded startup without observed errors and uninstall for ordinary
+user-mode downloaded-tool fast-track acceptance. Product features move to v3.1;
+exact sources, Defender and declared recovery remain required. Earlier file-only
+results do not imply startup acceptance. This is Windows-native selection and
+acceptance scope under RB-08/09/11, with no shared CLI or state-schema change.
+
+Compared canonical contract 1.1.0, SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`, with Fedora
+HEAD `1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a` and working-tree `ride.sh`
+SHA-256 `A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43`.
+Fedora retains native candidate opt-in and unsupported-handler refusal; it has
+no obligation to copy Windows product coverage. Its existing uncommitted
+contract-reference/alignment edits were preserved. No contract amendment or
+cross-platform acceptance claim is introduced. Owner: RIDE-Windows maintainers.
+Follow-up: [fast-track register](migrations/package-fast-track-register.md).
+Review trigger: target promotion or changes to source, privilege or recovery
+boundaries. Startup source checks and native acceptance remain separate.
 ## Portable path validation implementation, 2026-11-03
 
 RB-07/08/09/11 shared behavior is unchanged. Windows replaces repeated provider

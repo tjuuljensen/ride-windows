@@ -226,6 +226,22 @@ See [host route source evidence](archive/evidence/client-capability-host-source-
 
 ### Expiring capability queue
 
+The Nov 3 attended activation and preview succeeded, but the first OpenSSH
+Client lifecycle failed readiness because the pinned guest reported a pending
+servicing restart. The original readiness check threw before saving a terminal
+report, so automatic reset correctly refused. An attended recovery exported the
+intent, independently verified the acceptance directory was absent and no
+servicing process remained, reset the pinned checkpoint, released the hold and
+removed the capability queue. OpenSSH/RSAT acceptance is still deferred. See
+[native failure and recovery](archive/evidence/client-capability-native-preflight-and-recovery-2026-11-03.json).
+
+The corrected guest scenario records readiness rejection as terminal `Failed`
+evidence before any plan or servicing call; preview still writes nothing. It
+does not weaken timeout/interruption recovery checks. The acceptance/host suites
+passed 53 tests in each PowerShell edition with mocked native calls; this fix is
+source-only until the restart prerequisite is resolved and the route is activated
+again. See [source checks](archive/evidence/fast-track-startup-and-capability-preflight-source-2026-11-03.json).
+
 The dedicated queue is **source preparation, not an installed route or native
 acceptance**. It exposes only `OpenSSHClient` and `RSAT`, each with `Prepare`,
 `Lifecycle`, `Collect` and `Reset`. It does not extend the existing package or

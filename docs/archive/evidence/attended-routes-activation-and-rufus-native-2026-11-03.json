@@ -1,0 +1,224 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T07:32:49.8460435Z",
+  "Kind": "AttendedRouteActivationAndFirstProof",
+  "Activation": {
+    "StartedAtUtc": "2026-11-03T07:17:49.6368166Z",
+    "Status": "Passed",
+    "Stage": "Registered; native verification pending",
+    "Error": null,
+    "Capabilities": [
+      "HostPreparationWatchdogV1",
+      "GitHubPatGuestV1",
+      "FocusedPortableV1",
+      "ApplicationsBatch1SplitV1",
+      "ApplicationsBatch9InfoBarV1",
+      "ApplicationsBatch10ProjectMakerV1",
+      "ApplicationsBatch11HashCheckV1",
+      "ApplicationsBatch11InteractiveV1",
+      "ApplicationsBatch12NtcoreExplorerSuiteV1",
+      "MiTeCAnalysisToolsV1",
+      "MiTeCSystemAndTelephonyV1",
+      "RegRipperRufusPortableV1",
+      "Gpg4winTmogLifecycleV1",
+      "RemainingMiTeCPortableV1",
+      "ApplicationsBatch13MailCheckerV1",
+      "WfnPortableLifecycleV1"
+    ],
+    "CapabilityQueue": {
+      "Status": "Registered",
+      "TaskName": "RIDEWin11TestCapabilities",
+      "ActivationId": "ab62985c56bc450f8fae37c458ed71a0",
+      "ExpiresAtUtc": "2026-11-03T18:30:00+01:00",
+      "HostSourceCount": 94,
+      "VMChanged": false,
+      "NativeAcceptancePassed": false
+    },
+    "Retained": {
+      "Status": "Passed",
+      "StartedAtUtc": "2026-11-03T07:20:15.1781932Z",
+      "Error": null,
+      "VMChanged": false,
+      "TaskName": "RIDEWin11NightRetained",
+      "TaskState": "Ready",
+      "Files": [
+        {
+          "Sha256": "7CEA35DBE590E67CE675F856F8D3D42BAFF02A8E6939397AE9403D15B849384C",
+          "Name": "RIDE.NightRetained.psm1"
+        },
+        {
+          "Sha256": "8A4657539D94A05814CE72F4F09076FE4C60840FCABAB74E3FD57C2064E7CE5F",
+          "Name": "Invoke-RideNightRetainedWorker.ps1"
+        }
+      ],
+      "FinishedAtUtc": "2026-11-03T07:20:17.8773516Z"
+    },
+    "FinishedAtUtc": "2026-11-03T07:20:17.9016197Z"
+  },
+  "CapabilityPreview": {
+    "SchemaVersion": 1,
+    "Kind": "ClientCapabilityQueueResult",
+    "ActivationId": "ab62985c56bc450f8fae37c458ed71a0",
+    "RequestId": "8e14ffaf7d0143c2927bb93b0991092e",
+    "RunId": "a3a354c97ee24a1498807e9374e7d003",
+    "Family": "OpenSSHClient",
+    "Phase": "Prepare",
+    "Preview": true,
+    "Status": "Preview",
+    "StartedAtUtc": "2026-11-03T07:21:03.9433307Z",
+    "Error": null,
+    "Result": {
+      "SchemaVersion": 1,
+      "RunId": "a3a354c97ee24a1498807e9374e7d003",
+      "Phase": "Prepare",
+      "Status": "Preview",
+      "LifecyclePassed": false
+    },
+    "ServicingStopInferred": false,
+    "FinishedAtUtc": "2026-11-03T07:21:04.5409093Z"
+  },
+  "AssetPreview": {
+    "RequestId": "d977456aecdc46ec8e7bd9ac93f5d23e",
+    "RunId": "af60c9a1b7784b16b12a4c2d23e59ebe",
+    "Family": "Fonts",
+    "Phase": "Prepare",
+    "Preview": true,
+    "Status": "Preview",
+    "StartedAtUtc": "2026-11-03T07:21:23.6194121Z",
+    "Error": null,
+    "Result": {
+      "SchemaVersion": 1,
+      "RunId": "af60c9a1b7784b16b12a4c2d23e59ebe",
+      "Phase": "Prepare",
+      "Status": "Preview",
+      "NativeAcceptancePassed": false
+    },
+    "HostModuleSha256": "4F31448274686F4A844C3024664337DE012A92BCCDB68649DD5B6A7BD4526E39",
+    "FinishedAtUtc": "2026-11-03T07:21:24.9247149Z"
+  },
+  "PackageResult": {
+    "SchemaVersion": 1,
+    "RunId": "7c94a185ef6b49939635d157876b3f08",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "Rufus",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T07:22:50.933565Z",
+    "FinishedAtUtc": "2026-11-03T07:29:06.3760505Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "7c94a185ef6b49939635d157876b3f08",
+      "Batch": "Rufus",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 1,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "PackageSummary": {
+    "Batch": "Rufus",
+    "ExpectedCases": 1,
+    "Completed": 1,
+    "Passed": 1,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "PackageCases": [
+    {
+      "Id": "package.rufus",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "7b793d9e6ef945dcb095d0699d04bad4",
+        "97863f35b11948e888b1bbbd3a1d816a",
+        "ae39ab95998d44469848217d1e7494e3"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "rufusp.exe",
+          "Sha256": "84c8a437f8af89257524478489e5c85f1edf25f761d299e2bcde46ac0afbe106",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "FC4686753937A93FDCD48C2BB4375E239AF92DCB"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.rufus' failed. Run ID: 845eacdcf56d41648387e2262db01382. Saved state: package.rufus. Completed operations: <none>. Failed operation: package.rufus. Unfinished operations: package.rufus. Recovery: run '.\\ride.ps1 restore -RunId 845eacdcf56d41648387e2262db01382', then reapply the same profile. Error: Portable destination collision: rufusp.exe",
+      "ModifiedRefusal": "RIDE operation 'package.rufus' failed. Run ID: dc3c7dc3f38e42848a502f73cc88c8dd. Saved state: package.rufus. Completed operations: <none>. Failed operation: package.rufus. Unfinished operations: package.rufus. Recovery: run '.\\ride.ps1 restore -RunId dc3c7dc3f38e42848a502f73cc88c8dd', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T07:28:46.3564725Z",
+    "SinceUtc": "2026-11-03T07:25:05.230819Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T07:28:55.9521374Z",
+    "SinceUtc": "2026-11-03T07:25:05.230819Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "Limitations": [
+    "Rufus file lifecycle only; no tool launch or media operation",
+    "Capability and asset previews are not native lifecycle acceptance",
+    "All requested tests are not complete"
+  ],
+  "NoAdditionalUacDuringProof": true
+}

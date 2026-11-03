@@ -1,5 +1,10 @@
 # Migration completion reassessment, 2026-11-02
 
+For current progress and next actions, see the
+[2026-11-03 reassessment](migration-completion-reassessment-2026-11-03.md).
+This document retains the Nov 2 decisions, detailed registers and dated updates;
+statements marked at pause describe that earlier checkpoint.
+
 ## Status
 
 Migration execution resumed on 2026-11-02 under the approved fast-track plan

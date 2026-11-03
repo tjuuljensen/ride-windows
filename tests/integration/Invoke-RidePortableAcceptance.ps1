@@ -6,11 +6,12 @@
   restoration. Tests selected files and unowned/modified-file preservation. For
   NTCore batches, also runs 4GB Patch against a generated x86 PE fixture to verify
   its flag, backup collision and recovery behavior. No real target executable is
-  opened or changed. SQLiteQuery is file-lifecycle only; it does not open a database
-  or launch the application. ImageMagick reports its version and encodes/identifies
+  opened or changed. MiTeC executables, including SQLiteQuery, receive bounded
+  startup checks without supplied documents, databases or account settings.
+  ImageMagick reports its version and encodes/identifies
   only a generated 1x1 PNG; it does not open user images. NTCoreAdditional stages
   Driver List x64/x86 and Rebel.NET without launching them. MiTeCMailHistoryViewers
-  checks only the four packages' file lifecycle and does not open user stores.
+  checks lifecycle and bounded startup without selecting user stores.
   GUI or product activation is not claimed. Candidate support
   is enabled only in the guarded guest's in-memory test catalog.
   MiTeC, Sysinternals Suite/Products, NTCore and PSScriptTools batches require active
@@ -18,8 +19,8 @@
   including staging; record sanitized before/after evidence without exclusions.
   RegRipper and Rufus use the same file-only lifecycle and Defender boundary;
   the remaining MiTeC viewer, development, network and system batches select
-  fixed variants and never launch their utilities or read application data.
-  No registry hive, external drive, device, media write or application is opened.
+  fixed variants and observe startup without supplying user application data.
+  No registry hive, external drive or media-write action is selected.
   WindowsFirewallNotifier stages all 531 reviewed pinned files with Defender
   observation and exact recovery; WFN is not launched and firewall policy is unchanged.
   WinPmem uses the same Defender boundary for its single-file lifecycle, without
@@ -34,7 +35,8 @@
   architectures and Interbase Query architectures. MiTeCNetworkUtilities selects
   Network Scanner architectures, DirList and Network Meter. MiTeCSystemViewers
   selects OLE/COM, Registry Recovery, SMBIOS, File Analyzer, Icon Explorer and
-  Structured Storage Viewer. These are package-file checks only.
+  Structured Storage Viewer. MiTeC cases include bounded process startup;
+  deeper feature acceptance is deferred to v3.1 by the 2026-11-03 decision.
   MiTeCViewers, MiTeCAnalysisTools, MiTeCSystemAndTelephony, NTCore, NTCoreAdditional, MiTeCMailHistoryViewers, AllReviewed,
   PSScriptTools, SQLiteQuery, MiTeCUtilityFiles,
   SysinternalsSuite, SysinternalsProducts, ImageMagick, RawCopy, WinPmem, RegRipper or Rufus. Defender-blocked collections
@@ -64,8 +66,9 @@
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
   Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.21.0.
-  Changelog: 0.21.0: Require Defender observations for WinPmem file-only acceptance.
+  Author: RIDE-Windows maintainers. Version: 0.22.0.
+  Changelog: 0.22.0: Add hash-bound MiTeC startup smoke checks; defer features to v3.1.
+    0.21.0: Require Defender observations for WinPmem file-only acceptance.
     0.20.0: Add fixed WFN file lifecycle; no firewall changes.
     0.19.0: Add fixed remaining MiTeC lifecycle selections.
     0.18.0: Add Defender observations to NTCore and PSScriptTools acceptance.
@@ -99,7 +102,7 @@
 param([string]$ExpectedComputerName,[string]$EvidencePath,
   [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.21.0';return}
+if($Version){'0.22.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}
@@ -238,6 +241,17 @@ foreach($case in $cases){
     $beforeHashes=@($state.Manifest.Files|Sort-Object RelativePath|ForEach-Object {$_.RelativePath+':'+$_.Sha256})
     $row.FileEvidence=$state.Manifest.Files
     $row.Checks+=@('InstallPreview','Install','ExactMemberSelection')
+    if($case.Id -like 'package.mitec-*'){
+      Import-Module (Join-Path $PSScriptRoot 'RIDE.FastTrackStartup.psm1') -Force
+      $startupFiles=@($state.Manifest.Files|Where-Object { $_.RelativePath -match '(?i)\.exe$' })
+      Assert-True ($startupFiles.Count -gt 0) 'No selected executable exists for the fast-track startup check.'
+      $row.StartupEvidence=@(foreach($startupFile in $startupFiles){
+        Invoke-RideFastTrackStartup -ExecutablePath (Join-Path $op.InstallDirectory $startupFile.RelativePath) -ExpectedSha256 $startupFile.Sha256
+      })
+      $row.ToolExecuted=$true
+      $row.Checks+=@('BoundedStartupNoErrorObserved')
+      $row.FunctionalAcceptance='Deferred to v3.1 by user decision; startup only'
+    }
     if($case.Id -eq 'package.imagemagick-portable-q16'){
       $tool=Join-Path $op.InstallDirectory 'magick.exe'
       $row.ToolExecuted=$true
@@ -364,7 +378,7 @@ foreach($case in $cases){
     # Delete only this run's synthetic modified/unowned fixtures, never recursively.
     Remove-Item -LiteralPath $modified,$userFile -Force
     $row.LifecycleRecovery=$true;$row.Status='Passed'
-  }catch{$row.Error=$_.Exception.Message;if($row.PrerequisiteAcceptance -eq 'Running'){$row.PrerequisiteAcceptance='Failed'}}
+  }catch{$row.Error=$_.Exception.Message;if($_.Exception.Data.Contains('RideStartupEvidence')){$row.StartupEvidence=$_.Exception.Data['RideStartupEvidence'];$row.ToolExecuted=($null -ne $row.StartupEvidence.ProcessId)};if($row.PrerequisiteAcceptance -eq 'Running'){$row.PrerequisiteAcceptance='Failed'}}
   $results.Add([pscustomobject]$row)
   ConvertTo-Json -InputObject @($results.ToArray()) -Depth 15|Set-Content -LiteralPath (Join-Path $evidence 'scenarios.json') -Encoding UTF8
   if($row.Status -ne 'Passed'){break}

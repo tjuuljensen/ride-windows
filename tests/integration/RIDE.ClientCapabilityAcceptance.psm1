@@ -12,7 +12,8 @@
   selected Windows Update acquisition. Requires a separately reviewed host route.
   Recovery: Conditional literal-state recovery, never exact payload recovery.
   No automatic reboot, retry, checkpoint reset, SSH connection or domain query.
-  Version: 0.1.0. Changelog: Add focused client capability guest scenario.
+  Version: 0.1.1. Changelog: Persist preflight readiness rejection as failed
+  terminal evidence without servicing or weakening preview/recovery guards.
 .LINK
   ../../docs/windows-component-inventory.md
 #>
@@ -192,7 +193,18 @@ function Invoke-RideClientCapabilityAcceptance {
   if(Test-Path -LiteralPath $directory){throw 'Acceptance evidence already exists; use a new request ID.'}
   $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='ClientCapabilityAcceptance';RunId=$RunId;Family=$Family;Status='NotRun';Reason=$null;Stage='Preflight';Error=$null;RecordedAtUtc=[datetime]::UtcNow.ToString('o');WindowsContext=$context;ServicingSource=$ServicingSource;LifecyclePassed=$false;ExactPayloadRecoverySupported=$false;RestartAcceptancePassed=$false;RecoveryRequired=$false;Checks=@();LifecycleRuns=@();Selection=@();EvidenceErrors=@();EvidenceDirectory=$null}
   if(-not $context.Administrator){$report.Reason='ExistingElevationRequired';return $report}
-  Assert-RideCapabilityAcceptanceReady $context
+  try {Assert-RideCapabilityAcceptanceReady $context}
+  catch {
+    # A host lifecycle intent is already durable when this guest function is
+    # called. Record a synchronous readiness refusal so collection can distinguish
+    # it from a still-running or interrupted servicing job. Preview writes nothing.
+    if($WhatIfPreference -or -not $PSCmdlet.ShouldProcess($ExpectedComputerName,'Record failed capability readiness preflight')){throw}
+    $report.Status='Failed';$report.Reason='ReadinessPreflightRejected'
+    $report.Error=$_.Exception.Message;$report.EvidenceDirectory=$directory
+    $null=New-Item -ItemType Directory -Path $directory -ErrorAction Stop
+    Save-RideCapabilityAcceptanceEvidence (Join-Path $directory 'result.json') $report
+    return $report
+  }
   $id=if($Family -ceq 'OpenSSHClient'){'component.openssh-client-capability'}else{'solution.rsat-client-tools'}
   $install=@(Get-RideSingleOperationPlan -Id $id -Action Install)
   if(-not $install.Count -or @($install|Where-Object {$_.Operation.Kind -cne 'WindowsCapability' -or $_.Operation.Handler -cne 'ClientCapability' -or $_.Operation.Scope -cne 'Machine' -or $_.Operation.ServicingSource -cne $ServicingSource -or $_.State -cne 'Present'}).Count){throw 'Unexpected capability plan.'}

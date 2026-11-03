@@ -1,0 +1,143 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T07:40:19.2335970Z",
+  "Status": "NativePreflightFailedAndRecovered",
+  "Preparation": {
+    "SchemaVersion": 1,
+    "Kind": "ClientCapabilityQueueResult",
+    "ActivationId": "ab62985c56bc450f8fae37c458ed71a0",
+    "RequestId": "be2251a977f94dfdad18671fef639a5a",
+    "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+    "Family": "OpenSSHClient",
+    "Phase": "Prepare",
+    "Preview": false,
+    "Status": "Prepared",
+    "StartedAtUtc": "2026-11-03T07:30:02.1395018Z",
+    "Error": null,
+    "Result": {
+      "SchemaVersion": 1,
+      "Kind": "CapabilityVmPhase",
+      "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+      "Phase": "Prepare",
+      "Status": "Prepared",
+      "Stage": "Retained",
+      "Error": null,
+      "RecoveryRequired": true,
+      "LifecyclePassed": false,
+      "GuestResult": {
+        "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+        "Family": "OpenSSHClient",
+        "Status": "Prepared",
+        "Context": {
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "Revision": 9711
+        },
+        "SourceCount": 96,
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "d05336b5-e9a5-4065-929a-e1f3d9225ac9",
+        "PSShowComputerName": true
+      },
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained-capability-6acde6527d3a4824bcc3c459476d5dbf\\export.877a8a90d05d4339a55c8947b474400d",
+        "FileCount": 0,
+        "LifecycleAdmitted": false,
+        "TerminalResultPresent": false,
+        "TerminalStatus": null
+      }
+    },
+    "ServicingStopInferred": false,
+    "FinishedAtUtc": "2026-11-03T07:31:32.4653033Z"
+  },
+  "Lifecycle": {
+    "SchemaVersion": 1,
+    "Kind": "ClientCapabilityQueueResult",
+    "ActivationId": "ab62985c56bc450f8fae37c458ed71a0",
+    "RequestId": "7e21383affa34ab5bd604be10d39703f",
+    "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+    "Family": "OpenSSHClient",
+    "Phase": "Lifecycle",
+    "Preview": false,
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T07:32:00.1389354Z",
+    "Error": null,
+    "Result": {
+      "SchemaVersion": 1,
+      "Kind": "CapabilityVmPhase",
+      "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+      "Phase": "Lifecycle",
+      "Status": "Failed",
+      "Stage": "Lifecycle",
+      "Error": "A servicing restart is pending; retain evidence without further changes.",
+      "RecoveryRequired": true,
+      "LifecyclePassed": false,
+      "GuestResult": null,
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained-capability-6acde6527d3a4824bcc3c459476d5dbf\\export.74f7cc900f8043c193552f0ccedea4b0",
+        "FileCount": 1,
+        "LifecycleAdmitted": true,
+        "TerminalResultPresent": false,
+        "TerminalStatus": null
+      }
+    },
+    "ServicingStopInferred": false,
+    "FinishedAtUtc": "2026-11-03T07:32:54.5592717Z"
+  },
+  "Recovery": {
+    "Status": "RecoveredAndCapabilityQueueRemoved",
+    "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+    "StartedAtUtc": "2026-11-03T07:37:44.2168826Z",
+    "Error": null,
+    "Recovery": {
+      "Receipt": {
+        "SchemaVersion": 1,
+        "Kind": "RetainedGuestRecovery",
+        "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+        "LeaseId": "e1749b88a7f34c2fbe6a760731167510",
+        "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+        "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+        "ConfigurationSha256": "0D072720956A51262595C49AF0B86118030818D88A0BFEFED727F6E784FC260C",
+        "EvidenceExportVerified": true,
+        "CheckpointResetVerified": true,
+        "Status": "ResetAndOff",
+        "ExportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained-capability-6acde6527d3a4824bcc3c459476d5dbf\\export.5841600c21f2426981591ce2ac0da192",
+        "Mode": "Attended recovery after independently verified preflight-only failure",
+        "ObservationPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained-capability-6acde6527d3a4824bcc3c459476d5dbf\\attended-preflight-observation.e22ae4a70ef34b0b850d5deff4197ba3.json",
+        "NativeAcceptancePassed": false
+      },
+      "Release": {
+        "SchemaVersion": 1,
+        "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+        "Status": "Released",
+        "NativeAcceptancePassed": false
+      },
+      "Observation": {
+        "ComputerName": "RIDE-WIN11-TEST",
+        "RunId": "6acde6527d3a4824bcc3c459476d5dbf",
+        "AcceptanceDirectoryAbsent": true,
+        "OnlyLifecycleIntent": true,
+        "ServicingProcessesAbsent": true,
+        "ObservedAtUtc": "2026-11-03T07:38:11.5077006Z",
+        "PSComputerName": "RIDE-Win11-Test",
+        "RunspaceId": "115205cd-d25e-490b-9e1b-ffb977f0e2f6",
+        "PSShowComputerName": true
+      },
+      "EvidenceExport": {
+        "Verified": true,
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained-capability-6acde6527d3a4824bcc3c459476d5dbf\\export.5841600c21f2426981591ce2ac0da192",
+        "FileCount": 1,
+        "LifecycleAdmitted": true,
+        "TerminalResultPresent": false,
+        "TerminalStatus": null
+      }
+    },
+    "FinishedAtUtc": "2026-11-03T07:38:18.9879303Z"
+  },
+  "NativeAcceptancePassed": false,
+  "QueueRemoved": true,
+  "AdditionalUacRequired": true,
+  "Remaining": "Resolve pending restart in a separately reviewed disposable baseline, then reactivate capability route; no RSAT lifecycle was attempted."
+}

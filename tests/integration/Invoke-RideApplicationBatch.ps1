@@ -13,7 +13,8 @@
   TMOG preserves synthetic LocalAppData content. No encryption, explicit product
   launch, screensaver selection or paid activation is exercised. Batch 13 selects
   only the pinned Mail Checker machine installer with Defender and exact version
-  observations. It does not configure accounts or perform mail operations.
+  observations and bounded startup of its exact executable. It does not configure
+  accounts or perform mail operations; feature coverage is deferred to v3.1.
 .PARAMETER Batch
   Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), side-by-side Microsoft OpenJDK versions on Server 2025 (8), MiTeC InfoBar on Windows 11 (9), MiTeC Project Maker on Windows 11 (10), HashCheck on Windows 11 (11), NTCore Explorer Suite on Windows 11 (12), or Mail Checker on Windows 11 (13).
 .PARAMETER PackageId
@@ -63,8 +64,9 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.22.0.
-  Changelog: 0.22.0: Add fixed Mail Checker 7.2.0 package lifecycle with Defender
+  Owner: RIDE-Windows maintainers. Version: 0.23.0.
+  Changelog: 0.23.0: Add exact Mail Checker startup smoke check; features deferred to v3.1.
+    0.22.0: Add fixed Mail Checker 7.2.0 package lifecycle with Defender
     and exact-version readback; no accounts, mail or product-feature scenario.
     0.21.0: Add exact Gpg4win/TMOG batch-1 selection, preserved limited-user
     handoff and coordinator-owned Defender evidence.
@@ -112,7 +114,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12,13)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.22.0'
+$script:ScriptVersion='0.23.0'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -678,6 +680,15 @@ foreach($scenario in $scenarios){
       if([string]$installed.DisplayVersion -cne $expectedInstalledVersion){throw "Installed package version '$($installed.DisplayVersion)' does not match expected installed version '$expectedInstalledVersion' for release '$($package.PackageVersion)'."}
       $scenarioResult.Checks+=@('RIDEManagedInstall','PinnedPackageVersion')
     }
+    if($Batch -eq 13){
+      $scenarioStage='Observe bounded Mail Checker startup'
+      Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
+      if(-not $installed.InstallLocation){throw 'Mail Checker install location is unavailable; do not guess the executable path.'}
+      Import-Module (Join-Path $PSScriptRoot 'RIDE.FastTrackStartup.psm1') -Force
+      $scenarioResult.StartupEvidence=Invoke-RideFastTrackStartup -ExecutablePath (Join-Path $installed.InstallLocation 'MAILCHECKER.EXE') -ExpectedSha256 '9104F5E92BA0CB0333CC5312FD6E97B944D9EE2DA91771B99E19E47BA9D5167F'
+      $scenarioResult.Checks+='BoundedStartupNoErrorObserved'
+      $scenarioResult.FeatureAcceptance='Deferred to v3.1; no mail actions'
+    }
     if($Batch -eq 8){
       $scenarioStage='Verify OpenJDK install directory and executables'
       $installedDirectory=([IO.Path]::GetFullPath([string]$installed.InstallLocation)).TrimEnd('\')
@@ -820,6 +831,7 @@ foreach($scenario in $scenarios){
     $scenarioResult.Status='Passed'
   }catch{
     $scenarioResult.Error=$_.Exception.Message
+    if($_.Exception.Data.Contains('RideStartupEvidence')){$scenarioResult.StartupEvidence=$_.Exception.Data['RideStartupEvidence']}
     if($Batch -eq 8){
       $scenarioResult.FailureStage=$scenarioStage
       $scenarioResult.ExceptionType=$_.Exception.GetType().FullName
