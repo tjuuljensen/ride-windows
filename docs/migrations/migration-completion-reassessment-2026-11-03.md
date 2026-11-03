@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 11:25 Copenhagen: **18 MiTeC variants across 13 products passed
+Evidence through 11:30 Copenhagen: **20 MiTeC variants across 15 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -17,8 +17,11 @@ Ten viewer/development variants passed in the guest while the old outer controll
 incorrectly rejected their startup flag. Both results remain recorded; the
 controller fix was installed and subsequently passed the six system-viewer cases.
 Network Scanner x64 passed, but x86 produced APPCRASH `0x0eedfade` in session 0.
-DirList and Network Meter were not reached; a follow-up keeps all four cases and
-places the known failing variant last. No interactive UI or deeper product
+The reordered follow-up reached DirList and Network Meter: both passed all 15
+lifecycle/startup checks, and Scanner x64 passed again. Scanner x86 reproduced
+the same crash; the batch remains failed despite successful checkpoint recovery
+and Defender. See [network coverage](../archive/evidence/mitec-network-coverage-native-2026-11-03.json).
+No interactive UI or deeper product
 functionality is claimed; that work is deferred to v3.1.
 
 Rufus and RegRipper each passed their native file lifecycle with Defender and
@@ -172,7 +175,7 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
 | RegRipper / Rufus | Both native file lifecycle/recovery/Defender routes passed. | Neither executable was launched; startup and utility actions remain separate. |
-| Remaining MiTeC portable batches | Seventeen portable variants / twelve products passed guest startup/lifecycle checks, plus installed Mail Checker for eighteen variants / thirteen products overall. All six system viewers have a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; reordered follow-up prepared. Earlier twelve file-only MiTeC cases also await startup coverage. Features stay deferred. |
+| Remaining MiTeC portable batches | Nineteen portable variants / fourteen products passed guest startup/lifecycle checks, plus installed Mail Checker for twenty variants / fifteen products overall. All six system viewers have a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter passed in the reordered follow-up; Scanner x86 failed again. Earlier twelve file-only MiTeC cases await startup coverage. Features stay deferred. |
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; tested corrections and bounded TMOG startup await native retries. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload passed 14 native file lifecycle checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json). | Executable startup and firewall behavior are separate; neither was exercised. |
