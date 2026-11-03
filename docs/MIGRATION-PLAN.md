@@ -7,37 +7,60 @@
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
 | Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper/WFN file lifecycles and Explorer Suite installer lifecycle and 31 MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. InfoBar passed its corrected regression gate but timed out during installation; checkpoint recovery passed. Its completion/logging correction passed source checks; native retry pending. Project Maker passed nine native checks; Gpg4win correction reproduced the crash. Remaining corrections stopped before admission at user request. DirList and Network Meter now passed; Scanner x86 remains failed. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Desktop/Core runtime and package recovery passed; shared-BDE recovery remains open. No additional legacy closure counted. |
 | Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
-| Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but native visibility failed; fresh-child reporting correction passed 52 tests per shell and awaits retry; default lock-image signed-out visual apply/restore passed on EnterpriseEval; wallpaper visual/new-user proof remains pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN preparation observed WlanSvc Stopped; native profile acceptance remains unrun. |
+| Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but native visibility failed; fresh-child reporting correction passed 52 tests per shell and awaits retry; default lock-image signed-out visual apply/restore passed on EnterpriseEval; wallpaper first-logon, later-choice, control-background and original-default visual checks passed; collateral theme defaults and promotion remain open. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN preparation observed WlanSvc Stopped; native profile acceptance remains unrun. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 default-lock signed-out visual apply/restore passed. Wallpaper control-user creation exposed a member-binding defect; owned cleanup/reset passed, correction passed 33 tests per shell, clean retry active. No legacy deduction.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 scoped default-lock and wallpaper visual checks passed. Wallpaper exact policy/file restore, owned user/profile cleanup, final evidence export, checkpoint recovery and hold release verified. Other theme defaults and promotion remain open; stop marker reinstated. No legacy deduction.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
 
 ## Attended image acceptance, 2026-11-03
 
-Wallpaper's first native control-user creation stopped before image application:
-the owned account existed without group membership, profile or session. Its
-saved-SID cleanup and checkpoint reset passed. Native inert conversion reproduced
-the helper's invalid SecurityIdentifier-to-LocalPrincipal binding; version 0.1.1
-passes the member SID string and retains the underlying error. All 33 focused
-tests passed in each PowerShell edition. A clean corrected run is in progress.
-See [fixture failure, recovery and source checks](archive/evidence/wallpaper-fixture-member-binding-fix-2026-11-03.json). No additional legacy
-outcome closed: 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175 and
-rounded 120-175 remain unchanged.
+The [wallpaper acceptance record](archive/evidence/wallpaper-attended-visual-native-2026-11-03.json)
+records scoped Windows 11 EnterpriseEval 26300.9711 visual acceptance: the fresh
+user received the selected fedora/suit/red-tie image; the user's replacement
+background survived sign-out/in; the existing control account retained its
+original background; and a new recovery account received Windows scenery with
+"Learn about this picture" after RIDE restoration. The original Spotlight image
+rotates, so recovery concerns the default appearance/behavior, not identical pixels.
+Companion inspections correlated the first-logon and recovery accounts' sessions
+and loaded profiles. Screenshots and hashes are retained locally; later-choice
+and control-preservation observations are explicitly user-reported.
 
+Apply/repeat and exact captured policy/file restore/repeat passed with verified
+exports. The corrected fixture created standard users; all three owned accounts
+and profiles were eventually removed. Its first cleanup attempt was refused:
+although the first-logon user had signed out, its unloaded profile and lack of
+owned processes coexisted with two residual type-2 CIM logon records. A normal
+VM restart cleared those records and guarded cleanup passed. Track a fixture
+follow-up to distinguish residual records from active desktop sessions without
+weakening profile/process checks. The guard was never bypassed.
 
+AutomatedLab BGInfo initially replaced the control wallpaper before RIDE Apply.
+Its exact guest startup value was captured and temporarily disabled for the visual
+sequence. At the user's direction, final lab cleanup used the pinned checkpoint;
+no separate BGInfo undo was performed. Reset request
+4144e6a14c0548b9a2ebe45c6c57c32c verified a 26-file evidence export,
+checkpoint recovery, VM Off and hold release. The stop marker was reinstated;
+no unrelated tests resumed. See the disposable-VM closeout rule in [AGENTS](../AGENTS.md#disposable-vm-closeout).
 
-The attended default-lock test on 2026-11-03 verified the signed-out sign-in
-background changing from the original lakeside image to the selected suit/red
-tie and back after RIDE restore. Six durable lifecycle checks, evidence export
-and checkpoint reset/hold release passed. Screenshots are retained locally with
-hashes. Scope is EnterpriseEval 26300.9711, signed-out sign-in background only;
-other users/targets, current-user image modes and catalog promotion remain open.
-Wallpaper first-logon testing is now active with the user present. No legacy
-outcome is deducted: all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12,
-exact 121-175, rounded 120-175.
+Other theme defaults (colors, sounds and cursor/icon configuration) were not
+independently compared. Catalog promotion and other targets remain separate;
+scripted visual flags were not rewritten as automated passes. No additional
+legacy outcome is deducted: all five ranges remain 37-57 / 34-49 / 19-24 /
+23-33 / 8-12, exact 121-175, rounded 120-175. This run advances acceptance for
+existing candidates and retains the unverified scope.
 
-See [correlated visual evidence](archive/evidence/default-lock-attended-visual-native-2026-11-03.json).
+The earlier [fixture binding correction](archive/evidence/wallpaper-fixture-member-binding-fix-2026-11-03.json)
+passed 33 focused tests in each PowerShell edition; the corrected native run above
+verified standard-user creation and owned cleanup. The failed original run and
+its successful cleanup/checkpoint recovery remain recorded.
+
+The [default-lock visual run](archive/evidence/default-lock-attended-visual-native-2026-11-03.json)
+verified the signed-out sign-in background changing from the original lakeside
+image to the suit/red tie and back after RIDE restore. All six durable checks,
+evidence export and checkpoint reset/hold release passed. This is scoped to
+EnterpriseEval 26300.9711; the clock-overlay lock screen, other users/targets and
+current-user image modes were not independently accepted.
 
 ## Fast-track startup and controller corrections, 2026-11-03
 

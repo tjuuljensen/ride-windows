@@ -666,11 +666,20 @@ records mocked host/VM checks and real temporary user-scope file/lock checks.
 
 ## Three separate acceptance workflows
 
+Before first-logon wallpaper acceptance, inspect wallpaper-changing lab startup
+tools. The Nov 3 retained run confirmed AutomatedLab BGInfo replaced a new
+control user's desktop before RIDE Apply. Capture and temporarily disable the
+specific guest startup entry for the visual sequence. After exporting evidence,
+use the pinned checkpoint for final lab cleanup, including temporary accounts
+and BGInfo changes; a separate per-fixture undo is unnecessary. This is distinct
+from testing RIDE's captured policy/image restoration before checkpoint reset.
+Do not change the host or infer a RIDE result from BGInfo's wallpaper.
+
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
-| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate, guest phases, owned account/profile fixture and retained host dispatch are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Native machine lifecycle and exact captured policy/file recovery passed with verified export and ResetAndOff cleanup. Native user-fixture cleanup and visual acceptance remain open. |
+| Machine/default wallpaper | On EnterpriseEval 26300.9711, native lifecycle, owned user/profile cleanup, first-desktop image, later wallpaper choice, existing control-background preservation and original-default appearance after restore passed. Final evidence export, checkpoint recovery and hold release verified. Other theme defaults were not independently compared; catalog promotion and other targets remain separate. See the [attended evidence](archive/evidence/wallpaper-attended-visual-native-2026-11-03.json). |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
-| Machine default lock-screen image | Native preview/apply/repeat and exact policy/image/permission restore/repeat restore passed on EnterpriseEval build 26300. Signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
+| Machine default lock-screen image | Native preview/apply/repeat and exact policy/image/permission restore/repeat restore passed on EnterpriseEval build 26300. The Nov 3 attended run verified signed-out sign-in image application and visible recovery. Clock-overlay lock screen, other users/targets and current-user modes remain unverified. No user-change restriction is added. |
 
 For the user lock screen, the documented
 [LockScreen API](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen)

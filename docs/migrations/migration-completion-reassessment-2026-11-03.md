@@ -2,17 +2,47 @@
 
 ## Current status
 
+### Attended wallpaper visual acceptance and closeout, 2026-11-03
+
+The corrected retained run 5e17e9ff4ec446b08445e84f804d26a0 passed the scoped
+wallpaper visual checks on Windows 11 EnterpriseEval 26300.9711:
+
+- The fresh test account received the selected fedora/suit/red-tie wallpaper.
+- The user confirmed a replacement background persisted through sign-out/in.
+- The pre-existing control account retained its original black/BGInfo background.
+- After RIDE's exact policy/file restore, a new recovery account received Windows
+  scenery and "Learn about this picture", consistent with the original Spotlight
+  default. Rotating scenery need not match the original pixels.
+
+Account/profile inspection correlated both new-user desktop observations. Apply,
+repeat, exact machine restore and repeat restore passed with verified exports.
+All three owned accounts/profiles were removed. A conservative cleanup guard
+initially refused residual CIM logon records after actual sign-out; a normal
+restart cleared them. This remains a fixture diagnostic follow-up, not a failed
+wallpaper observation. The guard was not bypassed.
+
+AutomatedLab BGInfo was isolated during testing. Final lab cleanup used the
+known checkpoint as the user requested, without separately undoing BGInfo.
+ResetAndOff, the 26-file evidence export and retained-hold release all verified.
+The stop marker is restored; unrelated test queues remain stopped.
+
+Other theme defaults were not independently compared; catalog promotion, other
+targets and current-user lock-screen modes remain separate. Scripted visual flags
+remain false; the linked record supplies the attended visual evidence. No further
+legacy deduction is made: 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175,
+rounded 120-175. See [wallpaper evidence](../archive/evidence/wallpaper-attended-visual-native-2026-11-03.json)
+and the [migration run summary](../MIGRATION-PLAN.md#attended-image-acceptance-2026-11-03).
+
 ### Wallpaper fixture correction, 2026-11-03
 
-Wallpaper's first native control-user creation stopped before image application:
-the owned account existed without group membership, profile or session. Its
-saved-SID cleanup and checkpoint reset passed. Native inert conversion reproduced
-the helper's invalid SecurityIdentifier-to-LocalPrincipal binding; version 0.1.1
-passes the member SID string and retains the underlying error. All 33 focused
-tests passed in each PowerShell edition. A clean corrected run is in progress.
-See [fixture failure, recovery and source checks](../archive/evidence/wallpaper-fixture-member-binding-fix-2026-11-03.json). No additional legacy
-outcome closed: 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175 and
-rounded 120-175 remain unchanged.
+The original control-user creation failed before image application. Native
+conversion checks reproduced a defect in passing SecurityIdentifier to a
+LocalPrincipal parameter, consistent with that failure; the original underlying
+exception was not retained. Saved-SID cleanup and checkpoint recovery passed.
+Version 0.1.1 passes a SID string and
+preserves underlying error details; all 33 focused tests passed in each shell.
+The corrected native run above verified standard-user creation and profile
+cleanup. See [failure and correction evidence](../archive/evidence/wallpaper-fixture-member-binding-fix-2026-11-03.json).
 
 ### Attended image testing resumed, 2026-11-03
 
@@ -22,7 +52,7 @@ tie and back after RIDE restore. Six durable lifecycle checks, evidence export
 and checkpoint reset/hold release passed. Screenshots are retained locally with
 hashes. Scope is EnterpriseEval 26300.9711, signed-out sign-in background only;
 other users/targets, current-user image modes and catalog promotion remain open.
-Wallpaper first-logon testing is now active with the user present. No legacy
+Wallpaper's later scoped visual run and checkpoint closeout are recorded above. No legacy
 outcome is deducted: all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12,
 exact 121-175, rounded 120-175.
 

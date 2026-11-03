@@ -15,6 +15,15 @@ work and its acceptance boundary.
 
 ## Stop status
 
+The later attended image tests are now closed out. Default lock-image signed-out
+sign-in application/recovery and wallpaper first-logon image, later choice,
+control-background preservation and original-default appearance after restore
+have scoped EnterpriseEval 26300.9711 evidence. The wallpaper VM was restored to
+its pinned checkpoint and left Off, evidence export verified and hold released;
+the stop marker was reinstated. See the [current image run summary](../MIGRATION-PLAN.md#attended-image-acceptance-2026-11-03).
+Other theme defaults, other targets, catalog promotion and current-user lock-screen
+modes remain separate. The earlier stop and package results below are retained.
+
 The user requested completion of the active Gpg4win test and its recovery,
 repository status/report updates, then a stop. A local stop marker prevents
 further admission. The waiting font diagnostic and InfoBar retry exited without
@@ -154,9 +163,12 @@ replacement payloads. PowerShell 2 is already retired.
 ### Files, images, wireless and accounts
 
 - Supplied fonts/images in custom-ride are sufficient inputs. Fonts still need
-  the diagnostic above; wallpaper/default lock-image durable checks passed,
-  but visual and new-user behavior remain unproved. Current-user lock-screen
-  modes are separate.
+  the diagnostic above. Default lock-image signed-out sign-in application/recovery
+  and wallpaper first-logon image, later choice, control-background preservation
+  and original-default appearance passed scoped attended checks. Wallpaper's other
+  theme defaults were not independently compared. Catalog promotion, other targets,
+  clock-overlay lock-screen verification and current-user lock-screen modes remain
+  separate; see the linked image run summary above.
 - Wi-Fi XML is generated from settings and uses a synthetic test profile.
   **Real credentials are not required.** The last preparation observed WlanSvc
   stopped and skipped interface/profile tests. This does not establish absence

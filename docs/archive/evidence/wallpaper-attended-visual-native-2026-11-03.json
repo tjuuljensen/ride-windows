@@ -1,0 +1,369 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T15:57:37.9277629+01:00",
+  "RunId": "5e17e9ff4ec446b08445e84f804d26a0",
+  "Target": "Windows 11 EnterpriseEval 26300.9711",
+  "Status": "ScopedWallpaperVisualChecksPassedCheckpointRecovered",
+  "OverallAcceptancePassed": false,
+  "Observations": [
+    {
+      "Sha256": "40A2D09951EE0B0091E632562F4A25EA9B895543C7A43AE86A7A26093C43385F",
+      "Description": "User-supplied screenshot shows expected fedora, suit and red tie on black, Recycle Bin and Edge, with no BGInfo overlay. Account identity requires companion InspectUser evidence. Later user choice, collateral theme defaults, control preservation and recovery not yet accepted.",
+      "Stage": "FirstLogonAfterApply",
+      "ObservedAtUtc": "2026-11-03T15:23:17.600059+01:00",
+      "RunId": "5e17e9ff4ec446b08445e84f804d26a0",
+      "Screenshot": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\attended-20261103\\wallpaper-firstlogon-fedora.png"
+    },
+    {
+      "OverallWallpaperAcceptanceComplete": false,
+      "UserStatement": "the chosen background remains",
+      "User": "ridewp_f_5e17e9ff4e",
+      "ObservedAtUtc": "2026-11-03T15:27:00.1081666+01:00",
+      "ExactChosenBackground": "Not independently recorded",
+      "RunId": "5e17e9ff4ec446b08445e84f804d26a0",
+      "Stage": "LaterUserChoiceAfterSignOutAndSignIn",
+      "Result": "LaterWallpaperChoicePreserved",
+      "EvidenceKind": "UserReport"
+    },
+    {
+      "User": "ridewp_c_5e17e9ff4e",
+      "Result": "ExistingControlBackgroundPreserved",
+      "RunId": "5e17e9ff4ec446b08445e84f804d26a0",
+      "UserStatement": "The control account still has the black background with BGInfo text. I'm signed in as ridewp_c_5e17e9ff4e.",
+      "Stage": "ControlAfterFirstLogonApply",
+      "EvidenceKind": "UserReport",
+      "OverallWallpaperAcceptanceComplete": false,
+      "ObservedAtUtc": "2026-11-03T15:31:10.7775532+01:00"
+    },
+    {
+      "Sha256": "A482E4327C7C34B588AA8C6F78F1C55F7F2023C64E05D8A13B987B6D4F756253",
+      "Screenshot": "C:\\Users\\tjuuljensen\\git\\ride-windows\\.local\\attended-20261103\\wallpaper-recovery-default.png",
+      "Description": "User screenshot shows lake/pier scenery and Learn about this picture, Recycle Bin and Edge; no fedora or BGInfo overlay. Consistent with original Spotlight desktop behavior; rotating image differs from the original coast scene. Account correlation requires companion inspection.",
+      "Stage": "RecoveryFirstLogonAfterRestore",
+      "ObservedAtUtc": "2026-11-03T15:49:58.6541116+01:00",
+      "OverallWallpaperAcceptanceComplete": false,
+      "RunId": "5e17e9ff4ec446b08445e84f804d26a0"
+    }
+  ],
+  "CleanupRequestId": "02c4d104b11f4c4bbfefed696d5eb441",
+  "CleanupError": "Fixture has an active session or loaded profile; sign out normally before cleanup.",
+  "PreCleanupExportVerified": true,
+  "FailureExportVerified": true,
+  "MachineRestoreRun": true,
+  "Remaining": [
+    "Other theme defaults not independently compared",
+    "Residual CIM-logon fixture diagnostic follow-up",
+    "Catalog promotion and other declared targets remain separate"
+  ],
+  "CleanupDiagnostic": {
+    "InspectionRequestId": "ed4876429ae04dee82876317f9bbb306",
+    "ProfileLoaded": false,
+    "AssociatedLogonRecords": 2,
+    "LogonTypes": [
+      2,
+      2
+    ],
+    "OwnedProcesses": [],
+    "ActiveDesktopUser": "ridewp_c_5e17e9ff4e",
+    "Finding": "FirstLogon has signed out; residual CIM logon records trigger the conservative cleanup guard.",
+    "NextStep": "Normal guest restart, then re-inspect before cleanup retry.",
+    "Source": ".local/attended-20261103/wallpaper-residual-logons.json"
+  },
+  "RestartRecovery": {
+    "Kind": "UserPerformedNormalGuestRestart",
+    "InspectRequestId": "afc8971bdc6a419eab7ae493815c655d",
+    "SessionCount": 0,
+    "ProfileLoaded": false,
+    "CleanupRequestId": "1dd13599787b45a68905e24ef154d838",
+    "CleanupStatus": "Removed",
+    "EvidenceExportVerified": true,
+    "CheckpointRestored": false
+  },
+  "MachineRestoration": {
+    "RequestId": "742c738bdc054506a5a3cf7ac7ac1d4b",
+    "Status": "LifecyclePassedVisualPending",
+    "Checks": [
+      "RestorePreviewNoChanges",
+      "CapturedStateRestored",
+      "RepeatedRestoreNoChanges"
+    ],
+    "NativeLifecycleAcceptancePassed": true,
+    "EvidenceExportVerified": true,
+    "NativeVisualAcceptancePassed": false
+  },
+  "RecoveryAccountInspection": {
+    "RequestId": "80f3059c2a4c4514af98690e6f4b6374",
+    "Name": "ridewp_r_5e17e9ff4e",
+    "SessionCount": 1,
+    "ProfileLoaded": true,
+    "Status": "Observed",
+    "EvidenceExportVerified": true
+  },
+  "Scope": "Windows 11 EnterpriseEval 26300.9711: selected first-logon image, later wallpaper choice, pre-existing control background and original Spotlight desktop appearance after product restore. Other theme defaults and other targets not accepted.",
+  "Phases": [
+    {
+      "RequestId": "059e1eeb50e74665b11a66447083607a",
+      "Phase": "Prepare",
+      "Purpose": "",
+      "Status": "Prepared",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T13:51:33.8084593Z"
+    },
+    {
+      "RequestId": "65390888d35d4bc7b7c44d609b793075",
+      "Phase": "CreateUser",
+      "Purpose": "Control",
+      "Status": "Created",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T13:52:49.4861806Z"
+    },
+    {
+      "RequestId": "5dffb5a43f174f4c9d58eecc16e7eb7b",
+      "Phase": "Apply",
+      "Purpose": "",
+      "Status": "AwaitingVisualVerification",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": [
+        "PreviewNoChanges",
+        "AppliedPolicyThemeImageAndPrivateState",
+        "RepeatNoChanges"
+      ],
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:17:08.8424584Z"
+    },
+    {
+      "RequestId": "bda4f9471af64acb8b884e1a4cfad680",
+      "Phase": "CreateUser",
+      "Purpose": "FirstLogon",
+      "Status": "Created",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:18:24.7363547Z"
+    },
+    {
+      "RequestId": "598238195aa141ac91c9cce29b72240d",
+      "Phase": "InspectUser",
+      "Purpose": "FirstLogon",
+      "Status": "Observed",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:24:11.9626659Z"
+    },
+    {
+      "RequestId": "02c4d104b11f4c4bbfefed696d5eb441",
+      "Phase": "RemoveUser",
+      "Purpose": "FirstLogon",
+      "Status": "Failed",
+      "Error": "Fixture has an active session or loaded profile; sign out normally before cleanup.",
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:32:30.6179673Z"
+    },
+    {
+      "RequestId": "ed4876429ae04dee82876317f9bbb306",
+      "Phase": "InspectUser",
+      "Purpose": "FirstLogon",
+      "Status": "Observed",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:34:06.1731491Z"
+    },
+    {
+      "RequestId": "afc8971bdc6a419eab7ae493815c655d",
+      "Phase": "InspectUser",
+      "Purpose": "FirstLogon",
+      "Status": "Observed",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:41:47.9509742Z"
+    },
+    {
+      "RequestId": "1dd13599787b45a68905e24ef154d838",
+      "Phase": "RemoveUser",
+      "Purpose": "FirstLogon",
+      "Status": "Removed",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:42:49.4425073Z"
+    },
+    {
+      "RequestId": "742c738bdc054506a5a3cf7ac7ac1d4b",
+      "Phase": "Restore",
+      "Purpose": "",
+      "Status": "LifecyclePassedVisualPending",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": [
+        "RestorePreviewNoChanges",
+        "CapturedStateRestored",
+        "RepeatedRestoreNoChanges"
+      ],
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:43:36.7224472Z"
+    },
+    {
+      "RequestId": "16f754932e8d4cc3ab23de73fd49703c",
+      "Phase": "CreateUser",
+      "Purpose": "Recovery",
+      "Status": "Created",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:44:44.6843007Z"
+    },
+    {
+      "RequestId": "80f3059c2a4c4514af98690e6f4b6374",
+      "Phase": "InspectUser",
+      "Purpose": "Recovery",
+      "Status": "Observed",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:50:44.8483267Z"
+    },
+    {
+      "RequestId": "efb5b8071cbd44e193f6ffec9bce98ee",
+      "Phase": "RemoveUser",
+      "Purpose": "Recovery",
+      "Status": "Removed",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:54:46.8195955Z"
+    },
+    {
+      "RequestId": "aeb037d216f5486d8e6d28c3ef15ae8b",
+      "Phase": "RemoveUser",
+      "Purpose": "Control",
+      "Status": "Removed",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:55:36.6275342Z"
+    },
+    {
+      "RequestId": "4144e6a14c0548b9a2ebe45c6c57c32c",
+      "Phase": "Reset",
+      "Purpose": "",
+      "Status": "ResetAndOff",
+      "Error": null,
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "Checks": null,
+      "EvidenceExportVerified": true,
+      "FinishedAtUtc": "2026-11-03T14:56:45.032674Z"
+    }
+  ],
+  "FinalFixtureCleanup": {
+    "RunId": "5e17e9ff4ec446b08445e84f804d26a0",
+    "Status": "RemainingFixturesRemoved",
+    "Phases": [
+      {
+        "EvidenceExportVerified": true,
+        "Status": "Removed",
+        "Purpose": "Recovery",
+        "RequestId": "efb5b8071cbd44e193f6ffec9bce98ee"
+      },
+      {
+        "EvidenceExportVerified": true,
+        "Status": "Removed",
+        "Purpose": "Control",
+        "RequestId": "aeb037d216f5486d8e6d28c3ef15ae8b"
+      }
+    ],
+    "Error": null,
+    "RecordedAtUtc": "2026-11-03T14:55:39.1748017Z"
+  },
+  "FinalRecovery": {
+    "RequestId": "4144e6a14c0548b9a2ebe45c6c57c32c",
+    "Status": "ResetAndOff",
+    "Stage": "Released",
+    "RecoveryRequired": false,
+    "EvidenceExport": {
+      "Verified": true,
+      "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.92c20e746d634e138fb0f8d2e308f6a0\\export.b7c6d66e02474e4999b6f51163bc54b5",
+      "FileCount": 26,
+      "GuestStatus": "Collected"
+    },
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "VmId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "BgInfoRecovery": "Pinned checkpoint restoration; separate Run-value undo intentionally omitted per user instruction"
+  },
+  "BgInfoIsolation": {
+    "Action": "Disable",
+    "RunId": "5e17e9ff4ec446b08445e84f804d26a0",
+    "Status": "Passed",
+    "Error": null,
+    "GuestResult": {
+      "Status": "Passed",
+      "Action": "Disable",
+      "ComputerName": "RIDE-WIN11-TEST",
+      "PriorValue": "C:\\Windows\\BgInfo.exe C:\\Windows\\BgInfo.bgi /Timer:0 /nolicprompt",
+      "CurrentWallpaperChanged": false,
+      "RecordedAtUtc": "2026-11-03T14:15:53.7631373Z",
+      "PSComputerName": "RIDE-Win11-Test",
+      "RunspaceId": "d86ba242-2005-434a-9c1e-746c6d2479f6",
+      "PSShowComputerName": true
+    },
+    "RecordedAtUtc": "2026-11-03T14:15:13.8475825Z"
+  },
+  "CloseoutQuiescence": {
+    "RecordedAtUtc": "2026-11-03T15:01:08.1233125+00:00",
+    "Tasks": [
+      {
+        "TaskName": "RIDEWin11NightRetained",
+        "State": "Ready"
+      },
+      {
+        "TaskName": "RIDEWin11Test",
+        "State": "Ready"
+      }
+    ],
+    "Markers": [
+      {
+        "Marker": "blocked.json",
+        "Present": false
+      },
+      {
+        "Marker": "night-retained-pending.json",
+        "Present": false
+      },
+      {
+        "Marker": "night-retained-running.json",
+        "Present": false
+      }
+    ],
+    "Queues": [
+      {
+        "Queue": "pending",
+        "Count": 0
+      },
+      {
+        "Queue": "running",
+        "Count": 0
+      }
+    ],
+    "StopMarkerPresent": true
+  }
+}

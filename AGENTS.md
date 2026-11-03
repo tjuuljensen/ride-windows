@@ -279,6 +279,21 @@ reporting after partial failure. Run scenarios on Windows 11 and the declared
 Windows Server targets. Add another Windows version to support declarations
 only after applicable integration checks pass.
 
+### Disposable VM closeout
+
+- When testing is finished, export and verify the required evidence, then restore
+  the disposable VM to its known checkpoint/snapshot. Do not manually clean up
+  installed tools, test accounts/profiles, registry changes or other test fixtures
+  merely to leave the VM clean before restoring that checkpoint.
+- Run component restore, uninstall or fixture cleanup only when that behavior is
+  itself an acceptance criterion or is required to continue the current scenario.
+  Keep those test results separate from final VM disposal; checkpoint recovery
+  does not prove that a component's own restore or uninstall works.
+- Let an in-flight state-changing phase settle before checkpoint restoration.
+  Verify the intended checkpoint/snapshot and successful recovery, then release
+  any retained test hold. If evidence export or recovery fails, preserve the
+  failure records and report the unresolved state.
+
 Keep tests isolated from the developer's machine. Prefer the narrowest useful
 validation for a change, and state clearly when runtime behavior cannot be
 verified in the available environment.
