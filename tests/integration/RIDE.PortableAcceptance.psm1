@@ -7,8 +7,9 @@
   NirSoft and other collections are outside this fixed acceptance selection.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Author: RIDE-Windows maintainers. Version: 1.6.0.
-  Changelog: 1.6.0: Add the exact WinPmem single-file lifecycle selection.
+  Author: RIDE-Windows maintainers. Version: 1.7.0.
+  Changelog: 1.7.0: Add fixed RegRipper and Rufus file-lifecycle selections.
+    1.6.0: Add the exact WinPmem single-file lifecycle selection.
     1.5.0: Add System Information eXtra and TAPI Monitor staging cases.
     1.4.0: Add MiTeC EXE Explorer and HexEdit file-lifecycle cases.
     1.3.0: Add the pinned RawCopy synthetic-only acceptance batch.
@@ -44,7 +45,7 @@ function Get-RidePortableAcceptanceCases {
   #>
   [CmdletBinding()]
   param([Parameter(Mandatory)][hashtable]$Catalog,
-    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')][string]$Batch='AllReviewed',
+    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus')][string]$Batch='AllReviewed',
     [string]$ReviewRoot=(Split-Path -Parent (Split-Path -Parent $PSScriptRoot)))
   $groups=@{
     MiTeCViewers=@('package.mitec-json-viewer','package.mitec-xml-viewer')
@@ -62,6 +63,8 @@ function Get-RidePortableAcceptanceCases {
     ImageMagick=@('package.imagemagick-portable-q16')
     RawCopy=@('package.rawcopy')
     WinPmem=@('package.winpmem')
+    RegRipper=@('package.regripper')
+    Rufus=@('package.rufus')
   }
   $ids=if($Batch -eq 'AllReviewed'){@($groups.MiTeCViewers)+@($groups.NTCore)}else{@($groups[$Batch])}
   foreach($id in $ids){
@@ -79,6 +82,9 @@ function Get-RidePortableAcceptanceCases {
       $fileAccepted=($Batch -eq 'WinPmem' -and $id -ceq 'package.winpmem' -and $op.PortableFormat -ceq 'File' -and
         $op.AssetName -ceq 'go-winpmem_amd64_1.0-rc2_signed.exe' -and $op.PortableFileName -ceq $op.AssetName -and
         @($op.RequiredFiles).Count -eq 1 -and $op.RequiredFiles[0] -ceq $op.AssetName)
+      $fileAccepted=$fileAccepted -or ($Batch -ceq 'Rufus' -and $id -ceq 'package.rufus' -and $op.PortableFormat -ceq 'File' -and
+        $op.PackageVersion -ceq '4.15' -and $op.AssetName -ceq 'rufus-4.15p.exe' -and $op.PortableFileName -ceq 'rufusp.exe' -and
+        @($op.RequiredFiles).Count -eq 1 -and $op.RequiredFiles[0] -ceq 'rufusp.exe')
       $prerequisiteAccepted=-not $op.PrerequisitePackageId -or
         ($Batch -eq 'ImageMagick' -and $id -ceq 'package.imagemagick-portable-q16' -and $op.PrerequisitePackageId -ceq 'package.vcredist-v14-x64') -or
         ($Batch -eq 'PSScriptTools' -and $id -ceq 'package.psscripttools' -and $op.PrerequisitePackageId -ceq 'package.microsoft-powershell-threadjob' -and
@@ -89,6 +95,15 @@ function Get-RidePortableAcceptanceCases {
          $op.Scope -ne 'Machine' -or -not $op.RequiresAdmin -or -not $prerequisiteAccepted -or $op.DependsOn -or
          ('Windows 11' -notin $op.CandidateTargets -and 'Windows 11' -notin $op.SupportedTargets) -or -not $op.RequiredFiles.Count){throw "Unreviewed acceptance metadata: $id / $variant"}
       $members=@(if($op.PortableMembers){$op.PortableMembers}else{$op.RequiredFiles})
+      if($id -ceq 'package.regripper'){
+        $review=Get-Content -LiteralPath (Join-Path $ReviewRoot 'docs/archive/evidence/regripper-source-review-2026-10-16.json') -Raw|ConvertFrom-Json
+        if($review.ArchiveSha256 -cne $op.ExpectedSha256 -or $review.Revision -cne 'ec96dd4a6a5c3ea70d8fece9b47a374f83582335' -or $review.FileCount -ne 282 -or @($review.Files).Count -ne 282){throw 'RegRipper member review does not match the catalog pin.'}
+        foreach($file in $review.Files){
+          if($file.Path -isnot [string] -or -not $file.Path -or $file.Path -match '(^/|[\\:]|//|(^|/)\.{1,2}(/|$))' -or $file.Sha256 -cnotmatch '^[a-f0-9]{64}$' -or $file.Length -lt 0){throw 'Invalid RegRipper member review.'}
+        }
+        $members=@($review.Files|ForEach-Object {'RegRipper3.0-'+$review.Revision+'/'+$_.Path})
+        if(@($members|Sort-Object -Unique).Count -ne 282 -or @($op.RequiredFiles|Where-Object {$_ -cnotin $members}).Count){throw 'RegRipper member review is incomplete or duplicated.'}
+      }
       if($id -eq 'package.psscripttools'){
         $review=Get-Content -LiteralPath (Join-Path $ReviewRoot 'docs/archive/evidence/psscripttools-source-review-2026-10-17.json') -Raw|ConvertFrom-Json
         if($review.Sha256 -cne $op.ExpectedSha256 -or $review.FileCount -ne 360){throw 'PSScriptTools member review does not match the catalog pin.'}
@@ -130,7 +145,8 @@ function Get-RidePortableAcceptancePayloads {
     $op=($Cases|Where-Object Id -ceq $id|Select-Object -First 1).Operation
     $extension=[IO.Path]::GetExtension([string]$op.AssetName)
     $extensionAccepted=$extension -in @('.zip','.7z','.nupkg') -or
-      ($id -ceq 'package.winpmem' -and $extension -ieq '.exe')
+      ($id -ceq 'package.winpmem' -and $extension -ieq '.exe') -or
+      ($id -ceq 'package.rufus' -and $op.PackageVersion -ceq '4.15' -and $op.AssetName -ceq 'rufus-4.15p.exe' -and $op.PortableFileName -ceq 'rufusp.exe' -and $extension -ieq '.exe')
     if(-not $row.Path -or [IO.Path]::GetExtension($row.Path) -ine $extension -or -not $extensionAccepted -or
        ($extension -eq '.nupkg' -and ($id -cne 'package.microsoft-powershell-threadjob' -or $op.PackageVersion -cne '2.2.0')) -or
        ($extension -eq '.7z' -and ($op.Id -cne 'package.imagemagick-portable-q16' -or $op.PortableFormat -ne 'SevenZip'))){throw 'Archive extension does not match an explicitly reviewed portable selection.'}

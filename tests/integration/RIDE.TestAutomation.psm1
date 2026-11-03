@@ -25,8 +25,9 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.19.0
+  Version: 1.20.0
   Changelog:
+    1.20.0: Require reviewed fixed RegRipper/Rufus capability before dispatch.
     1.19.0: Use runtime-only source snapshots for focused InfoBar, Project Maker and Explorer Suite batches.
     1.18.0: Restrict focused portable snapshots to runtime/test roots before hashing or copying.
     1.17.1: Serialize host progress reads/writes with bounded file-lock contention.
@@ -286,6 +287,11 @@ function Assert-RideAutomationSuiteCapability {
       ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
        'ApplicationsBatch12NtcoreExplorerSuiteV1' -notin @($Configuration.Capabilities))) {
     throw 'Refresh the protected controller for ApplicationsBatch12NtcoreExplorerSuiteV1; no request was queued.'
+  }
+  if ($Suite -in @('RegRipper','Rufus') -and
+      ($null -eq $Configuration.PSObject.Properties['Capabilities'] -or
+       'RegRipperRufusPortableV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for RegRipperRufusPortableV1; no request was queued.'
   }
 }
 
@@ -796,9 +802,9 @@ function Assert-RideAutomationRequest {
     if ($name -notin @('SchemaVersion','RunId','Source','UnitOnly','IntegrationSuite','TimeoutMinutes','SubmittedAtUtc','GuestGitHubAuthentication','GitHubTestScenario')) { throw 'Request contains an unsupported field; credentials and paths are not accepted in the queue.' }
   }
   if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
-    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem')) { throw 'Invalid request IntegrationSuite.' }
+    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus')) { throw 'Invalid request IntegrationSuite.' }
     if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
-    if ($Request.IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
+    if ($Request.IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
   }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
   $null = [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()
@@ -1208,7 +1214,7 @@ function Invoke-RideAutomationRequest {
   param([object] $Configuration, [object] $Request, [string] $Root, [switch]$Supervised)
   Assert-RideAutomationRequest $Request
   $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
-  $focusedPortable = $selectedSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')
+  $focusedPortable = $selectedSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus')
   $runtimeSnapshotOnly = $focusedPortable -or $selectedSuite -in @('ApplicationsBatch9','ApplicationsBatch10','ApplicationsBatch12')
   $guestAuthentication = if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $Request.GuestGitHubAuthentication } else { 'Anonymous' }
   $authenticationContext = $null

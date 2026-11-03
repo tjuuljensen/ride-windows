@@ -88,6 +88,35 @@ detection since guest boot, including staging. The runner exports read-only
 before/after observations and never changes exclusions. A failed observation
 fails acceptance independently of package file recovery.
 
+`RegRipper` and `Rufus` are separate fixed file-lifecycle selections. RegRipper
+uses the pinned revision's complete 282-file reviewed archive, including both
+license files and contributor/runtime notices. Rufus uses the pinned 4.15 portable
+payload and the catalog's `rufusp.exe` destination name. Both check preview,
+install/repeat/remove, exact owned-file recovery, unrelated-file preservation and
+active/no-alert Defender before/after. Neither launches its executable, opens
+registry hives, collects data, enumerates external devices or writes removable
+media. Native acceptance remains pending.
+
+These two routes require `RegRipperRufusPortableV1` in addition to
+`FocusedPortableV1`. An older controller is refused before queue submission;
+the client does not elevate or refresh it automatically. Refresh the idle
+controller through the existing attended registration procedure below before
+native execution. Keep the registered VM, checkpoint and owning account pins.
+Create one-row manifests `.local/acceptance-input/RegRipper.json` and
+`.local/acceptance-input/Rufus.json` using the `Id`/`Path` format below and exact
+catalog-pinned retained payloads. Then, from the repository root as the ordinary
+registered account:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite RegRipper -TimeoutMinutes 20
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite Rufus -TimeoutMinutes 20
+```
+
+Run the second request only after the first has exported evidence, completed
+checkpoint cleanup and returned idle. Inspect lifecycle recovery separately from
+the final `ResetAndOff` result; a failed lifecycle remains failed after cleanup.
+
 `MiTeCMailHistoryViewers` selects the pinned MiTeC Mail Viewer, E-mail History
 Browser, Internet History Browser and Instant Messaging History Browser. It
 checks package file staging, repeat, removal, saved-state recovery and preservation

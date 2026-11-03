@@ -22,7 +22,7 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.16.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.12.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.5'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.17.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.13.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.5'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
@@ -288,6 +288,52 @@ Describe 'Focused portable acceptance boundaries' {
     $cases[0].Operation.CandidateTargets|Should -Contain 'Windows 11'
     $cases[0].Operation.SupportedTargets|Should -Be @()
     $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'selects the full pinned RegRipper review including notices without promoting support' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch RegRipper)
+    $cases.Count|Should -Be 1
+    $cases[0].Id|Should -BeExactly 'package.regripper'
+    $cases[0].ExpectedFiles.Count|Should -Be 282
+    $cases[0].ExpectedFiles|Should -Contain 'RegRipper3.0-ec96dd4a6a5c3ea70d8fece9b47a374f83582335/license.txt'
+    $cases[0].ExpectedFiles|Should -Contain 'RegRipper3.0-ec96dd4a6a5c3ea70d8fece9b47a374f83582335/license.md'
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'refuses RegRipper review drift for <Problem>' -ForEach @(
+    @{Problem='digest'},@{Problem='duplicate'},@{Problem='traversal'},@{Problem='missing'}
+  ) {
+    $reviewRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $destination=Join-Path $reviewRoot 'docs/archive/evidence/regripper-source-review-2026-10-16.json'
+    $null=New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force
+    $review=Get-Content (Join-Path (Split-Path -Parent $PSScriptRoot) 'docs/archive/evidence/regripper-source-review-2026-10-16.json') -Raw|ConvertFrom-Json
+    switch($Problem){
+      digest {$review.ArchiveSha256='0'*64}
+      duplicate {$review.Files[1].Path=$review.Files[0].Path}
+      traversal {$review.Files[0].Path='../outside'}
+      missing {$review.Files=@($review.Files|Select-Object -Skip 1)}
+    }
+    $review|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $destination -Encoding UTF8
+    {Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch RegRipper -ReviewRoot $reviewRoot}|Should -Throw '*RegRipper member review*'
+  }
+  It 'accepts the pinned Rufus filename mapping without executing the inert payload' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch Rufus)
+    $cases.Count|Should -Be 1
+    $cases[0].ExpectedFiles|Should -Be @('rufusp.exe')
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+    $payload=Join-Path $TestDrive 'rufus-4.15p.exe'
+    [IO.File]::WriteAllText($payload,'inert fixture; not executable')
+    $cases[0].Operation.ExpectedSha256=(Get-FileHash $payload).Hash.ToLowerInvariant()
+    $manifest=Join-Path $TestDrive 'rufus-manifest.json'
+    ConvertTo-Json -InputObject @(@{Id='package.rufus';Path=$payload})|Set-Content -LiteralPath $manifest -Encoding UTF8
+    @(Get-RidePortableAcceptancePayloads -Cases $cases -ManifestPath $manifest).Count|Should -Be 1
+    $cases[0].Operation.PackageVersion='other'
+    {Get-RidePortableAcceptancePayloads -Cases $cases -ManifestPath $manifest}|Should -Throw '*extension*'
+  }
+  It 'refuses a different Rufus file mapping before reading payloads' {
+    $c=Import-RideCatalogData $script:CatalogPath
+    ($c.Operations|Where-Object Id -ceq 'package.rufus').Variants.portable.PortableFileName='other.exe'
+    {Get-RidePortableAcceptanceCases $c -Batch Rufus}|Should -Throw '*Unreviewed acceptance metadata*'
   }
   It 'checks archive pins and rejects extra IDs before reading their paths' {
     $c=Import-RideCatalogData $script:CatalogPath

@@ -1010,3 +1010,18 @@ x64/x86 and Rebel.NET passed native lifecycle/recovery and Defender checks; see
 Owner: Windows maintainer. Review trigger: affected package promotion or changes
 to the observer/lifecycle boundary; remaining packages stay in the
 [fast-track register](migrations/migration-completion-reassessment-2026-11-02.md#approved-fast-track-execution-2026-11-02).
+
+## Fixed RegRipper and Rufus acceptance routes, 2026-11-03
+
+Impact: Windows-owned RB-03/04/08/09/11 test routing. The two explicit selections
+reuse package handlers and saved ownership recovery; they add no production verb,
+catalog support, acquisition policy or saved-state schema. The new registered
+capability is required before dispatch; source availability does not activate it.
+The installed controller remains unchanged. Contract 1.1.0 and Fedora target/
+candidate guards were reread with the same `ride.sh`/`common.sh` hashes, recorded
+in [source evidence](archive/evidence/regripper-rufus-routes-source-2026-11-03.json).
+No shared-contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[fixed portable acceptance](../tests/integration/README.md#focused-reviewed-portable-packages).
+Review trigger: attended activation, native results, source-pin changes or target
+promotion. The 145 selected mocked/source cases per shell do not establish native
+Defender or package acceptance.
