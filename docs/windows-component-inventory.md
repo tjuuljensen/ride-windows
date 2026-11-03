@@ -224,6 +224,92 @@ retained-state inspection; this initial route does not adopt an Off-guest reset
 retry or silently release the hold. Preserve the private store and controller block.
 See [host route source evidence](archive/evidence/client-capability-host-source-2026-11-03.json).
 
+### Expiring capability queue
+
+The dedicated queue is **source preparation, not an installed route or native
+acceptance**. It exposes only `OpenSSHClient` and `RSAT`, each with `Prepare`,
+`Lifecycle`, `Collect` and `Reset`. It does not extend the existing package or
+asset task. The ordinary-account client never requests UAC or refreshes protected
+registration. Source checks and their limits are in
+[queue preparation evidence](archive/evidence/client-capability-queue-source-2026-11-03.json).
+
+During a separately attended setup, start at the registered checkout root in the
+owning account's already elevated native Windows PowerShell 5.1 x64 session. The
+package controller must be Ready, queues empty and retained holds resolved. If a
+package controller refresh is also needed, finish that first. Then preview and
+register the capability task with the exact independently observed guest target:
+
+```powershell
+$activation = @{
+    ConfigurationPath = '<protected-installed-configuration.json>'
+    ExpiresAtUtc = '<explicit-UTC-deadline>' # More than 60 minutes, at most 12 hours.
+    ExpectedBuild = '<exact-build>'
+    ExpectedEditionId = 'EnterpriseEval' # Replace with the exact guest edition.
+    ExpectedRevision = 0 # Replace with the exact observed UBR.
+}
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 @activation -WhatIf
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 @activation -Confirm:$false
+```
+
+Registration creates one manual-start task named `<controller-name>Capabilities`,
+two protected worker files and its protected activation. It does not change the
+VM, retrieve credentials, install payloads, change existing file permissions or
+replace an existing task. The task runs in the registered owning account's
+interactive elevated token; that account must remain logged in. The task has a
+45-minute execution limit and no retry trigger. Expiration refuses new requests;
+it does not forcibly stop DISM or automatically remove the task.
+
+From an ordinary native PowerShell 5.1 or 7 session in the same account and checkout:
+
+```powershell
+$request = [guid]::NewGuid().ToString('N')
+$queue = @{
+    ConfigurationPath = '<protected-installed-configuration.json>'
+    Family = 'OpenSSHClient' # Use RSAT in its own fresh checkpoint run.
+    RunId = $request
+}
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Prepare -ServicingSource WindowsUpdate -WhatIf
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Prepare -ServicingSource WindowsUpdate
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Lifecycle
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Collect
+# Inspect the correlated results and verified export before explicit cleanup.
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Reset
+```
+
+`-WhatIf` validates submission without writing a request or starting the task.
+`-Preview` submits a native no-change phase preview. Family, phase and acquisition
+source complete from their declared finite sets; retained run IDs complete from
+bounded local directory names without opening private records or querying a VM.
+The client returns one correlated terminal result and waits at most 46 minutes.
+Inspect `results/capability-<request-id>.json` if submission or waiting fails.
+
+Admission requires at least 60 minutes before expiry for Prepare, 45 for Lifecycle
+and 15 for Collect/Reset. Lifecycle's remote wait is 30 minutes. These reserves
+allow collection and recovery; they do not guarantee DISM completion. The caller
+must also check its own usage/time budget before each phase. An account allowance
+is not available to this scheduled task. `runtime/capability-stop.json` prevents
+new Prepare/Lifecycle admission while leaving explicit collection/reset eligible
+before expiry. No automatic reset, reboot or marker deletion follows timeout.
+The retained host's terminal-result and verified-export requirements still govern
+Reset. After expiration or interruption, use the attended retained-host recovery
+procedure; do not remove a hold simply because a task stopped.
+
+The activation pins the installed configuration and bounded host module/catalog
+inventory. Every phase checks those hashes and holds source files against writes
+until dispatch completes. Source/configuration drift refuses dispatch. Do not edit
+those files during a phase. After verified recovery, remove the idle registration
+before preparing different source and registering again:
+
+```powershell
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 -ConfigurationPath '<protected-installed-configuration.json>' -Action Remove -WhatIf
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 -ConfigurationPath '<protected-installed-configuration.json>' -Action Remove -Confirm:$false
+```
+
+Removal requires existing elevation, archives the activation, removes only its
+task and three named files, and preserves results. It refuses pending/running
+requests or retained holds. Installed-task activation and all native capability
+acquisition, restart and conditional-recovery results remain pending.
+
 ## Collect on an explicitly identified target
 
 Start in the repository root in an **already elevated**, native-bitness PowerShell

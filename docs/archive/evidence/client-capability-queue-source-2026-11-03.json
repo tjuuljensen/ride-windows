@@ -1,0 +1,114 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T02:28:09.4780068Z",
+  "Status": "SourcePassedActivationAndNativePending",
+  "Families": [
+    "OpenSSHClient",
+    "RSAT"
+  ],
+  "Phases": [
+    "Prepare",
+    "Lifecycle",
+    "Collect",
+    "Reset"
+  ],
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 124,
+      "Failed": 0,
+      "Total": 124
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 122,
+      "Failed": 0,
+      "Total": 124
+    }
+  ],
+  "CoreSkipped": 2,
+  "CoreSkipReason": "Registration and installed-worker fixture require native Windows PowerShell 5.1; both passed in Desktop.",
+  "SourceFiles": [
+    {
+      "Sha256": "BE279F76B79A24A562054C8627FAF8FA12048B50E6E91E0EAD9499C534D0A0A1",
+      "Path": "tests/integration/RIDE.ClientCapabilityQueue.psm1"
+    },
+    {
+      "Sha256": "054CED2CB85DB2239D378533516D1C5B546CC701C84C74E0F2CEA4E9653D7BF3",
+      "Path": "tests/integration/Register-RideClientCapabilityQueue.ps1"
+    },
+    {
+      "Sha256": "65E6F4CA49551EFCDFC0A6161D9EF3E92FDF7F21BFAD14387B94612B9F35F802",
+      "Path": "tests/integration/Invoke-RideClientCapabilityQueue.ps1"
+    },
+    {
+      "Sha256": "6191F5080E68974F7F272E70C14805F27D18192D57484B780784C8804F671B59",
+      "Path": "tests/integration/Invoke-RideClientCapabilityQueueWorker.ps1"
+    },
+    {
+      "Sha256": "2898827CE016211EDFADA4E6EFB3CEEC8EFE88DA110C14015744709586206CE3",
+      "Path": "tests/ClientCapabilityQueue.Tests.ps1"
+    }
+  ],
+  "Verified": [
+    "strict finite request/schema/source selection",
+    "exact registration/target binding",
+    "freshness and expiring phase/recovery admission",
+    "source hash/inventory drift refusal",
+    "held source write denial and failure cleanup",
+    "ordinary client no-write preview",
+    "registration no-write preview using mocked controller",
+    "worker preview with inert pinned source and synthetic host module",
+    "existing guest/host/component source regressions"
+  ],
+  "Corrections": "Preview tests caught Set-Variable inheriting WhatIf; replaced with direct assignments. Mocked script fixtures use an explicitly cleaned global fixture because imported-command mock scope differs.",
+  "NativeChangesPerformed": false,
+  "TaskRegistrationPerformed": false,
+  "InstalledControllerObservation": {
+    "ObservedAtUtc": "2026-11-03T02:26:58.1095018Z",
+    "Files": [
+      {
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\bin\\RIDE.TestAutomation.psm1",
+        "Hash": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA"
+      },
+      {
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\bin\\RIDE.NightRetained.psm1",
+        "Hash": "98018E7D43824E206C10FF5FB13BC639EA62B705CFB7FDA8150E008907499C34"
+      },
+      {
+        "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\bin\\Invoke-RideNightRetainedWorker.ps1",
+        "Hash": "7483218FB5129D0D57C434B70EE84E295DD8D9A5B19083A1078ABD5C75F828F1"
+      }
+    ],
+    "Tasks": [
+      {
+        "TaskName": "RIDEWin11NightRetained",
+        "State": 3
+      },
+      {
+        "TaskName": "RIDEWin11Test",
+        "State": 3
+      }
+    ],
+    "CapabilityActivationPresent": false,
+    "RetainedHoldPresent": false,
+    "Pending": 0,
+    "Running": 0
+  },
+  "Recovery": "Existing terminal guest result, verified export and explicit Reset remain required. Timeout does not prove DISM stopped. No automatic reset/reboot or marker deletion.",
+  "Pending": [
+    "attended protected registration",
+    "real scheduled task execution under owning interactive token",
+    "Windows Update acquisition for exact Windows 11 build",
+    "native capability lifecycle and conditional saved-state recovery",
+    "servicing restart handling",
+    "native source-drift and interrupted-task recovery rehearsal"
+  ],
+  "Alignment": {
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "Impact": "Windows-only RB-03/04/05/08/09/10/11 test transport; no public CLI/catalog/target support change. No contract amendment.",
+    "ContractVersion": "1.1.0",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938"
+  }
+}

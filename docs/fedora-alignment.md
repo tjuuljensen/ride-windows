@@ -10,6 +10,23 @@ same date. Remaining recommendations are tracked final-v3 tasks, not implemented
 CLI behavior.
 Native installers, target acceptance and recovery evidence remain platform-owned.
 
+## Expiring client capability acceptance queue, 2026-11-03
+
+Windows-only test transport preparation under RB-03/04/05/08/09/10/11: fixed
+OpenSSH Client/RSAT phases bind explicit Windows Update acquisition to the
+registered disposable target, pinned source, expiring admission and retained
+recovery. No public RIDE command, catalog schema, source fallback or target
+support changes. The ordinary-account client starts only a separately registered
+fixed task; it does not elevate itself or accept a script callback. Timeout
+preserves servicing uncertainty and the native reset guard. The pinned contract
+1.1.0 and compared Fedora source hashes are recorded in
+[source evidence](archive/evidence/client-capability-queue-source-2026-11-03.json).
+No shared-contract amendment is required. Owner: RIDE-Windows maintainers.
+Follow-up: [attended activation and native acceptance](windows-component-inventory.md#expiring-capability-queue).
+Review trigger: protected activation, source/configuration changes, native
+servicing/recovery results or target promotion. Existing overnight tasks remain
+unchanged; source tests do not establish that this new task is installed.
+
 ## Review basis and policy before adoption
 
 Windows was inspected on `codex/ride-v3-migration`, based on `59d1a80`, with
