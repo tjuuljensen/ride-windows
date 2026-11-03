@@ -987,3 +987,16 @@ success. This applies RB-08/09/11 without changing the shared contract or produc
 privilege path. The installed task remains unchanged. The same source comparison
 applies; review again for queue activation, interrupted-run recovery changes or
 native promotion. See [host source evidence](archive/evidence/client-capability-host-source-2026-11-03.json).
+
+## Expanded disconnected bundle acceptance, 2026-11-03
+
+Impact: Windows-owned RB-03/09/11 evidence, with no production CLI, acquisition,
+recovery or privilege change. The focused portable scenario now uses the
+production assembler and received bundle's CLI, checks byte-preserving guest-local
+copy, and records Defender before/after. Pinned contract 1.1.0 and the same peer
+source hashes reviewed above apply; the evidence records those hashes. No shared
+contract amendment is needed. Owner: Windows maintainer. Follow-up and review
+trigger: [cross-machine/full-set delivery](offline-bundles.md#refresh-and-recovery)
+or changed offline semantics. The native pass does not establish Fedora support,
+cross-machine delivery or broader installer acceptance. See
+[native evidence](archive/evidence/offline-caffeine-assembly-night-native-2026-11-03.json).

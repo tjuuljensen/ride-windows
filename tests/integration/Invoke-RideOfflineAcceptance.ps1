@@ -2,9 +2,11 @@
 .SYNOPSIS
   Verify explicit offline portable installation in a disconnected disposable VM.
 .DESCRIPTION
-  Binds current source and a retained Caffeine archive into a local test bundle.
-  Disables guest network adapters, then checks fail-closed preflight, CLI install
-  and profile apply, repeat, removal and exact saved recovery. Never runs Caffeine.
+  Uses the production assembler with current source and a retained Caffeine
+  archive. With guest adapters disabled, copies the completed bundle within the
+  guest and runs its own CLI for install/profile apply, repeat and saved recovery.
+  Checks Defender before/after. Never runs Caffeine; cross-machine delivery and
+  full-set bundles remain separate acceptance work.
 .PARAMETER ExpectedComputerName
   Exact disposable guest identity supplied by the checkpoint-backed host runner.
 .PARAMETER EvidencePath
@@ -25,14 +27,16 @@
   Compatibility: Elevated Windows PowerShell 5.1 in disposable Windows 11 x64.
   Effects: Guest network adapters disabled; owned package/state and test bundle writes.
   Recovery: Saved-run checks; outer runner restores the registered checkpoint.
-  Author: RIDE-Windows maintainers. Version: 0.1.1.
-  Changelog: 0.1.1: Require a valid positive preflight before negative cases.
+  Author: RIDE-Windows maintainers. Version: 0.2.0.
+  Changelog: 0.2.0: Exercise production assembly, guest-local bundle transfer,
+    bundled CLI execution and read-only Defender observations.
+    0.1.1: Require a valid positive preflight before negative cases.
     0.1.0: Add disconnected source-bound portable execution acceptance.
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ExpectedComputerName,[string]$EvidencePath,
   [ValidateSet('OfflineCaffeine')][string]$Batch='OfflineCaffeine',[switch]$DisposableVm,[switch]$Version)
-if($Version){'0.1.1';return}
+if($Version){'0.2.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest; no workstation integration is permitted.'}
 if((Get-CimInstance Win32_ComputerSystem).Model -notmatch 'Virtual Machine'){throw 'Virtual-machine identity required.'}
@@ -54,7 +58,8 @@ $archive=Join-Path (Join-Path $runRoot 'payloads') $op.AssetName
 if((Get-FileHash -LiteralPath $archive).Hash -ine $op.ExpectedSha256){throw 'Offline archive digest mismatch.'}
 if(-not $PSCmdlet.ShouldProcess($ExpectedComputerName,'Disconnect guest adapters and verify offline portable execution')){return}
 $null=New-Item -ItemType Directory -Path $evidence -Force
-$row=[ordered]@{Id=$op.Id;Variant='portable';Status='Failed';Error=$null;Checks=@();RunIds=@();ToolExecuted=$false;NetworkDisconnected=$false;FunctionalAcceptance='NotTested'}
+$row=[ordered]@{Id=$op.Id;Variant='portable';Status='Failed';Error=$null;Checks=@();RunIds=@();ToolExecuted=$false;NetworkDisconnected=$false;FunctionalAcceptance='NotTested';DefenderAcceptance='Pending';BundleTransferScope='GuestLocalCopy';EngineExecutionRoot='ReceivedBundle';CrossMachineBundleTransferVerified=$false}
+$defenderSince=$null
 $stateRoot=Join-Path $env:ProgramData 'RIDE/State'
 function Assert-Offline($Condition,$Message){if(-not $Condition){throw $Message}}
 function State-Fingerprint {
@@ -66,15 +71,20 @@ function Saved-OfflineRun($Output){
   $row.RunIds+=@($id);$id
 }
 try{
+  Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force
+  $defenderSince=(Get-CimInstance Win32_OperatingSystem -ErrorAction Stop).LastBootUpTime
+  Assert-Offline ([bool]$defenderSince) 'Guest boot time unavailable for Defender acceptance.'
+  $defenderBefore=Get-RideDefenderAcceptanceObservation -Since $defenderSince
+  $defenderBefore|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $evidence 'defender-before.json') -Encoding UTF8
+  Assert-Offline $defenderBefore.Passed 'Defender preflight failed; no exclusions are changed.'
+  $row.Checks+=@('DefenderBefore')
   Assert-Offline (-not (Get-RideCurrentState $op).Present) 'Expected original package absence.'
-  $bundle=Join-Path $runRoot 'offline-bundle'
-  $null=New-Item -ItemType Directory -Path $bundle
-  $files=[Collections.Generic.List[object]]::new()
+  $assembledPath=Join-Path $runRoot 'assembled-bundle'
+  $bundle=Join-Path $runRoot 'received-bundle'
+  $files=[Collections.Generic.List[object]]::new();$sourceFiles=@{}
   function Add-BundleFile($Id,$Relative,$Role,$Source){
-    $path=Join-Path $bundle $Relative
-    $null=New-Item -ItemType Directory -Path (Split-Path -Parent $path) -Force
-    Copy-Item -LiteralPath $Source -Destination $path
-    $files.Add([pscustomobject]@{Id=$Id;RelativePath=$Relative;Role=$Role;Length=(Get-Item -LiteralPath $path).Length;Sha256=(Get-FileHash -LiteralPath $path).Hash.ToLowerInvariant()})
+    $sourceFiles[$Id]=$Source
+    $files.Add([pscustomobject]@{Id=$Id;RelativePath=$Relative;Role=$Role;Length=(Get-Item -LiteralPath $Source).Length;Sha256=(Get-FileHash -LiteralPath $Source).Hash.ToLowerInvariant()})
   }
   Add-BundleFile runner 'ride/ride.ps1' Engine (Join-Path $repo 'ride.ps1')
   Add-BundleFile catalog 'ride/catalog/operations.psd1' Engine (Join-Path $repo 'catalog/operations.psd1')
@@ -95,8 +105,7 @@ try{
     Files=$files.ToArray();ServicingSources=@();
     Artifacts=@(@{Id='caffeine';PackageId=$op.Id;Variant='portable';Version=$op.PackageVersion;Architecture=$op.Architecture;Targets=@('Windows 11');Status='Included';OmissionCode=$null;FileIds=@('payload');DependencyIds=@();OfflineCapability='DeclaredNoNetwork';ProductUri=$op.ProductUri;DownloadUri=$op.DownloadUri;License=$op.License;LicenseUri=$op.LicenseUri});
     Profiles=@(@{Id='acceptance';FileId='profile';Target='Windows 11';Build=[int]$target.CurrentBuildNumber;EditionId=$target.EditionID;Architecture='x64';ArtifactIds=@('caffeine');ServicingSourceIds=@()})}
-  $manifestPath=Join-Path $bundle 'manifest.json'
-  $manifest|ConvertTo-Json -Depth 15|Set-Content -LiteralPath $manifestPath -Encoding UTF8
+  $preparedManifest=$manifest|ConvertTo-Json -Depth 15|ConvertFrom-Json
   $row.Build=[string]$target.CurrentBuildNumber
   $row.Edition=$target.EditionID
   $adapters=@(Get-NetAdapter -IncludeHidden)
@@ -106,6 +115,24 @@ try{
   Assert-Offline (-not @(Get-NetAdapter -IncludeHidden|Where-Object Status -eq Up).Count) 'Guest still has an Up network adapter.'
   $row.NetworkDisconnected=$true;$row.Checks+=@('DisconnectedAdapters')
   Import-Module (Join-Path $repo 'modules/RIDE.OfflineBundle.psm1') -Force
+  $assemblyParameters=@{Manifest=$preparedManifest;SourceFiles=$sourceFiles;DestinationPath=$assembledPath;CoverageProfileId=@('acceptance');CatalogFileId='catalog';Confirm=$false}
+  $stagingBefore=@(Get-ChildItem -LiteralPath $runRoot -Directory -Filter '.ride-staging-*').Count
+  $preview=New-RideOfflineBundle @assemblyParameters -WhatIf
+  Assert-Offline ($preview.Status -ceq 'Preview' -and -not (Test-Path -LiteralPath $assembledPath) -and @(Get-ChildItem -LiteralPath $runRoot -Directory -Filter '.ride-staging-*').Count -eq $stagingBefore) 'Assembly preview created output or staging.'
+  $row.Checks+=@('AssemblyPreviewNoWrites')
+  $assembly=New-RideOfflineBundle @assemblyParameters
+  $assembly|ConvertTo-Json -Depth 12|Set-Content -LiteralPath (Join-Path $evidence 'assembly-result.json') -Encoding UTF8
+  Assert-Offline ($assembly.Status -ceq 'Completed' -and $assembly.CoverageStatus -ceq 'Passed' -and @($assembly.VerifiedFileIds).Count -eq $files.Count) 'Production bundle assembly/coverage failed; retain its staging evidence.'
+  $row.Checks+=@('ProductionAssemblyCoveragePassed')
+  Copy-Item -LiteralPath $assembledPath -Destination $bundle -Recurse
+  foreach($file in $preparedManifest.Files){
+    $received=Join-Path $bundle $file.RelativePath
+    Assert-Offline ((Get-Item -LiteralPath $received).Length -eq $file.Length -and (Get-FileHash -LiteralPath $received).Hash -ieq $file.Sha256) 'Received bundle content differs.'
+  }
+  foreach($name in @('manifest.json','assembly.json')){Assert-Offline ((Get-FileHash -LiteralPath (Join-Path $assembledPath $name)).Hash -ceq (Get-FileHash -LiteralPath (Join-Path $bundle $name)).Hash) 'Received bundle metadata differs.'}
+  $manifestPath=Join-Path $bundle 'manifest.json'
+  Copy-Item -LiteralPath (Join-Path $bundle 'assembly.json') -Destination (Join-Path $evidence 'bundle-assembly-record.json')
+  $row.Checks+=@('GuestLocalBundleCopyVerified')
   $preflight=Test-RideOfflineBundle -Manifest (Get-Content -LiteralPath $manifestPath -Raw|ConvertFrom-Json) -Root $bundle -ProfileId acceptance -CatalogFileId catalog
   $preflight|ConvertTo-Json -Depth 15|Set-Content -LiteralPath (Join-Path $evidence 'positive-preflight.json') -Encoding UTF8
   Assert-Offline ($preflight.SelectedPackageContentComplete -and -not @($preflight.OfflineGates).Count) 'Positive bundle preflight failed; inspect positive-preflight.json before interpreting negative cases.'
@@ -127,7 +154,9 @@ try{
     $row.Checks+=@($negative+'Refused')
     $row[$negative]=$failure
   }
-  $cli=Join-Path $repo 'ride.ps1'
+  $cli=Join-Path $bundle 'ride/ride.ps1'
+  Assert-Offline ((& $cli -Version) -ceq $engineVersion) 'Bundled engine version differs.'
+  $row.Checks+=@('BundledEngineVersion')
   $offline=@{OfflineBundle=$manifestPath;OfflineProfileId='acceptance';OfflineCatalogFileId='catalog'}
   $null=& $cli install $op.Id -Variant portable @offline -WhatIf
   Assert-Offline ((State-Fingerprint) -ceq $before) 'Offline preview changed saved state.'
@@ -156,6 +185,14 @@ try{
   $row.FileEvidence=$owned;$row.Status='Passed'
 }catch{$row.Error=$_.Exception.Message}
 finally{
+  if($defenderSince){
+    try{
+      $defenderAfter=Get-RideDefenderAcceptanceObservation -Since $defenderSince
+      $defenderAfter|ConvertTo-Json -Depth 6|Set-Content -LiteralPath (Join-Path $evidence 'defender-after.json') -Encoding UTF8
+      if($defenderBefore.Passed -and $defenderAfter.Passed){$row.DefenderAcceptance='Passed';$row.Checks+=@('DefenderAfter')}
+      else{$row.DefenderAcceptance='Failed';$row.Status='Failed';$row.Error=[string]$row.Error+'; Defender acceptance failed.'}
+    }catch{$row.DefenderAcceptance='Failed';$row.Status='Failed';$row.Error=[string]$row.Error+'; Defender evidence: '+$_.Exception.Message}
+  }
   Get-NetAdapter -IncludeHidden|Select-Object Name,InterfaceDescription,Status|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $evidence 'network-after.json') -Encoding UTF8
   if($manifestPath -and (Test-Path -LiteralPath $manifestPath)){Copy-Item -LiteralPath $manifestPath -Destination (Join-Path $evidence 'bundle-manifest.json')}
   if(Test-Path -LiteralPath $stateRoot){
@@ -163,6 +200,6 @@ finally{
     Get-ChildItem -LiteralPath $stateRoot|Where-Object Name -NotIn @('Cache','Artifacts')|ForEach-Object {Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $evidence 'saved-state') -Recurse}
   }
   ConvertTo-Json -InputObject @([pscustomobject]$row) -Depth 15|Set-Content -LiteralPath (Join-Path $evidence 'scenarios.json') -Encoding UTF8
-  @{Batch=$Batch;ExpectedCases=1;Completed=1;Passed=[int]($row.Status -eq 'Passed');Status=$row.Status;PayloadExecution=$false;NetworkDisconnected=$row.NetworkDisconnected}|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $evidence 'summary.json') -Encoding UTF8
+  @{Batch=$Batch;ExpectedCases=1;Completed=1;Passed=[int]($row.Status -eq 'Passed');Status=$row.Status;PayloadExecution=$false;NetworkDisconnected=$row.NetworkDisconnected;DefenderAcceptance=$row.DefenderAcceptance;BundleTransferScope=$row.BundleTransferScope}|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $evidence 'summary.json') -Encoding UTF8
 }
 if($row.Status -ne 'Passed'){throw $row.Error}

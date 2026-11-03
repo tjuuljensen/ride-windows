@@ -25,8 +25,9 @@ dependency actions remain unsupported.
 Installer execution still requires catalog target acceptance.
 Normal commands without offline options retain their online acquisition
 behavior. Automated source acquisition/download planning, broader dependency/
-installer support and engine packaging remain pending. The focused Caffeine portable scenario
-passed disconnected Windows 11 build 26300 acceptance; broader native coverage
+installer support and automatic engine packaging remain pending. The focused Caffeine portable scenario
+passed production assembly from explicit inputs, guest-local bundle copy and
+bundled-CLI disconnected Windows 11 build 26300 acceptance; broader native coverage
 remains pending. Assembly or preflight alone does not establish an installable
 air-gapped bundle.
 
@@ -390,9 +391,14 @@ than silently replacing a retained version. Do not delete user data or caches on
 a failed check. See [dated implementation evidence](migrations/application-migration-review.md#b10-local-offline-bundle-preflight-2026-10-17)
 for initial preflight boundaries, and [assembly evidence](migrations/application-migration-review.md#b10-explicit-local-offline-bundle-assembly-2026-10-17)
 for local copy/recovery checks. The focused `OfflineCaffeine` disposable runner
-passed 16 disconnected portable CLI install/apply, repeat, fail-closed preflight
-and saved recovery checks on Windows 11 build 26300 through the registered task.
-Broader installer/dependency/servicing, interruption and other-target acceptance
+initially passed 16 disconnected portable CLI install/apply, repeat, fail-closed
+preflight and saved recovery checks on Windows 11 build 26300. The expanded
+[22-check native run](archive/evidence/offline-caffeine-assembly-night-native-2026-11-03.json)
+additionally passed production assembly/coverage for 93 files, byte-verified
+guest-local bundle copy, execution from the received bundle and active/no-alert
+Defender observations. Saved RIDE recovery preceded verified export and checkpoint
+cleanup. Caffeine was not launched. Cross-machine transfer, full-set preparation,
+broader installer/dependency/servicing, interruption and other-target acceptance
 remain open. See the
 [current acceptance record](migrations/application-migration-review.md#preregistered-acceptance-and-deferred-elevation-2026-10-17)
 and [checkpoint-backed procedure](../tests/integration/README.md#focused-reviewed-portable-packages).
