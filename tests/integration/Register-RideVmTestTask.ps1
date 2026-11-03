@@ -40,8 +40,9 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.17.0
+  Version: 0.18.0
   Changelog:
+    0.18.0: Add fixed WFN file lifecycle; no firewall changes.
     0.17.0: Add fixed ApplicationsBatch13 Mail Checker lifecycle selection.
     0.16.0: Add fixed remaining MiTeC lifecycle selections.
     0.15.0: Register Gpg4winTmogLifecycleV1 for fixed scoped installer acceptance.
@@ -78,7 +79,7 @@ param(
   [ValidateSet('Register', 'Remove')][string] $Action = 'Register',
   [switch] $Version
 )
-$script:ScriptVersion = '0.17.0'
+$script:ScriptVersion = '0.18.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
@@ -114,7 +115,7 @@ $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $guestGitHubReference = $config.GuestGitHubCredentialReference
 $config = [ordered]@{
   SchemaVersion = 2; Name = $config.Name; IsDisposable = $true
-  Capabilities = @('HostPreparationWatchdogV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1','RegRipperRufusPortableV1','Gpg4winTmogLifecycleV1','RemainingMiTeCPortableV1','ApplicationsBatch13MailCheckerV1')
+  Capabilities = @('HostPreparationWatchdogV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1','RegRipperRufusPortableV1','Gpg4winTmogLifecycleV1','RemainingMiTeCPortableV1','ApplicationsBatch13MailCheckerV1','WfnPortableLifecycleV1')
   LabName = $config.LabName; VMName = $config.VMName; VMId = $target.VM.Id.ToString()
   CheckpointName = $config.CheckpointName; CheckpointId = $target.Snapshot.Id.ToString()
   GuestRepositoryPath = $config.GuestRepositoryPath

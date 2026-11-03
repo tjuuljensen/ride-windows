@@ -20,11 +20,14 @@
   the remaining MiTeC viewer, development, network and system batches select
   fixed variants and never launch their utilities or read application data.
   No registry hive, external drive, device, media write or application is opened.
+  WindowsFirewallNotifier stages all 531 reviewed pinned files with Defender
+  observation and exact recovery; WFN is not launched and firewall policy is unchanged.
 .PARAMETER ExpectedComputerName
   Exact guest name supplied by the host runner.
 .PARAMETER EvidencePath
   Fresh run evidence directory under C:\RIDE\PortableAcceptance\<run-id>.
 .PARAMETER Batch
+  WindowsFirewallNotifier is the pinned x64 Nightly file lifecycle only.
   MiTeCDevelopment selects both DFM Editor generations, Task Manager DeLuxe
   architectures and Interbase Query architectures. MiTeCNetworkUtilities selects
   Network Scanner architectures, DirList and Network Meter. MiTeCSystemViewers
@@ -59,8 +62,9 @@
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
   Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.19.0.
-  Changelog: 0.19.0: Add fixed remaining MiTeC lifecycle selections.
+  Author: RIDE-Windows maintainers. Version: 0.20.0.
+  Changelog: 0.20.0: Add fixed WFN file lifecycle; no firewall changes.
+    0.19.0: Add fixed remaining MiTeC lifecycle selections.
     0.18.0: Add Defender observations to NTCore and PSScriptTools acceptance.
     0.17.0: Add fixed RegRipper and Rufus lifecycle/Defender scenarios.
     0.16.0: Require Defender evidence for fixed NTCoreAdditional and
@@ -90,9 +94,9 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ExpectedComputerName,[string]$EvidencePath,
-  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')][string]$Batch='AllReviewed',
+  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.19.0';return}
+if($Version){'0.20.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}
@@ -123,7 +127,7 @@ foreach($id in $ids){
 }
 if(-not $PSCmdlet.ShouldProcess($ExpectedComputerName,"Run $Batch portable lifecycle acceptance")){return}
 $null=New-Item -ItemType Directory -Path $evidence -Force
-$defenderRequired=@($ids|Where-Object {$_ -like 'package.mitec-*'}).Count -gt 0 -or 'package.sysinternals-suite' -in $ids -or $Batch -in @('NTCore','NTCoreAdditional','PSScriptTools','SysinternalsProducts','RegRipper','Rufus')
+$defenderRequired=@($ids|Where-Object {$_ -like 'package.mitec-*'}).Count -gt 0 -or 'package.sysinternals-suite' -in $ids -or $Batch -in @('NTCore','NTCoreAdditional','PSScriptTools','SysinternalsProducts','RegRipper','Rufus','WindowsFirewallNotifier')
 $defenderSince=$null
 if($defenderRequired){
   Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force

@@ -7,8 +7,9 @@
   NirSoft and other collections are outside this fixed acceptance selection.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Author: RIDE-Windows maintainers. Version: 1.8.0.
-  Changelog: 1.8.0: Add fixed remaining MiTeC lifecycle selections.
+  Author: RIDE-Windows maintainers. Version: 1.9.0.
+  Changelog: 1.9.0: Add fixed WFN file lifecycle; no firewall changes.
+    1.8.0: Add fixed remaining MiTeC lifecycle selections.
     1.7.0: Add fixed RegRipper and Rufus file-lifecycle selections.
     1.6.0: Add the exact WinPmem single-file lifecycle selection.
     1.5.0: Add System Information eXtra and TAPI Monitor staging cases.
@@ -34,6 +35,8 @@ function Get-RidePortableAcceptanceCases {
   .PARAMETER Catalog
     Parsed RIDE catalog; no handler imports or live inspection are performed.
   .PARAMETER Batch
+    WindowsFirewallNotifier selects all 531 reviewed files from the pinned x64
+    Nightly archive, including both license/attribution files; no WFN launch.
     Explicit focused batch; AllReviewed selects viewer architectures and the original NTCore candidates.
     Remaining MiTeC batches use fixed product/variant selections; no installer,
     network scan, application-data inspection or other utility feature is selected.
@@ -48,7 +51,7 @@ function Get-RidePortableAcceptanceCases {
   #>
   [CmdletBinding()]
   param([Parameter(Mandatory)][hashtable]$Catalog,
-    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')][string]$Batch='AllReviewed',
+    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')][string]$Batch='AllReviewed',
     [string]$ReviewRoot=(Split-Path -Parent (Split-Path -Parent $PSScriptRoot)))
   $groups=@{
     MiTeCViewers=@('package.mitec-json-viewer','package.mitec-xml-viewer')
@@ -71,6 +74,7 @@ function Get-RidePortableAcceptanceCases {
     WinPmem=@('package.winpmem')
     RegRipper=@('package.regripper')
     Rufus=@('package.rufus')
+    WindowsFirewallNotifier=@('package.windows-firewall-notifier')
   }
   $ids=if($Batch -eq 'AllReviewed'){@($groups.MiTeCViewers)+@($groups.NTCore)}else{@($groups[$Batch])}
   $variantSelections=@{
@@ -107,6 +111,21 @@ function Get-RidePortableAcceptanceCases {
          $op.Scope -ne 'Machine' -or -not $op.RequiresAdmin -or -not $prerequisiteAccepted -or $op.DependsOn -or
          ('Windows 11' -notin $op.CandidateTargets -and 'Windows 11' -notin $op.SupportedTargets) -or -not $op.RequiredFiles.Count){throw "Unreviewed acceptance metadata: $id / $variant"}
       $members=@(if($op.PortableMembers){$op.PortableMembers}else{$op.RequiredFiles})
+      if($id -ceq 'package.windows-firewall-notifier'){
+        $review=Get-Content -LiteralPath (Join-Path $ReviewRoot 'docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json') -Raw|ConvertFrom-Json
+        if($op.PackageVersion -cne '20250719-ac02df' -or $op.Architecture -cne 'x64' -or
+           $op.AssetName -cne 'wfn-20250719-ac02df-x64-standalone.zip' -or
+           $review.SelectedAsset.LocalSha256 -cne $op.ExpectedSha256 -or $review.SelectedAsset.PublishedSha256 -cne $op.ExpectedSha256 -or
+           $review.SelectedAsset.Name -cne $op.AssetName -or $review.SelectedAsset.Version -cne $op.PackageVersion -or
+           $review.Verification.ArchiveFileCount -ne 531 -or @($review.Verification.ArchiveMembers).Count -ne 531 -or $members.Count -ne 531){throw 'WFN member review does not match the selected catalog pin.'}
+        $reviewMembers=@($review.Verification.ArchiveMembers|ForEach-Object {
+          if($_.Name -isnot [string] -or -not $_.Name -or $_.Name -match '(^/|[\\:]|//|(^|/)\.{1,2}(/|$))' -or $_.Length -lt 0){throw 'Invalid WFN member review.'}
+          $_.Name
+        })
+        if(@($members|Sort-Object -Unique).Count -ne 531 -or @($reviewMembers|Sort-Object -Unique).Count -ne 531 -or
+           @(Compare-Object $members $reviewMembers -CaseSensitive).Count -ne 0 -or
+           @('WFN.exe','LICENSE.txt','Resources/IPDatabase/LICENSE.txt'|Where-Object {$_ -cnotin $members}).Count){throw 'WFN member review is incomplete, duplicated or differs from catalog members.'}
+      }
       if($id -ceq 'package.regripper'){
         $review=Get-Content -LiteralPath (Join-Path $ReviewRoot 'docs/archive/evidence/regripper-source-review-2026-10-16.json') -Raw|ConvertFrom-Json
         if($review.ArchiveSha256 -cne $op.ExpectedSha256 -or $review.Revision -cne 'ec96dd4a6a5c3ea70d8fece9b47a374f83582335' -or $review.FileCount -ne 282 -or @($review.Files).Count -ne 282){throw 'RegRipper member review does not match the catalog pin.'}

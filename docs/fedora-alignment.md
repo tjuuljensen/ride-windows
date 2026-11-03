@@ -1144,3 +1144,18 @@ Review trigger: attended activation, native result, package pin or recovery chan
 The unchanged installed controller lacks the new capability; source preparation
 does not establish native acceptance, mail/TLS behavior or exact application-data
 recovery. Paradox/BDE acceptance remains separate.
+
+## Fixed WFN portable acceptance, 2026-11-03
+
+Windows-owned RB-03/04/08/09/11 routing adds the exact selected WFN x64 Nightly
+archive and full 531-member inventory to the existing package lifecycle fixture.
+Candidate metadata, whole-archive pinning, ownership/recovery semantics and the
+production CLI remain unchanged. A new installed capability gates both queued
+and standalone host routes; no protected activation occurs from source edits.
+Contract 1.1.0 and the same compared Fedora target/candidate guards apply; hashes
+and source results are in [evidence](archive/evidence/wfn-route-source-2026-11-03.json).
+No contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[native package procedure](../tests/integration/README.md#windows-firewall-notifier-package-acceptance).
+Review trigger: attended activation, native result, archive/member changes or
+target promotion. File lifecycle acceptance does not establish WFN application
+or firewall behavior, and no shared firewall-setting behavior changes here.

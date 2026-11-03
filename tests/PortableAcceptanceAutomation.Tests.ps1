@@ -22,7 +22,7 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.19.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.14.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.3.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.20.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.15.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.3.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
@@ -379,6 +379,39 @@ Describe 'Focused portable acceptance boundaries' {
     $cases[0].Operation.CandidateTargets|Should -Contain 'Windows 11'
     $cases[0].Operation.SupportedTargets|Should -Be @()
     $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'selects all 531 WFN members and notices without promoting support' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch WindowsFirewallNotifier)
+    $cases.Count|Should -Be 1
+    $cases[0].Id|Should -BeExactly 'package.windows-firewall-notifier'
+    $cases[0].Variant|Should -BeExactly 'portable'
+    $cases[0].ExpectedFiles.Count|Should -Be 531
+    $cases[0].ExpectedFiles|Should -Contain 'LICENSE.txt'
+    $cases[0].ExpectedFiles|Should -Contain 'Resources/IPDatabase/LICENSE.txt'
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'refuses WFN review drift for <Problem>' -ForEach @(
+    @{Problem='digest'},@{Problem='duplicate'},@{Problem='traversal'},@{Problem='missing'},@{Problem='different-member'},@{Problem='catalog-member'},@{Problem='architecture'},@{Problem='version'}
+  ) {
+    $reviewRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $destination=Join-Path $reviewRoot 'docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json'
+    $null=New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force
+    $review=Get-Content (Join-Path (Split-Path -Parent $PSScriptRoot) 'docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json') -Raw|ConvertFrom-Json
+    $catalog=Import-RideCatalogData $script:CatalogPath
+    $op=$catalog.Operations|Where-Object Id -eq 'package.windows-firewall-notifier'
+    switch($Problem){
+      digest {$review.SelectedAsset.LocalSha256='0'*64}
+      duplicate {$review.Verification.ArchiveMembers[1].Name=$review.Verification.ArchiveMembers[0].Name}
+      traversal {$review.Verification.ArchiveMembers[0].Name='../outside'}
+      missing {$review.Verification.ArchiveMembers=@($review.Verification.ArchiveMembers|Select-Object -Skip 1)}
+      different-member {$review.Verification.ArchiveMembers[0].Name='unreviewed.dll'}
+      catalog-member {$op.PortableMembers[0]='unreviewed.dll'}
+      architecture {$op.Architecture='x86'}
+      version {$op.PackageVersion='unreviewed'}
+    }
+    $review|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $destination -Encoding UTF8
+    {Get-RidePortableAcceptanceCases $catalog -Batch WindowsFirewallNotifier -ReviewRoot $reviewRoot}|Should -Throw '*WFN member review*'
   }
   It 'selects the full pinned RegRipper review including notices without promoting support' {
     $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch RegRipper)

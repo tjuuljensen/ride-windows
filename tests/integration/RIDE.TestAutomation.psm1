@@ -25,8 +25,9 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.23.0
+  Version: 1.24.0
   Changelog:
+    1.24.0: Add fixed WFN file lifecycle; no firewall changes.
     1.23.0: Require the fixed Mail Checker installer capability and bounded staging.
     1.22.0: Add fixed remaining MiTeC lifecycle selections.
     1.21.0: Gate fixed Gpg4win/TMOG routes and restrict their source snapshots.
@@ -305,6 +306,11 @@ function Assert-RideAutomationSuiteCapability {
       ($null -eq $Configuration.PSObject.Properties['Capabilities'] -or
        'Gpg4winTmogLifecycleV1' -notin @($Configuration.Capabilities))) {
     throw 'Refresh the protected controller for Gpg4winTmogLifecycleV1; no request was queued.'
+  }
+  if ($Suite -eq 'WindowsFirewallNotifier' -and
+      ($null -eq $Configuration.PSObject.Properties['Capabilities'] -or
+       'WfnPortableLifecycleV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for WfnPortableLifecycleV1; no request was queued.'
   }
   if ($Suite -eq 'ApplicationsBatch13' -and
       ($null -eq $Configuration.PSObject.Properties['Capabilities'] -or
@@ -820,9 +826,9 @@ function Assert-RideAutomationRequest {
     if ($name -notin @('SchemaVersion','RunId','Source','UnitOnly','IntegrationSuite','TimeoutMinutes','SubmittedAtUtc','GuestGitHubAuthentication','GitHubTestScenario')) { throw 'Request contains an unsupported field; credentials and paths are not accepted in the queue.' }
   }
   if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
-    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers')) { throw 'Invalid request IntegrationSuite.' }
+    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers','WindowsFirewallNotifier')) { throw 'Invalid request IntegrationSuite.' }
     if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
-    if ($Request.IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
+    if ($Request.IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
   }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
   $null = [datetime]::Parse($Request.SubmittedAtUtc).ToUniversalTime()
@@ -1232,7 +1238,7 @@ function Invoke-RideAutomationRequest {
   param([object] $Configuration, [object] $Request, [string] $Root, [switch]$Supervised)
   Assert-RideAutomationRequest $Request
   $selectedSuite = if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') { $Request.IntegrationSuite } else { 'Full' }
-  $focusedPortable = $selectedSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')
+  $focusedPortable = $selectedSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')
   $runtimeSnapshotOnly = $focusedPortable -or $selectedSuite -in @('ApplicationsBatch9','ApplicationsBatch10','ApplicationsBatch12','ApplicationsBatch13','ApplicationsBatch1Gpg4win','ApplicationsBatch1TMOG')
   $guestAuthentication = if ($Request.PSObject.Properties.Name -contains 'GuestGitHubAuthentication') { $Request.GuestGitHubAuthentication } else { 'Anonymous' }
   $authenticationContext = $null

@@ -426,6 +426,37 @@ further work. Evidence is collected before recovery, including after failure.
 GUI behavior, parser correctness and real licence/settings activation remain
 separate acceptance gates; this runner does not promote catalog support.
 
+### Windows Firewall Notifier package acceptance
+
+The `WindowsFirewallNotifier` route checks the user-selected x64 Nightly archive
+`20250719-ac02df`: all 531 reviewed members, both license/attribution files,
+install/repeat/remove, conflict preservation and exact saved-file recovery.
+Defender must remain active with no new detections. The route does not launch
+WFN or change firewall policy; application/firewall behavior requires a separate
+scenario. Package acceptance does not imply either result.
+
+Prerequisites: the idle disposable Windows 11 x64 VM/checkpoint, the exact pinned
+archive, and a later attended controller refresh declaring `WfnPortableLifecycleV1`.
+The client, dispatcher and standalone host refuse an older registration before
+execution. The protected controller is not refreshed automatically.
+
+From the repository root, supply `.local/acceptance-input/WindowsFirewallNotifier.json`
+as a JSON array with exactly one `Id` (`package.windows-firewall-notifier`) and
+absolute `Path` to the archive. The host verifies its pin before VM access and
+stages only runtime source and that archive. After activation, preview as the
+ordinary registered account, then run without `-WhatIf`:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite WindowsFirewallNotifier -TimeoutMinutes 30 -WhatIf
+```
+
+Require one complete package lifecycle row, 531 managed members, clean Defender
+evidence, `ToolExecuted=false`, verified evidence export and `ResetAndOff`.
+Retain partial results after any failure. Saved-file recovery and final VM
+checkpoint cleanup are separate. Source tests and retained-archive verification
+are complete; native package/Defender acceptance remains pending.
+
 ### Remaining MiTeC portable acceptance
 
 Four fixed selections cover the remaining 14 portable products and 20 variants:
