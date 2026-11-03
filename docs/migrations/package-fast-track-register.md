@@ -23,7 +23,9 @@ decisions. Do not relabel earlier file-only passes as having launched a tool.
 
 The MiTeC portable and Mail Checker guest scenarios now include bounded startup
 checks. Eight startup tests plus 18 existing selection tests passed in both
-PowerShell editions; native startup results are still pending. Failed startup
+PowerShell editions. JSON/XML Viewer x64/x86 native startup passed; the old
+controller rejected the new execution flag, so its failed outer result remains
+recorded alongside the passing guest evidence. Failed startup
 retains executable/process/error evidence. See [source checks](../archive/evidence/fast-track-startup-and-capability-preflight-source-2026-11-03.json).
 
 | Products | Lifecycle evidence | Startup evidence | v3.1 follow-up |
@@ -32,8 +34,10 @@ retains executable/process/error evidence. See [source checks](../archive/eviden
 | NTCore PE Detective, CFF Explorer, 4GB Patch, Driver List x64/x86, Rebel.NET | Passed, six cases / five products | No general startup proof; 4GB Patch has separate synthetic PE behavior evidence | Product feature coverage. |
 | Sysinternals Suite and nine individual packages | Passed, ten cases | Not launched; retain prior scoped package acceptance | Optional utility coverage, without a new licensing gate. |
 | WinPmem | Passed file-only lifecycle | Deliberately not launched; driver/memory acquisition remains separate | Explicit driver/collection acceptance if selected. |
-| MiTeC Mail Checker | Prepared ApplicationsBatch13 route; native result pending | Bounded startup required, without mail account setup | Synthetic mail features only in v3.1 if selected. |
-| Remaining MiTeC viewers/development/network/system batches | Prepared 14 products / 20 variants; native results pending | Record per-product startup separately | Focused features deferred to v3.1. |
+| MiTeC JSON Viewer and XML Viewer, x64/x86 | Four cases passed 15 checks, exact recovery and Defender; outer controller classification failed | Eight-second owned-process observation passed in session 0; no interactive UI claim. [Evidence](../archive/evidence/mitec-viewers-fast-track-native-2026-11-03.json). | Synthetic feature scenarios and interactive UI coverage. |
+| MiTeC development batch | Six cases passed 15 checks, exact recovery and Defender; outer controller classification failed | Bounded startup passed in session 0. [Exact products/variants](../archive/evidence/mitec-development-fast-track-native-2026-11-03.json). | Synthetic feature scenarios and interactive UI coverage. |
+| MiTeC Mail Checker | First run stopped at catalog validation before installation: trimmed snapshot omitted Terminal palette data. Recovery verified; corrected snapshot source-tested. | Not run; bounded startup required without mail account setup | Synthetic mail features only in v3.1 if selected. |
+| Remaining MiTeC network/system batches | Prepared routes; native results pending | Record per-product startup separately | Focused features deferred to v3.1. |
 | Rufus | Nov 3 native lifecycle passed 14 checks with recovery and Defender; [evidence](../archive/evidence/attended-routes-activation-and-rufus-native-2026-11-03.json) | Not launched; no media operation | Scoped startup separate from media actions. |
 | RegRipper, WFN | Prepared native file lifecycle routes | Existing routes do not launch; no implicit evidence/firewall actions | Scoped startup separate from product actions. |
 | InfoBar, Project Maker, NTCore Explorer Suite, Gpg4win, TMOG | Prepared focused routes; earlier partial evidence retained | Native startup still to be established | Features after lifecycle/startup acceptance. |

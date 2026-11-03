@@ -4,6 +4,21 @@
 
 ### Attended resumption decisions, 2026-11-03
 
+Four JSON/XML Viewer variants subsequently passed 15 guest checks each, including
+bounded startup, removal, exact recovery and Defender. Six development variants
+also passed: DFM Editor Delphi 11/12, Task Manager DeLuxe x64/x86 and Interbase
+Query x64/x86. The then-installed controller
+still expected no tool execution and marked the outer request failed; preserve
+that discrepancy. Mail Checker's first run stopped before installation because
+the trimmed snapshot lacked required Terminal palette data. Both runs recovered
+the pinned VM. The controller corrections passed 60 selected tests per shell,
+and the corrected trimmed snapshot passed catalog validation. Protected refresh
+passed with matching installed hash and Ready/Off verification; Mail Checker
+native retry is running. See the
+[viewer evidence](../archive/evidence/mitec-viewers-fast-track-native-2026-11-03.json)
+and [development evidence](../archive/evidence/mitec-development-fast-track-native-2026-11-03.json)
+and [controller correction record](../archive/evidence/fast-track-controller-corrections-2026-11-03.json).
+
 Package controller refresh and capability/asset task activation passed. Both
 ordinary-account previews passed. The first refreshed native route, Rufus,
 passed all 14 lifecycle checks with Defender, verified evidence export and
@@ -100,21 +115,23 @@ asset tests. The previous blanket requirement for asset inputs or real Wi-Fi
 credentials is no longer current. RIDE generates Wi-Fi XML from supplied
 settings; acceptance uses a synthetic profile without connecting to a network.
 
-## Prepared routes that still need activation and native execution
+## Route execution and remaining native proof
 
-Source checks establish implementation readiness only. The installed protected
-controller was not refreshed overnight, so these routes must not be reported as
-installed, executed or accepted merely because their source tests passed.
+Source checks establish implementation readiness only. The protected package
+controller was refreshed during attended resumption. Further fixes to startup
+classification and the application snapshot are installed; native verification
+is running. Capability activation was removed after its failed preflight and
+verified recovery. Do not infer acceptance from registration or source tests.
 
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
-| RegRipper / Rufus | Exact retained pins, bounded portable routes; 145 selected source tests per shell. [Evidence](../archive/evidence/regripper-rufus-routes-source-2026-11-03.json). | Refreshed controller, exact payload lifecycle, recovery and Defender. |
+| RegRipper / Rufus | Exact retained pins, bounded portable routes; 145 selected source tests per shell. [Evidence](../archive/evidence/regripper-rufus-routes-source-2026-11-03.json). Rufus native file lifecycle/recovery/Defender passed. | RegRipper native lifecycle remains; Rufus was not launched. |
 | Remaining MiTeC portable batches | Four batches, 14 products / 20 variants, 48 selected-member hashes; 165 selected source tests per shell. [Evidence](../archive/evidence/remaining-mitec-routes-source-2026-11-03.json). | Run viewers, development, network utilities and system viewers batches; features stay deferred. |
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). | Synthetic GnuPG user data and machine TMOG lifecycle. Earlier Gpg installer `0xC0000005` remains unresolved until a successful native run. |
 | MiTeC Mail Checker | Exact 7.2.0 route, version/Defender and compensating presence recovery; 162 selected source tests per shell. [Evidence](../archive/evidence/mailchecker-route-source-2026-11-03.json). | Installer lifecycle without account setup or mail access. |
 | WFN | Full pinned 531-member payload route; 182 selected route tests per shell. Full inert lifecycle now passes in both shells after path-validation optimization. [Route](../archive/evidence/wfn-route-source-2026-11-03.json), [optimization](../archive/evidence/portable-path-optimization-2026-11-03.json). | Native package lifecycle and Defender; no launch or firewall changes. Caffeine validates the changed handler, not WFN itself. |
 | InfoBar / Project Maker / NTCore Explorer Suite | Focused Defender checks and runtime-only snapshot preparation. [Defender source](../archive/evidence/focused-application-defender-source-2026-11-03.json), [snapshot source](../archive/evidence/focused-application-snapshot-source-2026-11-03.json). | Refresh old installed snapshot route; retain earlier presence evidence without calling it current Defender acceptance. |
-| OpenSSH Client / full available client RSAT | Lifecycle implementation and finite expiring Prepare/Lifecycle/Collect/Reset queue; 124 Desktop / 122 Core source tests, with two intentional Core skips. [Evidence](../archive/evidence/client-capability-queue-source-2026-11-03.json). | Activate source/target-bound queue and run native DISM with already-approved Windows Update acquisition. Build 26300 payload availability, recovery and restart-required outcomes remain unverified. |
+| OpenSSH Client / full available client RSAT | Preparation passed; OpenSSH lifecycle rejected a pending servicing restart before installation. Evidence exported and checkpoint recovered; capability queue removed. Preflight reporting fix passed 53 tests per shell. | Resolve baseline readiness, then activate the corrected queue and run native DISM with already-approved Windows Update acquisition. RSAT has not run; payload availability remains unverified. |
 
 The capability queue is separate from the package controller. Its
 [operator procedure](../windows-component-inventory.md#expiring-capability-queue)

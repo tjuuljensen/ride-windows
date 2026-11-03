@@ -6,6 +6,8 @@
   exact staged module. Import side effects are confined to a run-owned TEMP
   directory. The present-mode child imports the RIDE-managed ThreadJob manifest
   by exact path; no dependency is installed or added to persistent PSModulePath.
+  When Core is absent, an explicitly staged retained PowerShell 7.6.5 ZIP may
+  supply a signed run-local fixture. No network fallback or PATH edit is used.
 .PARAMETER ExpectedComputerName
   Exact guest computer name supplied by the checkpoint-backed runner.
 .PARAMETER ModulePath
@@ -25,8 +27,9 @@
   Prerequisites: Elevated disposable Windows 11 guest; exact staged PSScriptTools 3.2.0 source and RIDE-managed ThreadJob 2.2.0.
   Effects: Imports the staged ThreadJob module only in a child process; starts the module's read-only CIM namespace job and writes its fixed-name file only under a unique TEMP directory.
   Recovery: Child processes exit; the runner deletes only its verified file and empty run-owned TEMP directory.
-  Author: RIDE-Windows maintainers. Version: 0.1.7.
-  Changelog: 0.1.7: Invoke the private cleanup helper in its loaded module scope;
+  Author: RIDE-Windows maintainers. Version: 0.1.8.
+  Changelog: 0.1.8: Allow an explicitly staged signed PowerShell 7.6.5 ZIP fixture.
+    0.1.7: Invoke the private cleanup helper in its loaded module scope;
     give it an explicit synthetic runspace and verify closure without job errors.
     0.1.6: Validate the manifest-declared root module and loaded module base,
     including binary modules whose Path identifies the DLL rather than the manifest.
@@ -49,7 +52,7 @@ param(
   [string]$ResultPath,
   [switch]$Version
 )
-if($Version){'0.1.7';return}
+if($Version){'0.1.8';return}
 $ErrorActionPreference='Stop'
 function Assert-RuntimeGuest {
   if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
@@ -257,6 +260,16 @@ $desktop=Join-Path $env:WINDIR 'System32/WindowsPowerShell/v1.0/powershell.exe'
 if([IO.File]::Exists($desktop)){$editionExecutables.Add([pscustomobject]@{Edition='Desktop';Path=$desktop})}
 $core=Get-Command pwsh.exe -CommandType Application -ErrorAction SilentlyContinue|Select-Object -First 1
 if($core){$editionExecutables.Add([pscustomobject]@{Edition='Core';Path=$core.Source})}
+else {
+  $fixtureArchive=Join-Path $PSScriptRoot '../fixtures/psscripttools-core-runtime/PowerShell-7.6.5-win-x64.zip'
+  if(Test-Path -LiteralPath $fixtureArchive -PathType Leaf){
+    Import-Module (Join-Path $PSScriptRoot 'RIDE.PowerShellRuntimeFixture.psm1') -Force
+    $fixtureRoot=Join-Path (Split-Path (Split-Path $evidence -Parent) -Parent) 'core-runtime'
+    $fixture=Expand-RidePowerShellRuntimeFixture -ArchivePath $fixtureArchive -Destination $fixtureRoot
+    $fixture|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $evidence 'core-runtime-fixture.json') -Encoding UTF8
+    $editionExecutables.Add([pscustomobject]@{Edition='Core';Path=$fixture.Executable})
+  }
+}
 $results=[Collections.Generic.List[object]]::new()
 foreach($edition in @('Desktop','Core')){
   $exe=$editionExecutables|Where-Object Edition -eq $edition|Select-Object -First 1

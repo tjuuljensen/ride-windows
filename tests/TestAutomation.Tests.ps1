@@ -305,18 +305,20 @@ Describe 'Task configuration and read-only watch selection' {
   }
   It 'snapshots only portable runtime roots without reading unrelated assets' {
     $source = Join-Path $TestDrive 'portable-checkout'
-    foreach($root in @('tools','modules','catalog','docs','components/files','legacy/v2')) {
+    foreach($root in @('tools','modules','catalog','docs','components/files','components/profiles','legacy/v2')) {
       $null=New-Item -ItemType Directory -Path (Join-Path $source $root) -Force
     }
-    foreach($path in @('tools/validate.ps1','modules/fixture.psm1','catalog/fixture.psd1','docs/fixture.json','ride.ps1','components/files/inert-fixture.txt','legacy/v2/inert-fixture.txt')) {
+    foreach($path in @('tools/validate.ps1','modules/fixture.psm1','catalog/fixture.psd1','docs/fixture.json','ride.ps1','components/profiles/terminal-color-schemes.psd1','components/profiles/microsoft-terminal-LICENSE.txt','components/files/inert-fixture.txt','legacy/v2/inert-fixture.txt')) {
       'Inert snapshot fixture' | Set-Content -LiteralPath (Join-Path $source $path)
     }
-    Mock Get-FileHash -ModuleName RIDE.TestAutomation {throw 'Excluded content must not be read.'} -ParameterFilter {$LiteralPath -match '[\\/](components|legacy)[\\/]'}
+    Mock Get-FileHash -ModuleName RIDE.TestAutomation {throw 'Excluded content must not be read.'} -ParameterFilter {$LiteralPath -match '[\\/](components[\\/]files|legacy)[\\/]'}
     $manifest=@(Copy-RideAutomationSnapshot -Source $source -Destination (Join-Path $TestDrive 'portable-staged') -PortableRuntime)
-    $manifest.Count | Should -Be 5
-    @($manifest | Where-Object Path -Match '^(components|legacy)[\\/]').Count | Should -Be 0
-    Test-Path -LiteralPath (Join-Path $TestDrive 'portable-staged/components') | Should -BeFalse
-    Should -Invoke Get-FileHash -ModuleName RIDE.TestAutomation -Times 0 -Exactly -ParameterFilter {$LiteralPath -match '[\\/](components|legacy)[\\/]'}
+    $manifest.Count | Should -Be 7
+    @($manifest | Where-Object Path -Match '^components[\\/]profiles[\\/]').Count | Should -Be 2
+    @($manifest | Where-Object Path -Match '^(components[\\/]files|legacy)[\\/]').Count | Should -Be 0
+    Test-Path -LiteralPath (Join-Path $TestDrive 'portable-staged/components/profiles/terminal-color-schemes.psd1') | Should -BeTrue
+    Test-Path -LiteralPath (Join-Path $TestDrive 'portable-staged/components/files') | Should -BeFalse
+    Should -Invoke Get-FileHash -ModuleName RIDE.TestAutomation -Times 0 -Exactly -ParameterFilter {$LiteralPath -match '[\\/](components[\\/]files|legacy)[\\/]'}
   }
 
   It 'reports the guest entry point version before checking the VM marker' {
@@ -624,7 +626,7 @@ Describe 'Correlated execution, failures and VM recovery' {
         if ($suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
           $focused = Join-Path $script:testRoot "results\$($script:request.RunId)\focused"
           $null = New-Item -ItemType Directory $focused -Force
-          @{ RunId = $script:request.RunId; Batch = $suite; Status = 'Passed'; Cleanup = 'ResetAndOff'; EvidenceCollected = $true; ToolExecuted = ($suite -in @('ImageMagick','NTCore','RawCopy')) } | ConvertTo-Json | Set-Content (Join-Path $focused 'result.json')
+          @{ RunId = $script:request.RunId; Batch = $suite; Status = 'Passed'; Cleanup = 'ResetAndOff'; EvidenceCollected = $true; ToolExecuted = ($suite -in @('ImageMagick','NTCore','RawCopy','SQLiteQuery') -or $suite -like 'MiTeC*') } | ConvertTo-Json | Set-Content (Join-Path $focused 'result.json')
         } else {
           $guest = Join-Path $script:testRoot "results\$($script:request.RunId)\guest"
           $null = New-Item -ItemType Directory $guest -Force
@@ -818,7 +820,7 @@ Describe 'Correlated execution, failures and VM recovery' {
         Mock Start-Process {
           $path=Join-Path $script:testRoot ('results/'+$script:request.RunId+'/focused')
           $null=New-Item -ItemType Directory -Path $path -Force
-          $result=@{RunId=$script:request.RunId;Batch=$script:request.IntegrationSuite;Status='Passed';Cleanup='ResetAndOff';EvidenceCollected=$true;ToolExecuted=($script:request.IntegrationSuite -in @('NTCore','ImageMagick','RawCopy'))}
+          $result=@{RunId=$script:request.RunId;Batch=$script:request.IntegrationSuite;Status='Passed';Cleanup='ResetAndOff';EvidenceCollected=$true;ToolExecuted=($script:request.IntegrationSuite -in @('NTCore','ImageMagick','RawCopy','SQLiteQuery') -or $script:request.IntegrationSuite -like 'MiTeC*')}
           foreach($key in $script:focusedOverride.Keys){$result[$key]=$script:focusedOverride[$key]}
           $result|ConvertTo-Json|Set-Content -LiteralPath (Join-Path $path 'result.json')
           $process=[pscustomobject]@{Handle=[intptr]1;ExitCode=0;Id=123}
@@ -840,6 +842,12 @@ Describe 'Correlated execution, failures and VM recovery' {
         Should -Invoke Copy-RideAutomationSnapshot -Times 0 -Exactly
         Should -Invoke Start-Process -Times 0 -Exactly
         Should -Invoke Reset-RideAutomationVm -Times 0 -Exactly
+      }
+      It 'requires the approved MiTeC startup evidence flag' {
+        $script:request.IntegrationSuite='MiTeCAnalysisTools'
+        $script:focusedOverride.ToolExecuted=$false
+        (Invoke-RideAutomationRequest $script:config $script:request $script:testRoot).Status|Should -Be Failed
+        Should -Invoke Reset-RideAutomationVm -Times 1 -Exactly
       }
       It 'rejects CI and caller supplied paths' {
         $script:request.Source='CI'

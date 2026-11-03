@@ -25,8 +25,10 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.24.0
+  Version: 1.25.1
   Changelog:
+    1.25.1: Retain required Terminal palette data/license in runtime snapshots.
+    1.25.0: Recognize approved MiTeC startup smoke checks in focused results.
     1.24.0: Add fixed WFN file lifecycle; no firewall changes.
     1.23.0: Require the fixed Mail Checker installer capability and bounded staging.
     1.22.0: Add fixed remaining MiTeC lifecycle selections.
@@ -728,7 +730,8 @@ function Copy-RideAutomationSnapshot {
 
   .PARAMETER PortableRuntime
     Stage only launcher, modules, catalog, profiles, tools, tests and documentation.
-    Other roots, including legacy and components, are not traversed or hashed.
+    Also includes the two required Terminal palette data/license files under
+    components/profiles. Other component payloads and legacy are not read/hashed.
     Reviewed package archives are staged independently by the portable controller.
     The fixed InfoBar, Project Maker and Explorer Suite routes also use this filter;
     their installers are acquired separately by the application scenario.
@@ -765,7 +768,8 @@ function Copy-RideAutomationSnapshot {
     foreach ($item in Get-ChildItem -LiteralPath $directories.Dequeue() -Force) {
       if ($item.Name -in @('.git', '.vs', '.local', '.codex', '.agents', '.aws', 'testResults.xml', 'TestResults', 'results', 'node_modules', 'config.ini', 'serials.ini', 'private.preset') -or $item.Name -like '*.private.preset') { continue }
       $relative = $item.FullName.Substring($sourcePath.Length + 1)
-      if ($PortableRuntime -and ($relative -split '[\\/]')[0] -notin @('ride.ps1','default.cmd','.gitattributes','modules','catalog','profiles','tools','tests','docs')) { continue }
+      if ($PortableRuntime -and ($relative -split '[\\/]')[0] -notin @('ride.ps1','default.cmd','.gitattributes','modules','catalog','profiles','tools','tests','docs','components')) { continue }
+      if ($PortableRuntime -and ($relative -split '[\\/]')[0] -eq 'components' -and ($relative -replace '\\','/') -cnotin @('components','components/profiles','components/profiles/terminal-color-schemes.psd1','components/profiles/microsoft-terminal-LICENSE.txt')) { continue }
       if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Checkout contains a reparse point: $($item.FullName)" }
       $target = Join-Path $Destination $relative
       if ($item.PSIsContainer) {
@@ -1318,7 +1322,7 @@ function Invoke-RideAutomationRequest {
     if ($process.ExitCode -ne 0) { throw "Test controller exited with code $($process.ExitCode). See controller-errors.log." }
     if ($focusedPortable) {
       $focused = Get-Content -LiteralPath (Join-Path $runDirectory 'focused/result.json') -Raw -ErrorAction Stop | ConvertFrom-Json
-      $expectedToolExecution = $selectedSuite -in @('ImageMagick','NTCore','RawCopy')
+      $expectedToolExecution = $selectedSuite -in @('ImageMagick','NTCore','RawCopy','SQLiteQuery') -or $selectedSuite -like 'MiTeC*'
       if ($focused.RunId -cne $Request.RunId -or $focused.Batch -cne $selectedSuite -or $focused.Status -ne 'Passed' -or $focused.Cleanup -ne 'ResetAndOff' -or $focused.EvidenceCollected -ne $true -or $focused.ToolExecuted -ne $expectedToolExecution) { throw 'Focused result is missing, mismatched, incomplete or unsuccessful.' }
       $summary.FocusedResult = $focused
     } else {

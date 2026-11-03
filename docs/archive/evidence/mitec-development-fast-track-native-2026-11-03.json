@@ -1,0 +1,683 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T08:16:58.1620808Z",
+  "Status": "GuestFastTrackPassedControllerClassificationFailed",
+  "RunId": "e4fbfcbd4baf4762aa9c58bfb33441e7",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "e4fbfcbd4baf4762aa9c58bfb33441e7",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCDevelopment",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T07:59:45.4477949Z",
+    "FinishedAtUtc": "2026-11-03T08:13:57.879213Z",
+    "Error": "Focused result is missing, mismatched, incomplete or unsuccessful.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Focused": {
+    "RunId": "e4fbfcbd4baf4762aa9c58bfb33441e7",
+    "Batch": "MiTeCDevelopment",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 6,
+    "Status": "Passed",
+    "Error": null,
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Summary": {
+    "Batch": "MiTeCDevelopment",
+    "ExpectedCases": 6,
+    "Completed": 6,
+    "Passed": 6,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-dfm-editor",
+      "Variant": "delphi-11",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "6b9c8b4e4a31419db43feb906e4ee14f",
+        "77bd3b381883450aa718a2fcbafbbab2",
+        "1637f6eff0844091a8dc179eea370a50"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Delphi 11/bindengine280.bpl",
+          "Sha256": "a4a20f21e51057be2b10138ceea79fbfed5563f63746bd2d78b545a09067529a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 11/DFMEdit.exe",
+          "Sha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        },
+        {
+          "RelativePath": "Delphi 11/rtl280.bpl",
+          "Sha256": "88ee1956f414d8e41b88b372a5a5a9660d33f1fe7724a08c24f24a53ca5c2bd2",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 11/vcl280.bpl",
+          "Sha256": "332631ee642bb72e66bf49e1e2c52cb7dbb874f9718f4e2a0816e7ab28169f7b",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 11/vclactnband280.bpl",
+          "Sha256": "69459030053d608592733a3d10cc63638775f3ec95b71b091611c71f4874f86f",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 11/vclimg280.bpl",
+          "Sha256": "da04ecc04737f40408a68705a3ee785eed535cdad91a1f97fa2b45f99531090a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 11/vclwinx280.bpl",
+          "Sha256": "f437e8f6faf83922ffe8ec51c00a7ba0142cc45364abb3f17952638042ed0bb2",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 11/vclx280.bpl",
+          "Sha256": "b0fb25e387dbf92ec6b287ecee2c82a4420794cb5bdf76335f84678ad77a750a",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 11/xmlrtl280.bpl",
+          "Sha256": "3409e923cc571d73ed88d28bb6ecc489b82e2bf2ef0404ec0fcecd3ea6800d33",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-dfm-editor\\Delphi 11\\DFMEdit.exe",
+          "Sha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d",
+          "StartedAtUtc": "2026-11-03T08:08:57.1737321Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 9956,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-dfm-editor' failed. Run ID: b95f86d63e7b4714831813c8a8a7edc5. Saved state: package.mitec-dfm-editor. Completed operations: <none>. Failed operation: package.mitec-dfm-editor. Unfinished operations: package.mitec-dfm-editor. Recovery: run '.\\ride.ps1 restore -RunId b95f86d63e7b4714831813c8a8a7edc5', then reapply the same profile. Error: Portable destination collision: Delphi 11/DFMEdit.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-dfm-editor' failed. Run ID: a66de9eeccda4803b3fb9e85c8891127. Saved state: package.mitec-dfm-editor. Completed operations: <none>. Failed operation: package.mitec-dfm-editor. Unfinished operations: package.mitec-dfm-editor. Recovery: run '.\\ride.ps1 restore -RunId a66de9eeccda4803b3fb9e85c8891127', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-dfm-editor",
+      "Variant": "delphi-12",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "4c8d3dba9f1646279c82994bc1c91d13",
+        "2ab32e14536e47148fde77a6cd0b387b",
+        "3d078743cca74dd79f9a141543661d85"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "Delphi 12/bindengine290.bpl",
+          "Sha256": "adc785fa306d2e3dbf635ba240a2a1c492df7a75a451b2e36af35cfccc667461",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 12/DFMEdit.exe",
+          "Sha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        },
+        {
+          "RelativePath": "Delphi 12/rtl290.bpl",
+          "Sha256": "e6b9f5a6075364bc4bfa1502b58ac195b75755ef11a4207c9e7985d19c4036cd",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 12/vcl290.bpl",
+          "Sha256": "a429b15a755d2a909f53086a4353efbb2f7e881d556ad6fe0d5a8fa072e8eb4e",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 12/vclactnband290.bpl",
+          "Sha256": "36421659d74671a04adc9d1c2c1502febd5b92b9d215a98fc9f52e7c0ffe4074",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 12/vclimg290.bpl",
+          "Sha256": "c458735e4fb9915d8d1cc3bb7caa57e220e1f87dc89b996ab079369a23b3e53e",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 12/vclwinx290.bpl",
+          "Sha256": "02d2df7beb04fae67c831aa453b5fd5054a7b39c3bdf40a0566c35abef4c7479",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 12/vclx290.bpl",
+          "Sha256": "8ac114422f55a1967d00fe092d016e8a3de2c5af37c1508991a856d0c4ba9a90",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Delphi 12/xmlrtl290.bpl",
+          "Sha256": "b0b4192d91cd6e06c46acfbbb8185b5d66fa5e8f871604588c7a7ef76bb99926",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-dfm-editor\\Delphi 12\\DFMEdit.exe",
+          "Sha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2",
+          "StartedAtUtc": "2026-11-03T08:09:43.404479Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 7480,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-dfm-editor' failed. Run ID: 91a9b520a8544311a126408f144e101f. Saved state: package.mitec-dfm-editor. Completed operations: <none>. Failed operation: package.mitec-dfm-editor. Unfinished operations: package.mitec-dfm-editor. Recovery: run '.\\ride.ps1 restore -RunId 91a9b520a8544311a126408f144e101f', then reapply the same profile. Error: Portable destination collision: Delphi 12/DFMEdit.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-dfm-editor' failed. Run ID: 8584df852beb47d39d81d71c0c2c87de. Saved state: package.mitec-dfm-editor. Completed operations: <none>. Failed operation: package.mitec-dfm-editor. Unfinished operations: package.mitec-dfm-editor. Recovery: run '.\\ride.ps1 restore -RunId 8584df852beb47d39d81d71c0c2c87de', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-task-manager-deluxe",
+      "Variant": "x64",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "3ae08ed6253a4372b973a29bdd10aa0a",
+        "16bec81def724b33b1e6ec3b7c909666",
+        "707dd0b0856f45c8bdbb4699c3fcbcd3"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "DeskExp64.exe",
+          "Sha256": "d72a929b59ac463e9f78b35425faebfb85309a0691462f94e941cec7fefcd800",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        },
+        {
+          "RelativePath": "TMX64.exe",
+          "Sha256": "932f56d8b32f5e8ac0533622702de8cf622a58aa59821a24afc60798f56928a3",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-task-manager-deluxe\\DeskExp64.exe",
+          "Sha256": "d72a929b59ac463e9f78b35425faebfb85309a0691462f94e941cec7fefcd800",
+          "StartedAtUtc": "2026-11-03T08:10:37.5308678Z",
+          "ObservationSeconds": 8,
+          "ExitCode": 0,
+          "WindowTitle": "",
+          "ProcessId": 7624,
+          "SessionId": 0,
+          "Closure": "Exited",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        },
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-task-manager-deluxe\\TMX64.exe",
+          "Sha256": "932f56d8b32f5e8ac0533622702de8cf622a58aa59821a24afc60798f56928a3",
+          "StartedAtUtc": "2026-11-03T08:10:42.0743582Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 1856,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-task-manager-deluxe' failed. Run ID: ab1ea22d69b541b4a6b3ac3d8fe40555. Saved state: package.mitec-task-manager-deluxe. Completed operations: <none>. Failed operation: package.mitec-task-manager-deluxe. Unfinished operations: package.mitec-task-manager-deluxe. Recovery: run '.\\ride.ps1 restore -RunId ab1ea22d69b541b4a6b3ac3d8fe40555', then reapply the same profile. Error: Portable destination collision: TMX64.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-task-manager-deluxe' failed. Run ID: d16bfc99f6c4415aa3186cfb5a1c63bc. Saved state: package.mitec-task-manager-deluxe. Completed operations: <none>. Failed operation: package.mitec-task-manager-deluxe. Unfinished operations: package.mitec-task-manager-deluxe. Recovery: run '.\\ride.ps1 restore -RunId d16bfc99f6c4415aa3186cfb5a1c63bc', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-task-manager-deluxe",
+      "Variant": "x86",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "51991f463a164ef7b4595da48a0cda63",
+        "2bc9272975974cb7b00839eb9128d7d1",
+        "f7998eb447854b3d89b67404ed39297f"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "DeskExp.exe",
+          "Sha256": "b958eaccfa78bb80a2b59fdfc9da484cefab4bd62eef3938a61e9e1665507bb0",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        },
+        {
+          "RelativePath": "TMX.exe",
+          "Sha256": "85e820f08ebf3692a3b3144e10083fe3144be24bf1c6bb0ef1db410f412d9213",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-task-manager-deluxe\\DeskExp.exe",
+          "Sha256": "b958eaccfa78bb80a2b59fdfc9da484cefab4bd62eef3938a61e9e1665507bb0",
+          "StartedAtUtc": "2026-11-03T08:11:17.0741325Z",
+          "ObservationSeconds": 8,
+          "ExitCode": 0,
+          "WindowTitle": "",
+          "ProcessId": 2572,
+          "SessionId": 0,
+          "Closure": "Exited",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        },
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-task-manager-deluxe\\TMX.exe",
+          "Sha256": "85e820f08ebf3692a3b3144e10083fe3144be24bf1c6bb0ef1db410f412d9213",
+          "StartedAtUtc": "2026-11-03T08:11:19.1737392Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 4604,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-task-manager-deluxe' failed. Run ID: f5324fc2a5fd49d2b60a7a1104555cd0. Saved state: package.mitec-task-manager-deluxe. Completed operations: <none>. Failed operation: package.mitec-task-manager-deluxe. Unfinished operations: package.mitec-task-manager-deluxe. Recovery: run '.\\ride.ps1 restore -RunId f5324fc2a5fd49d2b60a7a1104555cd0', then reapply the same profile. Error: Portable destination collision: TMX.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-task-manager-deluxe' failed. Run ID: e457bc38189a45a692854b1b41025350. Saved state: package.mitec-task-manager-deluxe. Completed operations: <none>. Failed operation: package.mitec-task-manager-deluxe. Unfinished operations: package.mitec-task-manager-deluxe. Recovery: run '.\\ride.ps1 restore -RunId e457bc38189a45a692854b1b41025350', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-interbase-query",
+      "Variant": "x64",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "057c1318a06c4a8ca3f77ef9ed2c3bc9",
+        "3491eb2cdd8c4b11b443ae3d9a5e834b",
+        "704fbee45d0a42cebd9c48649b3c449b"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "IBQ.cs.lng",
+          "Sha256": "8188d794d5f3baa98fd207b81e38c1ffeeca3c924780a053e2970df0216860e8",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.de.lng",
+          "Sha256": "6245c4373c816b0d57f87fcdcf3c83ae4b063516507f47b25fa18452936fde95",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.en.lng",
+          "Sha256": "afb690887867670b176ffc1c68d51ec7e3d669cea268a2eddd94eb142c434b18",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.es.lng",
+          "Sha256": "729546f3880730aad599d1015791897c1c8587e61e2a834350d6a28abd351c88",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.fr.lng",
+          "Sha256": "e230cdfe06377c852023d0fc873b68ed229ca6a6f240bddf8f04fcf8a3434a67",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.hu.lng",
+          "Sha256": "9ddc2c90b30f150bb0c51b0b36ae2107ed018ccbaac20e554d8fceb561f01609",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ64.exe",
+          "Sha256": "12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "CD573F239A5426D11BC490B0AC627F63308174F2"
+        },
+        {
+          "RelativePath": "Localization.txt",
+          "Sha256": "860f070816e8c698c6f7d8a5e5805be918b1e5ab3eb7395994677ff0809a41a2",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-interbase-query\\IBQ64.exe",
+          "Sha256": "12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0",
+          "StartedAtUtc": "2026-11-03T08:12:11.674997Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 3196,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-interbase-query' failed. Run ID: 72ff1162929b413a9bda38f962a54009. Saved state: package.mitec-interbase-query. Completed operations: <none>. Failed operation: package.mitec-interbase-query. Unfinished operations: package.mitec-interbase-query. Recovery: run '.\\ride.ps1 restore -RunId 72ff1162929b413a9bda38f962a54009', then reapply the same profile. Error: Portable destination collision: IBQ64.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-interbase-query' failed. Run ID: 33841117ecb64a11aa401ade8a3db983. Saved state: package.mitec-interbase-query. Completed operations: <none>. Failed operation: package.mitec-interbase-query. Unfinished operations: package.mitec-interbase-query. Recovery: run '.\\ride.ps1 restore -RunId 33841117ecb64a11aa401ade8a3db983', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-interbase-query",
+      "Variant": "x86",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "0b0b76ee7b8f4845bd61e1ce2ca47712",
+        "d4c188b704944a69b55eba3e0cb536c4",
+        "155078abcc194807ba8216b44699c7e2"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "IBQ.cs.lng",
+          "Sha256": "8188d794d5f3baa98fd207b81e38c1ffeeca3c924780a053e2970df0216860e8",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.de.lng",
+          "Sha256": "6245c4373c816b0d57f87fcdcf3c83ae4b063516507f47b25fa18452936fde95",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.en.lng",
+          "Sha256": "afb690887867670b176ffc1c68d51ec7e3d669cea268a2eddd94eb142c434b18",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.es.lng",
+          "Sha256": "729546f3880730aad599d1015791897c1c8587e61e2a834350d6a28abd351c88",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.exe",
+          "Sha256": "0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "CD573F239A5426D11BC490B0AC627F63308174F2"
+        },
+        {
+          "RelativePath": "IBQ.fr.lng",
+          "Sha256": "e230cdfe06377c852023d0fc873b68ed229ca6a6f240bddf8f04fcf8a3434a67",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "IBQ.hu.lng",
+          "Sha256": "9ddc2c90b30f150bb0c51b0b36ae2107ed018ccbaac20e554d8fceb561f01609",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "Localization.txt",
+          "Sha256": "860f070816e8c698c6f7d8a5e5805be918b1e5ab3eb7395994677ff0809a41a2",
+          "AuthenticodeStatus": "NotApplicable",
+          "SignerThumbprint": null
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-interbase-query\\IBQ.exe",
+          "Sha256": "0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971",
+          "StartedAtUtc": "2026-11-03T08:12:38.8042869Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 6528,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-interbase-query' failed. Run ID: a630ab636c08440f9e54a920adb5a03d. Saved state: package.mitec-interbase-query. Completed operations: <none>. Failed operation: package.mitec-interbase-query. Unfinished operations: package.mitec-interbase-query. Recovery: run '.\\ride.ps1 restore -RunId a630ab636c08440f9e54a920adb5a03d', then reapply the same profile. Error: Portable destination collision: IBQ.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-interbase-query' failed. Run ID: 84299287604b41c1924450aa5b729cc3. Saved state: package.mitec-interbase-query. Completed operations: <none>. Failed operation: package.mitec-interbase-query. Unfinished operations: package.mitec-interbase-query. Recovery: run '.\\ride.ps1 restore -RunId 84299287604b41c1924450aa5b729cc3', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T08:08:45.4018342Z",
+    "SinceUtc": "2026-11-03T08:02:37.226993Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T08:13:19.3193515Z",
+    "SinceUtc": "2026-11-03T08:02:37.226993Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "Limitation": "Six native startup/lifecycle/recovery cases passed in session 0; old protected controller rejected ToolExecuted=true. No interactive UI or feature acceptance."
+}

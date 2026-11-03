@@ -1,0 +1,132 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T08:15:41.4156951Z",
+  "Status": "ControllerRefreshPassedNativeApplicationRetryRunning",
+  "MailChecker": {
+    "Controller": {
+      "SchemaVersion": 1,
+      "RunId": "6d3b397e68344ec1846eeb2b0bd6520d",
+      "Source": "Local",
+      "UnitOnly": false,
+      "IntegrationSuite": "ApplicationsBatch13",
+      "Status": "Failed",
+      "StartedAtUtc": "2026-11-03T07:50:44.9641729Z",
+      "FinishedAtUtc": "2026-11-03T07:59:37.3478272Z",
+      "Error": "Test controller exited with code 1. See controller-errors.log.",
+      "CleanupError": null,
+      "CollectionError": null,
+      "GuestGitHubAuthentication": "Anonymous",
+      "GitHubTestScenario": "Acquire",
+      "CredentialCleanupVerified": null,
+      "EvidenceExportError": null
+    },
+    "Guest": {
+      "SchemaVersion": 1,
+      "RunId": "6d3b397e68344ec1846eeb2b0bd6520d",
+      "Status": "Failed",
+      "ValidationPassed": false,
+      "IntegrationPassed": false,
+      "Pester": null,
+      "Error": "Cannot find path 'C:\\RIDE\\ride-windows\\modules\\..\\components\\profiles\\terminal-color-schemes.psd1' because it does not exist.",
+      "StateCollectionError": null,
+      "Guest": {
+        "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+        "Account": "RIDE-WIN11-TEST\\admin",
+        "PowerShell": "5.1.26100.9711",
+        "OS": {
+          "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+          "Version": "10.0.26300",
+          "BuildNumber": "26300"
+        }
+      },
+      "GuestGitHubAuthentication": "Anonymous",
+      "GitHubTestScenario": "Acquire",
+      "CredentialCleanupVerified": null
+    },
+    "RecoveryVerified": true,
+    "Installed": false,
+    "StartupRun": false
+  },
+  "Corrections": [
+    "Require approved MiTeC startup flag in focused result",
+    "Include required Terminal palette data and license in trimmed runtime snapshot"
+  ],
+  "SelectedChecks": [
+    {
+      "Passed": 60,
+      "PowerShell": "5.1.26100.9818",
+      "Failed": 0,
+      "AtUtc": "2026-11-03T08:03:49.9811101Z",
+      "Edition": "Desktop",
+      "Skipped": 0
+    },
+    {
+      "Failed": 0,
+      "Passed": 60,
+      "Skipped": 0,
+      "PowerShell": "7.6.5",
+      "Edition": "Core",
+      "AtUtc": "2026-11-03T08:04:02.0407261Z"
+    }
+  ],
+  "RuntimeFixturePreparation": {
+    "NativeAcceptance": "Pending",
+    "Checks": [
+      {
+        "Passed": 187,
+        "PowerShell": "5.1.26100.9818",
+        "Failed": 0,
+        "AtUtc": "2026-11-03T07:58:01.108575Z",
+        "Edition": "Desktop",
+        "Skipped": 0
+      },
+      {
+        "AtUtc": "2026-11-03T07:58:00.1139631Z",
+        "Skipped": 2,
+        "Failed": 0,
+        "PowerShell": "7.6.5",
+        "Edition": "Core",
+        "Passed": 185
+      }
+    ]
+  },
+  "TrimmedSnapshotValidation": {
+    "Status": "Passed",
+    "Operations": 475,
+    "Groups": 9,
+    "Profiles": 5,
+    "ParserFiles": 0,
+    "Limit": "Catalog/dependency validation only; ignored snapshot is outside tracked parser inventory."
+  },
+  "Sources": [
+    {
+      "Path": "tests/integration/RIDE.TestAutomation.psm1",
+      "Sha256": "19059DB222E1CF97794696BC84E4A0FE7B5AFB7A9FF2D0F3330418B952C7682A"
+    },
+    {
+      "Path": "tests/TestAutomation.Tests.ps1",
+      "Sha256": "F0E24EDBD76425CDCDE0C754052B8C4D04CAC27E246CDB89AB37CEF728C66C17"
+    },
+    {
+      "Path": "tests/integration/RIDE.PowerShellRuntimeFixture.psm1",
+      "Sha256": "B6A0CFD5E388DA9D4040066E7ECCF99EF3F6078F28A289DC97B60E40467220CD"
+    },
+    {
+      "Path": "tests/integration/Invoke-RidePSScriptToolsRuntimeAcceptance.ps1",
+      "Sha256": "087D548435ADD921FADE3FBEFB6147B39EA20FA3BA5B068FDFF662ED635D8512"
+    }
+  ],
+  "ControllerRefresh": {
+    "StartedAtUtc": "2026-11-03T08:14:31.5476526Z",
+    "Status": "Passed",
+    "Stage": "Registration complete; native acceptance still pending",
+    "VmChanged": false,
+    "Error": null,
+    "InstalledModuleSha256": "19059DB222E1CF97794696BC84E4A0FE7B5AFB7A9FF2D0F3330418B952C7682A",
+    "TaskState": "Ready",
+    "VMState": "Off",
+    "GuestCredentialAvailable": true,
+    "FinishedAtUtc": "2026-11-03T08:17:53.5896417Z"
+  },
+  "NativeRetryRunId": "c46f0e3dfde24f6794e5c3efd78cdea7"
+}

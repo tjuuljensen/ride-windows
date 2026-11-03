@@ -21,3 +21,6 @@ catalog/artifact-observations.json.lock
 
 # Optional checkout-local user/company configuration; never a release default.
 .local/
+
+# Optional publisher runtime input for a disposable PSScriptTools test only.
+tests/fixtures/psscripttools-core-runtime/*.zip

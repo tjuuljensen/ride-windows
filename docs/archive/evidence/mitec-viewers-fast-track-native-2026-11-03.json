@@ -1,0 +1,335 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T07:57:24.5455448Z",
+  "Status": "GuestFastTrackPassedControllerClassificationFailed",
+  "RunId": "2df1d262c88e458b88e97ecd95c01bb9",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "2df1d262c88e458b88e97ecd95c01bb9",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCViewers",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T07:43:19.2998716Z",
+    "FinishedAtUtc": "2026-11-03T07:50:39.7178114Z",
+    "Error": "Focused result is missing, mismatched, incomplete or unsuccessful.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Focused": {
+    "RunId": "2df1d262c88e458b88e97ecd95c01bb9",
+    "Batch": "MiTeCViewers",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 4,
+    "Status": "Passed",
+    "Error": null,
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Summary": {
+    "Batch": "MiTeCViewers",
+    "ExpectedCases": 4,
+    "Completed": 4,
+    "Passed": 4,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-json-viewer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "d0b3d27882434759957320fa3986b18a",
+        "702fc412b177448db3a4e77ebdaca655",
+        "03f04e10264046a9acc019bce8e84542"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "JSONView64.exe",
+          "Sha256": "3f607389f6ee2e6679022a32db8c24f4dc75fcee1356ab3afc2d64eabc577f33",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-json-viewer\\JSONView64.exe",
+          "Sha256": "3f607389f6ee2e6679022a32db8c24f4dc75fcee1356ab3afc2d64eabc577f33",
+          "StartedAtUtc": "2026-11-03T07:49:14.4941859Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 6712,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-json-viewer' failed. Run ID: 6529c4944dae461c9011459b149a1dcc. Saved state: package.mitec-json-viewer. Completed operations: <none>. Failed operation: package.mitec-json-viewer. Unfinished operations: package.mitec-json-viewer. Recovery: run '.\\ride.ps1 restore -RunId 6529c4944dae461c9011459b149a1dcc', then reapply the same profile. Error: Portable destination collision: JSONView64.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-json-viewer' failed. Run ID: 9c15b20f399946119246459a29a568e4. Saved state: package.mitec-json-viewer. Completed operations: <none>. Failed operation: package.mitec-json-viewer. Unfinished operations: package.mitec-json-viewer. Recovery: run '.\\ride.ps1 restore -RunId 9c15b20f399946119246459a29a568e4', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-json-viewer",
+      "Variant": "portable-x86",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "8ace1e26e23e4ee1b1146b6e1d1196ec",
+        "f3ada508fe8447ce991ee43394aaaa81",
+        "0501ac58ea0948e9859ee9cea0830ed9"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "JSONView.exe",
+          "Sha256": "394f6919e446e5a191905dbe6dd41d55a731b4177d45e0392dc06c92f0b23513",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-json-viewer\\JSONView.exe",
+          "Sha256": "394f6919e446e5a191905dbe6dd41d55a731b4177d45e0392dc06c92f0b23513",
+          "StartedAtUtc": "2026-11-03T07:49:32.5983405Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 10120,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-json-viewer' failed. Run ID: 3ceb29306445495685a5d895db09cefb. Saved state: package.mitec-json-viewer. Completed operations: <none>. Failed operation: package.mitec-json-viewer. Unfinished operations: package.mitec-json-viewer. Recovery: run '.\\ride.ps1 restore -RunId 3ceb29306445495685a5d895db09cefb', then reapply the same profile. Error: Portable destination collision: JSONView.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-json-viewer' failed. Run ID: 8229a3e7be3e44b0805624dc14a9d7eb. Saved state: package.mitec-json-viewer. Completed operations: <none>. Failed operation: package.mitec-json-viewer. Unfinished operations: package.mitec-json-viewer. Recovery: run '.\\ride.ps1 restore -RunId 8229a3e7be3e44b0805624dc14a9d7eb', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "5d019bd64fba42df8f429616f1928ef7",
+        "604b251db44f437296be0ba8947b1474",
+        "ed21c00d28284ab599fb2e3928b78b78"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "XMLView64.exe",
+          "Sha256": "f32c4416c2a6adddd3769bc67234f45aea2e14132cacb22b0533695b8cea3d20",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-xml-viewer\\XMLView64.exe",
+          "Sha256": "f32c4416c2a6adddd3769bc67234f45aea2e14132cacb22b0533695b8cea3d20",
+          "StartedAtUtc": "2026-11-03T07:49:52.5050082Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 7004,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-xml-viewer' failed. Run ID: 339bdbb35bd542a7bc28fc2e5c5b4ca0. Saved state: package.mitec-xml-viewer. Completed operations: <none>. Failed operation: package.mitec-xml-viewer. Unfinished operations: package.mitec-xml-viewer. Recovery: run '.\\ride.ps1 restore -RunId 339bdbb35bd542a7bc28fc2e5c5b4ca0', then reapply the same profile. Error: Portable destination collision: XMLView64.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-xml-viewer' failed. Run ID: d815150863bb4198980dacc788d68fe6. Saved state: package.mitec-xml-viewer. Completed operations: <none>. Failed operation: package.mitec-xml-viewer. Unfinished operations: package.mitec-xml-viewer. Recovery: run '.\\ride.ps1 restore -RunId d815150863bb4198980dacc788d68fe6', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-xml-viewer",
+      "Variant": "portable-x86",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "2108ce27989640a487a52f213dfa1a31",
+        "09d8cae933ec419f8993506bab8c3948",
+        "b8b9e750cd50417b87b37a97d34a66b9"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "XMLView.exe",
+          "Sha256": "d498af4595aeb982450b4f3aa1d16c6be1c7efe24c71873779cb233a92e25dc2",
+          "AuthenticodeStatus": "Valid",
+          "SignerThumbprint": "ACEEBDADAF8E139C5B5B62A835440BED74747EDF"
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-xml-viewer\\XMLView.exe",
+          "Sha256": "d498af4595aeb982450b4f3aa1d16c6be1c7efe24c71873779cb233a92e25dc2",
+          "StartedAtUtc": "2026-11-03T07:50:10.1237036Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 7816,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-xml-viewer' failed. Run ID: 1293eb563c9d4365a0f3795062827240. Saved state: package.mitec-xml-viewer. Completed operations: <none>. Failed operation: package.mitec-xml-viewer. Unfinished operations: package.mitec-xml-viewer. Recovery: run '.\\ride.ps1 restore -RunId 1293eb563c9d4365a0f3795062827240', then reapply the same profile. Error: Portable destination collision: XMLView.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-xml-viewer' failed. Run ID: f2f731c1325d491cabe614803e532f78. Saved state: package.mitec-xml-viewer. Completed operations: <none>. Failed operation: package.mitec-xml-viewer. Unfinished operations: package.mitec-xml-viewer. Recovery: run '.\\ride.ps1 restore -RunId f2f731c1325d491cabe614803e532f78', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T07:49:09.8220891Z",
+    "SinceUtc": "2026-11-03T07:45:54.42532Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T07:50:29.5800614Z",
+    "SinceUtc": "2026-11-03T07:45:54.42532Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "Limitation": "Four native startup/lifecycle/recovery cases passed in session 0. The protected controller still expects ToolExecuted=false for MiTeC and classified the outer request Failed. No interactive UI or feature acceptance; reporting fix awaits idle controller refresh."
+}

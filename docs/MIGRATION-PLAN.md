@@ -5,13 +5,39 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
-| Packages | 34-49 | Reviewed 2026-11-03: 29 package/variant cases across 28 IDs passed 14 native lifecycle/recovery checks each with clean active Defender. Prepared remaining package routes still need controller activation/native runs; PSScriptTools Core is missing and Paradox/BDE recovery remains open. Three Nov 2 product exclusions reduced this range; the new acceptance does not double-count legacy closure. |
-| Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client/full available client RSAT lifecycle and expiring queue are source-ready. Explicit Windows Update acquisition is already approved; native build 26300 servicing/recovery remains untested. Telnet source identity and deferred component outcomes remain open. |
+| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 package/variant cases retained; attended Rufus file lifecycle and ten viewer/development startup/lifecycle cases passed in the guest. Viewer outer classification failed; Mail Checker stopped before installation on a missing snapshot dependency. Controller fixes installed and verified; application native retry running. PSScriptTools Core fixture prepared, native runtime and Paradox/BDE recovery remain open. No additional legacy closure counted. |
+| Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
 | Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but immediate native visibility failed; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN prerequisites remain unavailable. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 Attended route activation passed; capability/asset previews and Rufus native lifecycle/recovery passed. VMware preferences retired; revised fast-track startup evidence remains separate.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 Ten viewer/development variants passed guest fast-track checks with an outer reporting failure; Mail Checker preflight failed. Controller corrections installed; application retry running; capability work deferred.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
+
+## Fast-track startup and controller corrections, 2026-11-03
+
+JSON/XML Viewer x64/x86 passed four native guest cases with 15 checks each,
+bounded startup without observed errors, exact recovery and active/no-alert
+Defender. DFM Editor Delphi 11/12, Task Manager DeLuxe x64/x86 and Interbase
+Query x64/x86 subsequently passed another six cases with the same scope. The
+old installed controller expected no tool launch and rejected the
+new execution flag; its failed outer result is retained. Mail Checker's first
+attempt failed catalog validation before installation because the trimmed
+snapshot omitted Terminal palette data. Both requests recovered the pinned VM.
+The fixes retain only the two required palette data/license files and recognize
+approved MiTeC startup evidence. Sixty selected controller/snapshot tests passed
+per shell; an actual trimmed snapshot passed catalog validation. Protected
+refresh passed with the exact installed hash and Ready/Off verification; the
+Mail Checker retry is running. A pinned run-local
+PowerShell 7 fixture is source-ready for PSScriptTools; no Core native pass yet.
+
+See [viewer native evidence](archive/evidence/mitec-viewers-fast-track-native-2026-11-03.json)
+and [development native evidence](archive/evidence/mitec-development-fast-track-native-2026-11-03.json)
+and [correction/source evidence](archive/evidence/fast-track-controller-corrections-2026-11-03.json).
+Resolved: ten guest startup cases and installed fixes for two test-controller
+defects. No legacy outcome closed, retired or excluded in this follow-up.
+Partial/deferred package, capability, asset and recovery work remains counted.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 23-33, maintenance 8-12; total 121-175 exact / 120-175 rounded.
 
 ## Attended activation and fast-track scope decisions, 2026-11-03
 
