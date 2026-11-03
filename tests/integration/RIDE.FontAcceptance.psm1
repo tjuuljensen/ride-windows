@@ -13,7 +13,8 @@
   Compatibility: Candidate Windows 11 x64; native PowerShell 5.1 and 7.
   Prerequisites: Existing elevation, correlated Hyper-V guest and real licensed fonts.
   Recovery: Retain private run records; incomplete runs need inspection.
-  Version: 0.4.0. Changelog: Observe removal mismatches in a fresh read-only process.
+  Version: 0.4.1. Changelog: Suppress child progress output and retain bounded failure details.
+  0.4.0: Observe removal mismatches in a fresh read-only process.
   0.3.0: Record process identity for native enumeration evidence.
   0.2.0: Exercise saved recovery after isolated native-name gaps; retain separate
   durable lifecycle and native-enumeration results.
@@ -96,6 +97,7 @@ function Get-RideFontAcceptanceFreshProcessNames {
   $selectionBytes=[Text.Encoding]::UTF8.GetBytes((ConvertTo-Json -InputObject @($Selection.FullName) -Compress))
   $command=@'
 $ErrorActionPreference='Stop'
+$ProgressPreference='SilentlyContinue'
 $module=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('__MODULE__'))
 $selected=@([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('__SELECTION__'))|ConvertFrom-Json)
 Import-Module -Name $module -Force
@@ -117,7 +119,12 @@ $result=@{ProcessId=$PID;ObservedAtUtc=[datetime]::UtcNow.ToString('o');NativeNa
       throw 'Fresh font observation exceeded its 30-second bound.'
     }
     $text=$output.GetAwaiter().GetResult();$errorText=$errors.GetAwaiter().GetResult()
-    if($process.ExitCode -ne 0 -or $errorText -or $text.Length -gt 1048576){throw 'Fresh font observation failed or exceeded its output bound.'}
+    $process.Refresh()
+    if($null -eq $process.ExitCode -or $process.ExitCode -ne 0 -or $errorText -or $text.Length -gt 1048576){
+      $failure=[InvalidOperationException]::new('Fresh font observation failed or exceeded its output bound.')
+      $failure.Data['RideFontChild']=[pscustomobject]@{ProcessId=$process.Id;ExitCode=$process.ExitCode;StandardOutputLength=$text.Length;StandardErrorLength=$errorText.Length;StandardOutput=$text.Substring(0,[Math]::Min(4096,$text.Length));StandardError=$errorText.Substring(0,[Math]::Min(4096,$errorText.Length))}
+      throw $failure
+    }
     $observed=$text|ConvertFrom-Json
     if($observed.ProcessId -ne $process.Id -or $observed.ProcessId -eq $PID -or $null -eq $observed.NativeNames -or @($observed.NativeNames|Where-Object {$_ -cnotin $Selection.FullName}).Count){throw 'Fresh font observation identity or selection differs.'}
     $observed|Add-Member NoteProperty Status 'Observed'
@@ -256,7 +263,7 @@ function Invoke-RideFontAcceptance {
     if(Test-RideFontAcceptanceEqual $before.NativeNames $afterRemoval.NativeNames){$checks.Add('RemovedToInitialState')}else{$nativeFailures.Add('Remove')}
     if('Remove' -in $nativeFailures){
       try{$fresh=Get-RideFontAcceptanceFreshProcessNames -Selection $selection}
-      catch{$fresh=[pscustomobject]@{Status='Failed';Error=$_.Exception.Message;NativeNames=$null}}
+      catch{$fresh=[pscustomobject]@{Status='Failed';Error=$_.Exception.Message;NativeNames=$null;ChildProcess=$_.Exception.Data['RideFontChild']}}
       if($fresh.Status -ceq 'Observed'){
         # A paired parent read separates process-specific visibility from simple
         # convergence during child startup. Neither observation replaces the gate.

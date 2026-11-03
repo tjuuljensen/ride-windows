@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T11:25:37.7868062+00:00",
+  "Status": "SourceTestedNativePending",
+  "ModuleVersion": "0.4.1",
+  "OriginalRunId": "dd7aaf346da949b2a1aead7768951d71",
+  "Changes": [
+    "Suppress only child progress output; stderr and nonzero exit still fail.",
+    "Refresh child exit state and retain at most 4096 characters from each output stream on rejection.",
+    "Keep original native-enumeration failure and saved recovery independent."
+  ],
+  "InertEncodedCommandCheck": [
+    {
+      "Mode": "Default",
+      "ExitCode": 0,
+      "Stdout": "{\"Fixture\":true}",
+      "Stderr": "#< CLIXML\r\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><Obj S=\"progress\" RefId=\"0\"><TN RefId=\"0\"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N=\"SourceId\">1</I64><PR N=\"Record\"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj><Obj S=\"progress\" RefId=\"1\"><TNRef RefId=\"0\" /><MS><I64 N=\"SourceId\">0</I64><PR N=\"Record\"><AV>Inert progress fixture</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Processing</T><SR>-1</SR><SD>Testing</SD></PR></MS></Obj></Objs>",
+      "MachineChanges": false,
+      "FontApisInvoked": false
+    },
+    {
+      "Mode": "Suppressed",
+      "ExitCode": 0,
+      "Stdout": "{\"Fixture\":true}",
+      "Stderr": "",
+      "MachineChanges": false,
+      "FontApisInvoked": false
+    }
+  ],
+  "Tests": [
+    {
+      "Passed": 52,
+      "AtUtc": "2026-11-03T11:23:24.861168Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "AtUtc": "2026-11-03T11:23:16.8100349Z",
+      "Edition": "Core",
+      "PowerShell": "7.6.5",
+      "Skipped": 0,
+      "Passed": 52,
+      "Failed": 0
+    }
+  ],
+  "SourceSha256": "F3BB5241910CC462E7BFEF637338FDABE5BDB78AE81B61FECAF7A61E72B4F66E",
+  "Alignment": {
+    "RecordedAtUtc": "2026-11-03T12:13:50.1288567+01:00",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "PeerHead": "1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a",
+    "PeerRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "PeerProvidersSha256": "005C325CDAA3DA489A4A5FD4A1A54FB05FD3D9A2C0DA29EFA7EEEB88B7F36A6D"
+  },
+  "Limits": [
+    "Inert progress reproduction establishes a possible diagnostic failure mode, not the cause of the original native failure.",
+    "No host font API call or font mutation; native retry pending.",
+    "No original acceptance gate, privilege, recovery or support declaration changed."
+  ],
+  "Followup": "One Fonts Prepare/Lifecycle/Collect/Reset after all five corrected package requests finish with verified recovery, using the existing expiring retained task."
+}

@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 12:17 Copenhagen: **30 MiTeC variants across 25 products passed
+Evidence through 12:25 Copenhagen: **30 MiTeC variants across 25 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -53,7 +53,24 @@ Windows PowerShell 5.1 and PowerShell 7.6.5. Core used the signed run-local ZIP
 fixture; its temporary host staging copy was removed after verified recovery.
 See [dual-edition runtime evidence](../archive/evidence/psscripttools-dual-edition-runtime-native-2026-11-03.json).
 The seven-run coverage queue is exhausted: five outer passes and two failures,
-all with verified checkpoint recovery. Font diagnostics started automatically.
+all with verified checkpoint recovery. Retained font/Wi-Fi diagnostics also
+completed collection and reset/release without a new prompt.
+
+Fonts again passed durable file/registration/security recovery, but failed native
+enumeration at Remove, RestoreInitial and RepeatRestore. The fresh child reader
+failed with a generic output/exit error; separate collection still saw Open Sauce
+Sans Light with no selected files or registrations present. See
+[font diagnostic](../archive/evidence/font-fresh-process-diagnostic-native-2026-11-03.json).
+An inert test shows that PowerShell progress can populate stderr on a successful
+exit. The reader now suppresses progress and retains bounded failure details;
+52 mocked tests passed per shell. This does not prove the original failure cause.
+One corrected font follow-up is queued after the five package retries. See
+[source correction](../archive/evidence/font-child-reporting-correction-source-2026-11-03.json).
+
+Wi-Fi preparation recorded `WlanSvc=Stopped`; native profile acceptance did not
+run. No service start, profile content read, import or connection occurred.
+Collection and checkpoint recovery passed. See
+[WLAN observation](../archive/evidence/wireless-stopped-service-native-2026-11-03.json).
 
 Rufus and RegRipper each passed their native file lifecycle with Defender and
 verified reset/off recovery. Neither tool was launched. See
@@ -267,12 +284,12 @@ Current execution order after attended activation:
 2. The first queue and seven-run coverage queue are exhausted with all 15
    checkpoint recoveries verified. Preserve their product failures separately
    from passing cases; PSScriptTools now has both-edition runtime acceptance.
-3. After package recovery, run the paired font-process diagnostic and read-only
-   WLAN prerequisite observation through the registered retained task. Keep the
-   original font failure gate; do not start WLAN services or connect to a network.
-   Collect evidence and reset/release each retained request before the next.
-   Then run the source-corrected InfoBar, Project Maker, Gpg4win, TMOG and
-   System Information/TAPI retries; preserve failures without unchanged repeats.
+3. The retained font diagnostic and read-only WLAN observation are complete;
+   both collections and reset/releases are verified. Continue the active
+   source-corrected InfoBar, Project Maker, Gpg4win, TMOG and System Information/
+   TAPI retries. Then run one corrected font reader follow-up through the same
+   registered retained task. Keep the original font failure gate and collect/
+   reset/release requirements. Do not repeat unchanged failed scenarios.
 4. OpenSSH/RSAT remain deferred because the baseline requires servicing restart
    and the capability task was removed after recovery. Resolve readiness and
    demonstrate corrected preflight reporting before future activation; explicit

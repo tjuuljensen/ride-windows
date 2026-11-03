@@ -7,13 +7,29 @@
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
 | Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper/WFN file lifecycles and Explorer Suite installer lifecycle and 30 MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. InfoBar and Project Maker stopped before install at stale regression assertions. Tested installer/fixture corrections await native retries. DirList and Network Meter now passed; Scanner x86 remains failed. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Desktop/Core runtime and package recovery passed; shared-BDE recovery remains open. No additional legacy closure counted. |
 | Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
-| Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but immediate native visibility failed; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN prerequisites remain unavailable. |
+| Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but native visibility failed; fresh-child reporting correction passed 52 tests per shell and awaits retry; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN preparation observed WlanSvc Stopped; native profile acceptance remains unrun. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 PSScriptTools/ThreadJob package lifecycles and all four Desktop/Core runtime probes passed, with Defender and checkpoint recovery. Both package queues are exhausted; all 15 recoveries verified. Font diagnostics are active.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 font durable recovery passed but native enumeration and fresh-child observation failed; WLAN service was Stopped. Both retained routes collected/reset/released successfully. Tested child-reporting fix awaits retry; corrected packages are active.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
 
 ## Fast-track startup and controller corrections, 2026-11-03
+
+Fonts retained durable recovery but failed native enumeration at three stages;
+the fresh child observation also failed without raw error detail. Separate
+collection still saw one selected name with no selected files/registrations.
+The child now suppresses progress and records bounded failure details; 52 mocked
+tests passed per shell, with native retry pending. An inert progress reproduction
+does not establish the original failure cause. WLAN preparation observed its
+service Stopped and did not run profile acceptance. Both retained routes passed
+collection, checkpoint reset and hold release. See
+[font result](archive/evidence/font-fresh-process-diagnostic-native-2026-11-03.json),
+[reporting correction](archive/evidence/font-child-reporting-correction-source-2026-11-03.json)
+and [WLAN result](archive/evidence/wireless-stopped-service-native-2026-11-03.json).
+No additional legacy outcome closed, retired or excluded. All five ranges were
+reviewed unchanged: 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175 and
+rounded 120-175; failed, partial and deferred acceptance remain counted.
+
 
 PSScriptTools/ThreadJob package lifecycles and all four dependency-present/missing
 runtime probes passed in Desktop 5.1 and Core 7.6.5, with Defender and checkpoint

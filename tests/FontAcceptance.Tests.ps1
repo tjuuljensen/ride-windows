@@ -7,8 +7,8 @@
 .EXAMPLE
   Invoke-Pester ./tests/FontAcceptance.Tests.ps1
 .NOTES
-  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.4.0.
-  Changelog: Preserve removal failures and recovery across paired process diagnostics.
+  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.4.1.
+  Changelog: Retain structured child failure evidence while completing saved recovery.
 #>
 BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot 'integration/RIDE.FontAcceptance.psm1') -Force}
 Describe 'Guarded machine-font guest acceptance' {
@@ -167,7 +167,11 @@ Describe 'Guarded machine-font guest acceptance' {
     It 'retains removal failure and finishes recovery with fresh-process diagnostic <FreshStatus>' -ForEach @(
       @{FreshStatus='Observed'},@{FreshStatus='Failed'}
     ) {
-      if($FreshStatus -eq 'Failed'){Mock Get-RideFontAcceptanceFreshProcessNames {throw 'Synthetic fresh reader failure'}}
+      if($FreshStatus -eq 'Failed'){Mock Get-RideFontAcceptanceFreshProcessNames {
+        $failure=[InvalidOperationException]::new('Synthetic fresh reader failure')
+        $failure.Data['RideFontChild']=[pscustomobject]@{ExitCode=1;StandardError='Synthetic child error'}
+        throw $failure
+      }}
       Mock Remove-RideMachineFonts {
         $script:present=$false;$script:absent.NativeNames=@('Synthetic Regular')
         [pscustomobject]@{SchemaVersion=1;Status='Applied';RunId=$script:removeId}
@@ -188,6 +192,7 @@ Describe 'Guarded machine-font guest acceptance' {
       $result.Checks|Should -Contain 'InitialStateRestored'
       $result.RemovalFreshProcessObservation.Status|Should -BeExactly $FreshStatus
       if($FreshStatus -eq 'Observed'){$result.RemovalFreshProcessObservation.ParentNativeNamesAfterFresh|Should -Be @('Synthetic Regular')}
+      else{$result.RemovalFreshProcessObservation.ChildProcess.ExitCode|Should -Be 1;$result.RemovalFreshProcessObservation.ChildProcess.StandardError|Should -BeExactly 'Synthetic child error'}
       Test-Path -LiteralPath (Join-Path $result.EvidenceDirectory 'after-removal-fresh-process.json')|Should -BeTrue
       Should -Invoke Get-RideFontAcceptanceFreshProcessNames -Times 1 -Exactly
     }

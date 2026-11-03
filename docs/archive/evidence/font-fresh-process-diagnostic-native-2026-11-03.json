@@ -1,0 +1,839 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T11:24:36.6523226+00:00",
+  "Family": "Fonts",
+  "Status": "Failed",
+  "RunId": "dd7aaf346da949b2a1aead7768951d71",
+  "QueueReceipt": {
+    "Family": "Fonts",
+    "RunId": "dd7aaf346da949b2a1aead7768951d71",
+    "Status": "Failed",
+    "Phases": [
+      {
+        "Phase": "Prepare",
+        "Status": "Prepared",
+        "ReportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\night-retained-a1b974e3995c4bba93e390b7c56fc893.json",
+        "Error": null,
+        "HandlerError": null
+      },
+      {
+        "Phase": "Lifecycle",
+        "Status": "Failed",
+        "ReportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\night-retained-d8fb366ad7a042db941535413b649a6f.json",
+        "Error": null,
+        "HandlerError": "Guest phase did not establish every required lifecycle check."
+      },
+      {
+        "Phase": "Collect",
+        "Status": "Collected",
+        "ReportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\night-retained-d7141a667a364758b509004b05aee089.json",
+        "Error": null,
+        "HandlerError": null
+      },
+      {
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "ReportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\night-retained-5c6185a8acc240cb9f066963c93a63d1.json",
+        "Error": null,
+        "HandlerError": null
+      }
+    ],
+    "RecoveryVerified": true
+  },
+  "Results": [
+    {
+      "RequestId": "a1b974e3995c4bba93e390b7c56fc893",
+      "RunId": "dd7aaf346da949b2a1aead7768951d71",
+      "Family": "Fonts",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Prepared",
+      "StartedAtUtc": "2026-11-03T11:15:27.673478Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "dd7aaf346da949b2a1aead7768951d71",
+        "LeaseId": "e445826d634440138772748449a673ce",
+        "Phase": "Prepare",
+        "Status": "Prepared",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce\\export.db0c64daeede43d39eb466ca3a900638",
+          "FileCount": 21,
+          "GuestStatus": "Collected",
+          "FontObservation": null
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "FontVmPreparation",
+          "RunId": "dd7aaf346da949b2a1aead7768951d71",
+          "LeaseId": "e445826d634440138772748449a673ce",
+          "Status": "Prepared",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711
+          },
+          "NativeAcceptancePassed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "272dfd4c-88b4-4e3e-abec-dd08f40ffa3f",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce",
+        "RecordedAtUtc": "2026-11-03T11:15:54.5386024Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.FontFiles.psm1",
+            "Bytes": 7793,
+            "Sha256": "41D59BBE7D9453B2627A6D1A64079F43CCAA5F66E117EA08EF77AFA1EE843564"
+          },
+          {
+            "Path": "modules/RIDE.MachineFonts.psm1",
+            "Bytes": 28874,
+            "Sha256": "C1B029CDB5AEEA8520D305F8C6E464C7D3E9CF434B8B22996A76EC5F26CC6F06"
+          },
+          {
+            "Path": "tests/integration/RIDE.FontAcceptance.psm1",
+            "Bytes": 21902,
+            "Sha256": "B4C58B04C02FF1B450B4CBDCF537B519EE83F56BC892351744CAE24945CDB6CF"
+          },
+          {
+            "Path": "inputs/fonts.psd1",
+            "Bytes": 1872,
+            "Sha256": "E4C2E4E520F200BA7F7A0ED9A5166D0E137A235713A9079C5722B2D384142072"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Black.ttf",
+            "Bytes": 67168,
+            "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BlackItalic.ttf",
+            "Bytes": 71096,
+            "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Bold.ttf",
+            "Bytes": 59772,
+            "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BoldItalic.ttf",
+            "Bytes": 65344,
+            "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBold.ttf",
+            "Bytes": 64032,
+            "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBoldItalic.ttf",
+            "Bytes": 70300,
+            "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Italic.ttf",
+            "Bytes": 65124,
+            "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Light.ttf",
+            "Bytes": 60540,
+            "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-LightItalic.ttf",
+            "Bytes": 65456,
+            "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Medium.ttf",
+            "Bytes": 60232,
+            "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-MediumItalic.ttf",
+            "Bytes": 65728,
+            "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Regular.ttf",
+            "Bytes": 59592,
+            "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBold.ttf",
+            "Bytes": 59900,
+            "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBoldItalic.ttf",
+            "Bytes": 65800,
+            "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+          },
+          {
+            "Path": "inputs/OFL.txt",
+            "Bytes": 4534,
+            "Sha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7"
+          }
+        ]
+      },
+      "HostModuleSha256": "4F31448274686F4A844C3024664337DE012A92BCCDB68649DD5B6A7BD4526E39",
+      "FinishedAtUtc": "2026-11-03T11:16:50.3913326Z"
+    },
+    {
+      "RequestId": "d8fb366ad7a042db941535413b649a6f",
+      "RunId": "dd7aaf346da949b2a1aead7768951d71",
+      "Family": "Fonts",
+      "Phase": "Lifecycle",
+      "Preview": false,
+      "Status": "Failed",
+      "StartedAtUtc": "2026-11-03T11:17:01.3880518Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "dd7aaf346da949b2a1aead7768951d71",
+        "LeaseId": "e445826d634440138772748449a673ce",
+        "Phase": "Lifecycle",
+        "Status": "Failed",
+        "Stage": "Lifecycle",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce\\export.2e78b4ddc8dd4757b065123bcd82a901",
+          "FileCount": 33,
+          "GuestStatus": "Collected",
+          "FontObservation": {
+            "ObservedAtUtc": "2026-11-03T11:17:56.2452583Z",
+            "ProcessIdentity": {
+              "ProcessId": 8456,
+              "ProcessStartUtc": "2026-11-03T11:17:51.0086534Z",
+              "SessionId": 0
+            },
+            "FilesMatchInitial": true,
+            "RegistryRowsMatchInitial": true,
+            "RegistrySecurityMatchesInitial": true,
+            "NativeNamesMatchInitial": false,
+            "CurrentSelectedNativeNames": [
+              "Open Sauce Sans Light"
+            ],
+            "CurrentSelectedFilesPresent": 0,
+            "CurrentSelectedRegistrationsPresent": 0
+          }
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "MachineFontAcceptance",
+          "RunId": "dd7aaf346da949b2a1aead7768951d71",
+          "RecordedAtUtc": "2026-11-03T11:17:39.0244615Z",
+          "Status": "Failed",
+          "Reason": "NativeEnumerationMismatch",
+          "Stage": "Complete",
+          "Error": "Captured file/registration recovery passed, but native font enumeration did not match at every stage.",
+          "NativeAcceptancePassed": false,
+          "DurableLifecyclePassed": true,
+          "NativeEnumerationFailures": [
+            "Remove",
+            "RestoreInitial",
+            "RepeatRestore"
+          ],
+          "CrossSessionAcceptancePassed": false,
+          "RestartAcceptancePassed": false,
+          "RecoveryRequired": true,
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "SessionId": 0,
+          "ProcessIdentity": {
+            "ProcessId": 460,
+            "ProcessStartUtc": "2026-11-03T11:17:35.9359628Z",
+            "SessionId": 0
+          },
+          "Checks": [
+            "PreviewNoChanges",
+            "InstalledNativeNamesFilesRegistrationAndPrivateState",
+            "RepeatNoChanges",
+            "InstalledBytesPermissionsMetadataAndNativeNamesRestored"
+          ],
+          "DurableRecoveryChecks": [
+            "RemovedFilesRegistrationAndPermissions",
+            "InstalledBytesPermissionsMetadataRestored",
+            "InitialFilesRegistrationAndPermissionsRestored",
+            "RepeatedRestoreDurableNoChanges"
+          ],
+          "LifecycleRuns": [
+            {
+              "Action": "Install",
+              "RunId": "45bb5e55553446a9a660a9c424c15d5e",
+              "Restored": true
+            },
+            {
+              "Action": "Remove",
+              "RunId": "f6d462eb39b74e7caa0feeb6132dba88",
+              "Restored": true
+            }
+          ],
+          "StateRunIds": [
+            "45bb5e55553446a9a660a9c424c15d5e",
+            "f6d462eb39b74e7caa0feeb6132dba88"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\e445826d634440138772748449a673ce\\evidence\\dd7aaf346da949b2a1aead7768951d71",
+          "Selection": [
+            {
+              "FileName": "OpenSauceSans-Black.ttf",
+              "RegistryName": "Open Sauce Sans Black (TrueType)",
+              "FullName": "Open Sauce Sans Black",
+              "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+            },
+            {
+              "FileName": "OpenSauceSans-BlackItalic.ttf",
+              "RegistryName": "Open Sauce Sans Black Italic (TrueType)",
+              "FullName": "Open Sauce Sans Black Italic",
+              "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+            },
+            {
+              "FileName": "OpenSauceSans-Bold.ttf",
+              "RegistryName": "Open Sauce Sans Bold (TrueType)",
+              "FullName": "Open Sauce Sans Bold",
+              "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+            },
+            {
+              "FileName": "OpenSauceSans-BoldItalic.ttf",
+              "RegistryName": "Open Sauce Sans Bold Italic (TrueType)",
+              "FullName": "Open Sauce Sans Bold Italic",
+              "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+            },
+            {
+              "FileName": "OpenSauceSans-ExtraBold.ttf",
+              "RegistryName": "Open Sauce Sans ExtraBold (TrueType)",
+              "FullName": "Open Sauce Sans ExtraBold",
+              "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+            },
+            {
+              "FileName": "OpenSauceSans-ExtraBoldItalic.ttf",
+              "RegistryName": "Open Sauce Sans ExtraBold Italic (TrueType)",
+              "FullName": "Open Sauce Sans ExtraBold Italic",
+              "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+            },
+            {
+              "FileName": "OpenSauceSans-Italic.ttf",
+              "RegistryName": "Open Sauce Sans Italic (TrueType)",
+              "FullName": "Open Sauce Sans Italic",
+              "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+            },
+            {
+              "FileName": "OpenSauceSans-Light.ttf",
+              "RegistryName": "Open Sauce Sans Light (TrueType)",
+              "FullName": "Open Sauce Sans Light",
+              "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+            },
+            {
+              "FileName": "OpenSauceSans-LightItalic.ttf",
+              "RegistryName": "Open Sauce Sans Light Italic (TrueType)",
+              "FullName": "Open Sauce Sans Light Italic",
+              "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+            },
+            {
+              "FileName": "OpenSauceSans-Medium.ttf",
+              "RegistryName": "Open Sauce Sans Medium (TrueType)",
+              "FullName": "Open Sauce Sans Medium",
+              "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+            },
+            {
+              "FileName": "OpenSauceSans-MediumItalic.ttf",
+              "RegistryName": "Open Sauce Sans Medium Italic (TrueType)",
+              "FullName": "Open Sauce Sans Medium Italic",
+              "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+            },
+            {
+              "FileName": "OpenSauceSans-Regular.ttf",
+              "RegistryName": "Open Sauce Sans Regular (TrueType)",
+              "FullName": "Open Sauce Sans Regular",
+              "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+            },
+            {
+              "FileName": "OpenSauceSans-SemiBold.ttf",
+              "RegistryName": "Open Sauce Sans SemiBold (TrueType)",
+              "FullName": "Open Sauce Sans SemiBold",
+              "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+            },
+            {
+              "FileName": "OpenSauceSans-SemiBoldItalic.ttf",
+              "RegistryName": "Open Sauce Sans SemiBold Italic (TrueType)",
+              "FullName": "Open Sauce Sans SemiBold Italic",
+              "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+            }
+          ],
+          "RemovalFreshProcessObservation": {
+            "Status": "Failed",
+            "Error": "Fresh font observation failed or exceeded its output bound.",
+            "NativeNames": null
+          },
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "e7206ac6-e71f-4beb-9bd6-1d87472e40ba",
+          "PSShowComputerName": true
+        },
+        "Error": "Guest phase did not establish every required lifecycle check.",
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce",
+        "RecordedAtUtc": "2026-11-03T11:17:31.823814Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.FontFiles.psm1",
+            "Bytes": 7793,
+            "Sha256": "41D59BBE7D9453B2627A6D1A64079F43CCAA5F66E117EA08EF77AFA1EE843564"
+          },
+          {
+            "Path": "modules/RIDE.MachineFonts.psm1",
+            "Bytes": 28874,
+            "Sha256": "C1B029CDB5AEEA8520D305F8C6E464C7D3E9CF434B8B22996A76EC5F26CC6F06"
+          },
+          {
+            "Path": "tests/integration/RIDE.FontAcceptance.psm1",
+            "Bytes": 21902,
+            "Sha256": "B4C58B04C02FF1B450B4CBDCF537B519EE83F56BC892351744CAE24945CDB6CF"
+          },
+          {
+            "Path": "inputs/fonts.psd1",
+            "Bytes": 1872,
+            "Sha256": "E4C2E4E520F200BA7F7A0ED9A5166D0E137A235713A9079C5722B2D384142072"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Black.ttf",
+            "Bytes": 67168,
+            "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BlackItalic.ttf",
+            "Bytes": 71096,
+            "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Bold.ttf",
+            "Bytes": 59772,
+            "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BoldItalic.ttf",
+            "Bytes": 65344,
+            "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBold.ttf",
+            "Bytes": 64032,
+            "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBoldItalic.ttf",
+            "Bytes": 70300,
+            "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Italic.ttf",
+            "Bytes": 65124,
+            "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Light.ttf",
+            "Bytes": 60540,
+            "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-LightItalic.ttf",
+            "Bytes": 65456,
+            "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Medium.ttf",
+            "Bytes": 60232,
+            "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-MediumItalic.ttf",
+            "Bytes": 65728,
+            "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Regular.ttf",
+            "Bytes": 59592,
+            "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBold.ttf",
+            "Bytes": 59900,
+            "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBoldItalic.ttf",
+            "Bytes": 65800,
+            "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+          },
+          {
+            "Path": "inputs/OFL.txt",
+            "Bytes": 4534,
+            "Sha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7"
+          }
+        ]
+      },
+      "HostModuleSha256": "4F31448274686F4A844C3024664337DE012A92BCCDB68649DD5B6A7BD4526E39",
+      "FinishedAtUtc": "2026-11-03T11:17:58.5314241Z"
+    },
+    {
+      "RequestId": "d7141a667a364758b509004b05aee089",
+      "RunId": "dd7aaf346da949b2a1aead7768951d71",
+      "Family": "Fonts",
+      "Phase": "Collect",
+      "Preview": false,
+      "Status": "Collected",
+      "StartedAtUtc": "2026-11-03T11:18:07.7322454Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "dd7aaf346da949b2a1aead7768951d71",
+        "LeaseId": "e445826d634440138772748449a673ce",
+        "Phase": "Collect",
+        "Status": "Collected",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce\\export.0f3f3ca59d6948c8a4bc8be99e15225c",
+          "FileCount": 33,
+          "GuestStatus": "Collected",
+          "FontObservation": {
+            "ObservedAtUtc": "2026-11-03T11:18:45.5835231Z",
+            "ProcessIdentity": {
+              "ProcessId": 1772,
+              "ProcessStartUtc": "2026-11-03T11:18:40.8650271Z",
+              "SessionId": 0
+            },
+            "FilesMatchInitial": true,
+            "RegistryRowsMatchInitial": true,
+            "RegistrySecurityMatchesInitial": true,
+            "NativeNamesMatchInitial": false,
+            "CurrentSelectedNativeNames": [
+              "Open Sauce Sans Light"
+            ],
+            "CurrentSelectedFilesPresent": 0,
+            "CurrentSelectedRegistrationsPresent": 0
+          }
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce",
+        "RecordedAtUtc": "2026-11-03T11:18:36.9316472Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.FontFiles.psm1",
+            "Bytes": 7793,
+            "Sha256": "41D59BBE7D9453B2627A6D1A64079F43CCAA5F66E117EA08EF77AFA1EE843564"
+          },
+          {
+            "Path": "modules/RIDE.MachineFonts.psm1",
+            "Bytes": 28874,
+            "Sha256": "C1B029CDB5AEEA8520D305F8C6E464C7D3E9CF434B8B22996A76EC5F26CC6F06"
+          },
+          {
+            "Path": "tests/integration/RIDE.FontAcceptance.psm1",
+            "Bytes": 21902,
+            "Sha256": "B4C58B04C02FF1B450B4CBDCF537B519EE83F56BC892351744CAE24945CDB6CF"
+          },
+          {
+            "Path": "inputs/fonts.psd1",
+            "Bytes": 1872,
+            "Sha256": "E4C2E4E520F200BA7F7A0ED9A5166D0E137A235713A9079C5722B2D384142072"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Black.ttf",
+            "Bytes": 67168,
+            "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BlackItalic.ttf",
+            "Bytes": 71096,
+            "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Bold.ttf",
+            "Bytes": 59772,
+            "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BoldItalic.ttf",
+            "Bytes": 65344,
+            "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBold.ttf",
+            "Bytes": 64032,
+            "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBoldItalic.ttf",
+            "Bytes": 70300,
+            "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Italic.ttf",
+            "Bytes": 65124,
+            "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Light.ttf",
+            "Bytes": 60540,
+            "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-LightItalic.ttf",
+            "Bytes": 65456,
+            "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Medium.ttf",
+            "Bytes": 60232,
+            "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-MediumItalic.ttf",
+            "Bytes": 65728,
+            "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Regular.ttf",
+            "Bytes": 59592,
+            "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBold.ttf",
+            "Bytes": 59900,
+            "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBoldItalic.ttf",
+            "Bytes": 65800,
+            "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+          },
+          {
+            "Path": "inputs/OFL.txt",
+            "Bytes": 4534,
+            "Sha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7"
+          }
+        ]
+      },
+      "HostModuleSha256": "4F31448274686F4A844C3024664337DE012A92BCCDB68649DD5B6A7BD4526E39",
+      "FinishedAtUtc": "2026-11-03T11:18:47.4712296Z"
+    },
+    {
+      "RequestId": "5c6185a8acc240cb9f066963c93a63d1",
+      "RunId": "dd7aaf346da949b2a1aead7768951d71",
+      "Family": "Fonts",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-03T11:18:57.5043746Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "dd7aaf346da949b2a1aead7768951d71",
+        "LeaseId": "e445826d634440138772748449a673ce",
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce\\export.10803749487c41ac9be4f238d4031935",
+          "FileCount": 33,
+          "GuestStatus": "Collected",
+          "FontObservation": {
+            "ObservedAtUtc": "2026-11-03T11:19:39.4039266Z",
+            "ProcessIdentity": {
+              "ProcessId": 9536,
+              "ProcessStartUtc": "2026-11-03T11:19:33.5125297Z",
+              "SessionId": 0
+            },
+            "FilesMatchInitial": true,
+            "RegistryRowsMatchInitial": true,
+            "RegistrySecurityMatchesInitial": true,
+            "NativeNamesMatchInitial": false,
+            "CurrentSelectedNativeNames": [
+              "Open Sauce Sans Light"
+            ],
+            "CurrentSelectedFilesPresent": 0,
+            "CurrentSelectedRegistrationsPresent": 0
+          }
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.e445826d634440138772748449a673ce",
+        "RecordedAtUtc": "2026-11-03T11:19:28.48914Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.FontFiles.psm1",
+            "Bytes": 7793,
+            "Sha256": "41D59BBE7D9453B2627A6D1A64079F43CCAA5F66E117EA08EF77AFA1EE843564"
+          },
+          {
+            "Path": "modules/RIDE.MachineFonts.psm1",
+            "Bytes": 28874,
+            "Sha256": "C1B029CDB5AEEA8520D305F8C6E464C7D3E9CF434B8B22996A76EC5F26CC6F06"
+          },
+          {
+            "Path": "tests/integration/RIDE.FontAcceptance.psm1",
+            "Bytes": 21902,
+            "Sha256": "B4C58B04C02FF1B450B4CBDCF537B519EE83F56BC892351744CAE24945CDB6CF"
+          },
+          {
+            "Path": "inputs/fonts.psd1",
+            "Bytes": 1872,
+            "Sha256": "E4C2E4E520F200BA7F7A0ED9A5166D0E137A235713A9079C5722B2D384142072"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Black.ttf",
+            "Bytes": 67168,
+            "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BlackItalic.ttf",
+            "Bytes": 71096,
+            "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Bold.ttf",
+            "Bytes": 59772,
+            "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-BoldItalic.ttf",
+            "Bytes": 65344,
+            "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBold.ttf",
+            "Bytes": 64032,
+            "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-ExtraBoldItalic.ttf",
+            "Bytes": 70300,
+            "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Italic.ttf",
+            "Bytes": 65124,
+            "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Light.ttf",
+            "Bytes": 60540,
+            "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-LightItalic.ttf",
+            "Bytes": 65456,
+            "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Medium.ttf",
+            "Bytes": 60232,
+            "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-MediumItalic.ttf",
+            "Bytes": 65728,
+            "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-Regular.ttf",
+            "Bytes": 59592,
+            "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBold.ttf",
+            "Bytes": 59900,
+            "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+          },
+          {
+            "Path": "inputs/OpenSauceSans-SemiBoldItalic.ttf",
+            "Bytes": 65800,
+            "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+          },
+          {
+            "Path": "inputs/OFL.txt",
+            "Bytes": 4534,
+            "Sha256": "13BE52D6E624C02D71E724A8C964EF6DF690E2FFA60E78ABBA37443C599CFEE7"
+          }
+        ]
+      },
+      "HostModuleSha256": "4F31448274686F4A844C3024664337DE012A92BCCDB68649DD5B6A7BD4526E39",
+      "FinishedAtUtc": "2026-11-03T11:19:48.7378893Z"
+    }
+  ],
+  "Limits": [
+    "Durable files/registration/security and saved recovery passed; native name mismatch persisted at Remove, RestoreInitial and RepeatRestore.",
+    "Fresh child observation failed with a generic output/exit error; raw child details were not retained, so cause is unproven.",
+    "Separate collection still observed Open Sauce Sans Light with zero selected files and registrations.",
+    "Native acceptance remains failed; export, checkpoint reset and hold release passed. No legacy closure."
+  ],
+  "Alignment": {
+    "RecordedAtUtc": "2026-11-03T12:13:50.1288567+01:00",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "PeerHead": "1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a",
+    "PeerRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "PeerProvidersSha256": "005C325CDAA3DA489A4A5FD4A1A54FB05FD3D9A2C0DA29EFA7EEEB88B7F36A6D"
+  },
+  "RemainingEstimate": {
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "Settings": "37-57",
+    "FilesAndAssets": "23-33",
+    "Rounded": "120-175",
+    "Exact": "121-175",
+    "Packages": "34-49"
+  }
+}

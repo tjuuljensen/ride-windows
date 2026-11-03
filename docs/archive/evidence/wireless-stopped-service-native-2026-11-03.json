@@ -1,0 +1,309 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T11:24:36.8090128+00:00",
+  "Family": "Wireless",
+  "Status": "PrerequisitesObserved",
+  "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+  "QueueReceipt": {
+    "Family": "Wireless",
+    "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+    "Status": "PrerequisitesObserved",
+    "Phases": [
+      {
+        "Phase": "Prepare",
+        "Status": "NotRun",
+        "ReportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\night-retained-51b829c84ff4446b9ba5e136dee1c5e0.json",
+        "Error": null,
+        "HandlerError": null
+      },
+      {
+        "Phase": "Collect",
+        "Status": "Collected",
+        "ReportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\night-retained-c2b9d43d3b7848bcad12ec98863b95c7.json",
+        "Error": null,
+        "HandlerError": null
+      },
+      {
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "ReportPath": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\night-retained-8c8185f2882a4de593f962beef53e446.json",
+        "Error": null,
+        "HandlerError": null
+      }
+    ],
+    "RecoveryVerified": true
+  },
+  "Results": [
+    {
+      "RequestId": "51b829c84ff4446b9ba5e136dee1c5e0",
+      "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+      "Family": "Wireless",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "NotRun",
+      "StartedAtUtc": "2026-11-03T11:19:59.208523Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+        "LeaseId": "2531f5a7612f439b868a8015851ee056",
+        "Phase": "Prepare",
+        "InterfaceId": null,
+        "Status": "NotRun",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "ProfileLifecycleAcceptancePassed": false,
+        "ConnectionAttempted": false,
+        "ConnectionVerified": false,
+        "FullDaclRecoveryVerified": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.2531f5a7612f439b868a8015851ee056\\export.a69eab7841014f1bbfdb209f77ebbb82",
+          "FileCount": 8,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "WirelessVmPreparation",
+          "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+          "LeaseId": "2531f5a7612f439b868a8015851ee056",
+          "Status": "NotRun",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711
+          },
+          "Availability": {
+            "SchemaVersion": 1,
+            "Kind": "WirelessInterfaceObservation",
+            "Status": "NotRun",
+            "Reason": "WlanServiceUnavailable",
+            "WlanService": "Stopped",
+            "Interfaces": [],
+            "ProfileContentRead": false,
+            "ConnectionAttempted": false,
+            "NativeAcceptancePassed": false
+          },
+          "NativeAcceptancePassed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "e0b9c653-2164-4f41-8b65-8debf9001437",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.2531f5a7612f439b868a8015851ee056",
+        "RecordedAtUtc": "2026-11-03T11:20:26.2597302Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.WirelessProfile.psm1",
+            "Bytes": 9681,
+            "Sha256": "4062F8B811748963F5B48409CFA0D43901E503376D591FB8FF6900C00603F98B"
+          },
+          {
+            "Path": "modules/RIDE.WirelessLifecycle.psm1",
+            "Bytes": 29007,
+            "Sha256": "2F5D0ADCB8E7EDC3545B1348ED004EEC2E4697C882152BE5C8ADF13FF5F77FA8"
+          },
+          {
+            "Path": "modules/RIDE.WirelessNative.psm1",
+            "Bytes": 11380,
+            "Sha256": "3F41A7954EB22AAADCA3F93FEE33EB2CCAF07C7FC65735FDC26B96B5C64A847B"
+          },
+          {
+            "Path": "modules/RIDE.WirelessInventory.psm1",
+            "Bytes": 19071,
+            "Sha256": "EDCB44B25151DF7881F2EC6DFBDD89D42D544C9B35CC60A12941C9E05DE046D3"
+          },
+          {
+            "Path": "tests/integration/RIDE.WirelessAcceptance.psm1",
+            "Bytes": 17160,
+            "Sha256": "4CF9B9E76A1BA54BED05A296A08D5D8AFC0689A9CA752A4E1748CF8450B13FE1"
+          },
+          {
+            "Path": "tests/fixtures/wireless-profile.synthetic.psd1",
+            "Bytes": 307,
+            "Sha256": "AE1D4BB884DA3BAEB2A0BC2C8175457CEB3A490F6C603E85B9B480B76F952FF5"
+          }
+        ]
+      },
+      "HostModuleSha256": "FE1271281B2F2DD3B2116B84222764FB0F4085E896809DA33D47993F10B12693",
+      "FinishedAtUtc": "2026-11-03T11:21:27.8520891Z"
+    },
+    {
+      "RequestId": "c2b9d43d3b7848bcad12ec98863b95c7",
+      "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+      "Family": "Wireless",
+      "Phase": "Collect",
+      "Preview": false,
+      "Status": "Collected",
+      "StartedAtUtc": "2026-11-03T11:21:39.4182256Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+        "LeaseId": "2531f5a7612f439b868a8015851ee056",
+        "Phase": "Collect",
+        "InterfaceId": null,
+        "Status": "Collected",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "ProfileLifecycleAcceptancePassed": false,
+        "ConnectionAttempted": false,
+        "ConnectionVerified": false,
+        "FullDaclRecoveryVerified": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.2531f5a7612f439b868a8015851ee056\\export.ad022070283d45679b358b6620e29938",
+          "FileCount": 8,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.2531f5a7612f439b868a8015851ee056",
+        "RecordedAtUtc": "2026-11-03T11:22:06.7611023Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.WirelessProfile.psm1",
+            "Bytes": 9681,
+            "Sha256": "4062F8B811748963F5B48409CFA0D43901E503376D591FB8FF6900C00603F98B"
+          },
+          {
+            "Path": "modules/RIDE.WirelessLifecycle.psm1",
+            "Bytes": 29007,
+            "Sha256": "2F5D0ADCB8E7EDC3545B1348ED004EEC2E4697C882152BE5C8ADF13FF5F77FA8"
+          },
+          {
+            "Path": "modules/RIDE.WirelessNative.psm1",
+            "Bytes": 11380,
+            "Sha256": "3F41A7954EB22AAADCA3F93FEE33EB2CCAF07C7FC65735FDC26B96B5C64A847B"
+          },
+          {
+            "Path": "modules/RIDE.WirelessInventory.psm1",
+            "Bytes": 19071,
+            "Sha256": "EDCB44B25151DF7881F2EC6DFBDD89D42D544C9B35CC60A12941C9E05DE046D3"
+          },
+          {
+            "Path": "tests/integration/RIDE.WirelessAcceptance.psm1",
+            "Bytes": 17160,
+            "Sha256": "4CF9B9E76A1BA54BED05A296A08D5D8AFC0689A9CA752A4E1748CF8450B13FE1"
+          },
+          {
+            "Path": "tests/fixtures/wireless-profile.synthetic.psd1",
+            "Bytes": 307,
+            "Sha256": "AE1D4BB884DA3BAEB2A0BC2C8175457CEB3A490F6C603E85B9B480B76F952FF5"
+          }
+        ]
+      },
+      "HostModuleSha256": "FE1271281B2F2DD3B2116B84222764FB0F4085E896809DA33D47993F10B12693",
+      "FinishedAtUtc": "2026-11-03T11:22:16.5581644Z"
+    },
+    {
+      "RequestId": "8c8185f2882a4de593f962beef53e446",
+      "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+      "Family": "Wireless",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-03T11:22:27.0982245Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "6326cf5ed1f64cbd967ef8b38ed3f1b9",
+        "LeaseId": "2531f5a7612f439b868a8015851ee056",
+        "Phase": "Reset",
+        "InterfaceId": null,
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "ProfileLifecycleAcceptancePassed": false,
+        "ConnectionAttempted": false,
+        "ConnectionVerified": false,
+        "FullDaclRecoveryVerified": false,
+        "RecoveryRequired": false,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.2531f5a7612f439b868a8015851ee056\\export.74d9d0f2967d4108b7501467867ba01b",
+          "FileCount": 8,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.2531f5a7612f439b868a8015851ee056",
+        "RecordedAtUtc": "2026-11-03T11:23:02.8319669Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.WirelessProfile.psm1",
+            "Bytes": 9681,
+            "Sha256": "4062F8B811748963F5B48409CFA0D43901E503376D591FB8FF6900C00603F98B"
+          },
+          {
+            "Path": "modules/RIDE.WirelessLifecycle.psm1",
+            "Bytes": 29007,
+            "Sha256": "2F5D0ADCB8E7EDC3545B1348ED004EEC2E4697C882152BE5C8ADF13FF5F77FA8"
+          },
+          {
+            "Path": "modules/RIDE.WirelessNative.psm1",
+            "Bytes": 11380,
+            "Sha256": "3F41A7954EB22AAADCA3F93FEE33EB2CCAF07C7FC65735FDC26B96B5C64A847B"
+          },
+          {
+            "Path": "modules/RIDE.WirelessInventory.psm1",
+            "Bytes": 19071,
+            "Sha256": "EDCB44B25151DF7881F2EC6DFBDD89D42D544C9B35CC60A12941C9E05DE046D3"
+          },
+          {
+            "Path": "tests/integration/RIDE.WirelessAcceptance.psm1",
+            "Bytes": 17160,
+            "Sha256": "4CF9B9E76A1BA54BED05A296A08D5D8AFC0689A9CA752A4E1748CF8450B13FE1"
+          },
+          {
+            "Path": "tests/fixtures/wireless-profile.synthetic.psd1",
+            "Bytes": 307,
+            "Sha256": "AE1D4BB884DA3BAEB2A0BC2C8175457CEB3A490F6C603E85B9B480B76F952FF5"
+          }
+        ]
+      },
+      "HostModuleSha256": "FE1271281B2F2DD3B2116B84222764FB0F4085E896809DA33D47993F10B12693",
+      "FinishedAtUtc": "2026-11-03T11:23:24.9621813Z"
+    }
+  ],
+  "Limits": [
+    "WlanSvc was Stopped; interface enumeration/native profile lifecycle did not run.",
+    "No service start, profile content read, import, scan or connection. Synthetic settings need no real credentials.",
+    "Collection, checkpoint reset and hold release passed; no native acceptance or legacy closure."
+  ],
+  "Alignment": {
+    "RecordedAtUtc": "2026-11-03T12:13:50.1288567+01:00",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "PeerHead": "1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a",
+    "PeerRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "PeerProvidersSha256": "005C325CDAA3DA489A4A5FD4A1A54FB05FD3D9A2C0DA29EFA7EEEB88B7F36A6D"
+  },
+  "RemainingEstimate": {
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "Settings": "37-57",
+    "FilesAndAssets": "23-33",
+    "Rounded": "120-175",
+    "Exact": "121-175",
+    "Packages": "34-49"
+  }
+}
