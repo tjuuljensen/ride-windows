@@ -1,0 +1,95 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T10:07:41.4566179+00:00",
+  "Status": "NativeRegressionGateFailedBeforeInstall",
+  "RunId": "bc4ad384faba4e84b34072da3d321728",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "bc4ad384faba4e84b34072da3d321728",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch10",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T09:51:52.0694957Z",
+    "FinishedAtUtc": "2026-11-03T10:04:37.6172177Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Guest": {
+    "SchemaVersion": 1,
+    "RunId": "bc4ad384faba4e84b34072da3d321728",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 3,
+      "Result": "Failed",
+      "Total": 468,
+      "Passed": 461
+    },
+    "Error": "Pester did not pass: 3 failing test(s).",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Failures": [
+    {
+      "Name": "Package variant metadata and completion.selects all four OpenJDK package IDs in the Server 2025 acceptance batch",
+      "Message": "Expected strings to be the same, but they were different.\nString lengths are both 6.\nStrings differ at index 3.\nExpected: '0.22.0'\nBut was:  '0.24.4'\n           ---^",
+      "Stack": "at @(& $runnerPath -Version) | Should -Be @('0.22.0'), C:\\RIDE\\ride-windows\\tests\\ApplicationPackages.Tests.ps1:1485\nat <ScriptBlock>, C:\\RIDE\\ride-windows\\tests\\ApplicationPackages.Tests.ps1:1485"
+    },
+    {
+      "Name": "Package variant metadata and completion.pins Project Maker to its Windows 11 ApplicationsBatch10 lifecycle route",
+      "Message": "Expected strings to be the same, but they were different.\nString lengths are both 6.\nStrings differ at index 3.\nExpected: '0.22.0'\nBut was:  '0.24.4'\n           ---^",
+      "Stack": "at @(& $runnerPath -Version) | Should -Be @('0.22.0'), C:\\RIDE\\ride-windows\\tests\\ApplicationPackages.Tests.ps1:1505\nat <ScriptBlock>, C:\\RIDE\\ride-windows\\tests\\ApplicationPackages.Tests.ps1:1505"
+    },
+    {
+      "Name": "HashCheck Shell Extension Windows 11 acceptance.pins the accepted installer and limits support to the tested Windows 11 workflow",
+      "Message": "Expected strings to be the same, but they were different.\nString lengths are both 6.\nStrings differ at index 3.\nExpected: '0.22.0'\nBut was:  '0.24.4'\n           ---^",
+      "Stack": "at @(& $runnerPath -Version)|Should -Be @('0.22.0'), C:\\RIDE\\ride-windows\\tests\\ApplicationPackages.Tests.ps1:1722\nat <ScriptBlock>, C:\\RIDE\\ride-windows\\tests\\ApplicationPackages.Tests.ps1:1722"
+    }
+  ],
+  "QueueReceipt": {
+    "Batch": "ApplicationsBatch10",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T09:51:49.1497339Z",
+    "RunId": "bc4ad384faba4e84b34072da3d321728",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\bc4ad384faba4e84b34072da3d321728",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T10:04:39.3248885Z"
+  },
+  "CorrectionEvidence": "application-regression-version-corrections-source-2026-11-03.json",
+  "Limits": [
+    "Project Maker installation/startup not reached; the earlier run snapshot retained three stale runner-version assertions.",
+    "Original 461 passing, 3 failing and 4 skipped guest cases retained.",
+    "Checkpoint recovery passed; no product acceptance or legacy closure."
+  ],
+  "RemainingEstimate": {
+    "Exact": "121-175",
+    "Rounded": "120-175",
+    "Packages": "34-49",
+    "Maintenance": "8-12",
+    "Components": "19-24",
+    "Settings": "37-57",
+    "FilesAndAssets": "23-33"
+  }
+}

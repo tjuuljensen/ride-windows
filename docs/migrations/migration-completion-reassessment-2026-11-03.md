@@ -51,8 +51,12 @@ expected runner version 0.22.0. Its original result retains 461 passed, three
 failed and four skipped tests, with verified checkpoint recovery. The source
 checks now compare CLI/documented versions and test OpenJDK uninstall admission
 without requiring an obsolete literal batch list. The complete application
-package file passed 138 tests with three skips per shell. A native InfoBar retry
-is queued; Project Maker is running. See [InfoBar failure](../archive/evidence/infobar-regression-gate-native-2026-11-03.json)
+package file passed 138 tests with three skips per shell. Project Maker's earlier
+snapshot also stopped at the same three assertions before installation, with
+the same guest counts and verified recovery. Corrected retries for both products
+are queued; Explorer Suite is running with corrected tests.
+See [InfoBar failure](../archive/evidence/infobar-regression-gate-native-2026-11-03.json),
+[Project Maker failure](../archive/evidence/project-maker-regression-gate-native-2026-11-03.json)
 and [regression corrections](../archive/evidence/application-regression-version-corrections-source-2026-11-03.json).
 TMOG's later retry also includes a pinned eight-second
 startup check; 50 startup/selection/candidate tests passed per shell. This
