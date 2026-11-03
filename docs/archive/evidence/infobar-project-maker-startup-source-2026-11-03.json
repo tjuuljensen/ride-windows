@@ -1,0 +1,46 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T08:36:50.4636097Z",
+  "Status": "SourceChecksPassedNativePending",
+  "Scope": "Add bounded startup to queued InfoBar and Project Maker installer lifecycles; product functionality deferred to v3.1",
+  "Sources": [
+    {
+      "Sha256": "FCDE59B452DD16489D485262FDFAAF48F4EB15FF2190C966E20C540AF1D2900D",
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1"
+    }
+  ],
+  "Checks": [
+    {
+      "Passed": 40,
+      "AtUtc": "2026-11-03T08:34:53.1916144Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "Passed": 40,
+      "Skipped": 0,
+      "Failed": 0,
+      "AtUtc": "2026-11-03T08:34:46.7002655Z",
+      "Edition": "Core",
+      "PowerShell": "7.6.5"
+    }
+  ],
+  "ExecutablePins": [
+    {
+      "Sha256": "B3887CD91CA424ADFA4BB0A6EE7ED71828BDF0AF63761148B4EFA872BD07A438",
+      "Product": "MiTeC InfoBar",
+      "File": "InfoBar64.exe",
+      "Evidence": "mitec-infobar-package-candidate-2026-10-27-1450.json"
+    },
+    {
+      "Sha256": "BEBECCF4DE08E71EE9043ACBB90D1AED89D1A22E33762C31B4AD99198083D920",
+      "Product": "MiTeC Project Maker",
+      "File": "ProjectMaker64.exe",
+      "Evidence": "mitec-project-maker-package-candidate-2026-10-27-1440.json"
+    }
+  ],
+  "Boundary": "Exact executable under installer-reported InstallLocation; eight-second process observation; owned-process closure; no account, project, feed, location or signing configuration; no interactive UI claim",
+  "PriorSandboxAttempt": "Both shells reported 26 failed/zero passed under restricted filesystem initialization; native ordinary-account reruns passed 26/26 per shell."
+}

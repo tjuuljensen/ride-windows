@@ -15,6 +15,8 @@
   only the pinned Mail Checker machine installer with Defender and exact version
   observations and bounded startup of its exact executable. It does not configure
   accounts or perform mail operations; feature coverage is deferred to v3.1.
+  InfoBar and Project Maker also receive hash-bound startup observation without
+  configuring feeds, locations, projects, build actions or signing keys.
 .PARAMETER Batch
   Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), side-by-side Microsoft OpenJDK versions on Server 2025 (8), MiTeC InfoBar on Windows 11 (9), MiTeC Project Maker on Windows 11 (10), HashCheck on Windows 11 (11), NTCore Explorer Suite on Windows 11 (12), or Mail Checker on Windows 11 (13).
 .PARAMETER PackageId
@@ -43,10 +45,10 @@
   Exercise the four pinned Microsoft OpenJDK MSIs on Windows Server 2025.
 .EXAMPLE
   .\Invoke-RideApplicationBatch.ps1 -Batch 9
-  Exercise MiTeC InfoBar installation, removal, and saved-state recovery without launching it.
+  Exercise MiTeC InfoBar installation, bounded startup, removal and saved-state recovery.
 .EXAMPLE
   .\Invoke-RideApplicationBatch.ps1 -Batch 10
-  Exercise MiTeC Project Maker installation, removal, and saved-state recovery without launching it.
+  Exercise MiTeC Project Maker installation, bounded startup, removal and saved-state recovery.
 .EXAMPLE
   .\Invoke-RideApplicationBatch.ps1 -Batch 12 -PackageId package.ntcore-explorer-suite
   Exercise only the pinned NTCore Explorer Suite installer lifecycle on Windows 11 without launching suite utilities.
@@ -64,8 +66,10 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.23.0.
-  Changelog: 0.23.0: Add exact Mail Checker startup smoke check; features deferred to v3.1.
+  Owner: RIDE-Windows maintainers. Version: 0.24.1.
+  Changelog: 0.24.1: Carry candidate consent and explicit removal/recovery through Mail Checker.
+    0.24.0: Add pinned InfoBar/Project Maker startup checks; features deferred to v3.1.
+    0.23.0: Add exact Mail Checker startup smoke check; features deferred to v3.1.
     0.22.0: Add fixed Mail Checker 7.2.0 package lifecycle with Defender
     and exact-version readback; no accounts, mail or product-feature scenario.
     0.21.0: Add exact Gpg4win/TMOG batch-1 selection, preserved limited-user
@@ -114,7 +118,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12,13)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.23.0'
+$script:ScriptVersion='0.24.1'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -563,6 +567,9 @@ foreach($package in $testCatalog.Operations | Where-Object Kind -eq 'Package'){
   }
 }
 & (Get-Module RIDE.Engine) {param($candidateCatalog) $script:RideLibraryContext=@{Catalog=$candidateCatalog}} $testCatalog
+# The exact batch-13 selection has passed Assert-RideMailCheckerScenario.
+# Retain production candidate metadata and pass the engine's explicit consent.
+$allowCandidateExecution=($Batch -eq 13)
 foreach($scenario in $scenarios){
   $operation=Get-RideOperation $scenario.Id
   $scenarioStage='Build installation plan'
@@ -662,11 +669,11 @@ foreach($scenario in $scenarios){
     if($profileFixture -and $Batch -ne 1){$scenarioResult.ProfilePreservationPath=$profileRoot}
     $scenarioStage='Preview installation'
     Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
-    $null=Invoke-RidePlan $plan -WhatIf -Confirm:$false
+    $null=Invoke-RidePlan $plan -WhatIf -AllowCandidate:$allowCandidateExecution -Confirm:$false
     if((Get-RideCurrentState $plan[0].Operation).Present){throw 'Install preview changed package state.'}
     $scenarioStage='Install package'
     Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
-    $runId=Get-SavedRunId @(Invoke-RidePlan $plan -Confirm:$false)
+    $runId=Get-SavedRunId @(Invoke-RidePlan $plan -AllowCandidate:$allowCandidateExecution -Confirm:$false)
     $scenarioStage='Verify installed package state'
     Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
     $installed=Get-RideCurrentState $plan[0].Operation
@@ -680,14 +687,19 @@ foreach($scenario in $scenarios){
       if([string]$installed.DisplayVersion -cne $expectedInstalledVersion){throw "Installed package version '$($installed.DisplayVersion)' does not match expected installed version '$expectedInstalledVersion' for release '$($package.PackageVersion)'."}
       $scenarioResult.Checks+=@('RIDEManagedInstall','PinnedPackageVersion')
     }
-    if($Batch -eq 13){
-      $scenarioStage='Observe bounded Mail Checker startup'
+    if($Batch -in @(9,10,13)){
+      $startupPin=switch($Batch){
+        9 {@{Name='InfoBar64.exe';Sha256='B3887CD91CA424ADFA4BB0A6EE7ED71828BDF0AF63761148B4EFA872BD07A438'}}
+        10 {@{Name='ProjectMaker64.exe';Sha256='BEBECCF4DE08E71EE9043ACBB90D1AED89D1A22E33762C31B4AD99198083D920'}}
+        13 {@{Name='MAILCHECKER.EXE';Sha256='9104F5E92BA0CB0333CC5312FD6E97B944D9EE2DA91771B99E19E47BA9D5167F'}}
+      }
+      $scenarioStage='Observe bounded application startup'
       Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
-      if(-not $installed.InstallLocation){throw 'Mail Checker install location is unavailable; do not guess the executable path.'}
+      if(-not $installed.InstallLocation){throw 'Application install location is unavailable; do not guess the executable path.'}
       Import-Module (Join-Path $PSScriptRoot 'RIDE.FastTrackStartup.psm1') -Force
-      $scenarioResult.StartupEvidence=Invoke-RideFastTrackStartup -ExecutablePath (Join-Path $installed.InstallLocation 'MAILCHECKER.EXE') -ExpectedSha256 '9104F5E92BA0CB0333CC5312FD6E97B944D9EE2DA91771B99E19E47BA9D5167F'
+      $scenarioResult.StartupEvidence=Invoke-RideFastTrackStartup -ExecutablePath (Join-Path $installed.InstallLocation $startupPin.Name) -ExpectedSha256 $startupPin.Sha256
       $scenarioResult.Checks+='BoundedStartupNoErrorObserved'
-      $scenarioResult.FeatureAcceptance='Deferred to v3.1; no mail actions'
+      $scenarioResult.FeatureAcceptance='Deferred to v3.1; bounded startup only'
     }
     if($Batch -eq 8){
       $scenarioStage='Verify OpenJDK install directory and executables'
@@ -746,10 +758,10 @@ foreach($scenario in $scenarios){
       $scenarioResult.FileEvidence=$members
     }
     Write-RideApplicationProgress -PackageId $scenario.Id -Stage 'Repeat installation'
-    $repeat=@(Invoke-RidePlan $plan -Confirm:$false)
+    $repeat=@(Invoke-RidePlan $plan -AllowCandidate:$allowCandidateExecution -Confirm:$false)
     if('No changes were needed; no state record was created.' -notin $repeat){throw 'Repeat installation was not idempotent.'}
-    if($Batch -in @(6,7,9,10,11,12)){$scenarioResult.Checks+='RepeatInstall'}
-    $null=Restore-RideRun -RunId $runId -WhatIf -Confirm:$false
+    if($Batch -in @(6,7,9,10,11,12,13)){$scenarioResult.Checks+='RepeatInstall'}
+    $null=Restore-RideRun -RunId $runId -WhatIf -AllowCandidate:$allowCandidateExecution -Confirm:$false
     if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Restore preview changed presence.'}
     if($package.InstallerType -eq 'Portable'){
       $userFile=Join-Path $package.InstallDirectory 'ride-user-preservation-fixture.txt'
@@ -762,35 +774,35 @@ foreach($scenario in $scenarios){
         $null=New-ItemProperty -LiteralPath $sessionFixture -Name HostName -Value 'example.invalid' -PropertyType String
       }
       $remove=@(Get-RideSingleOperationPlan -Id $scenario.Id -Action Remove -Variant $scenario.Variant)
-      $null=Invoke-RidePlan $remove -WhatIf -Confirm:$false
+      $null=Invoke-RidePlan $remove -WhatIf -AllowCandidate:$allowCandidateExecution -Confirm:$false
       if(-not(Test-RideDesiredState $plan[0].Operation Present)){throw 'Portable removal preview changed presence.'}
-      $removeRunId=Get-SavedRunId @(Invoke-RidePlan $remove -Confirm:$false)
+      $removeRunId=Get-SavedRunId @(Invoke-RidePlan $remove -AllowCandidate:$allowCandidateExecution -Confirm:$false)
       if(-not (Test-Path -LiteralPath $userFile)){throw 'Portable removal deleted user content.'}
-      $repeatRemove=@(Invoke-RidePlan $remove -Confirm:$false)
+      $repeatRemove=@(Invoke-RidePlan $remove -AllowCandidate:$allowCandidateExecution -Confirm:$false)
       if('No changes were needed; no state record was created.' -notin $repeatRemove){throw 'Repeat portable removal was not idempotent.'}
-      $null=Restore-RideRun -RunId $removeRunId -Confirm:$false
+      $null=Restore-RideRun -RunId $removeRunId -AllowCandidate:$allowCandidateExecution -Confirm:$false
       if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Portable uninstall recovery failed.'}
     }
-    if($userDataFixtures.Count -or $profileFixture -or $scenario.Id -eq 'package.vcredist-v14-x64' -or $Batch -in @(6,7,8,9,10,11,12)){
+    if($userDataFixtures.Count -or $profileFixture -or $scenario.Id -eq 'package.vcredist-v14-x64' -or $Batch -in @(6,7,8,9,10,11,12,13)){
       $remove=@(Get-RideSingleOperationPlan -Id $scenario.Id -Action Remove -Variant $scenario.Variant)
-      $null=Invoke-RidePlan $remove -WhatIf -Confirm:$false
+      $null=Invoke-RidePlan $remove -WhatIf -AllowCandidate:$allowCandidateExecution -Confirm:$false
       if(-not(Test-RideDesiredState $plan[0].Operation Present)){throw 'Removal preview changed presence.'}
-      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='RemovalPreview'}
+      if($Batch -in @(6,7,8,9,10,11,12,13)){$scenarioResult.Checks+='RemovalPreview'}
       $scenarioStage='Run vendor uninstaller'
       Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
-      $removeRunId=Get-SavedRunId @(Invoke-RidePlan $remove -Confirm:$false)
+      $removeRunId=Get-SavedRunId @(Invoke-RidePlan $remove -AllowCandidate:$allowCandidateExecution -Confirm:$false)
       if((Get-RideCurrentState $plan[0].Operation).Present){throw 'Removal did not establish absence.'}
       if($Batch -eq 8 -and ((Test-Path -LiteralPath $javaPath -PathType Leaf) -or (Test-Path -LiteralPath $javacPath -PathType Leaf))){throw 'OpenJDK uninstall left its managed runtime or compiler executable behind.'}
-      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='RIDERemoval'}
+      if($Batch -in @(6,7,8,9,10,11,12,13)){$scenarioResult.Checks+='RIDERemoval'}
       if($userDataFixtures.Count){Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Vendor uninstall'}elseif($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Removal changed existing profile data.'}
-      $repeatRemove=@(Invoke-RidePlan $remove -Confirm:$false)
+      $repeatRemove=@(Invoke-RidePlan $remove -AllowCandidate:$allowCandidateExecution -Confirm:$false)
       if('No changes were needed; no state record was created.' -notin $repeatRemove){throw 'Repeat removal was not idempotent.'}
-      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='RepeatRemoval'}
+      if($Batch -in @(6,7,8,9,10,11,12,13)){$scenarioResult.Checks+='RepeatRemoval'}
       $scenarioStage='Recover after vendor uninstall'
       Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
-      $null=Restore-RideRun -RunId $removeRunId -Confirm:$false
+      $null=Restore-RideRun -RunId $removeRunId -AllowCandidate:$allowCandidateExecution -Confirm:$false
       if(-not(Test-RideDesiredState $plan[0].Operation Present)){throw 'Compensating removal recovery did not establish presence.'}
-      if($Batch -in @(6,7,8,9,10,11,12)){$scenarioResult.Checks+='SavedRemovalRecovery'}
+      if($Batch -in @(6,7,8,9,10,11,12,13)){$scenarioResult.Checks+='SavedRemovalRecovery'}
       $scenarioResult.RemovalRecoveryVersion=(Get-RideCurrentState $plan[0].Operation).DisplayVersion
       if($Batch -eq 8){Assert-RideOpenJdkPreservation -Expected $openJdkBaseline -Stage 'removal'}
       if($scenario.Id -eq 'package.vcredist-v14-x64'){
@@ -799,7 +811,7 @@ foreach($scenario in $scenarios){
     }
     $scenarioStage='Restore saved pre-install state'
     Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
-    $null=Restore-RideRun -RunId $runId -Confirm:$false
+    $null=Restore-RideRun -RunId $runId -AllowCandidate:$allowCandidateExecution -Confirm:$false
     $restoredOriginal=Get-RideCurrentState $plan[0].Operation
     $preserveNewerRuntime=$false
     if($scenario.Id -eq 'package.vcredist-v14-x64'){
@@ -811,7 +823,7 @@ foreach($scenario in $scenarios){
       if(-not $restoredOriginal.Present -or -not [version]::TryParse([string]$restoredOriginal.DisplayVersion,[ref]$restoredVersion) -or $restoredVersion -lt $minimumVersion){throw 'Recovery did not retain the usable shared v14 runtime after an outdated baseline.'}
       $scenarioResult.RecoveryMode='Retained newer shared v14 runtime; exact downgrade is unavailable'
     }elseif($restoredOriginal.Present){throw 'Restoration did not recover original absence.'}
-    if($Batch -in @(6,7,9,10,11,12)){$scenarioResult.Checks+='SavedInstallRecovery'}
+    if($Batch -in @(6,7,9,10,11,12,13)){$scenarioResult.Checks+='SavedInstallRecovery'}
     if($userDataFixtures.Count){
       Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Saved-state recovery'
       $scenarioResult.UserDataPreservation=$true
@@ -827,7 +839,7 @@ foreach($scenario in $scenarios){
       $scenarioResult.SessionPreservation=$true
     }
     $scenarioResult.Recovery=$true
-    $null=Invoke-RidePlan @(Get-RideSingleOperationPlan -Id $scenario.Id -Action Remove -Variant $scenario.Variant) -Confirm:$false
+    $null=Invoke-RidePlan @(Get-RideSingleOperationPlan -Id $scenario.Id -Action Remove -Variant $scenario.Variant) -AllowCandidate:$allowCandidateExecution -Confirm:$false
     $scenarioResult.Status='Passed'
   }catch{
     $scenarioResult.Error=$_.Exception.Message

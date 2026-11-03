@@ -1,0 +1,125 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T08:36:50.4175383Z",
+  "Status": "NativeCandidateAdmissionFailedRecoveredSourceFixed",
+  "RunId": "c46f0e3dfde24f6794e5c3efd78cdea7",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "c46f0e3dfde24f6794e5c3efd78cdea7",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch13",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T08:18:51.4708549Z",
+    "FinishedAtUtc": "2026-11-03T08:27:43.7976512Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Guest": {
+    "SchemaVersion": 1,
+    "RunId": "c46f0e3dfde24f6794e5c3efd78cdea7",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 54,
+      "Passed": 54
+    },
+    "Error": "Applications batch 13 has failed scenarios; see application evidence.",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Cases": {
+    "Id": "package.mitec-mail-checker",
+    "Variant": "installed",
+    "Target": "Windows 11",
+    "OS": "Microsoft Windows 11 Enterprise Evaluation",
+    "Build": "26300",
+    "InstallationType": "Client",
+    "Scope": "Machine",
+    "Provider": "DirectHttps",
+    "Applicability": "Applicable to deployment lifecycle",
+    "Status": "Failed",
+    "Version": null,
+    "Error": "'package.mitec-mail-checker' does not support Windows 11 yet: acceptance is pending. Use -AllowCandidate for actual candidate execution or restore on this declared target. This does not establish support.",
+    "Recovery": false,
+    "ProfilePreservation": null,
+    "UserDataPreservation": null,
+    "UserDataFixtures": [],
+    "RemovalRecoveryVersion": null,
+    "Checks": [],
+    "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+    "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+    "Elevated": true,
+    "LocalAppData": "C:\\Users\\admin\\AppData\\Local"
+  },
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T08:27:01.5172884Z",
+    "SinceUtc": "2026-11-03T08:20:29.386299Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T08:27:03.4368933Z",
+    "SinceUtc": "2026-11-03T08:20:29.386299Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "HostRecoveryVerified": true,
+  "InstallerExecuted": false,
+  "Correction": "Fixed batch-13 selection passes AllowCandidate through apply, repeat, explicit vendor removal, compensating recovery and restore; production candidate metadata retained.",
+  "SourceSha256": "FCDE59B452DD16489D485262FDFAAF48F4EB15FF2190C966E20C540AF1D2900D",
+  "SourceChecks": [
+    {
+      "Passed": 40,
+      "AtUtc": "2026-11-03T08:34:53.1916144Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "Passed": 40,
+      "Skipped": 0,
+      "Failed": 0,
+      "AtUtc": "2026-11-03T08:34:46.7002655Z",
+      "Edition": "Core",
+      "PowerShell": "7.6.5"
+    }
+  ]
+}

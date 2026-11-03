@@ -8,7 +8,7 @@
   Invoke-Pester ./tests/FocusedApplicationSelection.Tests.ps1
 .NOTES
   Compatibility: Pester 5.7.1; native Windows PowerShell 5.1 and PowerShell 7.
-  Version: 0.2.0. Changelog: Add fixed Mail Checker machine-installer selection.
+  Version: 0.2.1. Changelog: Require Mail Checker explicit uninstall/recovery admission.
 #>
 BeforeAll {
   $script:repo=Split-Path -Parent $PSScriptRoot
@@ -17,6 +17,7 @@ BeforeAll {
   $tokens=$null;$errors=$null
   $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'),[ref]$tokens,[ref]$errors)
   if($errors.Count){throw ($errors -join '; ')}
+  $script:applicationAst=$ast
   $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
   $definitions=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -in $names},$true))
   if($definitions.Count -ne $names.Count){throw 'Focused pure helper definitions differ.'}
@@ -41,6 +42,17 @@ Describe 'Fixed Mail Checker guest selection' {
     {Assert-RideMailCheckerScenario @($script:mailScenario) 'Windows Server 2025'}|Should -Throw '*Windows 11*'
     {Assert-RideMailCheckerScenario @($script:mailScenario,$script:mailScenario) 'Windows 11'}|Should -Throw '*exactly*'
     $script:mailScenario.Variant='portable';{Assert-RideMailCheckerScenario @($script:mailScenario) 'Windows 11'}|Should -Throw
+  }
+  It 'admits Mail Checker to explicit vendor removal and compensating recovery without user-data fixtures' {
+    $branches=@($script:applicationAst.FindAll({param($node)
+      $node -is [Management.Automation.Language.IfStatementAst] -and
+      @($node.Clauses|Where-Object {$_.Item2.Extent.Text -match "scenarioStage='Run vendor uninstaller'"}).Count -gt 0
+    },$true))
+    $branches.Count|Should -Be 1
+    $condition=[scriptblock]::Create($branches[0].Clauses[0].Item1.Extent.Text)
+    $Batch=13;$userDataFixtures=@();$profileFixture=$null
+    $scenario=@{Id='package.mitec-mail-checker'}
+    (& $condition)|Should -BeTrue
   }
   It 'refuses changed privilege, installer or release metadata <Field>' -ForEach @(
     @{Field='Scope';Value='User'},@{Field='RequiresAdmin';Value=$false},@{Field='RequiresUnelevatedUser';Value=$true},@{Field='InstallerType';Value='Portable'},@{Field='PackageVersion';Value='7.2.1'}

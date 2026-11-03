@@ -1,0 +1,208 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T08:39:59.2500495Z",
+  "Status": "NetworkScannerX64PassedX86StartupCrashRemainingCasesNotRun",
+  "RunId": "e4033291e974449db9fd28d05ce879cd",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "e4033291e974449db9fd28d05ce879cd",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCNetworkUtilities",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T08:27:51.9079229Z",
+    "FinishedAtUtc": "2026-11-03T08:36:26.2780651Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Focused": {
+    "RunId": "e4033291e974449db9fd28d05ce879cd",
+    "Batch": "MiTeCNetworkUtilities",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 4,
+    "Status": "Failed",
+    "Error": "Guest portable checks failed; inspect acceptance.log and scenarios.json.",
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Summary": {
+    "Batch": "MiTeCNetworkUtilities",
+    "ExpectedCases": 4,
+    "Completed": 2,
+    "Passed": 1,
+    "Status": "Failed",
+    "PayloadExecution": false,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-network-scanner",
+      "Variant": "x64",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "0e4a2086c87943d1b91a673b7c84c0c9",
+        "34a07b70b46f45a9b27ff52312ec5bbc",
+        "f057ecad96cc45d2817c4771f81ad063"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "NetScanner64.exe",
+          "Sha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        }
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-network-scanner\\NetScanner64.exe",
+          "Sha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06",
+          "StartedAtUtc": "2026-11-03T08:34:59.4204145Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 3652,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "CollisionRefusal": "RIDE operation 'package.mitec-network-scanner' failed. Run ID: fc77354858e14b45a349240a8ff7158e. Saved state: package.mitec-network-scanner. Completed operations: <none>. Failed operation: package.mitec-network-scanner. Unfinished operations: package.mitec-network-scanner. Recovery: run '.\\ride.ps1 restore -RunId fc77354858e14b45a349240a8ff7158e', then reapply the same profile. Error: Portable destination collision: NetScanner64.exe",
+      "ModifiedRefusal": "RIDE operation 'package.mitec-network-scanner' failed. Run ID: 35da2d795bf14632bb9574d54d777e18. Saved state: package.mitec-network-scanner. Completed operations: <none>. Failed operation: package.mitec-network-scanner. Unfinished operations: package.mitec-network-scanner. Recovery: run '.\\ride.ps1 restore -RunId 35da2d795bf14632bb9574d54d777e18', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    },
+    {
+      "Id": "package.mitec-network-scanner",
+      "Variant": "x86",
+      "Status": "Failed",
+      "Error": "Application error events reference the startup executable.",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": false,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection"
+      ],
+      "RunIds": [
+        "5442f856e93a47bc8ad27cd59b6be1e2"
+      ],
+      "FileEvidence": [
+        {
+          "RelativePath": "NetScanner.exe",
+          "Sha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4",
+          "AuthenticodeStatus": "UnknownError",
+          "SignerThumbprint": "D5AB5C5DCDAC5BF30E0D981B5E341A17B75C251C"
+        }
+      ],
+      "StartupEvidence": {
+        "Status": "Failed",
+        "Executable": "C:\\Tools\\mitec-network-scanner\\NetScanner.exe",
+        "Sha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4",
+        "StartedAtUtc": "2026-11-03T08:35:26.487388Z",
+        "ObservationSeconds": 8,
+        "ExitCode": null,
+        "WindowTitle": "",
+        "ProcessId": 9912,
+        "SessionId": 0,
+        "Closure": "StoppedOwnedProcess",
+        "ErrorEvents": [
+          {
+            "Id": 1001,
+            "ProviderName": "Windows Error Reporting",
+            "TimeCreated": "2026-11-03T08:35:50.275Z",
+            "Message": "Fault bucket 2226000398078179451, type 1\r\nEvent Name: APPCRASH\r\nResponse: Not available\r\nCab Id: 0\r\n\r\nProblem signature:\r\nP1: NetScanner.exe\r\nP2: 6.1.0.0\r\nP3: 69ea0fc0\r\nP4: KERNELBASE.dll\r\nP5: 10.0.26100.9711\r\nP6: 4505e14c\r\nP7: 0eedfade\r\nP8: 0016bae4\r\nP9: \r\nP10: \r\n\r\nAttached files:\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.f0a470bf-e84a-43ee-a16d-c510e9b7d2f8.tmp.dmp\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.2cd5f375-1a49-4175-be1c-4b3b6450d984.tmp.WERInternalMetadata.xml\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.7cd02bf8-2546-4234-b125-7dd39971c309.tmp.csv\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.e144c836-67e8-430a-824a-d599782d9d82.tmp.txt\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\Temp\\WER.6dc1d5ed-5de6-4eef-a5b6-87700982ec69.tmp.xml\r\n\r\nThese files may be available here:\r\n\\\\?\\C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_NetScanner.exe_155d81f311256ab2a4c6367f7a347f63e0b0c874_0f97c6eb_05ce6f9c-d26d-4d8b-a424-631828918ee5\r\n\r\nAnalysis symbol: \r\nRechecking for solution: 0\r\nReport Id: 2f0f0a4a-813d-478b-a0af-689800122c1a\r\nReport Status: 268435456\r\nHashed bucket: 1c3f72059021c3d08ee457917553f87b\r\nCab Guid: 0"
+          },
+          {
+            "Id": 1000,
+            "ProviderName": "Application Error",
+            "TimeCreated": "2026-11-03T08:35:47.377Z",
+            "Message": "Faulting application name: NetScanner.exe, version: 6.1.0.0, time stamp: 0x69ea0fc0\r\nFaulting module name: KERNELBASE.dll, version: 10.0.26100.9711, time stamp: 0x4505e14c\r\nException code: 0x0eedfade\r\nFault offset: 0x0016bae4\r\nFaulting process id: 0x26B8\r\nFaulting application start time: 0x1DD6B6E50AF4DFF\r\nFaulting application path: C:\\Tools\\mitec-network-scanner\\NetScanner.exe\r\nFaulting module path: C:\\Windows\\System32\\KERNELBASE.dll\r\nReport Id: 2f0f0a4a-813d-478b-a0af-689800122c1a\r\nFaulting package full name: \r\nFaulting package-relative application ID: "
+          }
+        ],
+        "Boundary": "Bounded process startup; no feature or interactive UI acceptance",
+        "Error": "Application error events reference the startup executable."
+      }
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T08:34:53.6438536Z",
+    "SinceUtc": "2026-11-03T08:30:43.804027Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T08:35:52.5538848Z",
+    "SinceUtc": "2026-11-03T08:30:43.804027Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "HostRecoveryVerified": true,
+  "Unrun": [
+    "package.mitec-dirlist",
+    "package.mitec-network-meter"
+  ],
+  "Limitation": "Network Scanner x86 APPCRASH 0x0eedfade in session 0 fails fast-track startup. Batch stops after failure; remaining tools not tested. No feature or interactive UI acceptance."
+}

@@ -4,6 +4,12 @@
 
 ### Attended resumption decisions, 2026-11-03
 
+Network Scanner x64 subsequently passed its 15-check startup/lifecycle case;
+x86 produced APPCRASH `0x0eedfade` and stopped that batch before DirList and
+Network Meter. Defender and VM checkpoint recovery passed. Mail Checker's
+corrected candidate-admission retry is running without a new elevation prompt.
+See [network evidence](../archive/evidence/mitec-network-fast-track-native-2026-11-03.json).
+
 Four JSON/XML Viewer variants subsequently passed 15 guest checks each, including
 bounded startup, removal, exact recovery and Defender. Six development variants
 also passed: DFM Editor Delphi 11/12, Task Manager DeLuxe x64/x86 and Interbase
@@ -14,7 +20,9 @@ the trimmed snapshot lacked required Terminal palette data. Both runs recovered
 the pinned VM. The controller corrections passed 60 selected tests per shell,
 and the corrected trimmed snapshot passed catalog validation. Protected refresh
 passed with matching installed hash and Ready/Off verification; Mail Checker
-native retry is running. See the
+retry passed 54 guest tests but stopped before installation on missing candidate
+consent. That scoped harness defect is fixed and another retry is prepared;
+host recovery passed. See the [candidate failure/correction](../archive/evidence/mail-checker-candidate-admission-2026-11-03.json),
 [viewer evidence](../archive/evidence/mitec-viewers-fast-track-native-2026-11-03.json)
 and [development evidence](../archive/evidence/mitec-development-fast-track-native-2026-11-03.json)
 and [controller correction record](../archive/evidence/fast-track-controller-corrections-2026-11-03.json).
@@ -126,11 +134,11 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
 | RegRipper / Rufus | Exact retained pins, bounded portable routes; 145 selected source tests per shell. [Evidence](../archive/evidence/regripper-rufus-routes-source-2026-11-03.json). Rufus native file lifecycle/recovery/Defender passed. | RegRipper native lifecycle remains; Rufus was not launched. |
-| Remaining MiTeC portable batches | Four batches, 14 products / 20 variants, 48 selected-member hashes; 165 selected source tests per shell. [Evidence](../archive/evidence/remaining-mitec-routes-source-2026-11-03.json). | Run viewers, development, network utilities and system viewers batches; features stay deferred. |
+| Remaining MiTeC portable batches | Ten viewer/development variants and Network Scanner x64 passed guest startup/lifecycle checks. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; system viewers queued. Features stay deferred. |
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). | Synthetic GnuPG user data and machine TMOG lifecycle. Earlier Gpg installer `0xC0000005` remains unresolved until a successful native run. |
 | MiTeC Mail Checker | Exact 7.2.0 route, version/Defender and compensating presence recovery; 162 selected source tests per shell. [Evidence](../archive/evidence/mailchecker-route-source-2026-11-03.json). | Installer lifecycle without account setup or mail access. |
 | WFN | Full pinned 531-member payload route; 182 selected route tests per shell. Full inert lifecycle now passes in both shells after path-validation optimization. [Route](../archive/evidence/wfn-route-source-2026-11-03.json), [optimization](../archive/evidence/portable-path-optimization-2026-11-03.json). | Native package lifecycle and Defender; no launch or firewall changes. Caffeine validates the changed handler, not WFN itself. |
-| InfoBar / Project Maker / NTCore Explorer Suite | Focused Defender checks and runtime-only snapshot preparation. [Defender source](../archive/evidence/focused-application-defender-source-2026-11-03.json), [snapshot source](../archive/evidence/focused-application-snapshot-source-2026-11-03.json). | Refresh old installed snapshot route; retain earlier presence evidence without calling it current Defender acceptance. |
+| InfoBar / Project Maker / NTCore Explorer Suite | Corrected runtime snapshot installed. InfoBar/Project Maker pinned startup checks prepared; Explorer Suite remains lifecycle-only. | Run queued native routes with Defender; retain earlier presence evidence without calling it current acceptance. |
 | OpenSSH Client / full available client RSAT | Preparation passed; OpenSSH lifecycle rejected a pending servicing restart before installation. Evidence exported and checkpoint recovered; capability queue removed. Preflight reporting fix passed 53 tests per shell. | Resolve baseline readiness, then activate the corrected queue and run native DISM with already-approved Windows Update acquisition. RSAT has not run; payload availability remains unverified. |
 
 The capability queue is separate from the package controller. Its
@@ -147,7 +155,7 @@ the two batches authorized to use Windows Update.
 | Settings | Attended observation of five desktop icons and ClassicStartMenu mirror; effective BitLocker policy, boot/recovery and decryption prerequisites. | Existing F1/File Explorer and PowerShell appearance evidence remains scoped. BitLocker still reports `EffectivePolicyEstablished=false`; no encryption batch started. TPM/WinRE, off-device test-key retrieval, preboot console, TPM+PIN/recovery boot and method policies require their own proof. Unmapped and deferred settings remain counted. |
 | Packages | Activate finite prepared batches above, then collect scoped acceptance and decide target/variant promotion. | Paradox Data Editor still needs native nested BDE ownership/coexistence/recovery; CCleaner needs its exact artifact/lifecycle route. OpenJDK Windows 11, Python coexistence and other legacy selectors remain in the [unmigrated/partial register](migration-completion-reassessment-2026-11-02.md#legacy-selectors-still-unmigrated-or-partially-represented). |
 | Windows components | OpenSSH Client/RSAT native DISM and recovery. | Telnet source identity and other [component register](migration-completion-reassessment-2026-11-02.md#windows-component-workstream-status-at-pause) entries remain; Hyper-V, Sandbox, WSL distributions and hardware-dependent printer/fax work remain deferred. Source implementation is now present for the selected client capability batches. |
-| Files and assets | Diagnose immediate font visibility, complete image/new-user visual proof, establish WLAN prerequisites and run synthetic profile lifecycle. | Current-user lock-screen modes, accounts, locale/browser/Python/VMware preferences and other [asset register](migration-completion-reassessment-2026-11-02.md#files-assets-accounts-and-configuration-status-at-pause) entries retain ownership and recovery requirements. |
+| Files and assets | Diagnose immediate font visibility, complete image/new-user visual proof, establish WLAN prerequisites and run synthetic profile lifecycle. | Current-user lock-screen modes, accounts, locale/browser/Python preferences and other [asset register](migration-completion-reassessment-2026-11-02.md#files-assets-accounts-and-configuration-status-at-pause) entries retain ownership and recovery requirements. VMware preferences are retired from v3. |
 | Maintenance | Native run-retention/task recovery when its isolated procedure is ready; broaden offline/bootstrap acceptance only within defined scope. | Controller operation does not prove guest maintenance workflows. Destructive cleanup, updates/cache cleanup, unpinning, Disk Cleanup, Sysprep and display helpers remain deferred. Standalone WaitForKey/Restart/StopComputer selectors remain retired, without additional numerical closure. See the [action register](migration-completion-reassessment-2026-11-02.md#maintenance-and-execution-actions-status-at-pause). |
 
 The existing approved scope is unchanged: all MiTeC feature checks are deferred
