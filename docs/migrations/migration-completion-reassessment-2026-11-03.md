@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 11:45 Copenhagen: **22 MiTeC variants across 17 products passed
+Evidence through 11:50 Copenhagen: **26 MiTeC variants across 21 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -34,6 +34,11 @@ GetSys helpers retain exact file lifecycle coverage with execution/report
 behavior deferred to v3.1. Thirty-six source tests passed and two skipped per
 PowerShell edition; the corrected native retry is queued. See
 [source checks](../archive/evidence/mitec-system-startup-selection-source-2026-11-03.json).
+
+Mail Viewer, Email History Browser, Internet History Browser and Instant
+Messaging History Browser then passed all 15 checks each, Defender and
+checkpoint recovery. No accounts, messages or history files were supplied.
+See [mail/history evidence](../archive/evidence/mitec-mail-history-fast-track-native-2026-11-03.json).
 
 Rufus and RegRipper each passed their native file lifecycle with Defender and
 verified reset/off recovery. Neither tool was launched. See
@@ -186,7 +191,7 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
 | RegRipper / Rufus | Both native file lifecycle/recovery/Defender routes passed. | Neither executable was launched; startup and utility actions remain separate. |
-| Remaining MiTeC portable batches | Nineteen portable variants / fourteen products passed guest startup/lifecycle checks, plus installed Mail Checker for twenty variants / fifteen products overall. All six system viewers have a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter passed in the reordered follow-up; Scanner x86 failed again. Earlier twelve file-only MiTeC cases await startup coverage. Features stay deferred. |
+| Remaining MiTeC portable batches | Twenty-five portable variants / twenty products passed guest startup/lifecycle checks, plus installed Mail Checker for twenty-six variants / twenty-one products overall. System viewers, analysis and mail/history tools have passing outer results. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | Utility and SQLite startup coverage is queued. System Information/TAPI has a corrected retry; the original GetSys failure remains. Features stay deferred. |
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; tested corrections and bounded TMOG startup await native retries. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload passed 14 native file lifecycle checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json). | Executable startup and firewall behavior are separate; neither was exercised. |
@@ -244,14 +249,16 @@ Current execution order after attended activation:
    are verified. Continue the active finite package queue without another UAC
    request. Check the fresh 10% usage reserve, expiry and recovery before each
    admission; an unresolved hold stops use of the VM.
-2. Complete TMOG, WFN, InfoBar, Project Maker and Explorer Suite, then the
-   prepared coverage queue: unrun network tools, startup coverage for earlier
-   file-only MiTeC cases and the pinned portable PowerShell 7 runtime fixture.
+2. The first queue is exhausted with all eight checkpoint recoveries verified.
+   Continue the prepared coverage queue: startup coverage for earlier file-only
+   MiTeC cases and the pinned portable PowerShell 7 runtime fixture.
    Preserve failures and continue only after verified checkpoint recovery.
 3. After package recovery, run the paired font-process diagnostic and read-only
    WLAN prerequisite observation through the registered retained task. Keep the
    original font failure gate; do not start WLAN services or connect to a network.
    Collect evidence and reset/release each retained request before the next.
+   Then run the source-corrected InfoBar, Project Maker, Gpg4win, TMOG and
+   System Information/TAPI retries; preserve failures without unchanged repeats.
 4. OpenSSH/RSAT remain deferred because the baseline requires servicing restart
    and the capability task was removed after recovery. Resolve readiness and
    demonstrate corrected preflight reporting before future activation; explicit
