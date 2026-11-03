@@ -1,0 +1,180 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T09:23:25.0265570+00:00",
+  "Status": "NativeInstallerFailed",
+  "RunId": "69525649b962462398f37e61c257e062",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "69525649b962462398f37e61c257e062",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch1Gpg4win",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T09:09:10.6311152Z",
+    "FinishedAtUtc": "2026-11-03T09:18:22.5645244Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Guest": {
+    "SchemaVersion": 1,
+    "RunId": "69525649b962462398f37e61c257e062",
+    "Status": "Failed",
+    "ValidationPassed": true,
+    "IntegrationPassed": false,
+    "Pester": {
+      "Version": "5.7.1",
+      "Failed": 0,
+      "Result": "Passed",
+      "Total": 73,
+      "Passed": 73
+    },
+    "Error": "Applications batch 1 has failed scenarios; see application evidence.",
+    "StateCollectionError": null,
+    "Guest": {
+      "SID": "S-1-5-21-3381495413-3650599264-2815280620-1000",
+      "Account": "RIDE-WIN11-TEST\\admin",
+      "PowerShell": "5.1.26100.9711",
+      "OS": {
+        "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+        "Version": "10.0.26300",
+        "BuildNumber": "26300"
+      }
+    },
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "PesterSelection": "Application lifecycle, catalog, acquisition and controller regression"
+  },
+  "Cases": [
+    {
+      "Id": "package.gpg4win",
+      "Variant": "installed",
+      "Target": "Windows 11",
+      "OS": "Microsoft Windows 11 Enterprise Evaluation",
+      "Build": "26300",
+      "InstallationType": "Client",
+      "Scope": "User",
+      "Provider": "DirectHttps",
+      "Applicability": "Applicable to deployment lifecycle",
+      "Status": "Failed",
+      "Version": null,
+      "Error": "RIDE operation 'package.gpg4win' failed. Run ID: 9dd8ec19f0174bb09fcfcd34250d515f. Saved state: package.gpg4win. Completed operations: <none>. Failed operation: package.gpg4win. Unfinished operations: package.gpg4win. Recovery: run '.\\ride.ps1 restore -RunId 9dd8ec19f0174bb09fcfcd34250d515f', then reapply the same profile. Error: Installer for Gpg4win command line and Kleopatra exited with code -1073741819. Artifact retained at 'C:\\Users\\RIDE-App-0d8a724e\\AppData\\Local\\RIDE\\State\\Cache\\gpg4win\\5.1.1\\gpg4win-5.1.1.exe'.",
+      "Recovery": false,
+      "ProfilePreservation": null,
+      "UserDataPreservation": null,
+      "UserDataFixtures": [
+        {
+          "Name": "GnuPG user configuration",
+          "Root": "Roaming",
+          "RelativePath": "gnupg\\ride-acceptance-59f4bd6adffb4e63876caa38efcc8870.conf",
+          "Sha256": "C0DB01823EF3788DF147DCEBD1D179B95CFA9E6CF16B452F9A7D7315BEA870E1"
+        }
+      ],
+      "RemovalRecoveryVersion": null,
+      "Checks": [],
+      "RecoveryMode": "Compensating presence recovery; previous-version recovery unavailable",
+      "ExecutionSid": "S-1-5-21-3381495413-3650599264-2815280620-1002",
+      "Elevated": false,
+      "LocalAppData": "C:\\Users\\RIDE-App-0d8a724e\\AppData\\Local"
+    }
+  ],
+  "Acquisition": {
+    "SchemaVersion": 1,
+    "Observations": [
+      {
+        "ObservationId": "62d0dd24e3324eab8f3661d9ed889701",
+        "RunId": "69525649b962462398f37e61c257e062",
+        "PackageId": "gpg4win",
+        "ArtifactId": null,
+        "Version": "5.1.1",
+        "Architecture": "x64",
+        "FileName": "gpg4win-5.1.1.exe",
+        "OriginUri": "https://www.gpg4win.org/",
+        "SourceUri": "https://files.gpg4win.org/gpg4win-5.1.1.exe",
+        "ReleaseUri": "https://files.gpg4win.org/gpg4win-5.1.1.exe",
+        "ReleaseMetadata": null,
+        "Variant": "installed",
+        "Provider": "DirectHttps",
+        "License": "GPL-family licenses and separate component notices; retain the publisher license and notice files",
+        "LicenseUri": "https://www.gpg4win.org/license.html",
+        "TermsUri": null,
+        "ObservedAtUtc": "2026-11-03T09:17:18.2635131Z",
+        "Route": "direct",
+        "AcquisitionKind": "Download",
+        "Sha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+        "ProviderDigest": "sha256:ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+        "PublisherSha256": null,
+        "PublisherChecksumUri": null,
+        "PublisherChecksumResult": "Unavailable",
+        "ChecksumUris": [],
+        "SignatureUris": [],
+        "AuthenticodeStatus": "Valid",
+        "AuthenticodeSigner": "E=code@g10code.com, CN=g10 Code GmbH, O=g10 Code GmbH, L=Erkrath, S=Nordrhein-Westfalen, C=DE",
+        "AuthenticodeIssuer": "CN=GlobalSign GCC R45 CodeSigning CA 2020, O=GlobalSign nv-sa, C=BE",
+        "AuthenticodeThumbprint": "83CC4E382E5E4AF554C66E429E8F66FFE499910D",
+        "TimestampSigner": "CN=Globalsign R45 TSA for CodeSign 202510, O=GlobalSign nv-sa, C=BE",
+        "TimestampThumbprint": "8F24D5A7DE81D356D6ABEEAB438A2D1E3CE385EE",
+        "FileSize": 44831736,
+        "FileVersion": "5.1.1.54555",
+        "ProductVersion": "",
+        "Contents": []
+      }
+    ]
+  },
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T09:17:01.122357Z",
+    "SinceUtc": "2026-11-03T09:10:28.279594Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T09:17:47.0147467Z",
+    "SinceUtc": "2026-11-03T09:10:28.279594Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "QueueReceipt": {
+    "Batch": "ApplicationsBatch1Gpg4win",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T09:09:05.0233187Z",
+    "RunId": "69525649b962462398f37e61c257e062",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\69525649b962462398f37e61c257e062",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T09:18:29.5229653Z"
+  },
+  "Limits": [
+    "Installer failed with signed decimal -1073741819 / 0xC0000005 before installation completed.",
+    "No startup or product functionality accepted.",
+    "Scenario recovery is false; separately verified checkpoint recovery allowed queue continuation.",
+    "73 guest regression tests passed; no additional legacy outcome closed."
+  ],
+  "RemainingEstimate": {
+    "Exact": "121-175",
+    "FilesAndAssets": "23-33",
+    "Maintenance": "8-12",
+    "Rounded": "120-175",
+    "Settings": "37-57",
+    "Packages": "34-49",
+    "Components": "19-24"
+  }
+}

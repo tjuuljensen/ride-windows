@@ -25,8 +25,12 @@ Rufus and RegRipper each passed their native file lifecycle with Defender and
 verified reset/off recovery. Neither tool was launched. See
 [Rufus](../archive/evidence/attended-routes-activation-and-rufus-native-2026-11-03.json)
 and [RegRipper](../archive/evidence/regripper-native-file-lifecycle-2026-11-03.json).
-At this checkpoint, the ordinary-account queue had advanced to Gpg4win. Remaining
-prepared package routes continue without another controller refresh; the queue
+Gpg4win subsequently failed installation again with `0xC0000005`, despite valid
+publisher signing and 73 passing guest regression tests. No startup was reached.
+The failed application recovery remains distinct from successful checkpoint
+recovery, which allowed the queue to advance to TMOG without intervention.
+See [Gpg4win failure](../archive/evidence/gpg4win-installer-failure-native-2026-11-03.json).
+Remaining prepared package routes continue without another controller refresh; the queue
 checks recovery and the user's 10% usage reserve before each new admission.
 
 OpenSSH Client preparation passed, but lifecycle preflight rejected a pending
@@ -126,8 +130,8 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
 | RegRipper / Rufus | Both native file lifecycle/recovery/Defender routes passed. | Neither executable was launched; startup and utility actions remain separate. |
-| Remaining MiTeC portable batches | Seventeen variants / twelve products passed guest startup/lifecycle checks, including all six system viewers with a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; reordered follow-up prepared. Features stay deferred. |
-| Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). | Synthetic GnuPG user data and machine TMOG lifecycle. Earlier Gpg installer `0xC0000005` remains unresolved until a successful native run. |
+| Remaining MiTeC portable batches | Seventeen portable variants / twelve products passed guest startup/lifecycle checks, plus installed Mail Checker for eighteen variants / thirteen products overall. All six system viewers have a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; reordered follow-up prepared. Earlier twelve file-only MiTeC cases also await startup coverage. Features stay deferred. |
+| Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installer failed again with `0xC0000005`; checkpoint recovered and TMOG started. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload route; 182 selected route tests per shell. Full inert lifecycle now passes in both shells after path-validation optimization. [Route](../archive/evidence/wfn-route-source-2026-11-03.json), [optimization](../archive/evidence/portable-path-optimization-2026-11-03.json). | Native package lifecycle and Defender; no launch or firewall changes. Caffeine validates the changed handler, not WFN itself. |
 | InfoBar / Project Maker / NTCore Explorer Suite | Corrected runtime snapshot installed. InfoBar/Project Maker pinned startup checks prepared; Explorer Suite remains lifecycle-only. | Run queued native routes with Defender; retain earlier presence evidence without calling it current acceptance. |
@@ -178,21 +182,25 @@ last-observed facts, not a new inspection of today's host. The last recorded
 token balance was 35%; the night closed before the 06:30 deadline. No push,
 tag or release was performed.
 
-Proceed in this order when resuming execution:
+Current execution order after attended activation:
 
-1. Inspect current task/VM state and stop/expiry markers. During attended idle
-   setup, refresh the finite package controller for the prepared routes. Verify
-   source hashes, exact pins, capability refusal, preview and a complete native
-   terminal/export/reset cycle before relying on it unattended.
-2. Run independent package batches with durable per-batch evidence, Defender
-   checks, exact owned recovery and reset/off. Collect partial failures and move
-   to another independent batch when safe; do not rerun unchanged passed cases.
-3. Activate the separate expiring OpenSSH Client/RSAT queue and use explicit
-   Windows Update, already approved. Preserve servicing/restart evidence and
-   resolve recovery before another batch uses the same VM.
-4. Supply PowerShell 7 and WLAN prerequisites to finish the targeted runtime and
-   synthetic-profile gaps. Use the supplied assets for attended font/image/icon
-   follow-up; retain failed immediate font visibility until explained and retested.
+1. The protected controller refresh and unattended terminal/export/reset cycle
+   are verified. Continue the active finite package queue without another UAC
+   request. Check the fresh 10% usage reserve, expiry and recovery before each
+   admission; an unresolved hold stops use of the VM.
+2. Complete TMOG, WFN, InfoBar, Project Maker and Explorer Suite, then the
+   prepared coverage queue: unrun network tools, startup coverage for earlier
+   file-only MiTeC cases and the pinned portable PowerShell 7 runtime fixture.
+   Preserve failures and continue only after verified checkpoint recovery.
+3. After package recovery, run the paired font-process diagnostic and read-only
+   WLAN prerequisite observation through the registered retained task. Keep the
+   original font failure gate; do not start WLAN services or connect to a network.
+   Collect evidence and reset/release each retained request before the next.
+4. OpenSSH/RSAT remain deferred because the baseline requires servicing restart
+   and the capability task was removed after recovery. Resolve readiness and
+   demonstrate corrected preflight reporting before future activation; explicit
+   Windows Update remains approved. Image/new-user/icon observation still needs
+   a demonstrated interactive route.
 5. Handle BitLocker and Paradox/BDE through their distinct policy/boot/shared
    dependency procedures. Neither a package-presence pass nor checkpoint reset
    substitutes for RIDE recovery. Keep unrelated package work moving.
@@ -201,4 +209,5 @@ Proceed in this order when resuming execution:
    Record exclusions, deferrals and failures alongside passes; do not equate an
    exhausted test queue with migration completion.
 
-This status review does not activate controllers or start new native tests.
+This document records activation and native evidence separately from remaining
+preparation; updating the status is not itself execution evidence.
