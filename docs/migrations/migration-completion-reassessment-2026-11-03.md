@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 10:42 Copenhagen: **18 MiTeC variants across 13 products passed
+Evidence through 11:00 Copenhagen: **18 MiTeC variants across 13 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -46,7 +46,15 @@ and [source checks/references](../archive/evidence/gpg4win-tmog-installer-correc
 WFN subsequently passed all 14 file lifecycle checks, Defender and checkpoint
 recovery for its full selected 531-member payload. No tool was launched and no
 firewall settings changed. See [WFN evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json).
-InfoBar is now running. TMOG's later retry also includes a pinned eight-second
+InfoBar subsequently stopped before installation: three guest assertions still
+expected runner version 0.22.0. Its original result retains 461 passed, three
+failed and four skipped tests, with verified checkpoint recovery. The source
+checks now compare CLI/documented versions and test OpenJDK uninstall admission
+without requiring an obsolete literal batch list. The complete application
+package file passed 138 tests with three skips per shell. A native InfoBar retry
+is queued; Project Maker is running. See [InfoBar failure](../archive/evidence/infobar-regression-gate-native-2026-11-03.json)
+and [regression corrections](../archive/evidence/application-regression-version-corrections-source-2026-11-03.json).
+TMOG's later retry also includes a pinned eight-second
 startup check; 50 startup/selection/candidate tests passed per shell. This
 preparation is [source evidence](../archive/evidence/tmog-fast-track-startup-source-2026-11-03.json),
 not a native startup result.
@@ -152,7 +160,7 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; tested corrections and bounded TMOG startup await native retries. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload passed 14 native file lifecycle checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json). | Executable startup and firewall behavior are separate; neither was exercised. |
-| InfoBar / Project Maker / NTCore Explorer Suite | Corrected runtime snapshot installed. InfoBar/Project Maker pinned startup checks prepared; Explorer Suite remains lifecycle-only. | Run queued native routes with Defender; retain earlier presence evidence without calling it current acceptance. |
+| InfoBar / Project Maker / NTCore Explorer Suite | Corrected runtime snapshot installed. InfoBar stopped at stale guest regression assertions before installation; source correction passes 138 tests with three skips per shell. InfoBar/Project Maker startup checks prepared; Explorer Suite remains lifecycle-only. | Corrected InfoBar retry queued; Project Maker/Explorer Suite runs remain independent. Require Defender and product lifecycle/startup evidence as applicable. |
 | OpenSSH Client / full available client RSAT | Preparation passed; OpenSSH lifecycle rejected a pending servicing restart before installation. Evidence exported and checkpoint recovered; capability queue removed. Preflight reporting fix passed 53 tests per shell. | Resolve baseline readiness, then activate the corrected queue and run native DISM with already-approved Windows Update acquisition. RSAT has not run; payload availability remains unverified. |
 
 The capability queue is separate from the package controller. Its

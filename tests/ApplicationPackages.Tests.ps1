@@ -1482,12 +1482,23 @@ Describe 'Package variant metadata and completion' {
   It 'selects all four OpenJDK package IDs in the Server 2025 acceptance batch' {
     $runnerPath=Join-Path (Split-Path -Parent $PSScriptRoot) 'tests/integration/Invoke-RideApplicationBatch.ps1'
     $runner=Get-Content $runnerPath -Raw
-    @(& $runnerPath -Version) | Should -Be @('0.22.0')
+    $declaredVersion=[regex]::Match($runner,'\bVersion:\s*(\d+\.\d+\.\d+)\b').Groups[1].Value
+    $declaredVersion|Should -Match '^\d+\.\d+\.\d+$'
+    @(& $runnerPath -Version)|Should -Be @($declaredVersion)
     $runner | Should -Match 'microsoft-openjdk-25.*microsoft-openjdk-21.*microsoft-openjdk-17.*microsoft-openjdk-11'
     $runner | Should -Match '\$actualIds=@\(\$scenarios \| ForEach-Object \{\$_.Selected.PackageId\} \| Sort-Object\)'
     $runner | Should -Match '\$package\.MigrationBatch -eq ''OpenJDKCompatibility'''
     $runner | Should -Match '\$catalogVariant\.MigrationBatch -eq ''OpenJDKCompatibility'''
-    $runner | Should -Match '\$Batch -in @\(6,7,8,9,10,11,12\)'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseInput($runner,[ref]$tokens,[ref]$parseErrors)
+    $parseErrors|Should -BeNullOrEmpty
+    $removalBranches=@($ast.FindAll({param($node)
+      $node -is [Management.Automation.Language.IfStatementAst] -and
+      @($node.Clauses|Where-Object {$_.Item2.Extent.Text -match "scenarioStage='Run vendor uninstaller'"}).Count -gt 0
+    },$true))
+    $removalBranches.Count|Should -Be 1
+    $Batch=8;$userDataFixtures=@();$profileFixture=$null;$scenario=@{Id='package.microsoft-openjdk-25'}
+    (& ([scriptblock]::Create($removalBranches[0].Clauses[0].Item1.Extent.Text)))|Should -BeTrue
     $runner | Should -Match 'OpenJDK uninstall left its managed runtime or compiler executable behind'
   }
   It 'pins Project Maker to its Windows 11 ApplicationsBatch10 lifecycle route' {
@@ -1502,7 +1513,9 @@ Describe 'Package variant metadata and completion' {
     $package.PendingAcceptance | Should -BeTrue
     $runnerPath=Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'
     $runner=Get-Content $runnerPath -Raw
-    @(& $runnerPath -Version) | Should -Be @('0.22.0')
+    $declaredVersion=[regex]::Match($runner,'\bVersion:\s*(\d+\.\d+\.\d+)\b').Groups[1].Value
+    $declaredVersion|Should -Match '^\d+\.\d+\.\d+$'
+    @(& $runnerPath -Version)|Should -Be @($declaredVersion)
     $runner | Should -Match "ApplicationsBatch10 must select exactly MiTeC Project Maker 1\.9\.0"
     $runner | Should -Match 'ApplicationsBatch10 is limited to Windows 11'
   }
@@ -1719,7 +1732,9 @@ Describe 'HashCheck Shell Extension Windows 11 acceptance' {
     $package.LicenseReviewStatus|Should -BeNullOrEmpty
     $runnerPath=Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'
     $runner=Get-Content -LiteralPath $runnerPath -Raw
-    @(& $runnerPath -Version)|Should -Be @('0.22.0')
+    $declaredVersion=[regex]::Match($runner,'\bVersion:\s*(\d+\.\d+\.\d+)\b').Groups[1].Value
+    $declaredVersion|Should -Match '^\d+\.\d+\.\d+$'
+    @(& $runnerPath -Version)|Should -Be @($declaredVersion)
     $runner|Should -Match 'ApplicationsBatch11 must select exactly HashCheck Shell Extension 2\.6\.3'
   }
 }
