@@ -22,10 +22,31 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.18.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.13.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.6'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.19.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.14.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.6'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
+  }
+  It 'selects the fixed remaining MiTeC packages and variants for <Batch>' -ForEach @(
+    @{Batch='MiTeCViewers';Count=4;Ids=@('package.mitec-json-viewer','package.mitec-xml-viewer');Variants=@('portable','portable-x86')},
+    @{Batch='MiTeCDevelopment';Count=6;Ids=@('package.mitec-dfm-editor','package.mitec-task-manager-deluxe','package.mitec-interbase-query');Variants=@('delphi-11','delphi-12','x64','x86')},
+    @{Batch='MiTeCNetworkUtilities';Count=4;Ids=@('package.mitec-network-scanner','package.mitec-dirlist','package.mitec-network-meter');Variants=@('portable','x64','x86')},
+    @{Batch='MiTeCSystemViewers';Count=6;Ids=@('package.mitec-ole-com-explorer','package.mitec-windows-registry-recovery','package.mitec-smbios-explorer','package.mitec-windows-file-analyzer','package.mitec-icon-explorer','package.mitec-ssview');Variants=@('portable')}
+  ) {
+    $catalog=Import-RideCatalogData $script:CatalogPath
+    $cases=@(Get-RidePortableAcceptanceCases -Catalog $catalog -Batch $Batch)
+    $cases.Count|Should -Be $Count
+    @($cases.Id|Sort-Object -Unique)|Should -Be @($Ids|Sort-Object)
+    @($cases.Variant|Sort-Object -Unique)|Should -Be @($Variants|Sort-Object)
+    foreach($case in $cases){
+      $case.Operation.InstallerType|Should -BeExactly 'Portable'
+      $case.Operation.PortableFormat|Should -BeExactly 'Zip'
+      $case.Operation.ExpectedSha256|Should -Match '^[a-fA-F0-9]{64}$'
+      $case.ExpectedFiles.Count|Should -BeGreaterThan 0
+      @($case.Operation.RequiredFiles|Where-Object {$_ -cnotin $case.ExpectedFiles}).Count|Should -Be 0
+    }
+    $catalog.Operations=@($catalog.Operations|Where-Object Id -cne $Ids[0])
+    {Get-RidePortableAcceptanceCases -Catalog $catalog -Batch $Batch}|Should -Throw '*exactly one declared package*'
   }
   It 'refuses unguarded guest execution' {
     $previous=$env:RIDE_INTEGRATION_VM

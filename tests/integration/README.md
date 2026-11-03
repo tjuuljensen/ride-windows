@@ -409,6 +409,44 @@ further work. Evidence is collected before recovery, including after failure.
 GUI behavior, parser correctness and real licence/settings activation remain
 separate acceptance gates; this runner does not promote catalog support.
 
+### Remaining MiTeC portable acceptance
+
+Four fixed selections cover the remaining 14 portable products and 20 variants:
+
+| Suite | Selection | Cases |
+| --- | --- | ---: |
+| `MiTeCViewers` | JSON Viewer and XML Viewer, x64/x86 | 4 |
+| `MiTeCDevelopment` | DFM Editor Delphi 11/12; Task Manager DeLuxe and Interbase Query x64/x86 | 6 |
+| `MiTeCNetworkUtilities` | Network Scanner x64/x86; DirList and Network Meter | 4 |
+| `MiTeCSystemViewers` | OLE/COM Object Explorer, Windows Registry Recovery, SMBIOS Explorer, Windows File Analyzer, Icon Explorer and Structured Storage Viewer | 6 |
+
+Start in the repository root. Supply each suite's exact local archive manifest
+at `.local/acceptance-input/<Suite>.json`, with one `Id`/`Path` row per product.
+All variants of a product use its same catalog-pinned archive. Only reviewed
+members are installed; package files, declared notices and unrelated files retain
+the existing lifecycle/preservation checks. Utilities are not launched: no network
+scan, database connection, registry-hive recovery or user-data analysis occurs.
+
+These routes require `RemainingMiTeCPortableV1`. They are source-prepared;
+the overnight controller has not been refreshed. Use the existing attended,
+idle [registration procedure](#focused-reviewed-portable-packages) before dispatch.
+Standalone host invocation also requires this capability. After activation,
+submit one selection at a time from the ordinary owning account:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\<name>\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite MiTeCDevelopment -TimeoutMinutes 30
+```
+
+Repeat with the other explicit suite names. Verify every case's install/repeat,
+remove, exact saved-file recovery and preservation checks, active/no-alert
+Defender before/after, correlated evidence export and `ResetAndOff`. Checkpoint
+cleanup does not substitute for saved RIDE recovery. Source checks and archive
+identity do not establish native acceptance or promote supported targets.
+InfoBar, Project Maker, Mail Checker and Paradox Data Editor are installers and
+remain separate from these portable selections. MiTeC feature testing stays
+deferred to 3.1.
+
 ### Focused Gpg4win and TMOG installer acceptance
 
 The `ApplicationsBatch1Gpg4win` and `ApplicationsBatch1TMOG` routes select one

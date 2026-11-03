@@ -1026,6 +1026,19 @@ Review trigger: attended activation, native results, source-pin changes or targe
 promotion. The 145 selected mocked/source cases per shell do not establish native
 Defender or package acceptance.
 
+## Remaining MiTeC portable acceptance routes, 2026-11-03
+
+Windows-only RB-03/04/08/09/11 acceptance preparation: four fixed routes cover
+14 products and 20 variants with existing pinned acquisition, candidate gating,
+Defender observation and saved-file recovery. No public CLI, catalog pin, target
+support or production handler changes. Contract 1.1.0 and unchanged Fedora source
+hashes are recorded with 165 passing selected cases per shell in
+[source evidence](archive/evidence/remaining-mitec-routes-source-2026-11-03.json).
+The capability is absent from the unchanged installed controller; native
+activation remains pending. Owner: RIDE-Windows maintainers. Follow-up:
+[operator procedure](../tests/integration/README.md#remaining-mitec-portable-acceptance).
+Review trigger: attended controller activation, native batch result or pin change.
+
 ## ThreadJob runtime origin acceptance correction, 2026-11-03
 
 Windows-only RB-08/11 acceptance correction: a manifest can load a root DLL,

@@ -17,12 +17,19 @@
   Defender and no detection since guest boot,
   including staging; record sanitized before/after evidence without exclusions.
   RegRipper and Rufus use the same file-only lifecycle and Defender boundary;
-  no registry hive, external drive, device, media write or application is opened.
+  the remaining MiTeC viewer, development, network and system batches select
+  fixed variants and never launch their utilities or read application data.
+  No registry hive, external drive, device, media write or application is opened.
 .PARAMETER ExpectedComputerName
   Exact guest name supplied by the host runner.
 .PARAMETER EvidencePath
   Fresh run evidence directory under C:\RIDE\PortableAcceptance\<run-id>.
 .PARAMETER Batch
+  MiTeCDevelopment selects both DFM Editor generations, Task Manager DeLuxe
+  architectures and Interbase Query architectures. MiTeCNetworkUtilities selects
+  Network Scanner architectures, DirList and Network Meter. MiTeCSystemViewers
+  selects OLE/COM, Registry Recovery, SMBIOS, File Analyzer, Icon Explorer and
+  Structured Storage Viewer. These are package-file checks only.
   MiTeCViewers, MiTeCAnalysisTools, MiTeCSystemAndTelephony, NTCore, NTCoreAdditional, MiTeCMailHistoryViewers, AllReviewed,
   PSScriptTools, SQLiteQuery, MiTeCUtilityFiles,
   SysinternalsSuite, SysinternalsProducts, ImageMagick, RawCopy, WinPmem, RegRipper or Rufus. Defender-blocked collections
@@ -52,8 +59,9 @@
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
   Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.18.0.
-  Changelog: 0.18.0: Add Defender observations to NTCore and PSScriptTools acceptance.
+  Author: RIDE-Windows maintainers. Version: 0.19.0.
+  Changelog: 0.19.0: Add fixed remaining MiTeC lifecycle selections.
+    0.18.0: Add Defender observations to NTCore and PSScriptTools acceptance.
     0.17.0: Add fixed RegRipper and Rufus lifecycle/Defender scenarios.
     0.16.0: Require Defender evidence for fixed NTCoreAdditional and
     SysinternalsProducts file-lifecycle batches.
@@ -82,9 +90,9 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ExpectedComputerName,[string]$EvidencePath,
-  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus')][string]$Batch='AllReviewed',
+  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.18.0';return}
+if($Version){'0.19.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}

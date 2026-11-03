@@ -15,6 +15,10 @@
 .PARAMETER OutputDirectory
   Existing caller-owned directory for a fresh correlated run directory.
 .PARAMETER Batch
+  Remaining MiTeC selections are MiTeCViewers (four architecture variants),
+  MiTeCDevelopment (six variants), MiTeCNetworkUtilities (four variants) and
+  MiTeCSystemViewers (six packages). They require RemainingMiTeCPortableV1 in
+  the registered configuration, including standalone invocation.
   MiTeCViewers, MiTeCAnalysisTools, MiTeCSystemAndTelephony, NTCore, NTCoreAdditional, MiTeCMailHistoryViewers, AllReviewed, PSScriptTools, OfflineCaffeine, SQLiteQuery,
   MiTeCUtilityFiles, SysinternalsSuite, SysinternalsProducts, ImageMagick, RawCopy, WinPmem, RegRipper or Rufus. ImageMagick selects the exact
   pinned portable Q16 7z and runs only a synthetic 1x1 PNG encode/identify check.
@@ -49,8 +53,9 @@
   Prerequisites: Idle disposable controller and its existing guest credential.
   Effects: Only the pinned VM is reset, started, tested and reset to Off again.
   Recovery: Finally restores the pinned checkpoint even after guest failure.
-  Author: RIDE-Windows maintainers. Version: 0.13.0.
-  Changelog: 0.13.0: Add fixed RegRipper/Rufus routes with explicit registered capability.
+  Author: RIDE-Windows maintainers. Version: 0.14.0.
+  Changelog: 0.14.0: Add fixed remaining MiTeC lifecycle selections.
+    0.13.0: Add fixed RegRipper/Rufus routes with explicit registered capability.
     0.12.0: Exclude unrelated component/legacy assets from portable snapshots.
     0.11.0: Add an exact WinPmem file-staging-only batch.
     0.10.0: Add the pinned System Information eXtra and TAPI Monitor batch.
@@ -70,19 +75,19 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([string]$ConfigurationPath,[string]$ArtifactManifestPath,[string]$OutputDirectory,
-  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus')][string]$Batch='AllReviewed',
+  [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')][string]$Batch='AllReviewed',
   [ValidateRange(1,60)][int]$TimeoutMinutes=20,[string]$ControllerRunId,[switch]$Version)
-if($Version){'0.13.0';return}
+if($Version){'0.14.0';return}
 $ErrorActionPreference='Stop'
 if(-not $ConfigurationPath -or (-not $ControllerRunId -and (-not $ArtifactManifestPath -or -not $OutputDirectory))){throw 'ConfigurationPath, ArtifactManifestPath and OutputDirectory are required for standalone execution.'}
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'RIDE.PortableAcceptance.psm1') -Force
 $config=Read-RideAutomationConfiguration $ConfigurationPath
-if($Batch -in @('RegRipper','Rufus')){Assert-RideAutomationSuiteCapability -Configuration $config -Suite $Batch}
+if($Batch -in @('RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')){Assert-RideAutomationSuiteCapability -Configuration $config -Suite $Batch}
 $root=Split-Path -Parent ([IO.Path]::GetFullPath($ConfigurationPath))
 $repo=Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 if($ControllerRunId){
-  if($ControllerRunId -cnotmatch '^[a-f0-9]{32}$' -or $Batch -notin @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus') -or $ArtifactManifestPath -or $OutputDirectory){throw 'Invalid fixed controller invocation.'}
+  if($ControllerRunId -cnotmatch '^[a-f0-9]{32}$' -or $Batch -notin @('MiTeCViewers','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers') -or $ArtifactManifestPath -or $OutputDirectory){throw 'Invalid fixed controller invocation.'}
   $protectedRoot=Get-RideAutomationRoot $config.Name
   if($root -ine $protectedRoot -or [IO.Path]::GetFullPath($PSScriptRoot) -ine (Join-Path $protectedRoot 'bin') -or 'FocusedPortableV1' -notin @($config.Capabilities)){throw 'Focused acceptance requires the refreshed protected controller.'}
   $request=Get-Content -LiteralPath (Join-Path $root ('queue/running/'+$ControllerRunId+'.json')) -Raw|ConvertFrom-Json

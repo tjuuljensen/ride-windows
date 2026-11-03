@@ -7,8 +7,9 @@
   NirSoft and other collections are outside this fixed acceptance selection.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Author: RIDE-Windows maintainers. Version: 1.7.0.
-  Changelog: 1.7.0: Add fixed RegRipper and Rufus file-lifecycle selections.
+  Author: RIDE-Windows maintainers. Version: 1.8.0.
+  Changelog: 1.8.0: Add fixed remaining MiTeC lifecycle selections.
+    1.7.0: Add fixed RegRipper and Rufus file-lifecycle selections.
     1.6.0: Add the exact WinPmem single-file lifecycle selection.
     1.5.0: Add System Information eXtra and TAPI Monitor staging cases.
     1.4.0: Add MiTeC EXE Explorer and HexEdit file-lifecycle cases.
@@ -34,6 +35,8 @@ function Get-RidePortableAcceptanceCases {
     Parsed RIDE catalog; no handler imports or live inspection are performed.
   .PARAMETER Batch
     Explicit focused batch; AllReviewed selects viewer architectures and the original NTCore candidates.
+    Remaining MiTeC batches use fixed product/variant selections; no installer,
+    network scan, application-data inspection or other utility feature is selected.
   .PARAMETER ReviewRoot
     Source snapshot root containing retained member-review evidence.
   .EXAMPLE
@@ -45,12 +48,15 @@ function Get-RidePortableAcceptanceCases {
   #>
   [CmdletBinding()]
   param([Parameter(Mandatory)][hashtable]$Catalog,
-    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus')][string]$Batch='AllReviewed',
+    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')][string]$Batch='AllReviewed',
     [string]$ReviewRoot=(Split-Path -Parent (Split-Path -Parent $PSScriptRoot)))
   $groups=@{
     MiTeCViewers=@('package.mitec-json-viewer','package.mitec-xml-viewer')
     MiTeCAnalysisTools=@('package.mitec-exe-explorer','package.mitec-hexedit')
     MiTeCSystemAndTelephony=@('package.mitec-system-information','package.mitec-tapi-monitor')
+    MiTeCDevelopment=@('package.mitec-dfm-editor','package.mitec-task-manager-deluxe','package.mitec-interbase-query')
+    MiTeCNetworkUtilities=@('package.mitec-network-scanner','package.mitec-dirlist','package.mitec-network-meter')
+    MiTeCSystemViewers=@('package.mitec-ole-com-explorer','package.mitec-windows-registry-recovery','package.mitec-smbios-explorer','package.mitec-windows-file-analyzer','package.mitec-icon-explorer','package.mitec-ssview')
     NTCore=@('package.ntcore-pe-detective','package.ntcore-cff-explorer','package.ntcore-4gb-patch')
     NTCoreAdditional=@('package.ntcore-driver-list','package.ntcore-rebelnet')
     MiTeCMailHistoryViewers=@('package.mitec-mail-viewer','package.mitec-email-history-browser','package.mitec-internet-history-browser','package.mitec-instant-messaging-history-browser')
@@ -67,11 +73,17 @@ function Get-RidePortableAcceptanceCases {
     Rufus=@('package.rufus')
   }
   $ids=if($Batch -eq 'AllReviewed'){@($groups.MiTeCViewers)+@($groups.NTCore)}else{@($groups[$Batch])}
+  $variantSelections=@{
+    'package.mitec-dfm-editor'=@('delphi-11','delphi-12')
+    'package.mitec-task-manager-deluxe'=@('x64','x86')
+    'package.mitec-interbase-query'=@('x64','x86')
+    'package.mitec-network-scanner'=@('x64','x86')
+  }
   foreach($id in $ids){
     $matches=@($Catalog.Operations|Where-Object Id -ceq $id)
     if($matches.Count -ne 1){throw "Acceptance requires exactly one declared package: $id"}
     $base=$matches[0]
-    $variants=if($id -in $groups.MiTeCViewers -or $id -eq 'package.ntcore-driver-list'){@('portable','portable-x86')}else{@('portable')}
+    $variants=if($variantSelections.ContainsKey($id)){$variantSelections[$id]}elseif($id -in $groups.MiTeCViewers -or $id -eq 'package.ntcore-driver-list'){@('portable','portable-x86')}else{@('portable')}
     foreach($variant in $variants){
       if(-not $base.Variants.ContainsKey($variant)){throw "Missing reviewed variant: $id / $variant"}
       $op=$base.Clone()
