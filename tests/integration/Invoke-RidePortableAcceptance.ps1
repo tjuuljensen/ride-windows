@@ -66,8 +66,9 @@
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
   Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.22.0.
-  Changelog: 0.22.0: Add hash-bound MiTeC startup smoke checks; defer features to v3.1.
+  Author: RIDE-Windows maintainers. Version: 0.22.1.
+  Changelog: 0.22.1: Run the known Scanner x86 startup failure last within its fixed batch.
+    0.22.0: Add hash-bound MiTeC startup smoke checks; defer features to v3.1.
     0.21.0: Require Defender observations for WinPmem file-only acceptance.
     0.20.0: Add fixed WFN file lifecycle; no firewall changes.
     0.19.0: Add fixed remaining MiTeC lifecycle selections.
@@ -102,7 +103,7 @@
 param([string]$ExpectedComputerName,[string]$EvidencePath,
   [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.22.0';return}
+if($Version){'0.22.1';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}
@@ -120,6 +121,11 @@ $target=Get-RidePlatform
 if($target -ne 'Windows 11' -or -not [Environment]::Is64BitOperatingSystem){throw 'This reviewed acceptance batch requires Windows 11 x64.'}
 $catalog=Get-RideCatalog
 $cases=@(Get-RidePortableAcceptanceCases -Catalog $catalog -Batch $Batch)
+if($Batch -eq 'MiTeCNetworkUtilities'){
+  # The Nov 3 x86 crash must not keep the two other tools permanently untested.
+  # Retain all four cases and fail the batch if the final x86 startup still fails.
+  $cases=@($cases|Where-Object {-not ($_.Id -ceq 'package.mitec-network-scanner' -and $_.Variant -ceq 'x86')})+@($cases|Where-Object {$_.Id -ceq 'package.mitec-network-scanner' -and $_.Variant -ceq 'x86'})
+}
 $payloads=Get-Content -LiteralPath (Join-Path $runRoot 'payloads.json') -Raw|ConvertFrom-Json
 $payloads=@($payloads)
 $ids=@($cases.Id|Sort-Object -Unique)

@@ -204,5 +204,12 @@
     "package.mitec-dirlist",
     "package.mitec-network-meter"
   ],
-  "Limitation": "Network Scanner x86 APPCRASH 0x0eedfade in session 0 fails fast-track startup. Batch stops after failure; remaining tools not tested. No feature or interactive UI acceptance."
+  "Limitation": "Network Scanner x86 APPCRASH 0x0eedfade in session 0 fails fast-track startup. Batch stops after failure; remaining tools not tested. No feature or interactive UI acceptance.",
+  "FollowUpPreparation": {
+    "RecordedAtUtc": "2026-11-03T08:44:33.2404650Z",
+    "Status": "PreparedNativePending",
+    "Change": "Move known Scanner x86 startup failure to the end, retaining all four exact cases and the same fail-on-error gate.",
+    "GuestScriptSha256": "611466DC5C8532FFEEB2209BC31AA188A31DFCE1D77DC672A5BA232EB7FE722E",
+    "Validation": "Parser passed; exact fixed case set/count unchanged; order x64 Scanner, DirList, Network Meter, x86 Scanner."
+  }
 }

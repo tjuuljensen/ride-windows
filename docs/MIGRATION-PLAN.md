@@ -50,6 +50,9 @@ submission. See [network evidence](archive/evidence/mitec-network-fast-track-nat
 This is one additional passing variant and one failed variant, not whole-batch
 acceptance or a legacy closure. All five ranges remain unchanged, including
 partial/deferred outcomes and the 121-175 exact / 120-175 rounded total.
+For the follow-up, the guest now places the known x86 failure last so DirList
+and Network Meter can run first. Parser and exact case-inventory/order checks
+passed; all four cases and the failure gate remain. Native follow-up is pending.
 
 See [viewer native evidence](archive/evidence/mitec-viewers-fast-track-native-2026-11-03.json)
 and [development native evidence](archive/evidence/mitec-development-fast-track-native-2026-11-03.json)
