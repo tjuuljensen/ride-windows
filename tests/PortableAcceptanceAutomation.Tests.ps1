@@ -22,7 +22,7 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.18.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.13.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.5'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.18.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.13.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.6'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
@@ -76,7 +76,7 @@ Describe 'Focused portable acceptance boundaries' {
     $source|Should -Match 'Import-ThreadJobPackageModule'
     $source|Should -Not -Match '\$env:PSModulePath\s*=\s*\$threadJobModule'
   }
-  It 'imports the staged ThreadJob manifest by exact path for module dependency resolution' {
+  It 'imports the staged ThreadJob manifest with <Layout> and checks its actual definition path' -ForEach @(@{Layout='ManifestOnly'},@{Layout='RootModule'}) {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
     $tokens=$null;$parseErrors=$null
     $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
@@ -91,14 +91,23 @@ Describe 'Focused portable acceptance boundaries' {
     $moduleManifest=Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psd1'
     $consumerManifest=Join-Path $consumerDirectory 'PSScriptTools.psd1'
     $required=@{ModuleName='Microsoft.PowerShell.ThreadJob';ModuleVersion='2.2.0'}
-    New-ModuleManifest -Path $moduleManifest -ModuleVersion '2.2.0' -Guid ([guid]::NewGuid())
+    $moduleArguments=@{Path=$moduleManifest;ModuleVersion='2.2.0';Guid=[guid]::NewGuid()}
+    $expectedDefinition=$moduleManifest
+    if($Layout -eq 'RootModule'){
+      $expectedDefinition=Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psm1'
+      [IO.File]::WriteAllText($expectedDefinition,'# Inert module fixture; no upstream code.')
+      $moduleArguments.RootModule='.\Microsoft.PowerShell.ThreadJob.psm1'
+    }
+    New-ModuleManifest @moduleArguments
     New-ModuleManifest -Path $consumerManifest -ModuleVersion '3.2.0' -Guid ([guid]::NewGuid()) -RequiredModules $required
     $modulePathBefore=$env:PSModulePath
     $moduleFilesBefore=@(Get-Module -Name 'PSScriptTools','Microsoft.PowerShell.ThreadJob'|ForEach-Object {$_.Path})
     try {
       $module=Import-ThreadJobPackageModule -PackageDirectory $moduleDirectory
       $module.Version|Should -Be ([version]'2.2.0')
-      $module.Path|Should -BeExactly $moduleManifest
+      $module.Path|Should -BeExactly $expectedDefinition
+      $module.ModuleBase|Should -BeExactly $moduleDirectory
+      $module.Guid|Should -Be $moduleArguments.Guid
       $consumer=Import-Module -Name $consumerManifest -PassThru -ErrorAction Stop
       $consumer.Version|Should -Be ([version]'3.2.0')
       $env:PSModulePath|Should -BeExactly $modulePathBefore
@@ -106,6 +115,20 @@ Describe 'Focused portable acceptance boundaries' {
       $newModules=@(Get-Module -Name 'PSScriptTools','Microsoft.PowerShell.ThreadJob'|Where-Object {$_.Path -and $_.Path -notin $moduleFilesBefore})
       foreach($newModule in $newModules){Remove-Module -ModuleInfo $newModule -ErrorAction SilentlyContinue}
     }
+  }
+  It 'refuses an escaping ThreadJob root module before importing it' {
+    $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    $definition=$ast.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Import-ThreadJobPackageModule'},$true)
+    . ([scriptblock]::Create($definition.Extent.Text))
+    $root=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $moduleDirectory=Join-Path $root 'microsoft-powershell-threadjob'
+    $null=New-Item -ItemType Directory -Path $moduleDirectory -Force
+    [IO.File]::WriteAllText((Join-Path $root 'outside.psm1'),'throw "Outside fixture must never be imported."')
+    $manifest=Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psd1'
+    New-ModuleManifest -Path $manifest -ModuleVersion '2.2.0' -Guid ([guid]::NewGuid()) -RootModule '..\outside.psm1'
+    {Import-ThreadJobPackageModule -PackageDirectory $moduleDirectory}|Should -Throw '*root module must be inside*'
   }
   It 'cleans only probe-created jobs on every outcome' {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'

@@ -1026,6 +1026,18 @@ Review trigger: attended activation, native results, source-pin changes or targe
 promotion. The 145 selected mocked/source cases per shell do not establish native
 Defender or package acceptance.
 
+## ThreadJob runtime origin acceptance correction, 2026-11-03
+
+Windows-only RB-08/11 acceptance correction: a manifest can load a root DLL,
+whose path is reported by ModuleInfo. The runner now binds that definition,
+ModuleBase, version and GUID while retaining exact-manifest import. No production
+or shared interface changes. Contract 1.1.0 and compared Fedora source hashes
+remain unchanged; all hashes and 64 passing source cases per shell are recorded
+in [source evidence](archive/evidence/threadjob-origin-source-2026-11-03.json).
+Owner: RIDE-Windows maintainers. Follow-up: the correlated native rerun in the
+[migration ledger](MIGRATION-PLAN.md#threadjob-binary-origin-acceptance-correction-2026-11-03).
+Review trigger: native result, prerequisite pin change or target promotion.
+
 ## Fixed Gpg4win and TMOG installer acceptance, 2026-11-03
 
 Impact: Windows-owned RB-03/04/08/09/11 route narrowing. Existing batch-1 package

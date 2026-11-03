@@ -224,6 +224,10 @@ creating the CIM file; it does not install dependencies. Inspect
 `psscripttools-runtime/summary.json` separately from the package lifecycle.
 Missing PowerShell 7 is recorded as partial acceptance, not installed by the
 runner. The probe requires the disposable-VM guard and guest elevation.
+The prerequisite is imported by its exact RIDE-managed manifest path. Its loaded
+definition must match the manifest's root module (the pinned ThreadJob DLL), with
+the same package directory, version and GUID. A module's loaded `Path` can identify
+its DLL rather than its manifest; an outside or reparse root is refused.
 
 `OfflineCaffeine` records the actual guest target, builds a private acceptance
 profile/bundle bound to current source hashes and the checkout HEAD, and disables

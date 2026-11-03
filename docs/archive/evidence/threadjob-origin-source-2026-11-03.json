@@ -1,0 +1,41 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T01:30:02.9692538Z",
+  "Status": "SourcePassedNativeRerunPending",
+  "PriorFailedRun": "bc29f47fb542411fa0bd6c85876ac173",
+  "NativeRerun": "71026f62b6cd4c20988de2711140de97",
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 64,
+      "Failed": 0,
+      "Total": 64
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 64,
+      "Failed": 0,
+      "Total": 64
+    }
+  ],
+  "SourceFiles": [
+    {
+      "Sha256": "83A20E6178FCFD61E04E9D311130B60443E73A42E018C7E8B7E4A3CAB7958A01",
+      "Path": "tests/integration/Invoke-RidePSScriptToolsRuntimeAcceptance.ps1"
+    },
+    {
+      "Sha256": "DB8BF5FA40EDECDA33376472E3281EB6BAD959B07EAFD64CF72B432F21FDB719",
+      "Path": "tests/PortableAcceptanceAutomation.Tests.ps1"
+    }
+  ],
+  "Correction": "Import by exact manifest. Check manifest-declared definition path, package ModuleBase, version and GUID. Binary ModuleInfo.Path identifies the root DLL, not the manifest. Reject an escaping or reparse root before import.",
+  "TestBoundary": "Inert locally generated manifest-only and root-module fixtures plus escaping-root refusal. No upstream module imported on the developer host. Both native PowerShell editions passed all 64 portable-selection/Defender source cases.",
+  "Remaining": "Native Desktop runtime rerun; Core is absent from the existing VM and remains unavailable. Package lifecycle, runtime acceptance and checkpoint recovery remain separate.",
+  "Alignment": {
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "Impact": "Windows-only acceptance correction under RB-08/11; exact prerequisite identity is preserved. No production import or shared interface change.",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "ContractVersion": "1.1.0",
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878"
+  }
+}
