@@ -335,3 +335,13 @@ closed, cache changed or font forcibly unloaded.
 Diagnostic reports now include process ID, process start time and session ID;
 collector observations also carry a UTC timestamp. These are evidence fields
 only. They do not change lifecycle semantics or the required acceptance checks.
+
+The later [paired-process diagnostic](archive/evidence/font-fresh-process-diagnostic-native-2026-11-03.json)
+again passed all four durable recovery checks but failed native enumeration at
+removal, initial-state restore and repeated restore. The child observation failed
+without raw exit/output details; separate collection still saw Open Sauce Sans
+Light with no selected files or registrations. Collection and reset/release passed.
+The [reader correction](archive/evidence/font-child-reporting-correction-source-2026-11-03.json)
+suppresses progress output and retains bounded child error details. Its 52 mocked
+checks passed per shell. An inert progress-stream reproduction does not establish
+the native failure cause; the corrected native follow-up remains pending.

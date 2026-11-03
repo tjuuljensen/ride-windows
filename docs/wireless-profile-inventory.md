@@ -442,3 +442,10 @@ lifecycle changed a profile, restore that run before reverting its source;
 retain the matching reader and private state while recovery remains unfinished.
 The [migration record](migrations/remaining-migrations-follow-up.md#b02-wireless-profile-identity-inventory-2026-10-17)
 retains implementation and native-acceptance status.
+
+The [Nov 3 prerequisite observation](archive/evidence/wireless-stopped-service-native-2026-11-03.json)
+recorded `WlanSvc=Stopped` in the disposable Windows 11 guest. Interface enumeration
+and profile lifecycle did not run; an empty reported interface list is not proof
+that hardware is absent. No service start, profile read/import or connection was
+attempted. Evidence collection and checkpoint reset/release passed. Real network
+credentials are not required for the synthetic lifecycle scenario.
