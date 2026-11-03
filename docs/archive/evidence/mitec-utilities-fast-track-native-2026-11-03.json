@@ -1,0 +1,272 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T10:57:05.6805465+00:00",
+  "Status": "Passed",
+  "RunId": "5467350f310d420593c0d43c698483b2",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "5467350f310d420593c0d43c698483b2",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCUtilityFiles",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T10:49:18.822714Z",
+    "FinishedAtUtc": "2026-11-03T10:56:34.8402357Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "5467350f310d420593c0d43c698483b2",
+      "Batch": "MiTeCUtilityFiles",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 3,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": true,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "Focused": {
+    "RunId": "5467350f310d420593c0d43c698483b2",
+    "Batch": "MiTeCUtilityFiles",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 3,
+    "Status": "Passed",
+    "Error": null,
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Guest": {
+    "Batch": "MiTeCUtilityFiles",
+    "ExpectedCases": 3,
+    "Completed": 3,
+    "Passed": 3,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-uuid-generator",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "e8faa6ce49534927a237b8e6830ab359",
+        "78d6f7f3dea3437199f41e92e2b7d981",
+        "217d3132fd63404a9aa3dc9d3fa53fa1"
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-uuid-generator\\UUID.exe",
+          "Sha256": "36508b19dec5f4ff521322ddffc278e1cbba69f75d733eb1fcee1ba94ab6137f",
+          "StartedAtUtc": "2026-11-03T10:55:33.8407323Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 5804,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "StartupDeferred": null
+    },
+    {
+      "Id": "package.mitec-certificate-generator",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "e88906d5f0b849e2984ed2fd57f9002a",
+        "5d7538b0c4bc45678486deb83f513b56",
+        "5d1549f097334516be7ca0e7a0a22e64"
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-certificate-generator\\CG.exe",
+          "Sha256": "8cc29d56a0a7fc863ca2e659a66d115a581521767bd8988a5ace504d32cc9c0e",
+          "StartedAtUtc": "2026-11-03T10:55:52.3652675Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 6556,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "StartupDeferred": null
+    },
+    {
+      "Id": "package.mitec-certificate-information",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Deferred to v3.1 by user decision; startup only",
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "BoundedStartupNoErrorObserved",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "90102fe64e354c34a28021576efe6147",
+        "740266ca93d34372a10abf883df14f09",
+        "f56d6dde53cf44f590cd9fc840a3dc62"
+      ],
+      "StartupEvidence": [
+        {
+          "Status": "NoErrorObserved",
+          "Executable": "C:\\Tools\\mitec-certificate-information\\CertInfo.exe",
+          "Sha256": "d4d7936b1f9498c2ba03a1a613a06562f447c7f2d1371d9be01e0e6ae407b391",
+          "StartedAtUtc": "2026-11-03T10:56:08.6184072Z",
+          "ObservationSeconds": 8,
+          "ExitCode": null,
+          "WindowTitle": "",
+          "ProcessId": 6192,
+          "SessionId": 0,
+          "Closure": "StoppedOwnedProcess",
+          "ErrorEvents": [],
+          "Boundary": "Bounded process startup; no feature or interactive UI acceptance"
+        }
+      ],
+      "StartupDeferred": null
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T10:55:29.5457511Z",
+    "SinceUtc": "2026-11-03T10:52:04.671985Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T10:56:25.1430495Z",
+    "SinceUtc": "2026-11-03T10:52:04.671985Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "QueueReceipt": {
+    "Batch": "MiTeCUtilityFiles",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T10:49:14.4151087Z",
+    "RunId": "5467350f310d420593c0d43c698483b2",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\5467350f310d420593c0d43c698483b2",
+    "Error": null,
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T10:56:36.9716744Z"
+  },
+  "Limits": [
+    "Bounded session-0 startup; no certificate issuance, key generation or installed-certificate management selected.",
+    "Synthetic product features and interactive UI remain deferred to v3.1.",
+    "No additional legacy closure or support promotion."
+  ],
+  "RemainingEstimate": {
+    "Settings": "37-57",
+    "Rounded": "120-175",
+    "Packages": "34-49",
+    "FilesAndAssets": "23-33",
+    "Maintenance": "8-12",
+    "Exact": "121-175",
+    "Components": "19-24"
+  }
+}

@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 11:50 Copenhagen: **26 MiTeC variants across 21 products passed
+Evidence through 11:57 Copenhagen: **29 MiTeC variants across 24 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -39,6 +39,11 @@ Mail Viewer, Email History Browser, Internet History Browser and Instant
 Messaging History Browser then passed all 15 checks each, Defender and
 checkpoint recovery. No accounts, messages or history files were supplied.
 See [mail/history evidence](../archive/evidence/mitec-mail-history-fast-track-native-2026-11-03.json).
+
+UUID Generator, Certificate Generator and Certificate Information passed all 15
+checks each, Defender and checkpoint recovery. No certificate issuance, key
+generation or certificate-management action was selected. See
+[utility evidence](../archive/evidence/mitec-utilities-fast-track-native-2026-11-03.json).
 
 Rufus and RegRipper each passed their native file lifecycle with Defender and
 verified reset/off recovery. Neither tool was launched. See
@@ -191,7 +196,7 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | Route | Preparation completed | Next native proof |
 | --- | --- | --- |
 | RegRipper / Rufus | Both native file lifecycle/recovery/Defender routes passed. | Neither executable was launched; startup and utility actions remain separate. |
-| Remaining MiTeC portable batches | Twenty-five portable variants / twenty products passed guest startup/lifecycle checks, plus installed Mail Checker for twenty-six variants / twenty-one products overall. System viewers, analysis and mail/history tools have passing outer results. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | Utility and SQLite startup coverage is queued. System Information/TAPI has a corrected retry; the original GetSys failure remains. Features stay deferred. |
+| Remaining MiTeC portable batches | Twenty-eight portable variants / twenty-three products passed guest startup/lifecycle checks, plus installed Mail Checker for twenty-nine variants / twenty-four products overall. System viewers, analysis, mail/history and utility tools have passing outer results. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | SQLite startup coverage is running. System Information/TAPI has a corrected retry; the original GetSys failure remains. Features stay deferred. |
 | Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; tested corrections and bounded TMOG startup await native retries. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
 | WFN | Full pinned 531-member payload passed 14 native file lifecycle checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json). | Executable startup and firewall behavior are separate; neither was exercised. |
