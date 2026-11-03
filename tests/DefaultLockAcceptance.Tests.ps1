@@ -120,6 +120,7 @@ Describe 'Retained default lock-screen guest acceptance phases' {
       Mock Assert-RideDefaultLockAcceptanceRecords {throw 'Synthetic private recovery failure.'}
       $report=Invoke-RideDefaultLockAcceptance @script:applyParameters
       $report.Status|Should -Be Failed;$report.Stage|Should -Be Apply;$report.RecoveryRequired|Should -BeTrue
+      $report.Error|Should -BeExactly 'Synthetic private recovery failure.'
       $script:active|Should -BeTrue
       {Invoke-RideDefaultLockAcceptance @script:restoreParameters}|Should -Throw '*Completed apply-phase*'
       Should -Invoke Restore-RideDefaultLockScreenRun -Times 0 -Exactly

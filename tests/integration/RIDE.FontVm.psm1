@@ -5,15 +5,19 @@
   Uses the registered lab credential and PowerShell Direct. Stages only five
   required source/data files and 14 pinned fonts plus their license. A durable
   controller hold survives every phase and failure. Reset requires verified export.
+  Prepare can reuse its own verified snapshot only before checkpoint intent, while Off.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.0.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.4.
+  Changelog: Record collector process identity and timestamp without inferring
+  cross-session acceptance or altering font recovery.
+  Phase reports expose snapshot paths, sizes and hashes without source bytes.
   No UAC, task registration, reboot or cross-session acceptance inference. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
   ../../docs/machine-fonts.md
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+$script:AutomationModule=Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -PassThru -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.RetainedGuest.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.FontAcceptance.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
@@ -77,7 +81,7 @@ function Get-RideFontVmInputs {
 
 function Get-RideFontVmCredential {
   param($Configuration)
-  & (Get-Module RIDE.TestAutomation) {
+  & $script:AutomationModule {
     param($config)
     $machine=Get-LabVM -ComputerName $config.VMName
     if(-not $machine.PSObject.Methods['GetCredential']){throw 'Existing lab credential accessor unavailable.'}
@@ -184,6 +188,37 @@ $script:FontVmRemote={
       if($total -gt 33554432){throw 'Guest evidence exceeds 32 MiB.'}
       $files.Add([pscustomobject]@{Path=$item.FullName.Substring($base.Length+1).Replace('\','/');Bytes=$bytes.Length;Sha256=(Get-Hash $bytes);Content=[Convert]::ToBase64String($bytes)})
     }}
+    $beforePath=Join-Path $base ('evidence/'+$Descriptor.RunId+'/before.json')
+    if(Test-Path -LiteralPath $beforePath){
+      foreach($entry in $Descriptor.Manifest){
+        $path=Join-Path (Join-Path $base 'source') $entry.Path
+        $file=Get-Item -LiteralPath $path -Force
+        if($file.PSIsContainer -or $file.Attributes -band [IO.FileAttributes]::ReparsePoint -or $file.Length -ne $entry.Bytes -or (Get-FileHash -LiteralPath $path).Hash -cne $entry.Sha256){throw 'Staged source changed before read-only font observation.'}
+      }
+      $acceptance=Import-Module (Join-Path $base 'source/tests/integration/RIDE.FontAcceptance.psm1') -PassThru -Force
+      $observation=& $acceptance {
+        param($BeforePath,$Selection)
+        $beforeBytes=Read-RidePrivateFileBytes -Path $BeforePath -Scope Machine -MaximumBytes 16777216
+        $before=[Text.UTF8Encoding]::new($false,$true).GetString($beforeBytes)|ConvertFrom-Json
+        $observationContext=Get-RideFontAcceptanceContext
+        $current=Get-RideFontAcceptanceSnapshot $observationContext $Selection
+        [pscustomobject]@{
+          ObservedAtUtc=[datetime]::UtcNow.ToString('o')
+          ProcessIdentity=$observationContext.ProcessIdentity
+          FilesMatchInitial=(Test-RideFontAcceptanceEqual $before.Files $current.Files)
+          RegistryRowsMatchInitial=(Test-RideFontAcceptanceEqual $before.Registry.Rows $current.Registry.Rows)
+          RegistrySecurityMatchesInitial=($before.Registry.Security -ceq $current.Registry.Security)
+          NativeNamesMatchInitial=(Test-RideFontAcceptanceEqual $before.NativeNames $current.NativeNames)
+          CurrentSelectedNativeNames=@($current.NativeNames)
+          CurrentSelectedFilesPresent=@($current.Files|Where-Object {$_.File.Exists}).Count
+          CurrentSelectedRegistrationsPresent=@($current.Files|Where-Object {$null -ne $_.Registration}).Count
+        }
+      } $beforePath $Descriptor.Selection
+      $bytes=[Text.UTF8Encoding]::new($false).GetBytes(($observation|ConvertTo-Json -Depth 5))
+      $total+=$bytes.Length
+      if($total -gt 33554432 -or $files.Count -ge 512){throw 'Font observation exceeds collection bounds.'}
+      $files.Add([pscustomobject]@{Path='collection-font-observation.json';Bytes=$bytes.Length;Sha256=(Get-Hash $bytes);Content=[Convert]::ToBase64String($bytes)})
+    }
     return [pscustomobject]@{SchemaVersion=1;Kind='FontVmCollection';RunId=$Descriptor.RunId;LeaseId=$Descriptor.LeaseId;Status='Collected';Context=$context;Files=$files.ToArray()}
   }
   Assert-Directory $base
@@ -245,7 +280,11 @@ function Export-RideFontVmEvidence {
   if($collected.Status -ceq 'Absent' -and $manifest.Count){throw 'Absent guest export contains files.'}
   $receipt=[pscustomobject]@{SchemaVersion=1;Kind='RetainedGuestExport';RunId=$Descriptor.RunId;LeaseId=$Descriptor.LeaseId;Status=$collected.Status;Files=$manifest;Context=$collected.Context;RecordedAtUtc=[datetime]::UtcNow.ToString('o')}
   Write-RideFontVmRecord (Join-Path $export 'export-receipt.json') $receipt
-  [pscustomobject]@{Verified=$true;Path=$export;FileCount=$manifest.Count;GuestStatus=$collected.Status}
+  $observationPath=Join-Path $export 'collection-font-observation.json'
+  # Export files inherit the already validated private directory ACL. Their
+  # bytes were bounded, hashed and read back above; they are not journal files.
+  $observation=if(Test-Path -LiteralPath $observationPath){[IO.File]::ReadAllText($observationPath,[Text.UTF8Encoding]::new($false,$true))|ConvertFrom-Json}else{$null}
+  [pscustomobject]@{Verified=$true;Path=$export;FileCount=$manifest.Count;GuestStatus=$collected.Status;FontObservation=$observation}
 }
 function Read-RideFontVmResetExport {
   param([string]$Store,$Descriptor)
@@ -343,14 +382,15 @@ function Invoke-RideFontVmPhase {
   if([IO.Path]::GetFullPath($context.Configuration.LocalRepositoryPath).TrimEnd('\') -ine $repository){throw 'Use the registered checkout for retained dispatch.'}
   $inputs=if($Phase -ceq 'Prepare'){Get-RideFontVmInputs $InputDirectory}else{$null}
   if(-not $PSCmdlet.ShouldProcess($context.Configuration.VMName,"Run explicit retained machine-font $Phase phase")){return [pscustomobject]@{SchemaVersion=1;RunId=$RunId;Phase=$Phase;Status='Preview';NativeAcceptancePassed=$false}}
-  if($Phase -ceq 'Prepare'){$null=New-RideRetainedGuestHold -ConfigurationPath $ConfigurationPath -RunId $RunId -Confirm:$false}
+  $retryPrepare=($Phase -ceq 'Prepare' -and (Test-Path -LiteralPath (Join-Path $context.Root 'runtime/blocked.json')))
+  if($Phase -ceq 'Prepare' -and -not $retryPrepare){$null=New-RideRetainedGuestHold -ConfigurationPath $ConfigurationPath -RunId $RunId -Confirm:$false}
   $owned=Open-RideRetainedGuestPhase -ConfigurationPath $ConfigurationPath -RunId $RunId
   $store=Join-Path $context.Root ('retained.'+$owned.Hold.LeaseId)
   $report=[pscustomobject][ordered]@{SchemaVersion=1;RunId=$RunId;LeaseId=$owned.Hold.LeaseId;Phase=$Phase;Status='Failed';Stage='Preflight';NativeAcceptancePassed=$false;CurrentSessionAcceptancePassed=$false;CrossSessionAcceptancePassed=$false;RestartAcceptancePassed=$false;ActiveConsumerAcceptancePassed=$false;RecoveryRequired=$true;EvidenceExport=$null;GuestResult=$null;Error=$null;Store=$store;RecordedAtUtc=[datetime]::UtcNow.ToString('o')}
   $release=$false;$ready=$false
   try{
     if($context.ConfigurationSha256 -cne $owned.Context.ConfigurationSha256){throw 'Controller configuration changed before phase ownership.'}
-    if($Phase -ceq 'Prepare'){
+    if($Phase -ceq 'Prepare' -and -not $retryPrepare){
       New-RideFontVmDirectory $store
       $manifest=@(New-RideFontVmSnapshot $repository (Join-Path $store 'snapshot') $inputs)
       $descriptor=[pscustomobject]@{SchemaVersion=1;Kind='FontVmSession';RunId=$RunId;LeaseId=$owned.Hold.LeaseId;VMName=$context.Configuration.VMName;VMId=$owned.Hold.VMId;CheckpointId=$owned.Hold.CheckpointId;ConfigurationSha256=$owned.Hold.ConfigurationSha256;ExpectedBuild=$ExpectedBuild;ExpectedEditionId=$ExpectedEditionId;Manifest=$manifest;Selection=$inputs.Selection}
@@ -360,6 +400,14 @@ function Invoke-RideFontVmPhase {
       foreach($name in @('RunId','LeaseId','VMId','VMName','CheckpointId','ConfigurationSha256')){if($descriptor.$name -cne $owned.Hold.$name){throw 'Saved VM session identity differs.'}}
       if($descriptor.SchemaVersion -ne 1 -or $descriptor.Kind -cne 'FontVmSession'){throw 'Saved VM session schema differs.'}
     }
+    if($retryPrepare){
+      if((Test-Path -LiteralPath (Join-Path $store 'prepare-intent.json')) -or $owned.Target.VM.State -ne 'Off'){throw 'Prepare retry requires an Off guest with no prior checkpoint intent.'}
+      if($descriptor.ExpectedBuild -cne $ExpectedBuild -or $descriptor.ExpectedEditionId -cne $ExpectedEditionId){throw 'Prepare retry target selection differs.'}
+      $savedSelection=@($descriptor.Selection|Select-Object FileName,RegistryName,FullName,Sha256)|ConvertTo-Json -Depth 4 -Compress
+      $requestedSelection=@($inputs.Selection|Select-Object FileName,RegistryName,FullName,Sha256)|ConvertTo-Json -Depth 4 -Compress
+      if($savedSelection -cne $requestedSelection){throw 'Prepare retry font selection differs.'}
+    }
+    $report|Add-Member -NotePropertyName SourceManifest -NotePropertyValue @($descriptor.Manifest|Select-Object Path,Bytes,Sha256)
     $retryReset=($Phase -ceq 'Reset' -and $owned.Target.VM.State -eq 'Off')
     $credential=if(-not $retryReset){Get-RideFontVmCredential $context.Configuration}else{$null}
     if($Phase -ceq 'Prepare'){

@@ -162,10 +162,12 @@ Describe 'Disposable known-baseline Sysmon fixture preparation' {
       Should -Invoke Invoke-RideSysmonFixtureInstall -Times 0 -Exactly
     }
     It 'retains evidence and reports recovery needed after an installer failure' {
-      Mock Invoke-RideSysmonFixtureInstall {throw 'Synthetic installer error'}
+      Mock Invoke-RideSysmonFixtureInstall {throw 'Synthetic installer error <private-configuration-marker />'}
       $result=Initialize-RideSysmonAcceptanceFixture @script:parameters
       $result.Status|Should -Be Failed
       $result.Stage|Should -Be Install
+      $result.FailureLocation.Line|Should -BeGreaterThan 0
+      ($result|ConvertTo-Json -Depth 12)|Should -Not -Match 'private-configuration-marker'
       $result.RecoveryRequired|Should -BeTrue
       Test-Path (Join-Path $result.EvidenceDirectory 'intent.json')|Should -BeTrue
     }

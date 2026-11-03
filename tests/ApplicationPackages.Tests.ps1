@@ -1482,7 +1482,7 @@ Describe 'Package variant metadata and completion' {
   It 'selects all four OpenJDK package IDs in the Server 2025 acceptance batch' {
     $runnerPath=Join-Path (Split-Path -Parent $PSScriptRoot) 'tests/integration/Invoke-RideApplicationBatch.ps1'
     $runner=Get-Content $runnerPath -Raw
-    @(& $runnerPath -Version) | Should -Be @('0.19.4')
+    @(& $runnerPath -Version) | Should -Be @('0.22.0')
     $runner | Should -Match 'microsoft-openjdk-25.*microsoft-openjdk-21.*microsoft-openjdk-17.*microsoft-openjdk-11'
     $runner | Should -Match '\$actualIds=@\(\$scenarios \| ForEach-Object \{\$_.Selected.PackageId\} \| Sort-Object\)'
     $runner | Should -Match '\$package\.MigrationBatch -eq ''OpenJDKCompatibility'''
@@ -1502,7 +1502,7 @@ Describe 'Package variant metadata and completion' {
     $package.PendingAcceptance | Should -BeTrue
     $runnerPath=Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'
     $runner=Get-Content $runnerPath -Raw
-    @(& $runnerPath -Version) | Should -Be @('0.19.4')
+    @(& $runnerPath -Version) | Should -Be @('0.22.0')
     $runner | Should -Match "ApplicationsBatch10 must select exactly MiTeC Project Maker 1\.9\.0"
     $runner | Should -Match 'ApplicationsBatch10 is limited to Windows 11'
   }
@@ -1719,7 +1719,7 @@ Describe 'HashCheck Shell Extension Windows 11 acceptance' {
     $package.LicenseReviewStatus|Should -BeNullOrEmpty
     $runnerPath=Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'
     $runner=Get-Content -LiteralPath $runnerPath -Raw
-    @(& $runnerPath -Version)|Should -Be @('0.19.4')
+    @(& $runnerPath -Version)|Should -Be @('0.22.0')
     $runner|Should -Match 'ApplicationsBatch11 must select exactly HashCheck Shell Extension 2\.6\.3'
   }
 }

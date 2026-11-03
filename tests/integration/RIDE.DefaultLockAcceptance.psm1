@@ -9,7 +9,7 @@
   Native Windows PowerShell 5.1/7; candidate Windows 11 x64 Enterprise/Education.
   Requires existing elevation and correlated Hyper-V guest markers. No UAC,
   sign-out, reboot, checkpoint reset or automatic failed-run cleanup is launched.
-  Version: 0.1.0. Changelog: Add phased default lock-screen guest acceptance.
+  Version: 0.1.1. Changelog: Retain bounded failure details for native diagnostics.
 .LINK
   ../../docs/image-personalization.md
 #>
@@ -146,7 +146,7 @@ function Invoke-RideDefaultLockAcceptance {
   if(($Phase -ceq 'Apply' -and -not $SourcePath) -or ($Phase -ceq 'Restore' -and $SourcePath)){throw 'SourcePath is required only for Apply and must be omitted for Restore.'}
   $EvidenceRoot=Assert-RideDefaultLockAcceptanceRoot $EvidenceRoot
   $directory=Join-Path $EvidenceRoot $RunId;$state=Join-Path $directory 'state';$assets=Join-Path $directory 'images'
-  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='DefaultLockScreenAcceptance';RunId=$RunId;Phase=$Phase;RecordedAtUtc=[datetime]::UtcNow.ToString('o');Status='NotRun';Stage='Preflight';Reason=$null;Context=$context;NativeLifecycleAcceptancePassed=$false;NativeVisualAcceptancePassed=$false;NativeAcceptancePassed=$false;RecoveryRequired=$false;LifecycleRunId=$null;AssetPath=$null;SourceSha256=$null;Checks=@();StateRunIds=@();EvidenceDirectory=$directory}
+  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='DefaultLockScreenAcceptance';RunId=$RunId;Phase=$Phase;RecordedAtUtc=[datetime]::UtcNow.ToString('o');Status='NotRun';Stage='Preflight';Reason=$null;Error=$null;Context=$context;NativeLifecycleAcceptancePassed=$false;NativeVisualAcceptancePassed=$false;NativeAcceptancePassed=$false;RecoveryRequired=$false;LifecycleRunId=$null;AssetPath=$null;SourceSha256=$null;Checks=@();StateRunIds=@();EvidenceDirectory=$directory}
   $source=$null;$prepared=$null;$before=$null
   if($Phase -ceq 'Apply'){
     if(Test-Path -LiteralPath $directory){throw 'Acceptance request directory already exists; retain it and use a new request ID.'}
@@ -203,7 +203,7 @@ function Invoke-RideDefaultLockAcceptance {
       if($repeat.RunId -cne $prepared.LifecycleRunId -or $count -ne @(Get-ChildItem -LiteralPath $state -File).Count -or -not (Test-RideDefaultLockAcceptanceEqual $before (Get-RideDefaultLockAcceptanceSnapshot $prepared.AssetPath))){throw 'Repeated restore changed state.'}
       $checks.Add('RepeatedRestoreNoChanges');$report.RecoveryRequired=$false;$report.NativeLifecycleAcceptancePassed=$true;$report.Status='LifecyclePassedVisualPending';$report.Stage='RetainedForVisualRecoveryCheck'
     }
-  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true}
+  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true;$message=$_.Exception.Message;$report.Error=$message.Substring(0,[Math]::Min(1000,$message.Length))}
   $report.Checks=$checks.ToArray()
   $report.StateRunIds=@(Get-ChildItem -LiteralPath $state -Filter '*.default-lock.intent.json' -File|Select-Object -First 256|ForEach-Object {if($_.Name -cmatch '^([a-f0-9]{32})\.default-lock\.intent\.json$'){$Matches[1]}})
   $reportFile=if($Phase -ceq 'Apply'){'apply.json'}else{'restore.'+[guid]::NewGuid().ToString('N')+'.json'}

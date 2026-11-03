@@ -6,14 +6,15 @@
   required source/data files with public synthetic settings. A durable
   controller hold survives every phase and failure. Reset requires verified export.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.0.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.2.
+  Phase reports expose snapshot paths, sizes and hashes without source bytes.
   No UAC, task registration, WLAN service start or connection. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
   ../../docs/wireless-profile-inventory.md
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+$script:AutomationModule=Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -PassThru -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.RetainedGuest.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.WirelessAcceptance.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
@@ -49,7 +50,7 @@ function Get-RideWirelessVmContext {
 }
 function Get-RideWirelessVmCredential {
   param($Configuration)
-  & (Get-Module RIDE.TestAutomation) {
+  & $script:AutomationModule {
     param($config)
     $machine=Get-LabVM -ComputerName $config.VMName
     if(-not $machine.PSObject.Methods['GetCredential']){throw 'Existing lab credential accessor unavailable.'}
@@ -354,6 +355,7 @@ function Invoke-RideWirelessVmPhase {
       Assert-RideWirelessVmGuestResult $observation Prepare $descriptor
       if($observation.Status -cne 'Prepared' -or @($observation.Availability.Interfaces|Where-Object Id -CEQ $InterfaceId.ToString('D')).Count -ne 1){throw 'Select an interface from this prepared guest observation.'}
     }
+    $report|Add-Member -NotePropertyName SourceManifest -NotePropertyValue @($descriptor.Manifest|Select-Object Path,Bytes,Sha256)
     $retryReset=($Phase -ceq 'Reset' -and $owned.Target.VM.State -eq 'Off')
     $credential=if(-not $retryReset){Get-RideWirelessVmCredential $context.Configuration}else{$null}
     if($Phase -ceq 'Prepare'){

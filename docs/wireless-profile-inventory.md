@@ -299,6 +299,8 @@ inferred from this scenario.
 
 Host reports use schema 1 and include Phase, InterfaceId, Stage, Status,
 GuestResult, EvidenceExport, Store, RecoveryRequired and those acceptance fields.
+After session validation, SourceManifest lists retained source/input paths,
+sizes and hashes without publishing profile contents or credentials.
 Statuses include Preview, Prepared, NotRun, Passed, Collected, ResetAndOff and
 Failed. Keep the original Lifecycle report: Collect/Reset do not carry its pass
 forward. RecoveryRequired also describes the retained VM/hold, so even an unrun
@@ -333,8 +335,12 @@ query the guest and cannot certify its WLAN prerequisites.
 The [dispatch evidence](archive/evidence/wireless-vm-source-2026-11-02.json)
 records 37 host-route and 18 guest-runner source cases passing in each shell,
 independent dependency/generation checks and the installed Prepare preview.
-Native interface discovery, DPAPI/remoting behavior and the actual nine-check
-profile lifecycle remain unrun.
+The [native prerequisite run](archive/evidence/wireless-night-prerequisite-2026-11-03.json)
+returned NotRun because the guest WLAN service was unavailable. No profile content
+was read or imported and no connection was attempted. Export, checkpoint reset
+and retained-hold release passed. Adapter suitability, DPAPI lifecycle behavior
+and the actual nine-check profile lifecycle remain unverified. Use a disposable
+WLAN-capable target with the service available for the next native run.
 
 ## Read-only wireless profile inventory
 

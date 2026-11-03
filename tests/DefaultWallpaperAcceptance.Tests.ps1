@@ -137,6 +137,7 @@ Describe 'Retained first-logon wallpaper guest acceptance phases' {
       Mock Assert-RideDefaultWallpaperAcceptanceRecords {throw 'Synthetic private recovery failure.'}
       $report=Invoke-RideDefaultWallpaperAcceptance @script:applyParameters
       $report.Status|Should -Be Failed;$report.Stage|Should -Be Apply;$report.RecoveryRequired|Should -BeTrue
+      $report.Error|Should -BeExactly 'Synthetic private recovery failure.'
       $script:active|Should -BeTrue
       {Invoke-RideDefaultWallpaperAcceptance @script:restoreParameters}|Should -Throw '*Completed apply-phase*'
       Should -Invoke Restore-RideDefaultWallpaperRun -Times 0 -Exactly

@@ -1,0 +1,158 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T00:40:53.7961882Z",
+  "Status": "NativeOfflineAssemblyAndLifecyclePassed",
+  "RunId": "895d983c6bdb4d0ab8f6d6ab0f04d790",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "895d983c6bdb4d0ab8f6d6ab0f04d790",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "OfflineCaffeine",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T00:29:12.2541505Z",
+    "FinishedAtUtc": "2026-11-03T00:34:56.8958714Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "895d983c6bdb4d0ab8f6d6ab0f04d790",
+      "Batch": "OfflineCaffeine",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 1,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false,
+      "FunctionalAcceptance": ""
+    }
+  },
+  "GuestSummary": {
+    "PayloadExecution": false,
+    "NetworkDisconnected": true,
+    "Batch": "OfflineCaffeine",
+    "Passed": 1,
+    "Completed": 1,
+    "Status": "Passed",
+    "DefenderAcceptance": "Passed",
+    "ExpectedCases": 1,
+    "BundleTransferScope": "GuestLocalCopy"
+  },
+  "Scenarios": [
+    {
+      "Id": "package.caffeine",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Checks": [
+        "DefenderBefore",
+        "DisconnectedAdapters",
+        "AssemblyPreviewNoWrites",
+        "ProductionAssemblyCoveragePassed",
+        "GuestLocalBundleCopyVerified",
+        "MissingPayloadRefused",
+        "CorruptPayloadPinRefused",
+        "OmittedPayloadRefused",
+        "WrongTargetRefused",
+        "BundledEngineVersion",
+        "InstallPreview",
+        "CliInstall",
+        "OfflineSignatureInspectionSkipped",
+        "RepeatInstall",
+        "InstallAbsenceRestore",
+        "CliProfileApply",
+        "RepeatProfileApply",
+        "Remove",
+        "ExactRemovalRestore",
+        "ProfileAbsenceRestore",
+        "StillDisconnected",
+        "DefenderAfter"
+      ],
+      "RunIds": [
+        "26493991886041188c89fe84cc49a423",
+        "5e1678a9794a45a38f1aa7c0615fe6ee",
+        "b26ef2ac6ff74e138198b7aa39ed9ee6"
+      ],
+      "ToolExecuted": false,
+      "NetworkDisconnected": true,
+      "FunctionalAcceptance": "NotTested",
+      "DefenderAcceptance": "Passed",
+      "BundleTransferScope": "GuestLocalCopy",
+      "EngineExecutionRoot": "ReceivedBundle",
+      "CrossMachineBundleTransferVerified": false,
+      "Build": "26300",
+      "Edition": "EnterpriseEval",
+      "MissingPayload": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+      "CorruptPayloadPin": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+      "OmittedPayload": "Offline selected-profile integrity, source or no-network coverage failed; no fallback is allowed.",
+      "WrongTarget": "Offline profile target/build/edition/architecture does not match this device.",
+      "FileEvidence": [
+        {
+          "RelativePath": "caffeine32.exe",
+          "Sha256": "327fe70ed4f6502ebf8f3d4c5f890960eb7a357529c14f078999829b6f78fb9d",
+          "AuthenticodeStatus": "NotInspectedOffline",
+          "SignerThumbprint": null
+        },
+        {
+          "RelativePath": "caffeine64.exe",
+          "Sha256": "98c0af01b4257e12679aaba3c148cdc95c9168f95ad17add25287a584d9070bf",
+          "AuthenticodeStatus": "NotInspectedOffline",
+          "SignerThumbprint": null
+        }
+      ]
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T00:34:12.0204764Z",
+    "SinceUtc": "2026-11-03T00:31:27.650508Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T00:34:49.0181876Z",
+    "SinceUtc": "2026-11-03T00:31:27.650508Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "Assembly": {
+    "VerifiedFileCount": 93,
+    "CoverageStatus": "Passed",
+    "Status": "Completed",
+    "DeclaredBytes": 3322987
+  },
+  "SourceContext": {
+    "SourceCommit": "bdf473acb1cb904c88be77f7ca64f7aa6c6d2734",
+    "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes"
+  },
+  "SourceManifestSha256": "0E98AC9BAEC9A2CBB294A74842177864446F1C681F5A987AC4AAF18181C72409",
+  "RunnerSha256": "393D86063F49F8A368DDC02DEFA7C7D56F1FF846D364C4FE72A9847C28BFB50E",
+  "Boundary": "Windows 11 EnterpriseEval build 26300. Production assembly of explicit local pinned inputs, guest-local copy, execution from received bundle, disconnected portable lifecycle and exact owned-file recovery. No Caffeine execution, cross-machine transfer, full-set assembly, online acquisition or broader installer/servicing acceptance. Checkpoint cleanup is separate from RIDE recovery.",
+  "Alignment": {
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "Impact": "Windows acceptance extension only; shared behavior unchanged"
+  }
+}

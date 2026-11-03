@@ -103,6 +103,25 @@ Describe 'RSAT catalog group and dependency recovery' {
       $script:rsatStates['Rsat.Dns.Tools~~~~0.0.1.0'] | Should -Be 'Installed'
     }
   }
+  It 'stops the group and retains the changed member when servicing requires a restart' {
+    InModuleScope RIDE.Engine {
+      Mock Set-RideClientCapabilityState {
+        $script:rsatStates[$Operation.CapabilityName]='Installed'
+        throw 'DISM reached the requested literal state but reports a restart is needed.'
+      }
+      $plan=@(Get-RideSingleOperationPlan -Id solution.rsat-client-tools -Action Install)
+      {Invoke-RidePlan $plan -AllowCandidate -Confirm:$false} | Should -Throw '*Run ID:*restart is needed*'
+      Should -Invoke Set-RideClientCapabilityState -Exactly 1
+      $records=@(Get-ChildItem -LiteralPath $script:rsatRoot -Recurse -Filter 'component.rsat-*.json')
+      $records.Count | Should -Be 1
+      $record=Get-Content -LiteralPath $records[0].FullName -Raw | ConvertFrom-Json
+      $record.Snapshot.CapabilityState | Should -Be 'NotPresent'
+      $script:rsatStates[$record.Snapshot.CapabilityName] | Should -Be 'Installed'
+      $manifest=Get-Content -LiteralPath (Join-Path $records[0].DirectoryName '_manifest.json') -Raw | ConvertFrom-Json
+      @($manifest.OperationProgress | Where-Object Status -EQ Failed).Count | Should -Be 1
+      Should -Invoke Restore-RideClientCapabilityState -Exactly 0
+    }
+  }
   It 'removes dependents first and restores removed prerequisites first' {
     InModuleScope RIDE.Engine {
       foreach($name in @($script:rsatStates.Keys)) {$script:rsatStates[$name]='Installed'}

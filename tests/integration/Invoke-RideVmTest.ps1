@@ -51,6 +51,8 @@
   ApplicationsBatch8 selects four side-by-side Microsoft OpenJDK MSIs on Windows Server 2025.
   ApplicationsBatch9 selects the MiTeC InfoBar 4.6.2 Windows 11 installer lifecycle; it does not launch the application.
   ApplicationsBatch10 selects the MiTeC Project Maker 1.9.0 Windows 11 installer lifecycle; it does not launch the application.
+  ApplicationsBatch13 selects only Mail Checker 7.2.0 installer lifecycle on
+  Windows 11; mail account configuration and message operations are excluded.
   ApplicationsBatch11 selects HashCheck through an elevated interactive guest task;
   the intended guest admin must have exactly one signed-in desktop session.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
@@ -108,8 +110,10 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.19.0
+  Version: 0.21.0
   Changelog:
+    0.21.0: Add fixed ApplicationsBatch13 Mail Checker lifecycle selection.
+    0.20.0: Accept fixed Gpg4win/TMOG guest lifecycle selections.
     0.19.0: Run HashCheck acceptance in the intended interactive guest session with single dispatch and retained cleanup evidence.
     0.15.1: Pass the VM name explicitly when reconnecting for guest result export.
     0.15.0: Forward separate ApplicationsBatch1 machine- and limited-user acceptance suites.
@@ -148,7 +152,7 @@ param(
   [string] $RepositoryPath,
   [string] $GuestRepositoryPath = 'C:\RIDE\ride-windows',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultDirectory,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -161,7 +165,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.19.0'
+$script:ScriptVersion = '0.21.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return

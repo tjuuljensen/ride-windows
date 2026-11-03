@@ -605,6 +605,10 @@ Run-ID completion reads the existing private hold for later phases.
 
 Schema-1 reports include `RunId`, `LeaseId`, `Phase`, `Status`, `Stage`,
 `RecoveryRequired`, `GuestResult`, `EvidenceExport`, `Error` and `Store`.
+After session validation, `SourceManifest` identifies the exact retained source
+and input paths, byte counts and hashes without publishing their contents.
+Guest image failures now include bounded exception detail, preserving the native
+cause alongside the phase and recovery run IDs.
 Statuses are `Preview`, `Prepared`, `AwaitingVisualVerification`,
 `LifecyclePassedVisualPending`, `Collected`, `ResetAndOff` or `Failed`.
 `NativeAcceptancePassed` is always false: visible initial/applied/recovered
@@ -655,9 +659,9 @@ records mocked host/VM checks and real temporary user-scope file/lock checks.
 
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
-| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate, guest phases, owned account/profile fixture and retained host dispatch are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Existing elevation, native transport/fixture cleanup and visual acceptance remain open. |
+| Machine/default wallpaper | The first-logon ThemeFile policy/image candidate, guest phases, owned account/profile fixture and retained host dispatch are source-prepared. Verify a newly created disposable user's visible desktop, other theme defaults, existing-user preservation, later user choice and original-default recovery. Native machine lifecycle and exact captured policy/file recovery passed with verified export and ResetAndOff cleanup. Native user-fixture cleanup and visual acceptance remain open. |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
-| Machine default lock-screen image | Lifecycle, guest scenario and direct retained host dispatch/export are source-prepared. Already elevated execution, actual ACL/lifecycle checks, signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
+| Machine default lock-screen image | Native preview/apply/repeat and exact policy/image/permission restore/repeat restore passed on EnterpriseEval build 26300. Signed-out/default image verification and visible recovery remain open. No user-change restriction is added. |
 
 For the user lock screen, the documented
 [LockScreen API](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen)
@@ -703,6 +707,17 @@ records 27 focused mocked lifecycle/security checks and the 16 shared image
 source checks in each shell. The
 [phased guest preparation evidence](archive/evidence/default-lock-screen-acceptance-preparation-2026-11-02.json)
 adds 17 orchestration/source/directory checks per shell, plus a real pinned-input
-check. No image was applied to Windows.
+check. Those preparation records contain no native image application.
+The later [overnight native default-lock run](archive/evidence/default-lock-night-native-2026-11-02.json)
+passed preview/apply/repeat and exact restore/repeat restore on Windows 11
+EnterpriseEval build 26300. An initial policy permission readback failure was
+repaired by reading permissions from the same opened registry handle as values;
+the wallpaper reader uses the same repair. Visible initial/applied/restored
+lock-screen appearance remains unverified, and no broader target is promoted.
+The [overnight native wallpaper run](archive/evidence/wallpaper-night-native-2026-11-02.json)
+passed all six machine lifecycle checks on the same target, including exact
+captured policy/file recovery. Verified evidence export preceded checkpoint reset
+and shutdown. No new user was created or signed in; first-desktop appearance,
+collateral theme defaults and preservation of later user choice remain pending.
 The [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md)
 owns the broader component status and test strategy.

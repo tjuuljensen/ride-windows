@@ -1,0 +1,44 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T00:15:43.1771996Z",
+  "Status": "HostSourceVerifiedQueueNotInstalled",
+  "ModuleVersion": "0.1.0",
+  "Tests": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 29,
+      "Failed": 0,
+      "Total": 29
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 29,
+      "Failed": 0,
+      "Total": 29
+    }
+  ],
+  "InstalledRegistrationPreview": {
+    "RecordedAtUtc": "2026-11-03T00:14:24.0198255Z",
+    "Status": "Preview",
+    "RequestId": "3c0cd55541e2451f9b4837d6644cfd03",
+    "HeldBefore": false,
+    "HeldAfter": false,
+    "InstalledModuleSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+    "VMActionPerformed": false,
+    "NativeAcceptancePassed": false
+  },
+  "Sources": [
+    {
+      "Path": "tests/integration/RIDE.ClientCapabilityVm.psm1",
+      "Sha256": "8E8CC4783346F94B91EBB250AEF1DDD804865D0A8892D35FBDE6B5DC4013A251"
+    },
+    {
+      "Path": "tests/ClientCapabilityVm.Tests.ps1",
+      "Sha256": "30020069071BA7F54FD35E9B7D56284249A6A06BE05532BD0A5AA15236E7777E"
+    }
+  ],
+  "NativeServicingPerformed": false,
+  "ProtectedTaskChanged": false,
+  "Boundary": "Fixed Prepare/Lifecycle/Collect/Reset phases bind the registered checkout, VM, checkpoint, lease, target and snapshot. Tests mock Hyper-V, credentials and PowerShell Direct. A real current-source snapshot loads the engine/catalog read-only in an isolated runspace. Partial failure/timeout retains the VM; reset requires verified evidence and a terminal result if lifecycle was admitted. Cleanup cannot upgrade failed acceptance.",
+  "Remaining": "Native Windows Update acquisition and lifecycle, reviewed queue activation, and explicit interrupted Off-guest recovery remain pending. No UAC or VM action occurred."
+}

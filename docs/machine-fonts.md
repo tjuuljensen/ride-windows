@@ -247,6 +247,8 @@ only its documented current-session scenario. The host's broader
 
 Phase reports use schema 1 and include Phase, Stage, Status, GuestResult,
 EvidenceExport, Store and RecoveryRequired plus the acceptance fields above.
+After session validation, SourceManifest lists retained source/input paths,
+sizes and hashes without their contents.
 Statuses include Preview, Prepared, Passed, NotRun, Collected, ResetAndOff and
 Failed. A later Collect or Reset report does not carry forward a lifecycle pass;
 retain and assess the original Lifecycle report. RecoveryRequired describes
@@ -266,8 +268,12 @@ Reset is explicit checkpoint cleanup, including deliberate abandonment after
 failure inspection. It requires a verified export, restores the pinned checkpoint,
 verifies Off and then releases the matching hold. It is not a RIDE recovery pass.
 Retrying Reset from Off requires a saved reset intent and unchanged verified
-export. Early preparation failures without a usable descriptor/intent require
-controller inspection. Remote calls time out after 180 seconds; readiness has
+export. Prepare may be retried with the same run ID only while the reserved VM
+is Off and no checkpoint intent exists. The saved session must match the hold,
+target and selected fonts; its original cached files must still pass their hashes.
+Retry does not replace the snapshot or discard the failed phase record. Early
+failures without a usable descriptor require controller inspection. Remote calls
+time out after 180 seconds; readiness has
 a separate three-minute limit. A local timeout does not establish that remote
 work has stopped. Existing host Hyper-V/dependency calls have no added watchdog.
 
@@ -275,5 +281,57 @@ All phases support `-WhatIf`. Phase, edition and retained run IDs offer completi
 The 32 focused source cases per PowerShell edition, real font/input gates and
 installed read-only Prepare preview are recorded in
 [dispatch evidence](archive/evidence/font-vm-source-2026-11-02.json).
-Actual VM dispatch, machine permissions, current-session lifecycle, other
-sessions, restart availability and active consumers remain unverified.
+Native dispatch on Windows 11 EnterpriseEval build 26300 subsequently passed
+preparation, preview, installation of all 14 selected fonts and repeat apply.
+Removal returned Applied and restored the selected file/registration state, but
+native enumeration still returned Open Sauce Sans Light Italic. Current-session
+lifecycle therefore failed before either saved restore ran; no complete font
+acceptance is claimed. A read-only Collect observation now separates file,
+registry/security and selected native-name comparisons. Its bounded JSON is
+included in the verified private export and the public diagnostic result; it
+does not expose recovery payloads or alter fonts. Other sessions, restart
+availability and active consumers remain unverified.
+
+Microsoft documents that [outstanding references can retain a removed font](https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-removefontresourcew)
+and recommends notifying windows with WM_FONTCHANGE. The current native wrapper
+already broadcasts that notification after each batch. The observed retained
+name therefore needs further native investigation; it does not establish which
+consumer retained a reference or permit forced unloading. Preserve the failed
+run; it contains no saved-restore acceptance.
+
+The revised guest scenario keeps native enumeration failures separate from
+durable recovery. After removal, exact file, registry and permission equality
+is required before either saved restore can proceed. Each restore captures a
+separate readback. Any durable mismatch stops further steps; an isolated native
+name mismatch remains in `NativeEnumerationFailures` and keeps the overall run
+Failed, even if a later observation matches. `DurableLifecyclePassed` covers
+only the complete file/registration/permission cycle. A lifecycle row's `Restored`
+flag records that captured durable state was recovered; it does not override a
+native-name failure or establish cross-session/restart availability. No consumer
+is closed, reference force-unloaded, cache cleared or reboot requested.
+
+The revised scenario passes 13 focused mocked checks in each PowerShell edition,
+including refusal after durable drift and retention of an earlier native failure
+after final-state recovery. The [fresh native run](archive/evidence/font-recovery-night-native-2026-11-03.json)
+then completed both saved durable recoveries on EnterpriseEval build 26300.
+Removal and recovery of the installed state passed full native readback. Final
+restore and repeat recovered all captured durable state, but enumeration still
+contained Open Sauce Sans Bold Italic and Light Italic. Overall native acceptance
+remains Failed. All four durable recovery checks passed; verified export preceded
+ResetAndOff and hold release. Session/restart/consumer behavior remains open.
+
+The [process-identified follow-up](archive/evidence/font-process-night-native-2026-11-03.json)
+passed six of seven native lifecycle checks and all four durable recovery checks.
+Only the immediate removal enumeration mismatched; both final restore checks
+matched. The lifecycle process was PID 10084 in session 0. Three later collectors
+used distinct process identities in that same session and observed no selected
+fonts, files or registrations. This differs from the earlier persistent final
+enumeration mismatch and does not establish a cause or consumer identity.
+The failed removal check remains a failure; later clean observations do not
+promote current-session, interactive-session, restart or active-consumer support.
+Verified export preceded checkpoint reset and hold release. No consumer was
+closed, cache changed or font forcibly unloaded.
+
+Diagnostic reports now include process ID, process start time and session ID;
+collector observations also carry a UTC timestamp. These are evidence fields
+only. They do not change lifecycle semantics or the required acceptance checks.

@@ -1,0 +1,408 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T22:33:32.8519577Z",
+  "RunId": "fa2000128864452abd0581a16b1d1d95",
+  "Status": "NativeLifecycleFailedEvidencePreservedCheckpointReset",
+  "Results": [
+    {
+      "RequestId": "15c96830c5ac43d38d5a7ed9b2849d2e",
+      "RunId": "fa2000128864452abd0581a16b1d1d95",
+      "Family": "Fonts",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Failed",
+      "StartedAtUtc": "2026-11-02T22:09:36.228053Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "fa2000128864452abd0581a16b1d1d95",
+        "LeaseId": "8e2f541a3dce4969b3bfecb0e2754b1e",
+        "Phase": "Prepare",
+        "Status": "Failed",
+        "Stage": "Preflight",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": null,
+        "GuestResult": null,
+        "Error": "The term 'RIDE.TestAutomation RIDE.TestAutomation' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.",
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e",
+        "RecordedAtUtc": "2026-11-02T22:10:19.8633823Z"
+      },
+      "HostModuleSha256": "ECC42A9B974353916C883A888D15FEB71B37E487BE4E4112A3880BF292FAC077",
+      "FinishedAtUtc": "2026-11-02T22:10:20.417172Z"
+    },
+    {
+      "RequestId": "2c812158aa264ccc9db7514138f140ee",
+      "RunId": "fa2000128864452abd0581a16b1d1d95",
+      "Family": "Fonts",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Prepared",
+      "StartedAtUtc": "2026-11-02T22:22:15.875968Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "fa2000128864452abd0581a16b1d1d95",
+        "LeaseId": "8e2f541a3dce4969b3bfecb0e2754b1e",
+        "Phase": "Prepare",
+        "Status": "Prepared",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e\\export.bb4916b3b3494a7e932fb79d53632bf9",
+          "FileCount": 21,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "FontVmPreparation",
+          "RunId": "fa2000128864452abd0581a16b1d1d95",
+          "LeaseId": "8e2f541a3dce4969b3bfecb0e2754b1e",
+          "Status": "Prepared",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711
+          },
+          "NativeAcceptancePassed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "9995c30e-95a5-4100-a36c-19c585b315a1",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e",
+        "RecordedAtUtc": "2026-11-02T22:22:36.8458954Z"
+      },
+      "HostModuleSha256": "59B723C7D792EB3201C4FF1E4920F52D13D42AA124EA2EF5CACC32B4D3C18453",
+      "FinishedAtUtc": "2026-11-02T22:23:35.3415635Z"
+    },
+    {
+      "RequestId": "038e710d093440939a90a1bbd7dcd6ec",
+      "RunId": "fa2000128864452abd0581a16b1d1d95",
+      "Family": "Fonts",
+      "Phase": "Lifecycle",
+      "Preview": false,
+      "Status": "Failed",
+      "StartedAtUtc": "2026-11-02T22:23:58.4391324Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "fa2000128864452abd0581a16b1d1d95",
+        "LeaseId": "8e2f541a3dce4969b3bfecb0e2754b1e",
+        "Phase": "Lifecycle",
+        "Status": "Failed",
+        "Stage": "Lifecycle",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e\\export.aa5d9fa99d914e73babf56831d81d7da",
+          "FileCount": 28,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "MachineFontAcceptance",
+          "RunId": "fa2000128864452abd0581a16b1d1d95",
+          "RecordedAtUtc": "2026-11-02T22:24:57.2347322Z",
+          "Status": "Failed",
+          "Reason": "AcceptanceStepFailed",
+          "Stage": "Remove",
+          "NativeAcceptancePassed": false,
+          "CrossSessionAcceptancePassed": false,
+          "RestartAcceptancePassed": false,
+          "RecoveryRequired": true,
+          "ComputerName": "RIDE-WIN11-TEST",
+          "Build": "26300",
+          "EditionId": "EnterpriseEval",
+          "SessionId": 0,
+          "Checks": [
+            "PreviewNoChanges",
+            "InstalledNativeNamesFilesRegistrationAndPrivateState",
+            "RepeatNoChanges"
+          ],
+          "LifecycleRuns": [
+            {
+              "Action": "Install",
+              "RunId": "e9354c1f931f4b36b4e497cb2347b7a6",
+              "Restored": false
+            },
+            {
+              "Action": "Remove",
+              "RunId": "dca6e411a32244409afa45868cdfe07b",
+              "Restored": false
+            }
+          ],
+          "StateRunIds": [
+            "dca6e411a32244409afa45868cdfe07b",
+            "e9354c1f931f4b36b4e497cb2347b7a6"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\8e2f541a3dce4969b3bfecb0e2754b1e\\evidence\\fa2000128864452abd0581a16b1d1d95",
+          "Selection": [
+            {
+              "FileName": "OpenSauceSans-Black.ttf",
+              "RegistryName": "Open Sauce Sans Black (TrueType)",
+              "FullName": "Open Sauce Sans Black",
+              "Sha256": "AB5F3298EE635248A1BDA9001D8978FE7F1D8A89E227FF836F03163FC260A24E"
+            },
+            {
+              "FileName": "OpenSauceSans-BlackItalic.ttf",
+              "RegistryName": "Open Sauce Sans Black Italic (TrueType)",
+              "FullName": "Open Sauce Sans Black Italic",
+              "Sha256": "A382E2C2B9C17D3ADC4A85EC32232B55FE222B0A32DC8F237E7955EB95E0EEE3"
+            },
+            {
+              "FileName": "OpenSauceSans-Bold.ttf",
+              "RegistryName": "Open Sauce Sans Bold (TrueType)",
+              "FullName": "Open Sauce Sans Bold",
+              "Sha256": "4D139ED9EEBD846B912F79F19083DBE6C527C4D2CD7FEE51F9CE30A8AC587379"
+            },
+            {
+              "FileName": "OpenSauceSans-BoldItalic.ttf",
+              "RegistryName": "Open Sauce Sans Bold Italic (TrueType)",
+              "FullName": "Open Sauce Sans Bold Italic",
+              "Sha256": "E87E8834E9892E148990AFE54C8E58E689513FA6400B4241FE5F0F07E931607F"
+            },
+            {
+              "FileName": "OpenSauceSans-ExtraBold.ttf",
+              "RegistryName": "Open Sauce Sans ExtraBold (TrueType)",
+              "FullName": "Open Sauce Sans ExtraBold",
+              "Sha256": "8AF468090D9B80EF50AB1DA836A1387F496B979F6BAFABAA0910465DE8B1FE0C"
+            },
+            {
+              "FileName": "OpenSauceSans-ExtraBoldItalic.ttf",
+              "RegistryName": "Open Sauce Sans ExtraBold Italic (TrueType)",
+              "FullName": "Open Sauce Sans ExtraBold Italic",
+              "Sha256": "7D26B770ED25D487FF34003510909CD7C69FEDFE4EC4285177BFF13CD1A46706"
+            },
+            {
+              "FileName": "OpenSauceSans-Italic.ttf",
+              "RegistryName": "Open Sauce Sans Italic (TrueType)",
+              "FullName": "Open Sauce Sans Italic",
+              "Sha256": "30CA6BC3C404D6A465630B2E59CA71FCBFF89EA47440A7155E877AF017E13E99"
+            },
+            {
+              "FileName": "OpenSauceSans-Light.ttf",
+              "RegistryName": "Open Sauce Sans Light (TrueType)",
+              "FullName": "Open Sauce Sans Light",
+              "Sha256": "85AB7576B495C3F61FD4AE1A05E4AEAFA82A341FF0BBA62273DC22C05891F2E8"
+            },
+            {
+              "FileName": "OpenSauceSans-LightItalic.ttf",
+              "RegistryName": "Open Sauce Sans Light Italic (TrueType)",
+              "FullName": "Open Sauce Sans Light Italic",
+              "Sha256": "6ED01EFD7367FEFA74A47E66AB6D5666D7B33C1C56260308A077C3E9E4124502"
+            },
+            {
+              "FileName": "OpenSauceSans-Medium.ttf",
+              "RegistryName": "Open Sauce Sans Medium (TrueType)",
+              "FullName": "Open Sauce Sans Medium",
+              "Sha256": "6484E514CCBA9F69A52C733BDD3F91ACD181B56BBB09960168A823F297D95D8D"
+            },
+            {
+              "FileName": "OpenSauceSans-MediumItalic.ttf",
+              "RegistryName": "Open Sauce Sans Medium Italic (TrueType)",
+              "FullName": "Open Sauce Sans Medium Italic",
+              "Sha256": "9CAA95073FB30CDF0BFE19523E390A66471046DDA8E5DE9BCC5CEC70E9A2A0A4"
+            },
+            {
+              "FileName": "OpenSauceSans-Regular.ttf",
+              "RegistryName": "Open Sauce Sans Regular (TrueType)",
+              "FullName": "Open Sauce Sans Regular",
+              "Sha256": "FFB26174BC890F1863E0E17A89573A8A284634A5CFE8B2164343C26AB30762F0"
+            },
+            {
+              "FileName": "OpenSauceSans-SemiBold.ttf",
+              "RegistryName": "Open Sauce Sans SemiBold (TrueType)",
+              "FullName": "Open Sauce Sans SemiBold",
+              "Sha256": "29D2BA1B8167A6B3B39FBAEE5204BA810EAAE73F8F64B9530A628F9CFEDFE757"
+            },
+            {
+              "FileName": "OpenSauceSans-SemiBoldItalic.ttf",
+              "RegistryName": "Open Sauce Sans SemiBold Italic (TrueType)",
+              "FullName": "Open Sauce Sans SemiBold Italic",
+              "Sha256": "D0FD19FFBE4EBAA876DF1EC65BEE2D81A0D048C1F6A238DE361167593FB296D7"
+            }
+          ],
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "b58d8067-14af-423d-a624-5ceffaa14c15",
+          "PSShowComputerName": true
+        },
+        "Error": "Guest phase did not establish every required lifecycle check.",
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e",
+        "RecordedAtUtc": "2026-11-02T22:24:40.0831466Z"
+      },
+      "HostModuleSha256": "59B723C7D792EB3201C4FF1E4920F52D13D42AA124EA2EF5CACC32B4D3C18453",
+      "FinishedAtUtc": "2026-11-02T22:25:36.5998634Z"
+    },
+    {
+      "RequestId": "3029eaf6e99148449bd9dcacbe926d31",
+      "RunId": "fa2000128864452abd0581a16b1d1d95",
+      "Family": "Fonts",
+      "Phase": "Collect",
+      "Preview": false,
+      "Status": "Failed",
+      "StartedAtUtc": "2026-11-02T22:29:06.6782177Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "fa2000128864452abd0581a16b1d1d95",
+        "LeaseId": "8e2f541a3dce4969b3bfecb0e2754b1e",
+        "Phase": "Collect",
+        "Status": "Failed",
+        "Stage": "EvidenceExport",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": null,
+        "GuestResult": null,
+        "Error": "Private file owner or permissions differ; no content was read.",
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e",
+        "RecordedAtUtc": "2026-11-02T22:29:27.1328567Z"
+      },
+      "HostModuleSha256": "9BBAC2B99CE77BA7367A5D03C5282A7FFB29A79149F398ABA2C31A031933F581",
+      "FinishedAtUtc": "2026-11-02T22:29:34.1339364Z"
+    },
+    {
+      "RequestId": "2bb38c928d0d431591b39cdb439a29c5",
+      "RunId": "fa2000128864452abd0581a16b1d1d95",
+      "Family": "Fonts",
+      "Phase": "Collect",
+      "Preview": false,
+      "Status": "Collected",
+      "StartedAtUtc": "2026-11-02T22:30:06.5532733Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "fa2000128864452abd0581a16b1d1d95",
+        "LeaseId": "8e2f541a3dce4969b3bfecb0e2754b1e",
+        "Phase": "Collect",
+        "Status": "Collected",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e\\export.08ee27c7903f496486c920e1a9ad0de5",
+          "FileCount": 29,
+          "GuestStatus": "Collected",
+          "FontObservation": {
+            "FilesMatchInitial": true,
+            "RegistryRowsMatchInitial": true,
+            "RegistrySecurityMatchesInitial": true,
+            "NativeNamesMatchInitial": false,
+            "CurrentSelectedNativeNames": [
+              "Open Sauce Sans Light Italic"
+            ],
+            "CurrentSelectedFilesPresent": 0,
+            "CurrentSelectedRegistrationsPresent": 0
+          }
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e",
+        "RecordedAtUtc": "2026-11-02T22:30:26.6535695Z"
+      },
+      "HostModuleSha256": "5F41B00EF72EE453C846A8A4FA37F41AC0421EC87FFA220FF26204462186AB48",
+      "FinishedAtUtc": "2026-11-02T22:30:35.3363827Z"
+    },
+    {
+      "RequestId": "e0df372324da4dd7a1adab94eee92694",
+      "RunId": "fa2000128864452abd0581a16b1d1d95",
+      "Family": "Fonts",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-02T22:31:50.8483173Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "fa2000128864452abd0581a16b1d1d95",
+        "LeaseId": "8e2f541a3dce4969b3bfecb0e2754b1e",
+        "Phase": "Reset",
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "CurrentSessionAcceptancePassed": false,
+        "CrossSessionAcceptancePassed": false,
+        "RestartAcceptancePassed": false,
+        "ActiveConsumerAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e\\export.7586fc4330384db79e148b76562d83de",
+          "FileCount": 29,
+          "GuestStatus": "Collected",
+          "FontObservation": {
+            "FilesMatchInitial": true,
+            "RegistryRowsMatchInitial": true,
+            "RegistrySecurityMatchesInitial": true,
+            "NativeNamesMatchInitial": false,
+            "CurrentSelectedNativeNames": [
+              "Open Sauce Sans Light Italic"
+            ],
+            "CurrentSelectedFilesPresent": 0,
+            "CurrentSelectedRegistrationsPresent": 0
+          }
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.8e2f541a3dce4969b3bfecb0e2754b1e",
+        "RecordedAtUtc": "2026-11-02T22:32:22.2045398Z"
+      },
+      "HostModuleSha256": "5F41B00EF72EE453C846A8A4FA37F41AC0421EC87FFA220FF26204462186AB48",
+      "FinishedAtUtc": "2026-11-02T22:32:36.4113423Z"
+    }
+  ],
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 42,
+      "Failed": 0,
+      "Total": 42
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 42,
+      "Failed": 0,
+      "Total": 42
+    }
+  ],
+  "Boundary": "Installation and repeat passed for 14 pinned fonts. Removal restored selected files and registration but native enumeration retained Open Sauce Sans Light Italic; neither saved RIDE restore was exercised. Verified export preceded checkpoint cleanup. ResetAndOff is lab recovery, not successful font lifecycle or native acceptance. Original private snapshot and recovery records remain in the controller store.",
+  "GuestDiagnosticChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 11,
+      "Failed": 0,
+      "Total": 11
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 11,
+      "Failed": 0,
+      "Total": 11
+    }
+  ]
+}

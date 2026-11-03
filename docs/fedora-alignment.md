@@ -10,6 +10,42 @@ same date. Remaining recommendations are tracked final-v3 tasks, not implemented
 CLI behavior.
 Native installers, target acceptance and recovery evidence remain platform-owned.
 
+## Portable path validation implementation, 2026-11-03
+
+RB-07/08/09/11 shared behavior is unchanged. Windows replaces repeated provider
+lookups with direct filesystem attribute reads while rechecking every ancestor
+on every call. No cache or reparse-point exception is introduced; only missing
+paths are eligible for creation, and access/I/O failures propagate. Saved-state
+schema, exact file recovery and public CLI remain unchanged. The pinned contract
+1.1.0 and Fedora archive/owned-directory guards were compared; Fedora also rejects
+symlinks in the reviewed archive snapshots and owned-directory paths. This is not
+a claim of identical APIs or complete cross-platform conformance.
+
+[Evidence](archive/evidence/portable-path-optimization-2026-11-03.json) records
+compared hashes, 185 focused passing cases per shell, full 531-member synthetic
+WFN recovery in both shells and 34 native offline Caffeine checks with verified
+recovery. WFN native acceptance and other targets remain separate. Owner:
+RIDE-Windows maintainers. Follow-up: [remaining package acceptance](migrations/migration-completion-reassessment-2026-11-02.md#component-specific-acceptance-status).
+Review trigger: path ownership rules, saved-state schema, filesystem support or
+target-promotion changes. No shared-contract amendment is required.
+
+## Expiring client capability acceptance queue, 2026-11-03
+
+Windows-only test transport preparation under RB-03/04/05/08/09/10/11: fixed
+OpenSSH Client/RSAT phases bind explicit Windows Update acquisition to the
+registered disposable target, pinned source, expiring admission and retained
+recovery. No public RIDE command, catalog schema, source fallback or target
+support changes. The ordinary-account client starts only a separately registered
+fixed task; it does not elevate itself or accept a script callback. Timeout
+preserves servicing uncertainty and the native reset guard. The pinned contract
+1.1.0 and compared Fedora source hashes are recorded in
+[source evidence](archive/evidence/client-capability-queue-source-2026-11-03.json).
+No shared-contract amendment is required. Owner: RIDE-Windows maintainers.
+Follow-up: [attended activation and native acceptance](windows-component-inventory.md#expiring-capability-queue).
+Review trigger: protected activation, source/configuration changes, native
+servicing/recovery results or target promotion. Existing overnight tasks remain
+unchanged; source tests do not establish that this new task is installed.
+
 ## Review basis and policy before adoption
 
 Windows was inspected on `codex/ride-v3-migration`, based on `59d1a80`, with
@@ -176,6 +212,24 @@ its promotion until reviewed; unrelated development can continue.
 
 See [operator behavior and recovery](unsupported-target-exploration.md) and
 [source evidence](archive/evidence/unsupported-target-source-validation-2026-11-02.json).
+
+The 2026-11-03 native-scenario preparation compares adopted contract 1.1.0
+(`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`)
+with current Fedora `ride.sh`/`common.sh` hashes recorded in
+[117-case source evidence](archive/evidence/offline-target-exploration-source-2026-11-03.json).
+Fedora still rejects undeclared targets separately from candidate permission.
+The existing offline Caffeine route now tests a synthetic minimum-build
+restriction with real Windows engine/file recovery, actual-target audit and fresh
+opt-in. Offline missing/corrupt/omitted/target mismatch refusals must survive the
+override. Native execution is pending; this adds no shared interface or target
+support. ALIGN-TARGET-01, its owner and promotion/release review trigger remain open.
+
+The [follow-up native run](archive/evidence/offline-target-exploration-night-native-2026-11-03.json)
+passed all 34 checks, including actual-target apply/restore audits, fresh opt-in,
+preview, exact original-absence recovery and all offline refusals with the switch.
+The fixture only raises Caffeine's minimum build in memory; published source and
+support metadata remain unchanged. This resolves that narrow native evidence gap;
+ALIGN-TARGET-01 and broader OS/handler acceptance remain open before promotion.
 
 ## Sysmon Modular checksum decoding and acquisition, 2026-11-02
 
@@ -859,12 +913,280 @@ pipeline coverage or establish automated shared conformance. The capability
 register's contract version follows the new pin; unrelated source reviews remain
 as previously dated.
 
-That 2026-11-02 snapshot preceded shared scenario revision 1.1.0, recorded
-below. Next action: run the mapped Windows Pester suite and record its result;
-the Fedora UID 0 namespace preview case is now recorded below. Review trigger:
-either client's selection/output/error semantics change or final v3 release
-review. This is CLI contract work, not a legacy migration run; no legacy outcome
-or estimate changes.
+That 2026-11-02 snapshot preceded shared scenario revision 1.1.0,
+recorded below. Next actions: run the mapped Windows Pester suite,
+implement the Fedora show-pipeline sibling, and add paired ALIGN-05
+fixtures for the remaining acceptance cases. The Fedora UID 0 namespace
+preview case is recorded below. Review when either client changes its
+selection, output, or error semantics, when paired fixtures are added,
+or before final v3 release. Keep affected capability promotion gated on
+the documented gaps. This CLI contract work changes no legacy migration
+outcome or estimate.
+
+## Overnight native package evidence, 2026-11-02
+
+Windows-only execution/evidence update; shared behavior unchanged. Reviewed the
+currently adopted contract 1.1.0, SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`, and peer
+privilege, target and candidate gates. Fedora `ride.sh` remains
+`49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266` and
+`lib/v3/common.sh` remains
+`8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1`.
+Previously compared revision is `3d9406e3888122d1407652336859e6217c09bcaa`;
+no fresh peer HEAD or automated conformance claim is made.
+
+System Information eXtra, TAPI Monitor, EXE Explorer and HexEdit passed native
+Windows 11 build 26300 lifecycle and exact owned-file recovery with active/no-alert
+Defender evidence. Explicit candidate execution remains separate from published
+support. Checkpoint cleanup follows RIDE recovery rather than replacing it.
+Owner: RIDE Windows maintainer. Reason: close missing current native/Defender
+evidence through the approved unattended route. Follow-up:
+[overnight evidence](archive/evidence/overnight-unattended-execution-proof-2026-11-02.json)
+and the [remaining-test assessment](migrations/migration-completion-reassessment-2026-11-02.md#overnight-execution-resumed-2026-11-02).
+Review trigger: changed source/artifact/target, catalog promotion or release review.
+
+## Retained VM dispatch recovery and Fedora verb review, 2026-11-02
+
+Windows test infrastructure now binds the exact imported automation module,
+avoiding ambiguity when the installed controller and checkout module coexist.
+Font Prepare can resume its own unstarted preparation only with the matching
+private hold/session, unchanged target and font selection, valid cached bytes,
+an Off guest and no checkpoint intent. It preserves the original snapshot and
+failed-phase record. RB-09 recovery and RB-08 identity boundaries were reviewed
+against contract 1.1.0 and the peer hashes recorded above. This changes disposable
+test orchestration only; public CLI, catalog and production recovery are unchanged.
+The 41 focused source cases pass in both native PowerShell editions; native
+retry and lifecycle acceptance remain separate. Owner: Windows maintainer;
+follow-up: [font dispatch procedure](machine-fonts.md). Recheck after a change
+to hold ownership, retry eligibility, snapshot identity or checkpoint cleanup.
+
+The user also identified Fedora's additional public `deploy` and `update` verbs.
+Current `ride.sh` restricts deploy to Docker Engine and update to the whole-system
+DNF5 operation. These are production operations, not test states. RB-01 permits
+additional native capabilities, so their presence alone is not a contract breach.
+However, Fedora's alignment discussion does not explain the choice of separate
+verbs or their shared-interface implications. Joint maintainers should review
+whether these remain deliberate native extensions or belong under shared verbs,
+including compatibility for existing callers. Follow-up: the Fedora
+[system/security decision record](https://github.com/tjuuljensen/ride-fedora/blob/codex/ride-v3-migration/docs/migrations/system-security-core.md)
+and its alignment entry need an explicit disposition before affected CLI promotion
+or final release review. No Fedora command is removed by this Windows test run.
+
+## Image policy native readback repair, 2026-11-02
+
+Impact: Windows-only provider repair, with unchanged public command, desired
+state, ownership and saved-run schema. After a real default-lock apply wrote the
+policy, the second PowerShell-provider lookup for its ACL reported the key absent.
+Both image handlers now read values and Owner/Group/Access from the same opened
+registry handle. No permissions are weakened and incomplete applies still retain
+their records. Guest diagnostic results preserve bounded exception detail.
+
+Reviewed RB-03, RB-08 and RB-09 against contract 1.1.0, digest
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`.
+The peer checkout changed independently during this run; newly compared `ride.sh`
+digest is `A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43`
+and `lib/v3/common.sh` is
+`A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878`.
+Its root/user privilege, target and candidate gates were re-read. There is no
+Fedora Windows-registry provider to change, and no shared contract amendment.
+Owner: Windows maintainer. Follow-up: native image apply/repeat/exact restore and
+the separate visible-effect requirements in [image personalization](image-personalization.md).
+Review trigger: provider, snapshot permission semantics, recovery or supported
+target changes. Source regression remains separate from native acceptance.
+
+## Font recovery evidence separation, 2026-11-03
+
+Impact: Windows guest-test reporting only. Exact file, registration and permission
+readback now permits the independent saved-restore checks to proceed after a
+native font-name mismatch. That mismatch remains a failed overall acceptance
+result; durable recovery does not certify native availability. Production handler,
+saved-state schema, CLI and support declarations are unchanged.
+
+Reviewed RB-08/09/11 against contract 1.1.0 and the same canonical digest and
+Fedora `ride.sh`/`lib/v3/common.sh` hashes recorded immediately above, rechecked
+for this run. The peer target/candidate guards remain applicable; Windows GDI
+observations have no Fedora counterpart. No shared contract amendment is needed.
+Owner: Windows maintainer. Follow-up: the fresh native run and remaining session,
+restart and active-consumer checks in [machine fonts](machine-fonts.md).
+Review trigger: any change to the native pass criteria or production recovery
+semantics. See [source evidence](archive/evidence/font-recovery-separation-source-2026-11-03.json).
+
+## Client capability restart boundary, 2026-11-03
+
+Impact: Windows-only correction to RB-09 partial failure handling. A DISM restart
+request now stops apply/recovery after literal-state readback instead of warning
+and allowing the engine to continue the group. Existing snapshots, run identity,
+candidate opt-in, source policy and conditional recovery semantics are retained.
+No automatic restart is introduced; the partial run is not reported as complete.
+
+Reviewed RB-03/04/08/09/11 against pinned contract 1.1.0 and its digest above.
+Re-read Fedora target/candidate guards in `lib/v3/common.sh`; the `ride.sh` and
+`common.sh` hashes still match the image-policy review above and are recorded in
+[source evidence](archive/evidence/client-capability-restart-source-2026-11-03.json).
+Fedora has no DISM capability provider. Shared behavior is unchanged and no
+contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[native capability acceptance](windows-component-inventory.md#client-rsat-catalog-candidates).
+Review trigger: native servicing/restart evidence, failure or recovery changes,
+or affected capability promotion. Mocked tests do not establish native support.
+
+The subsequent guest scenario adds Windows-owned acceptance evidence under
+RB-03/04/08/09/11: exact guest attestation, explicit Windows Update source, normal
+engine snapshots, mixed-state recovery and retained partial failures. It does not
+change the CLI, catalog support, acquisition policy or saved-run schema. The same
+peer source comparison applies. Its 22 isolated cases per shell remain separate
+from native acceptance and host-route activation; see the
+[guest scenario source evidence](archive/evidence/client-capability-acceptance-source-2026-11-03.json).
+
+The retained host route adds platform-owned VM/checkpoint/source binding and
+verified export before reset. Timeout without a terminal guest result leaves the
+VM and lease retained; checkpoint cleanup cannot change a failed lifecycle into
+success. This applies RB-08/09/11 without changing the shared contract or production
+privilege path. The installed task remains unchanged. The same source comparison
+applies; review again for queue activation, interrupted-run recovery changes or
+native promotion. See [host source evidence](archive/evidence/client-capability-host-source-2026-11-03.json).
+
+## Expanded disconnected bundle acceptance, 2026-11-03
+
+Impact: Windows-owned RB-03/09/11 evidence, with no production CLI, acquisition,
+recovery or privilege change. The focused portable scenario now uses the
+production assembler and received bundle's CLI, checks byte-preserving guest-local
+copy, and records Defender before/after. Pinned contract 1.1.0 and the same peer
+source hashes reviewed above apply; the evidence records those hashes. No shared
+contract amendment is needed. Owner: Windows maintainer. Follow-up and review
+trigger: [cross-machine/full-set delivery](offline-bundles.md#refresh-and-recovery)
+or changed offline semantics. The native pass does not establish Fedora support,
+cross-machine delivery or broader installer acceptance. See
+[native evidence](archive/evidence/offline-caffeine-assembly-night-native-2026-11-03.json).
+
+The fixed NTCoreAdditional and SysinternalsProducts package scenarios now also
+require the existing read-only Defender observer. This extends Windows-owned
+RB-11 acceptance evidence without changing shared behavior, package handlers or
+catalog support. The same contract and peer hashes apply. NTCore Driver List
+x64/x86 and Rebel.NET passed native lifecycle/recovery and Defender checks; see
+[evidence](archive/evidence/ntcore-additional-night-native-2026-11-03.json).
+Owner: Windows maintainer. Review trigger: affected package promotion or changes
+to the observer/lifecycle boundary; remaining packages stay in the
+[fast-track register](migrations/migration-completion-reassessment-2026-11-02.md#approved-fast-track-execution-2026-11-02).
+
+## Fixed RegRipper and Rufus acceptance routes, 2026-11-03
+
+Impact: Windows-owned RB-03/04/08/09/11 test routing. The two explicit selections
+reuse package handlers and saved ownership recovery; they add no production verb,
+catalog support, acquisition policy or saved-state schema. The new registered
+capability is required before dispatch; source availability does not activate it.
+The installed controller remains unchanged. Contract 1.1.0 and Fedora target/
+candidate guards were reread with the same `ride.sh`/`common.sh` hashes, recorded
+in [source evidence](archive/evidence/regripper-rufus-routes-source-2026-11-03.json).
+No shared-contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[fixed portable acceptance](../tests/integration/README.md#focused-reviewed-portable-packages).
+Review trigger: attended activation, native results, source-pin changes or target
+promotion. The 145 selected mocked/source cases per shell do not establish native
+Defender or package acceptance.
+
+## Remaining MiTeC portable acceptance routes, 2026-11-03
+
+Windows-only RB-03/04/08/09/11 acceptance preparation: four fixed routes cover
+14 products and 20 variants with existing pinned acquisition, candidate gating,
+Defender observation and saved-file recovery. No public CLI, catalog pin, target
+support or production handler changes. Contract 1.1.0 and unchanged Fedora source
+hashes are recorded with 165 passing selected cases per shell in
+[source evidence](archive/evidence/remaining-mitec-routes-source-2026-11-03.json).
+The capability is absent from the unchanged installed controller; native
+activation remains pending. Owner: RIDE-Windows maintainers. Follow-up:
+[operator procedure](../tests/integration/README.md#remaining-mitec-portable-acceptance).
+Review trigger: attended controller activation, native batch result or pin change.
+
+## ThreadJob runtime origin acceptance correction, 2026-11-03
+
+Windows-only RB-08/11 acceptance correction: a manifest can load a root DLL,
+whose path is reported by ModuleInfo. The runner now binds that definition,
+ModuleBase, version and GUID while retaining exact-manifest import. No production
+or shared interface changes. Contract 1.1.0 and compared Fedora source hashes
+remain unchanged; all hashes and 64 passing source cases per shell are recorded
+in [source evidence](archive/evidence/threadjob-origin-source-2026-11-03.json).
+Owner: RIDE-Windows maintainers. Follow-up: the correlated native rerun in the
+[migration ledger](MIGRATION-PLAN.md#threadjob-binary-origin-acceptance-correction-2026-11-03).
+Review trigger: native result, prerequisite pin change or target promotion.
+
+The follow-up native run passed exact prerequisite import, PSScriptTools import,
+CIM enumeration and drawing. Its next failure was a caller-scope invocation of
+the module's private cleanup helper. The corrected probe invokes that helper in
+module scope against an explicit synthetic runspace and checks closure/job errors;
+69 focused source cases pass per shell. This remains Windows-only acceptance,
+with no public GUI workflow or full Core acceptance claim. See
+[follow-up evidence](archive/evidence/psscripttools-private-helper-correction-2026-11-03.json)
+for the failed native run, unchanged contract/peer hashes and pending rerun.
+
+## Fixed Gpg4win and TMOG installer acceptance, 2026-11-03
+
+Impact: Windows-owned RB-03/04/08/09/11 route narrowing. Existing batch-1 package
+and recovery behavior is reused for one named package at a time. Gpg4win's
+limited-user SID/profile handoff remains mandatory; TMOG remains machine scoped.
+The coordinator records Defender observations and the new capability is required
+before protected dispatch. Source selection does not grant installed capability
+or target acceptance. Pinned contract 1.1.0 and the same reviewed Fedora target/
+candidate guards apply; compared hashes are in
+[source evidence](archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json).
+No shared-contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[focused installer procedure](../tests/integration/README.md#focused-gpg4win-and-tmog-installer-acceptance).
+Review trigger: attended activation, native user-data/recovery results, source
+changes or target promotion. Compensating package presence and synthetic data
+preservation do not establish exact prior-version or all-application-state recovery.
+
+## Fixed Mail Checker installer acceptance, 2026-11-03
+
+Windows-owned RB-03/04/08/09/11 test routing adds one fixed Windows 11 machine
+installer selection, exact version and Defender evidence, bounded runtime source
+staging, and a separate installed-capability guard. Existing candidate and
+compensating package-presence recovery semantics remain unchanged. Contract 1.1.0
+and the same Fedora target/candidate source comparison apply; hashes and source
+results are recorded in [evidence](archive/evidence/mailchecker-route-source-2026-11-03.json).
+No public CLI, supported-target declaration or contract amendment is introduced.
+Owner: Windows maintainer. Follow-up: [native procedure](../tests/integration/README.md#mail-checker-installer-acceptance).
+Review trigger: attended activation, native result, package pin or recovery change.
+The unchanged installed controller lacks the new capability; source preparation
+does not establish native acceptance, mail/TLS behavior or exact application-data
+recovery. Paradox/BDE acceptance remains separate.
+
+## Fixed WFN portable acceptance, 2026-11-03
+
+Windows-owned RB-03/04/08/09/11 routing adds the exact selected WFN x64 Nightly
+archive and full 531-member inventory to the existing package lifecycle fixture.
+Candidate metadata, whole-archive pinning, ownership/recovery semantics and the
+production CLI remain unchanged. A new installed capability gates both queued
+and standalone host routes; no protected activation occurs from source edits.
+Contract 1.1.0 and the same compared Fedora target/candidate guards apply; hashes
+and source results are in [evidence](archive/evidence/wfn-route-source-2026-11-03.json).
+No contract amendment is needed. Owner: Windows maintainer. Follow-up:
+[native package procedure](../tests/integration/README.md#windows-firewall-notifier-package-acceptance).
+Review trigger: attended activation, native result, archive/member changes or
+target promotion. File lifecycle acceptance does not establish WFN application
+or firewall behavior, and no shared firewall-setting behavior changes here.
+
+## Font enumeration process evidence, 2026-11-03
+
+Windows-owned RB-11 diagnostic reports now identify the lifecycle/collector
+process and session. Production font handling, recovery and acceptance criteria
+are unchanged. Contract 1.1.0 and unchanged peer hashes are recorded in
+[evidence](archive/evidence/font-process-night-native-2026-11-03.json).
+No contract amendment is needed. Owner: Windows maintainer. Follow-up and review
+trigger: [remaining native font availability](machine-fonts.md), including the
+immediate removal failure and any future session/restart/consumer scenario.
+Later clean observations do not erase an earlier failure or grant target support.
+
+## WinPmem file-only native evidence, 2026-11-03
+
+RB-11 Windows-owned evidence adds active/no-alert Defender observation to the
+existing file-only route and corrects catalog signature wording using acquired
+bytes. The outer wrapper reports NotSigned; its exact publisher hash matches.
+No operation ID, pin, privilege, source policy, recovery or support declaration
+changes. Contract 1.1.0 and unchanged compared Fedora hashes are recorded in
+[evidence](archive/evidence/winpmem-night-native-2026-11-03.json). All 14 native
+package/recovery checks passed without executable or driver launch. No shared
+contract amendment is needed. Owner: Windows maintainer. Follow-up and review
+trigger: [scoped package promotion](migrations/migration-completion-reassessment-2026-11-02.md#catalog-package-candidates)
+or any separately requested driver scenario. Native file acceptance does not
+transfer to application/driver behavior or another target.
 
 ## Shared behavior scenarios 1.1.0, 2026-11-03
 

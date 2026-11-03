@@ -1,0 +1,54 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T21:58:39.6868130Z",
+  "Status": "UnattendedPackageExecutionProvenAndRetainedPreviewsPassed",
+  "Controller": {
+    "StartedAtUtc": "2026-11-02T21:30:39.6430515Z",
+    "Status": "Passed",
+    "Stage": "Registration complete; native acceptance still pending",
+    "VmChanged": false,
+    "Error": null,
+    "InstalledModuleSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+    "TaskState": "Ready",
+    "VMState": "Off",
+    "GuestCredentialAvailable": true,
+    "FinishedAtUtc": "2026-11-02T21:33:37.662491Z"
+  },
+  "RetainedTask": {
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-02T21:53:18.1155894Z",
+    "Error": null,
+    "VMChanged": false,
+    "TaskName": "RIDEWin11NightRetained",
+    "TaskState": "Ready",
+    "Files": [
+      {
+        "Sha256": "98018E7D43824E206C10FF5FB13BC639EA62B705CFB7FDA8150E008907499C34",
+        "Name": "RIDE.NightRetained.psm1"
+      },
+      {
+        "Sha256": "7483218FB5129D0D57C434B70EE84E295DD8D9A5B19083A1078ABD5C75F828F1",
+        "Name": "Invoke-RideNightRetainedWorker.ps1"
+      }
+    ],
+    "FinishedAtUtc": "2026-11-02T21:53:22.9266382Z"
+  },
+  "NativeProofRequests": [
+    "e3b92925deef40e1b1ba8e222843c1f9",
+    "dc210911eef04a07b54dde2c7d40e4a9"
+  ],
+  "RetainedPreviewRequests": [
+    "aed05fbad6eb48bb9c2d8f0fdb351c9c",
+    "9bb0b0c23df34c60a0386dd742c8ecfe",
+    "65d5924a74e54f51b8cfb15ee39550fa",
+    "afddb5b76a7445cbbce1cbbae90a32e4",
+    "6baf390eae2546e19411f5709c47caf1"
+  ],
+  "PureRequestBoundaryChecks": 16,
+  "WindowsPowerShell51ParserImportMappingPassed": true,
+  "DeadlineUtc": "2026-11-03T05:30:00Z",
+  "MinimumRemainingUsagePercent": 10,
+  "HostPolicyChanged": false,
+  "PreparedQueueExhaustionEndsWork": false,
+  "Remaining": "Continue prepared retained native phases and missing morning components; previews are not native lifecycle or visual acceptance."
+}

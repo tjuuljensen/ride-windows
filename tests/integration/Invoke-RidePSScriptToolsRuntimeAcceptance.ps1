@@ -25,8 +25,12 @@
   Prerequisites: Elevated disposable Windows 11 guest; exact staged PSScriptTools 3.2.0 source and RIDE-managed ThreadJob 2.2.0.
   Effects: Imports the staged ThreadJob module only in a child process; starts the module's read-only CIM namespace job and writes its fixed-name file only under a unique TEMP directory.
   Recovery: Child processes exit; the runner deletes only its verified file and empty run-owned TEMP directory.
-  Author: RIDE-Windows maintainers. Version: 0.1.5.
-  Changelog: 0.1.5: Import the staged ThreadJob manifest by exact path instead of treating its package directory as a PSModulePath root.
+  Author: RIDE-Windows maintainers. Version: 0.1.7.
+  Changelog: 0.1.7: Invoke the private cleanup helper in its loaded module scope;
+    give it an explicit synthetic runspace and verify closure without job errors.
+    0.1.6: Validate the manifest-declared root module and loaded module base,
+    including binary modules whose Path identifies the DLL rather than the manifest.
+    0.1.5: Import the staged ThreadJob manifest by exact path instead of treating its package directory as a PSModulePath root.
     0.1.4: Supply the pinned RIDE-managed ThreadJob module only to present-mode children.
     0.1.3: Capture child exit codes with a bounded .NET process wrapper.
     0.1.2: Retain child exception messages and exit codes for failed probes.
@@ -45,7 +49,7 @@ param(
   [string]$ResultPath,
   [switch]$Version
 )
-if($Version){'0.1.5';return}
+if($Version){'0.1.7';return}
 $ErrorActionPreference='Stop'
 function Assert-RuntimeGuest {
   if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
@@ -82,11 +86,28 @@ function Test-ThreadJobModulePath {
   $resolved
 }
 function Import-ThreadJobPackageModule([string]$PackageDirectory) {
-  $manifest=Join-Path $PackageDirectory 'Microsoft.PowerShell.ThreadJob.psd1'
+  $package=[IO.Path]::GetFullPath($PackageDirectory).TrimEnd([IO.Path]::DirectorySeparatorChar)
+  $directory=Get-Item -LiteralPath $package -Force -ErrorAction Stop
+  if(-not $directory.PSIsContainer -or ($directory.Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'ThreadJob package directory must be a regular directory.'}
+  $manifest=Join-Path $package 'Microsoft.PowerShell.ThreadJob.psd1'
+  $manifestFile=Get-Item -LiteralPath $manifest -Force -ErrorAction Stop
+  if($manifestFile.PSIsContainer -or ($manifestFile.Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'ThreadJob manifest must be a regular file.'}
+  $data=Import-PowerShellDataFile -LiteralPath $manifest -ErrorAction Stop
+  if([string]$data.ModuleVersion -cne '2.2.0' -or -not $data.GUID){throw 'ThreadJob manifest identity differs from the pinned prerequisite.'}
+  $definition=$manifest
+  if($data.RootModule){
+    if([IO.Path]::IsPathRooted([string]$data.RootModule)){throw 'ThreadJob root module must be inside the RIDE-managed package directory.'}
+    $definition=[IO.Path]::GetFullPath((Join-Path $package ([string]$data.RootModule)))
+    if(-not [IO.Path]::GetDirectoryName($definition).Equals($package,[StringComparison]::OrdinalIgnoreCase)){throw 'ThreadJob root module must be inside the RIDE-managed package directory.'}
+    $rootFile=Get-Item -LiteralPath $definition -Force -ErrorAction Stop
+    if($rootFile.PSIsContainer -or ($rootFile.Attributes -band [IO.FileAttributes]::ReparsePoint)){throw 'ThreadJob root module must be a regular file.'}
+  }
   $imported=@(Import-Module -Name $manifest -Force -PassThru -ErrorAction Stop)
   $module=@($imported|Where-Object {$_.Name -ceq 'Microsoft.PowerShell.ThreadJob' -and $_.Version -eq [version]'2.2.0'})
   if($module.Count -ne 1){throw 'The RIDE-managed ThreadJob package did not import as Microsoft.PowerShell.ThreadJob 2.2.0.'}
-  if(-not [IO.Path]::GetFullPath($module[0].Path).Equals([IO.Path]::GetFullPath($manifest),[StringComparison]::OrdinalIgnoreCase)){
+  if(-not [IO.Path]::GetFullPath($module[0].Path).Equals($definition,[StringComparison]::OrdinalIgnoreCase) -or
+     -not [IO.Path]::GetFullPath($module[0].ModuleBase).Equals($package,[StringComparison]::OrdinalIgnoreCase) -or
+     $module[0].Guid -ne [guid]$data.GUID){
     throw 'ThreadJob 2.2.0 resolved from outside the RIDE-managed package directory.'
   }
   $module[0]
@@ -95,6 +116,14 @@ function Write-WorkerResult([object]$Value) {
   if([IO.File]::Exists($ResultPath) -or [IO.Directory]::Exists($ResultPath)){throw 'Worker result path already exists.'}
   $json=ConvertTo-Json -InputObject $Value -Depth 6
   [IO.File]::WriteAllText($ResultPath,$json,[Text.UTF8Encoding]::new($false))
+}
+function Invoke-ModuleRunspaceCleanupProbe {
+  param([Management.Automation.PSModuleInfo]$Module,[object]$Handle,[Management.Automation.PowerShell]$PowerShell)
+  if($Module.Name -cne 'PSScriptTools' -or $Module.Version -ne [version]'3.2.0'){throw 'The cleanup probe requires the exact loaded PSScriptTools module.'}
+  & $Module {
+    param($ProbeHandle,$ProbePowerShell)
+    New-RunspaceCleanupJob -Handle $ProbeHandle -PowerShell $ProbePowerShell -SleepInterval 5 -PassThru
+  } $Handle $PowerShell
 }
 function Clear-RuntimeProbeJobs([int[]]$BaselineJobIds) {
   $newJobs=@(Get-Job|Where-Object {$_.Id -notin $BaselineJobIds})
@@ -143,6 +172,7 @@ function Invoke-RuntimeWorker {
   $env:TEMP=$temp;$env:TMP=$temp
   $report=[ordered]@{Mode=$Mode;Edition=$PSVersionTable.PSEdition;PowerShellVersion=$PSVersionTable.PSVersion.ToString();Status='Failed';Imported=$false;RequiredModule='Microsoft.PowerShell.ThreadJob';RequiredModuleVersion='2.2.0';RequiredModulePath=$threadJobModule;RequiredModuleImported=$false;RequiredAssembly='System.Drawing';CimEnumerationJob='NotRun';CimNamespaceCount=0;CimFileIsolated=$false;DrawingFunction='NotRun';ThreadJobFunction='NotRun';ErrorClass=$null;ErrorMessage=$null}
   $baselineJobIds=@(Get-Job|ForEach-Object {[int]$_.Id})
+  $powerShell=$null;$probeRunspace=$null
   try {
     $cimFile=Join-Path $temp 'CimNamespaceList.txt'
     if($Mode -eq 'MissingDependency'){
@@ -174,13 +204,16 @@ function Invoke-RuntimeWorker {
     $colorResult=[string](Convert-HtmlToAnsi '#123456')
     if($colorResult -cne '[38;2;18;52;86m'){throw 'Convert-HtmlToAnsi returned an unexpected RGB sequence.'}
     $report.DrawingFunction='Passed'
+    $probeRunspace=[System.Management.Automation.Runspaces.RunspaceFactory]::CreateRunspace()
+    $probeRunspace.Open()
     $powerShell=[System.Management.Automation.PowerShell]::Create()
+    $powerShell.Runspace=$probeRunspace
     $null=$powerShell.AddScript("Start-Sleep -Milliseconds 100; 'runtime-fixture'")
     $handle=$powerShell.BeginInvoke()
     if(-not $handle.AsyncWaitHandle.WaitOne(15000)){throw 'Synthetic runspace did not complete.'}
-    $cleanupJob=New-RunspaceCleanupJob -Handle $handle -PowerShell $powerShell -SleepInterval 5 -PassThru
+    $cleanupJob=Invoke-ModuleRunspaceCleanupProbe -Module $module -Handle $handle -PowerShell $powerShell
     if(-not (Wait-Job -Job $cleanupJob -Timeout 20)){Stop-Job -Job $cleanupJob -ErrorAction SilentlyContinue;throw 'ThreadJob-backed runspace cleanup timed out.'}
-    if($cleanupJob.State -ne 'Completed'){throw 'ThreadJob-backed runspace cleanup failed.'}
+    if($cleanupJob.State -ne 'Completed' -or @($cleanupJob.Error).Count -gt 0 -or $probeRunspace.RunspaceStateInfo.State -ne 'Closed'){throw 'ThreadJob-backed runspace cleanup failed or did not close the synthetic runspace.'}
     $report.ThreadJobFunction='Passed';$report.Status='Passed'
     Write-WorkerResult ([pscustomobject]$report)
     return 0
@@ -191,6 +224,8 @@ function Invoke-RuntimeWorker {
     return 1
   }finally{
     Clear-RuntimeProbeJobs -BaselineJobIds $baselineJobIds
+    if($powerShell){$powerShell.Dispose()}
+    if($probeRunspace){$probeRunspace.Dispose()}
     $expectedFile=Join-Path $temp 'CimNamespaceList.txt'
     if([IO.File]::Exists($expectedFile)){
       $fi=Get-Item -LiteralPath $expectedFile -Force

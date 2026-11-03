@@ -7,8 +7,11 @@
   NirSoft and other collections are outside this fixed acceptance selection.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Author: RIDE-Windows maintainers. Version: 1.6.0.
-  Changelog: 1.6.0: Add the exact WinPmem single-file lifecycle selection.
+  Author: RIDE-Windows maintainers. Version: 1.9.0.
+  Changelog: 1.9.0: Add fixed WFN file lifecycle; no firewall changes.
+    1.8.0: Add fixed remaining MiTeC lifecycle selections.
+    1.7.0: Add fixed RegRipper and Rufus file-lifecycle selections.
+    1.6.0: Add the exact WinPmem single-file lifecycle selection.
     1.5.0: Add System Information eXtra and TAPI Monitor staging cases.
     1.4.0: Add MiTeC EXE Explorer and HexEdit file-lifecycle cases.
     1.3.0: Add the pinned RawCopy synthetic-only acceptance batch.
@@ -32,7 +35,11 @@ function Get-RidePortableAcceptanceCases {
   .PARAMETER Catalog
     Parsed RIDE catalog; no handler imports or live inspection are performed.
   .PARAMETER Batch
+    WindowsFirewallNotifier selects all 531 reviewed files from the pinned x64
+    Nightly archive, including both license/attribution files; no WFN launch.
     Explicit focused batch; AllReviewed selects viewer architectures and the original NTCore candidates.
+    Remaining MiTeC batches use fixed product/variant selections; no installer,
+    network scan, application-data inspection or other utility feature is selected.
   .PARAMETER ReviewRoot
     Source snapshot root containing retained member-review evidence.
   .EXAMPLE
@@ -44,12 +51,15 @@ function Get-RidePortableAcceptanceCases {
   #>
   [CmdletBinding()]
   param([Parameter(Mandatory)][hashtable]$Catalog,
-    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')][string]$Batch='AllReviewed',
+    [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')][string]$Batch='AllReviewed',
     [string]$ReviewRoot=(Split-Path -Parent (Split-Path -Parent $PSScriptRoot)))
   $groups=@{
     MiTeCViewers=@('package.mitec-json-viewer','package.mitec-xml-viewer')
     MiTeCAnalysisTools=@('package.mitec-exe-explorer','package.mitec-hexedit')
     MiTeCSystemAndTelephony=@('package.mitec-system-information','package.mitec-tapi-monitor')
+    MiTeCDevelopment=@('package.mitec-dfm-editor','package.mitec-task-manager-deluxe','package.mitec-interbase-query')
+    MiTeCNetworkUtilities=@('package.mitec-network-scanner','package.mitec-dirlist','package.mitec-network-meter')
+    MiTeCSystemViewers=@('package.mitec-ole-com-explorer','package.mitec-windows-registry-recovery','package.mitec-smbios-explorer','package.mitec-windows-file-analyzer','package.mitec-icon-explorer','package.mitec-ssview')
     NTCore=@('package.ntcore-pe-detective','package.ntcore-cff-explorer','package.ntcore-4gb-patch')
     NTCoreAdditional=@('package.ntcore-driver-list','package.ntcore-rebelnet')
     MiTeCMailHistoryViewers=@('package.mitec-mail-viewer','package.mitec-email-history-browser','package.mitec-internet-history-browser','package.mitec-instant-messaging-history-browser')
@@ -62,13 +72,22 @@ function Get-RidePortableAcceptanceCases {
     ImageMagick=@('package.imagemagick-portable-q16')
     RawCopy=@('package.rawcopy')
     WinPmem=@('package.winpmem')
+    RegRipper=@('package.regripper')
+    Rufus=@('package.rufus')
+    WindowsFirewallNotifier=@('package.windows-firewall-notifier')
   }
   $ids=if($Batch -eq 'AllReviewed'){@($groups.MiTeCViewers)+@($groups.NTCore)}else{@($groups[$Batch])}
+  $variantSelections=@{
+    'package.mitec-dfm-editor'=@('delphi-11','delphi-12')
+    'package.mitec-task-manager-deluxe'=@('x64','x86')
+    'package.mitec-interbase-query'=@('x64','x86')
+    'package.mitec-network-scanner'=@('x64','x86')
+  }
   foreach($id in $ids){
     $matches=@($Catalog.Operations|Where-Object Id -ceq $id)
     if($matches.Count -ne 1){throw "Acceptance requires exactly one declared package: $id"}
     $base=$matches[0]
-    $variants=if($id -in $groups.MiTeCViewers -or $id -eq 'package.ntcore-driver-list'){@('portable','portable-x86')}else{@('portable')}
+    $variants=if($variantSelections.ContainsKey($id)){$variantSelections[$id]}elseif($id -in $groups.MiTeCViewers -or $id -eq 'package.ntcore-driver-list'){@('portable','portable-x86')}else{@('portable')}
     foreach($variant in $variants){
       if(-not $base.Variants.ContainsKey($variant)){throw "Missing reviewed variant: $id / $variant"}
       $op=$base.Clone()
@@ -79,6 +98,9 @@ function Get-RidePortableAcceptanceCases {
       $fileAccepted=($Batch -eq 'WinPmem' -and $id -ceq 'package.winpmem' -and $op.PortableFormat -ceq 'File' -and
         $op.AssetName -ceq 'go-winpmem_amd64_1.0-rc2_signed.exe' -and $op.PortableFileName -ceq $op.AssetName -and
         @($op.RequiredFiles).Count -eq 1 -and $op.RequiredFiles[0] -ceq $op.AssetName)
+      $fileAccepted=$fileAccepted -or ($Batch -ceq 'Rufus' -and $id -ceq 'package.rufus' -and $op.PortableFormat -ceq 'File' -and
+        $op.PackageVersion -ceq '4.15' -and $op.AssetName -ceq 'rufus-4.15p.exe' -and $op.PortableFileName -ceq 'rufusp.exe' -and
+        @($op.RequiredFiles).Count -eq 1 -and $op.RequiredFiles[0] -ceq 'rufusp.exe')
       $prerequisiteAccepted=-not $op.PrerequisitePackageId -or
         ($Batch -eq 'ImageMagick' -and $id -ceq 'package.imagemagick-portable-q16' -and $op.PrerequisitePackageId -ceq 'package.vcredist-v14-x64') -or
         ($Batch -eq 'PSScriptTools' -and $id -ceq 'package.psscripttools' -and $op.PrerequisitePackageId -ceq 'package.microsoft-powershell-threadjob' -and
@@ -89,6 +111,30 @@ function Get-RidePortableAcceptanceCases {
          $op.Scope -ne 'Machine' -or -not $op.RequiresAdmin -or -not $prerequisiteAccepted -or $op.DependsOn -or
          ('Windows 11' -notin $op.CandidateTargets -and 'Windows 11' -notin $op.SupportedTargets) -or -not $op.RequiredFiles.Count){throw "Unreviewed acceptance metadata: $id / $variant"}
       $members=@(if($op.PortableMembers){$op.PortableMembers}else{$op.RequiredFiles})
+      if($id -ceq 'package.windows-firewall-notifier'){
+        $review=Get-Content -LiteralPath (Join-Path $ReviewRoot 'docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json') -Raw|ConvertFrom-Json
+        if($op.PackageVersion -cne '20250719-ac02df' -or $op.Architecture -cne 'x64' -or
+           $op.AssetName -cne 'wfn-20250719-ac02df-x64-standalone.zip' -or
+           $review.SelectedAsset.LocalSha256 -cne $op.ExpectedSha256 -or $review.SelectedAsset.PublishedSha256 -cne $op.ExpectedSha256 -or
+           $review.SelectedAsset.Name -cne $op.AssetName -or $review.SelectedAsset.Version -cne $op.PackageVersion -or
+           $review.Verification.ArchiveFileCount -ne 531 -or @($review.Verification.ArchiveMembers).Count -ne 531 -or $members.Count -ne 531){throw 'WFN member review does not match the selected catalog pin.'}
+        $reviewMembers=@($review.Verification.ArchiveMembers|ForEach-Object {
+          if($_.Name -isnot [string] -or -not $_.Name -or $_.Name -match '(^/|[\\:]|//|(^|/)\.{1,2}(/|$))' -or $_.Length -lt 0){throw 'Invalid WFN member review.'}
+          $_.Name
+        })
+        if(@($members|Sort-Object -Unique).Count -ne 531 -or @($reviewMembers|Sort-Object -Unique).Count -ne 531 -or
+           @(Compare-Object $members $reviewMembers -CaseSensitive).Count -ne 0 -or
+           @('WFN.exe','LICENSE.txt','Resources/IPDatabase/LICENSE.txt'|Where-Object {$_ -cnotin $members}).Count){throw 'WFN member review is incomplete, duplicated or differs from catalog members.'}
+      }
+      if($id -ceq 'package.regripper'){
+        $review=Get-Content -LiteralPath (Join-Path $ReviewRoot 'docs/archive/evidence/regripper-source-review-2026-10-16.json') -Raw|ConvertFrom-Json
+        if($review.ArchiveSha256 -cne $op.ExpectedSha256 -or $review.Revision -cne 'ec96dd4a6a5c3ea70d8fece9b47a374f83582335' -or $review.FileCount -ne 282 -or @($review.Files).Count -ne 282){throw 'RegRipper member review does not match the catalog pin.'}
+        foreach($file in $review.Files){
+          if($file.Path -isnot [string] -or -not $file.Path -or $file.Path -match '(^/|[\\:]|//|(^|/)\.{1,2}(/|$))' -or $file.Sha256 -cnotmatch '^[a-f0-9]{64}$' -or $file.Length -lt 0){throw 'Invalid RegRipper member review.'}
+        }
+        $members=@($review.Files|ForEach-Object {'RegRipper3.0-'+$review.Revision+'/'+$_.Path})
+        if(@($members|Sort-Object -Unique).Count -ne 282 -or @($op.RequiredFiles|Where-Object {$_ -cnotin $members}).Count){throw 'RegRipper member review is incomplete or duplicated.'}
+      }
       if($id -eq 'package.psscripttools'){
         $review=Get-Content -LiteralPath (Join-Path $ReviewRoot 'docs/archive/evidence/psscripttools-source-review-2026-10-17.json') -Raw|ConvertFrom-Json
         if($review.Sha256 -cne $op.ExpectedSha256 -or $review.FileCount -ne 360){throw 'PSScriptTools member review does not match the catalog pin.'}
@@ -130,7 +176,8 @@ function Get-RidePortableAcceptancePayloads {
     $op=($Cases|Where-Object Id -ceq $id|Select-Object -First 1).Operation
     $extension=[IO.Path]::GetExtension([string]$op.AssetName)
     $extensionAccepted=$extension -in @('.zip','.7z','.nupkg') -or
-      ($id -ceq 'package.winpmem' -and $extension -ieq '.exe')
+      ($id -ceq 'package.winpmem' -and $extension -ieq '.exe') -or
+      ($id -ceq 'package.rufus' -and $op.PackageVersion -ceq '4.15' -and $op.AssetName -ceq 'rufus-4.15p.exe' -and $op.PortableFileName -ceq 'rufusp.exe' -and $extension -ieq '.exe')
     if(-not $row.Path -or [IO.Path]::GetExtension($row.Path) -ine $extension -or -not $extensionAccepted -or
        ($extension -eq '.nupkg' -and ($id -cne 'package.microsoft-powershell-threadjob' -or $op.PackageVersion -cne '2.2.0')) -or
        ($extension -eq '.7z' -and ($op.Id -cne 'package.imagemagick-portable-q16' -or $op.PortableFormat -ne 'SevenZip'))){throw 'Archive extension does not match an explicitly reviewed portable selection.'}

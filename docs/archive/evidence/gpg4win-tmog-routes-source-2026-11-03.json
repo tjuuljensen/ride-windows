@@ -1,0 +1,114 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T01:21:13.7231418Z",
+  "Status": "SourcePreparedNativePending",
+  "Suites": [
+    "ApplicationsBatch1Gpg4win",
+    "ApplicationsBatch1TMOG"
+  ],
+  "RequiredCapability": "Gpg4winTmogLifecycleV1",
+  "NativeLifecyclePerformed": false,
+  "ControllerRefreshed": false,
+  "InstalledCapabilityPresent": false,
+  "InstalledControllerSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 124,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 249,
+      "NotRun": 125,
+      "ParserFiles": 7
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 124,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 249,
+      "NotRun": 125,
+      "ParserFiles": 7
+    }
+  ],
+  "PinnedInputs": {
+    "RecordedAtUtc": "2026-11-03T01:14:13.2684207Z",
+    "Status": "RetainedInstallerIdentitiesVerified",
+    "Packages": [
+      {
+        "Id": "package.gpg4win",
+        "Version": "5.1.1",
+        "SourceUri": "https://files.gpg4win.org/gpg4win-5.1.1.exe",
+        "Length": 44831736,
+        "Sha256": "ed19c0c89ec42fe32c52a7abd6e3da5f491752700546b9eed7ddf82fd303cddf",
+        "SignatureStatus": "Valid",
+        "Signer": "E=code@g10code.com, CN=g10 Code GmbH, O=g10 Code GmbH, L=Erkrath, S=Nordrhein-Westfalen, C=DE",
+        "SignerThumbprint": "83CC4E382E5E4AF554C66E429E8F66FFE499910D",
+        "Scope": "User",
+        "RequiresUnelevatedUser": true,
+        "Executed": false
+      },
+      {
+        "Id": "package.tmog",
+        "Version": "1.0.1",
+        "SourceUri": "https://tmog.org/rtm/downloads/TMOG-Task-Manager-Setup-1.0.1-0-x64-b4edf70fa040.exe",
+        "Length": 7385192,
+        "Sha256": "b4edf70fa040968958c662ffb09feeeb0eeca07759e6ed7742606bcc39f29fc6",
+        "SignatureStatus": "Valid",
+        "Signer": "CN=David Plummer, O=David Plummer, L=Redmond, S=Washington, C=US",
+        "SignerThumbprint": "C1447E88A95D3589F860E4A50B96D8F23C9C2F8F",
+        "Scope": "Machine",
+        "RequiresUnelevatedUser": false,
+        "Executed": false
+      }
+    ],
+    "NetworkAcquisitionPerformed": false,
+    "InstallerExecuted": false,
+    "NativeAcceptancePassed": false,
+    "TmogSelection": "Previously reviewed pinned free-edition installer; no product/screensaver launch or paid activation. Distribution remains separate.",
+    "Gpg4winSelection": "Current-user command-line and Kleopatra selection; no keys/certificates or encryption operation. Prior native installer crash remains unresolved until focused native acceptance."
+  },
+  "SourceFiles": [
+    {
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1",
+      "Sha256": "AFA7DBED4C5B8AFED05E7D3ED3B22B534CA6D5D8EB8403F6C6080B790ECAABC0"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideGuestTests.ps1",
+      "Sha256": "CA2E1CD0F738D051C91102CB2850AF97F88215FA4E50741F4BF474E87865B09A"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTest.ps1",
+      "Sha256": "BCDE34C2ABC6AF414FBDE67DD178733AA64F83035D53BD817AF97809C909D321"
+    },
+    {
+      "Path": "tests/integration/RIDE.TestAutomation.psm1",
+      "Sha256": "B2B31013F85B10F23F3156BC3C6579F4649CCD4760C83454B50A20791DC8FDC0"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideVmTestTask.ps1",
+      "Sha256": "8EB9BEF1A22CADA665BF3E0802D1B04DC6C03E4F34A3BE26748B2956218AB137"
+    },
+    {
+      "Path": "tests/integration/Register-RideVmTestTask.ps1",
+      "Sha256": "4724D05BE9F033EF5C66078363D4F219A336C22D242A0189C96B8DD8AC1772CF"
+    },
+    {
+      "Path": "tests/FocusedApplicationSelection.Tests.ps1",
+      "Sha256": "4479DA140E6BA8548A06105DD179F01E7B6DBF9CE8FAFAFF1F2E35DFD745D792"
+    },
+    {
+      "Path": "tests/TestAutomation.Tests.ps1",
+      "Sha256": "4F4C375B4D5FEFEE006F9696EB8CC6548F090946C2EE0733F77F3E0BD52EB961"
+    }
+  ],
+  "Boundary": "One installed package per route. Gpg4win uses the existing limited-user child with selected ID preserved; TMOG remains machine scoped. Synthetic user-data bytes are checked before/after vendor removal and compensating presence recovery. Elevated coordinator owns Defender observations. No encryption, real keys, product/screensaver launch or paid activation. Normal pinned publisher acquisition remains separate from host-retained identity verification.",
+  "Remaining": "Attended idle controller activation and native lifecycle/Defender acceptance. Prior Gpg4win installer crash remains unresolved. No exact prior-version/all-application-state recovery claim.",
+  "Alignment": {
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "Impact": "Windows-only RB-03/04/08/09/11 acceptance routing; intended-user context and existing package/recovery semantics retained.",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938"
+  }
+}

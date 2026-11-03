@@ -24,6 +24,8 @@
   minutes for evidence and cleanup.
 
 .PARAMETER IntegrationSuite
+  WindowsFirewallNotifier requires WfnPortableLifecycleV1 and selects the pinned
+  531-file lifecycle with Defender; no WFN launch or firewall changes.
   NTCore, NTCoreAdditional, MiTeCMailHistoryViewers, MiTeCAnalysisTools, MiTeCSystemAndTelephony, PSScriptTools, OfflineCaffeine, SQLiteQuery, MiTeCUtilityFiles,
   SysinternalsSuite, SysinternalsProducts, ImageMagick, RawCopy and WinPmem use fixed retained payloads and PowerShell Direct
   through the protected FocusedPortableV1 controller, with no per-run UAC prompt. NTCore
@@ -31,7 +33,13 @@
   ImageMagick runs version reporting and a synthetic 1x1 PNG encode/identify check.
   RawCopy runs only on one generated 4096-byte NTFS fixture with all optional output modes disabled.
   WinPmem performs only exact package file install/remove/recovery; no executable or driver runs.
+  RegRipper and Rufus select only their pinned file lifecycle, Defender observation
+  and saved recovery. They require RegRipperRufusPortableV1; no tool or media operation runs.
   ApplicationsBatch1 selects the complete installed/portable application migration suite. Use ApplicationsBatch1Machine and ApplicationsBatch1User to run its machine and limited-user packages separately;
+  ApplicationsBatch1Gpg4win and ApplicationsBatch1TMOG require Gpg4winTmogLifecycleV1
+  and select only their named package, user-data preservation and saved recovery.
+  MiTeCViewers, MiTeCDevelopment, MiTeCNetworkUtilities and MiTeCSystemViewers
+  require RemainingMiTeCPortableV1 and select only fixed portable file lifecycles.
   ApplicationsBatch2 selects the remaining installed/portable application migration tests;
   ApplicationsBatch3 selects both Docker Desktop installation variants.
   ApplicationsBatch3AllUsers selects only the elevated Docker Desktop variant.
@@ -45,6 +53,8 @@
   ApplicationsBatch11 selects only HashCheck 2.6.3 install/remove/recovery on Windows 11; it does not launch HashCheck.
   Requires ApplicationsBatch11InteractiveV1 and one signed-in guest administrator desktop.
   ApplicationsBatch12 selects only the pinned NTCore Explorer Suite installer lifecycle on Windows 11; suite utilities are not launched.
+  ApplicationsBatch13 selects only Mail Checker 7.2.0 machine installer lifecycle
+  and requires ApplicationsBatch13MailCheckerV1; mail accounts and operations are excluded.
   MiTeCAnalysisTools selects only the pinned EXE Explorer 3.7.5 and HexEdit 7.1.0 archive lifecycle; it does not launch either tool or exercise analysis features.
   MiTeCSystemAndTelephony selects only the pinned System Information eXtra and TAPI Monitor archive lifecycle; it does not create system reports, inspect providers, place calls or launch either utility.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
@@ -85,8 +95,13 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 1.14.1
+  Version: 1.19.0
   Changelog:
+    1.19.0: Add fixed WFN file lifecycle; no firewall changes.
+    1.18.0: Add fixed ApplicationsBatch13 Mail Checker lifecycle selection.
+    1.17.0: Add fixed remaining MiTeC lifecycle selections.
+    1.16.0: Add fixed capability-gated Gpg4win/TMOG lifecycle requests.
+    1.15.0: Add capability-gated fixed RegRipper/Rufus portable requests.
     1.14.1: Document the signed-in guest requirement for HashCheck acceptance.
     1.14.0: Accept the focused NTCore Explorer Suite ApplicationsBatch12 request.
     1.13.0: Add the focused WinPmem file-lifecycle package batch.
@@ -127,14 +142,14 @@ param(
   [string] $ConfigurationPath,
   [ValidateSet('Local', 'CI')][string] $Source = 'Local',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers','WindowsFirewallNotifier')][string] $IntegrationSuite = 'Full',
   [ValidateRange(1, 180)][int] $TimeoutMinutes = 90,
   [string] $ReceiptPath,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
   [switch] $Version
 )
-$script:ScriptVersion = '1.14.1'
+$script:ScriptVersion = '1.19.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
@@ -143,7 +158,7 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 if (-not $ConfigurationPath) { throw '-ConfigurationPath is required.' }
 $config = Read-RideAutomationConfiguration $ConfigurationPath
 Assert-RideAutomationSuiteCapability -Configuration $config -Suite $IntegrationSuite
-if ($IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem')) {
+if ($IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')) {
   if ($Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
   if ('FocusedPortableV1' -notin @($config.Capabilities)) { throw 'One elevated controller refresh is required for FocusedPortableV1; no request was queued and no elevation prompt was opened.' }
 }

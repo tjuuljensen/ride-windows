@@ -27,7 +27,12 @@ Describe 'Retained machine-font VM phase orchestration' {
       $script:prepare=@{Phase='Prepare';InputDirectory='synthetic-fonts';ExpectedBuild='26300';ExpectedEditionId='EnterpriseEval'}
       Mock Get-RideFontVmContext {$script:context}
       Mock Get-RideFontVmInputs {[pscustomobject]@{Selection=$script:fontSelection;Files=@()}}
-      Mock New-RideRetainedGuestHold {$script:events.Add('Reserve');$script:hold}
+      Mock New-RideRetainedGuestHold {
+        $script:events.Add('Reserve')
+        $null=New-Item -ItemType Directory -Path (Join-Path $script:root 'runtime') -Force
+        [IO.File]::WriteAllText((Join-Path $script:root 'runtime/blocked.json'),'synthetic hold')
+        $script:hold
+      }
       Mock Open-RideRetainedGuestPhase {$script:lastLock=[IO.MemoryStream]::new();[pscustomobject]@{Context=$script:context;Hold=$script:hold;Lock=$script:lastLock;Target=[pscustomobject]@{VM=[pscustomobject]@{State=$script:vmState};Snapshot='synthetic-checkpoint'}}}
       Mock New-RideFontVmDirectory {param($Path);$null=New-Item -ItemType Directory -Path $Path}
       Mock Write-RideFontVmRecord {
@@ -123,6 +128,44 @@ Describe 'Retained machine-font VM phase orchestration' {
       $script:vmState|Should -Be Running
       Should -Invoke Export-RideFontVmEvidence -Times 2 -Exactly
       Should -Invoke Reset-RideAutomationVm -Times 0 -Exactly
+    }
+    It 'retries an owned preparation before checkpoint intent using its original snapshot' {
+      Mock Get-RideFontVmCredential {throw 'Synthetic credential lookup failure.'}
+      (Invoke-RideFontVmPhase @script:selection @script:prepare).Status|Should -Be Failed
+      Mock Get-RideFontVmCredential {[pscredential]::new('synthetic-user',(ConvertTo-SecureString 'Synthetic-test-only' -AsPlainText -Force))}
+      (Invoke-RideFontVmPhase @script:selection @script:prepare).Status|Should -Be Prepared
+      Should -Invoke New-RideRetainedGuestHold -Times 1 -Exactly
+      Should -Invoke New-RideFontVmSnapshot -Times 1 -Exactly
+      Should -Invoke Restore-VMSnapshot -Times 1 -Exactly
+    }
+    It 'refuses preparation retry after checkpoint intent even when the VM is Off' {
+      $null=Invoke-RideFontVmPhase @script:selection @script:prepare
+      $script:vmState='Off'
+      $report=Invoke-RideFontVmPhase @script:selection @script:prepare
+      $report.Status|Should -Be Failed;$report.Error|Should -Match 'no prior checkpoint intent'
+      Should -Invoke Restore-VMSnapshot -Times 1 -Exactly
+      Should -Invoke New-RideFontVmSnapshot -Times 1 -Exactly
+    }
+    It 'refuses preparation retry with a changed target, input or cached snapshot' {
+      Mock Get-RideFontVmCredential {throw 'Synthetic credential lookup failure.'}
+      $null=Invoke-RideFontVmPhase @script:selection @script:prepare
+      $script:prepare.ExpectedBuild='26301'
+      (Invoke-RideFontVmPhase @script:selection @script:prepare).Error|Should -Match 'target selection differs'
+      $script:prepare.ExpectedBuild='26300';$script:fontSelection[0].Sha256='E'*64
+      (Invoke-RideFontVmPhase @script:selection @script:prepare).Error|Should -Match 'font selection differs'
+      $script:fontSelection[0].Sha256='F'*64
+      Mock Get-RideFontVmCredential {[pscredential]::new('synthetic-user',(ConvertTo-SecureString 'Synthetic-test-only' -AsPlainText -Force))}
+      Mock Get-RideFontVmPayload {throw 'Retained snapshot bytes changed.'}
+      (Invoke-RideFontVmPhase @script:selection @script:prepare).Error|Should -Match 'snapshot bytes changed'
+      Should -Invoke Restore-VMSnapshot -Times 0 -Exactly
+      Should -Invoke New-RideFontVmSnapshot -Times 1 -Exactly
+    }
+    It 'cannot adopt a different hold while retrying preparation' {
+      Mock Get-RideFontVmCredential {throw 'Synthetic credential lookup failure.'}
+      $null=Invoke-RideFontVmPhase @script:selection @script:prepare
+      Mock Open-RideRetainedGuestPhase {throw 'Retained hold request identity differs.'}
+      {Invoke-RideFontVmPhase @script:selection @script:prepare}|Should -Throw '*identity differs*'
+      Should -Invoke Restore-VMSnapshot -Times 0 -Exactly
     }
     It 'rejects a mismatched guest result instead of treating an exit as acceptance' {
       $null=Invoke-RideFontVmPhase @script:selection @script:prepare
@@ -264,6 +307,19 @@ Describe 'Retained snapshot and export byte boundaries' {
       $receipt=Read-RideFontVmRecord (Join-Path $export.Path 'export-receipt.json')
       $receipt.RunId|Should -BeExactly $script:descriptor.RunId
       (Get-FileHash -LiteralPath (Join-Path $export.Path $script:entry.Path)).Hash|Should -BeExactly $script:entry.Sha256
+    }
+    It 'returns only the fixed observation file after its bytes are verified' {
+      $script:bytes=[Text.Encoding]::UTF8.GetBytes('{"FilesMatchInitial":true,"NativeNamesMatchInitial":false,"CurrentSelectedNativeNames":["Synthetic Regular"],"ObservedAtUtc":"2026-11-03T00:00:00.0000000Z","ProcessIdentity":{"ProcessId":456,"ProcessStartUtc":"2026-11-02T23:59:00.0000000Z","SessionId":0}}')
+      $script:entry=[pscustomobject]@{Path='collection-font-observation.json';Bytes=$script:bytes.Length;Sha256=(Get-RideFontVmHash $script:bytes);Content=[Convert]::ToBase64String($script:bytes)}
+      $export=Export-RideFontVmEvidence $null $null $script:descriptor $script:root
+      $export.FontObservation.FilesMatchInitial|Should -BeTrue
+      $export.FontObservation.NativeNamesMatchInitial|Should -BeFalse
+      $export.FontObservation.CurrentSelectedNativeNames|Should -BeExactly 'Synthetic Regular'
+      $export.FontObservation.ProcessIdentity.ProcessId|Should -Be 456
+      $export.FontObservation.ProcessIdentity.SessionId|Should -Be 0
+      $receipt=Read-RideFontVmRecord (Join-Path $export.Path 'export-receipt.json')
+      $receipt.Files.Path|Should -BeExactly 'collection-font-observation.json'
+      $receipt.Files.Sha256|Should -BeExactly $script:entry.Sha256
     }
     It 'rejects traversal, duplicate paths and mismatched payload bytes before certifying export' {
       $script:entry.Path='../escape.json'

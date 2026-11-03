@@ -6,14 +6,15 @@
   required source files and the pinned PNG. A durable controller hold survives
   every phase and failure. Reset is explicit and requires a verified export.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.0.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.2.
+  Phase reports expose snapshot paths, sizes and hashes without source bytes.
   No UAC, task registration, sign-out or visual acceptance inference. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
 .LINK
   ../../docs/image-personalization.md
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -ErrorAction Stop
+$script:AutomationModule=Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -PassThru -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.RetainedGuest.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultLockAcceptance.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
@@ -46,7 +47,7 @@ function Get-RideDefaultLockVmSource {
 }
 function Get-RideDefaultLockVmCredential {
   param($Configuration)
-  & (Get-Module RIDE.TestAutomation) {
+  & $script:AutomationModule {
     param($config)
     $machine=Get-LabVM -ComputerName $config.VMName
     if(-not $machine.PSObject.Methods['GetCredential']){throw 'Existing lab credential accessor unavailable.'}
@@ -312,6 +313,7 @@ function Invoke-RideDefaultLockVmPhase {
       foreach($name in @('RunId','LeaseId','VMId','VMName','CheckpointId','ConfigurationSha256')){if($descriptor.$name -cne $owned.Hold.$name){throw 'Saved VM session identity differs.'}}
       if($descriptor.SchemaVersion -ne 1 -or $descriptor.Kind -cne 'DefaultLockVmSession'){throw 'Saved VM session schema differs.'}
     }
+    $report|Add-Member -NotePropertyName SourceManifest -NotePropertyValue @($descriptor.Manifest|Select-Object Path,Bytes,Sha256)
     $retryReset=($Phase -ceq 'Reset' -and $owned.Target.VM.State -eq 'Off')
     $credential=if(-not $retryReset){Get-RideDefaultLockVmCredential $context.Configuration}else{$null}
     if($Phase -ceq 'Prepare'){

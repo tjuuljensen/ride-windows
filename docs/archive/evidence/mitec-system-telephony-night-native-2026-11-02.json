@@ -1,0 +1,165 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T21:58:39.5096591Z",
+  "Status": "NativeLifecycleAndDefenderPassed",
+  "RunId": "e3b92925deef40e1b1ba8e222843c1f9",
+  "Result": {
+    "SchemaVersion": 1,
+    "RunId": "e3b92925deef40e1b1ba8e222843c1f9",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCSystemAndTelephony",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-02T21:34:28.0942142Z",
+    "FinishedAtUtc": "2026-11-02T21:42:49.3498508Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "e3b92925deef40e1b1ba8e222843c1f9",
+      "Batch": "MiTeCSystemAndTelephony",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 2,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "GuestSummary": {
+    "Batch": "MiTeCSystemAndTelephony",
+    "ExpectedCases": 2,
+    "Completed": 2,
+    "Passed": 2,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Scenarios": [
+    {
+      "Id": "package.mitec-system-information",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "acf106f6a3d645fe80b1c8d540fa5ea3",
+        "b6f55823926743569dafd75c80677d2a",
+        "d0ec011d0e5345bd88c835716e33f65d"
+      ]
+    },
+    {
+      "Id": "package.mitec-tapi-monitor",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "8020e56fec264a208e7f7977613cee6b",
+        "801dca06de534e98b08bf81c63bb0508",
+        "aa803d5052c04a15b820b41cebee3e2d"
+      ]
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-02T21:41:43.7976636Z",
+    "SinceUtc": "2026-11-02T21:37:13.051872Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-02T21:42:32.4312169Z",
+    "SinceUtc": "2026-11-02T21:37:13.051872Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "SourceContext": {
+    "SourceCommit": "1eac928114ab8ba7d844ab191daf9aeb82460469",
+    "ContentIdentity": "Working-tree source-manifest hashes, including uncommitted changes"
+  },
+  "SourceManifestSha256": "5B1FCD690F249CC8451DBB171E159FA6AFB103594764CC274AAAD969DD286EE9",
+  "SourceFileCount": 2107,
+  "ExcludedSourceRootCount": 0,
+  "ArtifactIdentities": [
+    {
+      "Id": "package.mitec-system-information",
+      "FileName": "MSIX.zip",
+      "Sha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976"
+    },
+    {
+      "Id": "package.mitec-tapi-monitor",
+      "FileName": "TAPIMon.zip",
+      "Sha256": "3abfb30f19f3c22dec5440416fcd006a828e73dd660ea2bf59b8f2e7a5898914"
+    }
+  ],
+  "Boundary": "Real disposable Windows 11 build 26300 native package lifecycles; exact owned-file RIDE recovery precedes checkpoint cleanup. Defender active before and after with no detections or exclusion changes. Application features, collection and analysis tools are not exercised. Source working-tree hashes bind the run; no blanket target or release promotion.",
+  "Alignment": {
+    "FedoraRideSha256": "49C3F8D987C98F5C8E7FA1F1EBCA662A9AD4CF56B638C43D642A2AB2965E3266",
+    "ContractVersion": "1.1.0",
+    "FedoraPreviouslyComparedRevision": "3d9406e3888122d1407652336859e6217c09bcaa",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "Review": "Read adopted contract and peer privilege/target/candidate gates; source hashes rechecked. No fresh peer HEAD claim.",
+    "FedoraCommonSha256": "8E8692CAECF10170FAC4388E37CF56D5FE4D0979EF5C5A99FEE3CA064E75B3D1",
+    "Impact": "Windows native evidence only; shared behavior unchanged"
+  }
+}

@@ -14,7 +14,7 @@
   Native Windows PowerShell 5.1/7; candidate Windows 11 x64 Enterprise/Education.
   Requires existing elevation and correlated Hyper-V guest markers. No UAC,
   sign-out, reboot, checkpoint reset or automatic failed-run cleanup is launched.
-  Version: 0.1.0. Changelog: Add phased first-logon wallpaper guest acceptance.
+  Version: 0.1.1. Changelog: Preserve bounded native failure detail.
 .LINK
   ../../docs/image-personalization.md
 #>
@@ -157,7 +157,7 @@ function Invoke-RideDefaultWallpaperAcceptance {
   $directory=Join-Path $EvidenceRoot $RunId;$state=Join-Path $directory 'state';$assets=Join-Path $directory 'images'
   # Validate the eventual owned path before creating any evidence directories.
   $null=& (Get-Module RIDE.DefaultWallpaper) {param($p) New-RideDefaultWallpaperTheme $p} (Join-Path $assets (('0'*32)+'.png'))
-  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='DefaultWallpaperAcceptance';RunId=$RunId;Phase=$Phase;RecordedAtUtc=[datetime]::UtcNow.ToString('o');Status='NotRun';Stage='Preflight';Reason=$null;Context=$context;NativeLifecycleAcceptancePassed=$false;NativeVisualAcceptancePassed=$false;NativeFirstLogonAcceptancePassed=$false;NativeAcceptancePassed=$false;RecoveryRequired=$false;LifecycleRunId=$null;AssetPath=$null;ThemePath=$null;SourceSha256=$null;Checks=@();StateRunIds=@();EvidenceDirectory=$directory}
+  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='DefaultWallpaperAcceptance';RunId=$RunId;Phase=$Phase;RecordedAtUtc=[datetime]::UtcNow.ToString('o');Status='NotRun';Stage='Preflight';Reason=$null;Error=$null;Context=$context;NativeLifecycleAcceptancePassed=$false;NativeVisualAcceptancePassed=$false;NativeFirstLogonAcceptancePassed=$false;NativeAcceptancePassed=$false;RecoveryRequired=$false;LifecycleRunId=$null;AssetPath=$null;ThemePath=$null;SourceSha256=$null;Checks=@();StateRunIds=@();EvidenceDirectory=$directory}
   $source=$null;$prepared=$null;$before=$null
   if($Phase -ceq 'Apply'){
     if(Test-Path -LiteralPath $directory){throw 'Acceptance request directory already exists; retain it and use a new request ID.'}
@@ -217,7 +217,7 @@ function Invoke-RideDefaultWallpaperAcceptance {
       if($repeat.RunId -cne $prepared.LifecycleRunId -or $count -ne @(Get-ChildItem -LiteralPath $state -File).Count -or -not (Test-RideDefaultWallpaperAcceptanceEqual $before (Get-RideDefaultWallpaperAcceptanceSnapshot $prepared.AssetPath $prepared.ThemePath))){throw 'Repeated restore changed state.'}
       $checks.Add('RepeatedRestoreNoChanges');$report.RecoveryRequired=$false;$report.NativeLifecycleAcceptancePassed=$true;$report.Status='LifecyclePassedVisualPending';$report.Stage='RetainedForVisualRecoveryCheck'
     }
-  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true}
+  }catch{$report.Status='Failed';$report.Reason='AcceptanceStepFailed';$report.RecoveryRequired=$true;$message=$_.Exception.Message;$report.Error=$message.Substring(0,[Math]::Min(1000,$message.Length))}
   $report.Checks=$checks.ToArray()
   $report.StateRunIds=@(Get-ChildItem -LiteralPath $state -Filter '*.default-wallpaper.intent.json' -File|Select-Object -First 256|ForEach-Object {if($_.Name -cmatch '^([a-f0-9]{32})\.default-wallpaper\.intent\.json$'){$Matches[1]}})
   $reportFile=if($Phase -ceq 'Apply'){'apply.json'}else{'restore.'+[guid]::NewGuid().ToString('N')+'.json'}

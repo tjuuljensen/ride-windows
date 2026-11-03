@@ -1,0 +1,37 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T23:19:22.2597599Z",
+  "Status": "SourcePreparedNativePending",
+  "Tests": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 13,
+      "Failed": 0,
+      "Total": 13
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 13,
+      "Failed": 0,
+      "Total": 13
+    }
+  ],
+  "Sources": [
+    {
+      "Path": "tests/integration/RIDE.FontAcceptance.psm1",
+      "Sha256": "C59816BD01E758FBA3ED86D72204F6A62B4451C4FC19E5D4CF8DBA079FB40204"
+    },
+    {
+      "Path": "tests/FontAcceptance.Tests.ps1",
+      "Sha256": "8A68D2D2A11A6B3EA8332BEBE37840B83CFBDFECC9A15B522025F0EC3DCEEC97"
+    }
+  ],
+  "Boundary": "Thirteen mocked guest-orchestration cases per shell. No host fonts or native VM changed by these tests. Exact durable readback gates every saved restore; any native-name mismatch remains a failed overall result even if final enumeration recovers. No force unload, process termination, cache change or reboot.",
+  "ContractVersion": "1.1.0",
+  "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+  "FedoraComparedSources": {
+    "Common": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "Ride": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43"
+  },
+  "Alignment": "Windows test reporting only: RB-08/09/11 retained; no shared CLI, support declaration or production recovery change."
+}

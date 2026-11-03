@@ -1,0 +1,395 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-02T22:58:37.4931817Z",
+  "Status": "NativeMachineLifecyclePassedFirstLogonVisualPending",
+  "RunId": "8cdb9924dc24435bb35f799b617879ca",
+  "Results": [
+    {
+      "RequestId": "2a911bfd53fe4fb48d6d2fc267239d36",
+      "RunId": "8cdb9924dc24435bb35f799b617879ca",
+      "Family": "Wallpaper",
+      "Phase": "Prepare",
+      "Preview": false,
+      "Status": "Prepared",
+      "StartedAtUtc": "2026-11-02T22:52:14.7034715Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "8cdb9924dc24435bb35f799b617879ca",
+        "LeaseId": "261de89dab5c4cbf989da3b8d1c42862",
+        "Phase": "Prepare",
+        "Purpose": "",
+        "Status": "Prepared",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "PreCleanupExport": null,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862\\export.d3ca75a305bf4761a833e340bf3cc593",
+          "FileCount": 8,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultWallpaperVmPreparation",
+          "RunId": "8cdb9924dc24435bb35f799b617879ca",
+          "LeaseId": "261de89dab5c4cbf989da3b8d1c42862",
+          "Status": "Prepared",
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711
+          },
+          "NativeAcceptancePassed": false,
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "1a20412e-f2d8-4317-bc49-6b1d3b96b909",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862",
+        "RecordedAtUtc": "2026-11-02T22:52:43.4253578Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.ImageFiles.psm1",
+            "Bytes": 10430,
+            "Sha256": "DCEBAAC8E47A239C773FC50088E0CA36149F105A3B464572921023B2297C5DE7"
+          },
+          {
+            "Path": "modules/RIDE.DefaultWallpaper.psm1",
+            "Bytes": 29270,
+            "Sha256": "E28F171406980238E1BA9D85D68DEA3FF6372F7B08DCA1C0E9FB544F001104F7"
+          },
+          {
+            "Path": "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+            "Bytes": 20656,
+            "Sha256": "AD5D0D09D4CF86EA65D315778A3F98A117431DAC28111EDBF7FBDAFE6496B280"
+          },
+          {
+            "Path": "tests/integration/RIDE.WallpaperTestUser.psm1",
+            "Bytes": 24551,
+            "Sha256": "A871D9C96046F7FA7C6AD21BBD08D9C3DF5C3520787ABB5390A33D366CD0F035"
+          },
+          {
+            "Path": "tests/fixtures/default-wallpaper.acceptance.psd1",
+            "Bytes": 190,
+            "Sha256": "529956C77479DF0F1364D1305F02F91B1CDE741A98DD43FFF175CB48D6E664A4"
+          },
+          {
+            "Path": "inputs/fedora_sharpened_4k.png",
+            "Bytes": 966122,
+            "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7"
+          }
+        ]
+      },
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "FinishedAtUtc": "2026-11-02T22:53:37.7840139Z"
+    },
+    {
+      "RequestId": "3f5309fb0e21456ba6db6181b225a5d4",
+      "RunId": "8cdb9924dc24435bb35f799b617879ca",
+      "Family": "Wallpaper",
+      "Phase": "Apply",
+      "Preview": false,
+      "Status": "AwaitingVisualVerification",
+      "StartedAtUtc": "2026-11-02T22:54:18.7754073Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "8cdb9924dc24435bb35f799b617879ca",
+        "LeaseId": "261de89dab5c4cbf989da3b8d1c42862",
+        "Phase": "Apply",
+        "Purpose": "",
+        "Status": "AwaitingVisualVerification",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "PreCleanupExport": null,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862\\export.371ec14dfa244d0f97dc79a21e8c2c82",
+          "FileCount": 15,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultWallpaperAcceptance",
+          "RunId": "8cdb9924dc24435bb35f799b617879ca",
+          "Phase": "Apply",
+          "RecordedAtUtc": "2026-11-02T22:54:47.5398165Z",
+          "Status": "AwaitingVisualVerification",
+          "Stage": "RetainedForVisualCheck",
+          "Reason": null,
+          "Error": null,
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711,
+            "InstallationType": "Client",
+            "NativeProcess": true,
+            "Architecture": "AMD64",
+            "Administrator": true,
+            "Guest": true,
+            "RunMarker": "8cdb9924dc24435bb35f799b617879ca"
+          },
+          "NativeLifecycleAcceptancePassed": false,
+          "NativeVisualAcceptancePassed": false,
+          "NativeFirstLogonAcceptancePassed": false,
+          "NativeAcceptancePassed": false,
+          "RecoveryRequired": true,
+          "LifecycleRunId": "49315c3d63944e14bdbfcb5e048bab00",
+          "AssetPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\261de89dab5c4cbf989da3b8d1c42862\\evidence\\8cdb9924dc24435bb35f799b617879ca\\images\\49315c3d63944e14bdbfcb5e048bab00.png",
+          "ThemePath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\261de89dab5c4cbf989da3b8d1c42862\\evidence\\8cdb9924dc24435bb35f799b617879ca\\images\\49315c3d63944e14bdbfcb5e048bab00.theme",
+          "SourceSha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+          "Checks": [
+            "PreviewNoChanges",
+            "AppliedPolicyThemeImageAndPrivateState",
+            "RepeatNoChanges"
+          ],
+          "StateRunIds": [
+            "49315c3d63944e14bdbfcb5e048bab00"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\261de89dab5c4cbf989da3b8d1c42862\\evidence\\8cdb9924dc24435bb35f799b617879ca",
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "70d0d49b-cab7-41ac-b5e9-bb38804efbf9",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862",
+        "RecordedAtUtc": "2026-11-02T22:54:42.0200157Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.ImageFiles.psm1",
+            "Bytes": 10430,
+            "Sha256": "DCEBAAC8E47A239C773FC50088E0CA36149F105A3B464572921023B2297C5DE7"
+          },
+          {
+            "Path": "modules/RIDE.DefaultWallpaper.psm1",
+            "Bytes": 29270,
+            "Sha256": "E28F171406980238E1BA9D85D68DEA3FF6372F7B08DCA1C0E9FB544F001104F7"
+          },
+          {
+            "Path": "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+            "Bytes": 20656,
+            "Sha256": "AD5D0D09D4CF86EA65D315778A3F98A117431DAC28111EDBF7FBDAFE6496B280"
+          },
+          {
+            "Path": "tests/integration/RIDE.WallpaperTestUser.psm1",
+            "Bytes": 24551,
+            "Sha256": "A871D9C96046F7FA7C6AD21BBD08D9C3DF5C3520787ABB5390A33D366CD0F035"
+          },
+          {
+            "Path": "tests/fixtures/default-wallpaper.acceptance.psd1",
+            "Bytes": 190,
+            "Sha256": "529956C77479DF0F1364D1305F02F91B1CDE741A98DD43FFF175CB48D6E664A4"
+          },
+          {
+            "Path": "inputs/fedora_sharpened_4k.png",
+            "Bytes": 966122,
+            "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7"
+          }
+        ]
+      },
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "FinishedAtUtc": "2026-11-02T22:54:54.8139977Z"
+    },
+    {
+      "RequestId": "e812ae73c1c2488da18fc6cf492cfb99",
+      "RunId": "8cdb9924dc24435bb35f799b617879ca",
+      "Family": "Wallpaper",
+      "Phase": "Restore",
+      "Preview": false,
+      "Status": "LifecyclePassedVisualPending",
+      "StartedAtUtc": "2026-11-02T22:55:41.4930577Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "8cdb9924dc24435bb35f799b617879ca",
+        "LeaseId": "261de89dab5c4cbf989da3b8d1c42862",
+        "Phase": "Restore",
+        "Purpose": "",
+        "Status": "LifecyclePassedVisualPending",
+        "Stage": "Retained",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": true,
+        "PreCleanupExport": null,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862\\export.e87ac47b038d48508b697de8ad85e85b",
+          "FileCount": 14,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": {
+          "SchemaVersion": 1,
+          "Kind": "DefaultWallpaperAcceptance",
+          "RunId": "8cdb9924dc24435bb35f799b617879ca",
+          "Phase": "Restore",
+          "RecordedAtUtc": "2026-11-02T22:56:15.1139663Z",
+          "Status": "LifecyclePassedVisualPending",
+          "Stage": "RetainedForVisualRecoveryCheck",
+          "Reason": null,
+          "Error": null,
+          "Context": {
+            "ComputerName": "RIDE-WIN11-TEST",
+            "Build": "26300",
+            "EditionId": "EnterpriseEval",
+            "Revision": 9711,
+            "InstallationType": "Client",
+            "NativeProcess": true,
+            "Architecture": "AMD64",
+            "Administrator": true,
+            "Guest": true,
+            "RunMarker": "8cdb9924dc24435bb35f799b617879ca"
+          },
+          "NativeLifecycleAcceptancePassed": true,
+          "NativeVisualAcceptancePassed": false,
+          "NativeFirstLogonAcceptancePassed": false,
+          "NativeAcceptancePassed": false,
+          "RecoveryRequired": false,
+          "LifecycleRunId": "49315c3d63944e14bdbfcb5e048bab00",
+          "AssetPath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\261de89dab5c4cbf989da3b8d1c42862\\evidence\\8cdb9924dc24435bb35f799b617879ca\\images\\49315c3d63944e14bdbfcb5e048bab00.png",
+          "ThemePath": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\261de89dab5c4cbf989da3b8d1c42862\\evidence\\8cdb9924dc24435bb35f799b617879ca\\images\\49315c3d63944e14bdbfcb5e048bab00.theme",
+          "SourceSha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7",
+          "Checks": [
+            "RestorePreviewNoChanges",
+            "CapturedStateRestored",
+            "RepeatedRestoreNoChanges"
+          ],
+          "StateRunIds": [
+            "49315c3d63944e14bdbfcb5e048bab00"
+          ],
+          "EvidenceDirectory": "C:\\ProgramData\\RIDE\\RetainedAcceptance\\261de89dab5c4cbf989da3b8d1c42862\\evidence\\8cdb9924dc24435bb35f799b617879ca",
+          "PSComputerName": "RIDE-Win11-Test",
+          "RunspaceId": "7525783b-7346-4131-9628-19e773b847f8",
+          "PSShowComputerName": true
+        },
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862",
+        "RecordedAtUtc": "2026-11-02T22:56:07.3431886Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.ImageFiles.psm1",
+            "Bytes": 10430,
+            "Sha256": "DCEBAAC8E47A239C773FC50088E0CA36149F105A3B464572921023B2297C5DE7"
+          },
+          {
+            "Path": "modules/RIDE.DefaultWallpaper.psm1",
+            "Bytes": 29270,
+            "Sha256": "E28F171406980238E1BA9D85D68DEA3FF6372F7B08DCA1C0E9FB544F001104F7"
+          },
+          {
+            "Path": "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+            "Bytes": 20656,
+            "Sha256": "AD5D0D09D4CF86EA65D315778A3F98A117431DAC28111EDBF7FBDAFE6496B280"
+          },
+          {
+            "Path": "tests/integration/RIDE.WallpaperTestUser.psm1",
+            "Bytes": 24551,
+            "Sha256": "A871D9C96046F7FA7C6AD21BBD08D9C3DF5C3520787ABB5390A33D366CD0F035"
+          },
+          {
+            "Path": "tests/fixtures/default-wallpaper.acceptance.psd1",
+            "Bytes": 190,
+            "Sha256": "529956C77479DF0F1364D1305F02F91B1CDE741A98DD43FFF175CB48D6E664A4"
+          },
+          {
+            "Path": "inputs/fedora_sharpened_4k.png",
+            "Bytes": 966122,
+            "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7"
+          }
+        ]
+      },
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "FinishedAtUtc": "2026-11-02T22:56:21.5266334Z"
+    },
+    {
+      "RequestId": "1baac557582a4332b73e82a03202faf6",
+      "RunId": "8cdb9924dc24435bb35f799b617879ca",
+      "Family": "Wallpaper",
+      "Phase": "Reset",
+      "Preview": false,
+      "Status": "ResetAndOff",
+      "StartedAtUtc": "2026-11-02T22:57:06.2826499Z",
+      "Error": null,
+      "Result": {
+        "SchemaVersion": 1,
+        "RunId": "8cdb9924dc24435bb35f799b617879ca",
+        "LeaseId": "261de89dab5c4cbf989da3b8d1c42862",
+        "Phase": "Reset",
+        "Purpose": "",
+        "Status": "ResetAndOff",
+        "Stage": "Released",
+        "NativeAcceptancePassed": false,
+        "RecoveryRequired": false,
+        "PreCleanupExport": null,
+        "EvidenceExport": {
+          "Verified": true,
+          "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862\\export.1f1e88550ac64be18069aa84107561c2",
+          "FileCount": 14,
+          "GuestStatus": "Collected"
+        },
+        "GuestResult": null,
+        "Error": null,
+        "Store": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\retained.261de89dab5c4cbf989da3b8d1c42862",
+        "RecordedAtUtc": "2026-11-02T22:57:26.4706669Z",
+        "SourceManifest": [
+          {
+            "Path": "modules/RIDE.PrivateFiles.psm1",
+            "Bytes": 7305,
+            "Sha256": "4311C0A0663FD6B865B5E089F82FAC075DB7E41AC777148995B694F86543D054"
+          },
+          {
+            "Path": "modules/RIDE.ImageFiles.psm1",
+            "Bytes": 10430,
+            "Sha256": "DCEBAAC8E47A239C773FC50088E0CA36149F105A3B464572921023B2297C5DE7"
+          },
+          {
+            "Path": "modules/RIDE.DefaultWallpaper.psm1",
+            "Bytes": 29270,
+            "Sha256": "E28F171406980238E1BA9D85D68DEA3FF6372F7B08DCA1C0E9FB544F001104F7"
+          },
+          {
+            "Path": "tests/integration/RIDE.DefaultWallpaperAcceptance.psm1",
+            "Bytes": 20656,
+            "Sha256": "AD5D0D09D4CF86EA65D315778A3F98A117431DAC28111EDBF7FBDAFE6496B280"
+          },
+          {
+            "Path": "tests/integration/RIDE.WallpaperTestUser.psm1",
+            "Bytes": 24551,
+            "Sha256": "A871D9C96046F7FA7C6AD21BBD08D9C3DF5C3520787ABB5390A33D366CD0F035"
+          },
+          {
+            "Path": "tests/fixtures/default-wallpaper.acceptance.psd1",
+            "Bytes": 190,
+            "Sha256": "529956C77479DF0F1364D1305F02F91B1CDE741A98DD43FFF175CB48D6E664A4"
+          },
+          {
+            "Path": "inputs/fedora_sharpened_4k.png",
+            "Bytes": 966122,
+            "Sha256": "0916EA09C6AB754768B28EC2B65ECC76B9B7A7D5C7F62AEAE0BC212AC74E4DA7"
+          }
+        ]
+      },
+      "HostModuleSha256": "E053697303AA62863100A3705B2093CF3B312B5E44D619FC94A9DFADE1F62051",
+      "FinishedAtUtc": "2026-11-02T22:57:36.796692Z"
+    }
+  ],
+  "Boundary": "Windows 11 EnterpriseEval build 26300 only. Native preview/apply/repeat and exact machine ThemeFile policy, owned PNG/theme, registry permission and captured profile-inventory recovery passed. Final verified export and checkpoint cleanup followed RIDE recovery. No disposable user was created or signed in; first-logon appearance, collateral theme defaults and later user choice remain unverified. No catalog or target promotion."
+}

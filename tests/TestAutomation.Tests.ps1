@@ -211,11 +211,36 @@ Describe 'Partial guest evidence with unavailable files' {
 }
 
 Describe 'Task configuration and read-only watch selection' {
+  It 'requires the WFN capability before queue admission' {
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('FocusedPortableV1')}) -Suite WindowsFirewallNotifier}|Should -Throw '*WfnPortableLifecycleV1*'
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('FocusedPortableV1','WfnPortableLifecycleV1')}) -Suite WindowsFirewallNotifier}|Should -Not -Throw
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{}) -Suite WindowsFirewallNotifier}|Should -Throw '*WfnPortableLifecycleV1*'
+  }
+  It 'requires the Mail Checker capability before queue admission' {
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('ApplicationsBatch10ProjectMakerV1')}) -Suite ApplicationsBatch13}|Should -Throw '*ApplicationsBatch13MailCheckerV1*'
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('ApplicationsBatch13MailCheckerV1')}) -Suite ApplicationsBatch13}|Should -Not -Throw
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{}) -Suite ApplicationsBatch13}|Should -Throw '*ApplicationsBatch13MailCheckerV1*'
+  }
+  It 'requires the remaining MiTeC capability before admission for <Suite>' -ForEach @(@{Suite='MiTeCViewers'},@{Suite='MiTeCDevelopment'},@{Suite='MiTeCNetworkUtilities'},@{Suite='MiTeCSystemViewers'}) {
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('FocusedPortableV1')}) -Suite $Suite}|Should -Throw '*RemainingMiTeCPortableV1*'
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('RemainingMiTeCPortableV1')}) -Suite $Suite}|Should -Not -Throw
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{}) -Suite $Suite}|Should -Throw '*RemainingMiTeCPortableV1*'
+  }
+  It 'requires the fixed installer capability before admission for <Suite>' -ForEach @(@{Suite='ApplicationsBatch1Gpg4win'},@{Suite='ApplicationsBatch1TMOG'}) {
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('ApplicationsBatch1SplitV1')}) -Suite $Suite}|Should -Throw '*Gpg4winTmogLifecycleV1*'
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('Gpg4winTmogLifecycleV1')}) -Suite $Suite}|Should -Not -Throw
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{}) -Suite $Suite}|Should -Throw '*Gpg4winTmogLifecycleV1*'
+  }
+  It 'requires the fixed RegRipper/Rufus capability before admission for <Suite>' -ForEach @(@{Suite='RegRipper'},@{Suite='Rufus'}) {
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('FocusedPortableV1')}) -Suite $Suite}|Should -Throw '*RegRipperRufusPortableV1*'
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('FocusedPortableV1','RegRipperRufusPortableV1')}) -Suite $Suite}|Should -Not -Throw
+    {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{}) -Suite $Suite}|Should -Throw '*RegRipperRufusPortableV1*'
+  }
   It 'completes the declared task source and setup action values' {
     $client = Get-Command (Join-Path $PSScriptRoot 'integration\Invoke-RideVmTestTask.ps1')
     $setup = Get-Command (Join-Path $PSScriptRoot 'integration\Register-RideVmTestTask.ps1')
     ($client.Parameters.Source.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Local', 'CI')
-    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem')
+    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers', 'WindowsFirewallNotifier')
     ($client.Parameters.GuestGitHubAuthentication.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Anonymous','PAT')
     ($setup.Parameters.Action.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Register', 'Remove')
   }
@@ -241,7 +266,7 @@ Describe 'Task configuration and read-only watch selection' {
     $client=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTestTask.ps1') -Raw
     $client | Should -Match 'Assert-RideAutomationSuiteCapability -Configuration \$config -Suite \$IntegrationSuite'
     $register=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Register-RideVmTestTask.ps1') -Raw
-    $register | Should -Match "Capabilities = @\('HostPreparationWatchdogV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1'\)"
+    $register | Should -Match "Capabilities = @\('HostPreparationWatchdogV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1','RegRipperRufusPortableV1','Gpg4winTmogLifecycleV1','RemainingMiTeCPortableV1','ApplicationsBatch13MailCheckerV1','WfnPortableLifecycleV1'\)"
   }
 
   It 'rejects implicit non-disposable configurations' {
@@ -323,6 +348,7 @@ Describe 'Task configuration and read-only watch selection' {
     @{ Suite='ApplicationsBatch10'; Expected='Applications/10' },
     @{ Suite='ApplicationsBatch11'; Expected='Applications/11' },
     @{ Suite='ApplicationsBatch12'; Expected='Applications/12' },
+    @{ Suite='ApplicationsBatch13'; Expected='Applications/13' },
     @{ Suite='GitHubAuthentication'; Expected='Authentication/Anonymous/Acquire' }
   ) {
     $tokens=$null; $errors=$null
@@ -356,7 +382,7 @@ Describe 'Task configuration and read-only watch selection' {
     finally { $env:RIDE_TEST_GUEST = $previousMarker }
   }
 
-  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }, @{ Suite = 'SettingsBatch60' }, @{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch1Machine' }, @{ Suite = 'ApplicationsBatch1User' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'ApplicationsBatch9' }, @{ Suite = 'ApplicationsBatch10' }, @{ Suite = 'ApplicationsBatch11' }, @{ Suite = 'ApplicationsBatch12' }) {
+  It 'previews <Suite> guest tests without starting tests or creating evidence' -ForEach @(@{ Suite = 'Full' }, @{ Suite = 'SettingsBatch40' }, @{ Suite = 'SettingsBatch60' }, @{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch1Machine' }, @{ Suite = 'ApplicationsBatch1User' }, @{ Suite = 'ApplicationsBatch1Gpg4win' }, @{ Suite = 'ApplicationsBatch1TMOG' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'ApplicationsBatch9' }, @{ Suite = 'ApplicationsBatch10' }, @{ Suite = 'ApplicationsBatch11' }, @{ Suite = 'ApplicationsBatch12' }, @{ Suite = 'ApplicationsBatch13' }) {
     $source = Join-Path $TestDrive ('guest-preview-checkout-{0}' -f $Suite)
     $null = New-Item -ItemType Directory -Path (Join-Path $source 'tools') -Force
     'throw "Preview must not run validation"' | Set-Content -LiteralPath (Join-Path $source 'tools/validate.ps1')
@@ -595,7 +621,7 @@ Describe 'Correlated execution, failures and VM recovery' {
       Mock Copy-RideAutomationSnapshot { @(@{ Path = 'ride.ps1'; SHA256 = 'abc' }) }
       Mock Start-Process {
         $suite = if ($script:request.PSObject.Properties.Name -contains 'IntegrationSuite') { $script:request.IntegrationSuite } else { 'Full' }
-        if ($suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
+        if ($suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
           $focused = Join-Path $script:testRoot "results\$($script:request.RunId)\focused"
           $null = New-Item -ItemType Directory $focused -Force
           @{ RunId = $script:request.RunId; Batch = $suite; Status = 'Passed'; Cleanup = 'ResetAndOff'; EvidenceCollected = $true; ToolExecuted = ($suite -in @('ImageMagick','NTCore','RawCopy')) } | ConvertTo-Json | Set-Content (Join-Path $focused 'result.json')
@@ -680,6 +706,7 @@ Describe 'Correlated execution, failures and VM recovery' {
       Should -Invoke Reset-RideAutomationVm -Times 2 -Exactly
       $result.IntegrationSuite | Should -Be 'Full'
       Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match ' -IntegrationSuite Full$' }
+      Should -Invoke Copy-RideAutomationSnapshot -Times 1 -Exactly -ParameterFilter { -not $PortableRuntime }
     }
 
     It 'records possible VM changes before reset and retains supervised phase order' {
@@ -694,8 +721,15 @@ Describe 'Correlated execution, failures and VM recovery' {
       Should -Invoke Reset-RideAutomationVm -Exactly 2
     }
 
-      It 'forwards <Suite> and correlates its acceptance evidence' -ForEach @(@{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch1Machine' }, @{ Suite = 'ApplicationsBatch1User' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'ApplicationsBatch9' }, @{ Suite = 'ApplicationsBatch10' }, @{ Suite = 'ApplicationsBatch11' }, @{ Suite = 'ApplicationsBatch12' }, @{ Suite = 'SysinternalsSuite' }, @{ Suite = 'SysinternalsProducts' }, @{ Suite = 'ImageMagick' }, @{ Suite = 'RawCopy' }, @{ Suite = 'WinPmem' }, @{ Suite = 'MiTeCMailHistoryViewers' }, @{ Suite = 'MiTeCAnalysisTools' }, @{ Suite = 'MiTeCSystemAndTelephony' }) {
+      It 'forwards <Suite> and correlates its acceptance evidence' -ForEach @(@{ Suite = 'SettingsBatch60Recovery' }, @{ Suite = 'SettingsRemainingBatch1' }, @{ Suite = 'SettingsRemainingBatch2' }, @{ Suite = 'ApplicationsBatch1' }, @{ Suite = 'ApplicationsBatch1Machine' }, @{ Suite = 'ApplicationsBatch1User' }, @{ Suite = 'ApplicationsBatch1Gpg4win' }, @{ Suite = 'ApplicationsBatch1TMOG' }, @{ Suite = 'ApplicationsBatch2' }, @{ Suite = 'ApplicationsBatch3' }, @{ Suite = 'ApplicationsBatch3AllUsers' }, @{ Suite = 'ApplicationsBatch4' }, @{ Suite = 'ApplicationsBatch5' }, @{ Suite = 'ApplicationsBatch6' }, @{ Suite = 'ApplicationsBatch7' }, @{ Suite = 'ApplicationsBatch8' }, @{ Suite = 'ApplicationsBatch9' }, @{ Suite = 'ApplicationsBatch10' }, @{ Suite = 'ApplicationsBatch11' }, @{ Suite = 'ApplicationsBatch12' }, @{ Suite = 'ApplicationsBatch13' }, @{ Suite = 'SysinternalsSuite' }, @{ Suite = 'SysinternalsProducts' }, @{ Suite = 'ImageMagick' }, @{ Suite = 'RawCopy' }, @{ Suite = 'WinPmem' }, @{ Suite = 'RegRipper' }, @{ Suite = 'Rufus' }, @{ Suite = 'MiTeCViewers' }, @{ Suite = 'MiTeCDevelopment' }, @{ Suite = 'MiTeCNetworkUtilities' }, @{ Suite = 'MiTeCSystemViewers' }, @{ Suite = 'WindowsFirewallNotifier' }, @{ Suite = 'MiTeCMailHistoryViewers' }, @{ Suite = 'MiTeCAnalysisTools' }, @{ Suite = 'MiTeCSystemAndTelephony' }) {
       $script:request | Add-Member NoteProperty IntegrationSuite $Suite
+      if ($Suite -eq 'WindowsFirewallNotifier') {
+        $script:config | Add-Member NoteProperty Capabilities @('FocusedPortableV1','WfnPortableLifecycleV1')
+        Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Off' }; Snapshot = 'clean' } }
+      }
+      if ($Suite -in @('ApplicationsBatch1Gpg4win','ApplicationsBatch1TMOG')) {
+        $script:config | Add-Member NoteProperty Capabilities @('Gpg4winTmogLifecycleV1')
+      }
       if ($Suite -in @('ApplicationsBatch1Machine','ApplicationsBatch1User')) {
         $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch1SplitV1')
       }
@@ -711,20 +745,25 @@ Describe 'Correlated execution, failures and VM recovery' {
       if ($Suite -eq 'ApplicationsBatch12') {
         $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch12NtcoreExplorerSuiteV1')
       }
-      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
-        $capabilities = if ($Suite -eq 'MiTeCAnalysisTools') { @('FocusedPortableV1','MiTeCAnalysisToolsV1') } elseif ($Suite -eq 'MiTeCSystemAndTelephony') { @('FocusedPortableV1','MiTeCSystemAndTelephonyV1') } else { @('FocusedPortableV1') }
+      if ($Suite -eq 'ApplicationsBatch13') {
+        $script:config | Add-Member NoteProperty Capabilities @('ApplicationsBatch13MailCheckerV1')
+      }
+      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
+        $capabilities = if ($Suite -eq 'MiTeCAnalysisTools') { @('FocusedPortableV1','MiTeCAnalysisToolsV1') } elseif ($Suite -eq 'MiTeCSystemAndTelephony') { @('FocusedPortableV1','MiTeCSystemAndTelephonyV1') } elseif ($Suite -in @('MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers')) { @('FocusedPortableV1','RemainingMiTeCPortableV1') } elseif ($Suite -in @('RegRipper','Rufus')) { @('FocusedPortableV1','RegRipperRufusPortableV1') } else { @('FocusedPortableV1') }
         $script:config | Add-Member NoteProperty Capabilities $capabilities
         Mock Import-RideAutomationLab { [pscustomobject]@{ VM = [pscustomobject]@{ State = 'Off' }; Snapshot = 'clean' } }
       }
       $result = Invoke-RideAutomationRequest $script:config $script:request $script:testRoot
       $result.Status | Should -Be 'Passed'
       $result.IntegrationSuite | Should -Be $Suite
-      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
+      if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) {
         Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList -match 'Invoke-RidePortableVmAcceptance.ps1' -and $ArgumentList -match "-Batch $Suite" -and $ArgumentList -notmatch ' -IntegrationSuite ' }
       } else {
         Should -Invoke Start-Process -Times 1 -Exactly -ParameterFilter { $ArgumentList.EndsWith(" -IntegrationSuite $Suite") }
       }
-      Should -Invoke Reset-RideAutomationVm -Times $(if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) { 1 } else { 2 }) -Exactly
+      Should -Invoke Reset-RideAutomationVm -Times $(if ($Suite -in @('SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')) { 1 } else { 2 }) -Exactly
+      $runtimeSnapshotExpected=$Suite -in @('ApplicationsBatch9','ApplicationsBatch10','ApplicationsBatch12','ApplicationsBatch13','ApplicationsBatch1Gpg4win','ApplicationsBatch1TMOG','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles')
+      Should -Invoke Copy-RideAutomationSnapshot -Times 1 -Exactly -ParameterFilter { [bool]$PortableRuntime -eq $runtimeSnapshotExpected }
     }
 
     It 'rejects a split suite against a stale registered controller before VM import or snapshot' {

@@ -64,6 +64,17 @@ switching editions requires a reviewed edition change. `show`, default `status`
 and removal use the recorded selection where available. An explicit profile
 compares its requested edition.
 
+## Portable destination and recovery paths
+
+Portable staging and recovery reject reparse points in the selected path or any
+ancestor, including junctions and symbolic links. Each lifecycle call checks the
+path again; an earlier successful check does not authorize a replacement path.
+Missing directories can be created during the selected operation. An inaccessible
+path or filesystem I/O error stops the operation instead of being treated as
+absence. A file where a parent directory is required also stops staging. Resolve
+the reported path or access problem before retrying, and retain any saved recovery
+record and reported staging evidence.
+
 ## Google Analytic Cookie Cruncher pending package candidate
 
 `package.google-analytic-cookie-cruncher` pins the publisher's version 2.0.0.1
@@ -241,7 +252,7 @@ or recovery. The candidate declares no supported targets. See the
 [Microsoft CLR/version mapping](https://learn.microsoft.com/en-us/dotnet/framework/install/versions-and-dependencies),
 and [.NET Framework 3.5 on Windows 11](https://learn.microsoft.com/en-us/dotnet/framework/install/dotnet-35-windows-11).
 
-## WinPmem signed production candidate
+## WinPmem file-only candidate
 
 `package.winpmem` stages one pinned x64 executable in RIDE's machine tools
 directory. Installing or removing the package only manages that owned file; it
@@ -251,12 +262,18 @@ memory. The package remains a Windows 11 candidate with no supported targets.
 The publisher's 4.1 development release marks its new drivers test-signed and
 directs production users to the separate `go-winpmem_amd64_1.0-rc2_signed.exe`
 asset with older signed drivers. The [expanded release-assets page](https://github.com/Velocidex/WinPmem/releases/expanded_assets/v4.1.dev1)
-publishes the SHA-256 pin used by RIDE. The local binary has not been acquired,
-so its bytes and Authenticode signer remain unverified. A focused WinPmem VM
-file-lifecycle batch is prepared; it will stage and remove the exact owned file
-without launching it or loading its driver. Windows 11/Server 2025 acceptance
-and driver loading, service cleanup, reboot recovery and capture require
-separate explicit tests on disposable guests. Do not infer Windows support from
+publishes the SHA-256 pin used by RIDE. The 5,257,728-byte asset has now been
+acquired from that exact publisher URL and matches the catalog pin. Windows
+reports the outer Go executable as `NotSigned`; the filename and publisher's
+older-driver signing statement do not establish an Authenticode signature on
+that wrapper. The tag's Apache-2.0 license is retained. Embedded drivers were
+not loaded or independently verified. A focused WinPmem VM file-lifecycle batch
+requires Defender evidence and manages only the owned file. Its [Windows 11
+build 26300 run](archive/evidence/winpmem-night-native-2026-11-03.json) passed
+all 14 lifecycle/recovery checks and active/no-alert Defender, with verified
+export and checkpoint reset. The package remains a candidate pending scoped
+promotion review. Driver loading, service cleanup, reboot recovery and capture
+remain separate tests on disposable guests. Do not infer Windows support from
 the publisher's historical OS claims. The publisher identifies the source and
 signed binaries as Apache-2.0; retain upstream license and notice files.
 

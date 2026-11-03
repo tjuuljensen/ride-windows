@@ -12,8 +12,10 @@
   publisher-password-protected ZIP archives, resolved package metadata.
   Recovery: Versioned file snapshots; missing backups stop restore before writes.
   Failed manifest commits retain staged evidence for review, never automatic adoption.
-  Owner: RIDE-Windows maintainers. Version: 0.9.0.
-  Changelog: 0.9.0: Extract exact selected members from publisher-password-protected ZIPs with signed Windows inbox tar.
+  Owner: RIDE-Windows maintainers. Version: 0.10.0.
+  Changelog: 0.10.0: Read filesystem attributes directly for each path ancestor;
+    retain uncached reparse-point rejection and propagate access/I/O failures.
+    0.9.0: Extract exact selected members from publisher-password-protected ZIPs with signed Windows inbox tar.
     0.8.0: Stage hash-pinned repository notice files as owned package files.
     0.7.0: Support explicitly declared copies of staged portable files.
     0.6.0: Batch ownership journaling for large portable packages and add
@@ -28,16 +30,24 @@
 $ErrorActionPreference = 'Stop'
 $script:PortableRepositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 
+function Get-RidePortablePathAttributes {
+  param([string] $Path)
+  [IO.File]::GetAttributes($Path)
+}
+
 function Assert-RidePortablePath {
   param([string] $Path)
   $full = [IO.Path]::GetFullPath($Path)
   $cursor = $full
   while ($cursor) {
-    if (Test-Path -LiteralPath $cursor) {
-      $item = Get-Item -LiteralPath $cursor -Force -ErrorAction Stop
-      if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Portable paths cannot contain reparse points: $cursor" }
-    }
-    $parent = Split-Path -Parent $cursor
+    # Do not cache ancestors: a previously ordinary directory can be replaced
+    # between lifecycle calls. Only missing paths are eligible for later creation.
+    $attributes = $null
+    try { $attributes = Get-RidePortablePathAttributes $cursor }
+    catch [IO.FileNotFoundException] { }
+    catch [IO.DirectoryNotFoundException] { }
+    if ($null -ne $attributes -and ($attributes -band [IO.FileAttributes]::ReparsePoint)) { throw "Portable paths cannot contain reparse points: $cursor" }
+    $parent = [IO.Path]::GetDirectoryName($cursor)
     if ($parent -eq $cursor) { break }
     $cursor = $parent
   }

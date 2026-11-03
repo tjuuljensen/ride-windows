@@ -7,7 +7,8 @@
 .EXAMPLE
   Invoke-Pester ./tests/FontAcceptance.Tests.ps1
 .NOTES
-  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.1.0.
+  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.3.0.
+  Changelog: Verify enumeration process identity without invoking font APIs.
 #>
 BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot 'integration/RIDE.FontAcceptance.psm1') -Force}
 Describe 'Guarded machine-font guest acceptance' {
@@ -23,6 +24,7 @@ Describe 'Guarded machine-font guest acceptance' {
       $script:present=$false;$script:events=[Collections.Generic.List[string]]::new()
       $script:installId='11111111111111111111111111111111';$script:removeId='22222222222222222222222222222222'
       Mock Get-RideFontAcceptanceContext {$script:context}
+      $script:context|Add-Member NoteProperty ProcessIdentity ([pscustomobject]@{ProcessId=123;ProcessStartUtc='2026-11-03T00:00:00.0000000Z';SessionId=1})
       Mock Read-RideFontAcceptanceSelection {$script:selection}
       Mock Get-RideFontAcceptanceSnapshot {if($script:present){$script:installed}else{$script:absent}}
       Mock Assert-RideFontAcceptanceRecords {}
@@ -50,17 +52,32 @@ Describe 'Guarded machine-font guest acceptance' {
         [pscustomobject]@{SchemaVersion=1;Status=$status;RunId=$RunId}
       }
     }
+    It 'records the actual process without invoking font or lifecycle APIs' {
+      $identity=Get-RideFontAcceptanceProcessIdentity
+      $identity.ProcessId|Should -Be $PID
+      $process=[Diagnostics.Process]::GetCurrentProcess()
+      try{
+        $identity.ProcessStartUtc|Should -BeExactly $process.StartTime.ToUniversalTime().ToString('o')
+        $identity.SessionId|Should -Be $process.SessionId
+      }finally{$process.Dispose()}
+      $script:events.Count|Should -Be 0
+    }
     It 'requires all seven readback checks and both restores before passing' {
       $result=Invoke-RideFontAcceptance @script:parameters
       $result.Status|Should -Be Passed
+      $result.ProcessIdentity.ProcessId|Should -Be 123
+      $result.ProcessIdentity.SessionId|Should -Be 1
       $result.Checks.Count|Should -Be 7
       $result.RecoveryRequired|Should -BeFalse
+      $result.DurableLifecyclePassed|Should -BeTrue
+      $result.NativeEnumerationFailures.Count|Should -Be 0
+      $result.DurableRecoveryChecks.Count|Should -Be 4
       $result.CrossSessionAcceptancePassed|Should -BeFalse
       $result.RestartAcceptancePassed|Should -BeFalse
       @($script:events)|Should -Be @('Preview','Install','Repeat','Remove','RestoreRemoval','RestoreInitial','RestoreInitial')
       @($result.LifecycleRuns|Where-Object {-not $_.Restored}).Count|Should -Be 0
       Should -Invoke Assert-RideFontAcceptanceRecords -Times 2 -Exactly
-      Should -Invoke New-RidePrivateFileStream -Times 3 -Exactly -ParameterFilter {$Scope -ceq 'Machine'}
+      Should -Invoke New-RidePrivateFileStream -Times 6 -Exactly -ParameterFilter {$Scope -ceq 'Machine'}
       (Get-Acl -LiteralPath (Join-Path $result.EvidenceDirectory 'result.json')).AreAccessRulesProtected|Should -BeTrue
     }
     It 'previews without creating files or invoking lifecycle writers' {
@@ -110,6 +127,61 @@ Describe 'Guarded machine-font guest acceptance' {
       $result.Status|Should -Be Failed
       $result.Stage|Should -Be Install
       @($script:events)|Should -Be @('Preview','Install')
+    }
+    It 'exercises both saved restores but remains failed when only native names remain' {
+      Mock Remove-RideMachineFonts {
+        $script:present=$false;$script:absent.NativeNames=@('Synthetic Regular')
+        [pscustomobject]@{SchemaVersion=1;Status='Applied';RunId=$script:removeId}
+      }
+      # Return distinct observations, as the real snapshot provider does.
+      Mock Get-RideFontAcceptanceSnapshot {if($script:present){$script:installed|ConvertTo-Json -Depth 10|ConvertFrom-Json}else{$script:absent|ConvertTo-Json -Depth 10|ConvertFrom-Json}}
+      $result=Invoke-RideFontAcceptance @script:parameters
+      $result.Status|Should -Be Failed
+      $result.Stage|Should -Be Complete
+      $result.Reason|Should -Be NativeEnumerationMismatch
+      $result.DurableLifecyclePassed|Should -BeTrue
+      $result.NativeAcceptancePassed|Should -BeFalse
+      $result.RecoveryRequired|Should -BeTrue
+      $result.NativeEnumerationFailures|Should -Be @('Remove','RestoreInitial','RepeatRestore')
+      $result.Checks|Should -Not -Contain 'RemovedToInitialState'
+      $result.Checks|Should -Not -Contain 'InitialStateRestored'
+      @($result.LifecycleRuns|Where-Object {-not $_.Restored}).Count|Should -Be 0
+      $path=Join-Path $result.EvidenceDirectory 'after-removal.json'
+      (Get-Content -LiteralPath $path -Raw|ConvertFrom-Json).NativeNames|Should -BeExactly 'Synthetic Regular'
+      Should -Invoke Restore-RideMachineFontRun -Times 3 -Exactly
+    }
+    It 'stops before saved restores when removal changes file or registry state' {
+      Mock Remove-RideMachineFonts {
+        $script:present=$false;$script:absent.Registry.Security='drifted'
+        [pscustomobject]@{SchemaVersion=1;Status='Applied';RunId=$script:removeId}
+      }
+      Mock Get-RideFontAcceptanceSnapshot {if($script:present){$script:installed|ConvertTo-Json -Depth 10|ConvertFrom-Json}else{$script:absent|ConvertTo-Json -Depth 10|ConvertFrom-Json}}
+      $result=Invoke-RideFontAcceptance @script:parameters
+      $result.Status|Should -Be Failed
+      $result.Stage|Should -Be Remove
+      $result.DurableLifecyclePassed|Should -BeFalse
+      $result.RecoveryRequired|Should -BeTrue
+      Should -Invoke Restore-RideMachineFontRun -Times 0 -Exactly
+    }
+    It 'retains a removal enumeration failure even when the final native state recovers' {
+      Mock Remove-RideMachineFonts {
+        $script:present=$false;$script:absent.NativeNames=@('Synthetic Regular')
+        [pscustomobject]@{SchemaVersion=1;Status='Applied';RunId=$script:removeId}
+      }
+      Mock Get-RideFontAcceptanceSnapshot {if($script:present){$script:installed|ConvertTo-Json -Depth 10|ConvertFrom-Json}else{$script:absent|ConvertTo-Json -Depth 10|ConvertFrom-Json}}
+      Mock Restore-RideMachineFontRun {
+        param($RunId)
+        if($RunId -ceq $script:removeId){$script:present=$true;return [pscustomobject]@{SchemaVersion=1;Status='Restored';RunId=$RunId}}
+        $status=if($script:present){'Restored'}else{'AlreadyRestored'}
+        $script:present=$false;$script:absent.NativeNames=@()
+        [pscustomobject]@{SchemaVersion=1;Status=$status;RunId=$RunId}
+      }
+      $result=Invoke-RideFontAcceptance @script:parameters
+      $result.Status|Should -Be Failed
+      $result.NativeAcceptancePassed|Should -BeFalse
+      $result.DurableLifecyclePassed|Should -BeTrue
+      $result.NativeEnumerationFailures|Should -Be @('Remove')
+      $result.Checks|Should -Contain 'InitialStateRestored'
     }
     It 'detects recovery metadata drift and leaves the install recovery outstanding' {
       Mock Restore-RideMachineFontRun {

@@ -1,0 +1,576 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T01:37:55.6504844Z",
+  "Status": "SourcePreparedNativePending",
+  "Suites": [
+    "MiTeCViewers",
+    "MiTeCDevelopment",
+    "MiTeCNetworkUtilities",
+    "MiTeCSystemViewers"
+  ],
+  "RequiredCapability": "RemainingMiTeCPortableV1",
+  "NativeLifecyclePerformed": false,
+  "ControllerRefreshed": false,
+  "InstalledCapabilityPresent": false,
+  "InstalledControllerSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 165,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 240,
+      "NotRun": 75,
+      "ParserFiles": 6
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 165,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 240,
+      "NotRun": 75,
+      "ParserFiles": 6
+    }
+  ],
+  "InitialSourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 161,
+      "Failed": 4,
+      "Skipped": 0,
+      "Total": 240,
+      "NotRun": 75,
+      "ParserFiles": 6
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 161,
+      "Failed": 4,
+      "Skipped": 0,
+      "Total": 240,
+      "NotRun": 75,
+      "ParserFiles": 6
+    }
+  ],
+  "InitialFailure": "Four mocked forwarding cases added Capabilities twice. Fixture now supplies focused and batch capabilities together; final runs passed all 165 selected cases per shell.",
+  "ProductCount": 14,
+  "VariantCount": 20,
+  "RetainedBytes": 91938192.0,
+  "PinnedInputs": [
+    {
+      "Batch": "MiTeCViewers",
+      "Id": "package.mitec-json-viewer",
+      "Variants": [
+        "portable",
+        "portable-x86"
+      ],
+      "Versions": [
+        "3.2.2.0"
+      ],
+      "Asset": "JSONView.zip",
+      "Sha256": "9c6d38bc040bae98e9847539220611e4dea915d27314463e602b880c3f845b21",
+      "Length": 8428524,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "JSONView.exe",
+          "Length": 3821584,
+          "Sha256": "394f6919e446e5a191905dbe6dd41d55a731b4177d45e0392dc06c92f0b23513"
+        },
+        {
+          "Path": "JSONView64.exe",
+          "Length": 5302064,
+          "Sha256": "3f607389f6ee2e6679022a32db8c24f4dc75fcee1356ab3afc2d64eabc577f33"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCViewers",
+      "Id": "package.mitec-xml-viewer",
+      "Variants": [
+        "portable",
+        "portable-x86"
+      ],
+      "Versions": [
+        "6.5.0.0"
+      ],
+      "Asset": "XMLView.zip",
+      "Sha256": "c64a87ee9d26096d3a2efc63d2c1b38fb5440a825fa5b1bdc0d50cbb2d6b7960",
+      "Length": 6255339,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "XMLView.exe",
+          "Length": 2882536,
+          "Sha256": "d498af4595aeb982450b4f3aa1d16c6be1c7efe24c71873779cb233a92e25dc2"
+        },
+        {
+          "Path": "XMLView64.exe",
+          "Length": 3766072,
+          "Sha256": "f32c4416c2a6adddd3769bc67234f45aea2e14132cacb22b0533695b8cea3d20"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCDevelopment",
+      "Id": "package.mitec-dfm-editor",
+      "Variants": [
+        "delphi-11",
+        "delphi-12"
+      ],
+      "Versions": [
+        "8.3.1.0",
+        "8.4.0.0"
+      ],
+      "Asset": "DFMEdit.zip",
+      "Sha256": "189386a7b43e835c936d0858a7e47d0e7840d0031f991d50f4abc55d391783aa",
+      "Length": 16714229,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "Delphi 11/bindengine280.bpl",
+          "Length": 1297824,
+          "Sha256": "a4a20f21e51057be2b10138ceea79fbfed5563f63746bd2d78b545a09067529a"
+        },
+        {
+          "Path": "Delphi 11/DFMEdit.exe",
+          "Length": 1848904,
+          "Sha256": "f4e9ba99c21dd064b1638b9960267b4d6e2f9a176dafee807d8c4ea5dfb53b9d"
+        },
+        {
+          "Path": "Delphi 11/rtl280.bpl",
+          "Length": 13152672,
+          "Sha256": "88ee1956f414d8e41b88b372a5a5a9660d33f1fe7724a08c24f24a53ca5c2bd2"
+        },
+        {
+          "Path": "Delphi 11/vcl280.bpl",
+          "Length": 4260768,
+          "Sha256": "332631ee642bb72e66bf49e1e2c52cb7dbb874f9718f4e2a0816e7ab28169f7b"
+        },
+        {
+          "Path": "Delphi 11/vclactnband280.bpl",
+          "Length": 472992,
+          "Sha256": "69459030053d608592733a3d10cc63638775f3ec95b71b091611c71f4874f86f"
+        },
+        {
+          "Path": "Delphi 11/vclimg280.bpl",
+          "Length": 361888,
+          "Sha256": "da04ecc04737f40408a68705a3ee785eed535cdad91a1f97fa2b45f99531090a"
+        },
+        {
+          "Path": "Delphi 11/vclwinx280.bpl",
+          "Length": 913824,
+          "Sha256": "f437e8f6faf83922ffe8ec51c00a7ba0142cc45364abb3f17952638042ed0bb2"
+        },
+        {
+          "Path": "Delphi 11/vclx280.bpl",
+          "Length": 281504,
+          "Sha256": "b0fb25e387dbf92ec6b287ecee2c82a4420794cb5bdf76335f84678ad77a750a"
+        },
+        {
+          "Path": "Delphi 11/xmlrtl280.bpl",
+          "Length": 2340768,
+          "Sha256": "3409e923cc571d73ed88d28bb6ecc489b82e2bf2ef0404ec0fcecd3ea6800d33"
+        },
+        {
+          "Path": "Delphi 12/bindengine290.bpl",
+          "Length": 1312240,
+          "Sha256": "adc785fa306d2e3dbf635ba240a2a1c492df7a75a451b2e36af35cfccc667461"
+        },
+        {
+          "Path": "Delphi 12/DFMEdit.exe",
+          "Length": 1866376,
+          "Sha256": "1b86845a39b2382a1a841650be0c07d7aa4d10bb2f772785ffb27f9982c308b2"
+        },
+        {
+          "Path": "Delphi 12/rtl290.bpl",
+          "Length": 12734440,
+          "Sha256": "e6b9f5a6075364bc4bfa1502b58ac195b75755ef11a4207c9e7985d19c4036cd"
+        },
+        {
+          "Path": "Delphi 12/vcl290.bpl",
+          "Length": 4419048,
+          "Sha256": "a429b15a755d2a909f53086a4353efbb2f7e881d556ad6fe0d5a8fa072e8eb4e"
+        },
+        {
+          "Path": "Delphi 12/vclactnband290.bpl",
+          "Length": 477168,
+          "Sha256": "36421659d74671a04adc9d1c2c1502febd5b92b9d215a98fc9f52e7c0ffe4074"
+        },
+        {
+          "Path": "Delphi 12/vclimg290.bpl",
+          "Length": 363496,
+          "Sha256": "c458735e4fb9915d8d1cc3bb7caa57e220e1f87dc89b996ab079369a23b3e53e"
+        },
+        {
+          "Path": "Delphi 12/vclwinx290.bpl",
+          "Length": 946672,
+          "Sha256": "02d2df7beb04fae67c831aa453b5fd5054a7b39c3bdf40a0566c35abef4c7479"
+        },
+        {
+          "Path": "Delphi 12/vclx290.bpl",
+          "Length": 285680,
+          "Sha256": "8ac114422f55a1967d00fe092d016e8a3de2c5af37c1508991a856d0c4ba9a90"
+        },
+        {
+          "Path": "Delphi 12/xmlrtl290.bpl",
+          "Length": 2355696,
+          "Sha256": "b0b4192d91cd6e06c46acfbbb8185b5d66fa5e8f871604588c7a7ef76bb99926"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCDevelopment",
+      "Id": "package.mitec-interbase-query",
+      "Variants": [
+        "x64",
+        "x86"
+      ],
+      "Versions": [
+        "9.5.0"
+      ],
+      "Asset": "IBQ.zip",
+      "Sha256": "6ce815ac089ff38afc0e4ed3eda4f3255f61a9e46611b55619dbdcfbb1688478",
+      "Length": 7322738,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "IBQ.cs.lng",
+          "Length": 432,
+          "Sha256": "8188d794d5f3baa98fd207b81e38c1ffeeca3c924780a053e2970df0216860e8"
+        },
+        {
+          "Path": "IBQ.de.lng",
+          "Length": 36143,
+          "Sha256": "6245c4373c816b0d57f87fcdcf3c83ae4b063516507f47b25fa18452936fde95"
+        },
+        {
+          "Path": "IBQ.en.lng",
+          "Length": 37495,
+          "Sha256": "afb690887867670b176ffc1c68d51ec7e3d669cea268a2eddd94eb142c434b18"
+        },
+        {
+          "Path": "IBQ.es.lng",
+          "Length": 37439,
+          "Sha256": "729546f3880730aad599d1015791897c1c8587e61e2a834350d6a28abd351c88"
+        },
+        {
+          "Path": "IBQ.exe",
+          "Length": 3257040,
+          "Sha256": "0a0ca4106508960d836a9f9c6e55d34e4b74d7d8cb6505e7bed1e33c163c0971"
+        },
+        {
+          "Path": "IBQ.fr.lng",
+          "Length": 38331,
+          "Sha256": "e230cdfe06377c852023d0fc873b68ed229ca6a6f240bddf8f04fcf8a3434a67"
+        },
+        {
+          "Path": "IBQ.hu.lng",
+          "Length": 40621,
+          "Sha256": "9ddc2c90b30f150bb0c51b0b36ae2107ed018ccbaac20e554d8fceb561f01609"
+        },
+        {
+          "Path": "IBQ64.exe",
+          "Length": 4386136,
+          "Sha256": "12246e0c2013bbdc37abe2c96c4e085f817d263093aed9af263f3e9a33891ea0"
+        },
+        {
+          "Path": "Localization.txt",
+          "Length": 464,
+          "Sha256": "860f070816e8c698c6f7d8a5e5805be918b1e5ab3eb7395994677ff0809a41a2"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCDevelopment",
+      "Id": "package.mitec-task-manager-deluxe",
+      "Variants": [
+        "x64",
+        "x86"
+      ],
+      "Versions": [
+        "5.1.1"
+      ],
+      "Asset": "TMX.zip",
+      "Sha256": "3dd111519325ecf18ed9202649c4f8740a2c195382cd4337fc701056d2234f3b",
+      "Length": 16119724,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "DeskExp.exe",
+          "Length": 2737680,
+          "Sha256": "b958eaccfa78bb80a2b59fdfc9da484cefab4bd62eef3938a61e9e1665507bb0"
+        },
+        {
+          "Path": "DeskExp64.exe",
+          "Length": 3871824,
+          "Sha256": "d72a929b59ac463e9f78b35425faebfb85309a0691462f94e941cec7fefcd800"
+        },
+        {
+          "Path": "TMX.exe",
+          "Length": 4417216,
+          "Sha256": "85e820f08ebf3692a3b3144e10083fe3144be24bf1c6bb0ef1db410f412d9213"
+        },
+        {
+          "Path": "TMX64.exe",
+          "Length": 6212176,
+          "Sha256": "932f56d8b32f5e8ac0533622702de8cf622a58aa59821a24afc60798f56928a3"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCNetworkUtilities",
+      "Id": "package.mitec-dirlist",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "1.3.0"
+      ],
+      "Asset": "DirList.zip",
+      "Sha256": "635e8d311eb99a2730aecff405272e1b0b92636763051e41d451961d3b9c0e26",
+      "Length": 1040280,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "DirList.exe",
+          "Length": 2386944,
+          "Sha256": "e1dc9d150c97739e2678e57c0b3de88d5dff78f5161722577042c4463694749b"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCNetworkUtilities",
+      "Id": "package.mitec-network-meter",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "2.5.0"
+      ],
+      "Asset": "NetMet.zip",
+      "Sha256": "04e55b066b9a6a598c15e619d99597894b0494bae63d7d8a36df391feae1f360",
+      "Length": 1456776,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "NetMet.exe",
+          "Length": 3607872,
+          "Sha256": "961ef047dd75b4d888aa8e8f247f91926badc6ee75a3c8793e0601cd5b0dc4c0"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCNetworkUtilities",
+      "Id": "package.mitec-network-scanner",
+      "Variants": [
+        "x64",
+        "x86"
+      ],
+      "Versions": [
+        "6.1.0"
+      ],
+      "Asset": "NetScanner.zip",
+      "Sha256": "02fbf13ffcc8bfd3b3ef907b265cc4d2338309e99039f1384f2c6cd370995c66",
+      "Length": 11317163,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "NetScanner.exe",
+          "Length": 5080296,
+          "Sha256": "b6a0f814d10719da2a5e2f7b6a39c61742118cfc509acdd9e0e7649e3680eaa4"
+        },
+        {
+          "Path": "NetScanner64.exe",
+          "Length": 6973512,
+          "Sha256": "9c8972abab5984478c7d4eda4a96fbcdbce1eea04af6b9187d6d7c9cee90ca06"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCSystemViewers",
+      "Id": "package.mitec-icon-explorer",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "5.3.0"
+      ],
+      "Asset": "IconExplorer.zip",
+      "Sha256": "b7f71cee4664638a7ee24ee1091e8c604283adb3781e39ee2d5514cf1a0458f0",
+      "Length": 1525935,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "IconExplorer.exe",
+          "Length": 3793232,
+          "Sha256": "da678c0473d335690d68c4dece3e303972d85c96641e856ff6dd163a14d16451"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCSystemViewers",
+      "Id": "package.mitec-ole-com-explorer",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "1.4.0.0"
+      ],
+      "Asset": "OLExp.zip",
+      "Sha256": "322a2d03c31b9bb995a7b176a95aa3bbfba9ba155dd9770a0e55d88fc1085769",
+      "Length": 1279322,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "OLExp.exe",
+          "Length": 3368088,
+          "Sha256": "eeb8a18c5f8a961e1f0fc7fefc131f4fc33f900cf1d0cf2107e73fc45c504b4b"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCSystemViewers",
+      "Id": "package.mitec-smbios-explorer",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "1.8.0"
+      ],
+      "Asset": "SMBE.zip",
+      "Sha256": "7297b844b5fa0c4b84bd514f06e635e90f75541b5e38422bd0bed2d3c4db8f68",
+      "Length": 9212025,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "SMBE.exe",
+          "Length": 3553088,
+          "Sha256": "4384dfa9ea81a4f870df55c270d08e81e9172857c4d995182291e8179e987f74"
+        },
+        {
+          "Path": "SMBE64.exe",
+          "Length": 4952656,
+          "Sha256": "5fdbd6cafe3bb56172bff18bd29238fbcd12de34bf813dae494353ab888c8842"
+        },
+        {
+          "Path": "SMBIOS.exe",
+          "Length": 1380088,
+          "Sha256": "358113343a4b8d52536466e8ddeb88cd00a9fe98b0b8b7288bd74d2986956a12"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCSystemViewers",
+      "Id": "package.mitec-ssview",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "4.1.2"
+      ],
+      "Asset": "SSView.zip",
+      "Sha256": "e9d05067745a4f114b22dc798c7fa99017302b39bc8798853ed1bfd4c44d27ab",
+      "Length": 3572814,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "SSView.exe",
+          "Length": 2706280,
+          "Sha256": "2620d85bf64e9f527740921a2a905753ac571d532dfc56ce7e91f629bbab6c0c"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCSystemViewers",
+      "Id": "package.mitec-windows-file-analyzer",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "2.10.0"
+      ],
+      "Asset": "WFA.zip",
+      "Sha256": "57acae30ea14576e06822703c6211c8f0c675286c989ee0cdafec23578e7a9c6",
+      "Length": 2099639,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "WFA.exe",
+          "Length": 2195296,
+          "Sha256": "2fdfb29599db66a8c8c91b139e6842551a6dbe8c4fa82f2daf2c9fcfd62707b6"
+        }
+      ],
+      "PayloadExecuted": false
+    },
+    {
+      "Batch": "MiTeCSystemViewers",
+      "Id": "package.mitec-windows-registry-recovery",
+      "Variants": [
+        "portable"
+      ],
+      "Versions": [
+        "3.1.3"
+      ],
+      "Asset": "WRR.zip",
+      "Sha256": "bc0785fbf3184a5f1c83d791bb759363d58d47fe249e77e54ef41e5fc7cb6aa9",
+      "Length": 5593684,
+      "ReviewedSelectedMembers": [
+        {
+          "Path": "WRR.exe",
+          "Length": 2436656,
+          "Sha256": "2585f37fea169883e5340c111a77dc96763f6546ba79d4ff1651067372c1ef14"
+        },
+        {
+          "Path": "WRR64.exe",
+          "Length": 3485520,
+          "Sha256": "cd11e0630e46539f8d6ad485f58b8dc58132afad75d465efb9199bc3a984aa2e"
+        }
+      ],
+      "PayloadExecuted": false
+    }
+  ],
+  "SourceFiles": [
+    {
+      "Sha256": "1D9784CCB6F01B88E7562B4380394332DD917959499958DF957502436E8CDF7A",
+      "Path": "tests/integration/RIDE.PortableAcceptance.psm1"
+    },
+    {
+      "Sha256": "825DBF573072A95E832222B434EE0A002CF3EE9548D8BB53DEF26F32EEC73E6C",
+      "Path": "tests/integration/Invoke-RidePortableAcceptance.ps1"
+    },
+    {
+      "Sha256": "971886AA7BDB00C36AA56FAB188B68D242B65FBE9A5945E4FA7AF8900B3E5110",
+      "Path": "tests/integration/Invoke-RidePortableVmAcceptance.ps1"
+    },
+    {
+      "Sha256": "C836116B288E3A3C236AAC921208E9E7C8E9907042E4169A681CD7D5FCB469E8",
+      "Path": "tests/integration/RIDE.TestAutomation.psm1"
+    },
+    {
+      "Sha256": "E94835421A8E538153B13165008BA7FE30575615DC0B190C74F5F02D815DAD0B",
+      "Path": "tests/integration/Invoke-RideVmTestTask.ps1"
+    },
+    {
+      "Sha256": "926697DD961AD678B609C7C034DA71563AE8E918D02397E6BB5EAD039C03584F",
+      "Path": "tests/integration/Register-RideVmTestTask.ps1"
+    },
+    {
+      "Sha256": "B83F9B6C02FE1FB8C2FD1BBABBCFD9C594CD8974A8035C30C0909D462493BF11",
+      "Path": "tests/PortableAcceptanceAutomation.Tests.ps1"
+    },
+    {
+      "Sha256": "1A025A8BADF3DE10CBB7B82A53EBE1DBCB6FF8DC59F7BB132DA216BBF5243703",
+      "Path": "tests/TestAutomation.Tests.ps1"
+    }
+  ],
+  "Boundary": "Exact catalog pins and 48 selected member identities read without extraction or execution. Runtime routes use fixed variants, existing file lifecycle/exact recovery and Defender observation. No network scanning, database connection, hive/user-data analysis or utility launch. No controller activation or native acceptance.",
+  "Remaining": "Attended idle controller activation, then four bounded native batches. InfoBar, Project Maker, Mail Checker and Paradox Data Editor are separate installer selections. No target promotion or legacy closure.",
+  "Alignment": {
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878",
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "Impact": "Windows-only RB-03/04/08/09/11 acceptance routing. Existing catalog pins, candidate status, lifecycle and recovery semantics retained.",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938"
+  }
+}

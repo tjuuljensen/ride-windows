@@ -10,6 +10,13 @@ This runbook is intended for an advanced first-time contributor setting up a dis
 
 The VM is for integration tests that change Windows state. Routine validation and mocked Pester tests remain available through the repository's GitHub Actions workflow and do not require a VM.
 
+The focused [OpenSSH Client/RSAT retained route](../../docs/windows-component-inventory.md#retained-host-phases)
+has source-verified guest and host scenarios. Direct dispatch requires existing
+host elevation. The dedicated [expiring queue](../../docs/windows-component-inventory.md#expiring-capability-queue)
+has a finite ordinary-account client and an attended registration procedure;
+activation and native capability acceptance remain pending. Do not route these
+families through unrelated fixed package/asset batches.
+
 For a controller that stalls before guest execution, use the
 [bounded host-preparation probe](automatedlab-tasks.md#bounded-host-preparation).
 It checks dependencies, lab identity and source copying within five minutes,
@@ -77,6 +84,40 @@ loaded-driver inventory, create a report, open an assembly or invoke Rebel.NET
 rebuilding. Its exact retained archives are listed in
 `.local/acceptance-input/NTCoreAdditional.json`; functional tests remain separately
 scoped to sensitive or synthetic data.
+
+`NTCore`, `NTCoreAdditional`, `PSScriptTools` and `SysinternalsProducts` require active Defender and no
+detection since guest boot, including staging. The runner exports read-only
+before/after observations and never changes exclusions. A failed observation
+fails acceptance independently of package file recovery.
+
+`RegRipper` and `Rufus` are separate fixed file-lifecycle selections. RegRipper
+uses the pinned revision's complete 282-file reviewed archive, including both
+license files and contributor/runtime notices. Rufus uses the pinned 4.15 portable
+payload and the catalog's `rufusp.exe` destination name. Both check preview,
+install/repeat/remove, exact owned-file recovery, unrelated-file preservation and
+active/no-alert Defender before/after. Neither launches its executable, opens
+registry hives, collects data, enumerates external devices or writes removable
+media. Native acceptance remains pending.
+
+These two routes require `RegRipperRufusPortableV1` in addition to
+`FocusedPortableV1`. An older controller is refused before queue submission;
+the client does not elevate or refresh it automatically. Refresh the idle
+controller through the existing attended registration procedure below before
+native execution. Keep the registered VM, checkpoint and owning account pins.
+Create one-row manifests `.local/acceptance-input/RegRipper.json` and
+`.local/acceptance-input/Rufus.json` using the `Id`/`Path` format below and exact
+catalog-pinned retained payloads. Then, from the repository root as the ordinary
+registered account:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite RegRipper -TimeoutMinutes 20
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite Rufus -TimeoutMinutes 20
+```
+
+Run the second request only after the first has exported evidence, completed
+checkpoint cleanup and returned idle. Inspect lifecycle recovery separately from
+the final `ResetAndOff` result; a failed lifecycle remains failed after cleanup.
 
 `MiTeCMailHistoryViewers` selects the pinned MiTeC Mail Viewer, E-mail History
 Browser, Internet History Browser and Instant Messaging History Browser. It
@@ -178,13 +219,20 @@ package is staged, `Invoke-RidePSScriptToolsRuntimeAcceptance.ps1` imports the
 pinned module in fresh Windows PowerShell 5.1 and PowerShell 7 child processes
 when each edition is installed. Each child uses a unique `TEMP`/`TMP` directory
 under that run's evidence folder. It verifies the module's CIM namespace job,
-one `System.Drawing`-backed function and one ThreadJob-backed function, and
+one `System.Drawing`-backed function and the module's private ThreadJob-backed
+cleanup helper, invoked within its loaded module scope against an explicit
+synthetic runspace. The helper must finish without job errors and close that
+runspace. This does not claim a public GUI workflow. The probe
 removes only the module's known temporary file. A second probe hides available
 modules and confirms import fails on the required ThreadJob dependency before
 creating the CIM file; it does not install dependencies. Inspect
 `psscripttools-runtime/summary.json` separately from the package lifecycle.
 Missing PowerShell 7 is recorded as partial acceptance, not installed by the
 runner. The probe requires the disposable-VM guard and guest elevation.
+The prerequisite is imported by its exact RIDE-managed manifest path. Its loaded
+definition must match the manifest's root module (the pinned ThreadJob DLL), with
+the same package directory, version and GUID. A module's loaded `Path` can identify
+its DLL rather than its manifest; an outside or reparse root is refused.
 
 `OfflineCaffeine` records the actual guest target, builds a private acceptance
 profile/bundle bound to current source hashes and the checkout HEAD, and disables
@@ -197,6 +245,18 @@ The generated profile is an acceptance fixture, not a proposed deployment profil
 or distribution approval. Inspect `network-before.json`, `network-after.json`,
 `bundle-manifest.json`, scenarios and the host recovery result. Broader installer,
 servicing, dependency and interruption acceptance remains separate.
+
+The same disconnected Caffeine route also tests `-AllowUnsupportedTarget` using
+an in-memory copy of its resolved operation with `MinimumBuild` set one above the
+actual guest build. Published catalog/bundle bytes, payload identity, supported
+targets and privilege metadata stay unchanged. The real engine and file handler
+must refuse ordinary apply, leave preview unchanged, record the actual target on
+explicit apply, require fresh apply/restore opt-in, and restore original absence
+with a separate restore audit. Inspect `target-exploration.json` and saved state.
+This synthetic restriction does not establish support for another Windows build
+or bypass candidate acceptance. Missing/corrupt/omitted payload and mismatched
+offline target cases run both with and without the override and must still refuse
+before mutation. The Windows/Fedora alignment decision remains open separately.
 
 For repeated `NTCore`, `NTCoreAdditional`, `MiTeCMailHistoryViewers`, `MiTeCAnalysisTools`, `MiTeCSystemAndTelephony`, `PSScriptTools`, `OfflineCaffeine`, `SQLiteQuery`,
 `MiTeCUtilityFiles`, `SysinternalsSuite`, `ImageMagick` and `RawCopy` batches, prefer the
@@ -365,6 +425,146 @@ was untouched. Failed recovery records a controller block and requires the
 further work. Evidence is collected before recovery, including after failure.
 GUI behavior, parser correctness and real licence/settings activation remain
 separate acceptance gates; this runner does not promote catalog support.
+
+### Windows Firewall Notifier package acceptance
+
+The `WindowsFirewallNotifier` route checks the user-selected x64 Nightly archive
+`20250719-ac02df`: all 531 reviewed members, both license/attribution files,
+install/repeat/remove, conflict preservation and exact saved-file recovery.
+Defender must remain active with no new detections. The route does not launch
+WFN or change firewall policy; application/firewall behavior requires a separate
+scenario. Package acceptance does not imply either result.
+
+Prerequisites: the idle disposable Windows 11 x64 VM/checkpoint, the exact pinned
+archive, and a later attended controller refresh declaring `WfnPortableLifecycleV1`.
+The client, dispatcher and standalone host refuse an older registration before
+execution. The protected controller is not refreshed automatically.
+
+From the repository root, supply `.local/acceptance-input/WindowsFirewallNotifier.json`
+as a JSON array with exactly one `Id` (`package.windows-firewall-notifier`) and
+absolute `Path` to the archive. The host verifies its pin before VM access and
+stages only runtime source and that archive. After activation, preview as the
+ordinary registered account, then run without `-WhatIf`:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite WindowsFirewallNotifier -TimeoutMinutes 30 -WhatIf
+```
+
+Require one complete package lifecycle row, 531 managed members, clean Defender
+evidence, `ToolExecuted=false`, verified evidence export and `ResetAndOff`.
+Retain partial results after any failure. Saved-file recovery and final VM
+checkpoint cleanup are separate. Source tests and retained-archive verification
+are complete; native package/Defender acceptance remains pending.
+
+### Remaining MiTeC portable acceptance
+
+Four fixed selections cover the remaining 14 portable products and 20 variants:
+
+| Suite | Selection | Cases |
+| --- | --- | ---: |
+| `MiTeCViewers` | JSON Viewer and XML Viewer, x64/x86 | 4 |
+| `MiTeCDevelopment` | DFM Editor Delphi 11/12; Task Manager DeLuxe and Interbase Query x64/x86 | 6 |
+| `MiTeCNetworkUtilities` | Network Scanner x64/x86; DirList and Network Meter | 4 |
+| `MiTeCSystemViewers` | OLE/COM Object Explorer, Windows Registry Recovery, SMBIOS Explorer, Windows File Analyzer, Icon Explorer and Structured Storage Viewer | 6 |
+
+Start in the repository root. Supply each suite's exact local archive manifest
+at `.local/acceptance-input/<Suite>.json`, with one `Id`/`Path` row per product.
+All variants of a product use its same catalog-pinned archive. Only reviewed
+members are installed; package files, declared notices and unrelated files retain
+the existing lifecycle/preservation checks. Utilities are not launched: no network
+scan, database connection, registry-hive recovery or user-data analysis occurs.
+
+These routes require `RemainingMiTeCPortableV1`. They are source-prepared;
+the overnight controller has not been refreshed. Use the existing attended,
+idle [registration procedure](#focused-reviewed-portable-packages) before dispatch.
+Standalone host invocation also requires this capability. After activation,
+submit one selection at a time from the ordinary owning account:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\<name>\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite MiTeCDevelopment -TimeoutMinutes 30
+```
+
+Repeat with the other explicit suite names. Verify every case's install/repeat,
+remove, exact saved-file recovery and preservation checks, active/no-alert
+Defender before/after, correlated evidence export and `ResetAndOff`. Checkpoint
+cleanup does not substitute for saved RIDE recovery. Source checks and archive
+identity do not establish native acceptance or promote supported targets.
+InfoBar, Project Maker, Mail Checker and Paradox Data Editor are installers and
+remain separate from these portable selections. MiTeC feature testing stays
+deferred to 3.1.
+
+### Focused Gpg4win and TMOG installer acceptance
+
+The `ApplicationsBatch1Gpg4win` and `ApplicationsBatch1TMOG` routes select one
+catalog-pinned installed package each. They reuse batch 1's install/repeat,
+explicit uninstall/repeat, compensating presence recovery and synthetic user-data
+preservation checks. Both require Windows 11, exact installed-version readback
+and active/no-alert Defender observations from the elevated guest coordinator.
+Gpg4win installation runs under an isolated limited user; its synthetic GnuPG
+configuration contains no key or certificate. TMOG runs in machine scope and
+preserves a synthetic LocalAppData file. Neither launches the product, performs
+encryption, selects a screensaver or activates paid features. Presence recovery
+does not establish exact prior-version or all-application-state recovery.
+
+Prerequisites: an idle registered disposable Windows 11 VM/checkpoint, normal
+publisher connectivity or a valid pinned guest cache, and an attended controller
+refresh that declares `Gpg4winTmogLifecycleV1`. These routes use normal pinned
+publisher acquisition; host-retained installer verification alone does not stage
+the guest cache. The client refuses an older controller before queueing and does
+not request elevation automatically. Gpg4win's limited worker has a 20-minute
+execution bound; allow 30 minutes for the complete host request and collection.
+
+From the repository root as the ordinary registered account, run one request,
+inspect its package, user-data, Defender and cleanup evidence, and wait for idle
+before starting the other:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ApplicationsBatch1Gpg4win -TimeoutMinutes 30
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ApplicationsBatch1TMOG -TimeoutMinutes 30
+```
+
+The guest exports `applications-batch1.json`, scoped child/progress records and
+Defender observations. Require the expected single package row and preserved
+synthetic data after install, uninstall and saved recovery. Child SID/profile and
+limited-token observations must agree. Test account/task/profile cleanup and the
+host's final checkpoint reset are separate from RIDE package recovery. Retain
+partial evidence after failure; source checks and identity verification do not
+establish native acceptance. Gpg4win's earlier installer crash remains unresolved
+until a focused native run succeeds.
+
+### Mail Checker installer acceptance
+
+`ApplicationsBatch13` selects only the pinned Mail Checker 7.2.0 machine
+installer on a clean disposable Windows 11 guest. It requires active/no-alert
+Defender observations, exact installed-version readback, repeat installation,
+uninstall/repeat and saved-run compensating presence recovery. Recovery does not
+establish exact prior-version or application-data restoration. No mail account,
+messages or credentials are required. The scenario does not explicitly launch
+Mail Checker; observe any installer post-actions during native acceptance.
+Mail/TLS feature behavior remains deferred to 3.1.
+
+Prerequisites: the idle registered VM/checkpoint, normal pinned publisher
+acquisition or a verified guest cache, and a later attended controller refresh
+declaring `ApplicationsBatch13MailCheckerV1`. Source preparation and host-retained
+installer identity do not activate the route or stage the guest cache. An older
+controller is refused before queue admission; the client does not request UAC.
+
+From the repository root as the ordinary registered account, preview after that
+activation, then run the same command without `-WhatIf`:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ApplicationsBatch13 -TimeoutMinutes 20 -WhatIf
+```
+
+Require exactly one package row in `applications-batch13.json`, complete
+lifecycle/version checks, clean Defender observations and exported evidence.
+Retain failures and verify the host's final checkpoint reset separately from
+RIDE recovery. Native acceptance is pending. Paradox Data Editor requires its
+own shared-BDE dependency/recovery procedure and is excluded from this route.
 
 ### Existing application suites
 

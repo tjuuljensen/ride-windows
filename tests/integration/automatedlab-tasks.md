@@ -701,6 +701,24 @@ must correlate the requested suite with the guest summary. Source snapshots now
 exclude `.local`, including machine-specific configuration and research samples;
 refresh the protected controller through registration while idle.
 
+Module 1.19.0 extends the runtime-only snapshot filter to the fixed InfoBar
+(`ApplicationsBatch9`), Project Maker (`ApplicationsBatch10`) and NTCore Explorer
+Suite (`ApplicationsBatch12`) routes. It skips `components`, `legacy` and other
+unneeded roots before traversal, hashing or copying. Installer acquisition remains
+inside the exact selected application scenario. Other application/setting/full
+routes retain their existing snapshot behavior; this does not convert an
+application request into a portable batch or remove validation/recovery checks.
+Those three guest scenarios require recorded active/no-alert Defender observations
+before and after their lifecycle. Missing observations or a detection fail the run;
+no exclusion is added.
+
+The 1.19.0 change is source-prepared. An existing protected installation keeps its
+installed code until the normal idle registration refresh. The 2026-11-02 overnight
+installation was not refreshed again; its full-checkout application routes were
+not submitted. Do not change protected files through a guest-source hook or
+repurpose a fixed retained family to evade this boundary. Review the concrete
+update and use the existing registration procedure when attended setup resumes.
+
 | Item | Required configuration |
 | --- | --- |
 | Controller | 64-bit Windows PowerShell 5.1 |

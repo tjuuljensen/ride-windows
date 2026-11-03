@@ -4,12 +4,1097 @@
 
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
-| Settings | 37-57 | Latest batch review, 2026-11-02: BitLocker effective-policy and preboot/retrieval gaps recorded; enrollment hard-codes XTS-AES128 and cannot establish method-policy selection. <br> 2026-11-02 fast-track review: reuse narrow F1/profile evidence; icons and critical BitLocker acceptance selected, unmapped/high-risk work deferred. 2026-11-01; User proxy inventory, preparation and lifecycle regression passed 103/103. Firewall and WinHTTP proxy current-source regression passed 42/42. CEIP, media, server and Windows Update policy source regression passed 43/43. Hibernation candidate state and acceptance-runner regression passed 28/28. BitLocker policy, engine projection and workflow source regression passed 31/31. Sixty-setting and registry failure regression passed 137/137. Explorer, network/sound and keyboard setting source regression passed 74/74. Service and power setting regression passed 68/68. Managed settings current-source regression passed 11/11. Optional Windows settings current-source regression passed 365/365. Profile settings current-source regression passed 37/37. Remaining-setting catalog and mocked lifecycle regression passed 81/81. Current SettingPresentation regression passed 14/14. Prior 41 native lifecycles / 107 states remain passed; six unavailable and feature/UI/restart checks remain open. F1 promoted for File Explorer on Windows 11 with build 26300 minimum; pending BitLocker policies removed from defaults. Profile cleanup complete. Optional hibernation candidate has a prepared 18-case disposable fixture; Windows PowerShell 5.1 read-only inspection corrected. Explicit candidate execution, preview and restore now use -AllowCandidate; native lifecycle acceptance and legacy menu/mirror scope remain open. Alignment review: shared setting/preview rules adopted; runtime gaps remain ALIGN-03/04. |
-| Packages | 34-49 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: selected light lifecycle/acquisition families authorized; all MiTeC feature checks deferred to 3.1, alert files excluded. 2026-11-02; the focused generated inert PSScriptTools 360-member source lifecycle passed 7/7. MiTeC/NTCore source batches reported 119/131 scoped cases with 12 retained-archive fixture skips; no package/legacy outcome closed. User-approved fast track: ordinary user-mode products require exact package source/version, install/repeat/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; the user's prior RIDE v2 license-specialist approval is settled, with no additional licensing gate or default per-tool testing. Defender active/no-alert evidence is still absent for some accepted VM runs; host inspection is now available; new guest acceptance remains open. WFN compact checks passed 2/2; its 531-member synthetic lifecycle stalled and remains incomplete. NirLauncher stays filtered and lifecycle runs remain excluded due to the reported Defender alerts; x64 collection lifecycle passed locally for 47 selected members, with Windows/Defender acceptance open. 52 catalog package operations remain pending candidates; InfoBar lifecycle is now selected and its feature checks remain deferred. See the per-component status and separate unmigrated selector register in docs/migrations/migration-completion-reassessment-2026-11-02.md. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
-| Components | 19-24 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: host checkpoint matched; catalog OpenSSH Client and full available client RSAT permit explicit Windows Update acquisition and still require recovery. 2026-11-02; component inventory/client preparation/lifecycle plus OpenSSH Server capability/service/observation source regression passed 109/109 with mocked providers; no native component outcome closed. Native VM acceptance remains open; host/checkpoint inspection is verified; OpenSSH Client integration/recovery and Telnet source identity remain unresolved. See the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
-| Files and assets | 25-35 | Latest batch review, 2026-11-02: Prepared retained font, wallpaper, default-lock, WLAN and Sysmon scenarios await existing elevation; user-lock full-mode recovery remains unfinished. <br> 2026-11-02 fast-track review: explicit Sysmon config selected; machine fonts/wallpaper/lock-screen/Wi-Fi wait for exact inputs and recovery. 2026-11-02; offline bundle/execution/profile/portable-selection source regression passed 238/238 across seven suites using inert fixtures; actual bundle transfer, acquisition, installation and disconnected Windows acceptance remain open. Desktop shortcut/hash source regression passed 18/19 with one Windows PowerShell-only skip; native shell acceptance remains open. No legacy outcome closed; see the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
-| Maintenance | 8-12 | Latest batch review, 2026-11-02: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: prepared retention/task acceptance only; disruptive actions deferred and standalone control-flow helpers retired. 2026-11-02; run-state retention, scheduled-task and Defender recovery source regression passed 60/60 with mocked providers; no host/VM state changed. Earlier Caffeine source tests passed 20/20 and run-retention/task/handoff passed 48/48. Native cleanup, update, reboot and user-interaction actions remain open; current guest recovery/acceptance remains to be verified. No legacy outcome closed; see the per-action register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
-| **Total** | **123-177 exact** | **Latest run: 2026-11-02 BitLocker recovery-first strategy reviewed; retained native execution remains blocked; no additional tests or legacy closures.** **125-175 rounded; about 150 outcomes.** Review refreshed 2026-11-02: three mapped product outcomes excluded from v3; package range reduced by three and other group ranges unchanged. No new runtime acceptance. RIDE-Win11-Test host/checkpoint inspection is verified; no guest test or VM mutation ran in this reconciliation. Defender-alerted NirSoft files remain excluded. A possible random HKCU test-key residue from earlier validation remains unresolved after sandbox cleanup denial. |
+| Settings | 37-57 | Latest batch review, 2026-11-03: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: reuse narrow F1/profile evidence; icons and critical BitLocker acceptance selected, unmapped/high-risk work deferred. 2026-11-01; User proxy inventory, preparation and lifecycle regression passed 103/103. Firewall and WinHTTP proxy current-source regression passed 42/42. CEIP, media, server and Windows Update policy source regression passed 43/43. Hibernation candidate state and acceptance-runner regression passed 28/28. BitLocker policy, engine projection and workflow source regression passed 31/31. Sixty-setting and registry failure regression passed 137/137. Explorer, network/sound and keyboard setting source regression passed 74/74. Service and power setting regression passed 68/68. Managed settings current-source regression passed 11/11. Optional Windows settings current-source regression passed 365/365. Profile settings current-source regression passed 37/37. Remaining-setting catalog and mocked lifecycle regression passed 81/81. Current SettingPresentation regression passed 14/14. Prior 41 native lifecycles / 107 states remain passed; six unavailable and feature/UI/restart checks remain open. F1 promoted for File Explorer on Windows 11 with build 26300 minimum; pending BitLocker policies removed from defaults. Profile cleanup complete. Optional hibernation candidate has a prepared 18-case disposable fixture; Windows PowerShell 5.1 read-only inspection corrected. Explicit candidate execution, preview and restore now use -AllowCandidate; native lifecycle acceptance and legacy menu/mirror scope remain open. Alignment review: shared setting/preview rules adopted; runtime gaps remain ALIGN-03/04. |
+| Packages | 34-49 | Latest batch review, 2026-11-03: 29 package/variant cases across 28 IDs have 14 native lifecycle/recovery checks and clean Defender each; pending runtime/target decisions remain explicit. <br> 2026-11-02 fast-track review: selected light lifecycle/acquisition families authorized; all MiTeC feature checks deferred to 3.1, alert files excluded. 2026-11-02; the focused generated inert PSScriptTools 360-member source lifecycle passed 7/7. MiTeC/NTCore source batches reported 119/131 scoped cases with 12 retained-archive fixture skips; no package/legacy outcome closed. User-approved fast track: ordinary user-mode products require exact package source/version, install/repeat/remove, owned-file recovery and Defender-active/no-alert evidence, not per-utility feature tests. Sysinternals Suite package lifecycle is accepted from its Windows 11 VM run; the user's prior RIDE v2 license-specialist approval is settled, with no additional licensing gate or default per-tool testing. Defender active/no-alert evidence is still absent for some accepted VM runs; host inspection is now available; new guest acceptance remains open. WFN compact checks passed 2/2; its full 531-member synthetic lifecycle now passes in both shells after path-validation optimization. Native WFN/Defender acceptance remains open. NirLauncher stays filtered and lifecycle runs remain excluded due to the reported Defender alerts; x64 collection lifecycle passed locally for 47 selected members, with Windows/Defender acceptance open. 52 catalog package operations remain pending candidates; InfoBar lifecycle is now selected and its feature checks remain deferred. See the per-component status and separate unmigrated selector register in docs/migrations/migration-completion-reassessment-2026-11-02.md. Offline acceptance remains independent. Alignment review: acquisition/removal rules adopted; no package outcome promoted. |
+| Components | 19-24 | Latest batch review, 2026-11-03: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: host checkpoint matched; catalog OpenSSH Client and full available client RSAT permit explicit Windows Update acquisition and still require recovery. 2026-11-02; component inventory/client preparation/lifecycle plus OpenSSH Server capability/service/observation source regression passed 109/109 with mocked providers; no native component outcome closed. Native VM acceptance remains open; host/checkpoint inspection is verified; OpenSSH Client integration/recovery and Telnet source identity remain unresolved. See the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
+| Files and assets | 24-34 | Latest batch review, 2026-11-03: Sysmon replacement closed earlier this night; font durable recovery passed with native visibility partial. Image visuals and WLAN prerequisites remain open. <br> 2026-11-02 fast-track review: explicit Sysmon config selected; machine fonts/wallpaper/lock-screen/Wi-Fi wait for exact inputs and recovery. 2026-11-02; offline bundle/execution/profile/portable-selection source regression passed 238/238 across seven suites using inert fixtures; actual bundle transfer, acquisition, installation and disconnected Windows acceptance remain open. Desktop shortcut/hash source regression passed 18/19 with one Windows PowerShell-only skip; native shell acceptance remains open. No legacy outcome closed; see the per-component register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
+| Maintenance | 8-12 | Latest batch review, 2026-11-03: Range reviewed; no additional outcome closed in this run. <br> 2026-11-02 fast-track review: prepared retention/task acceptance only; disruptive actions deferred and standalone control-flow helpers retired. 2026-11-02; run-state retention, scheduled-task and Defender recovery source regression passed 60/60 with mocked providers; no host/VM state changed. Earlier Caffeine source tests passed 20/20 and run-retention/task/handoff passed 48/48. Native cleanup, update, reboot and user-interaction actions remain open; current guest recovery/acceptance remains to be verified. No legacy outcome closed; see the per-action register in docs/migrations/migration-completion-reassessment-2026-11-02.md. |
+| **Total** | **122-176 exact** | **Latest run: 2026-11-03 Overnight closeout: 29 package/variant lifecycle passes across 28 IDs; partial fonts/Core/WLAN/visuals retained; idle/off cleanup verified. UI approval timeout cost about 90 minutes.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. See the latest dated run below; checkpoint cleanup is separate from RIDE recovery. |
+
+## Overnight closeout and remaining acceptance, 2026-11-03
+
+**Status:** overnight work is closed with partial acceptance, not all tests
+complete. The [closeout index](archive/evidence/overnight-closeout-2026-11-03.json)
+contains 29 passing package/variant cases for 28 distinct catalog IDs, each with
+14 lifecycle/recovery/preservation checks and active/no-alert Defender. Separate
+Caffeine offline acceptance passed 34 checks. PSScriptTools Desktop and package
+recovery passed but Core absence keeps its overall runtime batch failed. Three
+Sysmon configuration lifecycles passed. Font durable recovery passed with native
+visibility unresolved; WLAN prerequisites, image/desktop visuals, BitLocker and
+shared-BDE recovery remain partial. Prepared routes are explicitly not activated.
+
+Final read-only observation at 05:18 UTC found the pinned VM Off, both tasks
+Ready, queues empty and no retained recovery block. Protected worker hashes are
+unchanged. A local stop marker blocks new native night requests; the existing
+retained task's 05:30 UTC self-removal is configured but not yet observed. Account
+allowance remained 35%, above the user's 10% boundary. No new native run fits
+the required recovery reserve before the 06:30 Copenhagen cutoff.
+
+The computer-use app approval timed out and stalled chat orchestration for about
+90 minutes. No icon changes or UI input occurred; the independent WinPmem run
+had already completed/reset. This is an unattended-readiness failure, not useful
+test execution time. Future unattended work must exclude unproven app-approval
+paths. The [next execution order](migrations/migration-completion-reassessment-2026-11-02.md#overnight-result-and-next-execution-order-2026-11-03)
+consolidates the attended activation and remaining fixture requirements without
+asking again for already-authorized Windows Update or synthetic Wi-Fi settings.
+
+Resolved: closeout/evidence index and verified idle/off recovery. No additional
+legacy outcome closed, retired or excluded during reconciliation. The night's
+one whole legacy closure remains Sysmon configuration replacement. All five
+ranges reviewed unchanged: settings 37-57, packages 34-49, components 19-24,
+files/assets 24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded
+(about 150). Native/source evidence gains do not silently grant catalog support.
+
+**Next:** attended finite-controller activation and proof, then the already
+prepared native queue; preserve the remaining per-component acceptance limits.
+No release, tag or push was performed.
+
+## WinPmem file-only native package acceptance, 2026-11-03
+
+**Status:** WinPmem file-only package acceptance passed on the disposable Windows
+11 build 26300 guest. The exact publisher asset was acquired successfully after
+prior DNS failures: 5,257,728 bytes matched catalog SHA-256. The tag Apache-2.0
+license was retained. Get-AuthenticodeSignature reports NotSigned for the outer
+Go wrapper on host and guest; the publisher's older-driver signing statement
+is not a wrapper signature. Catalog wording now reflects the measured result;
+no pin, operation ID, support declaration or driver behavior changed.
+
+The existing installed WinPmem route ran without controller refresh or UAC.
+All 14 install/repeat/remove/conflict/preservation and exact saved-file recovery
+checks passed; Defender was active with no alerts before/after. ToolExecuted
+remained false: no program launch, driver/service load, test-signing change or
+memory acquisition. Evidence export and ResetAndOff passed. Source checks passed
+85/85 per shell; catalog/profile/generated documentation/parser validation passed
+for 475 operations, nine groups, five profiles and 400 PowerShell files. See
+[native evidence](archive/evidence/winpmem-night-native-2026-11-03.json).
+
+Resolved: publisher acquisition and notice retention, exact outer signature
+observation, native file lifecycle/recovery and Defender evidence. Partial/deferred:
+scoped catalog promotion, application/driver behavior and other targets. No whole
+legacy outcome closed, retired or excluded: this finishes package acceptance for
+an already-counted catalog candidate without accepting driver use. All five
+ranges reviewed unchanged: settings 37-57, packages 34-49, components 19-24,
+files/assets 24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded (about
+150). Contract 1.1.0 and unchanged compared Fedora hashes apply.
+
+The attempted read-only desktop-icon inspection required computer-use app
+approval and timed out, stalling this chat from about 03:42 to 05:15 UTC. No UI
+input or icon state change occurred. The independent WinPmem task completed at
+03:41 UTC and was already reset/off. Do not retry UI approval-dependent work in
+an unattended track. The desktop-icon visual check remains open.
+
+**Next:** retain the scoped package pass for catalog promotion review. Finish
+night evidence/cleanup checks within the 06:30 Copenhagen limit; no new native
+batch fits the required recovery reserve.
+
+## Font process-identified native follow-up, 2026-11-03
+
+**Status:** process-identified font follow-up completed on Windows 11
+EnterpriseEval 26300.9711. All 14 selected fonts installed/repeated, all four
+durable recovery checks and both saved restores passed. Six of seven native
+checks passed; only immediate removal enumeration failed. Final restore and
+repeat native-name checks passed in lifecycle PID 10084/session 0. Distinct
+collector PIDs 4960, 8160 and 2704 in session 0 later observed exact initial
+file/registry/security state and no selected native names. This narrows the
+observed failure to an earlier stage in this run; it does not identify the
+cause or override the failure. Earlier final-state mismatches remain recorded.
+
+Process ID/start time/session and collection UTC are evidence-only additions;
+51 source cases passed in each shell and both changed integration files parsed.
+The installed protected workers remained unchanged. No force unloading, consumer
+termination, cache changes or restart occurred. Verified export preceded
+ResetAndOff and hold release. Direct ordinary-account access to private export
+files was denied; their ACLs were preserved and worker-verified public reports
+were used. See [native/source evidence](archive/evidence/font-process-night-native-2026-11-03.json)
+and [interpretation](machine-fonts.md).
+
+Resolved: process-correlated reproduction and three later same-session
+observations. Partial/deferred: immediate native-name removal, interactive/other
+sessions, restart/consumer behavior and remaining asset/component acceptance.
+No legacy outcome closed, retired or excluded. All five ranges reviewed unchanged:
+settings 37-57, packages 34-49, components 19-24, files/assets 24-34, maintenance
+8-12; total 122-176 exact / 120-175 rounded (about 150). The new observations do
+not justify removing the remaining font outcome. Contract 1.1.0 and unchanged
+compared Fedora hashes apply; shared recovery behavior is unchanged.
+
+**Next:** keep font native acceptance partial. Check whether the already-installed
+WinPmem file-only route can finish its remaining package/Defender acceptance;
+driver loading and memory acquisition stay excluded.
+
+## Fixed WFN package route preparation, 2026-11-03
+
+**Status:** the fixed WindowsFirewallNotifier package route is source-prepared.
+It selects only the user-pinned 20250719-ac02df x64 Nightly archive, all 531
+members and both license/attribution files. Archive SHA-256, all member names
+and sizes were reverified, and all member streams hashed without extraction or
+execution. The 118,745,388-byte payload manifest is prepared locally.
+
+All 182 selected cases passed per native PowerShell edition; 75 other discovered
+cases were not run and six integration files parsed. Review drift, wrong pins,
+missing/duplicate/unsafe/different members, version and architecture are refused.
+The initial and intermediate forwarding fixture failures were corrected by
+providing idle VM state and the focused-result/command expectations for WFN.
+Existing package lifecycle, exact saved recovery, conflict preservation and
+Defender observation are reused. See [source evidence](archive/evidence/wfn-route-source-2026-11-03.json)
+and [operator procedure](../tests/integration/README.md#windows-firewall-notifier-package-acceptance).
+
+WfnPortableLifecycleV1 is absent from the unchanged installed controller. No
+UAC, protected activation, native WFN request, product launch or firewall change
+occurred. Resolved: fixed source route, complete-member binding and retained
+input identity. Partial/deferred: native package/Defender acceptance and separate
+application/firewall behavior. No legacy outcome closed, retired or excluded.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded
+(about 150). This is acceptance preparation for an already-counted package.
+Contract 1.1.0 and unchanged compared Fedora hashes apply.
+
+**Next:** later attended idle controller activation, then the bounded native
+package route. Overnight, investigate the outstanding font enumeration failure
+using the retained evidence and unchanged approved native phase boundary.
+
+## Fixed Mail Checker installer route preparation, 2026-11-03
+
+**Status:** Mail Checker now has a fixed ApplicationsBatch13 source route with
+exact 7.2.0 installed selection, machine privilege, Windows 11 candidate checks,
+Defender observations and exact installed-version readback. It reuses existing
+install/repeat, uninstall/repeat and compensating presence recovery. No account,
+credentials or messages are needed; the runner does not explicitly launch the
+product. Installer post-actions remain unobserved. Mail/TLS features stay deferred
+to 3.1. Paradox Data Editor/shared BDE is not included.
+
+All 162 selected cases passed per PowerShell edition (250 discovered cases not
+run), including wrong selection/scope/version rejection, capability refusal,
+preview, dispatch and bounded snapshot selection. Seven integration files parsed.
+The retained 2,174,711-byte installer matches the catalog SHA-256 without execution.
+See [source evidence](archive/evidence/mailchecker-route-source-2026-11-03.json)
+and [native procedure](../tests/integration/README.md#mail-checker-installer-acceptance).
+
+The unchanged installed controller lacks ApplicationsBatch13MailCheckerV1.
+No protected registration, UAC or native request was attempted. Resolved: fixed
+source route and host input identity. Partial/deferred: native acquisition,
+installer lifecycle, Defender and remaining component/asset gaps. No legacy
+outcome closed, retired or excluded. All five ranges reviewed unchanged: settings
+37-57, packages 34-49, components 19-24, files/assets 24-34, maintenance 8-12;
+122-176 exact / 120-175 rounded (about 150). This prepares acceptance for an
+already-counted package and does not reduce the estimate. Contract 1.1.0 and
+unchanged compared Fedora hashes apply.
+
+**Next:** activate this capability during an attended idle controller refresh,
+then run the documented single-package VM batch. Overnight, continue remaining
+source preparation without altering the installed protected controller.
+
+## Portable path optimization and full-size recovery acceptance, 2026-11-03
+
+**Status:** portable path validation now uses direct native filesystem attributes
+for each ancestor, without caching or weakening reparse-point refusal. Missing
+paths remain eligible for creation; access and other I/O failures propagate.
+The focused path, manifest, selection and application suite passed 185 cases per
+shell; three optional retained-payload cases skipped. Real owned junctions,
+ancestor replacement, file-parent collision and failure propagation are covered.
+
+The full inert 531-member WFN lifecycle now passes in both shells: 373.70 seconds
+in Core and 200.46 seconds in Desktop, including exact installed/absent recovery
+and operator-file preservation. The initial old-source Core run exceeded its
+ten-minute cap and its owned test process was terminated. A separate 40-call path
+probe measured about 21-24 times lower elapsed time; that is not a full-product
+speedup claim. No WFN publisher payload was staged or executed in these tests.
+
+The changed handler then passed all 34 existing offline Caffeine VM checks,
+including production assembly, disconnected lifecycle, exact saved-file recovery,
+target-exploration audit and negative-input refusals. Active/no-alert Defender,
+verified export and ResetAndOff passed. The staged module hash matches the tested
+source. Existing protected tasks were not refreshed and no UAC was requested.
+See [source/performance evidence](archive/evidence/portable-path-optimization-2026-11-03.json)
+and [focused native evidence](archive/evidence/portable-path-offline-native-2026-11-03.json).
+
+Resolved: the interrupted full-size WFN source-test gap and unnecessary provider
+overhead in portable path validation. Partial/deferred: WFN native package/Defender
+acceptance and firewall integration, other targets and broader release acceptance.
+No legacy outcome closed, retired or excluded. All five ranges reviewed unchanged:
+settings 37-57, packages 34-49, components 19-24, files/assets 24-34, maintenance
+8-12; total 122-176 exact / 120-175 rounded (about 150). Compared unchanged contract
+1.1.0 and Fedora archive/ownership guard sources; no shared behavior change.
+
+**Next:** retain this focused native proof and continue remaining source/acceptance
+preparation within the installed overnight routes. New protected capabilities
+still require a later attended activation; no broad target promotion is implied.
+
+## Overnight per-component evidence reconciliation, 2026-11-03
+
+**Status:** reconciled the per-component register with retained evidence. Five
+candidate MiTeC rows now report their completed native lifecycle/recovery and
+Defender checks. Fourteen remaining portable MiTeC rows and four RegRipper/Rufus/
+Gpg4win/TMOG rows link to verified inputs and source-ready routes awaiting attended
+activation. InfoBar/Project Maker/Explorer Suite rows identify the pending protected
+staging refresh. OpenSSH/RSAT remain source-ready only. The offline row references
+the latest 34-check run; stale host-CIM blocker statements were corrected.
+
+No runtime was repeated or target promoted. Documentation does not invent an
+additional feature-test gate for packages that already meet the approved fast
+track. Existing native evidence and its exact recovery/Defender results were read
+before updating rows; linked local evidence files exist. Source-only and failed/
+partial boundaries remain explicit. No legacy outcome closed, retired or excluded.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded.
+
+**Next:** resolve remaining bounded source-test gaps while preserving tonight's
+no-UAC/no-refresh rule. Native tests requiring new capabilities wait for attended
+activation; passed unchanged package lifecycles need no repeat solely for reporting.
+
+## Expiring OpenSSH Client and RSAT queue preparation, 2026-11-03
+
+**Status:** source-ready finite capability queue, not activated. The new ordinary-
+account client can submit only OpenSSHClient/RSAT Prepare/Lifecycle/Collect/Reset
+to an independently registered expiring task. Prepare requires explicit Windows
+Update acquisition; exact target/configuration and host-source hashes are pinned
+at attended registration. Strict request validation, source leases, phase admission
+reserves and retained terminal-result/export guards reject drift and unsafe reset.
+No UAC launcher, arbitrary command callback, automatic reset/reboot or task refresh
+was added. The installed overnight task hashes are unchanged, both tasks were
+Ready, queues empty, no hold and no capability activation present at 02:26:58 UTC.
+
+Focused source checks passed 124/124 in native Windows PowerShell 5.1 and 122/124
+in PowerShell 7; the two registration/worker fixtures intentionally run only in
+5.1 and passed there. They use inert files and mocked controller/dispatch, not a
+live task or VM. End-to-end preview checks caught and corrected WhatIf suppressing
+Set-Variable; direct assignment now canonicalizes finite arguments without writes.
+See [structured evidence](archive/evidence/client-capability-queue-source-2026-11-03.json)
+and the [attended procedure](windows-component-inventory.md#expiring-capability-queue).
+
+Resolved: a source-verified ordinary-account submission route ready for a later
+attended setup. Partial/deferred: installed activation, real scheduled dispatch,
+DISM acquisition, literal-state recovery and restart acceptance. No legacy outcome
+closed, retired or excluded. All five ranges reviewed unchanged: settings 37-57,
+packages 34-49, components 19-24, files/assets 24-34, maintenance 8-12; total 122-176
+exact / 120-175 rounded (about 150). The unchanged contract 1.1.0 and Fedora source
+hashes were compared; this is Windows test transport, not shared CLI drift.
+
+**Next:** preserve tonight's no-UAC/no-refresh boundary. During the next attended
+activation, refresh any needed package controller first, register this independent
+queue with an explicit expiry and exact target, then run OpenSSHClient and RSAT
+separately with fresh time/usage checks, verified evidence and explicit Reset.
+
+## Offline target exploration and recovery native acceptance, 2026-11-03
+
+**Status:** all 34 offline checks passed on Windows 11 EnterpriseEval 26300.9711.
+The real engine/file handler refused the synthetic minimum-build fixture without
+opt-in, left previews unchanged, installed with explicit opt-in and recorded the
+actual target plus BelowMinimumBuild. Later apply and restore required fresh
+opt-in. Exact original-absence restore wrote a separate actual-target audit.
+Published catalog bytes and support metadata remained unchanged.
+
+Missing, corrupt, omitted and mismatched offline inputs refused both with and
+without the override. Existing production assembly, guest-local bundle transfer,
+bundled CLI, repeat/removal/recovery, disconnected network and active/no-alert
+Defender checks also passed. No Caffeine executable ran. Evidence exported and
+ResetAndOff completed; the outer controller passed without cleanup error.
+See [native evidence](archive/evidence/offline-target-exploration-night-native-2026-11-03.json).
+
+Resolved: native explicit target-exploration audit, fresh apply/restore opt-in,
+preview and recovery evidence for this bounded package fixture. This is not
+support for a genuinely different OS/build, broad handler acceptance or a
+cross-platform contract decision. ALIGN-TARGET-01 remains open before promotion.
+No additional legacy outcome closed, retired or excluded; Caffeine is not counted
+again. Cross-machine/full-set offline delivery and other remaining work stay
+partial/deferred. All five ranges reviewed unchanged: settings 37-57, packages
+34-49, components 19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact /
+120-175 rounded (about 150). Contract 1.1.0 and compared Fedora hashes remain unchanged.
+
+**Next:** prepare the missing finite OpenSSH/RSAT phase queue around the tested
+retained-VM workflow. Activation is a later attended step; keep the overnight
+protected controllers unchanged and continue independent authorized preparation.
+
+## PSScriptTools Desktop runtime native acceptance, 2026-11-03
+
+**Status:** both PSScriptTools runtime probes passed on Windows PowerShell 5.1
+in Windows 11 build 26300. Exact ThreadJob 2.2.0 origin and PSScriptTools 3.2.0
+import passed; the isolated CIM job completed with 91 namespaces, the drawing
+function passed, and the module-private cleanup helper completed without job
+errors and closed its synthetic runspace. The separate missing-dependency probe
+refused import before side effects. No CIM namespace contents were exported.
+
+Both package lifecycles and active/no-alert Defender passed. Exact saved-file
+recovery preceded verified export and ResetAndOff. Core is not installed, so the
+runtime summary remains Partial and the outer request correctly remains Failed;
+neither cleanup nor Desktop success turns that into full acceptance. See
+[native evidence](archive/evidence/psscripttools-desktop-night-native-2026-11-03.json).
+
+Resolved: Desktop runtime dependency/import/CIM/drawing/cleanup acceptance after
+two test-runner corrections. Partial: Core runtime and broader target/GUI scope.
+No additional legacy outcome closed, retired or excluded. All five ranges
+reviewed unchanged: settings 37-57, packages 34-49, components 19-24, files/assets
+24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded (about 150).
+Shared behavior remains unchanged. Preserve both earlier failed runs as evidence.
+
+**Next:** run the prepared offline target-override audit scenario. Core acceptance
+needs an explicit suitable disposable fixture; do not repeat unchanged Desktop
+checks or silently install another runtime through this fixed two-package route.
+
+## Offline target exploration native-scenario preparation, 2026-11-03
+
+**Status:** the existing OfflineCaffeine guest route now includes a confined native
+target-exploration scenario. Only a cloned resolved operation's minimum build is
+raised above the actual guest build. The published catalog, support declarations,
+payload and privileges remain unchanged. The scenario requires ordinary apply
+refusal, no-write preview, explicit apply with actual-target audit, fresh apply
+and restore opt-in, and original-absence recovery with its own audit. Missing,
+corrupt, omitted and mismatched offline inputs must refuse with or without the
+override. No Caffeine executable or additional package is selected.
+
+All 117 focused portable/Defender/unsupported-target/offline-execution source
+cases passed in both native PowerShell editions. The fixture regression confirms
+only minimum-build metadata changes and rejects candidate/other/unelevated
+selections. See [source evidence](archive/evidence/offline-target-exploration-source-2026-11-03.json).
+Native execution remains pending the current PSScriptTools run's verified cleanup.
+
+Resolved: an executable native audit/recovery scenario within an already installed
+route. Partial: actual native result and ALIGN-TARGET-01. No legacy outcome closed,
+retired or excluded. All five ranges reviewed unchanged: settings 37-57, packages
+34-49, components 19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact /
+120-175 rounded (about 150). Compared current pinned contract 1.1.0 and unchanged
+Fedora source hashes. Fedora's target and candidate gates remain independent;
+the Windows-only exploration difference is not silently promoted or standardized.
+
+**Next:** run the changed OfflineCaffeine route after current VM cleanup and a
+fresh allowance check, then record native audit and exact recovery separately.
+
+## PSScriptTools native import progress and private-helper correction, 2026-11-03
+
+**Status:** the native rerun passed ThreadJob's exact binary-origin check,
+PSScriptTools import, its isolated CIM job (91 namespaces) and the drawing
+function on Desktop. It then failed when the runner called the private
+New-RunspaceCleanupJob helper from caller scope. The source archive confirms the
+helper exists inside the module but is not exported. Core remains unavailable.
+Both package lifecycles, Defender, evidence export and ResetAndOff passed.
+
+The runner now invokes that helper in the exact loaded module scope and supplies
+an explicit synthetic runspace. It requires job completion without errors and
+closed runspace state; owned objects are disposed on failure. All 69 focused
+source cases passed in each shell, including an inert private-helper fixture.
+No upstream module ran on the host. A new correlated VM rerun is in progress.
+See [native and correction evidence](archive/evidence/psscripttools-private-helper-correction-2026-11-03.json).
+
+Resolved: native binary origin/import/CIM/drawing evidence and the private-helper
+invocation defect in the test. Partial: final cleanup-helper runtime and absent
+Core edition. No legacy outcome closed, retired or excluded. All five ranges
+reviewed unchanged: settings 37-57, packages 34-49, components 19-24, files/assets
+24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded (about 150).
+Shared behavior remains unchanged; pinned contract and compared Fedora hashes
+are recorded. An internal helper test does not establish a public GUI workflow.
+
+**Next:** collect the new runtime result and exact recovery; continue independent
+remaining component preparation within the unattended time/usage limits.
+
+## Remaining MiTeC portable route preparation, 2026-11-03
+
+**Status:** four fixed MiTeC portable routes are source-prepared: Viewers,
+Development, Network Utilities and System Viewers. They cover 14 products / 20
+variants, including both DFM generations and declared x86/x64 selections. All
+14 retained archives match catalog pins; 48 selected members were read and hashed
+without extraction or execution. Per-suite local manifests are prepared.
+
+All 165 selected source cases passed in each native PowerShell edition, with
+six runner parsers checked. The initial four forwarding-fixture failures came
+from adding the Capabilities property twice; the corrected fixture supplies
+both required capabilities once. No package handler changed. Existing lifecycle,
+exact recovery and Defender checks are reused, without utility features.
+See [source evidence](archive/evidence/remaining-mitec-routes-source-2026-11-03.json)
+and the [operator procedure](../tests/integration/README.md#remaining-mitec-portable-acceptance).
+
+The new RemainingMiTeCPortableV1 capability is absent from the unchanged installed
+controller. Client, dispatcher and standalone host guards refuse unactivated
+routes. No UAC, protected task change or native request occurred for these suites.
+InfoBar, Project Maker, Mail Checker and Paradox Data Editor remain separate
+installer work; product feature testing remains deferred to 3.1.
+
+Resolved: fixed remaining portable selections, source routing and retained-input
+identity. Partial/deferred: native acceptance and separate installer/component/
+asset gaps. No legacy outcome closed, retired or excluded. All five ranges
+reviewed unchanged: settings 37-57, packages 34-49, components 19-24, files/assets
+24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded (about 150).
+Shared contract 1.1.0 and compared Fedora hashes remain unchanged.
+
+**Next:** collect the PSScriptTools runtime rerun; continue independent remaining
+component preparation. Activate these routes only during a later attended idle
+controller refresh, then verify each native batch and recovery separately.
+
+## ThreadJob binary-origin acceptance correction, 2026-11-03
+
+**Status:** the PSScriptTools acceptance origin guard now compares the loaded
+definition with the manifest-declared root module, with the same ModuleBase,
+version and GUID. The pinned ThreadJob binary identifies its DLL in ModuleInfo.Path;
+the earlier comparison incorrectly required the manifest path. Import still uses
+the exact managed manifest. Escaping/reparse roots are refused before import.
+
+Both native PowerShell editions passed all 64 focused portable/Defender source
+cases. Inert manifest-only and script-root fixtures cover loaded-path semantics;
+an escaping root is rejected before import. No upstream module ran on the host.
+See [source evidence](archive/evidence/threadjob-origin-source-2026-11-03.json).
+The existing unattended route is rerunning the changed probe. Core remains absent
+from that VM; no silent installation or full runtime acceptance is claimed.
+
+Resolved: incorrect binary-module identity comparison in the acceptance runner.
+Native runtime remains partial/pending. No legacy outcome closed, retired or
+excluded. All five ranges reviewed unchanged: settings 37-57, packages 34-49,
+components 19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact /
+120-175 rounded (about 150). Shared contract 1.1.0 and compared Fedora hashes
+remain unchanged; this is an RB-08/11 Windows acceptance correction.
+
+**Next:** collect the correlated runtime rerun and its recovery result. Continue
+fixed remaining MiTeC route preparation without activating a new controller.
+
+## NTCore package, Defender and synthetic 4GB Patch native acceptance, 2026-11-03
+
+**Status:** PE Detective, CFF Explorer and 4GB Patch passed their three native
+package lifecycles, each with 14 preview/repeat/removal/preservation/exact-recovery
+checks. Defender remained active with no new detections or exclusion changes.
+The 4GB Patch functional probe additionally passed nine checks against a synthetic
+x86 PE: exact adjacent backup, guarded collision refusal, expected flag/checksum
+changes and exact synthetic recovery. PE Detective/CFF Explorer were not launched;
+no real application executable was modified. Evidence export and ResetAndOff
+completed without UAC. See [native evidence](archive/evidence/ntcore-main-night-native-2026-11-03.json).
+
+Resolved: missing current Defender evidence and confirmation of the existing
+guarded synthetic functional probe. These product outcomes were already counted;
+no new legacy outcome is subtracted. No new retirement or exclusion. Remaining
+package, runtime, component and asset gaps stay partial/deferred. All five ranges
+reviewed unchanged: settings 37-57, packages 34-49, components 19-24, files/assets
+24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded (about 150).
+Pinned contract 1.1.0 and unchanged compared Fedora hashes are recorded in evidence.
+
+**Next:** validate the PSScriptTools runtime-origin correction, then rerun its
+existing unattended route. PowerShell 7 absence remains a separate acceptance gap.
+
+## Fixed Gpg4win and TMOG installer route preparation, 2026-11-03
+
+**Status:** fixed Gpg4win and TMOG installer routes are source-prepared. Each
+selects exactly its installed Windows 11 package from the existing batch-1
+workflow. Gpg4win retains limited-user execution and synthetic GnuPG data;
+TMOG retains machine scope and synthetic LocalAppData data. The selected ID is
+forwarded to the limited child. Exact installed-version readback is required.
+The elevated coordinator records Defender before/after; the limited child does
+not query privileged Defender state. Gpg4win's focused child is bounded to 20
+minutes. No key, encryption, product/screensaver launch or paid activation occurs.
+
+All 124 selected source cases passed per shell (125 discovered cases not run),
+covering scope/selection refusal, synthetic data changes/deletion, Gpg4win handler
+preservation, preview and mocked dispatch. Retained Gpg4win 5.1.1 and TMOG 1.0.1
+installer hashes and valid signatures were rechecked without execution. Native
+acquisition still uses the pinned publisher or valid guest cache; host files
+were not silently staged. See [source evidence](archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json)
+and the [operator procedure](../tests/integration/README.md#focused-gpg4win-and-tmog-installer-acceptance).
+
+The new `Gpg4winTmogLifecycleV1` capability is absent from the unchanged installed
+controller. No UAC, protected task change or native request was made for these
+routes. Resolved: narrow source selection, scope/preservation checks and retained
+installer identity. Partial/deferred: native acceptance, prior Gpg4win crash and
+remaining application/component/asset gaps. No legacy outcome is closed, retired
+or excluded. All five ranges reviewed unchanged: settings 37-57, packages 34-49,
+components 19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact /
+120-175 rounded (about 150). Contract 1.1.0 and unchanged compared Fedora hashes
+apply; no shared production behavior or supported-target declaration changed.
+
+**Next:** native installer runs require later attended idle activation. Overnight,
+finish the running NTCore batch and correct the PSScriptTools runtime origin check
+using the collected failure; keep absent PowerShell 7 coverage explicit.
+
+## PSScriptTools native lifecycle pass and runtime failure, 2026-11-03
+
+**Status:** PSScriptTools/ThreadJob native package lifecycles and Defender passed,
+but the overall runtime scenario failed on Windows 11 build 26300. Both packages
+completed preview/install/repeat/removal, exact saved owned-file recovery and
+preservation checks. Defender was active before/after with no detections or
+exclusion changes. Evidence exported and ResetAndOff completed without cleanup
+error. The failed native result remains failed after checkpoint cleanup.
+
+Windows PowerShell 5.1's Present probe imported the staged ThreadJob prerequisite
+but rejected its resolved module path before accepting that import. The separate
+missing-dependency refusal passed before PSScriptTools side effects. PowerShell 7
+is absent, so its probes remain unavailable. No PSScriptTools function or CIM
+enumeration passed. See [native evidence](archive/evidence/psscripttools-night-runtime-failure-2026-11-03.json).
+
+Resolved: current pinned package lifecycle/recovery and Defender evidence for
+both packages. Partial: actual runtime origin validation and missing Core edition.
+No additional legacy outcome is closed, retired or excluded. All five ranges
+reviewed unchanged: settings 37-57, packages 34-49, components 19-24, files/assets
+24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded (about 150).
+Shared behavior remains unchanged; this is Windows-owned acceptance evidence.
+
+**Next:** inspect and test the ThreadJob path guard before any rerun. Keep Core
+unavailability explicit. The existing NTCore batch is now filling its missing
+Defender evidence, including its already-reviewed synthetic-only 4GB Patch test.
+No further UAC or protected task refresh is permitted overnight.
+
+## Fixed RegRipper and Rufus acceptance route preparation, 2026-11-03
+
+**Status:** fixed RegRipper and Rufus file-lifecycle routes are source-prepared.
+Each selects only its pinned package, uses the existing exact owned-file recovery
+and preservation scenario, and requires active/no-alert Defender. RegRipper binds
+the complete 282-file review, including notices; retained archive bytes and every
+member length/hash matched. Rufus's 4.15 payload digest and explicit destination
+mapping matched. Neither payload was extracted or executed during preparation.
+
+The client, protected dispatcher and focused runner require
+`RegRipperRufusPortableV1` before native admission. The installed controller's hash
+is unchanged and it lacks that capability; no queue submission, UAC or protected
+task refresh occurred. The existing runtime-only source filter applies after
+activation. Six parsers passed and 145 selected portable/configuration/dispatch
+source cases passed per native shell (75 other discovered cases not run).
+Initial failures exposed missing-property error handling and an outdated exact
+registration expectation; both were corrected. See
+[source evidence](archive/evidence/regripper-rufus-routes-source-2026-11-03.json)
+and the [operator procedure](../tests/integration/README.md#focused-reviewed-portable-packages).
+
+Resolved: fixed source routes and exact retained inputs. Native lifecycle and
+Defender acceptance remain pending; this closes no legacy outcome. No new
+retirement/exclusion. Gpg4win/TMOG, remaining MiTeC, capabilities and asset gaps
+stay partial/deferred. All five ranges reviewed unchanged: settings 37-57,
+packages 34-49, components 19-24, files/assets 24-34, maintenance 8-12; total
+122-176 exact / 120-175 rounded (about 150). Contract 1.1.0 and Fedora target/
+candidate guards were reviewed with unchanged source hashes. No shared semantics
+or supported-target declaration changed.
+
+**Next:** native RegRipper/Rufus runs require normal idle attended activation;
+do not request it overnight. Continue other existing unattended routes and prepare
+the remaining approved narrow application scenarios.
+
+## Individual Sysinternals packages and Defender native acceptance, 2026-11-03
+
+**Status:** the nine individually pinned Sysinternals products passed native
+file lifecycle/recovery and Defender before/after on Windows 11 build 26300:
+Process Explorer, Autoruns, TCPView, Process Monitor, RAMMap, Disk2vhd, Sigcheck,
+Strings and Handle. Each passed all 14 lifecycle/preservation checks. No utility
+was launched, EULA accepted, live collection performed or disk image written.
+Defender remained active with no detections or exclusion changes. Verified export
+preceded ResetAndOff; the outer controller completed with no cleanup error and
+returned idle. No UAC or protected controller change occurred.
+
+See [native evidence](archive/evidence/sysinternals-products-night-native-2026-11-03.json).
+The source-manifest hashes bind runner 0.16.0 used for this request, independently
+of later source preparation. The two earlier NTCore products and these nine
+products now have the missing current Defender evidence; their earlier accepted
+legacy outcomes are not subtracted again. Resolved: this evidence gap. No new
+retirement/exclusion. Other application, capability, asset and interactive
+acceptance stays partial/deferred.
+
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded
+(about 150). Shared contract 1.1.0 and the same Fedora source hashes were
+rechecked; Windows-only evidence does not change shared behavior or target support.
+
+**Next:** finish source validation for the fixed RegRipper/Rufus routes and their
+pinned payloads; these remain unactivated. Continue the approved remaining list
+using existing unattended routes where available, without further UAC setup.
+
+## NTCore additional package and Defender native acceptance, 2026-11-03
+
+**Status:** NTCore Driver List x64/x86 and Rebel.NET passed all three native
+file lifecycles, each with 14 preview/repeat/removal/preservation/exact-recovery
+checks, on Windows 11 build 26300. Defender was active before/after with no
+detections or exclusion changes. No utility was launched. Verified export and
+ResetAndOff completed, and the existing controller returned idle without UAC.
+See [native evidence](archive/evidence/ntcore-additional-night-native-2026-11-03.json).
+
+The fixed NTCoreAdditional and SysinternalsProducts selections now require the
+existing Defender observer. Source parser and exact retained-archive checks pass
+in Windows PowerShell 5.1 and PowerShell 7. Corrected stale version expectations
+for the guest, host and offline runners; all 55 focused portable-selection and
+Defender source cases then passed in each shell. The first 54/55 results remain
+documented as a test expectation failure, not native acceptance failure.
+
+Resolved: missing current Defender evidence for these previously accepted NTCore
+package lifecycles. No previously counted product is subtracted again. No new
+retirement or exclusion; other package, asset, capability and interactive gaps
+remain partial/deferred. All five ranges reviewed unchanged: settings 37-57,
+packages 34-49, components 19-24, files/assets 24-34, maintenance 8-12; total
+122-176 exact / 120-175 rounded (about 150). Shared behavior is unchanged; pinned
+contract 1.1.0 and compared Fedora source hashes are recorded in the evidence.
+
+**Next:** the nine individually pinned Sysinternals products are running through
+the same existing route. Collect and verify recovery before another native batch.
+Prepare narrowly scoped missing application routes without protected task changes.
+
+## Production offline assembly and bundled CLI native acceptance, 2026-11-03
+
+**Status:** all 22 expanded offline Caffeine checks passed on disposable Windows
+11 EnterpriseEval build 26300. With guest adapters disabled, the production
+assembler verified 93 files / 3,322,987 declared bytes and selected-profile
+coverage. The scenario copied the bundle within the guest, verified its bytes
+and metadata, and executed the received bundle's own CLI. Missing, corrupt,
+omitted and wrong-target inputs were refused. Install, profile apply, repeat,
+removal and saved exact owned-file/absence recovery passed. Defender was active
+before/after with no detections or exclusion changes. Caffeine was not launched.
+Verified export preceded ResetAndOff; the outer controller passed without a
+cleanup error. No protected task refresh or UAC occurred.
+
+See [native evidence](archive/evidence/offline-caffeine-assembly-night-native-2026-11-03.json).
+This extends the earlier 16-check disconnected lifecycle evidence; it does not
+replace it or count the accepted product twice. Resolved: production assembly,
+guest-local transfer, bundled-engine execution and current Defender evidence for
+this selection. No additional legacy outcome is closed, retired or excluded.
+Cross-machine delivery, full-set preparation, automated engine packaging and
+broader installer/dependency/servicing acceptance remain partial/deferred.
+
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded
+(about 150). Shared contract 1.1.0 RB-03/09/11 and the previously compared Fedora
+source hashes apply; no production semantics or target support changed.
+
+**Next:** use existing fixed portable routes for specifically missing native
+Defender/recovery evidence. Retain the no-UAC boundary and stop admission early
+enough for evidence export and cleanup before the approved overnight deadline.
+
+## Retained client capability host phases prepared, 2026-11-03
+
+**Status:** the retained OpenSSH Client/RSAT host phases are implemented and
+source-verified. Prepare stages only engine modules/catalog/profiles and the guest
+scenario from the registered checkout; subsequent phases bind the saved lease,
+VM/checkpoint, target and source digests. Lifecycle is a single explicit admission.
+No package/asset route is repurposed and no arbitrary callback is accepted.
+
+All 29 isolated host cases pass per PowerShell edition. Coverage includes a real
+bounded source snapshot and isolated read-only engine/catalog import, mixed-case
+preview inputs, production RSAT edition preflight, ownership drift, partial failure,
+timeout, source/export digests, terminal-result verification, cleanup and hold release.
+A final read-only preview against the installed registration passed with no hold
+before/after, no VM action and the installed controller digest unchanged. See
+[source evidence](archive/evidence/client-capability-host-source-2026-11-03.json).
+
+Reset requires fresh verified export and refuses an admitted lifecycle without
+its terminal result; stopping PowerShell does not prove DISM stopped. A terminal
+failed test can be explicitly cleaned up but never becomes successful acceptance.
+Interrupted preparation/reset with an Off guest still requires retained-state
+inspection; this initial route does not guess completion or release its hold.
+
+Resolved: a concrete direct host route and read-only registration binding.
+The installed overnight task has not changed and does not accept these families.
+Native acquisition/lifecycle and reviewed queue activation remain pending. No
+legacy outcome closed, retired or newly excluded. All five ranges reviewed
+unchanged: settings 37-57, packages 34-49, components 19-24, files/assets 24-34,
+maintenance 8-12; total 122-176 exact / 120-175 rounded.
+
+**Next:** prepare the fixed queue admission/update for a normal attended setup,
+including deadline, fresh usage observation and phase-specific failure handling.
+Keep the installed protected task unchanged overnight and continue independent
+remaining-component preparation.
+
+## Focused client capability guest acceptance prepared, 2026-11-03
+
+**Status:** OpenSSH Client and all-observed RSAT guest scenarios are implemented
+and source-verified; the unattended host route is not yet installed. The scenario
+uses the normal catalog engine, explicit Windows Update source and candidate opt-in.
+It tests preview, install, repeat, removal, both saved restores and final repeat
+restore, preserving mixed or entirely pre-existing installations. Unrelated
+capability drift, pending servicing, restart requests and recovery failure stop
+the scenario. No automatic reboot, retry, recovery or checkpoint reset is added.
+
+Twenty-two isolated cases pass in each native PowerShell edition. They include
+guest/target/elevation guards, partial-run capture, failure/export error retention,
+collateral drift, client binary verification and exact private engine-record export.
+Both entry-point version checks pass. Initial test-fixture parser and shared
+TestDrive-directory issues were corrected before the final passing runs; inspection
+against the real engine record schema also corrected the export reader/fixture.
+No native capability writer or VM was invoked. See
+[source evidence](archive/evidence/client-capability-acceptance-source-2026-11-03.json)
+and the [guest procedure](windows-component-inventory.md#focused-disposable-guest-acceptance).
+
+Resolved: focused, reviewable guest acceptance code for both requested families.
+No legacy outcome closed, retired or newly excluded. Host-route binding/activation,
+native acquisition and conditional recovery remain open; SSH user-data/connectivity,
+RSAT domain functionality and restart behavior are outside this scenario's claim.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49,
+components 19-24, files/assets 24-34, maintenance 8-12; total 122-176 exact /
+120-175 rounded. The completed Sysmon outcome remains deducted once.
+
+**Next:** prepare the retained, fixed-family host route with verified evidence
+collection and timeout handling. Do not modify the protected installed controller
+or use another family as an arbitrary script callback overnight.
+
+## Client capability restart boundary repaired, 2026-11-03
+
+**Status:** a source review while preparing native capability tests found and
+fixed a restart boundary. After DISM reported `RestartNeeded`, the handler used
+to return Applied and only warn. The engine discarded that result, so another
+RSAT member could be attempted if reboot-pending registry markers were absent.
+The handler now throws after recording matching literal readback; the engine's
+existing failure path retains its snapshot, reports the run and stops the group.
+Recovery uses the same stop boundary. No automatic restart or recovery is added.
+
+All 35 focused capability/RSAT cases passed in Windows PowerShell 5.1 and
+PowerShell 7, including new install/recovery restart-result cases and a group
+stop with durable saved state. All Windows providers are mocked; this establishes
+no payload acquisition, native DISM result or supported target. See
+[source evidence](archive/evidence/client-capability-restart-source-2026-11-03.json).
+
+Resolved: restart-request failure propagation before native scenario execution.
+No legacy outcome closed, retired or newly excluded. Native OpenSSH Client/RSAT
+acquisition, lifecycle and conditional recovery remain pending. All five ranges
+reviewed unchanged: settings 37-57, packages 34-49, components 19-24,
+files/assets 24-34, maintenance 8-12; total 122-176 exact / 120-175 rounded.
+
+**Next:** finish the focused guest acceptance scenario and its isolated tests;
+prepare the reviewed execution route without changing the protected installed
+controller or requiring another UAC prompt overnight.
+
+## Three Sysmon configurations accepted; one selected legacy outcome closed, 2026-11-03
+
+**Status:** all three selected Sysmon configuration lifecycles passed natively.
+Balanced, Balanced with FileDelete and Excludes-only each passed five checks:
+preview, exact applied source/event/service readback, repeat, captured baseline
+XML recovery and repeat restore. The known synthetic baseline was loaded again.
+The pinned Microsoft-signed Sysmon 15.22 fixture and exact schema-4.91 profiles
+from configs-a45dedb13a43 ran on Windows 11 EnterpriseEval build 26300. Their
+artifact target labels remain 15.21; the native evidence establishes this specific
+15.22 compatibility, not all versions or targets.
+
+The final verified export covered 36 files and the available event/archive state.
+BaselineLoaded and ArchiveExportComplete were true before the guarded checkpoint
+reset; ResetAndOff and retained-hold release passed. Recovery restored XML content,
+not historical event IDs or source-path spelling. No exhaustive detection-rule,
+populated SYSTEM-only archive, broader target or package-uninstall claim is made.
+See [native evidence](archive/evidence/sysmon-night-native-2026-11-03.json) and
+[earlier pinned acquisition](archive/evidence/sysmon-modular-acquisition-2026-11-02.json).
+
+**Resolved legacy outcome:** the selected GetSysmonOlafXML replacement. The old
+selector's single configuration-download/copy intent became three explicit pinned
+choices; these are one legacy outcome, not three new outcomes. Acquisition remains
+independent of the separately authorized explicit configuration workflow. The old
+unconditional overwrite of a whole tools subfolder is not reinstated. Prior XML
+bytes and original input files are preserved by the accepted configuration path.
+The authoritative application mapping and remaining-test assessment are updated.
+No additional product is retired or excluded. Unknown-baseline recovery and
+Sysmon package install/uninstall scope remain separate from this accepted matrix.
+
+All five ranges reviewed: settings 37-57, packages 34-49, components 19-24,
+files/assets **24-34** (down one from 25-35), maintenance 8-12. Total **122-176
+exact / 120-175 rounded (about 150)**, down one exact outcome; five-outcome rounding
+changes the lower displayed bound. Font availability, image visuals, WLAN,
+capabilities and remaining package/security work stay partial or pending.
+Shared contract/CLI and declared supported-target matrices are unchanged.
+
+**Next:** continue the remaining morning list. The completed prepared native
+routes are not a reason to stop. Prepare focused capability and remaining package
+acceptance without another host UAC; keep source preparation distinct from native
+results and leave the installed controller unchanged overnight.
+
+## Focused application runtime snapshot filter prepared, 2026-11-03
+
+**Status:** focused application snapshot filtering is source-prepared, not installed.
+Module 1.19.0 routes only InfoBar, Project Maker and NTCore Explorer Suite through
+the existing runtime/test source-root filter. Unrelated components/legacy assets
+are skipped before traversal and hashing. These remain application scenarios;
+their installer selection, privilege, validation and recovery routes are unchanged.
+The internal version literal now agrees with the maintained module header.
+
+Twenty-eight selected checks passed in each shell: 26 routing cases, full-route
+preservation and excluded-root file-I/O refusal. Pester discovered 159 total cases;
+the local wrapper's initial TotalCount assertion mistakenly expected 28 and has
+been corrected to PassedCount without rerunning unchanged tests. Both final
+module parsers passed. See [source evidence](archive/evidence/focused-application-snapshot-source-2026-11-03.json).
+The installed module digest remains unchanged. No protected file, task or UAC
+state changed, and no application native pass is claimed.
+
+Resolved: a concrete reviewed source update for the remaining three focused
+application routes. No legacy outcome is closed, retired or newly excluded.
+Activation/native Defender evidence stays pending the normal attended idle
+registration refresh. All five ranges reviewed unchanged for this source-only
+batch: settings 37-57, packages 34-49, components 19-24, files/assets 25-35,
+maintenance 8-12; total 123-177 exact / 125-175 rounded (about 150).
+
+**Next:** record the independently completed Sysmon native configuration/recovery
+run, then prepare the missing capability scenarios. Do not change protected
+installation files or repurpose the retained family routes overnight.
+
+## Font saved durable recoveries verified with native enumeration gap, 2026-11-03
+
+**Status:** both saved font durable recoveries passed natively; overall native
+acceptance still failed. The fresh EnterpriseEval build 26300 run installed all
+14 fonts, repeated without changes, removed them and restored the captured
+installed state with full native readback. Final initial-state restore and repeat
+recovered files, registration, permissions and metadata exactly, while GDI still
+enumerated Open Sauce Sans Bold Italic and Light Italic. The four durable recovery
+checks passed and both saved runs record restored durable state. The native-name
+failures remain explicit; five of seven full native checks passed, not seven.
+
+Evidence: [native font recovery](archive/evidence/font-recovery-night-native-2026-11-03.json).
+Verified export of 32 guest files preceded ResetAndOff and retained-hold release.
+No reference was forcibly unloaded, no consumer stopped, no cache changed and no
+restart requested. The earlier failed run remains preserved; the differing
+remaining names do not establish which Windows consumer retains them.
+
+Resolved: native execution of both saved font recovery paths and exact durable
+state verification. No whole legacy font outcome is closed, retired or excluded.
+Native availability, other sessions/restart and active-consumer acceptance remain
+partial. Image visuals, WLAN service/adapter prerequisites and remaining component
+work stay open. All five ranges reviewed unchanged: settings 37-57, packages
+34-49, components 19-24, files/assets 25-35, maintenance 8-12; total 123-177 exact /
+125-175 rounded (about 150). Durable recovery does not close native availability.
+
+**Next:** execute Sysmon's registered Prepare/Configurations/Collect/Reset phases,
+preserving baseline/configuration/archive evidence and all reset guards. Continue
+independent remaining component preparation without another UAC prompt.
+
+## Sysinternals Suite native lifecycle and Defender acceptance, 2026-11-03
+
+**Status:** Sysinternals Suite passed the bounded native package/Defender track on
+Windows 11 build 26300. All 14 lifecycle/preservation checks passed for the exact
+164-file selection, including repeat, removal and saved RIDE owned-file recovery.
+Defender service, antivirus and real-time protection were active before/after,
+with no detections or exclusion changes. No utility was launched and no EULA
+was accepted by this scenario. Verified export preceded ResetAndOff; the final
+controller result passed with no cleanup error. The request took about 16 minutes,
+including source/payload staging and export of approximately 1.12 GB saved state.
+See [native evidence](archive/evidence/sysinternals-suite-night-native-2026-11-03.json).
+
+The same existing read-only observer is now wired into focused InfoBar, Project
+Maker and NTCore Explorer Suite application batches. Both parsers passed and the
+five observer guard cases passed in each shell. Those application routes remain
+source-prepared: their installed controller copies the full checkout, unlike the
+runtime-only portable route. They were not submitted; no unrelated asset staging,
+protected task update or further UAC occurred. See
+[application preparation](archive/evidence/focused-application-defender-source-2026-11-03.json).
+
+Resolved: current Sysinternals Suite Defender evidence and current-source native
+lifecycle/recovery. Its earlier accepted product outcome is not subtracted again.
+No product is newly retired or excluded. Remaining application evidence, native
+asset availability/visuals, WLAN, capabilities and BitLocker stay partial/deferred.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 25-35, maintenance 8-12; total 123-177 exact / 125-175 rounded
+(about 150). Shared behavior is unchanged; compared contract/peer hashes remain
+recorded in the native evidence, with target support and publication separate.
+
+**Next:** the revised font scenario is preparing through the existing retained
+task. Complete its saved-recovery checks, collect and clean up, then test the
+three pinned Sysmon configurations. Prepare missing focused component routes
+without repurposing existing fixed families or requesting another UAC overnight.
+
+## Font durable recovery and native enumeration test separation, 2026-11-03
+
+**Status:** revised font guest scenario is source-prepared, not natively accepted.
+The first native run stopped at a lingering GDI name before either saved restore.
+The revised test allows those recoveries only after exact files, registration and
+permissions match their expected captured state. Any durable mismatch stops.
+Native-name gaps remain explicitly failed, including a gap that disappears later.
+Separate DurableLifecyclePassed and NativeEnumerationFailures prevent a durable
+recovery result from being presented as complete native acceptance. The production
+font handler is unchanged; no consumer is killed or forcibly unloaded.
+
+Thirteen focused mocked cases passed in each of Windows PowerShell 5.1 and
+PowerShell 7, including durable-drift refusal and retained native failure after
+final-state recovery. See [source evidence](archive/evidence/font-recovery-separation-source-2026-11-03.json).
+Reviewed contract 1.1.0 RB-08/09/11 and the peer target/candidate gates at the source
+hashes in that evidence. This is Windows test-reporting refinement, with no shared
+CLI, catalog support, saved production state or recovery semantic change.
+
+Resolved: the test's inability to exercise independent saved recovery after an
+isolated native-name mismatch. No legacy outcome is resolved, retired or newly
+excluded. Native font availability and both saved restores still require a fresh
+VM run; image visuals, WLAN prerequisites and remaining components stay partial.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 25-35, maintenance 8-12; total 123-177 exact / 125-175 rounded
+(about 150). Source tests do not reduce the native acceptance estimate.
+
+**Next:** finish the active Sysinternals export/cleanup, then use the already
+installed Fonts route for the revised scenario and proceed to Sysmon. Do not
+overlap requests or refresh protected tasks overnight.
+
+## Native wallpaper lifecycle and WLAN prerequisite disposition, 2026-11-03
+
+**Status:** wallpaper machine lifecycle passed; WLAN preparation returned NotRun.
+Wallpaper run 8cdb9924dc24435bb35f799b617879ca passed all six machine checks:
+preview/apply/repeat and restore-preview/exact captured policy-file recovery/
+repeat restore. Verified export preceded ResetAndOff and retained-hold release.
+No user fixture or sign-in was performed, so first-desktop appearance, collateral
+theme defaults and later user choice remain pending. See the
+[native wallpaper evidence](archive/evidence/wallpaper-night-native-2026-11-02.json).
+
+WLAN run a7a1eb8ab11d48a09905e95725771a11 observed WlanServiceUnavailable.
+This does not establish missing hardware or native profile support. No profile
+content was read, imported or connected. Verified export and ResetAndOff cleanup
+completed; use a disposable WLAN-capable target with the service available for
+the synthetic profile lifecycle. See the
+[prerequisite evidence](archive/evidence/wireless-night-prerequisite-2026-11-03.json).
+
+Resolved: wallpaper native machine lifecycle/recovery and explicit WLAN
+prerequisite disposition. No whole legacy outcome is closed, retired or newly
+excluded. Visual, user-lock, font-reference, WLAN and Sysmon work remains partial.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 25-35, maintenance 8-12; total 123-177 exact / 125-175 rounded
+(about 150). Native machine success does not close the visual legacy outcome.
+
+**Next:** the existing package task is running Sysinternals Suite with explicit
+Defender before/after acceptance. Then execute the registered Sysmon phases and
+continue the remaining morning list without another host elevation prompt.
+
+## Default-lock native lifecycle and registry readback fix, 2026-11-02
+
+**Status:** the machine default-lock image lifecycle passed natively on Windows 11
+EnterpriseEval build 26300. Preview/apply/repeat and restore-preview/exact captured
+policy-image recovery/repeat-restore all passed. Verified export preceded final
+ResetAndOff and release of the retained hold. Visual initial/applied/restored
+appearance remains pending, so NativeAcceptancePassed remains false.
+
+Two earlier clean runs exposed a real readback defect: after creating the policy
+through the registry API, the PowerShell-provider ACL lookup could not resolve
+that key. Bounded guest error details localized it. Both image providers now read
+values and permissions from the same open registry handle. Existing focused
+checks passed 103/103 per shell; two added handle checks passed after correcting
+the synthetic SDDL expectation. Source identities are now exposed as paths,
+lengths and hashes in validated retained phase reports without their contents.
+Sysmon diagnostics report only source location/type/category, never exception XML;
+its 17 focused checks pass per shell. These checks do not claim native Sysmon work.
+
+Evidence: [default-lock native run](archive/evidence/default-lock-night-native-2026-11-02.json).
+The original failed runs and private exports remain preserved. SourceManifest
+binds the actual tested guest files rather than only a working-tree commit label.
+Resolved: native image/policy lifecycle and its permission-readback defect.
+No whole legacy visual outcome is closed, retired or excluded. Wallpaper first
+logon, user-lock modes, font native references, WLAN and Sysmon remain partial or
+pending. All five ranges reviewed unchanged: settings 37-57, packages 34-49,
+components 19-24, files/assets 25-35, maintenance 8-12; total 123-177 exact,
+125-175 rounded (about 150). Native lifecycle is progress without visual promotion.
+
+**Next:** the separate wallpaper native Prepare is running through the existing
+task. Continue its machine lifecycle, WLAN availability and Sysmon configuration
+acceptance, then the remaining morning-list work. No new UAC is permitted.
+
+## Native font removal gap and verified lab cleanup, 2026-11-02
+
+**Status:** native font preparation and retry passed on Windows 11 EnterpriseEval
+build 26300. Preview, installation of the 14 selected fonts and repeat apply
+passed. The remove command returned Applied and restored all selected files,
+registrations and registry permissions, but native GDI enumeration still listed
+Open Sauce Sans Light Italic. The acceptance runner correctly failed before
+executing either saved restore. This is an observed native gap, not a pass.
+
+Read-only collection now exports a bounded comparison of file/registry/security
+and selected native-name state. A strict journal-reader mismatch in the first
+observation export was corrected for already verified files inheriting the private
+export-directory ACL; no ACL was widened. The subsequent Collect and explicit
+Reset passed, exported 29 files and left the pinned VM Off with its hold released.
+Checkpoint cleanup is lab recovery and does not replace the unexercised RIDE
+restores. The original snapshot, private records and failed phase remain retained.
+See [native font failure evidence](archive/evidence/font-night-native-2026-11-02.json).
+
+The guest runner now preserves its post-removal snapshot and bounded error detail
+for future runs. Dispatch/export regression passed 42/42 per PowerShell edition;
+the additional guest-diagnostic regression is recorded with the evidence. Native
+notification already exists; the remaining font name requires further native
+reference/session investigation, without cache deletion or forced unloading.
+
+Resolved: native failure localization, evidence collection and verified lab cleanup.
+No legacy font outcome closed or retired, no exclusion and no support promotion.
+Cross-session, restart, active-consumer and both exact saved restores remain open.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 25-35, maintenance 8-12; total 123-177 / rounded 125-175.
+
+**Next:** continue the independent default-lock, wallpaper, WLAN and Sysmon phases.
+The default-lock guest is prepared and its Apply phase has been submitted. Return
+to the diagnosed font behavior after these independent native opportunities.
+
+## Retained dispatch module identity and font retry, 2026-11-02
+
+**Status:** first native font preparation failed before checkpoint intent because
+installed and checkout automation modules shared a name. All five retained host
+handlers now use the exact module returned by their explicit import. The font
+handler permits retry of its own unstarted preparation only after matching the
+private hold/session, target, font selection and cached bytes, with the guest Off
+and no prior checkpoint intent. The original snapshot and failure record remain.
+
+Focused regression passed 41/41 in Windows PowerShell 5.1 and PowerShell 7,
+including same-name module dispatch and retry refusal after intent, changed
+selection, changed bytes or different hold. Native retry request
+`2c812158aa264ccc9db7514138f140ee` for run
+`fa2000128864452abd0581a16b1d1d95` completed Prepared with verified export on
+Windows 11 EnterpriseEval build 26300. Native font lifecycle is now running.
+No further UAC or task registration was needed.
+
+Resolved: test-host credential dispatch ambiguity and a bounded recovery path
+for preparation that never started checkpoint work. No legacy outcome is closed,
+retired or excluded. Font cross-session/restart/active-consumer, image visual,
+WLAN connection and Sysmon configuration acceptance remain partial or pending.
+All five ranges reviewed unchanged: settings 37-57, packages 34-49, components
+19-24, files/assets 25-35, maintenance 8-12; exact 123-177, rounded 125-175.
+These test-infrastructure fixes do not add a production command or target claim.
+
+**Next:** inspect native font lifecycle and export evidence before explicit reset;
+then run remaining registered asset and Sysmon families. Continue morning-list
+work within the overnight time/allowance bounds. See the updated
+[font procedure](machine-fonts.md) and [alignment review](fedora-alignment.md#retained-vm-dispatch-recovery-and-fedora-verb-review-2026-11-02).
+
+## Initial overnight package queue complete, 2026-11-02
+
+**Status:** the initial unattended package queue is complete, with 12/12 native
+package lifecycles passed across five requests. This follow-up records Mail Viewer,
+Email History Browser, Internet History Browser and Instant Messaging History
+Browser (4/4), UUID Generator, Certificate Generator and Certificate Information
+(3/3), and SQLite Query (1/1). Each package passed the 14 lifecycle/preservation
+checks. These tools were not launched and no user stores, certificates or databases
+were opened. Feature acceptance remains deferred to 3.1.
+
+All three requests recorded active Defender with no detections/exclusion changes,
+verified evidence export, exact RIDE owned-file recovery and final ResetAndOff.
+Source manifests exclude the unrelated components/legacy roots. Evidence:
+[mail/history](archive/evidence/mitec-mail-history-night-native-2026-11-02.json),
+[utilities](archive/evidence/mitec-utilities-night-native-2026-11-02.json),
+[SQLite Query](archive/evidence/mitec-sqlite-night-native-2026-11-02.json).
+The captured working-tree manifests identify the actual tested source, including
+the concurrently committed engine/contract work; a commit label alone is not used
+as proof of snapshot content.
+
+Resolved: current-source lifecycle and missing current Defender evidence for these
+eight packages. No additional product is retired or excluded. Existing earlier
+lifecycle evidence is not counted again as a new legacy closure. Partial/deferred:
+remaining morning components, assets, settings and BitLocker retain their scope.
+No release or supported-target promotion is implied. All five ranges reviewed:
+settings 37-57, packages 34-49, components 19-24, files/assets 25-35, maintenance
+8-12; total 123-177 exact / 125-175 rounded (about 150), unchanged.
+
+**Next:** the user explicitly requested continued work after queue exhaustion.
+Proceed with the registered retained font, image, WLAN and Sysmon routes and the
+remaining implementation. No further UAC launch is permitted overnight; record
+new host-setup requirements and continue independent authorized work. Preserve
+the 06:30 Copenhagen / 10% allowance stop conditions and recovery priority.
+
+## Unattended native MiTeC lifecycle and Defender acceptance, 2026-11-02
+
+**Status:** unattended execution is proven. The user approved one-time elevated
+setup and extended the night through the remaining morning list, until 06:30
+Copenhagen on November 3 or 10% account allowance remains. The corrected package
+controller is installed. Requests submitted from the ordinary account executed
+without per-run UAC. A temporary finite retained-phase task additionally passed
+all five Prepare previews; those previews establish no native asset acceptance.
+
+Two native batches passed: System Information eXtra and TAPI Monitor (2/2), then
+EXE Explorer and HexEdit (2/2). Each exercised 14 lifecycle/preservation checks,
+including repeat, exact owned-file removal recovery, original-absence recovery
+and collision/modified-file preservation. Defender remained active, with no
+detections or exclusion changes before/after. Evidence was exported and each
+pinned VM reset was independently recorded as ResetAndOff. The corrected 2,107-file
+source manifest excludes components and legacy. Utilities were not launched;
+feature testing stays deferred to 3.1.
+
+See [system/telephony evidence](archive/evidence/mitec-system-telephony-night-native-2026-11-02.json),
+[analysis-package evidence](archive/evidence/mitec-analysis-night-native-2026-11-02.json)
+and [unattended execution proof](archive/evidence/overnight-unattended-execution-proof-2026-11-02.json).
+Earlier failed runs remain historical. Native recovery is distinct from final
+checkpoint isolation. No new unit-suite sweep, supported-target promotion or
+release publication occurred.
+
+Resolved: missing current Defender evidence and current-source native lifecycle
+checks for these four packages. Earlier lifecycle results already existed; do
+not subtract the same legacy products again. Retired/excluded: none additional.
+Partial/deferred: other package results, assets, capabilities, interactive effects
+and BitLocker remain. All ranges reviewed and unchanged: settings 37-57,
+packages 34-49, components 19-24, files/assets 25-35, maintenance 8-12; total
+123-177 exact / 125-175 rounded (about 150).
+
+**Next:** finish the prepared package queue, then run the approved retained asset
+and Sysmon phases and continue missing component work. The queue being exhausted
+does not end the night. Bound each request; stop VM dispatch after unresolved
+recovery and preserve evidence. Check account allowance throughout. Shared
+behavior is unchanged; adopted contract 1.1.0 and peer source hashes were reviewed
+as recorded in the structured evidence.
 
 ## Remaining native acceptance handoff, 2026-11-02
 

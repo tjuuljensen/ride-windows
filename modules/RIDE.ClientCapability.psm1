@@ -11,8 +11,10 @@
   State: The engine saves a version-2 capability snapshot before invoking the writer.
   Recovery: Matching target/revision and unchanged expected state are required.
   Windows Update availability and exact prior payload/version are not guaranteed.
-  Version: 0.2.0.
-  Changelog: 0.2.0: Add RSAT inventory, edition/architecture and dependency guards.
+  Version: 0.2.1.
+  Changelog: 0.2.1: Stop apply/recovery after DISM requests a restart, retaining
+    the engine snapshot instead of allowing another group member to run.
+    0.2.0: Add RSAT inventory, edition/architecture and dependency guards.
     0.1.0: Add source-explicit catalog lifecycle and conditional recovery.
 .LINK
   ../docs/windows-component-inventory.md
@@ -219,7 +221,7 @@ function Set-RideClientCapabilityState {
   Assert-RideClientCapabilitySameTarget $current.Observation.WindowsContext $after.Observation.WindowsContext
   $restart = $null
   if ($result -and $result.PSObject.Properties['RestartNeeded']) { $restart = [bool]$result.RestartNeeded }
-  if ($restart) { Write-Warning 'DISM reports a restart is needed. RIDE did not restart Windows; complete servicing before another change.' }
+  if ($restart) { throw 'DISM reached the requested literal state but reports a restart is needed. RIDE stopped this run without restarting Windows; retain the saved run and complete servicing before another change or recovery.' }
   [pscustomobject]@{Status='Applied';CapabilityState=$after.CapabilityState;RestartNeeded=$restart;ExactPayloadRecoverySupported=$false}
 }
 

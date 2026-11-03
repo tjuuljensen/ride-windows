@@ -11,8 +11,9 @@
   Image and state directories must exist. No UAC, sign-out or reboot is launched.
   Recovery restores captured policy/file state, not Windows caches or visible UI.
   Incomplete apply retains evidence and requires inspection; no blind cleanup.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add owned image and default policy lifecycle candidate.
+  Version: 0.1.1.
+  Changelog: 0.1.1: Read policy permissions from the same opened registry handle.
+  0.1.0: Add owned image and default policy lifecycle candidate.
 .LINK
   ../docs/image-personalization.md
 #>
@@ -102,13 +103,16 @@ function Get-RideDefaultLockAsset {
   $acl=Get-Acl -LiteralPath $Path;Assert-RideDefaultLockAssetSecurity $acl
   [pscustomobject]@{Sha256=(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash;Bytes=$file.Length;Security=$acl.GetSecurityDescriptorSddlForm([Security.AccessControl.AccessControlSections]'Owner,Group,Access');Attributes=[int]$file.Attributes;CreationUtcTicks=$file.CreationTimeUtc.Ticks.ToString();LastWriteUtcTicks=$file.LastWriteTimeUtc.Ticks.ToString()}
 }
+function Open-RideDefaultLockPolicyKey {
+  [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($script:PolicyParent+'\'+$script:PolicyChild,$false)
+}
 function Get-RideDefaultLockRegistry {
-  $key=[Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($script:PolicyParent+'\'+$script:PolicyChild,$false)
+  $key=Open-RideDefaultLockPolicyKey
   if(-not $key){return [pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()}}
   try{
     $names=@($key.GetValueNames());$subKeys=@($key.GetSubKeyNames()|Sort-Object)
     if($names.Count -gt 128 -or $subKeys.Count -gt 128){throw 'Personalization policy inventory exceeds its bound.'}
-    $acl=Get-Acl -LiteralPath ('Registry::HKEY_LOCAL_MACHINE\'+$script:PolicyParent+'\'+$script:PolicyChild)
+    $acl=$key.GetAccessControl()
     [pscustomobject]@{Exists=$true;Security=$acl.GetSecurityDescriptorSddlForm([Security.AccessControl.AccessControlSections]'Owner,Group,Access');Rows=@($names|Sort-Object|ForEach-Object {[pscustomobject]@{Name=$_;Kind=[string]$key.GetValueKind($_);Value=$key.GetValue($_,$null,[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)}});SubKeys=$subKeys}
   }finally{$key.Dispose()}
 }

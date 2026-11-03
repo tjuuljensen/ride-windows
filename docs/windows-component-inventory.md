@@ -40,6 +40,11 @@ install run restores absence. Restore is idempotent when the original state is
 already present, refuses a different machine/build/edition/revision or unexpected
 literal state, and retains the saved run on failure. Pending servicing/reboot
 blocks further changes. No command initiates a reboot.
+If DISM reports `RestartNeeded` after reaching the requested literal state, the
+run stops and retains its saved recovery record. The engine reports the changed
+member as failed/incomplete; it does not continue the group or automatically
+restore it. Inspect servicing and complete the required restart before resuming
+recovery. A matching capability state alone does not establish completion.
 
 Recovery restores the **literal capability state conditionally**, not exact
 payload bytes or an earlier client version. Reinstallation requires that Windows
@@ -112,6 +117,198 @@ The dependency model follows Microsoft's
 [Features on Demand RSAT inventory](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-non-language-fod#remote-server-administration-tools-rsat);
 the [RSAT installation guide](https://learn.microsoft.com/en-us/windows-server/administration/install-remote-server-administration-tools)
 describes the client edition prerequisites. Native target acceptance remains open.
+
+## Focused disposable-guest acceptance
+
+`tests/integration/Invoke-RideClientCapabilityAcceptance.ps1` prepares separate
+`OpenSSHClient` and `RSAT` scenarios. It is source-verified; no native capability
+run or installed unattended host route is claimed. Use only an already elevated
+native PowerShell session in the correlated disposable Hyper-V guest. The host
+must supply the exact computer/build/edition/revision, a fresh request ID and
+`RIDE_TEST_GUEST=1`, `RIDE_INTEGRATION_VM=1`, `RIDE_TEST_RUN_ID=<request-id>`.
+These markers supplement host VM/checkpoint binding; setting them on a workstation
+is not an execution route. The evidence root must already exist on a local drive.
+
+From the repository root inside that prepared guest:
+
+```powershell
+$selection = @{
+    Family = 'OpenSSHClient' # Or RSAT for all observed catalog members.
+    RunId = '<host-correlated-request-id>'
+    ExpectedComputerName = '<guest-computer-name>'
+    ExpectedBuild = '<build-number>'
+    ExpectedEditionId = '<edition-id>'
+    ExpectedRevision = 0 # Replace with the exact observed UBR.
+    ServicingSource = 'WindowsUpdate'
+    EvidenceRoot = '<existing-local-evidence-directory>'
+    DisposableVm = $true
+}
+.\tests\integration\Invoke-RideClientCapabilityAcceptance.ps1 @selection -WhatIf
+# Actual scenario; existing elevation and reviewed host preparation are required.
+.\tests\integration\Invoke-RideClientCapabilityAcceptance.ps1 @selection -Confirm:$false
+```
+
+The scenario records all capability names/states, previews without state/journal
+changes, installs, repeats, removes and restores the removal and initial install
+runs. It preserves initially installed members, including an entirely pre-existing
+selection where installation creates no run. Unrelated capability changes fail
+acceptance. Repeat apply and final repeat restore must leave journal fingerprints
+unchanged. OpenSSH additionally checks the native client's signed Microsoft binary
+identity/version when installed and its absence after removal, without executing
+the client or making a connection.
+
+Changed engine runs are exported byte-for-byte to private machine-scope evidence,
+including a run reported in a partial-failure exception. The original journals
+remain the recovery source. Failure, pending servicing or a DISM restart request
+stops the scenario; no automatic recovery/reboot/reset follows. Collect private
+evidence and resolve servicing before explicitly restoring the relevant saved
+run. A host timeout must retain the VM for inspection: stopping PowerShell does
+not prove DISM has stopped. Verify evidence export before checkpoint cleanup.
+
+`Passed` covers literal-state lifecycle on that exact target. It does not certify
+exact payload/version restoration, SSH user-data preservation, SSH connectivity,
+RSAT console/domain behavior, or restart recovery. The isolated tests and evidence
+are recorded in [guest scenario preparation](archive/evidence/client-capability-acceptance-source-2026-11-03.json).
+No supported target is promoted by source tests or candidate execution alone.
+
+### Retained host phases
+
+`tests/integration/RIDE.ClientCapabilityVm.psm1` provides a source-verified direct
+host route. Its 29 isolated checks per PowerShell edition and read-only preview
+against the registered controller do not install a scheduled task or perform
+native servicing. The existing overnight broker does not accept these families.
+Do not submit them under a package, font or other unrelated family.
+
+Run from the registered checkout root in an **already elevated native Windows
+PowerShell 5.1 x64 host session**. The registered VM must be Off, its pinned
+checkpoint must exist, and the controller must be idle with no retained hold.
+Use its protected installed configuration and existing lab credential. The route
+never launches UAC, asks for a password or changes the registration.
+
+```powershell
+Import-Module .\tests\integration\RIDE.ClientCapabilityVm.psm1
+$request = [guid]::NewGuid().ToString('N')
+$owner = @{
+    ConfigurationPath = '<protected-installed-configuration.json>'
+    RunId = $request
+}
+$target = @{
+    Family = 'OpenSSHClient' # Or RSAT in a separate clean VM run.
+    ServicingSource = 'WindowsUpdate'
+    ExpectedBuild = '<exact-build>'
+    ExpectedEditionId = 'EnterpriseEval' # Replace with the exact guest edition.
+    ExpectedRevision = 0 # Replace with the exact observed UBR.
+}
+Invoke-RideClientCapabilityVmPhase @owner @target -Phase Prepare -WhatIf
+Invoke-RideClientCapabilityVmPhase @owner @target -Phase Prepare -Confirm:$false
+Invoke-RideClientCapabilityVmPhase @owner -Phase Lifecycle -TimeoutSeconds 1800 -Confirm:$false
+Invoke-RideClientCapabilityVmPhase @owner -Phase Collect -Confirm:$false
+# Inspect the phase report and verified export before explicitly cleaning up.
+Invoke-RideClientCapabilityVmPhase @owner -Phase Reset -Confirm:$false
+```
+
+Prepare reserves the VM, snapshots only engine modules, catalog, profiles and the
+guest scenario, restores the pinned checkpoint and stages the hash-verified source.
+Lifecycle permits one admission for that request. All later phases verify the
+saved lease, registration digest, target and source. Errors retain the guest and
+lease. An actual unattended caller must separately enforce its time/usage limits
+and leave collection/reset time before admitting Lifecycle; this module is not an
+account-usage monitor or an installed queue.
+
+Reset requires a fresh verified export. If Lifecycle was admitted without a
+terminal guest report, reset is refused because DISM may still be running after
+the PowerShell job timeout. A terminal Failed report permits explicitly requested
+checkpoint cleanup after export but remains failed acceptance. Reset verifies Off
+before releasing the lease. Interrupted preparation/reset with an Off guest needs
+retained-state inspection; this initial route does not adopt an Off-guest reset
+retry or silently release the hold. Preserve the private store and controller block.
+See [host route source evidence](archive/evidence/client-capability-host-source-2026-11-03.json).
+
+### Expiring capability queue
+
+The dedicated queue is **source preparation, not an installed route or native
+acceptance**. It exposes only `OpenSSHClient` and `RSAT`, each with `Prepare`,
+`Lifecycle`, `Collect` and `Reset`. It does not extend the existing package or
+asset task. The ordinary-account client never requests UAC or refreshes protected
+registration. Source checks and their limits are in
+[queue preparation evidence](archive/evidence/client-capability-queue-source-2026-11-03.json).
+
+During a separately attended setup, start at the registered checkout root in the
+owning account's already elevated native Windows PowerShell 5.1 x64 session. The
+package controller must be Ready, queues empty and retained holds resolved. If a
+package controller refresh is also needed, finish that first. Then preview and
+register the capability task with the exact independently observed guest target:
+
+```powershell
+$activation = @{
+    ConfigurationPath = '<protected-installed-configuration.json>'
+    ExpiresAtUtc = '<explicit-UTC-deadline>' # More than 60 minutes, at most 12 hours.
+    ExpectedBuild = '<exact-build>'
+    ExpectedEditionId = 'EnterpriseEval' # Replace with the exact guest edition.
+    ExpectedRevision = 0 # Replace with the exact observed UBR.
+}
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 @activation -WhatIf
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 @activation -Confirm:$false
+```
+
+Registration creates one manual-start task named `<controller-name>Capabilities`,
+two protected worker files and its protected activation. It does not change the
+VM, retrieve credentials, install payloads, change existing file permissions or
+replace an existing task. The task runs in the registered owning account's
+interactive elevated token; that account must remain logged in. The task has a
+45-minute execution limit and no retry trigger. Expiration refuses new requests;
+it does not forcibly stop DISM or automatically remove the task.
+
+From an ordinary native PowerShell 5.1 or 7 session in the same account and checkout:
+
+```powershell
+$request = [guid]::NewGuid().ToString('N')
+$queue = @{
+    ConfigurationPath = '<protected-installed-configuration.json>'
+    Family = 'OpenSSHClient' # Use RSAT in its own fresh checkpoint run.
+    RunId = $request
+}
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Prepare -ServicingSource WindowsUpdate -WhatIf
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Prepare -ServicingSource WindowsUpdate
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Lifecycle
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Collect
+# Inspect the correlated results and verified export before explicit cleanup.
+.\tests\integration\Invoke-RideClientCapabilityQueue.ps1 @queue -Phase Reset
+```
+
+`-WhatIf` validates submission without writing a request or starting the task.
+`-Preview` submits a native no-change phase preview. Family, phase and acquisition
+source complete from their declared finite sets; retained run IDs complete from
+bounded local directory names without opening private records or querying a VM.
+The client returns one correlated terminal result and waits at most 46 minutes.
+Inspect `results/capability-<request-id>.json` if submission or waiting fails.
+
+Admission requires at least 60 minutes before expiry for Prepare, 45 for Lifecycle
+and 15 for Collect/Reset. Lifecycle's remote wait is 30 minutes. These reserves
+allow collection and recovery; they do not guarantee DISM completion. The caller
+must also check its own usage/time budget before each phase. An account allowance
+is not available to this scheduled task. `runtime/capability-stop.json` prevents
+new Prepare/Lifecycle admission while leaving explicit collection/reset eligible
+before expiry. No automatic reset, reboot or marker deletion follows timeout.
+The retained host's terminal-result and verified-export requirements still govern
+Reset. After expiration or interruption, use the attended retained-host recovery
+procedure; do not remove a hold simply because a task stopped.
+
+The activation pins the installed configuration and bounded host module/catalog
+inventory. Every phase checks those hashes and holds source files against writes
+until dispatch completes. Source/configuration drift refuses dispatch. Do not edit
+those files during a phase. After verified recovery, remove the idle registration
+before preparing different source and registering again:
+
+```powershell
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 -ConfigurationPath '<protected-installed-configuration.json>' -Action Remove -WhatIf
+.\tests\integration\Register-RideClientCapabilityQueue.ps1 -ConfigurationPath '<protected-installed-configuration.json>' -Action Remove -Confirm:$false
+```
+
+Removal requires existing elevation, archives the activation, removes only its
+task and three named files, and preserves results. It refuses pending/running
+requests or retained holds. Installed-task activation and all native capability
+acquisition, restart and conditional-recovery results remain pending.
 
 ## Collect on an explicitly identified target
 

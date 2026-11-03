@@ -22,10 +22,31 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.13.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.11.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.1.1'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.5'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.21.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.15.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.3.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
+  }
+  It 'selects the fixed remaining MiTeC packages and variants for <Batch>' -ForEach @(
+    @{Batch='MiTeCViewers';Count=4;Ids=@('package.mitec-json-viewer','package.mitec-xml-viewer');Variants=@('portable','portable-x86')},
+    @{Batch='MiTeCDevelopment';Count=6;Ids=@('package.mitec-dfm-editor','package.mitec-task-manager-deluxe','package.mitec-interbase-query');Variants=@('delphi-11','delphi-12','x64','x86')},
+    @{Batch='MiTeCNetworkUtilities';Count=4;Ids=@('package.mitec-network-scanner','package.mitec-dirlist','package.mitec-network-meter');Variants=@('portable','x64','x86')},
+    @{Batch='MiTeCSystemViewers';Count=6;Ids=@('package.mitec-ole-com-explorer','package.mitec-windows-registry-recovery','package.mitec-smbios-explorer','package.mitec-windows-file-analyzer','package.mitec-icon-explorer','package.mitec-ssview');Variants=@('portable')}
+  ) {
+    $catalog=Import-RideCatalogData $script:CatalogPath
+    $cases=@(Get-RidePortableAcceptanceCases -Catalog $catalog -Batch $Batch)
+    $cases.Count|Should -Be $Count
+    @($cases.Id|Sort-Object -Unique)|Should -Be @($Ids|Sort-Object)
+    @($cases.Variant|Sort-Object -Unique)|Should -Be @($Variants|Sort-Object)
+    foreach($case in $cases){
+      $case.Operation.InstallerType|Should -BeExactly 'Portable'
+      $case.Operation.PortableFormat|Should -BeExactly 'Zip'
+      $case.Operation.ExpectedSha256|Should -Match '^[a-fA-F0-9]{64}$'
+      $case.ExpectedFiles.Count|Should -BeGreaterThan 0
+      @($case.Operation.RequiredFiles|Where-Object {$_ -cnotin $case.ExpectedFiles}).Count|Should -Be 0
+    }
+    $catalog.Operations=@($catalog.Operations|Where-Object Id -cne $Ids[0])
+    {Get-RidePortableAcceptanceCases -Catalog $catalog -Batch $Batch}|Should -Throw '*exactly one declared package*'
   }
   It 'refuses unguarded guest execution' {
     $previous=$env:RIDE_INTEGRATION_VM
@@ -63,6 +84,29 @@ Describe 'Focused portable acceptance boundaries' {
     [BitConverter]::ToUInt16($bytes,0x84)|Should -Be 0x14c
     Get-PeCharacteristics $bytes|Should -Be 0x0102
   }
+  It 'builds only a minimum-build override fixture without changing Caffeine catalog metadata' {
+    $path=Join-Path $script:Root 'Invoke-RideOfflineAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    @($parseErrors).Count|Should -Be 0
+    $definition=$ast.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'New-OfflineTargetExplorationFixture'},$true)
+    . ([scriptblock]::Create($definition.Extent.Text))
+    $operation=(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch OfflineCaffeine).Operation
+    $operation.SelectedVariant='portable'
+    $before=ConvertTo-Json -InputObject $operation -Depth 20 -Compress
+    $fixture=New-OfflineTargetExplorationFixture $operation 26300
+    $fixture.MinimumBuild|Should -Be 26301
+    (ConvertTo-Json -InputObject $operation -Depth 20 -Compress)|Should -BeExactly $before
+    foreach($key in $operation.Keys|Where-Object {$_ -cne 'MinimumBuild'}){
+      (ConvertTo-Json -InputObject $fixture[$key] -Depth 20 -Compress)|Should -BeExactly (ConvertTo-Json -InputObject $operation[$key] -Depth 20 -Compress)
+    }
+    $candidate=$operation.Clone();$candidate.PendingAcceptance=$true
+    {New-OfflineTargetExplorationFixture $candidate 26300}|Should -Throw '*accepted machine-scope Caffeine*'
+    $other=$operation.Clone();$other.Id='package.other'
+    {New-OfflineTargetExplorationFixture $other 26300}|Should -Throw '*accepted machine-scope Caffeine*'
+    $limited=$operation.Clone();$limited.RequiresAdmin=$false
+    {New-OfflineTargetExplorationFixture $limited 26300}|Should -Throw '*accepted machine-scope Caffeine*'
+  }
   It 'parses the isolated PSScriptTools runtime probe without executing it' {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
     $tokens=$null;$parseErrors=$null
@@ -76,7 +120,7 @@ Describe 'Focused portable acceptance boundaries' {
     $source|Should -Match 'Import-ThreadJobPackageModule'
     $source|Should -Not -Match '\$env:PSModulePath\s*=\s*\$threadJobModule'
   }
-  It 'imports the staged ThreadJob manifest by exact path for module dependency resolution' {
+  It 'imports the staged ThreadJob manifest with <Layout> and checks its actual definition path' -ForEach @(@{Layout='ManifestOnly'},@{Layout='RootModule'}) {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
     $tokens=$null;$parseErrors=$null
     $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
@@ -91,14 +135,23 @@ Describe 'Focused portable acceptance boundaries' {
     $moduleManifest=Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psd1'
     $consumerManifest=Join-Path $consumerDirectory 'PSScriptTools.psd1'
     $required=@{ModuleName='Microsoft.PowerShell.ThreadJob';ModuleVersion='2.2.0'}
-    New-ModuleManifest -Path $moduleManifest -ModuleVersion '2.2.0' -Guid ([guid]::NewGuid())
+    $moduleArguments=@{Path=$moduleManifest;ModuleVersion='2.2.0';Guid=[guid]::NewGuid()}
+    $expectedDefinition=$moduleManifest
+    if($Layout -eq 'RootModule'){
+      $expectedDefinition=Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psm1'
+      [IO.File]::WriteAllText($expectedDefinition,'# Inert module fixture; no upstream code.')
+      $moduleArguments.RootModule='.\Microsoft.PowerShell.ThreadJob.psm1'
+    }
+    New-ModuleManifest @moduleArguments
     New-ModuleManifest -Path $consumerManifest -ModuleVersion '3.2.0' -Guid ([guid]::NewGuid()) -RequiredModules $required
     $modulePathBefore=$env:PSModulePath
     $moduleFilesBefore=@(Get-Module -Name 'PSScriptTools','Microsoft.PowerShell.ThreadJob'|ForEach-Object {$_.Path})
     try {
       $module=Import-ThreadJobPackageModule -PackageDirectory $moduleDirectory
       $module.Version|Should -Be ([version]'2.2.0')
-      $module.Path|Should -BeExactly $moduleManifest
+      $module.Path|Should -BeExactly $expectedDefinition
+      $module.ModuleBase|Should -BeExactly $moduleDirectory
+      $module.Guid|Should -Be $moduleArguments.Guid
       $consumer=Import-Module -Name $consumerManifest -PassThru -ErrorAction Stop
       $consumer.Version|Should -Be ([version]'3.2.0')
       $env:PSModulePath|Should -BeExactly $modulePathBefore
@@ -106,6 +159,20 @@ Describe 'Focused portable acceptance boundaries' {
       $newModules=@(Get-Module -Name 'PSScriptTools','Microsoft.PowerShell.ThreadJob'|Where-Object {$_.Path -and $_.Path -notin $moduleFilesBefore})
       foreach($newModule in $newModules){Remove-Module -ModuleInfo $newModule -ErrorAction SilentlyContinue}
     }
+  }
+  It 'refuses an escaping ThreadJob root module before importing it' {
+    $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    $definition=$ast.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Import-ThreadJobPackageModule'},$true)
+    . ([scriptblock]::Create($definition.Extent.Text))
+    $root=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $moduleDirectory=Join-Path $root 'microsoft-powershell-threadjob'
+    $null=New-Item -ItemType Directory -Path $moduleDirectory -Force
+    [IO.File]::WriteAllText((Join-Path $root 'outside.psm1'),'throw "Outside fixture must never be imported."')
+    $manifest=Join-Path $moduleDirectory 'Microsoft.PowerShell.ThreadJob.psd1'
+    New-ModuleManifest -Path $manifest -ModuleVersion '2.2.0' -Guid ([guid]::NewGuid()) -RootModule '..\outside.psm1'
+    {Import-ThreadJobPackageModule -PackageDirectory $moduleDirectory}|Should -Throw '*root module must be inside*'
   }
   It 'cleans only probe-created jobs on every outcome' {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
@@ -127,6 +194,30 @@ Describe 'Focused portable acceptance boundaries' {
     Clear-RuntimeProbeJobs -BaselineJobIds @(41)
     @($script:ProbeStopped.ToArray())|Should -Be @(42)
     @($script:ProbeRemoved.ToArray())|Should -Be @(42,43)
+  }
+  It 'invokes the private cleanup helper only inside the selected module scope' {
+    $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    $definition=$ast.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Invoke-ModuleRunspaceCleanupProbe'},$true)
+    . ([scriptblock]::Create($definition.Extent.Text))
+    $root=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $null=New-Item -ItemType Directory -Path $root
+    $manifest=Join-Path $root 'PSScriptTools.psd1'
+    [IO.File]::WriteAllText((Join-Path $root 'probe.psm1'),'function New-RunspaceCleanupJob { param($Handle,$PowerShell,$SleepInterval,[switch]$PassThru) [pscustomobject]@{Handle=$Handle;PowerShell=$PowerShell;SleepInterval=$SleepInterval;PassThru=[bool]$PassThru} }; Export-ModuleMember -Function @()')
+    New-ModuleManifest -Path $manifest -RootModule 'probe.psm1' -ModuleVersion '3.2.0' -Guid ([guid]::NewGuid()) -FunctionsToExport @()
+    $module=Import-Module -Name $manifest -PassThru
+    $ps=[Management.Automation.PowerShell]::Create()
+    try {
+      @(Get-Command New-RunspaceCleanupJob -ErrorAction SilentlyContinue).Count|Should -Be 0
+      $handle=[pscustomobject]@{Synthetic=$true}
+      $result=Invoke-ModuleRunspaceCleanupProbe -Module $module -Handle $handle -PowerShell $ps
+      [object]::ReferenceEquals($result.Handle,$handle)|Should -BeTrue
+      [object]::ReferenceEquals($result.PowerShell,$ps)|Should -BeTrue
+      $result.SleepInterval|Should -Be 5
+      $result.PassThru|Should -BeTrue
+      @(Get-Command New-RunspaceCleanupJob -ErrorAction SilentlyContinue).Count|Should -Be 0
+    }finally{$ps.Dispose();Remove-Module -ModuleInfo $module}
   }
   It 'removes only an empty direct child of the probe TEMP directory' {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
@@ -288,6 +379,94 @@ Describe 'Focused portable acceptance boundaries' {
     $cases[0].Operation.CandidateTargets|Should -Contain 'Windows 11'
     $cases[0].Operation.SupportedTargets|Should -Be @()
     $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'requires Defender evidence for the <Batch> file-only route before lifecycle changes' -ForEach @(@{Batch='WinPmem'},@{Batch='WindowsFirewallNotifier'}) {
+    $tokens=$null;$errors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $script:Root 'Invoke-RidePortableAcceptance.ps1'),[ref]$tokens,[ref]$errors)
+    $errors.Count|Should -Be 0
+    $assignment=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.AssignmentStatementAst] -and $node.Left.Extent.Text -ceq '$defenderRequired'},$true))
+    $assignment.Count|Should -Be 1
+    $ids=@((Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch $Batch).Id)
+    & ([scriptblock]::Create($assignment[0].Right.Extent.Text))|Should -BeTrue
+  }
+  It 'selects all 531 WFN members and notices without promoting support' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch WindowsFirewallNotifier)
+    $cases.Count|Should -Be 1
+    $cases[0].Id|Should -BeExactly 'package.windows-firewall-notifier'
+    $cases[0].Variant|Should -BeExactly 'portable'
+    $cases[0].ExpectedFiles.Count|Should -Be 531
+    $cases[0].ExpectedFiles|Should -Contain 'LICENSE.txt'
+    $cases[0].ExpectedFiles|Should -Contain 'Resources/IPDatabase/LICENSE.txt'
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'refuses WFN review drift for <Problem>' -ForEach @(
+    @{Problem='digest'},@{Problem='duplicate'},@{Problem='traversal'},@{Problem='missing'},@{Problem='different-member'},@{Problem='catalog-member'},@{Problem='architecture'},@{Problem='version'}
+  ) {
+    $reviewRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $destination=Join-Path $reviewRoot 'docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json'
+    $null=New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force
+    $review=Get-Content (Join-Path (Split-Path -Parent $PSScriptRoot) 'docs/archive/evidence/wfn-nightly-static-archive-review-2026-10-24-2354.json') -Raw|ConvertFrom-Json
+    $catalog=Import-RideCatalogData $script:CatalogPath
+    $op=$catalog.Operations|Where-Object Id -eq 'package.windows-firewall-notifier'
+    switch($Problem){
+      digest {$review.SelectedAsset.LocalSha256='0'*64}
+      duplicate {$review.Verification.ArchiveMembers[1].Name=$review.Verification.ArchiveMembers[0].Name}
+      traversal {$review.Verification.ArchiveMembers[0].Name='../outside'}
+      missing {$review.Verification.ArchiveMembers=@($review.Verification.ArchiveMembers|Select-Object -Skip 1)}
+      different-member {$review.Verification.ArchiveMembers[0].Name='unreviewed.dll'}
+      catalog-member {$op.PortableMembers[0]='unreviewed.dll'}
+      architecture {$op.Architecture='x86'}
+      version {$op.PackageVersion='unreviewed'}
+    }
+    $review|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $destination -Encoding UTF8
+    {Get-RidePortableAcceptanceCases $catalog -Batch WindowsFirewallNotifier -ReviewRoot $reviewRoot}|Should -Throw '*WFN member review*'
+  }
+  It 'selects the full pinned RegRipper review including notices without promoting support' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch RegRipper)
+    $cases.Count|Should -Be 1
+    $cases[0].Id|Should -BeExactly 'package.regripper'
+    $cases[0].ExpectedFiles.Count|Should -Be 282
+    $cases[0].ExpectedFiles|Should -Contain 'RegRipper3.0-ec96dd4a6a5c3ea70d8fece9b47a374f83582335/license.txt'
+    $cases[0].ExpectedFiles|Should -Contain 'RegRipper3.0-ec96dd4a6a5c3ea70d8fece9b47a374f83582335/license.md'
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+  }
+  It 'refuses RegRipper review drift for <Problem>' -ForEach @(
+    @{Problem='digest'},@{Problem='duplicate'},@{Problem='traversal'},@{Problem='missing'}
+  ) {
+    $reviewRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $destination=Join-Path $reviewRoot 'docs/archive/evidence/regripper-source-review-2026-10-16.json'
+    $null=New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force
+    $review=Get-Content (Join-Path (Split-Path -Parent $PSScriptRoot) 'docs/archive/evidence/regripper-source-review-2026-10-16.json') -Raw|ConvertFrom-Json
+    switch($Problem){
+      digest {$review.ArchiveSha256='0'*64}
+      duplicate {$review.Files[1].Path=$review.Files[0].Path}
+      traversal {$review.Files[0].Path='../outside'}
+      missing {$review.Files=@($review.Files|Select-Object -Skip 1)}
+    }
+    $review|ConvertTo-Json -Depth 8|Set-Content -LiteralPath $destination -Encoding UTF8
+    {Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch RegRipper -ReviewRoot $reviewRoot}|Should -Throw '*RegRipper member review*'
+  }
+  It 'accepts the pinned Rufus filename mapping without executing the inert payload' {
+    $cases=@(Get-RidePortableAcceptanceCases (Import-RideCatalogData $script:CatalogPath) -Batch Rufus)
+    $cases.Count|Should -Be 1
+    $cases[0].ExpectedFiles|Should -Be @('rufusp.exe')
+    $cases[0].Operation.SupportedTargets|Should -Be @()
+    $cases[0].Operation.PendingAcceptance|Should -BeTrue
+    $payload=Join-Path $TestDrive 'rufus-4.15p.exe'
+    [IO.File]::WriteAllText($payload,'inert fixture; not executable')
+    $cases[0].Operation.ExpectedSha256=(Get-FileHash $payload).Hash.ToLowerInvariant()
+    $manifest=Join-Path $TestDrive 'rufus-manifest.json'
+    ConvertTo-Json -InputObject @(@{Id='package.rufus';Path=$payload})|Set-Content -LiteralPath $manifest -Encoding UTF8
+    @(Get-RidePortableAcceptancePayloads -Cases $cases -ManifestPath $manifest).Count|Should -Be 1
+    $cases[0].Operation.PackageVersion='other'
+    {Get-RidePortableAcceptancePayloads -Cases $cases -ManifestPath $manifest}|Should -Throw '*extension*'
+  }
+  It 'refuses a different Rufus file mapping before reading payloads' {
+    $c=Import-RideCatalogData $script:CatalogPath
+    ($c.Operations|Where-Object Id -ceq 'package.rufus').Variants.portable.PortableFileName='other.exe'
+    {Get-RidePortableAcceptanceCases $c -Batch Rufus}|Should -Throw '*Unreviewed acceptance metadata*'
   }
   It 'checks archive pins and rejects extra IDs before reading their paths' {
     $c=Import-RideCatalogData $script:CatalogPath
