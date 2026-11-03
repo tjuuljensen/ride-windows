@@ -13,7 +13,7 @@
   checks only the four packages' file lifecycle and does not open user stores.
   GUI or product activation is not claimed. Candidate support
   is enabled only in the guarded guest's in-memory test catalog.
-  MiTeC, Sysinternals Suite/Products and NTCoreAdditional batches require active
+  MiTeC, Sysinternals Suite/Products, NTCore and PSScriptTools batches require active
   Defender and no detection since guest boot,
   including staging; record sanitized before/after evidence without exclusions.
   RegRipper and Rufus use the same file-only lifecycle and Defender boundary;
@@ -52,8 +52,9 @@
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
   Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.17.0.
-  Changelog: 0.17.0: Add fixed RegRipper and Rufus lifecycle/Defender scenarios.
+  Author: RIDE-Windows maintainers. Version: 0.18.0.
+  Changelog: 0.18.0: Add Defender observations to NTCore and PSScriptTools acceptance.
+    0.17.0: Add fixed RegRipper and Rufus lifecycle/Defender scenarios.
     0.16.0: Require Defender evidence for fixed NTCoreAdditional and
     SysinternalsProducts file-lifecycle batches.
     0.15.0: Require the same Defender evidence for Sysinternals Suite.
@@ -83,7 +84,7 @@
 param([string]$ExpectedComputerName,[string]$EvidencePath,
   [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.17.0';return}
+if($Version){'0.18.0';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}
@@ -114,7 +115,7 @@ foreach($id in $ids){
 }
 if(-not $PSCmdlet.ShouldProcess($ExpectedComputerName,"Run $Batch portable lifecycle acceptance")){return}
 $null=New-Item -ItemType Directory -Path $evidence -Force
-$defenderRequired=@($ids|Where-Object {$_ -like 'package.mitec-*'}).Count -gt 0 -or 'package.sysinternals-suite' -in $ids -or $Batch -in @('NTCoreAdditional','SysinternalsProducts','RegRipper','Rufus')
+$defenderRequired=@($ids|Where-Object {$_ -like 'package.mitec-*'}).Count -gt 0 -or 'package.sysinternals-suite' -in $ids -or $Batch -in @('NTCore','NTCoreAdditional','PSScriptTools','SysinternalsProducts','RegRipper','Rufus')
 $defenderSince=$null
 if($defenderRequired){
   Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force
