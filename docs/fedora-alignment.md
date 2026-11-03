@@ -1000,3 +1000,13 @@ trigger: [cross-machine/full-set delivery](offline-bundles.md#refresh-and-recove
 or changed offline semantics. The native pass does not establish Fedora support,
 cross-machine delivery or broader installer acceptance. See
 [native evidence](archive/evidence/offline-caffeine-assembly-night-native-2026-11-03.json).
+
+The fixed NTCoreAdditional and SysinternalsProducts package scenarios now also
+require the existing read-only Defender observer. This extends Windows-owned
+RB-11 acceptance evidence without changing shared behavior, package handlers or
+catalog support. The same contract and peer hashes apply. NTCore Driver List
+x64/x86 and Rebel.NET passed native lifecycle/recovery and Defender checks; see
+[evidence](archive/evidence/ntcore-additional-night-native-2026-11-03.json).
+Owner: Windows maintainer. Review trigger: affected package promotion or changes
+to the observer/lifecycle boundary; remaining packages stay in the
+[fast-track register](migrations/migration-completion-reassessment-2026-11-02.md#approved-fast-track-execution-2026-11-02).

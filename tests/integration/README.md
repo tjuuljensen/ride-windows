@@ -83,6 +83,11 @@ rebuilding. Its exact retained archives are listed in
 `.local/acceptance-input/NTCoreAdditional.json`; functional tests remain separately
 scoped to sensitive or synthetic data.
 
+`NTCoreAdditional` and `SysinternalsProducts` require active Defender and no
+detection since guest boot, including staging. The runner exports read-only
+before/after observations and never changes exclusions. A failed observation
+fails acceptance independently of package file recovery.
+
 `MiTeCMailHistoryViewers` selects the pinned MiTeC Mail Viewer, E-mail History
 Browser, Internet History Browser and Instant Messaging History Browser. It
 checks package file staging, repeat, removal, saved-state recovery and preservation
