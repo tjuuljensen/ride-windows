@@ -504,8 +504,11 @@ preservation checks. Both require Windows 11, exact installed-version readback
 and active/no-alert Defender observations from the elevated guest coordinator.
 Gpg4win installation runs under an isolated limited user; its synthetic GnuPG
 configuration contains no key or certificate. TMOG runs in machine scope and
-preserves a synthetic LocalAppData file. Neither launches the product, performs
-encryption, selects a screensaver or activates paid features. Presence recovery
+preserves a synthetic LocalAppData file. Its pinned `Task Manager.exe` receives
+an eight-second startup/error observation, followed by closure of the owned
+process. TMOG release 1.0.1 registers exact version 1.0.1.0. Gpg4win is not
+launched; neither scenario performs encryption, task-management actions,
+screensaver selection or paid activation. Presence recovery
 does not establish exact prior-version or all-application-state recovery.
 
 Prerequisites: an idle registered disposable Windows 11 VM/checkpoint, normal
@@ -581,7 +584,8 @@ recovery. Browser profiles, chat/mail profiles, VS Code settings/extensions,
 Autopsy settings/case data, Wireshark preferences, GnuPG configuration, and
 TMOG data are covered. No utility or application is launched to create data;
 the fixtures contain no credentials, keys, certificates, messages, or real case
-content. The TMOG scenario does not enter a license key or launch TMOG.
+content. TMOG receives only bounded startup observation after installation;
+the scenario does not enter a license key or exercise task-management actions.
 `ApplicationsBatch4` selects the Slack and Discord current-user EXE candidates,
 checks their pinned source evidence, and exercises their install/remove lifecycle
 on the disposable Windows 11 guest. Its Pester selection includes the focused

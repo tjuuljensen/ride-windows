@@ -8,7 +8,7 @@
   Invoke-Pester ./tests/FocusedApplicationSelection.Tests.ps1
 .NOTES
   Compatibility: Pester 5.7.1; native Windows PowerShell 5.1 and PowerShell 7.
-  Version: 0.2.3. Changelog: Verify exact TMOG release-to-registration version mapping.
+  Version: 0.2.4. Changelog: Bound TMOG startup selection to its reviewed release/batch.
 #>
 BeforeAll {
   $script:repo=Split-Path -Parent $PSScriptRoot
@@ -18,12 +18,20 @@ BeforeAll {
   $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'),[ref]$tokens,[ref]$errors)
   if($errors.Count){throw ($errors -join '; ')}
   $script:applicationAst=$ast
-  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','Resolve-RideMailCheckerInstallDirectory','Get-RideApplicationExpectedInstalledVersion','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
+  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','Resolve-RideMailCheckerInstallDirectory','Get-RideApplicationExpectedInstalledVersion','Get-RideApplicationStartupPin','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
   $definitions=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -in $names},$true))
   if($definitions.Count -ne $names.Count){throw 'Focused pure helper definitions differ.'}
   . ([scriptblock]::Create(($definitions|ForEach-Object {$_.Extent.Text}) -join "`n"))
 }
 Describe 'Exact installed application version expectations' {
+  It 'selects TMOG startup only for the reviewed release and batch' {
+    $pin=Get-RideApplicationStartupPin @{Id='package.tmog';PackageVersion='1.0.1'} 1
+    $pin.Name|Should -BeExactly 'Task Manager.exe'
+    $pin.Sha256|Should -BeExactly '99E7565D394C1DABE40E6703A3CB5971BA5219413DBED34CA1E99C7B3D354810'
+    {Get-RideApplicationStartupPin @{Id='package.tmog';PackageVersion='1.0.2'} 1}|Should -Throw '*reviewed batch-1 release*'
+    {Get-RideApplicationStartupPin @{Id='package.tmog';PackageVersion='1.0.1'} 2}|Should -Throw '*reviewed batch-1 release*'
+    Get-RideApplicationStartupPin @{Id='package.other';PackageVersion='1.0.1'} 1|Should -BeNullOrEmpty
+  }
   It 'maps only the observed TMOG release and retains exact version gates elsewhere' {
     Get-RideApplicationExpectedInstalledVersion @{Id='package.tmog';PackageVersion='1.0.1'} 1|Should -BeExactly '1.0.1.0'
     Get-RideApplicationExpectedInstalledVersion @{Id='package.tmog';PackageVersion='1.0.2'} 1|Should -BeExactly '1.0.2'

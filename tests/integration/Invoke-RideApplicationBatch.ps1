@@ -10,8 +10,9 @@
   no new detection since guest boot, recorded before and after the lifecycle.
   Focused Gpg4win/TMOG selections also require coordinator-owned Defender checks.
   Gpg4win runs under an isolated limited user and preserves synthetic GnuPG data;
-  TMOG preserves synthetic LocalAppData content. No encryption, explicit product
-  launch, screensaver selection or paid activation is exercised. Batch 13 selects
+  TMOG preserves synthetic LocalAppData content and receives bounded startup
+  observation of its pinned executable. No encryption, task-management actions,
+  screensaver selection or paid activation is exercised. Batch 13 selects
   only the pinned Mail Checker machine installer with Defender and exact version
   observations and bounded startup of its exact executable. It does not configure
   accounts or perform mail operations; feature coverage is deferred to v3.1.
@@ -66,8 +67,9 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.24.3.
-  Changelog: 0.24.3: Match pinned TMOG 1.0.1 to its observed 1.0.1.0 registration.
+  Owner: RIDE-Windows maintainers. Version: 0.24.4.
+  Changelog: 0.24.4: Include bounded pinned TMOG startup in its focused lifecycle.
+    0.24.3: Match pinned TMOG 1.0.1 to its observed 1.0.1.0 registration.
     0.24.2: Verify Mail Checker's pinned executable when ARP omits DisplayVersion.
     0.24.1: Carry candidate consent and explicit removal/recovery through Mail Checker.
     0.24.0: Add pinned InfoBar/Project Maker startup checks; features deferred to v3.1.
@@ -120,7 +122,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12,13)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.24.3'
+$script:ScriptVersion='0.24.4'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -166,6 +168,20 @@ function Get-RideApplicationExpectedInstalledVersion {
   if($SelectedBatch -eq 11){return '2.6.3.0'}
   if($Package.Id -ceq 'package.tmog' -and $Package.PackageVersion -ceq '1.0.1'){return '1.0.1.0'}
   return [string]$Package.PackageVersion
+}
+
+function Get-RideApplicationStartupPin {
+  param([hashtable]$Package,[int]$SelectedBatch)
+  if($Package.Id -ceq 'package.tmog'){
+    if($SelectedBatch -ne 1 -or $Package.PackageVersion -cne '1.0.1'){throw 'TMOG startup requires the reviewed batch-1 release 1.0.1.'}
+    return @{Name='Task Manager.exe';Sha256='99E7565D394C1DABE40E6703A3CB5971BA5219413DBED34CA1E99C7B3D354810'}
+  }
+  switch($SelectedBatch){
+    9 {return @{Name='InfoBar64.exe';Sha256='B3887CD91CA424ADFA4BB0A6EE7ED71828BDF0AF63761148B4EFA872BD07A438'}}
+    10 {return @{Name='ProjectMaker64.exe';Sha256='BEBECCF4DE08E71EE9043ACBB90D1AED89D1A22E33762C31B4AD99198083D920'}}
+    13 {return @{Name='MAILCHECKER.EXE';Sha256='9104F5E92BA0CB0333CC5312FD6E97B944D9EE2DA91771B99E19E47BA9D5167F'}}
+  }
+  return $null
 }
 
 function Get-RideOpenJdkPreservationSnapshot {
@@ -734,12 +750,8 @@ foreach($scenario in $scenarios){
       $scenarioResult.Version=$mailIdentity.FileVersion
       $scenarioResult.Checks+=@('RIDEManagedInstall','PinnedExecutableIdentityAndVersion')
     }
-    if($Batch -in @(9,10,13)){
-      $startupPin=switch($Batch){
-        9 {@{Name='InfoBar64.exe';Sha256='B3887CD91CA424ADFA4BB0A6EE7ED71828BDF0AF63761148B4EFA872BD07A438'}}
-        10 {@{Name='ProjectMaker64.exe';Sha256='BEBECCF4DE08E71EE9043ACBB90D1AED89D1A22E33762C31B4AD99198083D920'}}
-        13 {@{Name='MAILCHECKER.EXE';Sha256='9104F5E92BA0CB0333CC5312FD6E97B944D9EE2DA91771B99E19E47BA9D5167F'}}
-      }
+    $startupPin=Get-RideApplicationStartupPin $package $Batch
+    if($startupPin){
       $scenarioStage='Observe bounded application startup'
       Write-RideApplicationProgress -PackageId $scenario.Id -Stage $scenarioStage
       $startupDirectory=if($Batch -eq 13){$mailIdentity.InstallDirectory}else{$installed.InstallLocation}

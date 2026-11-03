@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 10:10 Copenhagen: **18 MiTeC variants across 13 products passed
+Evidence through 10:42 Copenhagen: **18 MiTeC variants across 13 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -42,6 +42,14 @@ with spaces. Neither source fix establishes native acceptance or crash cause.
 One corrected retry per product is queued after the independent packages and
 retained font/WLAN diagnostics. See [TMOG failure](../archive/evidence/tmog-version-assertion-native-2026-11-03.json)
 and [source checks/references](../archive/evidence/gpg4win-tmog-installer-corrections-source-2026-11-03.json).
+
+WFN subsequently passed all 14 file lifecycle checks, Defender and checkpoint
+recovery for its full selected 531-member payload. No tool was launched and no
+firewall settings changed. See [WFN evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json).
+InfoBar is now running. TMOG's later retry also includes a pinned eight-second
+startup check; 50 startup/selection/candidate tests passed per shell. This
+preparation is [source evidence](../archive/evidence/tmog-fast-track-startup-source-2026-11-03.json),
+not a native startup result.
 
 OpenSSH Client preparation passed, but lifecycle preflight rejected a pending
 servicing restart. Evidence-preserving attended recovery reset the pinned VM,
@@ -141,9 +149,9 @@ verified recovery. Do not infer acceptance from registration or source tests.
 | --- | --- | --- |
 | RegRipper / Rufus | Both native file lifecycle/recovery/Defender routes passed. | Neither executable was launched; startup and utility actions remain separate. |
 | Remaining MiTeC portable batches | Seventeen portable variants / twelve products passed guest startup/lifecycle checks, plus installed Mail Checker for eighteen variants / thirteen products overall. All six system viewers have a passing outer result. Scanner x86 crashed; earlier viewer/development outer reporting failure retained. | DirList/Network Meter not reached after x86 failure; reordered follow-up prepared. Earlier twelve file-only MiTeC cases also await startup coverage. Features stay deferred. |
-| Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installer failed again with `0xC0000005`; checkpoint recovered and TMOG started. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
+| Gpg4win / TMOG | Retained signed installers and bounded routes; 124 selected source tests per shell. [Evidence](../archive/evidence/gpg4win-tmog-routes-source-2026-11-03.json). Native Gpg4win installation failed again; TMOG installed but failed version assertion. Both checkpoints recovered; tested corrections and bounded TMOG startup await native retries. | Diagnose Gpg4win installation before startup; finish machine TMOG lifecycle. Preserve synthetic user data. |
 | MiTeC Mail Checker | Install/startup/uninstall, exact executable/version readback, Defender and compensating recovery passed. [Evidence](../archive/evidence/mail-checker-fast-track-native-2026-11-03.json). | Fast-track gate passed; features and interactive UI deferred to v3.1. |
-| WFN | Full pinned 531-member payload route; 182 selected route tests per shell. Full inert lifecycle now passes in both shells after path-validation optimization. [Route](../archive/evidence/wfn-route-source-2026-11-03.json), [optimization](../archive/evidence/portable-path-optimization-2026-11-03.json). | Native package lifecycle and Defender; no launch or firewall changes. Caffeine validates the changed handler, not WFN itself. |
+| WFN | Full pinned 531-member payload passed 14 native file lifecycle checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/wfn-native-file-lifecycle-2026-11-03.json). | Executable startup and firewall behavior are separate; neither was exercised. |
 | InfoBar / Project Maker / NTCore Explorer Suite | Corrected runtime snapshot installed. InfoBar/Project Maker pinned startup checks prepared; Explorer Suite remains lifecycle-only. | Run queued native routes with Defender; retain earlier presence evidence without calling it current acceptance. |
 | OpenSSH Client / full available client RSAT | Preparation passed; OpenSSH lifecycle rejected a pending servicing restart before installation. Evidence exported and checkpoint recovered; capability queue removed. Preflight reporting fix passed 53 tests per shell. | Resolve baseline readiness, then activate the corrected queue and run native DISM with already-approved Windows Update acquisition. RSAT has not run; payload availability remains unverified. |
 

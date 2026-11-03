@@ -1,0 +1,160 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T09:41:18.3537058+00:00",
+  "Status": "NativeFileLifecyclePassed",
+  "RunId": "d771c3c427c74eb393df163bfb9041c0",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "d771c3c427c74eb393df163bfb9041c0",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "WindowsFirewallNotifier",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T09:26:59.5799314Z",
+    "FinishedAtUtc": "2026-11-03T09:39:21.3423984Z",
+    "Error": null,
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null,
+    "FocusedResult": {
+      "RunId": "d771c3c427c74eb393df163bfb9041c0",
+      "Batch": "WindowsFirewallNotifier",
+      "VM": "RIDE-Win11-Test",
+      "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+      "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+      "ExpectedCases": 1,
+      "Status": "Passed",
+      "Error": null,
+      "Cleanup": "ResetAndOff",
+      "EvidenceCollected": true,
+      "ToolExecuted": false,
+      "FunctionalAcceptance": "Pending"
+    }
+  },
+  "Focused": {
+    "RunId": "d771c3c427c74eb393df163bfb9041c0",
+    "Batch": "WindowsFirewallNotifier",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 1,
+    "Status": "Passed",
+    "Error": null,
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Guest": {
+    "Batch": "WindowsFirewallNotifier",
+    "ExpectedCases": 1,
+    "Completed": 1,
+    "Passed": 1,
+    "Status": "Passed",
+    "PayloadExecution": false,
+    "ToolExecuted": false,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Cases": [
+    {
+      "Id": "package.windows-firewall-notifier",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Error": null,
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": true,
+      "FunctionalAcceptance": "Pending",
+      "PrerequisiteAcceptance": "NotSelected",
+      "PrerequisiteEvidence": null,
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ActivationAcceptance": "Pending",
+      "ToolExecuted": false,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection",
+        "RepeatInstall",
+        "RemovePreview",
+        "Remove",
+        "RepeatRemove",
+        "RestorePreview",
+        "ExactRemovalRestore",
+        "UnownedPreservation",
+        "OriginalAbsenceRestore",
+        "UnownedCollisionRefusal",
+        "ModifiedReplacementRefusal",
+        "ModifiedRemovalPreservation"
+      ],
+      "RunIds": [
+        "ae9a081fe42841109a25dc55edf11fd2",
+        "05384b7cafe545648b6f84fe5c16277a",
+        "380244994de942f3b0cbbfed731824f5"
+      ],
+      "CollisionRefusal": "RIDE operation 'package.windows-firewall-notifier' failed. Run ID: df8a39f88a094179a7b5b9e3cc7fa3f4. Saved state: package.windows-firewall-notifier. Completed operations: <none>. Failed operation: package.windows-firewall-notifier. Unfinished operations: package.windows-firewall-notifier. Recovery: run '.\\ride.ps1 restore -RunId df8a39f88a094179a7b5b9e3cc7fa3f4', then reapply the same profile. Error: Portable destination collision: cs/Microsoft.VisualBasic.Forms.resources.dll",
+      "ModifiedRefusal": "RIDE operation 'package.windows-firewall-notifier' failed. Run ID: d103436de7694dc7ba1bdb7f902f4d1d. Saved state: package.windows-firewall-notifier. Completed operations: <none>. Failed operation: package.windows-firewall-notifier. Unfinished operations: package.windows-firewall-notifier. Recovery: run '.\\ride.ps1 restore -RunId d103436de7694dc7ba1bdb7f902f4d1d', then reapply the same profile. Error: Portable upgrade would overwrite modified managed files."
+    }
+  ],
+  "PrivateDetailedScenarios": {
+    "RelativePath": "focused/evidence/scenarios.json",
+    "Omission": "Per-member file evidence retained in private run export; all 14 check names and outcomes retained here.",
+    "Sha256": "E754F19E8180373AA380F98ACFE2E5D6367EB803C54681AAA9AAA12E8E2F594B"
+  },
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T09:33:02.67037Z",
+    "SinceUtc": "2026-11-03T09:29:23.913972Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T09:38:02.2925852Z",
+    "SinceUtc": "2026-11-03T09:29:23.913972Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "QueueReceipt": {
+    "Batch": "WindowsFirewallNotifier",
+    "Status": "Passed",
+    "StartedAtUtc": "2026-11-03T09:26:51.8037354Z",
+    "RunId": "d771c3c427c74eb393df163bfb9041c0",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\d771c3c427c74eb393df163bfb9041c0",
+    "Error": null,
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T09:39:26.2379293Z"
+  },
+  "Limits": [
+    "Exact selected 531-member portable payload lifecycle only.",
+    "No executable launch, firewall notification/rule/policy changes or functionality accepted.",
+    "No new legacy closure or target promotion."
+  ],
+  "RemainingEstimate": {
+    "Exact": "121-175",
+    "Rounded": "120-175",
+    "Components": "19-24",
+    "Maintenance": "8-12",
+    "FilesAndAssets": "23-33",
+    "Packages": "34-49",
+    "Settings": "37-57"
+  }
+}

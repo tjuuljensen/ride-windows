@@ -1,0 +1,38 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T09:41:18.4695048+00:00",
+  "Status": "SourceTestedNativePending",
+  "PackageId": "package.tmog",
+  "Release": "1.0.1",
+  "InstallerSha256": "b4edf70fa040968958c662ffb09feeeb0eeca07759e6ed7742606bcc39f29fc6",
+  "StaticMember": "app\\Task Manager.exe",
+  "ExecutableSha256": "99E7565D394C1DABE40E6703A3CB5971BA5219413DBED34CA1E99C7B3D354810",
+  "ExecutableBytes": 6528328,
+  "FileVersion": "1.0.1.0",
+  "Extraction": "Retained innoextract; static extraction only; LICENSE.txt, Michroma-OFL.txt and THIRD_PARTY_NOTICES.md retained.",
+  "Tests": [
+    {
+      "Passed": 50,
+      "AtUtc": "2026-11-03T09:40:01.3747266Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 0
+    },
+    {
+      "Passed": 50,
+      "Failed": 0,
+      "Edition": "Core",
+      "AtUtc": "2026-11-03T09:39:59.6525332Z",
+      "PowerShell": "7.6.5",
+      "Skipped": 0
+    }
+  ],
+  "SourceSha256": "68AA3CE71E07FA16F05B4152F3CD6AB48D04FA9D8BFC3D5E034FA17ADE9430F8",
+  "Limits": [
+    "Eight-second startup/error observation using the existing helper; own process closure only.",
+    "No host product execution, task-management actions, screensaver selection or paid activation.",
+    "Native retry pending; no acceptance or legacy closure inferred."
+  ],
+  "AlignmentReference": "gpg4win-tmog-installer-corrections-source-2026-11-03.json"
+}
