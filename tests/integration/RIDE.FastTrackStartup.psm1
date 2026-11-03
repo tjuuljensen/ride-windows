@@ -6,10 +6,37 @@
   process exit, visible error title and correlated Application error events.
   Noninteractive observation is not interactive UI or feature acceptance.
 .NOTES
-  Windows PowerShell 5.1 / PowerShell 7 on Windows. Version: 0.1.0.
+  Windows PowerShell 5.1 / PowerShell 7 on Windows. Version: 0.2.0.
+  Changelog: Select System Information's primary applications separately from GetSys helpers.
   Requires RIDE_INTEGRATION_VM=1 from the existing identity-checked guest runner.
   Closes only the process it started; checkpoint recovery remains host-owned.
 #>
+function Get-RideFastTrackStartupSelection {
+  <#
+  .SYNOPSIS
+    Select installed MiTeC application entry points without executing files.
+  .PARAMETER PackageId
+    Exact MiTeC package ID from the fixed acceptance scenario.
+  .PARAMETER Files
+    Verified owned-file manifest containing relative paths and SHA-256 digests.
+  .OUTPUTS
+    Executables selected for startup and helpers whose execution remains deferred.
+  #>
+  [CmdletBinding()]
+  param([Parameter(Mandatory)][string]$PackageId,[Parameter(Mandatory)][object[]]$Files)
+  $executables=@($Files|Where-Object {$_.RelativePath -match '(?i)\.exe$'})
+  $deferred=@();$reason=$null
+  if($PackageId -ceq 'package.mitec-system-information'){
+    $expected=@('MSIX.exe','MSIX64.exe','GetSys.exe','GetSys64.exe')
+    if($executables.Count -ne 4 -or @($executables.RelativePath|Sort-Object -Unique).Count -ne 4 -or @($executables|Where-Object {$_.RelativePath -cnotin $expected}).Count){throw 'System Information startup requires the exact four reviewed executable members.'}
+    $deferred=@($executables|Where-Object {$_.RelativePath -cin @('GetSys.exe','GetSys64.exe')})
+    $executables=@(foreach($name in @('MSIX64.exe','MSIX.exe')){$executables|Where-Object RelativePath -CEQ $name})
+    $reason='GetSys helper execution and report behavior are outside primary-application startup acceptance; deferred to v3.1.'
+  }
+  if(-not $executables.Count){throw 'No selected executable exists for the fast-track startup check.'}
+  [pscustomobject]@{Executables=$executables;DeferredExecutables=$deferred;DeferredReason=$reason}
+}
+
 function Invoke-RideFastTrackStartup {
   <#
   .SYNOPSIS
@@ -75,4 +102,4 @@ function Invoke-RideFastTrackStartup {
   }
   [pscustomobject]$record
 }
-Export-ModuleMember -Function Invoke-RideFastTrackStartup
+Export-ModuleMember -Function Invoke-RideFastTrackStartup,Get-RideFastTrackStartupSelection

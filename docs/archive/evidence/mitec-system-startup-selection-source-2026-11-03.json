@@ -1,0 +1,85 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T10:46:22.2183930+00:00",
+  "Status": "SourceTestedNativePending",
+  "PackageId": "package.mitec-system-information",
+  "SelectedStartup": [
+    "MSIX64.exe",
+    "MSIX.exe"
+  ],
+  "DeferredStartup": [
+    "GetSys.exe",
+    "GetSys64.exe"
+  ],
+  "DeferredUntil": "v3.1",
+  "OriginalFailureRunId": "64b0348c086b4c0697c40835803166ef",
+  "StaticArchiveSha256": "a7ae03e7172afa128565b2f8e148869678b3e543c65ba16f219ff87139986976",
+  "StaticSubsystems": [
+    {
+      "Member": "MSIX.exe",
+      "Bytes": 2794920,
+      "Subsystem": 2,
+      "Interpretation": "Windows GUI"
+    },
+    {
+      "Member": "MSIX64.exe",
+      "Bytes": 4494440,
+      "Subsystem": 2,
+      "Interpretation": "Windows GUI"
+    },
+    {
+      "Member": "GetSys.exe",
+      "Bytes": 1237256,
+      "Subsystem": 3,
+      "Interpretation": "Windows console"
+    },
+    {
+      "Member": "GetSys64.exe",
+      "Bytes": 2614344,
+      "Subsystem": 3,
+      "Interpretation": "Windows console"
+    }
+  ],
+  "Tests": [
+    {
+      "Passed": 36,
+      "AtUtc": "2026-11-03T10:40:15.3331188Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 2
+    },
+    {
+      "Passed": 36,
+      "PowerShell": "7.6.5",
+      "Edition": "Core",
+      "Failed": 0,
+      "Skipped": 2,
+      "AtUtc": "2026-11-03T10:39:59.890776Z"
+    }
+  ],
+  "SourceHashes": [
+    {
+      "File": "RIDE.FastTrackStartup.psm1",
+      "Hash": "382794B0AAC6BD66F91BCD92505EA4DFE55490927A59F9787C367CD5E2AE23E1"
+    },
+    {
+      "File": "Invoke-RidePortableAcceptance.ps1",
+      "Hash": "1807EAAF944C96B5D04071451718B5959A289B211B230205DFE56E2FB5EC7CB9"
+    }
+  ],
+  "Alignment": {
+    "Impact": "Windows-owned acceptance scope under the approved fast track; shared RB-03/08/09/11 unchanged.",
+    "PeerHead": "1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "PeerProviderSha256": "005C325CDAA3DA489A4A5FD4A1A54FB05FD3D9A2C0DA29EFA7EEEB88B7F36A6D",
+    "Contract": "1.1.0",
+    "PeerRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43"
+  },
+  "Limits": [
+    "Exact four executable members remain required for file lifecycle and recovery.",
+    "GetSys exit 1 remains a failure; PE subsystem classification does not establish its cause.",
+    "Both MSIX primary applications must pass startup; TAPI runs first so a later failure cannot prevent its coverage.",
+    "No product execution on host, pin/catalog/CLI/privilege/recovery or support declaration change. Native retry pending."
+  ]
+}

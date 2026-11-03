@@ -1191,6 +1191,18 @@ trigger: [remaining native font availability](machine-fonts.md), including the
 immediate removal failure and any future session/restart/consumer scenario.
 Later clean observations do not erase an earlier failure or grant target support.
 
+## System Information startup selection, 2026-11-03
+
+The later System Information acceptance selection retains both MSIX primary
+applications and explicitly defers GetSys execution/report behavior to v3.1,
+under the user's startup-only decision. Exact helper files remain in lifecycle
+and recovery checks; the earlier GetSys failure is preserved. Shared RB-03/08/09/11
+semantics are unchanged. Contract and compared peer hashes are recorded in
+[source evidence](archive/evidence/mitec-system-startup-selection-source-2026-11-03.json).
+Owner: Windows maintainer. Follow-up/review trigger: corrected native startup
+and any later helper execution scenario in the product fast-track register.
+No shared contract amendment, conformance or target promotion is claimed.
+
 ## Gpg4win and TMOG native corrections, 2026-11-03
 
 Shared behavior is unchanged under contract 1.1.0 (RB-04/08/09/11/12).

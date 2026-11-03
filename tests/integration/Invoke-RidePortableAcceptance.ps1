@@ -8,6 +8,7 @@
   its flag, backup collision and recovery behavior. No real target executable is
   opened or changed. MiTeC executables, including SQLiteQuery, receive bounded
   startup checks without supplied documents, databases or account settings.
+  System Information tests MSIX/MSIX64 startup; GetSys helpers remain file-only.
   ImageMagick reports its version and encodes/identifies
   only a generated 1x1 PNG; it does not open user images. NTCoreAdditional stages
   Driver List x64/x86 and Rebel.NET without launching them. MiTeCMailHistoryViewers
@@ -50,7 +51,7 @@
   filesystem-info output and raw-directory listing disabled; it never reads evidence.
   WinPmem checks exact owned-file staging and recovery only; it does not execute
   the acquisition program or load or unload its driver.
-  MiTeCSystemAndTelephony stages only the exact System Information eXtra and TAPI Monitor files; it does not create reports, inspect TAPI providers or make calls.
+  MiTeCSystemAndTelephony stages exact System Information eXtra and TAPI Monitor files and observes primary-application startup; no report command, provider configuration or call control is selected.
 .PARAMETER DisposableVm
   Required explicit guest attestation in addition to identity/model/elevation checks.
 .PARAMETER Version
@@ -66,8 +67,9 @@
   Prerequisites: Host runner, elevation, RIDE_INTEGRATION_VM=1, pinned archives; ImageMagick also needs the Microsoft x64 v14 runtime.
   Effects: Guest-only RIDE cache, tools folders, saved state and source observations. ImageMagick may install the signed Microsoft runtime when absent. RawCopy uses only one generated fixture and removes it after a passing check.
   Recovery: Saved-run checks and the host's pinned checkpoint restoration.
-  Author: RIDE-Windows maintainers. Version: 0.22.1.
-  Changelog: 0.22.1: Run the known Scanner x86 startup failure last within its fixed batch.
+  Author: RIDE-Windows maintainers. Version: 0.22.2.
+  Changelog: 0.22.2: Select MSIX primary startup and run untested TAPI Monitor first.
+    0.22.1: Run the known Scanner x86 startup failure last within its fixed batch.
     0.22.0: Add hash-bound MiTeC startup smoke checks; defer features to v3.1.
     0.21.0: Require Defender observations for WinPmem file-only acceptance.
     0.20.0: Add fixed WFN file lifecycle; no firewall changes.
@@ -103,7 +105,7 @@
 param([string]$ExpectedComputerName,[string]$EvidencePath,
   [ValidateSet('MiTeCViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','AllReviewed','PSScriptTools','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier')][string]$Batch='AllReviewed',
   [switch]$DisposableVm,[switch]$Version)
-if($Version){'0.22.1';return}
+if($Version){'0.22.2';return}
 $ErrorActionPreference='Stop'
 if(-not $DisposableVm -or $env:RIDE_INTEGRATION_VM -ne '1' -or -not $ExpectedComputerName -or
    $env:COMPUTERNAME -ine $ExpectedComputerName){throw 'Use the attested disposable guest runner; no workstation integration is permitted.'}
@@ -125,6 +127,9 @@ if($Batch -eq 'MiTeCNetworkUtilities'){
   # The Nov 3 x86 crash must not keep the two other tools permanently untested.
   # Retain all four cases and fail the batch if the final x86 startup still fails.
   $cases=@($cases|Where-Object {-not ($_.Id -ceq 'package.mitec-network-scanner' -and $_.Variant -ceq 'x86')})+@($cases|Where-Object {$_.Id -ceq 'package.mitec-network-scanner' -and $_.Variant -ceq 'x86'})
+}
+if($Batch -eq 'MiTeCSystemAndTelephony'){
+  $cases=@($cases|Where-Object Id -CEQ 'package.mitec-tapi-monitor')+@($cases|Where-Object Id -CEQ 'package.mitec-system-information')
 }
 $payloads=Get-Content -LiteralPath (Join-Path $runRoot 'payloads.json') -Raw|ConvertFrom-Json
 $payloads=@($payloads)
@@ -249,8 +254,9 @@ foreach($case in $cases){
     $row.Checks+=@('InstallPreview','Install','ExactMemberSelection')
     if($case.Id -like 'package.mitec-*'){
       Import-Module (Join-Path $PSScriptRoot 'RIDE.FastTrackStartup.psm1') -Force
-      $startupFiles=@($state.Manifest.Files|Where-Object { $_.RelativePath -match '(?i)\.exe$' })
-      Assert-True ($startupFiles.Count -gt 0) 'No selected executable exists for the fast-track startup check.'
+      $startupSelection=Get-RideFastTrackStartupSelection -PackageId $case.Id -Files $state.Manifest.Files
+      $startupFiles=@($startupSelection.Executables)
+      if($startupSelection.DeferredExecutables.Count){$row.StartupDeferred=[pscustomobject]@{Files=$startupSelection.DeferredExecutables;Reason=$startupSelection.DeferredReason}}
       $row.StartupEvidence=@(foreach($startupFile in $startupFiles){
         Invoke-RideFastTrackStartup -ExecutablePath (Join-Path $op.InstallDirectory $startupFile.RelativePath) -ExpectedSha256 $startupFile.Sha256
       })

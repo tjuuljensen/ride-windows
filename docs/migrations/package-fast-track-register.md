@@ -30,6 +30,8 @@ retains executable/process/error evidence. See [source checks](../archive/eviden
 
 | Products | Lifecycle evidence | Startup evidence | v3.1 follow-up |
 | --- | --- | --- | --- |
+| MiTeC EXE Explorer and HexEdit | Both passed all 15 lifecycle/startup checks, Defender and checkpoint recovery. [Evidence](../archive/evidence/mitec-analysis-fast-track-native-2026-11-03.json). | Both EXE Explorer executables and HexEdit passed bounded session-0 startup | Synthetic features and interactive UI. |
+| MiTeC System Information eXtra and TAPI Monitor | Earlier file-only passes retained. Revised startup attempt stopped at GetSys.exe exit 1; checkpoint recovered. [Failure](../archive/evidence/mitec-system-telephony-startup-failure-native-2026-11-03.json). | Corrected retry requires MSIX/MSIX64 startup and runs TAPI first; native pending. [Source checks](../archive/evidence/mitec-system-startup-selection-source-2026-11-03.json). | GetSys/GetSys64 execution/report behavior; primary-app features and interactive UI. Original GetSys failure is not relabeled successful. |
 | Twelve MiTeC products in the Nov 3 reassessment | Passed, 12 cases | Not run in those file-only cases | Synthetic feature scenarios; startup remains for revised fast track. |
 | NTCore PE Detective, CFF Explorer, 4GB Patch, Driver List x64/x86, Rebel.NET | Passed, six cases / five products | No general startup proof; 4GB Patch has separate synthetic PE behavior evidence | Product feature coverage. |
 | Sysinternals Suite and nine individual packages | Passed, ten cases | Not launched; retain prior scoped package acceptance | Optional utility coverage, without a new licensing gate. |

@@ -337,9 +337,14 @@ feature checks. The controller must be refreshed to advertise
 `MiTeCSystemAndTelephony` stages MiTeC System Information eXtra 16.0.0 and
 TAPI Monitor 1.2.0 from the exact retained archives. It checks repeat
 install/remove, saved-state recovery and preservation of unrelated or modified
-files. It does not create or retain system reports, access system inventory,
-enumerate or configure TAPI providers, inspect calls, or launch either utility.
-Both packages remain unsupported pending Windows 11 lifecycle acceptance.
+files. Fast track starts TAPI Monitor and both MSIX/MSIX64 primary applications,
+with hash-bound observations and owned-process closure. Automatic startup
+enumeration may occur inside the disposable guest; no report command, provider
+configuration or call control is selected. GetSys/GetSys64 helpers retain file
+lifecycle coverage but their execution/report behavior is explicitly deferred
+to v3.1. A no-argument GetSys exit code 1 remains recorded as a failed earlier
+attempt; it is not relabeled successful. Both packages remain unsupported
+pending their scoped Windows 11 lifecycle/startup acceptance.
 Report-field/redaction review and simulated-provider behavior remain separate
 acceptance work. The controller must be refreshed to advertise
 `MiTeCSystemAndTelephonyV1` before submitting this batch.

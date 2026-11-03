@@ -1,0 +1,139 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T10:45:40.0609193+00:00",
+  "Status": "Failed",
+  "RunId": "64b0348c086b4c0697c40835803166ef",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "64b0348c086b4c0697c40835803166ef",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "MiTeCSystemAndTelephony",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T10:27:48.7454743Z",
+    "FinishedAtUtc": "2026-11-03T10:33:33.0499746Z",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Focused": {
+    "RunId": "64b0348c086b4c0697c40835803166ef",
+    "Batch": "MiTeCSystemAndTelephony",
+    "VM": "RIDE-Win11-Test",
+    "VMId": "6a5c9f91-91f9-44c5-924a-d1b5f863e16f",
+    "CheckpointId": "91369e82-5ff2-49ef-87c4-c4518a77ae7b",
+    "ExpectedCases": 2,
+    "Status": "Failed",
+    "Error": "Guest portable checks failed; inspect acceptance.log and scenarios.json.",
+    "Cleanup": "ResetAndOff",
+    "EvidenceCollected": true,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending"
+  },
+  "Guest": {
+    "Batch": "MiTeCSystemAndTelephony",
+    "ExpectedCases": 2,
+    "Completed": 1,
+    "Passed": 0,
+    "Status": "Failed",
+    "PayloadExecution": false,
+    "ToolExecuted": true,
+    "FunctionalAcceptance": "Pending",
+    "RuntimeAcceptance": "NotSelected",
+    "ActivationAcceptance": "Pending",
+    "DefenderAcceptance": "Passed"
+  },
+  "Cases": [
+    {
+      "Id": "package.mitec-system-information",
+      "Variant": "portable",
+      "Status": "Failed",
+      "Error": "Startup exited with code 1.",
+      "Target": "Windows 11",
+      "Build": "26300",
+      "LifecycleRecovery": false,
+      "FunctionalAcceptance": "Pending",
+      "RuntimeAcceptance": "NotSelected",
+      "RuntimeEvidence": null,
+      "ToolExecuted": true,
+      "Checks": [
+        "InstallPreview",
+        "Install",
+        "ExactMemberSelection"
+      ],
+      "RunIds": [
+        "e74af752d3d64b309f5c5544d76795a9"
+      ],
+      "StartupEvidence": {
+        "Status": "Failed",
+        "Executable": "C:\\Tools\\mitec-system-information\\GetSys.exe",
+        "Sha256": "80efa6ceee1859d5da5f32d827d88db7569dbd23e161eca8c82a43cae21209dd",
+        "StartedAtUtc": "2026-11-03T10:33:14.7312132Z",
+        "ObservationSeconds": 8,
+        "ExitCode": 1,
+        "WindowTitle": "",
+        "ProcessId": 5372,
+        "SessionId": 0,
+        "Closure": "Exited",
+        "ErrorEvents": [],
+        "Boundary": "Bounded process startup; no feature or interactive UI acceptance",
+        "Error": "Startup exited with code 1."
+      },
+      "StartupDeferred": null
+    }
+  ],
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T10:33:04.3361074Z",
+    "SinceUtc": "2026-11-03T10:30:05.199875Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": {
+    "ObservedAtUtc": "2026-11-03T10:33:24.7535904Z",
+    "SinceUtc": "2026-11-03T10:30:05.199875Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "QueueReceipt": {
+    "Batch": "MiTeCSystemAndTelephony",
+    "Status": "Failed",
+    "StartedAtUtc": "2026-11-03T10:27:43.896832Z",
+    "RunId": "64b0348c086b4c0697c40835803166ef",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\64b0348c086b4c0697c40835803166ef",
+    "Error": "Test controller exited with code 1. See controller-errors.log.",
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T10:33:38.6620639Z"
+  },
+  "Limits": [
+    "GetSys.exe exited 1 without arguments in session 0; cause is not established.",
+    "MSIX/MSIX64 and TAPI startup were not reached. Product lifecycle recovery did not pass; separate checkpoint recovery and Defender passed.",
+    "No legacy closure or support promotion."
+  ],
+  "RemainingEstimate": {
+    "FilesAndAssets": "23-33",
+    "Rounded": "120-175",
+    "Settings": "37-57",
+    "Packages": "34-49",
+    "Maintenance": "8-12",
+    "Exact": "121-175",
+    "Components": "19-24"
+  }
+}

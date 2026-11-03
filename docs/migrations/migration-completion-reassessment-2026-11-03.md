@@ -4,7 +4,7 @@
 
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 11:30 Copenhagen: **20 MiTeC variants across 15 products passed
+Evidence through 11:45 Copenhagen: **22 MiTeC variants across 17 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and
@@ -23,6 +23,17 @@ the same crash; the batch remains failed despite successful checkpoint recovery
 and Defender. See [network coverage](../archive/evidence/mitec-network-coverage-native-2026-11-03.json).
 No interactive UI or deeper product
 functionality is claimed; that work is deferred to v3.1.
+
+EXE Explorer (both executables) and HexEdit subsequently passed all 15 checks,
+Defender and checkpoint recovery. See [analysis tools](../archive/evidence/mitec-analysis-fast-track-native-2026-11-03.json).
+System Information stopped at GetSys.exe exit 1; neither MSIX nor TAPI startup
+was reached. Its failed product recovery and successful separate checkpoint
+recovery remain distinct. See [original failure](../archive/evidence/mitec-system-telephony-startup-failure-native-2026-11-03.json).
+The corrected route starts both MSIX primary applications and runs TAPI first;
+GetSys helpers retain exact file lifecycle coverage with execution/report
+behavior deferred to v3.1. Thirty-six source tests passed and two skipped per
+PowerShell edition; the corrected native retry is queued. See
+[source checks](../archive/evidence/mitec-system-startup-selection-source-2026-11-03.json).
 
 Rufus and RegRipper each passed their native file lifecycle with Defender and
 verified reset/off recovery. Neither tool was launched. See

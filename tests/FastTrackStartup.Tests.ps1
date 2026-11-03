@@ -6,6 +6,27 @@ BeforeAll {
   $script:digest=(Get-FileHash -LiteralPath $script:fixture).Hash
 }
 AfterAll {$env:RIDE_INTEGRATION_VM=$script:priorAttestation}
+Describe 'Primary application startup selection' {
+  BeforeEach {$script:members=@('MSIX.exe','GetSys.exe','MSIX64.exe','GetSys64.exe'|ForEach-Object {[pscustomobject]@{RelativePath=$_;Sha256=('a'*64)}})}
+  It 'selects both MSIX applications and retains GetSys helpers as explicit deferred evidence' {
+    $selection=Get-RideFastTrackStartupSelection 'package.mitec-system-information' $script:members
+    @($selection.Executables.RelativePath)|Should -Be @('MSIX64.exe','MSIX.exe')
+    @($selection.DeferredExecutables.RelativePath)|Should -Be @('GetSys.exe','GetSys64.exe')
+    $selection.DeferredReason|Should -Match 'deferred to v3.1'
+    @($selection.Executables.Sha256|Select-Object -Unique)|Should -Be @('a'*64)
+  }
+  It 'refuses missing or unexpected System Information executables' {
+    {Get-RideFastTrackStartupSelection 'package.mitec-system-information' $script:members[0..2]}|Should -Throw '*exact four reviewed*'
+    $script:members[0].RelativePath='unknown.exe'
+    {Get-RideFastTrackStartupSelection 'package.mitec-system-information' $script:members}|Should -Throw '*exact four reviewed*'
+  }
+  It 'retains other MiTeC selections and refuses empty executable selections' {
+    $selection=Get-RideFastTrackStartupSelection 'package.mitec-other' @([pscustomobject]@{RelativePath='app.exe';Sha256=('b'*64)},[pscustomobject]@{RelativePath='notice.txt';Sha256=('c'*64)})
+    @($selection.Executables.RelativePath)|Should -Be @('app.exe')
+    $selection.DeferredExecutables.Count|Should -Be 0
+    {Get-RideFastTrackStartupSelection 'package.mitec-other' @([pscustomobject]@{RelativePath='notice.txt'})}|Should -Throw '*No selected executable*'
+  }
+}
 Describe 'Bounded fast-track startup evidence' {
   BeforeEach {
     $env:RIDE_INTEGRATION_VM='1'
