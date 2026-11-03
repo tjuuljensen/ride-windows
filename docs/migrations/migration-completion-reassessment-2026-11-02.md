@@ -9,6 +9,55 @@ ID has now been matched by read-only inspection. No guest acceptance is implied.
 
 ## Approved fast-track execution, 2026-11-02
 
+### Overnight result and next execution order, 2026-11-03
+
+The [overnight closeout](../archive/evidence/overnight-closeout-2026-11-03.json)
+indexes verified evidence and the final idle/off observation. Across MiTeC,
+NTCore, Sysinternals and WinPmem, **29 package/variant cases covering 28 distinct
+catalog IDs** passed all 14 file lifecycle/recovery/preservation checks and
+active/no-alert Defender. Separate disconnected Caffeine acceptance passed 34
+checks. PSScriptTools/ThreadJob file recovery and Desktop runtime passed, but
+the overall runtime batch remains failed because its Core fixture is absent.
+Three Sysmon configuration lifecycles passed. Machine wallpaper/lock-image
+durable recovery passed; visual/user-creation acceptance remains open. Font
+durable recovery passed with an unresolved immediate native-enumeration failure.
+Wi-Fi did not run because WLAN service prerequisites were unavailable.
+
+The desktop-icon inspection was not performed: computer-use app approval timed
+out and stalled the chat for about 90 minutes. No icon state was changed. Treat
+UI approval as an unattended readiness dependency; do not attempt UI work during
+an unattended window unless the required app access was proven beforehand.
+Package/retained tasks completed independently, with no new protected-controller
+refresh. Final inspection found the VM Off, both tasks Ready, empty queues and
+no recovery hold. A local stop marker blocks new night requests.
+
+Next execution order:
+
+1. During an attended idle setup, refresh the finite package controller once for
+   the prepared RegRipper/Rufus, four remaining MiTeC portable batches,
+   Gpg4win/TMOG, Mail Checker and WFN routes. Recheck exact pins, capability
+   refusal, preview and one real terminal/export/reset cycle before dismissing
+   the operator. Source preparation alone is not activation.
+2. Activate the separate expiring OpenSSH Client/RSAT queue with exact target and
+   source bindings. Explicit Windows Update is already authorized. Preserve
+   restart-required and partial DISM evidence; timeout does not prove servicing
+   stopped. No new approval of Windows Update acquisition is needed.
+3. Supply a PowerShell 7 runtime fixture for PSScriptTools and establish WLAN
+   service/interface prerequisites. Preserve the existing Desktop and synthetic
+   Wi-Fi generator evidence; real Wi-Fi credentials are unnecessary for testing.
+4. Resolve font native visibility, image/new-user visual checks and the five
+   desktop-icon/ClassicStartMenu observations using their specific recovery
+   boundaries. BitLocker policy/boot/recovery prerequisites and Paradox shared
+   BDE recovery remain separate; do not substitute a package-presence pass.
+
+Catalog promotion still needs a scoped target/variant decision; successful file
+tests do not establish other targets or deferred utility features. The remaining
+legacy estimate is 122-176 exact / 120-175 rounded, about 150. The night's one
+whole legacy closure was the Sysmon configuration replacement; other gains
+verify already-migrated outcomes or prepare their remaining acceptance.
+
+### Approved scope and boundaries
+
 The milestone is an internal checkpoint commit, not a tag or public pre-release.
 Complete and commit each focused batch separately, preserving pre-existing
 working-tree changes. Use existing registered elevation routes; save work needing

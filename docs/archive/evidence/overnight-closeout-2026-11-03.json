@@ -1,0 +1,328 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T05:21:31.4886976Z",
+  "Status": "NightWorkClosedWithPartialAcceptance",
+  "DeadlineUtc": "2026-11-03T05:30:00Z",
+  "LastObservedRemainingPercent": 35,
+  "LastUsageObservedAtUtc": "2026-11-03T05:22:02.0000000Z",
+  "AllRequestedTestsComplete": false,
+  "PackageCases": [
+    {
+      "Id": "package.mitec-exe-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-analysis-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-hexedit",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-analysis-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-mail-viewer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-mail-history-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-email-history-browser",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-mail-history-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-internet-history-browser",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-mail-history-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-instant-messaging-history-browser",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-mail-history-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-sqlite-query",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-sqlite-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-system-information",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-system-telephony-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-tapi-monitor",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-system-telephony-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-uuid-generator",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-utilities-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-certificate-generator",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-utilities-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.mitec-certificate-information",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "mitec-utilities-night-native-2026-11-02.json"
+    },
+    {
+      "Id": "package.ntcore-pe-detective",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "ntcore-main-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.ntcore-cff-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "ntcore-main-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.ntcore-4gb-patch",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "ntcore-main-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.ntcore-driver-list",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "ntcore-additional-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.ntcore-driver-list",
+      "Variant": "portable-x86",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "ntcore-additional-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.ntcore-rebelnet",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "ntcore-additional-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-process-explorer",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-autoruns",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-tcpview",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-procmon",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-rammap",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-disk2vhd",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-sigcheck",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-strings",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-handle",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-products-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.sysinternals-suite",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "sysinternals-suite-night-native-2026-11-03.json"
+    },
+    {
+      "Id": "package.winpmem",
+      "Variant": "portable",
+      "Status": "Passed",
+      "Checks": 14,
+      "Recovered": true,
+      "Evidence": "winpmem-night-native-2026-11-03.json"
+    }
+  ],
+  "DistinctPackageIds": 28,
+  "PassedPackageVariantCases": 29,
+  "ChecksPerPackageCase": 14,
+  "AdditionalEvidence": [
+    "portable-path-offline-native-2026-11-03.json",
+    "offline-target-exploration-night-native-2026-11-03.json",
+    "psscripttools-desktop-night-native-2026-11-03.json",
+    "sysmon-night-native-2026-11-03.json",
+    "default-lock-night-native-2026-11-02.json",
+    "wallpaper-night-native-2026-11-02.json",
+    "font-process-night-native-2026-11-03.json",
+    "wireless-night-prerequisite-2026-11-03.json"
+  ],
+  "SourcePreparedNativePending": [
+    "regripper-rufus-routes-source-2026-11-03.json",
+    "remaining-mitec-routes-source-2026-11-03.json",
+    "gpg4win-tmog-routes-source-2026-11-03.json",
+    "mailchecker-route-source-2026-11-03.json",
+    "wfn-route-source-2026-11-03.json",
+    "client-capability-queue-source-2026-11-03.json"
+  ],
+  "Cleanup": {
+    "ObservedAtUtc": "2026-11-03T05:18:33.5605983Z",
+    "Tasks": [
+      {
+        "Name": "RIDEWin11Test",
+        "State": 3,
+        "LastResult": 0
+      },
+      {
+        "Name": "RIDEWin11NightRetained",
+        "State": 3,
+        "LastResult": 0
+      }
+    ],
+    "VMId": "6A5C9F91-91F9-44C5-924A-D1B5F863E16F",
+    "VMEnabledState": 3,
+    "Pending": 0,
+    "Running": 0,
+    "Blocked": false,
+    "RetainedPending": false,
+    "RetainedRunning": false,
+    "InstalledControllerSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+    "RetainedModuleSha256": "98018E7D43824E206C10FF5FB13BC639EA62B705CFB7FDA8150E008907499C34",
+    "RetainedWorkerSha256": "7483218FB5129D0D57C434B70EE84E295DD8D9A5B19083A1078ABD5C75F828F1"
+  },
+  "NativeAdmissionStop": {
+    "StoppedAtUtc": "2026-11-03T05:19:03.9143279Z",
+    "Reason": "No new native batch fits the 06:30 Copenhagen cutoff with recovery reserve; all queues and holds verified idle.",
+    "NativeAdmissionStopped": true,
+    "DeadlineUtc": "2026-11-03T05:30:00Z"
+  },
+  "TemporaryTaskExpiry": "Existing retained task has a 05:30 UTC trigger whose worker unregisters itself. Task still existed idle at final observation; future unregistration is configured, not yet observed.",
+  "UnattendedFailure": {
+    "Attempt": "Read-only existing Explorer window observation for desktop-icon visual test",
+    "Component": "Computer-use app approval",
+    "Impact": "Chat orchestration stalled about 90 minutes. Independent WinPmem task had completed/reset at 03:41.",
+    "ApproximateBlockedIntervalUtc": "03:42-05:15",
+    "Result": "App approval timed out; no screenshot or UI input obtained, no icon state changed",
+    "FutureBoundary": "Exclude UI tools from unattended work unless app access was proven while the operator was present."
+  },
+  "Remaining": [
+    "Native activation/execution of newly prepared fixed routes",
+    "OpenSSH/RSAT Windows Update servicing through the unactivated expiring queue",
+    "PSScriptTools Core runtime fixture",
+    "WLAN service/interface prerequisites",
+    "Font immediate native visibility and interactive/restart/consumer acceptance",
+    "Wallpaper/new-user and lock-screen visuals",
+    "Desktop icons/ClassicStartMenu visual check",
+    "BitLocker effective policy and full boot/recovery/decryption acceptance",
+    "Paradox shared BDE recovery",
+    "Scoped package/variant support promotion"
+  ],
+  "WholeLegacyOutcomesClosedThisNight": 1,
+  "Closure": "Sysmon configuration replacement",
+  "Estimates": {
+    "Settings": "37-57",
+    "FilesAndAssets": "24-34",
+    "Maintenance": "8-12",
+    "ExactTotal": "122-176",
+    "Components": "19-24",
+    "Rounded": "120-175/about 150",
+    "Packages": "34-49"
+  },
+  "Published": false
+}
