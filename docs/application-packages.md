@@ -64,6 +64,17 @@ switching editions requires a reviewed edition change. `show`, default `status`
 and removal use the recorded selection where available. An explicit profile
 compares its requested edition.
 
+## Portable destination and recovery paths
+
+Portable staging and recovery reject reparse points in the selected path or any
+ancestor, including junctions and symbolic links. Each lifecycle call checks the
+path again; an earlier successful check does not authorize a replacement path.
+Missing directories can be created during the selected operation. An inaccessible
+path or filesystem I/O error stops the operation instead of being treated as
+absence. A file where a parent directory is required also stops staging. Resolve
+the reported path or access problem before retrying, and retain any saved recovery
+record and reported staging evidence.
+
 ## Google Analytic Cookie Cruncher pending package candidate
 
 `package.google-analytic-cookie-cruncher` pins the publisher's version 2.0.0.1

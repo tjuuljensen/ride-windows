@@ -10,6 +10,25 @@ same date. Remaining recommendations are tracked final-v3 tasks, not implemented
 CLI behavior.
 Native installers, target acceptance and recovery evidence remain platform-owned.
 
+## Portable path validation implementation, 2026-11-03
+
+RB-07/08/09/11 shared behavior is unchanged. Windows replaces repeated provider
+lookups with direct filesystem attribute reads while rechecking every ancestor
+on every call. No cache or reparse-point exception is introduced; only missing
+paths are eligible for creation, and access/I/O failures propagate. Saved-state
+schema, exact file recovery and public CLI remain unchanged. The pinned contract
+1.1.0 and Fedora archive/owned-directory guards were compared; Fedora also rejects
+symlinks in the reviewed archive snapshots and owned-directory paths. This is not
+a claim of identical APIs or complete cross-platform conformance.
+
+[Evidence](archive/evidence/portable-path-optimization-2026-11-03.json) records
+compared hashes, 185 focused passing cases per shell, full 531-member synthetic
+WFN recovery in both shells and 34 native offline Caffeine checks with verified
+recovery. WFN native acceptance and other targets remain separate. Owner:
+RIDE-Windows maintainers. Follow-up: [remaining package acceptance](migrations/migration-completion-reassessment-2026-11-02.md#component-specific-acceptance-status).
+Review trigger: path ownership rules, saved-state schema, filesystem support or
+target-promotion changes. No shared-contract amendment is required.
+
 ## Expiring client capability acceptance queue, 2026-11-03
 
 Windows-only test transport preparation under RB-03/04/05/08/09/10/11: fixed
