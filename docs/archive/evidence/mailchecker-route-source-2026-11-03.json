@@ -1,0 +1,84 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T03:10:32.6743533Z",
+  "Status": "SourcePreparedNativePending",
+  "Suite": "ApplicationsBatch13",
+  "RequiredCapability": "ApplicationsBatch13MailCheckerV1",
+  "NativeLifecyclePerformed": false,
+  "ControllerRefreshed": false,
+  "InstalledCapabilityPresent": false,
+  "InstalledControllerSha256": "928E1351148CBBBA07D996840D8CB864EF228ED2894CD25B88A0FC850C1937DA",
+  "SourceChecks": [
+    {
+      "Version": "5.1.26100.9818",
+      "Passed": 162,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 412,
+      "NotRun": 250,
+      "ParserFiles": 7
+    },
+    {
+      "Version": "7.6.5",
+      "Passed": 162,
+      "Failed": 0,
+      "Skipped": 0,
+      "Total": 412,
+      "NotRun": 250,
+      "ParserFiles": 7
+    }
+  ],
+  "PinnedInput": {
+    "Path": ".local/remaining-collections-20261017/MAILCHECKER_Instal.exe",
+    "Bytes": 2174711,
+    "Sha256": "DA47910BF3EAB1EFABB6FC7200A6BDFC394C17A24DFB236B0AAFB220967C8CE0",
+    "Executed": false
+  },
+  "SourceFiles": [
+    {
+      "Sha256": "54E6AA8ADA97D1ACD718216392038ADE42560B98E840F38514080361696A8106",
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1"
+    },
+    {
+      "Sha256": "31408B0E87CE19CBDCC76526CBD8387734427EFAF41862587CE522AF1A83F384",
+      "Path": "tests/integration/Invoke-RideGuestTests.ps1"
+    },
+    {
+      "Sha256": "0345FC0069E9BF838B159B3C7C2C5D9D9936C96B1761194F221435FE0820FBA8",
+      "Path": "tests/integration/Invoke-RideVmTest.ps1"
+    },
+    {
+      "Sha256": "946C65EFC65AD363C6FA12ADA9B332B5800A9A0BA7C3BA8172EEE7E970188E5D",
+      "Path": "tests/integration/Invoke-RideVmTestTask.ps1"
+    },
+    {
+      "Sha256": "AD15D008323E637673F9C25609BFA479F03B985E3AF80DE82A1FB6E994E17BEA",
+      "Path": "tests/integration/RIDE.TestAutomation.psm1"
+    },
+    {
+      "Sha256": "350109380549DC2361609B1A9D90709C7FF45F3FDBB89CD88AAA1498A818C0D1",
+      "Path": "tests/integration/Register-RideVmTestTask.ps1"
+    },
+    {
+      "Sha256": "46E67161E59C495CA2DE14B14BF3584408DDA0B84A0013A0E6ABF240F9C1E3FE",
+      "Path": "tests/FocusedApplicationSelection.Tests.ps1"
+    },
+    {
+      "Sha256": "27639B87158B738253E5959371CC4F64FB4996B5ADD6332E98CD49833B3B7430",
+      "Path": "tests/TestAutomation.Tests.ps1"
+    },
+    {
+      "Sha256": "48C32C76E7507221080C87E3D1A156B6BA6F82B99351B7966060168B5F5C1684",
+      "Path": "tests/ApplicationPackages.Tests.ps1"
+    }
+  ],
+  "Boundary": "Exactly Mail Checker 7.2.0 installed variant, elevated machine scope, Windows 11 candidate. Defender and exact registered version required. Install/repeat, remove/repeat and compensating presence recovery. No mail account, credentials or messages; no explicit product launch. Installer post-actions remain unobserved. Host pin verification does not stage the guest or prove publisher reacquisition.",
+  "Remaining": "Attended idle activation and native lifecycle/Defender acceptance. Mail/TLS feature testing deferred to 3.1. Exact prior-version/application-data recovery not claimed. Paradox/shared BDE excluded.",
+  "Alignment": {
+    "FedoraRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "Impact": "Windows-owned RB-03/04/08/09/11 acceptance routing; no production shared contract change.",
+    "ContractVersion": "1.1.0",
+    "FedoraCommonSha256": "A46FDA2DB3BA37AB22616DB723E11960B4F02043CAF53DD7D3D6AA2106A87878"
+  }
+}

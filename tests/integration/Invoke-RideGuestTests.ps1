@@ -32,6 +32,8 @@
   ApplicationsBatch10 tests MiTeC Project Maker 1.9.0 install/remove/recovery on Windows 11 without launching the application.
   ApplicationsBatch11 tests HashCheck 2.6.3 install/remove/recovery on Windows 11 without launching HashCheck.
   ApplicationsBatch12 tests the pinned NTCore Explorer Suite installer lifecycle on Windows 11 without launching suite utilities.
+  ApplicationsBatch13 tests only the pinned Mail Checker machine installer on
+  Windows 11, with Defender observations; it does not configure or use mail accounts.
   SettingsRemainingBatch1 and SettingsRemainingBatch2 select the two focused migration suites.
   Full (default) runs all integration scenarios. SettingsBatch40 runs only the
   forty-setting registry migration suite, without package downloads. SettingsBatch60 runs the sixty-setting suite.
@@ -71,8 +73,9 @@
   Recovery: The host controller, or the attended operator using the manual VM
   runner, must restore the clean disposable-VM checkpoint independently.
   Author: RIDE-Windows maintainers.
-  Version: 1.11.0
+  Version: 1.12.0
   Changelog:
+    1.12.0: Add fixed ApplicationsBatch13 Mail Checker lifecycle selection.
     1.11.0: Dispatch fixed Gpg4win/TMOG selections with focused source checks.
     1.10.0: Select focused unit and guest acceptance for the hibernation candidate.
     1.9.0: Dispatch the exact-package NTCore Explorer Suite ApplicationsBatch12 lifecycle acceptance.
@@ -109,7 +112,7 @@
 param(
   [string] $GuestPath,
   [switch] $Integration,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultsPath,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -117,7 +120,7 @@ param(
   [ValidatePattern('^[0-9a-f]{32}$')][string] $ResultRunId,
   [switch] $Version
 )
-$script:ScriptVersion = '1.11.0'
+$script:ScriptVersion = '1.12.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1') { throw 'Use the disposable-VM host runner; this entry point must not run on a developer workstation.' }
@@ -211,6 +214,8 @@ try {
     $selectedTests=@('.\tests\FocusedApplicationSelection.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\DefenderAcceptance.Tests.ps1')
     if($IntegrationSuite -eq 'ApplicationsBatch1Gpg4win'){$selectedTests+= '.\tests\Gpg4winPackage.Tests.ps1'}
     $selectedTests
+  } elseif ($IntegrationSuite -eq 'ApplicationsBatch13') {
+    @('.\tests\FocusedApplicationSelection.Tests.ps1', '.\tests\MiTeCMailChecker.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\DefenderAcceptance.Tests.ps1')
   } elseif ($IntegrationSuite -like 'ApplicationsBatch*') {
     $selectedTests=@('.\tests\ApplicationPackages.Tests.ps1', '.\tests\ChatPackagePins.Tests.ps1', '.\tests\Catalog.Tests.ps1', '.\tests\PackageDependencyPlanning.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
     if($IntegrationSuite -in @('ApplicationsBatch6','ApplicationsBatch7')){$selectedTests+= '.\tests\ArtcraftPackages.Tests.ps1'}
@@ -274,6 +279,7 @@ try {
     elseif ($IntegrationSuite -eq 'ApplicationsBatch10') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 10 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch11') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 11 }
     elseif ($IntegrationSuite -eq 'ApplicationsBatch12') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 12 -PackageId package.ntcore-explorer-suite }
+    elseif ($IntegrationSuite -eq 'ApplicationsBatch13') { & .\tests\integration\Invoke-RideApplicationBatch.ps1 -Batch 13 }
     else { & .\tests\integration\Invoke-RideVmSuite.ps1 }
     $summary['IntegrationSuite'] = $IntegrationSuite
     $summary.IntegrationPassed = $true

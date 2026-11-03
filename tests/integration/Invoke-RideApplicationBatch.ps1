@@ -10,10 +10,12 @@
   no new detection since guest boot, recorded before and after the lifecycle.
   Focused Gpg4win/TMOG selections also require coordinator-owned Defender checks.
   Gpg4win runs under an isolated limited user and preserves synthetic GnuPG data;
-  TMOG preserves synthetic LocalAppData content. No encryption, product launch,
-  screensaver selection or paid activation is exercised.
+  TMOG preserves synthetic LocalAppData content. No encryption, explicit product
+  launch, screensaver selection or paid activation is exercised. Batch 13 selects
+  only the pinned Mail Checker machine installer with Defender and exact version
+  observations. It does not configure accounts or perform mail operations.
 .PARAMETER Batch
-  Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), side-by-side Microsoft OpenJDK versions on Server 2025 (8), MiTeC InfoBar on Windows 11 (9), MiTeC Project Maker on Windows 11 (10), HashCheck on Windows 11 (11), or NTCore Explorer Suite on Windows 11 (12).
+  Installed applications (1), portable applications (2), Docker Desktop variants (3), Slack and Discord (4), Microsoft Visual C++ v14 (5), Artcraft machine-scope applications (6), ArtCraft Launcher (7), side-by-side Microsoft OpenJDK versions on Server 2025 (8), MiTeC InfoBar on Windows 11 (9), MiTeC Project Maker on Windows 11 (10), HashCheck on Windows 11 (11), NTCore Explorer Suite on Windows 11 (12), or Mail Checker on Windows 11 (13).
 .PARAMETER PackageId
   For batch 12, exactly package.ntcore-explorer-suite. For batch 1, optionally
   select only package.gpg4win or package.tmog using their existing scope and
@@ -61,8 +63,10 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.21.0.
-  Changelog: 0.21.0: Add exact Gpg4win/TMOG batch-1 selection, preserved limited-user
+  Owner: RIDE-Windows maintainers. Version: 0.22.0.
+  Changelog: 0.22.0: Add fixed Mail Checker 7.2.0 package lifecycle with Defender
+    and exact-version readback; no accounts, mail or product-feature scenario.
+    0.21.0: Add exact Gpg4win/TMOG batch-1 selection, preserved limited-user
     handoff and coordinator-owned Defender evidence.
     0.20.0: Require Defender evidence for focused InfoBar, Project Maker and Explorer Suite acceptance.
     0.19.4: Retain machine lifecycle stage progress and Project Maker installer diagnostics on timeout.
@@ -107,8 +111,8 @@
     0.1.0: Add two package-only migration suites.
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
-param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.21.0'
+param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12,13)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
+$script:ScriptVersion='0.22.0'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -124,6 +128,7 @@ function Assert-RideApplicationPackageSelection {
 function Test-RideApplicationBatchSelection {
   param($Operation,[int]$SelectedBatch,[string]$SelectedPackageId)
   if($SelectedPackageId){return $Operation.Id -ceq $SelectedPackageId}
+  if($SelectedBatch -eq 13){return $Operation.Id -ceq 'package.mitec-mail-checker'}
   if($SelectedBatch -eq 8){return $Operation.MigrationBatch -eq 'OpenJDKCompatibility'}
   return $Operation.MigrationBatch -eq "ApplicationsBatch$SelectedBatch"
 }
@@ -133,6 +138,12 @@ function Assert-RideFocusedApplicationScenario {
   $selected=$Scenarios[0].Selected
   if($SelectedPackageId -ceq 'package.gpg4win' -and ($selected.Scope -cne 'User' -or -not $selected.RequiresUnelevatedUser -or $selected.RequiresAdmin)){throw 'Focused Gpg4win acceptance requires the limited intended-user context.'}
   if($SelectedPackageId -ceq 'package.tmog' -and ($selected.Scope -cne 'Machine' -or -not $selected.RequiresAdmin -or $selected.RequiresUnelevatedUser)){throw 'Focused TMOG acceptance requires the elevated machine context.'}
+}
+function Assert-RideMailCheckerScenario {
+  param([object[]]$Scenarios,[string]$Target)
+  if($Target -cne 'Windows 11' -or $Scenarios.Count -ne 1 -or $Scenarios[0].Id -cne 'package.mitec-mail-checker' -or $Scenarios[0].Variant -cne 'installed'){throw 'ApplicationsBatch13 requires exactly the Mail Checker installed Windows 11 selection.'}
+  $selected=$Scenarios[0].Selected
+  if($selected.Scope -cne 'Machine' -or -not $selected.RequiresAdmin -or $selected.RequiresUnelevatedUser -or $selected.InstallerType -cne 'Exe' -or $selected.PackageVersion -cne '7.2.0'){throw 'Mail Checker acceptance requires the pinned 7.2.0 elevated machine installer.'}
 }
 Assert-RideApplicationPackageSelection -SelectedBatch $Batch -SelectedPackageId $PackageId
 $workerIdentity=[Security.Principal.WindowsIdentity]::GetCurrent()
@@ -282,6 +293,7 @@ if($Batch -eq 9 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch9 is limi
 if($Batch -eq 10 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch10 is limited to Windows 11.'}
 if($Batch -eq 11 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch11 is limited to Windows 11.'}
 if($Batch -eq 12 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch12 is limited to Windows 11.'}
+if($Batch -eq 13 -and $target -ne 'Windows 11'){throw 'ApplicationsBatch13 is limited to Windows 11.'}
 if($PackageScope -ne 'All' -and $Batch -ne 1){throw 'PackageScope is supported only for ApplicationsBatch1.'}
 $guestOs=Get-CimInstance Win32_OperatingSystem
 $installationType=(Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name InstallationType -ErrorAction Stop).InstallationType
@@ -322,11 +334,12 @@ if($Batch -eq 9 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.
 if($Batch -eq 10 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.mitec-project-maker')){throw 'ApplicationsBatch10 must select exactly MiTeC Project Maker 1.9.0.'}
 if($Batch -eq 11 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.hashcheck-shell-extension')){throw 'ApplicationsBatch11 must select exactly HashCheck Shell Extension 2.6.3.'}
 if($Batch -eq 12 -and ($scenarios.Count -ne 1 -or $scenarios[0].Id -cne 'package.ntcore-explorer-suite')){throw 'ApplicationsBatch12 must select exactly the pinned NTCore Explorer Suite candidate.'}
+if($Batch -eq 13){Assert-RideMailCheckerScenario -Scenarios $scenarios -Target $target}
 $results=New-Object System.Collections.Generic.List[object]
 $jsonResults=New-Object System.Collections.Generic.List[string]
 $evidenceFile=if($UnelevatedChild){"applications-batch$Batch-user.json"}else{"applications-batch$Batch.json"}
 $evidencePath=if($env:RIDE_TEST_EVIDENCE_PATH){Join-Path $env:RIDE_TEST_EVIDENCE_PATH $evidenceFile}else{$null}
-$defenderRequired=(-not $UnelevatedChild) -and ($Batch -in @(9,10,12) -or $PackageId -cin @('package.gpg4win','package.tmog'))
+$defenderRequired=(-not $UnelevatedChild) -and ($Batch -in @(9,10,12,13) -or $PackageId -cin @('package.gpg4win','package.tmog'))
 if($defenderRequired){
   if(-not $evidencePath){throw 'Focused package Defender acceptance requires an evidence directory.'}
   Import-Module (Join-Path $PSScriptRoot 'RIDE.DefenderAcceptance.psm1') -Force
@@ -658,7 +671,7 @@ foreach($scenario in $scenarios){
     if(-not (Test-RideDesiredState $plan[0].Operation Present)){throw 'Installation did not establish the desired state.'}
     if($userDataFixtures.Count){Assert-RideApplicationUserDataPreserved -Fixtures $userDataFixtures -Stage 'Package installation'}elseif($profileFixture -and (-not(Test-Path -LiteralPath $profileFixture) -or [IO.File]::ReadAllText($profileFixture) -cne 'Keep existing profile data.')){throw 'Installation changed existing profile data.'}
     $scenarioResult.Version=$installed.DisplayVersion
-    if($Batch -in @(6,7,9,10,11) -or $PackageId -cin @('package.gpg4win','package.tmog')){
+    if($Batch -in @(6,7,9,10,11,13) -or $PackageId -cin @('package.gpg4win','package.tmog')){
       # HashCheck release 2.6.3 registers DisplayVersion 2.6.3.0; retain an
       # exact assertion rather than loosening version checks for other packages.
       $expectedInstalledVersion=if($Batch -eq 11){'2.6.3.0'}else{[string]$package.PackageVersion}

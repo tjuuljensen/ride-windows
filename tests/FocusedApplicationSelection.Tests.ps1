@@ -8,7 +8,7 @@
   Invoke-Pester ./tests/FocusedApplicationSelection.Tests.ps1
 .NOTES
   Compatibility: Pester 5.7.1; native Windows PowerShell 5.1 and PowerShell 7.
-  Version: 0.1.0. Changelog: Add Gpg4win/TMOG scope and preservation boundaries.
+  Version: 0.2.0. Changelog: Add fixed Mail Checker machine-installer selection.
 #>
 BeforeAll {
   $script:repo=Split-Path -Parent $PSScriptRoot
@@ -17,10 +17,34 @@ BeforeAll {
   $tokens=$null;$errors=$null
   $ast=[Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot 'integration/Invoke-RideApplicationBatch.ps1'),[ref]$tokens,[ref]$errors)
   if($errors.Count){throw ($errors -join '; ')}
-  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
+  $names=@('Assert-RideApplicationPackageSelection','Test-RideApplicationBatchSelection','Assert-RideFocusedApplicationScenario','Assert-RideMailCheckerScenario','New-RideApplicationUserDataFixtures','Assert-RideApplicationUserDataPreserved')
   $definitions=@($ast.FindAll({param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -in $names},$true))
   if($definitions.Count -ne $names.Count){throw 'Focused pure helper definitions differ.'}
   . ([scriptblock]::Create(($definitions|ForEach-Object {$_.Extent.Text}) -join "`n"))
+}
+Describe 'Fixed Mail Checker guest selection' {
+  BeforeEach {
+    $catalog=Import-RideCatalogData (Join-Path $script:repo 'catalog/operations.psd1')
+    $script:mailOperation=Resolve-RidePackageSelection ($catalog.Operations|Where-Object Id -eq 'package.mitec-mail-checker') -Variant installed
+    $script:mailScenario=[pscustomobject]@{Id='package.mitec-mail-checker';Variant='installed';Selected=$script:mailOperation}
+  }
+  It 'selects only the declared Mail Checker operation from the complete catalog' {
+    $selected=@($catalog.Operations|Where-Object {Test-RideApplicationBatchSelection $_ 13})
+    $selected.Count|Should -Be 1;$selected[0].Id|Should -BeExactly 'package.mitec-mail-checker'
+    {Assert-RideApplicationPackageSelection 13}|Should -Not -Throw
+    {Assert-RideMailCheckerScenario @($script:mailScenario) 'Windows 11'}|Should -Not -Throw
+    $script:mailOperation.ExpectedSha256|Should -BeExactly 'da47910bf3eab1efabb6fc7200a6bdfc394c17a24dfb236b0aafb220967c8ce0'
+    $script:mailOperation.SupportedTargets|Should -Be @()
+  }
+  It 'refuses alternate products, variants, targets and ambiguous selection' {
+    {Assert-RideApplicationPackageSelection 13 'package.tmog'}|Should -Throw
+    {Assert-RideMailCheckerScenario @($script:mailScenario) 'Windows Server 2025'}|Should -Throw '*Windows 11*'
+    {Assert-RideMailCheckerScenario @($script:mailScenario,$script:mailScenario) 'Windows 11'}|Should -Throw '*exactly*'
+    $script:mailScenario.Variant='portable';{Assert-RideMailCheckerScenario @($script:mailScenario) 'Windows 11'}|Should -Throw
+  }
+  It 'refuses changed privilege, installer or release metadata <Field>' -ForEach @(
+    @{Field='Scope';Value='User'},@{Field='RequiresAdmin';Value=$false},@{Field='RequiresUnelevatedUser';Value=$true},@{Field='InstallerType';Value='Portable'},@{Field='PackageVersion';Value='7.2.1'}
+  ) {$script:mailOperation[$Field]=$Value;{Assert-RideMailCheckerScenario @($script:mailScenario) 'Windows 11'}|Should -Throw '*pinned 7.2.0 elevated machine installer*'}
 }
 Describe 'Fixed Gpg4win and TMOG guest selection' {
   It 'selects only <Id> and retains its intended privilege context' -ForEach @(

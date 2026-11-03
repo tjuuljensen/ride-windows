@@ -1129,3 +1129,18 @@ No shared-contract amendment is needed. Owner: Windows maintainer. Follow-up:
 Review trigger: attended activation, native user-data/recovery results, source
 changes or target promotion. Compensating package presence and synthetic data
 preservation do not establish exact prior-version or all-application-state recovery.
+
+## Fixed Mail Checker installer acceptance, 2026-11-03
+
+Windows-owned RB-03/04/08/09/11 test routing adds one fixed Windows 11 machine
+installer selection, exact version and Defender evidence, bounded runtime source
+staging, and a separate installed-capability guard. Existing candidate and
+compensating package-presence recovery semantics remain unchanged. Contract 1.1.0
+and the same Fedora target/candidate source comparison apply; hashes and source
+results are recorded in [evidence](archive/evidence/mailchecker-route-source-2026-11-03.json).
+No public CLI, supported-target declaration or contract amendment is introduced.
+Owner: Windows maintainer. Follow-up: [native procedure](../tests/integration/README.md#mail-checker-installer-acceptance).
+Review trigger: attended activation, native result, package pin or recovery change.
+The unchanged installed controller lacks the new capability; source preparation
+does not establish native acceptance, mail/TLS behavior or exact application-data
+recovery. Paradox/BDE acceptance remains separate.

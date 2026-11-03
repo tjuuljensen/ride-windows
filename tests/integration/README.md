@@ -504,6 +504,37 @@ partial evidence after failure; source checks and identity verification do not
 establish native acceptance. Gpg4win's earlier installer crash remains unresolved
 until a focused native run succeeds.
 
+### Mail Checker installer acceptance
+
+`ApplicationsBatch13` selects only the pinned Mail Checker 7.2.0 machine
+installer on a clean disposable Windows 11 guest. It requires active/no-alert
+Defender observations, exact installed-version readback, repeat installation,
+uninstall/repeat and saved-run compensating presence recovery. Recovery does not
+establish exact prior-version or application-data restoration. No mail account,
+messages or credentials are required. The scenario does not explicitly launch
+Mail Checker; observe any installer post-actions during native acceptance.
+Mail/TLS feature behavior remains deferred to 3.1.
+
+Prerequisites: the idle registered VM/checkpoint, normal pinned publisher
+acquisition or a verified guest cache, and a later attended controller refresh
+declaring `ApplicationsBatch13MailCheckerV1`. Source preparation and host-retained
+installer identity do not activate the route or stage the guest cache. An older
+controller is refused before queue admission; the client does not request UAC.
+
+From the repository root as the ordinary registered account, preview after that
+activation, then run the same command without `-WhatIf`:
+
+```powershell
+$configuration = 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11Test\configuration.json'
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath $configuration -IntegrationSuite ApplicationsBatch13 -TimeoutMinutes 20 -WhatIf
+```
+
+Require exactly one package row in `applications-batch13.json`, complete
+lifecycle/version checks, clean Defender observations and exported evidence.
+Retain failures and verify the host's final checkpoint reset separately from
+RIDE recovery. Native acceptance is pending. Paradox Data Editor requires its
+own shared-BDE dependency/recovery procedure and is excluded from this route.
+
 ### Existing application suites
 
 `ApplicationsBatch1` selects conventional application candidates;
