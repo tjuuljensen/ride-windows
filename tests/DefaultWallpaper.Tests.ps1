@@ -93,14 +93,25 @@ Describe 'Machine first-logon wallpaper candidate lifecycle' {
       Should -Invoke New-RidePrivateFileStream -Times 0 -Exactly
       Should -Invoke Set-RideDefaultWallpaperRegistry -Times 0 -Exactly
     }
+    It 'accepts the verified build without VM markers and binds the engine run ID' {
+      $script:context.Guest=$false;$script:selection.AllowCandidate=$false;$script:selection.RunId='a'*32
+      $applied=Set-RideDefaultWallpaperImage @script:selection
+      $applied.RunId|Should -Be ('a'*32)
+      (Restore-RideDefaultWallpaperRun -RunId $applied.RunId -StateDirectory $script:state -Confirm:$false).Status|Should -Be Restored
+    }
+    It 'does not rewrite an image when its sibling image policy was added' {
+      $applied=Set-RideDefaultWallpaperImage @script:selection
+      $script:registry.Rows+=@([pscustomobject]@{Name='LockScreenImage';Kind='String';Value='C:\\OtherImage.png'})
+      (Set-RideDefaultWallpaperImage @script:selection).Status|Should -Be AlreadyDesired
+      @($script:registry.Rows|Where-Object Name -EQ 'LockScreenImage').Count|Should -Be 1
+    }
     It 'refuses an unsupported target and missing existing elevation or candidate selection' {
       $script:context.EditionId='Professional'
       {Set-RideDefaultWallpaperImage @script:selection}|Should -Throw '*Enterprise/Education*'
       $script:context.EditionId='EnterpriseEval';$script:context.Guest=$false
-      {Set-RideDefaultWallpaperImage @script:selection}|Should -Throw '*Hyper-V guest*'
       $script:context.Guest=$true;$script:context.Administrator=$false
       {Set-RideDefaultWallpaperImage @script:selection}|Should -Throw '*Existing elevation*'
-      $script:context.Administrator=$true;$script:selection.AllowCandidate=$false
+      $script:context.Administrator=$true;$script:selection.AllowCandidate=$false;$script:context.Revision=9712
       {Set-RideDefaultWallpaperImage @script:selection}|Should -Throw '*AllowCandidate*'
       Should -Invoke New-RidePrivateFileStream -Times 0 -Exactly
     }
@@ -169,6 +180,7 @@ Describe 'Machine first-logon wallpaper candidate lifecycle' {
       (Get-FileHash -LiteralPath $applied.AssetPath).Hash|Should -BeExactly $script:hash
     }
     It 'requires candidate permission again for actual recovery' {
+      $script:context.Revision=9712
       $applied=Set-RideDefaultWallpaperImage @script:selection
       {Restore-RideDefaultWallpaperRun -RunId $applied.RunId -StateDirectory $script:state -Confirm:$false}|Should -Throw '*AllowCandidate*'
       Test-Path -LiteralPath $applied.AssetPath|Should -BeTrue

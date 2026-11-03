@@ -10,6 +10,29 @@ same date. Remaining recommendations are tracked final-v3 tasks, not implemented
 CLI behavior.
 Native installers, target acceptance and recovery evidence remain platform-owned.
 
+## Default-image catalog integration, 2026-11-03
+
+Windows adds native `DefaultImage` providers and optional `ImagePath`/`ImageSha256`
+selection fields in schema 1. Existing profiles, IDs and saved snapshots retain
+their meaning. CLI `set`, profile `apply`, inspection and saved-run `restore`
+use the same pinned local inputs; no network source is introduced. Previews
+remain read-only, all selected PNGs are preflighted before mutation, and guarded
+recovery binds the outer run to private child receipts. Shared-key image writes
+restore in reverse capture order. Older standalone image receipts remain usable
+through their original handler entry points.
+
+Compared canonical contract 1.1.0 SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`
+and Fedora HEAD `419f018e5173a865ee4b263dcc6edc24140d92da`, including its pinned
+contract reference and catalog/lib implementation. Fedora has no corresponding
+wallpaper/lock-screen provider; native provider coverage is intentionally local.
+This is additive provider input and RB-03/04/07/08/09 implementation, not a
+change to shared lifecycle meanings. No contract revision or Fedora parity claim.
+Owner: RIDE-Windows maintainers. Follow-up: [image scope and evidence](image-personalization.md).
+Review trigger: target promotion, shared image selection semantics or recovery
+schema changes. The new adapter has mocked both-shell regression coverage;
+previous native visual evidence is reused, not represented as a new catalog VM run.
+
 ## Native fast-track scope decision, 2026-11-03
 
 The user retired all Windows VMware installation/profile/path support and chose

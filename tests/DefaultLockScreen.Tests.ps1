@@ -92,14 +92,25 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       Should -Invoke New-RidePrivateFileStream -Times 0 -Exactly
       Should -Invoke Set-RideDefaultLockRegistry -Times 0 -Exactly
     }
+    It 'accepts the verified build without VM markers and binds the engine run ID' {
+      $script:context.Guest=$false;$script:selection.AllowCandidate=$false;$script:selection.RunId='a'*32
+      $applied=Set-RideDefaultLockScreenImage @script:selection
+      $applied.RunId|Should -Be ('a'*32)
+      (Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -Confirm:$false).Status|Should -Be Restored
+    }
+    It 'does not rewrite an image when its sibling image policy was added' {
+      $applied=Set-RideDefaultLockScreenImage @script:selection
+      $script:registry.Rows+=@([pscustomobject]@{Name='ThemeFile';Kind='String';Value='C:\\OtherImage.png'})
+      (Set-RideDefaultLockScreenImage @script:selection).Status|Should -Be AlreadyDesired
+      @($script:registry.Rows|Where-Object Name -EQ 'ThemeFile').Count|Should -Be 1
+    }
     It 'refuses an unsupported target and missing existing elevation or candidate selection' {
       $script:context.EditionId='Professional'
       {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Enterprise/Education*'
       $script:context.EditionId='EnterpriseEval';$script:context.Guest=$false
-      {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Hyper-V guest*'
       $script:context.Guest=$true;$script:context.Administrator=$false
       {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Existing elevation*'
-      $script:context.Administrator=$true;$script:selection.AllowCandidate=$false
+      $script:context.Administrator=$true;$script:selection.AllowCandidate=$false;$script:context.Revision=9712
       {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*AllowCandidate*'
       Should -Invoke New-RidePrivateFileStream -Times 0 -Exactly
     }
@@ -168,6 +179,7 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       (Get-FileHash -LiteralPath $applied.AssetPath).Hash|Should -BeExactly $script:hash
     }
     It 'requires candidate permission again for actual recovery' {
+      $script:context.Revision=9712
       $applied=Set-RideDefaultLockScreenImage @script:selection
       {Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -Confirm:$false}|Should -Throw '*AllowCandidate*'
       Test-Path -LiteralPath $applied.AssetPath|Should -BeTrue

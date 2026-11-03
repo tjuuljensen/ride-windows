@@ -6,6 +6,60 @@
   SchemaVersion = 1
   Operations = @(
     @{
+      Id = 'windows.default-wallpaper'
+      Name = 'New-user default wallpaper'
+      Category = 'Personalization'
+      Kind = 'DefaultImage'
+      Handler = 'DefaultImage'
+      ImageType = 'Wallpaper'
+      SettingPresentation = @{
+        AppliesTo = 'Machine defaults; elevated Windows 11 x64 Enterprise/Education'
+        Behavior = 'Configuration'
+        GuiPath = 'Settings > Personalization'
+        GuiEffect = 'Sets the first-logon theme for newly initialized users; existing desktops and later user wallpaper choices are preserved. The theme selects Aero; other theme defaults are not independently verified.'
+        Requirements = @('Explicit local PNG and reviewed SHA-256 pin', 'Accepted image behavior on EnterpriseEval 26300.9711; other declared targets require AllowCandidate')
+        OtherSupportedChoices = @('No generic unset or baseline; restore the saved run', 'Recovery refuses policy/file conflicts and wallpaper profile-consumer changes')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_settheme')
+      }
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      SupportedTargets = @('Windows 11')
+      MinimumBuild = 22000
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      States = @{ Configured = 'Selected local PNG' }
+      Rollback = 'Exact'
+      Description = 'Apply an explicitly selected local PNG with a required SHA-256 pin. Accepted image behavior: EnterpriseEval 26300.9711; other x64 Enterprise/Education builds require AllowCandidate. Restore recovers prior policy and removes unchanged owned files. Wallpaper recovery refuses new profile consumers; other theme defaults remain unverified.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_settheme'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows or organizational default image; no RIDE override' } }
+    }
+    @{
+      Id = 'windows.default-lock-screen'
+      Name = 'Machine default lock/sign-in image'
+      Category = 'Personalization'
+      Kind = 'DefaultImage'
+      Handler = 'DefaultImage'
+      ImageType = 'LockScreen'
+      SettingPresentation = @{
+        AppliesTo = 'Machine defaults; elevated Windows 11 x64 Enterprise/Education'
+        Behavior = 'Configuration'
+        GuiPath = 'Settings > Personalization'
+        GuiEffect = 'Sets the machine default lock/sign-in image. Signed-out sign-in rendering is accepted; clock-overlay rendering is not separately verified. No user-change restriction is added.'
+        Requirements = @('Explicit local PNG and reviewed SHA-256 pin', 'Accepted image behavior on EnterpriseEval 26300.9711; other declared targets require AllowCandidate')
+        OtherSupportedChoices = @('No generic unset or baseline; restore the saved run', 'Recovery refuses policy/file and permission conflicts')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen')
+      }
+      Scope = 'Machine'
+      RequiresAdmin = $true
+      SupportedTargets = @('Windows 11')
+      MinimumBuild = 22000
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      States = @{ Configured = 'Selected local PNG' }
+      Rollback = 'Exact'
+      Description = 'Apply an explicitly selected local PNG with a required SHA-256 pin. Accepted image behavior: EnterpriseEval 26300.9711; other x64 Enterprise/Education builds require AllowCandidate. Restore recovers prior policy and removes unchanged owned files. Signed-out sign-in rendering was verified; the clock-overlay lock screen was not independently observed.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows or organizational default image; no RIDE override' } }
+    }
+    @{
       Id = 'windows.bitlocker-wizard-shortcut'
       Name = 'BitLocker Drive Encryption desktop shortcut'
       Kind = 'DesktopShortcut'

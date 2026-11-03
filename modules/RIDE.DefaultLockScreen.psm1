@@ -1,18 +1,19 @@
 <#
 .SYNOPSIS
-  Apply and recover a machine default lock-screen image on a disposable candidate.
+  Apply and recover a machine default lock-screen image on a supported Windows target.
 .DESCRIPTION
   Uses the documented LockScreenImage policy and a new owned public-readable
   PNG. Captures private machine intent before changes and verifies completed
   state before recovery. Preserves inbox/source images and user-choice policies.
 .NOTES
-  Compatibility: Candidate Windows 11 x64 Enterprise/Education, PowerShell 5.1/7.
-  Requires an explicitly matched Hyper-V test guest and existing elevation.
+  Compatibility: Windows 11 x64 Enterprise/Education, PowerShell 5.1/7.
+  Requires an explicitly matched Windows target and existing elevation.
   Image and state directories must exist. No UAC, sign-out or reboot is launched.
   Recovery restores captured policy/file state, not Windows caches or visible UI.
   Incomplete apply retains evidence and requires inspection; no blind cleanup.
-  Version: 0.1.1.
-  Changelog: 0.1.1: Read policy permissions from the same opened registry handle.
+  Version: 0.2.0.
+  Changelog: 0.2.0: Integrate catalog run IDs, accepted target gating and sibling-image idempotence.
+  0.1.1: Read policy permissions from the same opened registry handle.
   0.1.0: Add owned image and default policy lifecycle candidate.
 .LINK
   ../docs/image-personalization.md
@@ -31,7 +32,7 @@ function Get-RideDefaultLockContext {
 }
 function Assert-RideDefaultLockContext {
   param($Context,$Expected,[bool]$Mutation)
-  if(-not $Context.Guest -or $Context.InstallationType -cne 'Client' -or $Context.Build -cnotmatch '^\d{5,8}$' -or [int]$Context.Build -lt 22000 -or -not $Context.NativeProcess -or $Context.Architecture -cne 'AMD64' -or $Context.EditionId -cnotin @('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')){throw 'Default lock-screen candidate requires a marked Windows 11 x64 Enterprise/Education Hyper-V guest.'}
+  if($Context.InstallationType -cne 'Client' -or $Context.Build -cnotmatch '^\d{5,8}$' -or [int]$Context.Build -lt 22000 -or -not $Context.NativeProcess -or $Context.Architecture -cne 'AMD64' -or $Context.EditionId -cnotin @('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')){throw 'Default lock-screen candidate requires Windows 11 x64 Enterprise/Education.'}
   if($Mutation -and -not $Context.Administrator){throw 'Existing elevation is required; no UAC is launched.'}
   if($Expected){foreach($field in @('ComputerName','Build','EditionId','Revision','InstallationType','NativeProcess','Architecture','Guest')){if($Context.$field -cne $Expected.$field){throw "Default lock-screen target changed ($field)."}}}
 }
@@ -106,6 +107,12 @@ function Get-RideDefaultLockAsset {
 function Open-RideDefaultLockPolicyKey {
   [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($script:PolicyParent+'\'+$script:PolicyChild,$false)
 }
+function Test-RideDefaultLockRegistryEqual {
+  param($Left,$Right)
+  # The sibling default-image operation owns its own value. Preserve all other guards.
+  $views=@(foreach($v in @($Left,$Right)){[pscustomobject]@{Exists=$v.Exists;Security=$v.Security;Rows=@($v.Rows|Where-Object Name -INE 'ThemeFile');SubKeys=@($v.SubKeys)}})
+  Test-RideDefaultLockEqual $views[0] $views[1]
+}
 function Get-RideDefaultLockRegistry {
   $key=Open-RideDefaultLockPolicyKey
   if(-not $key){return [pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()}}
@@ -171,7 +178,7 @@ function Assert-RideDefaultLockRun {
 function Set-RideDefaultLockScreenImage {
   <#
   .SYNOPSIS
-    Apply a pinned PNG as the machine default lock-screen image in a test guest.
+    Apply a pinned PNG as the machine default lock-screen image on the selected Windows target.
   .PARAMETER Path
     Selected local PNG source; original bytes are never changed.
   .PARAMETER ExpectedSha256
@@ -180,14 +187,16 @@ function Set-RideDefaultLockScreenImage {
     Existing administrator-controlled directory with Users read/execute access.
   .PARAMETER StateDirectory
     Existing local directory for private administrator/SYSTEM recovery records.
+  .PARAMETER RunId
+    Optional engine-owned 32-digit run identity; generated when omitted.
   .PARAMETER ExpectedComputerName
-    Exact intended disposable computer name.
+    Exact intended computer name.
   .PARAMETER ExpectedBuild
     Exact intended Windows 11 build number.
   .PARAMETER ExpectedEditionId
     Exact supported candidate Enterprise/Education edition identifier.
   .PARAMETER AllowCandidate
-    Explicitly permit unaccepted native candidate behavior; required for mutation.
+    Permit mutation on declared targets other than accepted EnterpriseEval 26300.9711.
   .EXAMPLE
     Set-RideDefaultLockScreenImage -Path C:\Inputs\lock.png -ExpectedSha256 $hash -AssetDirectory C:\RIDE-Test\Images -StateDirectory C:\RIDE-Test\State -ExpectedComputerName RIDE-Test -ExpectedBuild 26300 -ExpectedEditionId EnterpriseEval -WhatIf
   .INPUTS
@@ -195,16 +204,16 @@ function Set-RideDefaultLockScreenImage {
   .OUTPUTS
     Applied, AlreadyDesired or Preview result. Native visual acceptance is false.
   .NOTES
-    Existing elevation and marked Hyper-V guest required. Captures before mutation.
+    Existing elevation and matching Windows target required. Captures before mutation.
   #>
   [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='High')]
   param([Parameter(Mandatory)][string]$Path,[Parameter(Mandatory)][ValidatePattern('^[A-Fa-f0-9]{64}$')][string]$ExpectedSha256,
     [Parameter(Mandatory)][string]$AssetDirectory,[Parameter(Mandatory)][string]$StateDirectory,
     [Parameter(Mandatory)][string]$ExpectedComputerName,[Parameter(Mandatory)][string]$ExpectedBuild,
-    [Parameter(Mandatory)][ValidateSet('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId,[switch]$AllowCandidate)
+    [Parameter(Mandatory)][ValidateSet('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId,[switch]$AllowCandidate,[ValidatePattern('^[a-f0-9]{32}$')][string]$RunId)
   $context=Get-RideDefaultLockContext;Assert-RideDefaultLockContext $context $null (-not $WhatIfPreference)
   if($context.ComputerName -cne $ExpectedComputerName -or $context.Build -cne $ExpectedBuild -or $context.EditionId -cne $ExpectedEditionId){throw 'Selected default lock-screen target differs.'}
-  if(-not $WhatIfPreference -and -not $AllowCandidate){throw 'Default lock-screen native acceptance is pending; specify -AllowCandidate.'}
+  if(-not $WhatIfPreference -and -not $AllowCandidate -and ($context.Build -cne '26300' -or $context.EditionId -cne 'EnterpriseEval' -or $context.Revision -ne 9711)){throw 'Default lock-screen native acceptance is pending; specify -AllowCandidate.'}
   $AssetDirectory=Resolve-RideDefaultLockDirectory $AssetDirectory;$StateDirectory=Resolve-RideDefaultLockDirectory $StateDirectory
   $directorySecurity=Assert-RideDefaultLockAssetDirectory $AssetDirectory
   $source=Get-RidePngSource -Path $Path -ExpectedSha256 $ExpectedSha256 -IncludeContent
@@ -214,11 +223,11 @@ function Set-RideDefaultLockScreenImage {
     Assert-RideDefaultLockRun $owner $done
     if($owner.SourceSha256 -ceq $source.Sha256){
       Assert-RideDefaultLockContext $context $owner.Context $false
-      if($owner.AssetPath -cne $prior.Value -or $owner.DirectorySecurity -cne $directorySecurity -or -not (Test-RideDefaultLockEqual $done.After $before) -or -not (Test-RideDefaultLockEqual $done.File (Get-RideDefaultLockAsset $owner.AssetPath))){throw 'Previously owned image or policy changed.'}
+      if($owner.AssetPath -cne $prior.Value -or $owner.DirectorySecurity -cne $directorySecurity -or -not (Test-RideDefaultLockRegistryEqual $done.After $before) -or -not (Test-RideDefaultLockEqual $done.File (Get-RideDefaultLockAsset $owner.AssetPath))){throw 'Previously owned image or policy changed.'}
       return [pscustomobject]@{SchemaVersion=1;Scope='Machine';Status='AlreadyDesired';RunId=$ownerId;NativeVisualAcceptance=$false}
     }
   }
-  $runId=[guid]::NewGuid().ToString('N');$assetPath=Join-Path $AssetDirectory ($runId+'.png')
+  $runId=if($RunId){$RunId}else{[guid]::NewGuid().ToString('N')};$assetPath=Join-Path $AssetDirectory ($runId+'.png')
   if($null -ne (Get-RideDefaultLockAsset $assetPath)){throw 'New image destination already exists.'}
   $intent=[pscustomobject]@{SchemaVersion=1;Kind='DefaultLockScreen';RunId=$runId;Part='intent';Context=$context;AssetDirectory=$AssetDirectory;AssetPath=$assetPath;DirectorySecurity=$directorySecurity;SourceSha256=$source.Sha256;SourceBytes=$source.Bytes;Before=$before}
   if(-not $PSCmdlet.ShouldProcess($context.ComputerName,'Capture machine recovery, create owned image and set default lock-screen policy')){return [pscustomobject]@{SchemaVersion=1;Scope='Machine';Status='Preview';RunId=$null;NativeVisualAcceptance=$false}}
@@ -264,7 +273,7 @@ function Restore-RideDefaultLockScreenRun {
   $intent=Read-RideDefaultLockRun $StateDirectory $RunId intent;$applied=Read-RideDefaultLockRun $StateDirectory $RunId applied
   Assert-RideDefaultLockRun $intent $applied
   $context=Get-RideDefaultLockContext;Assert-RideDefaultLockContext $context $intent.Context (-not $WhatIfPreference)
-  if(-not $WhatIfPreference -and -not $AllowCandidate){throw 'Default lock-screen native acceptance is pending; specify -AllowCandidate.'}
+  if(-not $WhatIfPreference -and -not $AllowCandidate -and ($context.Build -cne '26300' -or $context.EditionId -cne 'EnterpriseEval' -or $context.Revision -ne 9711)){throw 'Default lock-screen native acceptance is pending; specify -AllowCandidate.'}
   if((Assert-RideDefaultLockAssetDirectory $intent.AssetDirectory) -cne $intent.DirectorySecurity){throw 'Owned image directory changed.'}
   $current=Get-RideDefaultLockRegistry;$file=Get-RideDefaultLockAsset $intent.AssetPath
   $policyRestored=Test-RideDefaultLockEqual $current $intent.Before

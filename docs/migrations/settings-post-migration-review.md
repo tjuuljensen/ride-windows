@@ -1,3 +1,24 @@
+## Default wallpaper and lock-screen integration, 2026-11-03
+
+The two machine defaults are independently useful settings: wallpaper initializes
+new users and permits later choice; the lock/sign-in policy supplies a machine
+default without adding a user-change restriction. Catalog IDs are
+`windows.default-wallpaper` and `windows.default-lock-screen`, optionally composed
+by `profiles/default-images.psd1` using explicit pinned local PNG inputs. No
+baseline image or generic unset is invented; restore recovers captured policy
+and unchanged owned files. Wallpaper refuses changed profile consumers rather
+than deleting real profiles. Final disposable test cleanup uses checkpoint recovery.
+
+EnterpriseEval 26300.9711 image behavior has attended evidence. The wallpaper
+uses an Aero theme; colors, sounds and cursor/icon defaults were not separately
+compared. Lock-image evidence covers signed-out sign-in rendering, not a separate
+clock-overlay observation. These limits remain visible in operation metadata.
+Other declared targets need candidate opt-in; per-user lock-screen modes remain
+unimplemented. The new catalog route has mocked regression coverage; prior visual
+records are reused without claiming a new native catalog run. See
+[operator guidance](../image-personalization.md) and
+[integration evidence](../archive/evidence/default-images-catalog-integration-2026-11-03.json).
+
 ## Explicit candidate execution and recovery, 2026-11-01
 
 The user requested `-AllowCandidate` after comparing Fedora's `--allow-candidate`.

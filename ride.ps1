@@ -52,6 +52,12 @@
   Local password-age candidates offer NoExpiry and Days1 through Days999.
   Hibernation candidates offer Off, Full, Reduced and Size50 through Size100 (percent of RAM).
 
+.PARAMETER ImagePath
+  Absolute local PNG for a default-image set command. Requires ImageSha256; Tab completes paths.
+
+.PARAMETER ImageSha256
+  Reviewed SHA-256 of the selected PNG; required with ImagePath.
+
 .PARAMETER RunId
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
 
@@ -171,8 +177,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.19.0
+  Version: 0.20.0
   Changelog:
+    0.20.0: Select hash-pinned default wallpaper and lock-screen images through set.
     0.19.0: Add explicit status operation and view selectors while preserving positional views.
     0.18.0: Accept show pipeline IDs and return versioned inspection objects.
     0.17.0: Document direct client RSAT group installation and removal.
@@ -426,7 +433,7 @@ param(
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root (Split-Path -Parent (Split-Path -Parent $catalogPath)) -Library $fakeBoundParameters.Library).Catalog
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $fakeBoundParameters.Id } | Select-Object -First 1
-    if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'WindowsService', 'WindowsCapability', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation')) {
+    if ($operation.Kind -in @('DefaultImage', 'RegistryValue', 'RegistryValueSet', 'RegistryKeySet', 'WindowsService', 'WindowsCapability', 'PowerSetting', 'ShellFolder', 'ProfileSetting', 'ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation')) {
         $states = @($operation.States.Keys)
         if ($operation.Kind -in @('RegistryValue', 'RegistryValueSet', 'ShellFolder', 'ProfileSetting') -and 'Baseline' -notin $states) { $states += 'Baseline' }
       }
@@ -445,6 +452,12 @@ param(
   })]
   [Parameter(Position = 2)]
   [string] $State = '',
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete)
+    try { [System.Management.Automation.CompletionCompleters]::CompleteFilename($wordToComplete) } catch { }
+  })]
+  [string] $ImagePath,
+  [ValidatePattern('^[a-fA-F0-9]{64}$')][string] $ImageSha256,
   [ArgumentCompleter({
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     try {
@@ -539,7 +552,7 @@ if ($showInputExpected) {
     throw 'Use either pipeline input or an explicit -InputObject, not both.'
   }
 }
-$script:ScriptVersion = '0.19.0'
+$script:ScriptVersion = '0.20.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -585,6 +598,7 @@ Options:
   -State <state>       Declared state for set; press Tab to complete available states.
                        Service states include catalog-declared startup-only and combined presets.
                        Pending firewall profile controls complete On/Off but await VM acceptance.
+  -ImagePath <png> -ImageSha256 <sha256>  Required inputs for default-image set; Tab completes paths.
   -RunId <id>          Run ID required by restore.
   -StateScope User|Machine|Both  State store to inspect (default User); machine requires elevation.
   -OlderThanDays <n>   Minimum run age for prune-state; defaults to 365 days (minimum 30).
@@ -699,6 +713,7 @@ Examples:
 }
 
 $ErrorActionPreference = 'Stop'
+if (($PSBoundParameters.ContainsKey('ImagePath') -or $PSBoundParameters.ContainsKey('ImageSha256')) -and ($Command -ne 'set' -or $UserContext -eq 'Desktop')) { throw 'Image inputs require machine-scope set.' }
 $candidateParameters = @{}
 if ($PSBoundParameters.ContainsKey('AllowUnsupportedTarget')) {
   if ($Command -notin @('apply','install','set','unset','remove','restore')) { throw '-AllowUnsupportedTarget is supported by apply, install, set, unset, remove and restore only.' }
@@ -827,7 +842,7 @@ switch ($Command) {
     if (-not $Id) { throw 'The set command requires a setting ID.' }
     if (-not $State) { throw 'The set command requires -State. Press Tab after the setting ID to complete declared states.' }
     if ($PSBoundParameters.ContainsKey('Profile')) { throw 'The set command accepts one setting ID and does not use -Profile.' }
-    $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Set -State $State)
+    $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Set -State $State -ImagePath $ImagePath -ImageSha256 $ImageSha256)
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
     Invoke-RidePlan -Plan $plan @shouldProcessParameters @candidateParameters
   }

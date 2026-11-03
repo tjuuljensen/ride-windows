@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.34.0.
-  Changelog: 0.34.0: Validate client RSAT identities, dependency graphs and full-observed selection.
+  Owner: RIDE-Windows maintainers. Version: 0.35.0.
+  Changelog: 0.35.0: Validate default-image metadata and pinned profile inputs.
+    0.34.0: Validate client RSAT identities, dependency graphs and full-observed selection.
     0.33.0: Validate the source-explicit OpenSSH Client capability candidate.
     0.32.0: Validate coordinated hibernation choices and pending acceptance boundaries.
     0.31.0: Validate explicit EXE installer completion modes.
@@ -827,6 +828,13 @@ function Get-RideCatalogValidationErrors {
       if (@(@('Get', 'Test', 'Set', 'Restore') | Where-Object { $_ -notin $operation.Actions }).Count) { Add-Error "Automatic proxy detection lifecycle is incomplete: $($operation.Id)" }
       if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Automatic proxy detection requires Microsoft HTTPS documentation: $($operation.Id)" }
     }
+    elseif ($operation.Kind -eq 'DefaultImage') {
+      if ($operation.Handler -cne 'DefaultImage' -or $operation.Scope -cne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.ImageType -cnotin @('Wallpaper','LockScreen')) { Add-Error "Invalid default-image handler/scope/type: $($operation.Id)" }
+      if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 1 -or $operation.States.Configured -cne 'Selected local PNG' -or $operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState')) { Add-Error "Default images require an explicit Configured state and saved-run recovery: $($operation.Id)" }
+      if (@(Compare-Object @('Get','Test','Set','Restore') @($operation.Actions)).Count -or $operation.Rollback -ne 'Exact') { Add-Error "Default-image lifecycle incomplete: $($operation.Id)" }
+      if (@($operation.SupportedTargets).Count -ne 1 -or $operation.SupportedTargets[0] -cne 'Windows 11' -or $operation.MinimumBuild -ne 22000) { Add-Error "Default-image target declaration differs: $($operation.Id)" }
+      if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri,[UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Default images require Microsoft documentation: $($operation.Id)" }
+    }
     elseif ($operation.Kind -eq 'WinHttpProxy') {
       if ($operation.Handler -ne 'WinHttpProxy' -or $operation.Scope -ne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.WinHttpSetting -cne 'MachineAutoDetect') { Add-Error "WinHTTP automatic detection requires its machine-scoped handler: $($operation.Id)" }
       if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 2 -or $operation.States.Enabled -ne $true -or $operation.States.Disabled -ne $false -or $operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState')) { Add-Error "WinHTTP automatic detection requires explicit Boolean Enabled/Disabled states and saved-run restore: $($operation.Id)" }
@@ -1027,7 +1035,7 @@ function Get-RideCatalogValidationErrors {
     $profileIds = @{}
     foreach ($selection in $profile.Operations) {
       if ($selection -isnot [hashtable]) { Add-Error "$($profileFile.Name) contains an operation selection that is not a data table."; continue }
-      foreach ($field in $selection.Keys) { if ($field -notin @('Id', 'State', 'Variant')) { Add-Error "$($profileFile.Name) selection has unsupported field '$field'." } }
+      foreach ($field in $selection.Keys) { if ($field -notin @('Id', 'State', 'Variant', 'ImagePath', 'ImageSha256')) { Add-Error "$($profileFile.Name) selection has unsupported field '$field'." } }
       if (-not $selection.ContainsKey('Id')) { Add-Error "$($profileFile.Name) operation selection is missing Id."; continue }
       if ($selection.Id -isnot [string] -or [string]::IsNullOrWhiteSpace($selection.Id)) { Add-Error "$($profileFile.Name) operation selection Id must be a nonblank string."; continue }
       if (-not $selection.ContainsKey('State')) { Add-Error "$($profileFile.Name) selection '$($selection.Id)' is missing State." }
@@ -1038,6 +1046,9 @@ function Get-RideCatalogValidationErrors {
       if (-not $ids.ContainsKey($selection.Id)) { Add-Error "$($profileFile.Name) references unknown ID '$($selection.Id)'"; continue }
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
       $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
+      if ($operation.Kind -eq 'DefaultImage') {
+        if ($selection.State -cne 'Configured' -or $selection.ImagePath -isnot [string] -or $selection.ImagePath -cnotmatch '^[A-Za-z]:[\\/]' -or [IO.Path]::GetExtension([string]$selection.ImagePath) -ine '.png' -or $selection.ImageSha256 -isnot [string] -or $selection.ImageSha256 -cnotmatch '^[a-fA-F0-9]{64}$') { Add-Error "$($profileFile.Name) requires Configured and absolute PNG ImagePath/ImageSha256 inputs for '$($selection.Id)'" }
+      } elseif ($selection.ContainsKey('ImagePath') -or $selection.ContainsKey('ImageSha256')) { Add-Error "$($profileFile.Name) image inputs require a default-image operation." }
       if ($group -and $group.Workflow -ceq 'ClientRsatCapabilities') { Add-Error "$($profileFile.Name) cannot select the pending RSAT group before target acceptance" }
       if(($operation -and $operation.Kind -eq 'StoreApp') -or ($group -and $group.Workflow -eq 'StoreApps')){Add-Error "$($profileFile.Name) cannot route Store apps through setting/package profiles; use the explicit Store workflow."}
       if ($operation -and $operation.Kind -eq 'BitLockerWorkflow') { Add-Error "$($profileFile.Name) cannot select staged BitLocker workflows; use the explicit BitLocker workflow entry point." }

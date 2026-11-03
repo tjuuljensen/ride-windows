@@ -2,6 +2,26 @@
 
 ## Current status
 
+### Default-image catalog integration, 2026-11-03
+
+`windows.default-wallpaper` and `windows.default-lock-screen` now route through
+RIDE discovery, show/status, planning, set/apply and saved-run restore. The optional
+`profiles/default-images.psd1` requires explicit local PNG paths and reviewed
+SHA-256 pins; the normal workstation profile does not select personal images.
+Completion, catalog/profile validation, generated reference and operator guidance
+are updated. Image payloads are checked before profile mutation; sibling image
+policy values no longer break repeat apply, and shared-key recovery is reversed.
+
+The accepted image behavior reuses the attended EnterpriseEval 26300.9711 records.
+The new catalog adapter is covered by mocked lifecycle/preview/recovery tests in
+both native PowerShell editions, not a new VM catalog execution. Other theme
+defaults, separate clock-overlay rendering, other targets and per-user lock-screen
+modes remain unverified or unimplemented. See [integration evidence](../archive/evidence/default-images-catalog-integration-2026-11-03.json)
+and [operator guidance](../image-personalization.md). No VM cleanup or unrelated queue
+was started. No further legacy outcome is deducted: this completes integration of
+the already tracked image outcomes. All five ranges were reviewed and remain
+37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175 and rounded 120-175.
+
 ### Attended wallpaper visual acceptance and closeout, 2026-11-03
 
 The corrected retained run 5e17e9ff4ec446b08445e84f804d26a0 passed the scoped
@@ -26,7 +46,7 @@ known checkpoint as the user requested, without separately undoing BGInfo.
 ResetAndOff, the 26-file evidence export and retained-hold release all verified.
 The stop marker is restored; unrelated test queues remain stopped.
 
-Other theme defaults were not independently compared; catalog promotion, other
+Other theme defaults were not independently compared; catalog integration is recorded above. Other
 targets and current-user lock-screen modes remain separate. Scripted visual flags
 remain false; the linked record supplies the attended visual evidence. No further
 legacy deduction is made: 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175,
@@ -51,7 +71,7 @@ background changing from the original lakeside image to the selected suit/red
 tie and back after RIDE restore. Six durable lifecycle checks, evidence export
 and checkpoint reset/hold release passed. Screenshots are retained locally with
 hashes. Scope is EnterpriseEval 26300.9711, signed-out sign-in background only;
-other users/targets, current-user image modes and catalog promotion remain open.
+other users/targets and current-user image modes remain open; catalog integration is recorded above.
 Wallpaper's later scoped visual run and checkpoint closeout are recorded above. No legacy
 outcome is deducted: all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12,
 exact 121-175, rounded 120-175.
@@ -357,7 +377,7 @@ the two batches authorized to use Windows Update.
 | Settings | Attended observation of five desktop icons and ClassicStartMenu mirror; effective BitLocker policy, boot/recovery and decryption prerequisites. | Existing F1/File Explorer and PowerShell appearance evidence remains scoped. BitLocker still reports `EffectivePolicyEstablished=false`; no encryption batch started. TPM/WinRE, off-device test-key retrieval, preboot console, TPM+PIN/recovery boot and method policies require their own proof. Unmapped and deferred settings remain counted. |
 | Packages | Activate finite prepared batches above, then collect scoped acceptance and decide target/variant promotion. | Paradox Data Editor still needs native nested BDE ownership/coexistence/recovery; CCleaner needs its exact artifact/lifecycle route. OpenJDK Windows 11, Python coexistence and other legacy selectors remain in the [unmigrated/partial register](migration-completion-reassessment-2026-11-02.md#legacy-selectors-still-unmigrated-or-partially-represented). |
 | Windows components | OpenSSH Client/RSAT native DISM and recovery. | Telnet source identity and other [component register](migration-completion-reassessment-2026-11-02.md#windows-component-workstream-status-at-pause) entries remain; Hyper-V, Sandbox, WSL distributions and hardware-dependent printer/fax work remain deferred. Source implementation is now present for the selected client capability batches. |
-| Files and assets | Diagnose immediate font visibility, complete image/new-user visual proof, establish WLAN prerequisites and run synthetic profile lifecycle. | Current-user lock-screen modes, accounts, locale/browser/Python preferences and other [asset register](migration-completion-reassessment-2026-11-02.md#files-assets-accounts-and-configuration-status-at-pause) entries retain ownership and recovery requirements. VMware preferences are retired from v3. |
+| Files and assets | Diagnose immediate font visibility, retain the completed image/new-user visual and catalog evidence, establish WLAN prerequisites and run synthetic profile lifecycle. | Current-user lock-screen modes, accounts, locale/browser/Python preferences and other [asset register](migration-completion-reassessment-2026-11-02.md#files-assets-accounts-and-configuration-status-at-pause) entries retain ownership and recovery requirements. VMware preferences are retired from v3. |
 | Maintenance | Native run-retention/task recovery when its isolated procedure is ready; broaden offline/bootstrap acceptance only within defined scope. | Controller operation does not prove guest maintenance workflows. Destructive cleanup, updates/cache cleanup, unpinning, Disk Cleanup, Sysprep and display helpers remain deferred. Standalone WaitForKey/Restart/StopComputer selectors remain retired, without additional numerical closure. See the [action register](migration-completion-reassessment-2026-11-02.md#maintenance-and-execution-actions-status-at-pause). |
 
 The existing approved scope is unchanged: all MiTeC feature checks are deferred

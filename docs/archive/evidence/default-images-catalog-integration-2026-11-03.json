@@ -1,0 +1,124 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T18:23:55.3010751Z",
+  "Scope": "Default wallpaper and machine default lock/sign-in image catalog integration",
+  "Operations": [
+    "windows.default-wallpaper",
+    "windows.default-lock-screen"
+  ],
+  "Implementation": "Source integration complete; new catalog route covered by mocked tests, not a new native VM execution",
+  "Tests": {
+    "integration-Core": {
+      "Passed": 81,
+      "Failed": 0,
+      "ExcludedLiveRegistryTests": 0
+    },
+    "integration-Desktop": {
+      "Passed": 81,
+      "Failed": 0,
+      "ExcludedLiveRegistryTests": 0
+    },
+    "catalog-Core": {
+      "Passed": 98,
+      "Failed": 0,
+      "ExcludedLiveRegistryTests": 1
+    },
+    "catalog-Desktop": {
+      "Passed": 98,
+      "Failed": 0,
+      "ExcludedLiveRegistryTests": 1
+    }
+  },
+  "PriorNativeEvidence": [
+    "wallpaper-attended-visual-native-2026-11-03.json",
+    "default-lock-attended-visual-native-2026-11-03.json"
+  ],
+  "AcceptedImageTarget": "Windows 11 x64 EnterpriseEval 26300.9711",
+  "NativeEvidenceReused": true,
+  "NewNativeCatalogRun": false,
+  "HostSettingsChanged": false,
+  "VmStarted": false,
+  "QueueResumed": false,
+  "RemainingScope": [
+    "Other theme defaults not independently compared",
+    "Clock-overlay lock screen not separately observed",
+    "Other Windows targets remain candidate or refused",
+    "Per-user lock-screen modes not implemented"
+  ],
+  "Recovery": "Outer run binds private child receipts; owned image values/files validated before recovery; image records restored in reverse capture order; final VM disposal uses checkpoint",
+  "Contract": {
+    "Version": "1.1.0",
+    "Sha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "FedoraHead": "419f018e5173a865ee4b263dcc6edc24140d92da",
+    "Disposition": "Windows-native provider addition; no shared lifecycle contract revision"
+  },
+  "MigrationEstimate": {
+    "Settings": "37-57",
+    "Packages": "34-49",
+    "Components": "19-24",
+    "FilesAssets": "23-33",
+    "Maintenance": "8-12",
+    "Exact": "121-175",
+    "Rounded": "120-175",
+    "AdditionalLegacyDeduction": 0
+  },
+  "Sources": [
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "ABA881F69109A5EAEFD8D3496B73BBCCAEB46FA71197159FDC6143A47E9A25FF"
+    },
+    {
+      "Path": "profiles/default-images.psd1",
+      "Sha256": "6666898844DC219CFE4B2A27080DD8D0EE37E06765851FA86EA7368F3C6C4775"
+    },
+    {
+      "Path": "ride.ps1",
+      "Sha256": "A0A3C03DBCA66B2DD87E8DDAE03231190131133FDE62B7150C235021C83CEEC5"
+    },
+    {
+      "Path": "modules/RIDE.DefaultImages.psm1",
+      "Sha256": "B21D18685252C3EDFE829814C1CEFCCB801EFC7A2812900CF3BEBA79238FF705"
+    },
+    {
+      "Path": "modules/RIDE.DefaultWallpaper.psm1",
+      "Sha256": "2A8623641218529430F5278CEE96CBDAB50528282195EF6C5B5BCBDA98BB2F3E"
+    },
+    {
+      "Path": "modules/RIDE.DefaultLockScreen.psm1",
+      "Sha256": "EE5531E543B1740FD6811CCA63E2D6C996BD4D154073102728E248A784141659"
+    },
+    {
+      "Path": "modules/RIDE.Engine.psm1",
+      "Sha256": "5C4A9F38338C8E57176EEA8F625526B7A27A197ED19C873E4D820634EBF4CDFF"
+    },
+    {
+      "Path": "modules/RIDE.CatalogValidation.psm1",
+      "Sha256": "CC3CC17C24FF24012CC65614ECFC42691962762FDB6BC05B719C8B0E00EFEBFB"
+    },
+    {
+      "Path": "tools/Export-RideCatalog.ps1",
+      "Sha256": "DC7D6A1B21E7A5E1ED608EE52450F9834862C51149EDB69692E01D0A6794B612"
+    },
+    {
+      "Path": "tests/DefaultImagesEngine.Tests.ps1",
+      "Sha256": "F306F734F3CE75BCA8FEDF36E07054300EAD01570AC065B3FE15A634B7F6CDA5"
+    },
+    {
+      "Path": "tests/DefaultWallpaper.Tests.ps1",
+      "Sha256": "D4A2BE62E7FA11816C91F75453CA7B68AF63D2A8049B427BBF8580AC0CBE6FC8"
+    },
+    {
+      "Path": "tests/DefaultLockScreen.Tests.ps1",
+      "Sha256": "18B36CB332C414319B251A651168528DAA1ADC94D8CC756235D8F35A369C7BAD"
+    }
+  ],
+  "RepositoryValidation": {
+    "Core": "Passed",
+    "Desktop": "Passed",
+    "Operations": 477,
+    "Groups": 9,
+    "Profiles": 6,
+    "PowerShellFiles": 406,
+    "GeneratedReference": "Current in both editions"
+  }
+}

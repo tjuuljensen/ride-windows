@@ -1,9 +1,64 @@
-# Image input preparation and pending personalization acceptance
+# Default wallpaper and lock-screen images
 
-RIDE can validate selected local static PNG inputs and prepare machine first-logon
-wallpaper and default lock-screen images through guarded lifecycle candidates.
+RIDE exposes machine first-logon wallpaper and default lock/sign-in images through
+the catalog, profiles, planning, inspection, set and saved-run restore.
 The per-user lock-screen handler is not implemented yet. Source tests and policy
 readback are not Windows visual acceptance passes.
+
+## Use through RIDE
+
+Start in the checkout root on Windows. Use an elevated Windows PowerShell 5.1 or
+PowerShell 7 session for changes. Select local PNG files and record their reviewed
+SHA-256 hashes. No download, sign-out or restart is triggered by these operations.
+
+```powershell
+.\ride.ps1 show windows.default-wallpaper
+.\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png' -ImageSha256 '<64-digit-sha256>' -WhatIf
+.\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png' -ImageSha256 '<64-digit-sha256>'
+.\ride.ps1 set windows.default-lock-screen -State Configured -ImagePath 'C:\Inputs\lock.png' -ImageSha256 '<64-digit-sha256>'
+.\ride.ps1 restore -RunId '<saved-run-id>' -WhatIf
+.\ride.ps1 restore -RunId '<saved-run-id>'
+```
+
+For both images in one run, copy `profiles/default-images.psd1` to your local
+configuration, replace both absolute paths and both all-zero hash placeholders,
+then run `plan -Profile <copy>` and `apply -Profile <copy> -WhatIf` before applying.
+The supplied template deliberately cannot apply an ordinary file until configured.
+The workstation default profile does not silently select personal images.
+Profile selections accept `ImagePath` and `ImageSha256` only for these two IDs.
+State completion offers `Configured`; `status -Profile <copy>` compares the
+selected image hashes with the current owned images.
+
+The accepted image behavior is scoped to Windows 11 x64 EnterpriseEval
+26300.9711. Other Windows 11 x64 Enterprise/Education editions/builds require
+explicit `-AllowCandidate` on apply and restore. Pro, Home, Server and non-x64
+targets remain refused by these handlers. Candidate opt-in never bypasses those
+checks. Inspection and preview do not require candidate opt-in.
+
+Wallpaper applies to newly initialized profiles and allows later user choice;
+it does not force the wallpaper on existing desktops. Its theme selects Aero;
+other theme defaults were not independently compared. Default lock-image evidence
+covers signed-out sign-in rendering, not a separate clock-overlay observation.
+The lock-screen operation adds no restriction against user image changes.
+The [catalog integration record](archive/evidence/default-images-catalog-integration-2026-11-03.json)
+separates the earlier native visual results from the new mocked adapter coverage.
+
+RIDE stores private child receipts under the machine state store's `ImageState`
+directory, with the same run ID as the outer saved run. Owned images/themes are
+under `Images`, with Users read access and administrator/SYSTEM write access.
+Original source and Windows inbox files are preserved. Preview creates neither
+directory nor run. Both image inputs are checked before a profile starts mutation.
+
+Restore uses the captured policy and unchanged owned files, without rereading
+the original input PNG. Image operations in one run recover in reverse capture
+order because they share a policy key; restore separate runs in reverse order too.
+There is no generic unset or baseline image. Recovery refuses changed policies,
+files or permissions. Wallpaper also refuses a changed profile inventory: new
+users may still consume the managed theme/image. Preserve those assets and inspect
+consumers; do not delete real user profiles to force recovery. Incomplete child
+runs retain their intent and outer run ID but require inspection rather than a
+blind automatic undo. Final disposable-VM cleanup uses the verified checkpoint,
+as described in [AGENTS](../AGENTS.md#disposable-vm-closeout).
 
 ## Validate an input
 
@@ -50,13 +105,14 @@ defaults are preserved. The theme is UTF-16LE with BOM and CRLF for Windows INI
 consumption; module/test sources remain repository UTF-8/LF. Caller-supplied theme
 content is not accepted, and embedded image paths reject INI/environment syntax.
 
-Run only inside the selected, already elevated Windows 11 x64 Enterprise/Education
-Hyper-V test guest, with `RIDE_TEST_GUEST=1` and `RIDE_INTEGRATION_VM=1`. The same
-existing asset/state directory and parent ownership/read-access requirements as
-the [default lock-screen candidate](#machine-default-lock-screen-candidate) apply.
-This candidate has no accepted Windows target and does not add a catalog operation.
-The documented policy supports more editions than this initial candidate permits;
-that is not evidence of runtime acceptance on those editions.
+The catalog route above creates owned storage and binds the saved run. Direct
+handler calls below require existing controlled directories and an explicitly
+matched, elevated Windows 11 x64 Enterprise/Education target. VM environment
+markers are no longer an operational prerequisite. The same directory ownership
+requirements as the [default lock-screen handler](#machine-default-lock-screen-candidate)
+apply. Acceptance is limited to the image behavior on EnterpriseEval 26300.9711;
+other declared editions/builds require explicit candidate opt-in. Use disposable
+VMs for integration tests.
 
 From the repository root in that guest:
 
@@ -406,12 +462,12 @@ images. It adds no restriction preventing users from changing their image;
 existing restrictions can still apply. Source and previously referenced images
 are untouched.
 
-Run only inside the selected disposable Windows 11 x64 Hyper-V guest, using an
-already elevated native PowerShell 5.1/7 session. The guest must have controller
-markers `RIDE_TEST_GUEST=1` and `RIDE_INTEGRATION_VM=1`; the module also checks the
-actual virtual-machine manufacturer/model. The explicit computer/build/edition
-must match. Candidate editions are `Enterprise`, `EnterpriseN`, `EnterpriseEval`,
-`Education` and `EducationN`. No UAC or automatic sign-out/reboot is launched.
+Use an already elevated native PowerShell 5.1/7 session on the explicitly matched
+Windows 11 x64 target. Editions are `Enterprise`, `EnterpriseN`, `EnterpriseEval`,
+`Education` and `EducationN`; only EnterpriseEval 26300.9711 has accepted image
+behavior. Other declared targets require candidate opt-in. No VM markers, UAC
+or automatic sign-out/reboot are required by the handler. The direct examples
+below are for the disposable acceptance guest; prefer the catalog route for use.
 
 Prepare the existing directories separately in that guest. The asset directory
 and its parent must be Administrators/SYSTEM owned and grant modification only
@@ -677,7 +733,7 @@ Do not change the host or infer a RIDE result from BGInfo's wallpaper.
 
 | Requested workflow | Implementation and acceptance required |
 | --- | --- |
-| Machine/default wallpaper | On EnterpriseEval 26300.9711, native lifecycle, owned user/profile cleanup, first-desktop image, later wallpaper choice, existing control-background preservation and original-default appearance after restore passed. Final evidence export, checkpoint recovery and hold release verified. Other theme defaults were not independently compared; catalog promotion and other targets remain separate. See the [attended evidence](archive/evidence/wallpaper-attended-visual-native-2026-11-03.json). |
+| Machine/default wallpaper | On EnterpriseEval 26300.9711, native lifecycle, owned user/profile cleanup, first-desktop image, later wallpaper choice, existing control-background preservation and original-default appearance after restore passed. Final evidence export, checkpoint recovery and hold release verified. Other theme defaults were not independently compared; catalog integration is now available; other targets remain separate. See the [attended evidence](archive/evidence/wallpaper-attended-visual-native-2026-11-03.json). |
 | User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
 | Machine default lock-screen image | Native preview/apply/repeat and exact policy/image/permission restore/repeat restore passed on EnterpriseEval build 26300. The Nov 3 attended run verified signed-out sign-in image application and visible recovery. Clock-overlay lock screen, other users/targets and current-user modes remain unverified. No user-change restriction is added. |
 
@@ -733,7 +789,7 @@ and the original image returned after RIDE restoration. User-provided screenshot
 were retained locally with hashes. All six machine lifecycle checks and verified
 export/reset/release passed. The clock-overlay screen, other users/targets and
 current-user image modes were not independently accepted. This scoped visual
-evidence does not promote a catalog operation or rewrite the scripted visual
+evidence is reused by the catalog integration; it does not rewrite the scripted visual
 flags, which remain false by design.
 
 The earlier [overnight native default-lock run](archive/evidence/default-lock-night-native-2026-11-02.json)

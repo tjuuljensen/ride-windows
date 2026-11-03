@@ -21,7 +21,9 @@ control-background preservation and original-default appearance after restore
 have scoped EnterpriseEval 26300.9711 evidence. The wallpaper VM was restored to
 its pinned checkpoint and left Off, evidence export verified and hold released;
 the stop marker was reinstated. See the [current image run summary](../MIGRATION-PLAN.md#attended-image-acceptance-2026-11-03).
-Other theme defaults, other targets, catalog promotion and current-user lock-screen
+Both defaults are now in the catalog and optional profiles; see
+[integration](../MIGRATION-PLAN.md#default-image-catalog-integration-2026-11-03).
+Other theme defaults, other targets and current-user lock-screen
 modes remain separate. The earlier stop and package results below are retained.
 
 The user requested completion of the active Gpg4win test and its recovery,
@@ -166,7 +168,7 @@ replacement payloads. PowerShell 2 is already retired.
   the diagnostic above. Default lock-image signed-out sign-in application/recovery
   and wallpaper first-logon image, later choice, control-background preservation
   and original-default appearance passed scoped attended checks. Wallpaper's other
-  theme defaults were not independently compared. Catalog promotion, other targets,
+  theme defaults were not independently compared. Catalog/profile integration is complete; other targets,
   clock-overlay lock-screen verification and current-user lock-screen modes remain
   separate; see the linked image run summary above.
 - Wi-Fi XML is generated from settings and uses a synthetic test profile.
