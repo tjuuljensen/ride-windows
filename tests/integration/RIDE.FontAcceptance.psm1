@@ -11,8 +11,9 @@
   Compatibility: Candidate Windows 11 x64; native PowerShell 5.1 and 7.
   Prerequisites: Existing elevation, correlated Hyper-V guest and real licensed fonts.
   Recovery: Retain private run records; incomplete runs need inspection.
-  Version: 0.2.0. Changelog: Exercise saved recovery after isolated native-name gaps;
-  retain separate durable lifecycle and native-enumeration results.
+  Version: 0.3.0. Changelog: Record process identity for native enumeration evidence.
+  0.2.0: Exercise saved recovery after isolated native-name gaps; retain separate
+  durable lifecycle and native-enumeration results.
 .LINK
   ../../docs/machine-fonts.md
 #>
@@ -20,10 +21,16 @@ $ErrorActionPreference='Stop'
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.MachineFonts.psm1') -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot '../../modules/RIDE.PrivateFiles.psm1') -ErrorAction Stop
 
+function Get-RideFontAcceptanceProcessIdentity {
+  $process=[Diagnostics.Process]::GetCurrentProcess()
+  try{[pscustomobject]@{ProcessId=$process.Id;ProcessStartUtc=$process.StartTime.ToUniversalTime().ToString('o');SessionId=$process.SessionId}}
+  finally{$process.Dispose()}
+}
+
 function Get-RideFontAcceptanceContext {
   $machine=Get-CimInstance Win32_ComputerSystem -ErrorAction Stop
   $context=& (Get-Module RIDE.MachineFonts) {Get-RideMachineFontContext}
-  $context|Add-Member -NotePropertyMembers @{Manufacturer=$machine.Manufacturer;Model=$machine.Model;GuestMarker=$env:RIDE_TEST_GUEST;IntegrationMarker=$env:RIDE_INTEGRATION_VM;RunMarker=$env:RIDE_TEST_RUN_ID}
+  $context|Add-Member -NotePropertyMembers @{Manufacturer=$machine.Manufacturer;Model=$machine.Model;GuestMarker=$env:RIDE_TEST_GUEST;IntegrationMarker=$env:RIDE_INTEGRATION_VM;RunMarker=$env:RIDE_TEST_RUN_ID;ProcessIdentity=(Get-RideFontAcceptanceProcessIdentity)}
   $context
 }
 
@@ -172,7 +179,7 @@ function Invoke-RideFontAcceptance {
   & (Get-Module RIDE.MachineFonts) {param($path) Assert-RideMachineFontStateDirectory $path} $EvidenceRoot
   $directory=Join-Path ([IO.Path]::GetFullPath($EvidenceRoot)) $RunId
   if(Test-Path -LiteralPath $directory){throw 'Acceptance evidence already exists; use a new request ID.'}
-  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='MachineFontAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';Error=$null;NativeAcceptancePassed=$false;DurableLifecyclePassed=$false;NativeEnumerationFailures=@();CrossSessionAcceptancePassed=$false;RestartAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$context.ComputerName;Build=$context.Build;EditionId=$context.EditionId;SessionId=$context.SessionId;Checks=@();DurableRecoveryChecks=@();LifecycleRuns=@();StateRunIds=@();EvidenceDirectory=$null;Selection=@()}
+  $report=[pscustomobject][ordered]@{SchemaVersion=1;Kind='MachineFontAcceptance';RunId=$RunId;RecordedAtUtc=[DateTime]::UtcNow.ToString('o');Status='NotRun';Reason=$null;Stage='Preflight';Error=$null;NativeAcceptancePassed=$false;DurableLifecyclePassed=$false;NativeEnumerationFailures=@();CrossSessionAcceptancePassed=$false;RestartAcceptancePassed=$false;RecoveryRequired=$false;ComputerName=$context.ComputerName;Build=$context.Build;EditionId=$context.EditionId;SessionId=$context.SessionId;ProcessIdentity=$context.ProcessIdentity;Checks=@();DurableRecoveryChecks=@();LifecycleRuns=@();StateRunIds=@();EvidenceDirectory=$null;Selection=@()}
   if(-not $context.Administrator -and -not $WhatIfPreference){$report.Reason='ExistingElevationRequired';return $report}
   $selection=@(Read-RideFontAcceptanceSelection $ManifestPath);$report.Selection=$selection
   $before=Get-RideFontAcceptanceSnapshot $context $selection

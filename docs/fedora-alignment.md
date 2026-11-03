@@ -1159,3 +1159,14 @@ No contract amendment is needed. Owner: Windows maintainer. Follow-up:
 Review trigger: attended activation, native result, archive/member changes or
 target promotion. File lifecycle acceptance does not establish WFN application
 or firewall behavior, and no shared firewall-setting behavior changes here.
+
+## Font enumeration process evidence, 2026-11-03
+
+Windows-owned RB-11 diagnostic reports now identify the lifecycle/collector
+process and session. Production font handling, recovery and acceptance criteria
+are unchanged. Contract 1.1.0 and unchanged peer hashes are recorded in
+[evidence](archive/evidence/font-process-night-native-2026-11-03.json).
+No contract amendment is needed. Owner: Windows maintainer. Follow-up and review
+trigger: [remaining native font availability](machine-fonts.md), including the
+immediate removal failure and any future session/restart/consumer scenario.
+Later clean observations do not erase an earlier failure or grant target support.

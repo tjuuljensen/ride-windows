@@ -7,8 +7,8 @@
 .EXAMPLE
   Invoke-Pester ./tests/FontAcceptance.Tests.ps1
 .NOTES
-  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.2.0.
-  Changelog: Distinguish exact durable recovery from retained native-name failures.
+  Compatibility: Pester 5; native PowerShell 5.1 and 7. Version: 0.3.0.
+  Changelog: Verify enumeration process identity without invoking font APIs.
 #>
 BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot 'integration/RIDE.FontAcceptance.psm1') -Force}
 Describe 'Guarded machine-font guest acceptance' {
@@ -24,6 +24,7 @@ Describe 'Guarded machine-font guest acceptance' {
       $script:present=$false;$script:events=[Collections.Generic.List[string]]::new()
       $script:installId='11111111111111111111111111111111';$script:removeId='22222222222222222222222222222222'
       Mock Get-RideFontAcceptanceContext {$script:context}
+      $script:context|Add-Member NoteProperty ProcessIdentity ([pscustomobject]@{ProcessId=123;ProcessStartUtc='2026-11-03T00:00:00.0000000Z';SessionId=1})
       Mock Read-RideFontAcceptanceSelection {$script:selection}
       Mock Get-RideFontAcceptanceSnapshot {if($script:present){$script:installed}else{$script:absent}}
       Mock Assert-RideFontAcceptanceRecords {}
@@ -51,9 +52,21 @@ Describe 'Guarded machine-font guest acceptance' {
         [pscustomobject]@{SchemaVersion=1;Status=$status;RunId=$RunId}
       }
     }
+    It 'records the actual process without invoking font or lifecycle APIs' {
+      $identity=Get-RideFontAcceptanceProcessIdentity
+      $identity.ProcessId|Should -Be $PID
+      $process=[Diagnostics.Process]::GetCurrentProcess()
+      try{
+        $identity.ProcessStartUtc|Should -BeExactly $process.StartTime.ToUniversalTime().ToString('o')
+        $identity.SessionId|Should -Be $process.SessionId
+      }finally{$process.Dispose()}
+      $script:events.Count|Should -Be 0
+    }
     It 'requires all seven readback checks and both restores before passing' {
       $result=Invoke-RideFontAcceptance @script:parameters
       $result.Status|Should -Be Passed
+      $result.ProcessIdentity.ProcessId|Should -Be 123
+      $result.ProcessIdentity.SessionId|Should -Be 1
       $result.Checks.Count|Should -Be 7
       $result.RecoveryRequired|Should -BeFalse
       $result.DurableLifecyclePassed|Should -BeTrue

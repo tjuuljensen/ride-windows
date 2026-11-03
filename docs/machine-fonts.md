@@ -319,3 +319,19 @@ restore and repeat recovered all captured durable state, but enumeration still
 contained Open Sauce Sans Bold Italic and Light Italic. Overall native acceptance
 remains Failed. All four durable recovery checks passed; verified export preceded
 ResetAndOff and hold release. Session/restart/consumer behavior remains open.
+
+The [process-identified follow-up](archive/evidence/font-process-night-native-2026-11-03.json)
+passed six of seven native lifecycle checks and all four durable recovery checks.
+Only the immediate removal enumeration mismatched; both final restore checks
+matched. The lifecycle process was PID 10084 in session 0. Three later collectors
+used distinct process identities in that same session and observed no selected
+fonts, files or registrations. This differs from the earlier persistent final
+enumeration mismatch and does not establish a cause or consumer identity.
+The failed removal check remains a failure; later clean observations do not
+promote current-session, interactive-session, restart or active-consumer support.
+Verified export preceded checkpoint reset and hold release. No consumer was
+closed, cache changed or font forcibly unloaded.
+
+Diagnostic reports now include process ID, process start time and session ID;
+collector observations also carry a UTC timestamp. These are evidence fields
+only. They do not change lifecycle semantics or the required acceptance checks.

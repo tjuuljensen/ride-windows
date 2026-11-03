@@ -7,7 +7,9 @@
   controller hold survives every phase and failure. Reset requires verified export.
   Prepare can reuse its own verified snapshot only before checkpoint intent, while Off.
 .NOTES
-  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.3.
+  Native Windows PowerShell 5.1 x64 host with existing elevation. Version: 0.1.4.
+  Changelog: Record collector process identity and timestamp without inferring
+  cross-session acceptance or altering font recovery.
   Phase reports expose snapshot paths, sizes and hashes without source bytes.
   No UAC, task registration, reboot or cross-session acceptance inference. Remote jobs
   are bounded; host Hyper-V/dependency calls retain their existing API behavior.
@@ -198,8 +200,11 @@ $script:FontVmRemote={
         param($BeforePath,$Selection)
         $beforeBytes=Read-RidePrivateFileBytes -Path $BeforePath -Scope Machine -MaximumBytes 16777216
         $before=[Text.UTF8Encoding]::new($false,$true).GetString($beforeBytes)|ConvertFrom-Json
-        $current=Get-RideFontAcceptanceSnapshot (Get-RideFontAcceptanceContext) $Selection
+        $observationContext=Get-RideFontAcceptanceContext
+        $current=Get-RideFontAcceptanceSnapshot $observationContext $Selection
         [pscustomobject]@{
+          ObservedAtUtc=[datetime]::UtcNow.ToString('o')
+          ProcessIdentity=$observationContext.ProcessIdentity
           FilesMatchInitial=(Test-RideFontAcceptanceEqual $before.Files $current.Files)
           RegistryRowsMatchInitial=(Test-RideFontAcceptanceEqual $before.Registry.Rows $current.Registry.Rows)
           RegistrySecurityMatchesInitial=($before.Registry.Security -ceq $current.Registry.Security)
