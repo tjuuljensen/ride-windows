@@ -109,12 +109,23 @@ Use `-WhatIf:$false` to explicitly disable inherited preview for one invocation;
 | `install <catalog-id>` | Install one supported catalog package or Windows component and save its prior state. |
 | `set <setting-id> -State <state>` | Set one catalog setting to a declared state and save its prior value. |
 | `unset <setting-id>` | Remove a setting value when the catalog declares an unset state, saving its prior value. |
-| `status [view]` | Show target-specific defaults and live state, optionally filtered by a view such as `packages`, `components`, `windows`, `explorer`, or `security`. |
-| `status [view] -Profile <file>` | Compare the selected operations' current values and states with the profile's desired values and states. |
+| `status [view]` | Show target-specific defaults and live state; use `-View <view>` for an explicit view or `-OperationId <id>` for one catalog operation. Tab completes operation IDs. |
+| `status [view] -Profile <file>` | Compare selected operations with profile states; combine `-OperationId <id>` only when that profile selects the operation. |
 | `restore -RunId <id>` | Restore settings captured before a prior run. Package restoration may require reinstalling the current upstream version; Windows component removal follows its ownership and recovery rules. |
 | `remove <catalog-id>` | Remove one supported catalog package or Windows component and save its prior state. |
 | `remove -Profile <file>` | Uninstall packages selected by a profile, in reverse group order. |
 | `prune-state [-StateScope User|Machine|Both] [-OlderThanDays <n>]` | Preview or remove completed recovery records older than the retention period (default scope User, age 365 days, minimum age 30 days); machine records require elevation. Failed, unfinished, invalid and linked run trees are retained. Use `-WhatIf` to review candidates first. |
+
+### Explicit profile and setting examples
+
+Run these from the checkout root. They inspect a named profile and preview one
+declared setting state without applying it:
+
+```powershell
+.\ride.ps1 plan -Profile .\profiles\powershell-colors.psd1
+.\ride.ps1 status -OperationId powershell.windows-powershell51-terminal-colors -Profile .\profiles\powershell-colors.psd1
+.\ride.ps1 set powershell.windows-powershell51-terminal-colors -State AdminBlue -WhatIf
+```
 
 See the [run-state retention guide](docs/run-state-retention.md) for cleanup
 eligibility, preview, recovery effects, and the remaining ACL acceptance.

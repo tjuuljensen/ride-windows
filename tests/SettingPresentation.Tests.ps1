@@ -158,6 +158,30 @@ Describe 'Live presentation with mocked state' {
     $row.EffectivePolicy | Should -Match 'Not inspected'
   }
 
+  It 'limits default status observation to the exact operation and validates profile selection' {
+    $script:ObservedStatusIds = @()
+    Mock Get-RideCurrentState -ModuleName RIDE.Engine {
+      $script:ObservedStatusIds += $Operation.Id
+      [pscustomobject]@{ Exists = $true; Value = 1; ValueType = 'DWord'; Present = $true; Healthy = $true; Available = $true; State = 'Enabled' }
+    }
+    Mock Get-RideCurrentStateName -ModuleName RIDE.Engine { 'Enabled' }
+    Mock Get-RideCurrentValueText -ModuleName RIDE.Engine { '1' }
+    Mock Test-RideCurrentStateMatch -ModuleName RIDE.Engine { $true }
+    Mock Get-RideSettingPresentation -ModuleName RIDE.Engine {
+      [pscustomobject]@{ AppliesTo = 'Current user'; Behavior = 'Fixture'; GuiEffect = 'None'; GuiPath = $null; Requirements = $null; OtherSupportedChoices = $null; EffectivePolicy = $null; ExecutionIdentity = $null }
+    }
+    $id = 'windows.show-known-extensions'
+    $rows = @(Get-RideStatus -OperationId $id)
+    $rows.Count | Should -Be 1
+    $rows[0].Id | Should -BeExactly $id
+    ($script:ObservedStatusIds -join ',') | Should -BeExactly $id
+
+    Mock Get-RidePlan -ModuleName RIDE.Engine { @() }
+    { Get-RideStatus -Profile @{ SchemaVersion = 1; Name = 'Empty fixture'; Operations = @() } -OperationId $id } |
+      Should -Throw '*not selected by the supplied profile*'
+    ($script:ObservedStatusIds -join ',') | Should -BeExactly $id
+  }
+
   It 'includes scope and GUI effect in profile status and preview' {
     $profile = @{ SchemaVersion = 1; Name = 'Presentation fixture'; Operations = @(@{ Id = 'windows.sound-scheme-change-policy'; State = 'Blocked' }) }
     $row = Get-RideStatus -Profile $profile

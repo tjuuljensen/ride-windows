@@ -909,11 +909,13 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
   installed-package no-op target exception. Fedora: separate download eligibility
   from VM acceptance and unify restore-preview target/identity checks. Done when
   paired cases preserve target/privilege checks and show zero preview writes.
-- [ ] **ALIGN-05:** Add pinned shared scenario data, Windows Pester and Fedora
+- [ ] **ALIGN-05:** Maintain pinned shared scenario data, Windows Pester and Fedora
   native adapters, and CI for gates, invalid arguments, unset/removal, dependency
   order, partial failure/recovery, download boundaries and read-only completion.
   Done when both clients report the same contract/scenario revision and a seeded
-  mismatch fails; no live workstation mutation is used.
+  mismatch fails; no live workstation mutation is used. 2026-11-03: revision
+  1.1.0 adds privilege refusal and reverse dependency removal; Windows mappings
+  reuse focused Pester cases. Pester execution is still pending.
 - [ ] **ALIGN-06:** Turn existing comparison gaps into a structured capability and
   difference register in each repo, with stable IDs, owner, reason, rule IDs,
   evidence, linked work and review/removal trigger. Done when every matrix row has
@@ -926,6 +928,11 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
   state examples, compatible ID/view status selection, and a scoped versioned JSON
   interface. Keep native switches, outputs and source/variant concepts distinct.
   Done when examples and output contract cases pass on each applicable client.
+  2026-11-03: Windows now supports explicit `-OperationId` and `-View` status
+  selectors alongside its existing positional view; `-OperationId` completes
+  from the local catalog. Linux provides equivalent selectors with Bash option
+  syntax. Focused Pester cases and a fake-engine PowerShell smoke check were added;
+  native Pester execution remains pending because Pester 5 is unavailable here.
 - [ ] **ALIGN-09:** Before final v3, record the published immutable contract
   reference, verify both digest pins, close all preceding tasks or record explicit
   owner-approved deferrals, and review the final consumers with proportionate

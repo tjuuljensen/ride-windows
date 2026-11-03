@@ -8,11 +8,11 @@
   Invoke-Pester ./tests/BehaviorContract.Tests.ps1
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7; Pester 5.
-  Version: repository test fixture. Changelog: 2026-11-01: Add ALIGN-05 pinned scenarios.
+  Version: repository test fixture. Changelog: 2026-11-01: Add ALIGN-05 pinned scenarios; 2026-11-03: Add privilege and package-order cases.
 #>
 Describe 'Pinned shared behavior scenarios' {
   BeforeAll {
-    $script:ScenarioRevision = '1.0.0'
+    $script:ScenarioRevision = '1.1.0'
     $script:RepositoryRoot = Split-Path -Parent $PSScriptRoot
     $script:ScenarioPath = Join-Path $script:RepositoryRoot 'docs/models/behavior-scenarios.json'
     $script:ContractPath = Join-Path $script:RepositoryRoot 'docs/models/ride-behavior-contract.md'
@@ -46,6 +46,11 @@ Describe 'Pinned shared behavior scenarios' {
 
   It 'matches the scenario revision and canonical contract digest pinned by this consumer' {
     { & $script:ValidateBehaviorScenarioEnvelope -ScenarioSet $script:ScenarioSet -ContractReference $script:ContractReference -ContractPath $script:ContractPath -ExpectedScenarioRevision $script:ScenarioRevision } | Should -Not -Throw
+  }
+
+  It 'matches the shared scenario bytes pinned by the Windows adapter' {
+    $scenarioDigest = (Get-FileHash -LiteralPath $script:ScenarioPath -Algorithm SHA256 -ErrorAction Stop).Hash
+    $script:AdapterMap.scenarioSha256 | Should -BeExactly $scenarioDigest
   }
 
   It 'rejects a seeded scenario-revision mismatch' {

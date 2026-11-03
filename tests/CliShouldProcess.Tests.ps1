@@ -39,6 +39,7 @@ BeforeAll {
 function Set-RideLibraryContext { param([string[]] $Library) }
 function Get-RideProfile { param([string] $Path) @{ Operations = @() } }
 function Get-RidePlan { param($Profile, $Action) [pscustomobject]@{ State = 'Present'; Operation = @{ Id = 'synthetic' } } }
+function Get-RideStatus { param($Profile, $View, $OperationId) [pscustomobject]@{ Stage = 'Status'; View = $View; OperationId = $OperationId; ProfileSet = ($null -ne $Profile) } }
 function Get-RideSingleOperationPlan { param($Id, $Action, $State, $Variant) [pscustomobject]@{ State = $State; Operation = @{ Id = $Id } } }
 function Show-RidePlan { param($Plan) [pscustomobject]@{ Stage = 'Plan' } }
 function New-SpyRecord {
@@ -68,7 +69,7 @@ function Restore-RideRun {
   $performed = if ($PSBoundParameters.ContainsKey('Confirm') -and [bool]$PSBoundParameters['Confirm']) { $false } else { $PSCmdlet.ShouldProcess('synthetic restore', 'record only') }
   New-SpyRecord $PSBoundParameters $WhatIfPreference $performed 'restore'
 }
-Export-ModuleMember -Function Set-RideLibraryContext, Get-RideProfile, Get-RidePlan, Get-RideSingleOperationPlan, Show-RidePlan, Invoke-RidePlan, Save-RidePackage, Restore-RideRun
+Export-ModuleMember -Function Set-RideLibraryContext, Get-RideProfile, Get-RidePlan, Get-RideStatus, Get-RideSingleOperationPlan, Show-RidePlan, Invoke-RidePlan, Save-RidePackage, Restore-RideRun
 '@
 }
 
@@ -121,6 +122,13 @@ Describe 'CLI ShouldProcess forwarding' {
     @($matches.CompletionMatches.CompletionText) | Should -Contain '-AllowUnsupportedTarget'
   }
 
+  It 'completes explicit status operation IDs from the local catalog' {
+    $commandPath = Join-Path $script:Root 'ride.ps1'
+    $line = '& "' + $commandPath + '" status -OperationId windows.show'
+    $matches = TabExpansion2 -InputScript $line -CursorColumn $line.Length
+    @($matches.CompletionMatches.CompletionText) | Should -Contain 'windows.show-known-extensions'
+  }
+
   It 'forwards explicit PAT selection for <Command> without resolving credentials during preview' -TestCases @(
     @{ Command='download'; Arguments=@{ Command='download'; Id='fake.package' } },
     @{ Command='install'; Arguments=@{ Command='install'; Id='fake.package' } },
@@ -157,10 +165,25 @@ Describe 'CLI ShouldProcess forwarding' {
     {& $script:Runner apply -OfflineBundle 'bundle.json' -OfflineProfileId p -OfflineCatalogFileId c -UserContext Desktop} | Should -Throw '*desktop handoff*'
   }
 
+  It 'routes named and positional status selectors and rejects ambiguous combinations' {
+    $output = (& $script:Runner status packages | Out-String)
+    $output | Should -Match 'packages'
+    $output = (& $script:Runner status -View settings -Profile fake-profile.psd1 | Out-String)
+    $output | Should -Match 'View\s+: settings'
+    $output | Should -Match 'ProfileSet\s+: True'
+    $output = (& $script:Runner status -OperationId windows.sample -Profile fake-profile.psd1 | Out-String)
+    $output | Should -Match 'View\s+: all'
+    $output | Should -Match 'OperationId\s+: windows.sample'
+    $output | Should -Match 'ProfileSet\s+: True'
+    { & $script:Runner status -OperationId windows.sample -View settings } | Should -Throw '*cannot be combined*'
+    { & $script:Runner status packages -View settings } | Should -Throw '*either a positional status view or -View*'
+    { & $script:Runner list -OperationId windows.sample } | Should -Throw '*status only*'
+  }
+
   It 'refuses search-only filters and conflicting query selectors before discovery' {
     { & $script:Runner list -Query 'synthetic' } | Should -Throw '*only supported by the search command*'
     { & $script:Runner show fake.setting -Field Name } | Should -Throw '*only supported by the search command*'
-    { & $script:Runner status -View settings } | Should -Throw '*only supported by the search command*'
+    { & $script:Runner list -View settings } | Should -Throw '*search and status only*'
     { & $script:Runner search positional -Query named } | Should -Throw '*either a positional search query or -Query*'
     { & $script:Runner search } | Should -Throw '*requires a nonblank query*'
   }

@@ -32,8 +32,13 @@
   fields use OR matching. Press Tab to discover fields.
 
 .PARAMETER View
-  Search within a named catalog view or category; defaults to all. Profiles are excluded.
-  Press Tab to discover views and catalog categories.
+  Search within a named catalog view or category, or filter status output; defaults to all.
+  Profiles are excluded from status views. Press Tab to discover views and catalog categories.
+
+.PARAMETER OperationId
+  For status only, select one exact catalog operation while preserving the existing positional
+  status view syntax. May be combined with -Profile, but not with -Id or -View. Press Tab to
+  complete operation IDs from the local catalog.
 
 .PARAMETER Profile
   Profile data-file path. Profile commands default to profiles/default.psd1; status compares a
@@ -118,6 +123,18 @@
   .\ride.ps1 search 'File Explorer' -Field Name,Description -View settings
 
 .EXAMPLE
+  .\ride.ps1 status -OperationId windows.show-known-extensions
+
+.EXAMPLE
+  .\ride.ps1 status -View packages -Profile .\profiles\default.psd1
+
+.EXAMPLE
+  .\ride.ps1 status -OperationId windows.sample
+
+.EXAMPLE
+  .\ride.ps1 status -View packages -Profile .\profiles\analyst-basics.psd1
+
+.EXAMPLE
   .\ride.ps1 set windows.show-known-extensions Enabled -WhatIf
 
 .EXAMPLE
@@ -154,8 +171,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.18.0
+  Version: 0.19.0
   Changelog:
+    0.19.0: Add explicit status operation and view selectors while preserving positional views.
     0.18.0: Accept show pipeline IDs and return versioned inspection objects.
     0.17.0: Document direct client RSAT group installation and removal.
     0.16.0: Expose audited per-invocation unsupported-target exploration.
@@ -254,6 +272,35 @@ param(
     }
   })]
   [string] $Id = '',
+
+  [ArgumentCompleter({
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    try {
+      $scriptPath = $commandAst.CommandElements[0].Value
+      if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
+        $scriptCommand = Get-Command -Name $commandName -CommandType ExternalScript -ErrorAction Stop
+        $scriptPath = $scriptCommand.Source
+      }
+      $repoRoot = Split-Path -Parent (Resolve-Path -LiteralPath $scriptPath).Path
+      Import-Module (Join-Path $repoRoot 'modules/RIDE.CatalogData.psm1') -ErrorAction Stop
+      Import-Module (Join-Path $repoRoot 'modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
+      $catalog = (Get-RideCatalogContext -Root $repoRoot -Library $fakeBoundParameters.Library).Catalog
+      foreach ($candidate in @($catalog.Operations | ForEach-Object { $_.Id } | Sort-Object -Unique)) {
+        if ($candidate.StartsWith([string]$wordToComplete, [StringComparison]::OrdinalIgnoreCase)) {
+          [System.Management.Automation.CompletionResult]::new(
+            $candidate,
+            $candidate,
+            [System.Management.Automation.CompletionResultType]::ParameterValue,
+            $candidate
+          )
+        }
+      }
+    }
+    catch {
+      # Completion stays quiet if the local catalog is unavailable or invalid.
+    }
+  })]
+  [string] $OperationId = '',
 
   [ArgumentCompleter({
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
@@ -492,7 +539,7 @@ if ($showInputExpected) {
     throw 'Use either pipeline input or an explicit -InputObject, not both.'
   }
 }
-$script:ScriptVersion = '0.18.0'
+$script:ScriptVersion = '0.19.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -517,6 +564,7 @@ Commands:
                       Default/unset remove the RIDE block; restore recovers prior content.
                       Pending profile operations await disposable target/visual acceptance.
   status [view]         Show default or profile status, optionally filtered.
+                      Use -OperationId <id> for one operation or -View <view> explicitly.
   restore -RunId <id>  Restore values recorded before a prior run.
                       If apply fails, the error lists saved, completed and unfinished operations.
                       Restore that RunId, then reapply the same profile to continue safely.
@@ -527,12 +575,13 @@ Options:
   -Library <files>     Explicit local library manifests; Tab completes filesystem paths.
   -Profile <file>      Select a profile (default: profiles/default.psd1).
   -Id <id|view>        ID for show, or a view after list/status.
+  -OperationId <id>    Exact operation selector for status; may pair with -Profile.
   -InputObject <item>  Show only: ID string or object with Id; Tab completes catalog IDs.
                       Also accepts pipeline input; choose one input source.
                       Cannot be combined with an explicit -Id.
   -Query <phrase>      Named search query instead of a positional phrase.
   -Field <fields>      Narrow search fields; press Tab to discover available fields.
-  -View <view>         Narrow search to a list view/category (except profiles).
+  -View <view>         Narrow search or status to a list view/category (except profiles).
   -State <state>       Declared state for set; press Tab to complete available states.
                        Service states include catalog-declared startup-only and combined presets.
                        Pending firewall profile controls complete On/Off but await VM acceptance.
@@ -691,8 +740,15 @@ if ($Command -eq 'search') {
   Find-RideCatalog @searchParameters
   return
 }
-foreach ($parameter in @('Query', 'Field', 'View')) {
+foreach ($parameter in @('Query', 'Field')) {
   if ($PSBoundParameters.ContainsKey($parameter)) { throw "-$parameter is only supported by the search command." }
+}
+if ($PSBoundParameters.ContainsKey('View') -and $Command -notin @('search','status')) { throw '-View is supported by search and status only.' }
+if ($Command -eq 'status' -and $PSBoundParameters.ContainsKey('View') -and $Id) { throw 'Use either a positional status view or -View, not both.' }
+if ($PSBoundParameters.ContainsKey('OperationId')) {
+  if ($Command -ne 'status') { throw '-OperationId is supported by status only.' }
+  if ([string]::IsNullOrWhiteSpace($OperationId)) { throw '-OperationId requires a nonblank catalog operation ID.' }
+  if ($PSBoundParameters.ContainsKey('Id') -or $PSBoundParameters.ContainsKey('View')) { throw '-OperationId cannot be combined with positional -Id or -View.' }
 }
 foreach ($parameter in @('StateScope', 'OlderThanDays')) {
   if ($PSBoundParameters.ContainsKey($parameter) -and $Command -ne 'prune-state') { throw "-$parameter is only supported by prune-state." }
@@ -783,14 +839,14 @@ switch ($Command) {
     Invoke-RidePlan -Plan $plan @shouldProcessParameters @candidateParameters
   }
   'status' {
-    $statusView = if ($Id) { $Id } else { 'all' }
+    $statusView = if ($PSBoundParameters.ContainsKey('View')) { $View } elseif ($Id) { $Id } else { 'all' }
+    $statusParameters = @{ View = $statusView }
+    if ($PSBoundParameters.ContainsKey('OperationId')) { $statusParameters.OperationId = $OperationId }
     if ($PSBoundParameters.ContainsKey('Profile')) {
       $loadedProfile = Get-RideProfile -Path $Profile
-      $statusRows = Get-RideStatus -Profile $loadedProfile -View $statusView
+      $statusParameters.Profile = $loadedProfile
     }
-    else {
-      $statusRows = Get-RideStatus -View $statusView
-    }
+    $statusRows = Get-RideStatus @statusParameters
     if ($statusView -match '^(?i:packages?)$') { $statusRows | Format-Table -AutoSize }
     else { $statusRows | Format-List }
   }
