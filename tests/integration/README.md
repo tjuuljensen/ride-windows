@@ -217,7 +217,10 @@ package is staged, `Invoke-RidePSScriptToolsRuntimeAcceptance.ps1` imports the
 pinned module in fresh Windows PowerShell 5.1 and PowerShell 7 child processes
 when each edition is installed. Each child uses a unique `TEMP`/`TMP` directory
 under that run's evidence folder. It verifies the module's CIM namespace job,
-one `System.Drawing`-backed function and one ThreadJob-backed function, and
+one `System.Drawing`-backed function and the module's private ThreadJob-backed
+cleanup helper, invoked within its loaded module scope against an explicit
+synthetic runspace. The helper must finish without job errors and close that
+runspace. This does not claim a public GUI workflow. The probe
 removes only the module's known temporary file. A second probe hides available
 modules and confirms import fails on the required ThreadJob dependency before
 creating the CIM file; it does not install dependencies. Inspect

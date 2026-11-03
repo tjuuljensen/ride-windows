@@ -1051,6 +1051,15 @@ Owner: RIDE-Windows maintainers. Follow-up: the correlated native rerun in the
 [migration ledger](MIGRATION-PLAN.md#threadjob-binary-origin-acceptance-correction-2026-11-03).
 Review trigger: native result, prerequisite pin change or target promotion.
 
+The follow-up native run passed exact prerequisite import, PSScriptTools import,
+CIM enumeration and drawing. Its next failure was a caller-scope invocation of
+the module's private cleanup helper. The corrected probe invokes that helper in
+module scope against an explicit synthetic runspace and checks closure/job errors;
+69 focused source cases pass per shell. This remains Windows-only acceptance,
+with no public GUI workflow or full Core acceptance claim. See
+[follow-up evidence](archive/evidence/psscripttools-private-helper-correction-2026-11-03.json)
+for the failed native run, unchanged contract/peer hashes and pending rerun.
+
 ## Fixed Gpg4win and TMOG installer acceptance, 2026-11-03
 
 Impact: Windows-owned RB-03/04/08/09/11 route narrowing. Existing batch-1 package

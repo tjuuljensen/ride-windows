@@ -22,7 +22,7 @@ Describe 'Focused portable acceptance boundaries' {
     Import-Module (Join-Path (Split-Path -Parent $PSScriptRoot) 'modules/RIDE.CatalogData.psm1') -Force
   }
   It 'returns version without VM access for <Name>' -ForEach @(
-    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.19.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.14.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.6'}
+    @{Name='Invoke-RidePortableAcceptance.ps1';Expected='0.19.0'},@{Name='Invoke-RidePortableVmAcceptance.ps1';Expected='0.14.0'},@{Name='Invoke-Ride4GbPatchFunctionalAcceptance.ps1';Expected='0.4.0'},@{Name='Invoke-RideOfflineAcceptance.ps1';Expected='0.2.0'},@{Name='Invoke-RidePSScriptToolsRuntimeAcceptance.ps1';Expected='0.1.7'}
   ) { & (Join-Path $script:Root $Name) -Version | Should -Be $Expected }
   It 'refuses missing host inputs before platform access' {
     { & (Join-Path $script:Root 'Invoke-RidePortableVmAcceptance.ps1') } | Should -Throw '*required*'
@@ -171,6 +171,30 @@ Describe 'Focused portable acceptance boundaries' {
     Clear-RuntimeProbeJobs -BaselineJobIds @(41)
     @($script:ProbeStopped.ToArray())|Should -Be @(42)
     @($script:ProbeRemoved.ToArray())|Should -Be @(42,43)
+  }
+  It 'invokes the private cleanup helper only inside the selected module scope' {
+    $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
+    $tokens=$null;$parseErrors=$null
+    $ast=[Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$parseErrors)
+    $definition=$ast.Find({param($node)$node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq 'Invoke-ModuleRunspaceCleanupProbe'},$true)
+    . ([scriptblock]::Create($definition.Extent.Text))
+    $root=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
+    $null=New-Item -ItemType Directory -Path $root
+    $manifest=Join-Path $root 'PSScriptTools.psd1'
+    [IO.File]::WriteAllText((Join-Path $root 'probe.psm1'),'function New-RunspaceCleanupJob { param($Handle,$PowerShell,$SleepInterval,[switch]$PassThru) [pscustomobject]@{Handle=$Handle;PowerShell=$PowerShell;SleepInterval=$SleepInterval;PassThru=[bool]$PassThru} }; Export-ModuleMember -Function @()')
+    New-ModuleManifest -Path $manifest -RootModule 'probe.psm1' -ModuleVersion '3.2.0' -Guid ([guid]::NewGuid()) -FunctionsToExport @()
+    $module=Import-Module -Name $manifest -PassThru
+    $ps=[Management.Automation.PowerShell]::Create()
+    try {
+      @(Get-Command New-RunspaceCleanupJob -ErrorAction SilentlyContinue).Count|Should -Be 0
+      $handle=[pscustomobject]@{Synthetic=$true}
+      $result=Invoke-ModuleRunspaceCleanupProbe -Module $module -Handle $handle -PowerShell $ps
+      [object]::ReferenceEquals($result.Handle,$handle)|Should -BeTrue
+      [object]::ReferenceEquals($result.PowerShell,$ps)|Should -BeTrue
+      $result.SleepInterval|Should -Be 5
+      $result.PassThru|Should -BeTrue
+      @(Get-Command New-RunspaceCleanupJob -ErrorAction SilentlyContinue).Count|Should -Be 0
+    }finally{$ps.Dispose();Remove-Module -ModuleInfo $module}
   }
   It 'removes only an empty direct child of the probe TEMP directory' {
     $path=Join-Path $script:Root 'Invoke-RidePSScriptToolsRuntimeAcceptance.ps1'
