@@ -7,8 +7,8 @@
 .EXAMPLE
   Invoke-Pester .\tests\InstallerCompletion.Tests.ps1
 .NOTES
-  Windows PowerShell 5.1 / Pester 5.7.1. Version: 0.1.0.
-  Changelog: 0.1.0: Cover the Project Maker completion correction.
+  Windows PowerShell 5.1 / Pester 5.7.1. Version: 0.2.0.
+  Changelog: 0.2.0: Cover the pinned InfoBar candidate completion selection.
 #>
 BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot '../modules/RIDE-Packages.psm1') -Force}
 Describe 'Installer completion policy' {
@@ -61,12 +61,13 @@ Describe 'Installer completion catalog contract' {
     Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.CatalogValidation.psm1') -Force
     $script:catalog=Import-RideCatalogData (Join-Path $PSScriptRoot '../catalog/operations.psd1')
   }
-  It 'opts only the pinned pending Project Maker candidate into process completion' {
+  It 'opts only the pinned pending Project Maker and InfoBar candidates into process completion' {
     $selected=@($script:catalog.Operations|Where-Object InstallerWaitMode -eq 'Process')
-    $selected.Count|Should -Be 1
-    $selected[0].Id|Should -Be 'package.mitec-project-maker'
-    $selected[0].PendingAcceptance|Should -BeTrue
-    $selected[0].SupportedTargets|Should -Be @()
+    @($selected.Id|Sort-Object)|Should -Be @('package.mitec-infobar','package.mitec-project-maker')
+    foreach($package in $selected){$package.PendingAcceptance|Should -BeTrue;$package.SupportedTargets|Should -Be @()}
+    $infoBar=$selected|Where-Object Id -CEQ 'package.mitec-infobar'
+    $infoBar.PackageVersion|Should -BeExactly '4.6.2'
+    $infoBar.ExpectedSha256|Should -BeExactly '6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a'
     @(Get-RideCatalogValidationErrors $script:catalog)|Should -Be @()
   }
   It 'rejects unsupported completion metadata <Mode> for <Type>' -ForEach @(

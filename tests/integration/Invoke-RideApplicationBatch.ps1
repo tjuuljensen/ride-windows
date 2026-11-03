@@ -67,8 +67,9 @@
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025.
   Prerequisites: Elevated guest, RIDE_INTEGRATION_VM=1 and the VM test runner.
   Recovery: Saved-run restoration and host clean-checkpoint recovery.
-  Owner: RIDE-Windows maintainers. Version: 0.24.4.
-  Changelog: 0.24.4: Include bounded pinned TMOG startup in its focused lifecycle.
+  Owner: RIDE-Windows maintainers. Version: 0.24.5.
+  Changelog: 0.24.5: Retain InfoBar installer logs for unattended diagnostics.
+    0.24.4: Include bounded pinned TMOG startup in its focused lifecycle.
     0.24.3: Match pinned TMOG 1.0.1 to its observed 1.0.1.0 registration.
     0.24.2: Verify Mail Checker's pinned executable when ARP omits DisplayVersion.
     0.24.1: Carry candidate consent and explicit removal/recovery through Mail Checker.
@@ -122,7 +123,7 @@
 #>
 [CmdletBinding(SupportsShouldProcess=$true)]
 param([ValidateSet(1,2,3,4,5,6,7,8,9,10,11,12,13)][int] $Batch=1,[ValidateSet('all-users')][string] $Variant,[ValidateSet('All','Machine','User')][string] $PackageScope='All',[ValidateSet('package.ntcore-explorer-suite','package.gpg4win','package.tmog')][string] $PackageId,[switch] $Version,[switch] $UnelevatedChild,[string] $ExpectedUserSid,[string] $ExpectedLocalAppData)
-$script:ScriptVersion='0.24.4'
+$script:ScriptVersion='0.24.5'
 if($Version){$script:ScriptVersion;return}
 $ErrorActionPreference='Stop'
 if($env:RIDE_INTEGRATION_VM -ne '1'){throw 'Run application scenarios only through the disposable-VM runner.'}
@@ -636,6 +637,10 @@ foreach($scenario in $scenarios){
     # log outside TEMP so partial collection can retain it after a timeout.
     $projectMakerLog=Join-Path $env:RIDE_TEST_EVIDENCE_PATH 'project-maker-install.log'
     $operation.InstallerArguments=[string]$operation.InstallerArguments+' /LOG="'+$projectMakerLog+'"'
+  }
+  if($scenario.Id -eq 'package.mitec-infobar' -and $env:RIDE_TEST_EVIDENCE_PATH){
+    $infoBarLog=Join-Path $env:RIDE_TEST_EVIDENCE_PATH 'infobar-install.log'
+    $operation.InstallerArguments=[string]$operation.InstallerArguments+' /LOG="'+$infoBarLog+'"'
   }
   if($scenario.Id -eq 'package.hashcheck-shell-extension' -and $env:RIDE_TEST_EVIDENCE_PATH){
     # The publisher supports /LOG=; keep its diagnostic outside guest TEMP so

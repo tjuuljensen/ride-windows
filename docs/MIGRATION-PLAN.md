@@ -5,15 +5,30 @@
 | Group | Estimated remaining outcomes | Current examples and progress |
 | --- | ---: | --- |
 | Settings | 37-57 | Reviewed 2026-11-03: prior 41 native lifecycles / 107 states and scoped F1/File Explorer evidence retained. Desktop-icon observation did not run; effective BitLocker policy and boot/recovery acceptance remain open. Unmapped and deferred outcomes remain counted. |
-| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper/WFN file lifecycles and Explorer Suite installer lifecycle and 30 MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. InfoBar and Project Maker stopped before install at stale regression assertions. Tested installer/fixture corrections await native retries. DirList and Network Meter now passed; Scanner x86 remains failed. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Desktop/Core runtime and package recovery passed; shared-BDE recovery remains open. No additional legacy closure counted. |
+| Packages | 34-49 | Reviewed 2026-11-03: overnight 29 cases retained; attended Rufus/RegRipper/WFN file lifecycles and Explorer Suite installer lifecycle and 30 MiTeC startup/lifecycle cases passed in the guest. Network Scanner x86 crashed and Gpg4win installation failed; TMOG installed but its version assertion failed. InfoBar passed its corrected regression gate but timed out during installation; checkpoint recovery passed. Its completion/logging correction passed source checks; native retry pending. Project Maker and remaining corrections are active. DirList and Network Meter now passed; Scanner x86 remains failed. Mail Checker passed startup, uninstall and compensating recovery. PSScriptTools Desktop/Core runtime and package recovery passed; shared-BDE recovery remains open. No additional legacy closure counted. |
 | Components | 19-24 | Reviewed 2026-11-03: OpenSSH Client preparation passed; lifecycle stopped on pending servicing restart before installation. Evidence preserved and pinned checkpoint recovered; capability task removed. Preflight reporting fixed in source; native capability acceptance deferred. Explicit Windows Update remains approved. Telnet source identity and other deferred outcomes remain open. |
 | Files and assets | 23-33 | Reviewed 2026-11-03: three Sysmon configuration lifecycles close one legacy outcome. VMware directory/profile preferences retired by the Nov 3 decision (one additional outcome). Fonts passed durable recovery but native visibility failed; fresh-child reporting correction passed 52 tests per shell and awaits retry; wallpaper/default lock-image durable checks passed with visual/new-user proof pending. Supplied assets and synthetic Wi-Fi settings are sufficient; WLAN preparation observed WlanSvc Stopped; native profile acceptance remains unrun. |
 | Maintenance | 8-12 | Reviewed 2026-11-03: bounded disconnected Caffeine acceptance passed 34 checks. General offline/bootstrap acceptance and native run-retention/task recovery remain separate; controller cleanup does not prove guest maintenance. Disruptive actions remain deferred. |
-| **Total** | **121-175 exact** | **Latest run: 2026-11-03 font durable recovery passed but native enumeration and fresh-child observation failed; WLAN service was Stopped. Both retained routes collected/reset/released successfully. Tested child-reporting fix awaits retry; corrected packages are active.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
+| **Total** | **121-175 exact** | **Latest run: 2026-11-03 InfoBar installation timed out after 464 guest regression passes; separate checkpoint recovery passed. Completion/logging correction passed 178 tests per shell and source validation; native retry pending. Corrected package and font routes continue unattended.** **120-175 rounded; about 150 outcomes.** Review refreshed 2026-11-03: all five ranges reviewed; partial and deferred outcomes remain counted. |
 
 See the [current status and next execution order](migrations/migration-completion-reassessment-2026-11-03.md) for evidence and the retained detailed registers.
 
 ## Fast-track startup and controller corrections, 2026-11-03
+
+InfoBar's corrected regression gate passed 464 tests (four skipped), but the
+installer run timed out after acquisition. Its transcript was locked and omitted;
+startup, uninstall and product recovery were not established. Separate checkpoint
+recovery passed. See [native timeout](archive/evidence/infobar-installer-timeout-native-2026-11-03.json).
+The pending candidate now uses the existing root-process completion policy and
+retains an installer log. Exit-code and installed-state checks remain required.
+Both PowerShell editions passed 178 focused tests (three skipped), and repository
+validation passed. This is a hypothesis to verify, not an established cause or a
+native pass. See [source checks](archive/evidence/infobar-installer-completion-source-2026-11-03.json).
+Project Maker and the remaining correction queue continue unattended; the font
+diagnostic retry follows verified recovery. No additional legacy outcome closes:
+all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175,
+rounded 120-175. Failed, partial and deferred outcomes remain counted.
+
 
 Fonts retained durable recovery but failed native enumeration at three stages;
 the fresh child observation also failed without raw error detail. Separate

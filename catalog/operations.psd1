@@ -12447,6 +12447,7 @@
       TargetDefaults = @{}
       PackageId = 'mitec-infobar'
       InstallerType = 'Exe'
+      InstallerWaitMode = 'Process'
       DisplayNamePattern = '^MiTeC InfoBar$'
       DownloadProvider = 'DirectHttps'
       DownloadUri = 'https://www.mitec.cz/wp/files/InfoBar_Setup.exe'

@@ -1277,3 +1277,17 @@ smoke check passed. The source revision and file hashes are recorded in the
 capability-differences register. Paired profile and state-preview examples are
 in both READMEs. Review this difference if positional syntax, completion data
 sources, or the status row contract changes.
+
+## InfoBar completion diagnostic, 2026-11-03
+
+The pending Windows InfoBar 4.6.2 candidate selects the existing EXE root-process
+completion policy after a native installation timeout. Installer exit and
+installed-state gates remain; other defaults and uninstall behavior are unchanged.
+This is a Windows installer-provider difference, with no shared CLI/schema or
+contract revision. Native confirmation is pending and the timeout cause unproven.
+Owner: RIDE-Windows maintainers. Follow-up and review trigger: the diagnostic
+retry in the [Nov 3 reassessment](migrations/migration-completion-reassessment-2026-11-03.md),
+or any future change to installer completion/promotion policy. Compared contract
+1.1.0 and Fedora HEAD 1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a;
+exact contract/CLI/provider hashes and tests are retained in
+[source evidence](archive/evidence/infobar-installer-completion-source-2026-11-03.json).

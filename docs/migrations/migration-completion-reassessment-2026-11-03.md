@@ -2,9 +2,25 @@
 
 ## Current status
 
+### InfoBar timeout and unattended continuation, 2026-11-03
+
+InfoBar's corrected regression gate passed 464 tests (four skipped), but the
+installer run timed out after acquisition. Its transcript was locked and omitted;
+startup, uninstall and product recovery were not established. Separate checkpoint
+recovery passed. See [native timeout](../archive/evidence/infobar-installer-timeout-native-2026-11-03.json).
+The pending candidate now uses the existing root-process completion policy and
+retains an installer log. Exit-code and installed-state checks remain required.
+Both PowerShell editions passed 178 focused tests (three skipped), and repository
+validation passed. This is a hypothesis to verify, not an established cause or a
+native pass. See [source checks](../archive/evidence/infobar-installer-completion-source-2026-11-03.json).
+Project Maker and the remaining correction queue continue unattended; the font
+diagnostic retry follows verified recovery. No additional legacy outcome closes:
+all five ranges remain 37-57 / 34-49 / 19-24 / 23-33 / 8-12, exact 121-175,
+rounded 120-175. Failed, partial and deferred outcomes remain counted.
+
 ### Attended resumption decisions, 2026-11-03
 
-Evidence through 12:25 Copenhagen: **30 MiTeC variants across 25 products passed
+Evidence through 13:08 Copenhagen: **30 MiTeC variants across 25 products passed
 installation, bounded startup, removal and recovery**. This includes Mail Checker,
 which passed nine explicit lifecycle checks and 63 guest regression tests. Its
 old uninstall registration omits DisplayVersion; the exact executable hash and

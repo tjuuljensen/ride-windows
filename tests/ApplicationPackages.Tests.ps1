@@ -1604,22 +1604,25 @@ Describe 'Application timeout diagnostics' {
     } finally { $env:RIDE_TEST_EVIDENCE_PATH = $prior }
   }
 
-  It 'adds the Project Maker log while preserving all existing silent installer switches' {
+  It 'adds the <Id> log while preserving all existing silent installer switches' -ForEach @(
+    @{Id='package.mitec-project-maker';Log='project-maker-install.log'},
+    @{Id='package.mitec-infobar';Log='infobar-install.log'}
+  ) {
     $root = Split-Path -Parent $PSScriptRoot
     $ast = [Management.Automation.Language.Parser]::ParseFile(
       (Join-Path $root 'tests/integration/Invoke-RideApplicationBatch.ps1'), [ref]$null, [ref]$null)
     $branch = $ast.Find({param($node)
       $node -is [Management.Automation.Language.IfStatementAst] -and
-      $node.Clauses[0].Item1.Extent.Text -like "*scenario.Id -eq 'package.mitec-project-maker'*"
+      $node.Clauses[0].Item1.Extent.Text -like "*scenario.Id -eq '$Id'*"
     }, $true)
     $branch | Should -Not -BeNullOrEmpty
-    $scenario = @{ Id = 'package.mitec-project-maker' }
+    $scenario = @{ Id = $Id }
     $operation = @{ InstallerArguments = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-' }
     $prior = $env:RIDE_TEST_EVIDENCE_PATH
     try {
       $env:RIDE_TEST_EVIDENCE_PATH = $TestDrive
       . ([scriptblock]::Create($branch.Extent.Text))
-      $operation.InstallerArguments | Should -BeExactly ('/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG="' + (Join-Path $TestDrive 'project-maker-install.log') + '"')
+      $operation.InstallerArguments | Should -BeExactly ('/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP- /LOG="' + (Join-Path $TestDrive $Log) + '"')
     } finally { $env:RIDE_TEST_EVIDENCE_PATH = $prior }
   }
 }

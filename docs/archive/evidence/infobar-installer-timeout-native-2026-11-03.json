@@ -1,0 +1,109 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T12:07:33.6363484+00:00",
+  "RunId": "d72aab7aef1d4fd59e62b349a1cf31cd",
+  "Status": "TimedOut",
+  "Controller": {
+    "SchemaVersion": 1,
+    "RunId": "d72aab7aef1d4fd59e62b349a1cf31cd",
+    "Source": "Local",
+    "UnitOnly": false,
+    "IntegrationSuite": "ApplicationsBatch9",
+    "Status": "TimedOut",
+    "StartedAtUtc": "2026-11-03T11:23:36.4398804Z",
+    "FinishedAtUtc": "2026-11-03T11:54:13.074961Z",
+    "Error": "Test controller exceeded its timeout; process tree terminated.",
+    "CleanupError": null,
+    "CollectionError": null,
+    "GuestGitHubAuthentication": "Anonymous",
+    "GitHubTestScenario": "Acquire",
+    "CredentialCleanupVerified": null,
+    "EvidenceExportError": null
+  },
+  "Guest": {
+    "Caption": "Microsoft Windows 11 Enterprise Evaluation",
+    "Version": "10.0.26300",
+    "BuildNumber": "26300"
+  },
+  "CollectionOmissions": [
+    {
+      "Path": "transcript.log",
+      "Error": "The file 'C:\\RIDE\\TestResults\\d72aab7aef1d4fd59e62b349a1cf31cd\\transcript.log' cannot be read: The process cannot access the file 'C:\\RIDE\\TestResults\\d72aab7aef1d4fd59e62b349a1cf31cd\\transcript.log' because it is being used by another process."
+    }
+  ],
+  "Progress": [
+    {
+      "AtUtc": "2026-11-03T11:36:32.593243Z",
+      "PackageId": "package.mitec-infobar",
+      "Stage": "Build installation plan"
+    },
+    {
+      "AtUtc": "2026-11-03T11:36:32.6111398Z",
+      "PackageId": "package.mitec-infobar",
+      "Stage": "Read pre-install state"
+    },
+    {
+      "AtUtc": "2026-11-03T11:36:32.8878136Z",
+      "PackageId": "package.mitec-infobar",
+      "Stage": "Preview installation"
+    },
+    {
+      "AtUtc": "2026-11-03T11:36:33.4890911Z",
+      "PackageId": "package.mitec-infobar",
+      "Stage": "Install package"
+    }
+  ],
+  "GuestRegression": {
+    "Source": "guest/pester.xml",
+    "Skipped": 4,
+    "Passed": 464,
+    "Failed": 0
+  },
+  "Artifact": {
+    "Sha256": "6808673eb693870150e06b650e27b89785c8a21a01b2b067891685563e549a3a",
+    "Version": "4.6.2",
+    "AuthenticodeStatus": "UnknownError",
+    "Bytes": 16746064,
+    "Signer": "Michal Mutl"
+  },
+  "DefenderBefore": {
+    "ObservedAtUtc": "2026-11-03T11:36:32.3841521Z",
+    "SinceUtc": "2026-11-03T11:24:59.578064Z",
+    "AMServiceEnabled": true,
+    "AntivirusEnabled": true,
+    "RealTimeProtectionEnabled": true,
+    "ActiveThreatIds": [],
+    "ActiveThreats": [],
+    "Detections": [],
+    "Passed": true,
+    "ExclusionsChanged": false,
+    "PayloadsAccessed": false
+  },
+  "DefenderAfter": null,
+  "QueueReceipt": {
+    "Batch": "ApplicationsBatch9",
+    "Status": "TimedOut",
+    "StartedAtUtc": "2026-11-03T11:23:31.8942141Z",
+    "RunId": "d72aab7aef1d4fd59e62b349a1cf31cd",
+    "ResultDirectory": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\d72aab7aef1d4fd59e62b349a1cf31cd",
+    "Error": "RIDE run d72aab7aef1d4fd59e62b349a1cf31cd TimedOut: Test controller exceeded its timeout; process tree terminated. . Results: C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11Test\\results\\d72aab7aef1d4fd59e62b349a1cf31cd",
+    "RecoveryVerified": true,
+    "FinishedAtUtc": "2026-11-03T11:54:13.074961Z",
+    "Review": "Terminal timeout with successful collection/cleanup/export; tasks Ready, pinned VM Off, queues empty and hold absent before continuation."
+  },
+  "Limits": [
+    "Installer completion and startup/uninstall/product recovery are not established.",
+    "Transcript was locked and omitted; no guest summary or case report exists.",
+    "Installer root-process completion is a hypothesis under test, not an established timeout cause.",
+    "Checkpoint recovery does not turn the product timeout into a pass."
+  ],
+  "RemainingEstimate": {
+    "Packages": "34-49",
+    "FilesAndAssets": "23-33",
+    "Settings": "37-57",
+    "Exact": "121-175",
+    "Rounded": "120-175",
+    "Maintenance": "8-12",
+    "Components": "19-24"
+  }
+}

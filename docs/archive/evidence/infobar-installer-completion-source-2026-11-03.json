@@ -1,0 +1,55 @@
+{
+  "SchemaVersion": 1,
+  "RecordedAtUtc": "2026-11-03T12:07:33.7425144+00:00",
+  "Status": "SourceChecksPassedNativePending",
+  "Change": "Pinned pending InfoBar uses existing root-process completion policy; test runner retains installer log. Installer exit and installed-state gates remain.",
+  "Tests": [
+    {
+      "Passed": 178,
+      "AtUtc": "2026-11-03T12:03:16.2771837Z",
+      "Failed": 0,
+      "Edition": "Desktop",
+      "PowerShell": "5.1.26100.9818",
+      "Skipped": 3
+    },
+    {
+      "AtUtc": "2026-11-03T12:02:19.9686708Z",
+      "PowerShell": "7.6.5",
+      "Failed": 0,
+      "Skipped": 3,
+      "Edition": "Core",
+      "Passed": 178
+    }
+  ],
+  "Validation": "Passed: 475 operations, 9 groups, 5 profiles, 404 PowerShell files; generated documentation current.",
+  "Files": [
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "109C7BAD4D39A6DE9EEC411304DA1C72F5AD43A26C1C6814C78974F6862591B4"
+    },
+    {
+      "Path": "tests/integration/Invoke-RideApplicationBatch.ps1",
+      "Sha256": "7A6B3418F374CD4C70D640892DAB29C2D4166C102853A3F28D359A3D0EB0827A"
+    },
+    {
+      "Path": "tests/InstallerCompletion.Tests.ps1",
+      "Sha256": "D71C8FB14F8DC339774DDEFF0091F2BB4DE7BF0928733590E0D077A18D52D396"
+    },
+    {
+      "Path": "tests/ApplicationPackages.Tests.ps1",
+      "Sha256": "1D9BFE164B1B92D6147AF5CDC9DCB8C4C95946A74485F6C23FE9677F0FCE61CA"
+    }
+  ],
+  "Alignment": {
+    "RecordedAtUtc": "2026-11-03T12:13:50.1288567+01:00",
+    "ContractVersion": "1.1.0",
+    "ContractSha256": "B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938",
+    "PeerHead": "1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a",
+    "PeerRideSha256": "A2A49A88D6783CB7D33B103CE27FF5D86A851FB02973C4381BD75CAED22AEC43",
+    "PeerProvidersSha256": "005C325CDAA3DA489A4A5FD4A1A54FB05FD3D9A2C0DA29EFA7EEEB88B7F36A6D"
+  },
+  "Limits": [
+    "Native retry pending; original timeout cause unproven.",
+    "No target promotion or legacy outcome closure."
+  ]
+}
