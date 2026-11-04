@@ -5,8 +5,10 @@
   Calculates local PNG hashes when omitted, or retains explicit pins, for the guarded image handlers.
   Discovery is read-only. Owned public images and private receipts are separated.
 .NOTES
-  Version: 0.2.0. Windows PowerShell 5.1/7, Windows 11 x64 Enterprise/Education.
-  Changelog: 0.2.0: Resolve omitted image hashes from validated local files during selection.
+  Version: 0.3.1. Windows PowerShell 5.1/7. Wallpaper targets Enterprise/Education;
+  machine lock-screen targets accepted Enterprise/Education policy behavior.
+  Changelog: 0.3.1: Restrict lock-screen candidate editions to accepted policy support.
+  0.2.0: Resolve omitted image hashes from validated local files during selection.
   Accepted image behavior: EnterpriseEval 26300.9711. Other builds require
   AllowCandidate; this does not bypass edition, privilege or recovery checks.
 #>

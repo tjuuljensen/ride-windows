@@ -6,13 +6,14 @@
   PNG. Captures private machine intent before changes and verifies completed
   state before recovery. Preserves inbox/source images and user-choice policies.
 .NOTES
-  Compatibility: Windows 11 x64 Enterprise/Education, PowerShell 5.1/7.
+  Compatibility: Windows 11 x64 Enterprise or Education, PowerShell 5.1/7.
   Requires an explicitly matched Windows target and existing elevation.
   Image and state directories must exist. No UAC, sign-out or reboot is launched.
   Recovery restores captured policy/file state, not Windows caches or visible UI.
   Incomplete apply retains evidence and requires inspection; no blind cleanup.
-  Version: 0.2.0.
-  Changelog: 0.2.0: Integrate catalog run IDs, accepted target gating and sibling-image idempotence.
+  Version: 0.3.1.
+  Changelog: 0.3.1: Restrict machine lock-screen support to editions with accepted policy behavior.
+  0.2.0: Integrate catalog run IDs, accepted target gating and sibling-image idempotence.
   0.1.1: Read policy permissions from the same opened registry handle.
   0.1.0: Add owned image and default policy lifecycle candidate.
 .LINK
@@ -23,6 +24,10 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE.ImageFiles.psm1') -Force -ErrorActi
 Import-Module (Join-Path $PSScriptRoot 'RIDE.PrivateFiles.psm1') -ErrorAction Stop
 $script:PolicyParent='SOFTWARE\Policies\Microsoft\Windows'
 $script:PolicyChild='Personalization'
+function Get-RideDefaultLockBackend {
+  param([Parameter(Mandatory)][string]$EditionId)
+  [pscustomobject]@{Parent=$script:PolicyParent;Child=$script:PolicyChild;Names=@('LockScreenImage');Kind='Policy'}
+}
 
 function Get-RideDefaultLockContext {
   $version=Get-ItemProperty -LiteralPath 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
@@ -32,7 +37,7 @@ function Get-RideDefaultLockContext {
 }
 function Assert-RideDefaultLockContext {
   param($Context,$Expected,[bool]$Mutation)
-  if($Context.InstallationType -cne 'Client' -or $Context.Build -cnotmatch '^\d{5,8}$' -or [int]$Context.Build -lt 22000 -or -not $Context.NativeProcess -or $Context.Architecture -cne 'AMD64' -or $Context.EditionId -cnotin @('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')){throw 'Default lock-screen candidate requires Windows 11 x64 Enterprise/Education.'}
+  if($Context.InstallationType -cne 'Client' -or $Context.Build -cnotmatch '^\d{5,8}$' -or [int]$Context.Build -lt 22000 -or -not $Context.NativeProcess -or $Context.Architecture -cne 'AMD64' -or $Context.EditionId -cnotin @('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')){throw 'Default lock-screen candidate requires Windows 11 x64 Enterprise or Education.'}
   if($Mutation -and -not $Context.Administrator){throw 'Existing elevation is required; no UAC is launched.'}
   if($Expected){foreach($field in @('ComputerName','Build','EditionId','Revision','InstallationType','NativeProcess','Architecture','Guest')){if($Context.$field -cne $Expected.$field){throw "Default lock-screen target changed ($field)."}}}
 }
@@ -105,7 +110,9 @@ function Get-RideDefaultLockAsset {
   [pscustomobject]@{Sha256=(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash;Bytes=$file.Length;Security=$acl.GetSecurityDescriptorSddlForm([Security.AccessControl.AccessControlSections]'Owner,Group,Access');Attributes=[int]$file.Attributes;CreationUtcTicks=$file.CreationTimeUtc.Ticks.ToString();LastWriteUtcTicks=$file.LastWriteTimeUtc.Ticks.ToString()}
 }
 function Open-RideDefaultLockPolicyKey {
-  [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($script:PolicyParent+'\'+$script:PolicyChild,$false)
+  param([string]$EditionId)
+  $backend=Get-RideDefaultLockBackend $EditionId
+  [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($backend.Parent+'\'+$backend.Child,$false)
 }
 function Test-RideDefaultLockRegistryEqual {
   param($Left,$Right)
@@ -114,7 +121,8 @@ function Test-RideDefaultLockRegistryEqual {
   Test-RideDefaultLockEqual $views[0] $views[1]
 }
 function Get-RideDefaultLockRegistry {
-  $key=Open-RideDefaultLockPolicyKey
+  param([string]$EditionId=(Get-RideDefaultLockContext).EditionId)
+  $key=Open-RideDefaultLockPolicyKey $EditionId
   if(-not $key){return [pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()}}
   try{
     $names=@($key.GetValueNames());$subKeys=@($key.GetSubKeyNames()|Sort-Object)
@@ -124,31 +132,40 @@ function Get-RideDefaultLockRegistry {
   }finally{$key.Dispose()}
 }
 function Set-RideDefaultLockRegistry {
-  param($Row,[bool]$RemoveCreatedKey=$false)
-  $parent=[Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($script:PolicyParent,$true)
-  if(-not $parent){throw 'Windows policy parent is unavailable.'}
+  param($Row,[bool]$RemoveCreatedKey=$false,[Parameter(Mandatory)][string]$EditionId,[object[]]$RestoreRows)
+  $backend=Get-RideDefaultLockBackend $EditionId
+  $parent=[Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($backend.Parent,$true)
+  if(-not $parent){throw 'Windows lock-screen registry parent is unavailable.'}
   try{
     if($RemoveCreatedKey){
-      $key=$parent.OpenSubKey($script:PolicyChild,$true)
-      if(-not $key){throw 'Created personalization key is missing.'}
-      try{$key.DeleteValue('LockScreenImage',$true);$key.Flush();if($key.ValueCount -ne 0 -or $key.SubKeyCount -ne 0){throw 'Created personalization key is no longer empty.'}}finally{$key.Dispose()}
-      $parent.DeleteSubKey($script:PolicyChild,$true);return
+      $key=$parent.OpenSubKey($backend.Child,$true)
+      if(-not $key){throw 'Created lock-screen key is missing.'}
+      try{foreach($name in $backend.Names){$key.DeleteValue($name,$true)};$key.Flush();if($key.ValueCount -ne 0 -or $key.SubKeyCount -ne 0){throw 'Created lock-screen key is no longer empty.'}}finally{$key.Dispose()}
+      $parent.DeleteSubKey($backend.Child,$true);return
     }
-    $key=$parent.CreateSubKey($script:PolicyChild)
-    try{if($null -eq $Row){$key.DeleteValue('LockScreenImage',$true)}else{$key.SetValue('LockScreenImage',[string]$Row.Value,[Microsoft.Win32.RegistryValueKind]$Row.Kind)};$key.Flush()}finally{$key.Dispose()}
+    $key=$parent.CreateSubKey($backend.Child)
+    try{
+      if($PSBoundParameters.ContainsKey('RestoreRows')){
+        foreach($name in $backend.Names){$key.DeleteValue($name,$true)}
+        foreach($saved in @($RestoreRows)){$key.SetValue([string]$saved.Name,$saved.Value,[Microsoft.Win32.RegistryValueKind]$saved.Kind)}
+      }elseif($null -eq $Row){$key.DeleteValue('LockScreenImage',$true)}else{$key.SetValue('LockScreenImage',[string]$Row.Value,[Microsoft.Win32.RegistryValueKind]$Row.Kind)}
+      $key.Flush()
+    }finally{$key.Dispose()}
   }finally{$parent.Dispose()}
 }
 function Get-RideDefaultLockRow {
-  param($Registry)
-  $rows=@($Registry.Rows|Where-Object Name -IEQ 'LockScreenImage')
+  param($Registry,[string]$EditionId=(Get-RideDefaultLockContext).EditionId)
+  $backend=Get-RideDefaultLockBackend $EditionId
+  $rows=@($Registry.Rows|Where-Object {$_.Name -in $backend.Names})
   if($rows.Count -gt 1 -or ($rows.Count -and $rows[0].Kind -cnotin @('String','ExpandString'))){throw 'Prior LockScreenImage must be absent or a string policy.'}
   if($rows.Count){$rows[0]}
 }
 function Assert-RideDefaultLockRegistryChange {
-  param($Before,$After,[string]$AssetPath)
-  if(-not $After.Exists -or -not (Test-RideDefaultLockEqual @($Before.Rows|Where-Object Name -INE 'LockScreenImage') @($After.Rows|Where-Object Name -INE 'LockScreenImage')) -or -not (Test-RideDefaultLockEqual @($Before.SubKeys) @($After.SubKeys)) -or ($Before.Exists -and $Before.Security -cne $After.Security)){throw 'Unrelated personalization policy state changed.'}
-  $row=Get-RideDefaultLockRow $After
-  if($null -eq $row -or $row.Kind -cne 'String' -or $row.Value -cne $AssetPath){throw 'Default lock-screen policy readback differs.'}
+  param($Before,$After,[string]$AssetPath,[string]$EditionId)
+  $names=(Get-RideDefaultLockBackend $EditionId).Names
+  if(-not $After.Exists -or -not (Test-RideDefaultLockEqual @($Before.Rows|Where-Object {$_.Name -notin $names}) @($After.Rows|Where-Object {$_.Name -notin $names})) -or -not (Test-RideDefaultLockEqual @($Before.SubKeys) @($After.SubKeys)) -or ($Before.Exists -and $Before.Security -cne $After.Security)){throw 'Unrelated lock-screen registry state changed.'}
+  $row=Get-RideDefaultLockRow $After $EditionId
+  if($null -eq $row -or $row.Value -cne $AssetPath){throw 'Default lock-screen registry readback differs.'}
 }
 function Get-RideDefaultLockRunPath {
   param([string]$StateDirectory,[string]$RunId,[ValidateSet('intent','applied')][string]$Part)
@@ -172,7 +189,7 @@ function Read-RideDefaultLockRun {
 function Assert-RideDefaultLockRun {
   param($Intent,$Applied)
   if($Intent.AssetDirectory -cne (Resolve-RideDefaultLockDirectory $Intent.AssetDirectory) -or $Intent.SourceSha256 -cnotmatch '^[A-F0-9]{64}$' -or $Intent.AssetPath -cne (Join-Path $Intent.AssetDirectory ($Intent.RunId+'.png')) -or $Applied.File.Sha256 -cne $Intent.SourceSha256 -or $Applied.File.Bytes -ne $Intent.SourceBytes){throw 'Saved image identity or ownership is invalid.'}
-  Assert-RideDefaultLockRegistryChange $Intent.Before $Applied.After $Intent.AssetPath
+  Assert-RideDefaultLockRegistryChange $Intent.Before $Applied.After $Intent.AssetPath $Intent.Context.EditionId
 }
 
 function Set-RideDefaultLockScreenImage {
@@ -194,7 +211,7 @@ function Set-RideDefaultLockScreenImage {
   .PARAMETER ExpectedBuild
     Exact intended Windows 11 build number.
   .PARAMETER ExpectedEditionId
-    Exact supported candidate Enterprise/Education edition identifier.
+    Exact supported Enterprise or Education edition identifier.
   .PARAMETER AllowCandidate
     Permit mutation on declared targets other than accepted EnterpriseEval 26300.9711.
   .EXAMPLE
@@ -217,8 +234,8 @@ function Set-RideDefaultLockScreenImage {
   $AssetDirectory=Resolve-RideDefaultLockDirectory $AssetDirectory;$StateDirectory=Resolve-RideDefaultLockDirectory $StateDirectory
   $directorySecurity=Assert-RideDefaultLockAssetDirectory $AssetDirectory
   $source=Get-RidePngSource -Path $Path -ExpectedSha256 $ExpectedSha256 -IncludeContent
-  $before=Get-RideDefaultLockRegistry;$prior=Get-RideDefaultLockRow $before
-  if($prior -and $prior.Kind -ceq 'String' -and [IO.Path]::GetDirectoryName([string]$prior.Value) -ieq $AssetDirectory -and [IO.Path]::GetFileName([string]$prior.Value) -cmatch '^([a-f0-9]{32})\.png$'){
+  $before=Get-RideDefaultLockRegistry -EditionId $context.EditionId;$prior=Get-RideDefaultLockRow $before $context.EditionId
+  if($prior -and $prior.Kind -cin @('String','ExpandString') -and [IO.Path]::GetDirectoryName([string]$prior.Value) -ieq $AssetDirectory -and [IO.Path]::GetFileName([string]$prior.Value) -cmatch '^([a-f0-9]{32})\.png$'){
     $ownerId=$Matches[1];$owner=Read-RideDefaultLockRun $StateDirectory $ownerId intent;$done=Read-RideDefaultLockRun $StateDirectory $ownerId applied
     Assert-RideDefaultLockRun $owner $done
     if($owner.SourceSha256 -ceq $source.Sha256){
@@ -234,14 +251,14 @@ function Set-RideDefaultLockScreenImage {
   Save-RideDefaultLockRun $StateDirectory $runId intent $intent
   try{
     Assert-RideDefaultLockContext (Get-RideDefaultLockContext) $context $true
-    if((Assert-RideDefaultLockAssetDirectory $AssetDirectory) -cne $directorySecurity -or -not (Test-RideDefaultLockEqual $before (Get-RideDefaultLockRegistry))){throw 'Destination or policy changed during preflight.'}
+    if((Assert-RideDefaultLockAssetDirectory $AssetDirectory) -cne $directorySecurity -or -not (Test-RideDefaultLockEqual $before (Get-RideDefaultLockRegistry -EditionId $context.EditionId))){throw 'Destination or policy changed during preflight.'}
     $stream=New-RideDefaultLockAssetStream $assetPath
     try{$stream.Write($source.Content,0,$source.Content.Length);$stream.Flush($true)}finally{$stream.Dispose()}
     $file=Get-RideDefaultLockAsset $assetPath
     if($file.Sha256 -cne $source.Sha256 -or $file.Bytes -ne $source.Bytes){throw 'Owned image readback differs.'}
-    if(-not (Test-RideDefaultLockEqual $before (Get-RideDefaultLockRegistry))){throw 'Policy changed before its write.'}
-    Set-RideDefaultLockRegistry ([pscustomobject]@{Kind='String';Value=$assetPath})
-    $after=Get-RideDefaultLockRegistry;Assert-RideDefaultLockRegistryChange $before $after $assetPath
+    if(-not (Test-RideDefaultLockEqual $before (Get-RideDefaultLockRegistry -EditionId $context.EditionId))){throw 'Lock-screen registry state changed before its write.'}
+    Set-RideDefaultLockRegistry ([pscustomobject]@{Kind='String';Value=$assetPath}) -EditionId $context.EditionId
+    $after=Get-RideDefaultLockRegistry -EditionId $context.EditionId;Assert-RideDefaultLockRegistryChange $before $after $assetPath $context.EditionId
     if(-not (Test-RideDefaultLockEqual $file (Get-RideDefaultLockAsset $assetPath))){throw 'Owned image changed after policy write.'}
     Save-RideDefaultLockRun $StateDirectory $runId applied ([pscustomobject]@{SchemaVersion=1;Kind='DefaultLockScreen';RunId=$runId;Part='applied';After=$after;File=$file})
     [pscustomobject]@{SchemaVersion=1;Scope='Machine';Status='Applied';RunId=$runId;AssetPath=$assetPath;NativeVisualAcceptance=$false}
@@ -275,19 +292,23 @@ function Restore-RideDefaultLockScreenRun {
   $context=Get-RideDefaultLockContext;Assert-RideDefaultLockContext $context $intent.Context (-not $WhatIfPreference)
   if(-not $WhatIfPreference -and -not $AllowCandidate -and ($context.Build -cne '26300' -or $context.EditionId -cne 'EnterpriseEval' -or $context.Revision -ne 9711)){throw 'Default lock-screen native acceptance is pending; specify -AllowCandidate.'}
   if((Assert-RideDefaultLockAssetDirectory $intent.AssetDirectory) -cne $intent.DirectorySecurity){throw 'Owned image directory changed.'}
-  $current=Get-RideDefaultLockRegistry;$file=Get-RideDefaultLockAsset $intent.AssetPath
-  $policyRestored=Test-RideDefaultLockEqual $current $intent.Before
-  if($policyRestored -and $null -eq $file){return [pscustomobject]@{SchemaVersion=1;Scope='Machine';Status='AlreadyRestored';RunId=$RunId;NativeVisualAcceptance=$false}}
-  if((-not $policyRestored -and -not (Test-RideDefaultLockEqual $current $applied.After)) -or -not (Test-RideDefaultLockEqual $file $applied.File)){throw 'Policy or owned image conflicts with captured recovery.'}
+  $current=Get-RideDefaultLockRegistry -EditionId $context.EditionId;$file=Get-RideDefaultLockAsset $intent.AssetPath
+  $registryRestored=Test-RideDefaultLockEqual $current $intent.Before
+  if($registryRestored -and $null -eq $file){return [pscustomobject]@{SchemaVersion=1;Scope='Machine';Status='AlreadyRestored';RunId=$RunId;NativeVisualAcceptance=$false}}
+  if((-not $registryRestored -and -not (Test-RideDefaultLockEqual $current $applied.After)) -or -not (Test-RideDefaultLockEqual $file $applied.File)){throw 'Lock-screen registry state or owned image conflicts with captured recovery.'}
   if(-not $PSCmdlet.ShouldProcess($context.ComputerName,'Restore captured default lock-screen policy and remove the unchanged run-owned image')){return [pscustomobject]@{SchemaVersion=1;Scope='Machine';Status='Preview';RunId=$RunId;NativeVisualAcceptance=$false}}
   try{
     Assert-RideDefaultLockContext (Get-RideDefaultLockContext) $intent.Context $true
-    if((Assert-RideDefaultLockAssetDirectory $intent.AssetDirectory) -cne $intent.DirectorySecurity -or -not (Test-RideDefaultLockEqual $current (Get-RideDefaultLockRegistry)) -or -not (Test-RideDefaultLockEqual $file (Get-RideDefaultLockAsset $intent.AssetPath))){throw 'Recovery target changed during preflight.'}
-    if(-not $policyRestored){Set-RideDefaultLockRegistry (Get-RideDefaultLockRow $intent.Before) (-not $intent.Before.Exists)}
-    if(-not (Test-RideDefaultLockEqual $intent.Before (Get-RideDefaultLockRegistry))){throw 'Captured policy recovery did not verify.'}
+    if((Assert-RideDefaultLockAssetDirectory $intent.AssetDirectory) -cne $intent.DirectorySecurity -or -not (Test-RideDefaultLockEqual $current (Get-RideDefaultLockRegistry -EditionId $context.EditionId)) -or -not (Test-RideDefaultLockEqual $file (Get-RideDefaultLockAsset $intent.AssetPath))){throw 'Recovery target changed during preflight.'}
+    if(-not $registryRestored){
+      $backend=(Get-RideDefaultLockBackend $intent.Context.EditionId)
+      $restoreRows=@($intent.Before.Rows|Where-Object {$_.Name -in $backend.Names})
+      Set-RideDefaultLockRegistry -RestoreRows $restoreRows -RemoveCreatedKey:(-not $intent.Before.Exists) -EditionId $intent.Context.EditionId
+    }
+    if(-not (Test-RideDefaultLockEqual $intent.Before (Get-RideDefaultLockRegistry -EditionId $context.EditionId))){throw 'Captured lock-screen registry recovery did not verify.'}
     if(-not (Test-RideDefaultLockEqual $applied.File (Get-RideDefaultLockAsset $intent.AssetPath))){throw 'Owned image changed before removal.'}
     Remove-Item -LiteralPath $intent.AssetPath -ErrorAction Stop
-    if($null -ne (Get-RideDefaultLockAsset $intent.AssetPath) -or -not (Test-RideDefaultLockEqual $intent.Before (Get-RideDefaultLockRegistry))){throw 'Final recovery readback differs.'}
+    if($null -ne (Get-RideDefaultLockAsset $intent.AssetPath) -or -not (Test-RideDefaultLockEqual $intent.Before (Get-RideDefaultLockRegistry -EditionId $context.EditionId))){throw 'Final recovery readback differs.'}
     [pscustomobject]@{SchemaVersion=1;Scope='Machine';Status='Restored';RunId=$RunId;NativeVisualAcceptance=$false}
   }catch{throw "Default lock-screen recovery incomplete. Run ID: $RunId. Retain private state. Cause: $($_.Exception.Message)"}
 }

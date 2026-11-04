@@ -1,8 +1,35 @@
 # Supplemental tool candidates
 
-Reviewed 2026-10-07. This is a research shortlist, not a set of approved packages or a promise of support. Candidates were compared with the current package catalog and the historical tool selectors in `docs/MIGRATION-PLAN.md` and `components/files/`. Tools already represented there, such as KAPE, Sysinternals, Chainsaw, Autopsy, Volatility, and Eric Zimmerman's tools, are intentionally omitted from the new-package shortlist.
+Research shortlist reviewed 2026-10-07; requested additions are dated separately below. The research shortlist is not a set of approved packages or a promise of support. Explicitly requested additions are queued candidates, with implementation and acceptance tracked separately. Candidates were compared with the current package catalog and the historical tool selectors in `docs/MIGRATION-PLAN.md` and `components/files/`. Tools already represented there, such as KAPE, Sysinternals, Chainsaw, Autopsy, Volatility, and Eric Zimmerman's tools, are intentionally omitted from the new-package shortlist.
 
 Here, "stealthy" means minimizing unnecessary changes to evidence and limiting exposure during authorized analysis. It does not mean hiding activity from owners, endpoint security, or monitoring. No live-system collection is footprint-free: reading volatile state and running collectors can change memory, files, and logs. Follow the incident plan and evidence-handling requirements, document actions, and use offline copies where possible.
+
+## Requested v3.0 additions, 2026-11-04
+
+The user confirmed all seven products below as v3.0 candidates. They are queued
+for package integration; none currently has a catalog implementation. This
+records candidate scope, not completed implementation, supported targets or
+default-profile selection. The actionable queue is in [TODO](../TODO.md#migration).
+
+| Candidate | Requested scope | Next review |
+| --- | --- | --- |
+| Upscayl | Windows application | Select the official distribution and review runtime/hardware prerequisites. |
+| Bitwarden installer | Installed Windows desktop application | Select the official installer and review installation scope, detection and account-data preservation. |
+| Brave Browser | Installed Windows browser | Select the official installer and review update behavior, browser integration and user-data preservation. |
+| Everything | Windows search application | Select the official distribution and review installation scope, indexing/service options and removal. |
+| Fedora Media Writer | Windows application | Select the official distribution; keep media writing separate from package installation. |
+| GIMP | Windows application | Select the official installer and review installation scope, detection and user-configuration preservation. |
+| MediaCreationTool | Windows media-creation tool | Confirm the exact Microsoft tool and Windows release; keep media creation and OS upgrade execution separate from acquisition. |
+
+For each candidate, verify publisher sources, product/license references, version,
+architecture and artifact integrity; define detection, installation or staging,
+removal and recovery before adding catalog metadata. Use proportionate focused
+checks and retain unverified target behavior as pending acceptance. Candidate
+registration does not schedule installers, VM runs or media-writing workflows.
+
+These are seven newly requested product outcomes, separate from the legacy
+migration estimates. No legacy outcome is resolved, retired, excluded or deferred
+by this queue update; existing partial outcomes and estimates remain unchanged.
 
 ## Requested v3 additions, 2026-10-11
 

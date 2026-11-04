@@ -604,6 +604,38 @@ Review trigger: guarded native dispatch, actual permissions/visible recovery,
 edition/route changes or release-candidate review. This does not imply Fedora
 feature parity or close the legacy default-lock reset outcome.
 
+## Pro default lock-screen route rejected, 2026-11-04
+
+Difference ID: `windows.default-lock-screen`. Classification: Windows-only native
+edition boundary under RB-04/08/09/11. A focused Windows 11 Pro build 26300
+acceptance applied the candidate registry/file lifecycle, but the selected image
+did not appear at the signed-out sign-in screen. Exact native restore passed and
+the guest checkpoint was restored after verified evidence export. Pro is now
+refused by the handler and is not claimed as a supported target. Enterprise and
+Education continue using the `LockScreenImage` policy route. No shared verb,
+catalog schema, profile meaning, contract version/digest or Fedora behavior
+changes.
+
+Microsoft's Personalization CSP reference limits Pro use to Shared PC or Boot to
+Cloud policy conditions. RIDE does not provision those modes, so writing the
+corresponding registry tuple alone is not an accepted implementation. Reviewed
+pinned behavior contract 1.1.0 SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938` and the
+peer catalog execution boundary. Compared current source hashes: peer `ride.sh`
+`06357DA3A869C8F2001A80847E22D0F9A71A166BC4C7F9016C8E310FF12EC863` and
+`lib/v3/catalog.sh`
+`8897669C1EADAF21D9BE3B8C54FF86AE977B500E7844E617710C79B194C43C6F`. Fedora
+has no matching native wallpaper/lock-screen provider; its catalog target and
+setting lifecycle stay platform-owned. Git metadata access to the peer checkout
+was denied, so no peer revision is asserted. Automated shared conformance remains
+pending.
+
+Owner: RIDE Windows maintainer. Reason: ordinary Windows Pro did not show the
+image through the tested registry mapping, and the documented CSP preconditions
+are outside this operation. Follow-up: [edition-support decision](migrations/component-edition-support-decisions-2026-11-04.md).
+Review trigger: a separately designed Pro-capable workflow with explicit
+Shared PC/MDM prerequisites and its own native visual and recovery evidence.
+
 ## Retained default-image guest phases, 2026-11-02
 
 Extends `windows.default-lock-screen` with native test preparation. Shared

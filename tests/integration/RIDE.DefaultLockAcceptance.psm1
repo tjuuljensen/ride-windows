@@ -77,13 +77,12 @@ function Read-RideDefaultLockAcceptanceRecord {
   [Text.UTF8Encoding]::new($false,$true).GetString($bytes)|ConvertFrom-Json
 }
 function Get-RideDefaultLockAcceptanceSnapshot {
-  param([string]$AssetPath)
-  $registry=& (Get-Module RIDE.DefaultLockScreen) {Get-RideDefaultLockRegistry}
-  $row=@($registry.Rows|Where-Object Name -IEQ 'LockScreenImage')
-  $policyValue=$null
-  if($row.Count){$policyValue=Get-ItemPropertyValue -LiteralPath 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization' -Name LockScreenImage -ErrorAction Stop}
+  param([string]$AssetPath,[string]$EditionId=(Get-RideDefaultLockAcceptanceContext).EditionId)
+  $snapshot=& (Get-Module RIDE.DefaultLockScreen) {param($edition) $registry=Get-RideDefaultLockRegistry -EditionId $edition;$row=Get-RideDefaultLockRow $registry $edition;[pscustomobject]@{Registry=$registry;Row=$row}} $EditionId
+  $registry=$snapshot.Registry;$row=$snapshot.Row
+  $policyValue=if($row){$row.Value}else{$null}
   $file=if($AssetPath){& (Get-Module RIDE.DefaultLockScreen) {param($p) Get-RideDefaultLockAsset $p} $AssetPath}else{$null}
-  [pscustomobject]@{Registry=$registry;PolicyValue=$policyValue;File=$file}
+  [pscustomobject]@{Registry=$registry;PolicyValue=$policyValue;RegistryValue=$policyValue;Backend='LockScreenImage policy';File=$file}
 }
 function Test-RideDefaultLockAcceptanceEqual {
   param($Left,$Right)
@@ -115,7 +114,7 @@ function Invoke-RideDefaultLockAcceptance {
   .PARAMETER ExpectedBuild
     Exact Windows 11 build, checked in both phases.
   .PARAMETER ExpectedEditionId
-    Exact Enterprise/Education candidate edition, checked in both phases.
+    Exact supported Enterprise or Education edition, checked in both phases.
   .PARAMETER EvidenceRoot
     Existing administrator-controlled local evidence parent. A new RunId child is
     created only by Apply; Restore reads its private records and adds an attempt.
@@ -181,7 +180,7 @@ function Invoke-RideDefaultLockAcceptance {
       if($result.AssetPath -cne (Join-Path $assets ($result.RunId+'.png'))){throw 'Unexpected run-owned image path.'}
       Assert-RideDefaultLockAcceptanceRecords $state $result.RunId
       $after=Get-RideDefaultLockAcceptanceSnapshot $result.AssetPath
-      if($after.PolicyValue -cne $result.AssetPath -or $null -eq $after.File -or $after.File.Sha256 -cne $source.Sha256 -or $after.File.Bytes -ne $source.Bytes){throw 'Native image/policy readback differs.'}
+      if($after.RegistryValue -cne $result.AssetPath -or $null -eq $after.File -or $after.File.Sha256 -cne $source.Sha256 -or $after.File.Bytes -ne $source.Bytes){throw 'Native image/registry readback differs.'}
       Save-RideDefaultLockAcceptanceRecord (Join-Path $directory 'applied-snapshot.json') $after
       $checks.Add('AppliedPolicyImageAndPrivateState');$report.Stage='Repeat';$count=@(Get-ChildItem -LiteralPath $state -File).Count
       $repeat=Set-RideDefaultLockScreenImage @parameters;Assert-RideDefaultLockAcceptanceResult $repeat @('AlreadyDesired') $true

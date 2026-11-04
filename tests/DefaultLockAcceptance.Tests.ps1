@@ -95,8 +95,8 @@ Describe 'Retained default lock-screen guest acceptance phases' {
       {Invoke-RideDefaultLockAcceptance @script:applyParameters}|Should -Throw '*correlated*'
       $script:context.RunMarker=$script:id;$script:context.Guest=$false
       {Invoke-RideDefaultLockAcceptance @script:applyParameters}|Should -Throw '*Hyper-V guest*'
-      $script:context.Guest=$true;$script:context.EditionId='Professional'
-      {Invoke-RideDefaultLockAcceptance @script:applyParameters}|Should -Throw '*Enterprise/Education*'
+      $script:context.Guest=$true;$script:context.EditionId='Core'
+      {Invoke-RideDefaultLockAcceptance @script:applyParameters}|Should -Throw '*Windows 11 x64 Enterprise or Education*'
       Test-Path -LiteralPath $script:directory|Should -BeFalse
     }
     It 'requires existing elevation for changes but allows a no-write preview without it' {

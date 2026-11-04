@@ -263,7 +263,7 @@ function Invoke-RideDefaultLockVmPhase {
   .PARAMETER ExpectedBuild
     Prepare-only exact Windows 11 guest build, at least 22000.
   .PARAMETER ExpectedEditionId
-    Prepare-only exact Enterprise/Education guest edition.
+    Prepare-only exact supported Enterprise or Education guest edition.
   .EXAMPLE
     Invoke-RideDefaultLockVmPhase -Phase Prepare -ConfigurationPath '<installed-configuration>' -RunId '<request-id>' -SourcePath '<selected-image>' -ExpectedBuild 26300 -ExpectedEditionId EnterpriseEval -WhatIf
   .OUTPUTS

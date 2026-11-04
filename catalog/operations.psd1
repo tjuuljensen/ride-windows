@@ -44,9 +44,9 @@
         Behavior = 'Configuration'
         GuiPath = 'Settings > Personalization'
         GuiEffect = 'Sets the machine default lock/sign-in image. Signed-out sign-in rendering is accepted; clock-overlay rendering is not separately verified. No user-change restriction is added.'
-        Requirements = @('Explicit local PNG; SHA-256 calculated automatically or checked against an optional pin', 'Accepted image behavior on EnterpriseEval 26300.9711; other declared targets require AllowCandidate')
-        OtherSupportedChoices = @('No generic unset or baseline; restore the saved run', 'Recovery refuses policy/file and permission conflicts')
-        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen')
+        Requirements = @('Explicit local PNG; SHA-256 calculated automatically or checked against an optional pin', 'EnterpriseEval 26300.9711 image behavior accepted; other x64 Enterprise/Education builds require AllowCandidate', 'Windows 11 Pro is not supported by this machine policy route')
+        OtherSupportedChoices = @('No generic unset or baseline; restore the saved run', 'Recovery refuses selected-backend registry, file and permission conflicts')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen', 'https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp')
       }
       Scope = 'Machine'
       RequiresAdmin = $true
@@ -55,7 +55,7 @@
       Actions = @('Get', 'Test', 'Set', 'Restore')
       States = @{ Configured = 'Selected local PNG' }
       Rollback = 'Exact'
-      Description = 'Apply an explicitly selected local PNG with an automatically calculated hash or optional explicit SHA-256 pin. Accepted image behavior: EnterpriseEval 26300.9711; other x64 Enterprise/Education builds require AllowCandidate. Restore recovers prior policy and removes unchanged owned files. Signed-out sign-in rendering was verified; the clock-overlay lock screen was not independently observed.'
+      Description = 'Apply an explicitly selected local PNG with an automatically calculated hash or optional explicit SHA-256 pin. EnterpriseEval 26300.9711 signed-out sign-in rendering is accepted; other x64 Enterprise/Education builds require AllowCandidate. Windows 11 Pro is not supported by this machine policy route. Restore recovers the exact prior policy values and removes unchanged owned files. The clock-overlay lock screen was not independently observed.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen'
       TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows or organizational default image; no RIDE override' } }
     }

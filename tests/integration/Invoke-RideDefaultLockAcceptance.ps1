@@ -16,7 +16,7 @@
 .PARAMETER ExpectedBuild
   Exact guest Windows 11 build.
 .PARAMETER ExpectedEditionId
-  Exact Enterprise/Education candidate edition.
+  Exact supported Enterprise or Education edition.
 .PARAMETER EvidenceRoot
   Existing administrator-controlled evidence parent; retains private phase records.
 .PARAMETER DisposableVm
@@ -30,7 +30,8 @@
 .OUTPUTS
   Schema-1 phased result, never an overall visual acceptance pass.
 .NOTES
-  Native Windows PowerShell 5.1/7. Version: 0.1.0.
+  Native Windows PowerShell 5.1/7. Version: 0.2.1. Restricts native acceptance
+  to Enterprise/Education editions with a supported machine policy route.
   Recovery: Retain the guest and private evidence; no automatic checkpoint cleanup.
 .LINK
   ../../docs/image-personalization.md
@@ -44,7 +45,7 @@ param([ValidateSet('Apply','Restore')][string]$Phase,
   [string]$ExpectedComputerName,[string]$ExpectedBuild,
   [ValidateSet('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId,
   [string]$EvidenceRoot,[switch]$DisposableVm,[switch]$Version)
-if($Version){'0.1.0';return}
+if($Version){'0.2.0';return}
 $ErrorActionPreference='Stop'
 foreach($name in @('Phase','RunId','ExpectedComputerName','ExpectedBuild','ExpectedEditionId','EvidenceRoot')){if(-not $PSBoundParameters.ContainsKey($name) -or [string]::IsNullOrWhiteSpace([string]$PSBoundParameters[$name])){throw "Supply $name explicitly; no interactive input is requested."}}
 Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultLockAcceptance.psm1') -ErrorAction Stop

@@ -2,8 +2,11 @@
 
 RIDE exposes machine first-logon wallpaper and default lock/sign-in images through
 the catalog, profiles, planning, inspection, set and saved-run restore.
-The per-user lock-screen handler is not implemented yet. Source tests and policy
-readback are not Windows visual acceptance passes.
+[Windows edition support decisions](migrations/component-edition-support-decisions-2026-11-04.md)
+record the failed Pro lock-screen visual acceptance and current edition boundary.
+The per-user lock-screen handler is not implemented yet. Machine lock-screen
+visual acceptance is limited to EnterpriseEval 26300.9711; source tests and
+registry readback alone do not establish visible behavior on Pro.
 
 ## Use through RIDE
 
@@ -35,11 +38,16 @@ Separate CLI invocations calculate a fresh hash from the file each time.
 State completion offers `Configured`; `status -Profile <copy>` compares the
 selected image hashes with the current owned images.
 
-The accepted image behavior is scoped to Windows 11 x64 EnterpriseEval
-26300.9711. Other Windows 11 x64 Enterprise/Education editions/builds require
-explicit `-AllowCandidate` on apply and restore. Pro, Home, Server and non-x64
-targets remain refused by these handlers. Candidate opt-in never bypasses those
-checks. Inspection and preview do not require candidate opt-in.
+The accepted wallpaper and lock-screen behavior is scoped to Windows 11 x64
+EnterpriseEval 26300.9711. Other Windows 11 x64 Enterprise/Education
+editions/builds require explicit `-AllowCandidate` on apply and restore. The
+machine lock-screen policy route is not supported on Windows 11 Pro: a focused
+Pro VM run completed policy/file lifecycle and exact restoration, but the
+selected image did not appear at sign-in. Pro requires the documented Shared PC
+or Boot to Cloud policy conditions for the CSP route; RIDE does not configure
+those modes. Wallpaper, Home, Server and non-x64 targets remain refused by their
+current handlers. Candidate opt-in never bypasses edition, architecture or
+recovery checks. Inspection and preview do not require candidate opt-in.
 
 Wallpaper applies to newly initialized profiles and allows later user choice;
 it does not force the wallpaper on existing desktops. Its theme selects Aero;
@@ -462,18 +470,22 @@ recorded in [dispatch evidence](archive/evidence/default-wallpaper-vm-source-202
 ## Machine default lock-screen candidate
 
 `Set-RideDefaultLockScreenImage` creates a unique PNG in an existing owned asset
-directory and sets only the machine `LockScreenImage` policy. It preserves
-existing user-change restrictions, per-user preferences and Windows inbox
-images. It adds no restriction preventing users from changing their image;
-existing restrictions can still apply. Source and previously referenced images
-are untouched.
+directory. Supported Enterprise/Education targets use the machine
+`LockScreenImage` policy. Pro is refused because a focused Pro test showed no
+visible sign-in change through the attempted CSP registry mapping. Microsoft
+limits Pro use of that CSP to Shared PC or Boot to Cloud policy conditions;
+RIDE does not enable either mode. The handler preserves existing user-change
+restrictions, per-user preferences and Windows inbox images. It adds no
+restriction preventing users from changing their image; existing restrictions
+can still apply. Source and previously referenced images are untouched.
 
 Use an already elevated native PowerShell 5.1/7 session on the explicitly matched
-Windows 11 x64 target. Editions are `Enterprise`, `EnterpriseN`, `EnterpriseEval`,
-`Education` and `EducationN`; only EnterpriseEval 26300.9711 has accepted image
-behavior. Other declared targets require candidate opt-in. No VM markers, UAC
-or automatic sign-out/reboot are required by the handler. The direct examples
-below are for the disposable acceptance guest; prefer the catalog route for use.
+Windows 11 x64 target. Editions are `Enterprise`, `EnterpriseN`,
+`EnterpriseEval`, `Education` and `EducationN`. Only
+EnterpriseEval 26300.9711 has accepted image behavior. Other declared targets
+require candidate opt-in. No VM markers, UAC or automatic
+sign-out/reboot are required by the handler. The direct examples below are for
+the disposable acceptance guest; prefer the catalog route for use.
 
 Prepare the existing directories separately in that guest. The asset directory
 and its parent must be Administrators/SYSTEM owned and grant modification only
@@ -538,7 +550,7 @@ screen state are not captured or claimed restored by registry/file readback.
 and `Restore` phases for the pinned `suit_sharpened_4k.png` fixture. The matching
 module command is `Invoke-RideDefaultLockAcceptance`. Each phase explicitly runs
 the candidate lifecycle within the attested guest; saved evidence never starts
-the next phase automatically. `-Version` prints `0.1.0` without inspecting Windows.
+the next phase automatically. `-Version` prints `0.2.0` without inspecting Windows.
 
 The prerequisites above still apply. The existing `EvidenceRoot` must be owned
 by Administrators/SYSTEM and grant modification only to them. The controller
@@ -763,9 +775,11 @@ Windows Server support also requires its own native acceptance evidence.
 
 The legacy `SetDefaultLockScreen` removes old overrides; it is a reset action,
 not an existing second-image setter. Keep that mapping separate from the newly
-requested default-image workflow. The legacy wallpaper ownership changes and
-inbox-file overwrites, and the Pro lock-screen CSP registry workaround, are not
-approved replacements for documented behavior and captured recovery.
+requested default-image workflow. Legacy wallpaper ownership changes,
+inbox-file overwrites, and a direct Pro lock-screen CSP registry write are not
+approved replacements for documented behavior and captured recovery. The
+machine lock-screen handler refuses Pro; a focused Pro test on build 26300 did
+not display the selected image through the attempted registry route.
 
 Each future disposable-guest scenario must preview without changes, apply,
 verify the visible effect, repeat without new mutations, restore the captured

@@ -11,6 +11,13 @@ and PowerShell 7. Native collection still needs acceptance on each intended Wind
 inventory tools. The separate catalog capability candidate below implements a
 servicing lifecycle.
 
+The [Windows edition support decisions](migrations/component-edition-support-decisions-2026-11-04.md)
+define how Pro acceptance applies to RSAT, OpenSSH, Store apps and image settings.
+The focused default lock-screen test did not establish Pro image support; see the
+decision record before treating that operation as available on Pro.
+In particular, catalog identities remain candidates until their relevant target
+and component acceptance is recorded.
+
 ## OpenSSH Client catalog candidate
 
 `component.openssh-client-capability` is the normal interface for new OpenSSH

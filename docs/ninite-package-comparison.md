@@ -19,7 +19,9 @@ RIDE mappings use the [catalog](../catalog/operations.psd1),
 [supplemental candidates](candidate-tools.md). Pending review is not a committed
 package implementation. Slack and Discord were added as current-user EXE
 candidates by user direction on 2026-10-22; native acceptance remains pending.
-Other comparison gaps are not new backlog commitments. The existing
+Brave, GIMP, Bitwarden and Everything were confirmed as v3.0 candidates on
+2026-11-04; see the requested additions below. Other comparison gaps are not new
+backlog commitments. The existing
 [package pause and deployment decisions](migrations/package-deployment-decisions.md)
 remain in effect for unrelated products.
 
@@ -51,6 +53,17 @@ and the [application guide](application-packages.md) for distribution behavior.
 
 ## Pending reviews and related work
 
+### Requested v3.0 additions, 2026-11-04
+
+Brave Browser, GIMP, Bitwarden installer and Everything are now explicitly queued
+for v3.0 package integration. They have no catalog implementations yet. See the
+[authoritative candidate register](candidate-tools.md#requested-v30-additions-2026-11-04)
+for scope and next steps, including the separately requested Upscayl, Fedora Media
+Writer and MediaCreationTool. Candidate status does not establish supported targets
+or default-profile inclusion.
+
+### Other pending reviews
+
 These rows distinguish intended product review from adjacent settings,
 dependencies and exclusions. Legacy selector names are traceability references,
 not commands supported by the new engine.
@@ -76,17 +89,17 @@ omitted here to avoid duplicate entries.
 
 | Ninite category | Remaining apps or selectable variants |
 | --- | --- |
-| Web Browsers | Brave; Vivaldi |
+| Web Browsers | Vivaldi |
 | Messaging | Zoom; Telegram; WhatsApp; Pidgin; Trillian |
 | Media | iTunes; VLC; AIMP; foobar2000; Winamp; MusicBee; Audacity; K-Lite Codecs; Spotify; CCCP; MediaMonkey; HandBrake; OBS Studio |
 | .NET | .NET 4.8.1; .NET Desktop Runtime 8, 9 and 10, each in x64, arm64 and an architecture-unqualified picker entry; ASP.NET Core Runtime 8, 9 and 10, each in x64, arm64 and an architecture-unqualified picker entry; VSTO Runtime |
-| Imaging | Krita; Blender; Paint.NET; GIMP; IrfanView; XnView; Inkscape; FastStone; Greenshot |
+| Imaging | Krita; Blender; Paint.NET; IrfanView; XnView; Inkscape; FastStone; Greenshot |
 | 3D Printing | Bambu Studio; UltiMaker Cura |
 | Documents | Foxit Reader; LibreOffice; SumatraPDF; CutePDF; PDF24 Creator; Ghostscript; OpenOffice |
 | Security | Malwarebytes; Avast; AVG; Spybot 2; Avira; SUPERAntiSpyware |
 | File Sharing | qBittorrent |
 | Online Storage | Dropbox; Google Drive for Desktop; SugarSync |
-| Other | Evernote; Google Earth; Steam; Epic Games Launcher; KeePass 2; 1Password; Bitwarden; Everything; NV Access; ChatGPT; Claude |
+| Other | Evernote; Google Earth; Steam; Epic Games Launcher; KeePass 2; 1Password; NV Access; ChatGPT; Claude |
 | Utilities | PowerToys; AnyDesk; TeamViewer 15; Windows App; ImgBurn; TightVNC; RustDesk; Tailscale; WireGuard; TeraCopy; CDBurnerXP; Revo; Launchy; WizTree; Glary; InfraRecorder; Open-Shell |
 | Compression | PeaZip; WinRAR |
 | VC++ Redistributables | VC Redist 2015+ in x64, x86 and arm64; VC Redist 2013, 2012, 2010, 2008 and 2005, each in x64 and x86 |

@@ -1167,6 +1167,8 @@ blockers remain independently applicable.
 
 ### Migration
 
+- [ ] Integrate the seven confirmed **v3.0 package candidates** (2026-11-04): **Upscayl, Bitwarden installer, Brave Browser, Everything, Fedora Media Writer, GIMP and MediaCreationTool**. Start with publisher/distribution and lifecycle review, then prepare catalog candidates and proportionate acceptance. All seven currently lack catalog implementations; no default selection or supported target is implied. See the [authoritative candidate scope and next steps](docs/candidate-tools.md#requested-v30-additions-2026-11-04). These are additional product outcomes, not legacy migration closures.
+
 - [x] Reconcile accepted Q17/Q20 retirement of planned Volatility 2 and ImproHound deployment; preserve exact selector history and existing installations/data. Remaining package range is 56-71; see the [disposition/estimate record](docs/migrations/application-migration-review.md#accepted-volatility-2-and-improhound-retirements-2026-10-17). Standalone Neo4j/APOC and optional CE backend deployment remain deferred, not retired.
 
 - [x] Complete the authorized implementation window through 2026-10-17 08:00 Europe/Copenhagen and record the [morning handoff](docs/migrations/remaining-migrations-follow-up.md#morning-handoff-2026-10-17). Source-ready work and native acceptance remain distinct; this does not mark the migration complete.

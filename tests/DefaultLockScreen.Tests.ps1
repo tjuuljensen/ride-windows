@@ -29,10 +29,11 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       Mock Assert-RideDefaultLockAssetSecurity {}
       Mock Get-RideDefaultLockRegistry {$script:registry|ConvertTo-Json -Depth 10|ConvertFrom-Json}
       Mock Set-RideDefaultLockRegistry {
-        param($Row,$RemoveCreatedKey)
+        param($Row,$RemoveCreatedKey,$EditionId,$RestoreRows)
         if($RemoveCreatedKey){$script:registry=[pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()};return}
-        $rows=@($script:registry.Rows|Where-Object Name -INE 'LockScreenImage')
-        if($null -ne $Row){$rows+=@([pscustomobject]@{Name='LockScreenImage';Kind=$Row.Kind;Value=$Row.Value})}
+        $rows=@($script:registry.Rows|Where-Object {$_.Name -ne 'LockScreenImage'})
+        if($PSBoundParameters.ContainsKey('RestoreRows')){$rows+=@($RestoreRows)}
+        elseif($null -ne $Row){$rows+=@([pscustomobject]@{Name='LockScreenImage';Kind=$Row.Kind;Value=$Row.Value})}
         $script:registry=[pscustomobject]@{Exists=$true;Security='unchanged-key-security';Rows=@($rows|Sort-Object Name);SubKeys=@($script:registry.SubKeys)}
       }
       Mock New-RideDefaultLockAssetStream {param($Path);[IO.File]::Open($Path,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)}
@@ -68,6 +69,12 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       $null=Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -AllowCandidate -Confirm:$false
       Test-RideDefaultLockEqual $before $script:registry|Should -BeTrue
       [IO.File]::ReadAllText($oldImage)|Should -BeExactly 'unrelated original bytes'
+    }
+    It 'refuses Windows Pro before touching recovery or policy state' {
+      $script:context.EditionId='Professional'
+      {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Windows 11 x64 Enterprise or Education*'
+      Should -Invoke New-RidePrivateFileStream -Times 0 -Exactly
+      Should -Invoke Set-RideDefaultLockRegistry -Times 0 -Exactly
     }
     It 'recovers an absent personalization key without claiming visible image recovery' {
       $script:registry=[pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()}
@@ -105,8 +112,8 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       @($script:registry.Rows|Where-Object Name -EQ 'ThemeFile').Count|Should -Be 1
     }
     It 'refuses an unsupported target and missing existing elevation or candidate selection' {
-      $script:context.EditionId='Professional'
-      {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Enterprise/Education*'
+      $script:context.EditionId='Core'
+      {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Windows 11 x64 Enterprise or Education*'
       $script:context.EditionId='EnterpriseEval';$script:context.Guest=$false
       $script:context.Guest=$true;$script:context.Administrator=$false
       {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Existing elevation*'
