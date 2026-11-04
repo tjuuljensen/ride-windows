@@ -8,24 +8,30 @@ readback are not Windows visual acceptance passes.
 ## Use through RIDE
 
 Start in the checkout root on Windows. Use an elevated Windows PowerShell 5.1 or
-PowerShell 7 session for changes. Select local PNG files and record their reviewed
-SHA-256 hashes. No download, sign-out or restart is triggered by these operations.
+PowerShell 7 session for changes. Select local PNG files; RIDE calculates and
+records their SHA-256 hashes automatically. No download, sign-out or restart is triggered.
 
 ```powershell
 .\ride.ps1 show windows.default-wallpaper
-.\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png' -ImageSha256 '<64-digit-sha256>' -WhatIf
-.\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png' -ImageSha256 '<64-digit-sha256>'
-.\ride.ps1 set windows.default-lock-screen -State Configured -ImagePath 'C:\Inputs\lock.png' -ImageSha256 '<64-digit-sha256>'
+.\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png' -WhatIf
+.\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png'
+.\ride.ps1 set windows.default-lock-screen -State Configured -ImagePath 'C:\Inputs\lock.png'
 .\ride.ps1 restore -RunId '<saved-run-id>' -WhatIf
 .\ride.ps1 restore -RunId '<saved-run-id>'
 ```
 
 For both images in one run, copy `profiles/default-images.psd1` to your local
-configuration, replace both absolute paths and both all-zero hash placeholders,
+configuration, replace both absolute paths,
 then run `plan -Profile <copy>` and `apply -Profile <copy> -WhatIf` before applying.
-The supplied template deliberately cannot apply an ordinary file until configured.
+The supplied paths are placeholders; select existing PNGs before planning or applying.
 The workstation default profile does not silently select personal images.
-Profile selections accept `ImagePath` and `ImageSha256` only for these two IDs.
+Profile selections accept `ImagePath` and optional `ImageSha256` only for these two IDs.
+To enforce a known image, supply `-ImageSha256 '<64-digit-sha256>'` or add
+`ImageSha256` to the profile selection. Explicit pins must match and are never
+replaced automatically. Without a pin, planning and profile status read and validate
+the local PNG to calculate the desired hash. Execution rechecks the resolved hash
+before any image mutation; changing the file after building a plan causes refusal.
+Separate CLI invocations calculate a fresh hash from the file each time.
 State completion offers `Configured`; `status -Profile <copy>` compares the
 selected image hashes with the current owned images.
 
@@ -63,15 +69,15 @@ as described in [AGENTS](../AGENTS.md#disposable-vm-closeout).
 ## Validate an input
 
 Start in the repository root using native Windows PowerShell 5.1 or PowerShell 7
-on Windows. No elevation is needed. Select a local `.png` and obtain its expected
-SHA-256 from the reviewed input manifest, independently of this validation call:
+on Windows. No elevation is needed. Select a local `.png`. To enforce a known
+hash, supply `-ExpectedSha256` from your input manifest; otherwise omit it:
 
 ```powershell
 Import-Module ./modules/RIDE.ImageFiles.psm1
-Get-RidePngSource -Path 'C:\Inputs\wallpaper.png' -ExpectedSha256 $selectedHash
+Get-RidePngSource -Path 'C:\Inputs\wallpaper.png'
 ```
 
-The command reads a stable snapshot and checks its hash before decoding. It
+The command reads a stable snapshot and calculates its hash, checking any supplied pin before decoding. It
 accepts static PNGs up to 16 MiB, 8192 pixels on either axis and 32 million total
 pixels. It checks the signature, critical chunk envelope, CRCs, dimensions,
 compressed-data header, bounded scanlines and inflated-data checksum, then asks

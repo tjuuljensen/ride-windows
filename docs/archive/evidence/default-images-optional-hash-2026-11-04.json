@@ -1,0 +1,77 @@
+{
+  "SchemaVersion": 1,
+  "Date": "2026-11-04",
+  "Change": "Automatic SHA-256 for local default wallpaper and lock-screen selections; explicit pins remain enforced",
+  "Operations": [
+    "windows.default-wallpaper",
+    "windows.default-lock-screen"
+  ],
+  "Validation": {
+    "Core": {
+      "Failed": 0,
+      "Passed": 103
+    },
+    "Desktop": {
+      "Failed": 0,
+      "Passed": 103
+    }
+  },
+  "RepositoryValidation": "Passed in PowerShell 7 and Windows PowerShell 5.1: 477 operations, 9 groups, 6 profiles, 406 PowerShell files; generated reference current",
+  "Coverage": [
+    "Automatic hash from validated bytes",
+    "Path-only direct and profile selection for both images",
+    "Explicit mismatching pin refused before mutation",
+    "Changed source after automatic planning refused before mutation",
+    "Missing or invalid PNG refused",
+    "Optional profile hash validation",
+    "Preview, repeat apply, saved recovery and conflict guards"
+  ],
+  "NativeVmRun": false,
+  "HostSettingsChanged": false,
+  "SavedStateSchemaChanged": false,
+  "MigrationEstimateChanged": false,
+  "FedoraComparedRevision": "a0558a2c9ea760828a422b7bacdf63c40ce4b36b",
+  "ContractVersion": "1.1.0",
+  "SourceHashes": [
+    {
+      "Path": "ride.ps1",
+      "Sha256": "79217041BACB39633CEFA93621C057056A4557452C24E4587BCADD26BFC61271"
+    },
+    {
+      "Path": "catalog/operations.psd1",
+      "Sha256": "CFE9224F677FC10BC3EFF24FFB6ACD9578F851C775DBB66EFC12EF7E9F7AE8BE"
+    },
+    {
+      "Path": "profiles/default-images.psd1",
+      "Sha256": "F3BEFB7428EC02CF3DD47125547DDC45F4CF8EB3F9E521D0E5BBA0D5D1FB7F08"
+    },
+    {
+      "Path": "modules/RIDE.ImageFiles.psm1",
+      "Sha256": "F16AE7C2BA35A283A2C67AA543EADB2635623093B9C6088E2CB832F6E5A0B0B6"
+    },
+    {
+      "Path": "modules/RIDE.DefaultImages.psm1",
+      "Sha256": "D61B53953F000CAD764AF1AE66C523E617BFBFCB9A1EF0831146C511D1E76FCB"
+    },
+    {
+      "Path": "modules/RIDE.Engine.psm1",
+      "Sha256": "48AFE8C6FFD76770BA6413835ACEA5ED55B0230B209B1EEC8DA1060BA3B75C5A"
+    },
+    {
+      "Path": "modules/RIDE.CatalogValidation.psm1",
+      "Sha256": "97E2EAB96D682314E64FB6D5D82B3A912D1CFDF4E6E48C540B17A3870F478632"
+    },
+    {
+      "Path": "tests/ImageFiles.Tests.ps1",
+      "Sha256": "1E99BD9E9581902DC09393E10AEFF8ED4BAD8E1E03E50BDA473AC7ED660E9E94"
+    },
+    {
+      "Path": "tests/DefaultImagesEngine.Tests.ps1",
+      "Sha256": "8AEA7BF8237A6F00AA7FF3F035DE4BC65411C4BEC427EA37AC18F9B8FEF1B04C"
+    },
+    {
+      "Path": "tools/Export-RideCatalog.ps1",
+      "Sha256": "A73ABABB87B08CC4F1EB775E277FC78024EEF90F1B05C9AD829C0D2A58F5F8DC"
+    }
+  ]
+}

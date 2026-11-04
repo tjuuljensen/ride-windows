@@ -32,7 +32,7 @@ workstation default applies to Windows Server.
 For machine default images, copy and configure the optional
 [default-images profile](profiles/default-images.psd1), or use `set` with
 `windows.default-wallpaper` / `windows.default-lock-screen`, `-State Configured`,
-`-ImagePath` and `-ImageSha256`. See [image setup and recovery](docs/image-personalization.md).
+`-ImagePath` and optional `-ImageSha256`. See [image setup and recovery](docs/image-personalization.md).
 
 To download and preview a published release on a new machine, use the same reviewed
 tag for the bootstrap script, its command-line helper module and the RIDE archive.

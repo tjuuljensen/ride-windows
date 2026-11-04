@@ -2,10 +2,11 @@
 .SYNOPSIS
   Adapt default-image lifecycles to catalog planning and saved-run recovery.
 .DESCRIPTION
-  Uses local hash-pinned PNG inputs and the existing guarded image handlers.
+  Calculates local PNG hashes when omitted, or retains explicit pins, for the guarded image handlers.
   Discovery is read-only. Owned public images and private receipts are separated.
 .NOTES
-  Version: 0.1.0. Windows PowerShell 5.1/7, Windows 11 x64 Enterprise/Education.
+  Version: 0.2.0. Windows PowerShell 5.1/7, Windows 11 x64 Enterprise/Education.
+  Changelog: 0.2.0: Resolve omitted image hashes from validated local files during selection.
   Accepted image behavior: EnterpriseEval 26300.9711. Other builds require
   AllowCandidate; this does not bypass edition, privilege or recovery checks.
 #>
@@ -24,7 +25,8 @@ function Set-RideDefaultImageSelection {
  .SYNOPSIS
   Copy a catalog image operation with validated local input selection.
  .DESCRIPTION
-  Returns a selected operation without modifying the catalog.
+  Returns a selected operation without modifying the catalog. An omitted hash is
+  calculated from the validated source; execution rechecks that resolved hash.
  .INPUTS
   None. Engine supplies explicit operation, storage and run parameters.
  .OUTPUTS
@@ -34,7 +36,9 @@ function Set-RideDefaultImageSelection {
  #>
  [CmdletBinding()]
  param([hashtable]$Operation,[string]$ImagePath,[string]$ImageSha256)
- if([string]::IsNullOrWhiteSpace($ImagePath) -or $ImagePath -cnotmatch '^[A-Za-z]:[\\/]' -or [IO.Path]::GetExtension($ImagePath) -ine '.png' -or $ImageSha256 -cnotmatch '^[a-fA-F0-9]{64}$'){throw 'Default image requires an absolute local PNG ImagePath and a 64-digit ImageSha256.'}
+ if([string]::IsNullOrWhiteSpace($ImagePath) -or $ImagePath -cnotmatch '^[A-Za-z]:[\\/]' -or [IO.Path]::GetExtension($ImagePath) -ine '.png'){throw 'Default image requires an absolute local PNG ImagePath.'}
+ if($ImageSha256 -and $ImageSha256 -cnotmatch '^[a-fA-F0-9]{64}$'){throw 'Optional ImageSha256 must contain 64 hexadecimal digits.'}
+ if(-not $ImageSha256){$ImageSha256=(Get-RidePngSource -Path $ImagePath).Sha256}
  $copy=@{};foreach($key in $Operation.Keys){$copy[$key]=$Operation[$key]}
  $copy.ImagePath=[IO.Path]::GetFullPath($ImagePath);$copy.ImageSha256=$ImageSha256.ToUpperInvariant();$copy
 }

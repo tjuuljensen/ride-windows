@@ -10,6 +10,24 @@ same date. Remaining recommendations are tracked final-v3 tasks, not implemented
 CLI behavior.
 Native installers, target acceptance and recovery evidence remain platform-owned.
 
+## Automatic local image hashes, 2026-11-04
+
+Windows now calculates a missing image hash during selection for default wallpaper
+and lock-screen images. An explicit hash still pins the content. Planning and
+profile status may read the selected local PNG; they write nothing. Execution
+rechecks the resolved hash, and saved recovery records retain the same identities.
+Existing explicitly pinned profiles and saved runs need no migration.
+
+Reviewed contract 1.1.0 SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`
+and Fedora HEAD `a0558a2c9ea760828a422b7bacdf63c40ce4b36b`, its pinned reference,
+and catalog/lib-v3 image-provider coverage (no corresponding provider). This is a
+Windows-native input convenience under RB-02/03/07/09, with no shared-contract
+revision or package acquisition change. Owner: RIDE-Windows maintainers.
+Follow-up: [image input and recovery guidance](image-personalization.md).
+Review trigger: shared image provider semantics or changes to execution-time
+verification/recovery. Other target acceptance remains unchanged.
+
 ## Default-image catalog integration, 2026-11-03
 
 Windows adds native `DefaultImage` providers and optional `ImagePath`/`ImageSha256`

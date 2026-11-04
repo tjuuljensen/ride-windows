@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.35.0.
-  Changelog: 0.35.0: Validate default-image metadata and pinned profile inputs.
+  Owner: RIDE-Windows maintainers. Version: 0.36.0.
+  Changelog: 0.36.0: Accept omitted image hashes while validating explicit pins.
+    0.35.0: Validate default-image metadata and pinned profile inputs.
     0.34.0: Validate client RSAT identities, dependency graphs and full-observed selection.
     0.33.0: Validate the source-explicit OpenSSH Client capability candidate.
     0.32.0: Validate coordinated hibernation choices and pending acceptance boundaries.
@@ -1047,7 +1048,8 @@ function Get-RideCatalogValidationErrors {
       $operation = $catalog.Operations | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
       $group = $catalog.Groups | Where-Object { $_.Id -eq $selection.Id } | Select-Object -First 1
       if ($operation.Kind -eq 'DefaultImage') {
-        if ($selection.State -cne 'Configured' -or $selection.ImagePath -isnot [string] -or $selection.ImagePath -cnotmatch '^[A-Za-z]:[\\/]' -or [IO.Path]::GetExtension([string]$selection.ImagePath) -ine '.png' -or $selection.ImageSha256 -isnot [string] -or $selection.ImageSha256 -cnotmatch '^[a-fA-F0-9]{64}$') { Add-Error "$($profileFile.Name) requires Configured and absolute PNG ImagePath/ImageSha256 inputs for '$($selection.Id)'" }
+        if ($selection.State -cne 'Configured' -or $selection.ImagePath -isnot [string] -or $selection.ImagePath -cnotmatch '^[A-Za-z]:[\\/]' -or [IO.Path]::GetExtension([string]$selection.ImagePath) -ine '.png') { Add-Error "$($profileFile.Name) requires Configured and an absolute PNG ImagePath for '$($selection.Id)'" }
+        if ($selection.ContainsKey('ImageSha256') -and ($selection.ImageSha256 -isnot [string] -or $selection.ImageSha256 -cnotmatch '^[a-fA-F0-9]{64}$')) { Add-Error "$($profileFile.Name) optional ImageSha256 must contain 64 hexadecimal digits for '$($selection.Id)'" }
       } elseif ($selection.ContainsKey('ImagePath') -or $selection.ContainsKey('ImageSha256')) { Add-Error "$($profileFile.Name) image inputs require a default-image operation." }
       if ($group -and $group.Workflow -ceq 'ClientRsatCapabilities') { Add-Error "$($profileFile.Name) cannot select the pending RSAT group before target acceptance" }
       if(($operation -and $operation.Kind -eq 'StoreApp') -or ($group -and $group.Workflow -eq 'StoreApps')){Add-Error "$($profileFile.Name) cannot route Store apps through setting/package profiles; use the explicit Store workflow."}

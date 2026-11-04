@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.34.0
+  Version: 0.35.0
   Changelog:
+    0.35.0: Make explicit image hashes optional; calculate missing hashes from local PNGs.
     0.34.0: Integrate hash-pinned default images with saved-run recovery.
     0.33.0: Add exact operation filtering to status while retaining view and profile comparisons.
     0.32.0: Return schema-1 show objects with nested group member observations.
@@ -95,7 +96,7 @@
 #>
 
 
-$script:ModuleVersion = '0.34.0'
+$script:ModuleVersion = '0.35.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -1556,10 +1557,10 @@ function Get-RideSingleOperationPlan {
     Explicit catalog package variant; unsupported choices fail without fallback.
 
   .PARAMETER ImagePath
-    Absolute local PNG for a DefaultImage Set selection; requires ImageSha256.
+    Absolute local PNG for a DefaultImage Set selection; its hash is calculated when omitted.
 
   .PARAMETER ImageSha256
-    Reviewed SHA-256 pin for the selected image. No image is acquired by planning.
+    Optional expected SHA-256 pin. Planning reads the local image when omitted; no image is acquired.
 
   .EXAMPLE
     Get-RideSingleOperationPlan -Id package.7zip -Action Install

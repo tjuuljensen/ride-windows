@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.20.0
+  Version: 0.21.0
   Changelog:
+    0.21.0: Make explicit image hashes optional; calculate missing hashes from local PNGs.
     0.20.0: Document hash-pinned default images and their optional profile.
     0.19.0: Describe observed-client RSAT selection and dependency-safe recovery.
     0.18.0: Describe the source-explicit OpenSSH Client catalog lifecycle.
@@ -88,7 +89,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.20.0'
+$script:ScriptVersion = '0.21.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -163,7 +164,7 @@ foreach ($settingId in $settingIds) {
 $lines.Add('')
 $lines.Add('## Default images')
 $lines.Add('')
-$lines.Add('DefaultImage operations use Configured with an explicit absolute local PNG ImagePath and reviewed ImageSha256. Copy and configure profiles/default-images.psd1, or pass -ImagePath and -ImageSha256 to set. The normal workstation profile does not select images. See [image personalization](image-personalization.md) for target acceptance, first-logon behavior, preview and guarded saved-run restore. No generic unset or baseline image is declared.')
+$lines.Add('DefaultImage operations use Configured with an explicit absolute local PNG ImagePath and optional ImageSha256. RIDE calculates and records the hash when omitted; explicit pins must match. Copy and configure profiles/default-images.psd1, or pass -ImagePath to set. The normal workstation profile does not select images. See [image personalization](image-personalization.md) for target acceptance, first-logon behavior, preview and guarded saved-run restore. No generic unset or baseline image is declared.')
 $lines.Add('')
 $lines.Add('| ID | Image type | Scope | States |')
 $lines.Add('| --- | --- | --- | --- |')

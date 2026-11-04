@@ -41,6 +41,15 @@ BeforeAll {
 }
 Describe 'Bounded static PNG source validation' {
   BeforeEach {$script:source=Join-Path $TestDrive 'source.png';$script:bytes=New-TestPng}
+  It 'calculates the hash from the same validated bytes when no pin is supplied' {
+    $hash=Write-TestPng $bytes
+    $result=Get-RidePngSource -Path $source -IncludeContent
+    $result.Sha256|Should -BeExactly $hash
+    $result.DecodeValidated|Should -BeTrue
+    [Convert]::ToBase64String($result.Content)|Should -BeExactly ([Convert]::ToBase64String($bytes))
+    $bytes[0]=0;$null=Write-TestPng $bytes
+    {Get-RidePngSource -Path $source}|Should -Throw '*signature*'
+  }
   It 'returns source identity without rewriting input or changing personalization' {
     $hash=Write-TestPng $bytes;$stamp=[IO.File]::GetLastWriteTimeUtc($source)
     $result=Get-RidePngSource -Path $source -ExpectedSha256 $hash

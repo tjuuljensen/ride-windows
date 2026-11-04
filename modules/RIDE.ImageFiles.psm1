@@ -2,14 +2,15 @@
 .SYNOPSIS
   Validate bounded local PNG inputs without changing images or Windows settings.
 .DESCRIPTION
-  Reads one stable byte snapshot, checks its expected SHA-256, static PNG envelope
+  Reads one stable byte snapshot, calculates SHA-256 and checks an optional expected hash, static PNG envelope
   and dimensions, then validates decoding with Windows GDI+. No file is rewritten.
 .NOTES
   Compatibility: Native Windows PowerShell 5.1 and PowerShell 7.
   Limits: Static PNG only; 16 MiB, 8192 pixels per axis, 32 million pixels.
   This source gate does not establish wallpaper or lock-screen policy acceptance.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add bounded image inputs for disposable image lifecycle tests.
+  Version: 0.2.0.
+  Changelog: 0.2.0: Calculate source hashes when no explicit pin is supplied.
+  0.1.0: Add bounded image inputs for disposable image lifecycle tests.
 .LINK
   https://www.w3.org/TR/png-3/
 #>
@@ -137,7 +138,8 @@ function Get-RidePngSource {
   .PARAMETER Path
     Existing local .png file. Reparse paths, network sources and streams refuse.
   .PARAMETER ExpectedSha256
-    Required exact SHA-256 of the selected input; mismatch refuses before decoding.
+    Optional exact SHA-256 of the selected input; mismatch refuses before decoding.
+    When omitted, calculate and return the hash of the validated byte snapshot.
   .PARAMETER IncludeContent
     Include the exact validated bytes for a lifecycle writer. The writer must use
     these bytes rather than reopening the source after validation.
@@ -152,12 +154,12 @@ function Get-RidePngSource {
     not prove that Windows will display this image for a particular user/policy.
   #>
   [CmdletBinding()]
-  param([Parameter(Mandatory)][string]$Path,[Parameter(Mandatory)][ValidatePattern('^[A-Fa-f0-9]{64}$')][string]$ExpectedSha256,[switch]$IncludeContent)
+  param([Parameter(Mandatory)][string]$Path,[ValidatePattern('^[A-Fa-f0-9]{64}$')][string]$ExpectedSha256,[switch]$IncludeContent)
   if([IO.Path]::GetExtension($Path) -ine '.png'){throw 'Only static .png input is currently implemented.'}
   $bytes=Read-RideImageSourceBytes $Path
   $sha=[Security.Cryptography.SHA256]::Create()
   try{$hash=[BitConverter]::ToString($sha.ComputeHash($bytes)).Replace('-','')}finally{$sha.Dispose()}
-  if($hash -ine $ExpectedSha256){throw 'Image source hash differs from the selected input.'}
+  if($PSBoundParameters.ContainsKey('ExpectedSha256') -and $hash -ine $ExpectedSha256){throw 'Image source hash differs from the selected input.'}
   Initialize-RidePngEnvelopeReader
   $envelope=[Ride.ImageFilesV1.Envelope]::Read($bytes)
   Add-Type -AssemblyName System.Drawing

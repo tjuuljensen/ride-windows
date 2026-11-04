@@ -35,6 +35,7 @@ Describe 'Default image catalog integration' {
       {Get-RideSingleOperationPlan windows.default-wallpaper Unset}|Should -Throw '*no generic unset*'
     }
     It 'previews both images without snapshots, directories or handler dispatch' {
+      Mock Get-RidePngSource -ModuleName RIDE.DefaultImages {[pscustomobject]@{Sha256=('A'*64)}}
       $plan=@(Get-RidePlan (Get-RideProfile -Path (Join-Path $script:RideRoot 'profiles/default-images.psd1')))
       Invoke-RidePlan $plan -WhatIf
       Should -Invoke Set-RideDefaultImageState -Times 0 -Exactly
@@ -100,6 +101,68 @@ Describe 'Default image catalog integration' {
     $file=Join-Path $TestDrive 'selected.png'; Set-Content -LiteralPath $file -Value 'completion only'
     $line='& "'+(Resolve-Path (Join-Path $PSScriptRoot '../ride.ps1')).Path+'" set windows.default-wallpaper -ImagePath "'+$TestDrive+'\sel'
     @((TabExpansion2 $line $line.Length).CompletionMatches | Where-Object {$_.CompletionText -like '*selected.png*'}).Count | Should -Be 1
+  }
+}
+Describe 'Automatic image selection hashes' {
+  BeforeAll {
+    Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultImages.psm1') -Force
+    Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.CatalogValidation.psm1') -Force
+    Add-Type -AssemblyName System.Drawing
+  }
+  BeforeEach {
+    $script:image=Join-Path $TestDrive 'automatic.png'
+    $bitmap=[Drawing.Bitmap]::new(2,3)
+    try{$bitmap.Save($script:image,[Drawing.Imaging.ImageFormat]::Png)}finally{$bitmap.Dispose()}
+    $script:hash=(Get-FileHash -LiteralPath $script:image).Hash
+  }
+  It 'calculates and carries a hash in direct and profile plans for both image operations' {
+    foreach($id in @('windows.default-wallpaper','windows.default-lock-screen')) {
+      $plan=@(Get-RideSingleOperationPlan $id Set Configured -ImagePath $script:image)
+      $plan[0].Operation.ImageSha256|Should -BeExactly $script:hash
+      $profile=@{SchemaVersion=1;Name='Automatic';Operations=@(@{Id=$id;State='Configured';ImagePath=$script:image})}
+      @(Get-RidePlan $profile)[0].Operation.ImageSha256|Should -BeExactly $script:hash
+      $profile.Operations[0].ContainsKey('ImageSha256')|Should -BeFalse
+    }
+  }
+  It 'retains explicit pins and refuses mismatching bytes at execution before saving state' {
+    Mock Get-RidePlatform -ModuleName RIDE.Engine {'Windows 11'}
+    Mock Test-RideAdministrator -ModuleName RIDE.Engine {$true}
+    Mock Get-RideCurrentState -ModuleName RIDE.Engine {@{Available=$true}}
+    Mock Assert-RideDefaultImageTarget -ModuleName RIDE.Engine {}
+    Mock Save-RideRunManifest -ModuleName RIDE.Engine {}
+    Mock Set-RideDefaultImageState -ModuleName RIDE.Engine {}
+    $plan=@(Get-RideSingleOperationPlan windows.default-lock-screen Set Configured -ImagePath $script:image -ImageSha256 ('0'*64))
+    $plan[0].Operation.ImageSha256|Should -Be ('0'*64)
+    {Invoke-RidePlan $plan -Confirm:$false}|Should -Throw '*hash differs*'
+    Should -Invoke Save-RideRunManifest -ModuleName RIDE.Engine -Times 0 -Exactly
+    Should -Invoke Set-RideDefaultImageState -ModuleName RIDE.Engine -Times 0 -Exactly
+  }
+  It 'refuses a changed automatically hashed source before saving state or applying' {
+    Mock Get-RidePlatform -ModuleName RIDE.Engine {'Windows 11'}
+    Mock Test-RideAdministrator -ModuleName RIDE.Engine {$true}
+    Mock Get-RideCurrentState -ModuleName RIDE.Engine {@{Available=$true}}
+    Mock Assert-RideDefaultImageTarget -ModuleName RIDE.Engine {}
+    Mock Save-RideRunManifest -ModuleName RIDE.Engine {}
+    Mock Set-RideDefaultImageState -ModuleName RIDE.Engine {}
+    $plan=@(Get-RideSingleOperationPlan windows.default-wallpaper Set Configured -ImagePath $script:image)
+    $changed=[IO.File]::ReadAllBytes($script:image);$changed[20]=$changed[20] -bxor 1
+    [IO.File]::WriteAllBytes($script:image,$changed)
+    {Invoke-RidePlan $plan -Confirm:$false}|Should -Throw '*hash differs*'
+    Should -Invoke Save-RideRunManifest -ModuleName RIDE.Engine -Times 0 -Exactly
+    Should -Invoke Set-RideDefaultImageState -ModuleName RIDE.Engine -Times 0 -Exactly
+  }
+  It 'rejects missing or invalid PNG files when calculating a hash' {
+    {Get-RideSingleOperationPlan windows.default-wallpaper Set Configured -ImagePath (Join-Path $TestDrive 'missing.png')}|Should -Throw
+    [IO.File]::WriteAllText($script:image,('not an image'*10))
+    {Get-RideSingleOperationPlan windows.default-lock-screen Set Configured -ImagePath $script:image}|Should -Throw
+  }
+  It 'validates profiles without a hash and rejects malformed explicit pins without reading source files' {
+    $profile=Join-Path $TestDrive 'optional.psd1'
+    $body="@{SchemaVersion=1;Name='Optional';Description='Test';Operations=@(@{Id='windows.default-lock-screen';State='Configured';ImagePath='C:\Missing\lock.png' HASHFIELD})}"
+    Set-Content -LiteralPath $profile -Value $body.Replace('HASHFIELD','')
+    @(Get-RideCatalogValidationErrors -Catalog (Get-RideCatalog) -ProfilePaths @(Get-Item $profile)).Count|Should -Be 0
+    Set-Content -LiteralPath $profile -Value $body.Replace('HASHFIELD',";ImageSha256='bad'")
+    @(Get-RideCatalogValidationErrors -Catalog (Get-RideCatalog) -ProfilePaths @(Get-Item $profile)) -join ';'|Should -Match 'optional ImageSha256'
   }
 }
 Describe 'Default image adapter boundaries' {

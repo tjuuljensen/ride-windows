@@ -53,10 +53,10 @@
   Hibernation candidates offer Off, Full, Reduced and Size50 through Size100 (percent of RAM).
 
 .PARAMETER ImagePath
-  Absolute local PNG for a default-image set command. Requires ImageSha256; Tab completes paths.
+  Absolute local PNG for a default-image set command. RIDE calculates its hash; Tab completes paths.
 
 .PARAMETER ImageSha256
-  Reviewed SHA-256 of the selected PNG; required with ImagePath.
+  Optional expected SHA-256 of the selected PNG. When supplied, the file must match.
 
 .PARAMETER RunId
   32-character hexadecimal saved run ID for restore; press Tab to discover saved manifests.
@@ -177,8 +177,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.20.0
+  Version: 0.21.0
   Changelog:
+    0.21.0: Make explicit image hashes optional; calculate missing hashes from local PNGs.
     0.20.0: Select hash-pinned default wallpaper and lock-screen images through set.
     0.19.0: Add explicit status operation and view selectors while preserving positional views.
     0.18.0: Accept show pipeline IDs and return versioned inspection objects.
@@ -552,7 +553,7 @@ if ($showInputExpected) {
     throw 'Use either pipeline input or an explicit -InputObject, not both.'
   }
 }
-$script:ScriptVersion = '0.20.0'
+$script:ScriptVersion = '0.21.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -598,7 +599,8 @@ Options:
   -State <state>       Declared state for set; press Tab to complete available states.
                        Service states include catalog-declared startup-only and combined presets.
                        Pending firewall profile controls complete On/Off but await VM acceptance.
-  -ImagePath <png> -ImageSha256 <sha256>  Required inputs for default-image set; Tab completes paths.
+  -ImagePath <png>      Local image for default-image set; Tab completes paths.
+  -ImageSha256 <hash>   Optional expected hash; RIDE calculates it when omitted.
   -RunId <id>          Run ID required by restore.
   -StateScope User|Machine|Both  State store to inspect (default User); machine requires elevation.
   -OlderThanDays <n>   Minimum run age for prune-state; defaults to 365 days (minimum 30).
