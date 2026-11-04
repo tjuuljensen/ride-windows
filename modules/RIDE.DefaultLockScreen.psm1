@@ -19,7 +19,7 @@
   ../docs/image-personalization.md
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.ImageFiles.psm1') -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.ImageFiles.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.PrivateFiles.psm1') -ErrorAction Stop
 $script:PolicyParent='SOFTWARE\Policies\Microsoft\Windows'
 $script:PolicyChild='Personalization'

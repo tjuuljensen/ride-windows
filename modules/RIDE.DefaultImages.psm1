@@ -11,9 +11,9 @@
   AllowCandidate; this does not bypass edition, privilege or recovery checks.
 #>
 $ErrorActionPreference='Stop'
-Import-Module (Join-Path $PSScriptRoot 'RIDE.ImageFiles.psm1')
-Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultWallpaper.psm1')
-Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultLockScreen.psm1')
+Import-Module (Join-Path $PSScriptRoot 'RIDE.ImageFiles.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultWallpaper.psm1') -Force -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultLockScreen.psm1') -Force -ErrorAction Stop
 function Get-RideDefaultImageAdapter {
  param($Operation,[string]$StateRoot)
  if($Operation.ImageType -cnotin @('Wallpaper','LockScreen')){throw 'Invalid default-image type.'}

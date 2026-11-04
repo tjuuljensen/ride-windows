@@ -143,7 +143,7 @@ Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyInventory.psm1') -Force -E
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyPreparation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.UserProxyLifecycle.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.DefaultImages.psm1') -Force -ErrorAction Stop
-Import-Module (Join-Path $PSScriptRoot 'RIDE.ImageFiles.psm1') -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot 'RIDE.ImageFiles.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyInventory.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyPreparation.psm1') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSScriptRoot 'RIDE.WinHttpProxyLifecycle.psm1') -Force -DisableNameChecking -ErrorAction Stop
