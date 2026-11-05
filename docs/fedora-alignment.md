@@ -3,12 +3,49 @@
 Machine-readable capability and difference dispositions are maintained in the
 [capability register](models/capability-differences.json).
 
-This is a maintainer comparison of the current local source, reviewed on
-2026-11-01 after Windows gained `-AllowCandidate`. The shared contract and
-reciprocal AGENTS rules were subsequently adopted at the user's request on the
-same date. Remaining recommendations are tracked final-v3 tasks, not implemented
-CLI behavior.
-Native installers, target acceptance and recovery evidence remain platform-owned.
+## Contract recheck, 2026-11-05
+
+Compared the local migration branches at Windows
+`6d7435bc075f61a26c6f6223a0d2d3622de5d60b` and Fedora
+[`eed301680a9f8d2bf22e107d533b77016ffafa84`](https://github.com/tjuuljensen/ride-fedora/tree/eed301680a9f8d2bf22e107d533b77016ffafa84).
+The Windows drift report returned `Current` against Fedora's consumer reference.
+Both adopt contract 1.1.0 at SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`.
+Both scenario files and adapter pins match revision 1.1.0, 12 scenarios, SHA-256
+`9353770486CFC7768F8D2DD4BF0DB646FFF894E591974F07409035DF7F2D3632`.
+Both references leave immutable publication open under ALIGN-09.
+
+**Confirmed RB-07 failure.** In Fedora's existing mocked CLI fixture, declare
+`package.beta` dependent on `package.alpha` and mark both installed. Supply an
+explicit profile listing beta first, then alpha. Running `remove --profile
+<fixture> --allow-candidate` exited 1. Its journal recorded alpha as `changed`
+and beta as `failed`. Only beta remained installed. `ride_remove_profile` reverses
+the input list, so the failure occurs after it has removed the prerequisite.
+The current shared case RB07-01 and Fedora's mapped test use the opposite input
+order and pass. Fedora owns dependency-safe planning and preflight. Both adapter
+owners should cover both input orders before promoting profile removal under
+ALIGN-03/05. The [capability register](models/capability-differences.json)
+tracks this as `profiles.remove-dependency-order`.
+
+| Area | Behavior at the reviewed revisions | Remaining work |
+| --- | --- | --- |
+| Explicit selection and removal (RB-02/07) | Fedora requires a package ID or explicit profile and filters profile removal to reversible packages. Windows rejects a mixed ID/profile but bare `remove` selects `profiles/default.psd1`. Windows accepts `-State` on remove and ignores it. Profile removal can include Windows capabilities and Defender exclusions while help describes profile-selected packages. | Windows owns the bare-remove transition, irrelevant-option refusal and accurate help. |
+| Unset and restore (RB-06/09) | Fedora requires a declared `unsetState`. Windows uses `UnsetState` for profile settings, chooses the first null state for registry values, and selects states by kind for some other operations. | Review each Windows override-removal mapping and Fedora's remaining owned-file cases. Preserve saved-state recovery. See the [Fedora lifecycle decision](https://github.com/tjuuljensen/ride-fedora/blob/eed301680a9f8d2bf22e107d533b77016ffafa84/docs/windows-alignment.md#align-03-setting-lifecycle-decision-2026-11-05). |
+| Preview, acquisition and targets (RB-03/04/05/08) | Both clients preview candidates without execution opt-in and separate eligible downloads from VM execution acceptance. Fedora checks the download target and provider. Its restore-preview identity checks include iBus. Both adapters cover an already-installed package outside its target, with Fedora limiting this exception to eligible RPM handlers. | Retain paired gate and recovery coverage under ALIGN-04/05. Windows' explicit unsupported-target exploration still has a separate [promotion decision](#unsupported-target-exploration-2026-11-02). |
+| Discovery and automation (RB-10/11) | Both implement explicit status ID/view selectors and schema-1 stream inspection. Windows returns PowerShell objects and Fedora `show --stdin` emits JSON records. | Add paired show scenarios under ALIGN-05/08 and review completion and output before release. |
+
+**Checks run.** Windows Pester 5.7.1 passed all 86 contract, drift, show and CLI
+tests in each of Windows PowerShell 5.1 and PowerShell 7.6.5. The adapter-selected
+tests also passed in PowerShell 7 (18 expanded cases). Fedora's validators passed
+for all 12 scenario mappings and 21 register entries. In a disposable Linux
+copy, 24 mocked Fedora tests passed, covering the adapter, its supplemental cases
+and focused show/status/unset cases. The reversed-profile reproduction above was
+a separate run. These checks used test doubles. Native target acceptance and
+the final release review remain separate.
+
+Classification under RB-12 is shared behavior unchanged. The failures concern
+implementation of existing requirements. Recheck on the linked fixes and before
+promotion. Earlier dated comparisons below describe their reviewed revisions.
 
 ## Automatic local image hashes, 2026-11-04
 
@@ -140,6 +177,9 @@ argument parsing and recovery. Neither inspected validation workflow runs a
 shared cross-repository CLI conformance suite.
 
 ## Current command envelope and actions
+
+This matrix describes the November 1 baseline. Use the
+[November 5 recheck](#contract-recheck-2026-11-05) for current findings.
 
 Sources: Windows [entry point](../ride.ps1), [engine](../modules/RIDE.Engine.psm1)
 and [user handoff](../modules/RIDE.UserHandoff.psm1); Fedora

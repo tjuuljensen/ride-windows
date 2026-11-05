@@ -276,11 +276,37 @@ Hyper-V inspection found the VM Off with parent checkpoint
 The request was in the finished queue, the task was Ready, both active queues
 were empty, the worker lock was free and no recovery block existed.
 
-This closes the focused Pro watchdog regression. The last full UnitOnly result
-remains the failed run above. Registration stays `NotValidated`; the RC and
-second-host gates remain deferred. This run exercised controller behavior and
-closed no legacy feature, package or component outcome. All five migration
-estimate ranges therefore carry forward.
+This closed the focused Pro watchdog regression. The full UnitOnly retry is
+recorded below.
+
+### Pro full UnitOnly regression passed, 2026-11-05
+
+Registered Local request `24b9cc547aaa473c966148bf9d62caa9` ran from
+13:45 to 14:52 UTC on Windows 11 Pro build 26300. The guest passed repository
+validation. Pester 5.7.1 under Windows PowerShell 5.1 reported 4,497 passed,
+zero failed and 40 skipped out of 4,537. The exported XML confirms all six
+watchdog concurrency tests and the synthetic machine-font removal/restore
+lifecycle passed in the full suite.
+
+All 2,303 staged files matched the request's source manifest. Evidence is in
+`results/24b9cc547aaa473c966148bf9d62caa9` under the registered Pro controller
+root. SHA-256 for `source-files.json` is
+`0484B640EA44CE866241DCC2ADF30434A66D9F675C58EBF95692BF694E4B7D14`;
+SHA-256 for `guest/pester.xml` is
+`ABB3E8738B71050C48EB5B73AF64E74BD558DCAFE4EA24492D77B2F9E8F2131E`.
+
+The controller recorded checkpoint restoration at 14:52 UTC and returned
+Passed with no collection, export or cleanup error. Live Hyper-V inspection
+then verified `RIDE-W11P-Test` Off with parent `RIDE-clean-test-base`,
+GUID `74c1c858-c6bb-40ab-97ed-61c1eea74c9f`. The request was in the
+finished queue. The task was Ready, both active queues were empty, the worker
+lock was free and no recovery block existed.
+
+This closes the full UnitOnly gate for the recorded source and controller
+hashes. Broader registration remains `NotValidated`. RC/default-branch
+delivery and second-host replication remain deferred by the operator.
+This regression closed no legacy product or feature outcome, so all five
+migration ranges carry forward.
 
 ## Supervised Project Maker success, 2026-10-30
 

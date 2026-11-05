@@ -894,21 +894,22 @@ their respective consumers. Use the same ALIGN IDs in the
 The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
 [comparison](docs/fedora-alignment.md) records current differences.
 
-- [x] **ALIGN-01:** Adopt canonical contract 1.0.0 and matching SHA-256 references
+- [x] **ALIGN-01:** Adopt canonical contract 1.1.0 and matching SHA-256 references
   in both repos. Source documentation complete; immutable publication is ALIGN-09.
 - [x] **ALIGN-02:** Add reciprocal AGENTS review/versioning rules covering CLI,
   settings, planning, acquisition, privilege and recovery, not only package batches.
 - [ ] **ALIGN-03:** Enforce unambiguous arguments and declared unset/removal.
-  Windows: reject irrelevant options, require an explicit remove selector through
-  a compatibility transition, and reconcile DefenderExclusion removal/help.
-  Fedora: add declared unset, filter profile removal and reject conflicting
-  ID/profile options. Done when mocked cases prove preflight before any mutation
-  and published explicit set/restore forms remain recoverable.
+  Windows: reject irrelevant options, transition bare remove to an explicit
+  selector, document removable classes and review inferred unset states.
+  Fedora now requires explicit removal and declared unset. Fix profile removal
+  when a dependent appears first: the prerequisite can be removed before the
+  command fails. Cover both orders in ALIGN-05 and retain saved-run recovery.
+  See the [November 5 reproduction](docs/fedora-alignment.md#contract-recheck-2026-11-05).
 - [ ] **ALIGN-04:** Align candidate preview and acquisition with RB-03/04/05/08.
-  Windows: permit read-only candidate preview without opt-in and review the
-  installed-package no-op target exception. Fedora: separate download eligibility
-  from VM acceptance and unify restore-preview target/identity checks. Done when
-  paired cases preserve target/privilege checks and show zero preview writes.
+  Both clients implement flag-free candidate previews. Fedora separates download
+  from execution acceptance and checks restore-preview targets and identity.
+  Finish the paired review of installed-package no-op limits and acquisition
+  gates. Retain target/privilege refusal and zero-write preview checks.
 - [ ] **ALIGN-05:** Maintain pinned shared scenario data, Windows Pester and Fedora
   native adapters, and CI for gates, invalid arguments, unset/removal, dependency
   order, partial failure/recovery, download boundaries and read-only completion.
@@ -943,8 +944,9 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
   evidence. Keep native acceptance and publication separate; do not require
   identical catalog coverage or synchronized client release numbers.
 
-Next batch: ALIGN-03, starting with a declared command/option matrix and focused
-mocked refusal tests. This task entry authorizes no additional runtime changes.
+Next batch: address the Fedora dependency-order failure and the Windows
+bare-remove compatibility transition under ALIGN-03. Test both profile orders,
+missing and conflicting selectors, and irrelevant options with mocked handlers.
 
 ## Migration closure queue
 
