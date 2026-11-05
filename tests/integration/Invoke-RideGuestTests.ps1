@@ -4,9 +4,10 @@
 
 .DESCRIPTION
   Internal guest entry point for Invoke-RideVmTest.ps1. Requires its VM-only
-  environment marker, validates the staged checkout, runs Pester 5.7.1, and
-  optionally runs the state-changing integration suite. Exports correlated
-  transcript, phase progress, Pester results, summary and saved state when
+  environment marker, validates the staged checkout, ensures Pester 5.7.1 is
+  installed for the current guest user, runs Pester, and optionally runs the
+  state-changing integration suite. Exports correlated transcript, phase
+  progress, Pester results, summary and saved state when
   ResultsPath is supplied.
   A request-bound settings-validation.fixture.psd1 can explicitly select one
   setting instead of a named settings batch; Full/application suites refuse it.
@@ -20,6 +21,8 @@
   Run the integration suite after successful Pester tests; defaults to false.
 
 .PARAMETER IntegrationSuite
+  MachineFontRegression selects MachineFonts.Tests.ps1. ControllerRegression selects
+  the watchdog and controller tests. Both run without guest integration.
   ApplicationsBatch1 and ApplicationsBatch2 select installed/portable application migration tests.
   ApplicationsBatch1Machine and ApplicationsBatch1User split machine and limited-user packages.
   ApplicationsBatch1Gpg4win and ApplicationsBatch1TMOG select only the named
@@ -68,13 +71,17 @@
 
 .NOTES
   Compatibility: Windows PowerShell 5.1 on disposable Windows 11/Server 2025 guests.
-  Prerequisites: Elevated guest; Pester 5.7.1; the VM host runner.
+  Prerequisites: Elevated guest; PowerShellGet and PowerShell Gallery HTTPS when
+  Pester 5.7.1 is missing; the VM host runner.
   File/environment inputs: Staged checkout; RIDE_TEST_GUEST must be 1.
   Recovery: The host controller, or the attended operator using the manual VM
   runner, must restore the clean disposable-VM checkpoint independently.
   Author: RIDE-Windows maintainers.
-  Version: 1.12.0
+  Version: 1.15.0
   Changelog:
+    1.15.0: Release the progress lock before parsing and add bounded controller regression checks.
+    1.14.0: Add the fixed machine-font unit regression selection.
+    1.13.0: Bootstrap the exact guest-only Pester dependency when an adopted checkpoint lacks it.
     1.12.0: Add fixed ApplicationsBatch13 Mail Checker lifecycle selection.
     1.11.0: Dispatch fixed Gpg4win/TMOG selections with focused source checks.
     1.10.0: Select focused unit and guest acceptance for the hibernation candidate.
@@ -112,7 +119,7 @@
 param(
   [string] $GuestPath,
   [switch] $Integration,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'MachineFontRegression', 'ControllerRegression', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultsPath,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -120,11 +127,12 @@ param(
   [ValidatePattern('^[0-9a-f]{32}$')][string] $ResultRunId,
   [switch] $Version
 )
-$script:ScriptVersion = '1.12.0'
+$script:ScriptVersion = '1.15.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
 if ($env:RIDE_TEST_GUEST -ne '1') { throw 'Use the disposable-VM host runner; this entry point must not run on a developer workstation.' }
-if (-not $Integration -and $IntegrationSuite -ne 'Full') { throw 'Specify -Integration when selecting an integration suite.' }
+if ($Integration -and $IntegrationSuite -in @('MachineFontRegression','ControllerRegression')) { throw 'The selected regression requires unit-only execution.' }
+if (-not $Integration -and $IntegrationSuite -notin @('Full','MachineFontRegression','ControllerRegression')) { throw 'Specify -Integration when selecting an integration suite.' }
 if (-not $GuestPath -or -not (Test-Path -LiteralPath (Join-Path $GuestPath 'tools/validate.ps1') -PathType Leaf)) { throw 'GuestPath must identify the staged RIDE checkout.' }
 if ($ResultsPath -and -not $ResultRunId) { throw 'ResultRunId is required for evidence collection.' }
 if ($GuestGitHubAuthentication -eq 'PAT') {
@@ -142,7 +150,7 @@ if (Test-Path -LiteralPath $fixturePath -PathType Leaf) {
 if (-not $PSCmdlet.ShouldProcess($GuestPath, 'Run validation, Pester and selected disposable-VM integration tests')) { return }
 
 Set-Location -LiteralPath $GuestPath
-$summary = [ordered]@{ SchemaVersion = 1; RunId = $ResultRunId; Status = 'Failed'; ValidationPassed = $false; IntegrationPassed = $false; Pester = $null; Error = $null; StateCollectionError = $null; Guest = $null }
+$summary = [ordered]@{ SchemaVersion = 1; RunId = $ResultRunId; Status = 'Failed'; ValidationPassed = $false; IntegrationPassed = $false; Pester = $null; PesterSetup = $null; Error = $null; StateCollectionError = $null; Guest = $null }
 $summary.GuestGitHubAuthentication = $GuestGitHubAuthentication
 $summary.GitHubTestScenario = $GitHubTestScenario
 $summary.CredentialCleanupVerified = $null
@@ -178,6 +186,17 @@ try {
     $summary.Guest = @{ OS = (Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber); Account = $identity.Name; SID = $identity.User.Value; PowerShell = $PSVersionTable.PSVersion.ToString() }
     Write-RideGuestProgress -Phase $activePhase -State Completed
   }
+  $activePhase = 'Pester setup'
+  Write-RideGuestProgress -Phase $activePhase -State Started -Message 'Check or install pinned guest test dependency.'
+  try {
+    Import-Module (Join-Path $GuestPath 'tests/integration/RIDE.GuestTestDependencies.psm1') -Force -ErrorAction Stop
+    $summary.PesterSetup = Install-RideGuestPester
+  }
+  catch {
+    $summary.PesterSetup = @{ Name = 'Pester'; Version = '5.7.1'; Action = 'Failed'; Error = $_.Exception.Message }
+    throw
+  }
+  Write-RideGuestProgress -Phase $activePhase -State Completed -Message ("Pester {0}: {1}." -f $summary.PesterSetup.Version, $summary.PesterSetup.Action)
   $activePhase = 'Pester import'
   Write-RideGuestProgress -Phase $activePhase -State Started
   Import-Module Pester -RequiredVersion '5.7.1' -ErrorAction Stop
@@ -206,6 +225,10 @@ try {
     }
     }
     @($names | ForEach-Object { Join-Path $GuestPath ('tests/'+$_) })
+  } elseif ($IntegrationSuite -eq 'ControllerRegression') {
+    @('.\tests\AutomationWatchdog.Tests.ps1','.\tests\TestAutomation.Tests.ps1')
+  } elseif ($IntegrationSuite -eq 'MachineFontRegression') {
+    @('.\tests\MachineFonts.Tests.ps1')
   } elseif ($IntegrationSuite -eq 'GitHubAuthentication') {
     @('.\tests\GitHubAuthentication.Tests.ps1', '.\tests\GitHubReleaseDiscovery.Tests.ps1', '.\tests\GitHubVmAuthentication.Tests.ps1', '.\tests\PackageEvidence.Tests.ps1', '.\tests\CliShouldProcess.Tests.ps1', '.\tests\TestAutomation.Tests.ps1')
   } elseif ($IntegrationSuite -in @('SettingsRemainingBatch1', 'SettingsRemainingBatch2')) {
@@ -221,7 +244,8 @@ try {
     if($IntegrationSuite -in @('ApplicationsBatch6','ApplicationsBatch7')){$selectedTests+= '.\tests\ArtcraftPackages.Tests.ps1'}
     $selectedTests
   } else { @('.\tests') }
-  $summary['PesterSelection'] = if ($fixture) { 'Focused fixture contract, catalog, preview and selected handler regression' } elseif ($IntegrationSuite -in @('SettingsRemainingBatch1', 'SettingsRemainingBatch2')) { 'Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression' } elseif ($IntegrationSuite -like 'ApplicationsBatch*') { 'Application lifecycle, catalog, acquisition and controller regression' } else { 'Full repository regression' }
+  $summary['IntegrationSuite'] = $IntegrationSuite
+  $summary['PesterSelection'] = if ($IntegrationSuite -eq 'MachineFontRegression') { 'Machine-font synthetic unit regression' } elseif ($IntegrationSuite -eq 'ControllerRegression') { 'Controller and watchdog unit regression' } elseif ($fixture) { 'Focused fixture contract, catalog, preview and selected handler regression' } elseif ($IntegrationSuite -in @('SettingsRemainingBatch1', 'SettingsRemainingBatch2')) { 'Remaining settings catalog, lifecycle, registry value-set recovery, presentation and controller regression' } elseif ($IntegrationSuite -like 'ApplicationsBatch*') { 'Application lifecycle, catalog, acquisition and controller regression' } else { 'Full repository regression' }
   $activePhase = 'Pester'
   Write-RideGuestProgress -Phase $activePhase -State Started -Message $summary.PesterSelection
   if ($ResultsPath) {

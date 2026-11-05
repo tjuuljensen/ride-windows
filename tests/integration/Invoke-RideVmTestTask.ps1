@@ -24,6 +24,8 @@
   minutes for evidence and cleanup.
 
 .PARAMETER IntegrationSuite
+  MachineFontRegression selects MachineFonts.Tests.ps1. ControllerRegression selects
+  the watchdog and controller tests. Both run without guest integration.
   WindowsFirewallNotifier requires WfnPortableLifecycleV1 and selects the pinned
   531-file lifecycle with Defender; no WFN launch or firewall changes.
   NTCore, NTCoreAdditional, MiTeCMailHistoryViewers, MiTeCAnalysisTools, MiTeCSystemAndTelephony, PSScriptTools, OfflineCaffeine, SQLiteQuery, MiTeCUtilityFiles,
@@ -95,8 +97,10 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 1.19.0
+  Version: 1.21.0
   Changelog:
+    1.21.0: Release the progress lock before parsing and add bounded controller regression checks.
+    1.20.0: Add the fixed machine-font unit regression selection.
     1.19.0: Add fixed WFN file lifecycle; no firewall changes.
     1.18.0: Add fixed ApplicationsBatch13 Mail Checker lifecycle selection.
     1.17.0: Add fixed remaining MiTeC lifecycle selections.
@@ -142,17 +146,18 @@ param(
   [string] $ConfigurationPath,
   [ValidateSet('Local', 'CI')][string] $Source = 'Local',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers','WindowsFirewallNotifier')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'MachineFontRegression', 'ControllerRegression', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers','WindowsFirewallNotifier')][string] $IntegrationSuite = 'Full',
   [ValidateRange(1, 180)][int] $TimeoutMinutes = 90,
   [string] $ReceiptPath,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
   [switch] $Version
 )
-$script:ScriptVersion = '1.19.0'
+$script:ScriptVersion = '1.21.0'
 if ($Version) { $script:ScriptVersion; return }
 $ErrorActionPreference = 'Stop'
-if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+if (-not $UnitOnly -and $IntegrationSuite -in @('MachineFontRegression','ControllerRegression')) { throw 'The selected regression requires -UnitOnly.' }
+if ($UnitOnly -and $IntegrationSuite -notin @('Full','MachineFontRegression','ControllerRegression')) { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
 if ($GitHubTestScenario -ne 'Acquire' -and $IntegrationSuite -ne 'GitHubAuthentication') { throw 'GitHub recovery scenarios require the focused suite.' }
 Import-Module (Join-Path $PSScriptRoot 'RIDE.TestAutomation.psm1') -Force
 if (-not $ConfigurationPath) { throw '-ConfigurationPath is required.' }
@@ -184,7 +189,7 @@ while ([datetime]::UtcNow -lt $deadline) {
     $result = Get-Content -LiteralPath $resultPath -Raw | ConvertFrom-Json
     if ($result.RunId -ne $request.RunId) { throw 'Result correlation failed.' }
     if ($IntegrationSuite -eq 'GitHubAuthentication' -and $result.GuestGitHubAuthentication -ne $GuestGitHubAuthentication) { throw 'Controller authentication evidence is missing or mismatched.' }
-    if (-not $UnitOnly -and $IntegrationSuite -ne 'Full' -and ($result.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $result.IntegrationSuite -ne $IntegrationSuite)) { throw 'Installed controller did not return evidence for the requested integration suite. Refresh its protected files using Register-RideVmTestTask.ps1.' }
+    if ($IntegrationSuite -ne 'Full' -and ($result.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $result.IntegrationSuite -ne $IntegrationSuite)) { throw 'Installed controller did not return evidence for the requested integration suite. Refresh its protected files using Register-RideVmTestTask.ps1.' }
     if ($result.Status -ne 'Passed') { throw "RIDE run $($request.RunId) $($result.Status): $($result.Error) $($result.CleanupError). Results: $(Split-Path -Parent $resultPath)" }
     $result
     return

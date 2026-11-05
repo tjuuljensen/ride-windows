@@ -6,10 +6,11 @@
   visual verification. Restore verifies recovery/repeat and leaves the guest for
   visual recovery verification. Neither phase claims a visible-image pass.
 .NOTES
-  Native Windows PowerShell 5.1/7; candidate Windows 11 x64 Enterprise/Education.
+  Native Windows PowerShell 5.1/7; candidate Windows 11 x64 Pro and Enterprise/Education.
   Requires existing elevation and correlated Hyper-V guest markers. No UAC,
   sign-out, reboot, checkpoint reset or automatic failed-run cleanup is launched.
-  Version: 0.1.1. Changelog: Retain bounded failure details for native diagnostics.
+  Version: 0.1.2. Verify the guest marker and edition-specific image destination.
+  0.1.1: Retain bounded failure details for native diagnostics.
 .LINK
   ../../docs/image-personalization.md
 #>
@@ -82,7 +83,12 @@ function Get-RideDefaultLockAcceptanceSnapshot {
   $registry=$snapshot.Registry;$row=$snapshot.Row
   $policyValue=if($row){$row.Value}else{$null}
   $file=if($AssetPath){& (Get-Module RIDE.DefaultLockScreen) {param($p) Get-RideDefaultLockAsset $p} $AssetPath}else{$null}
-  [pscustomobject]@{Registry=$registry;PolicyValue=$policyValue;RegistryValue=$policyValue;Backend='LockScreenImage policy';File=$file}
+  [pscustomobject]@{Registry=$registry;PolicyValue=$policyValue;RegistryValue=$policyValue;Backend=if($EditionId -eq 'Professional'){'PersonalizationCSP'}else{'LockScreenImage policy'};File=$file}
+}
+function Get-RideDefaultLockAcceptanceAssetPath {
+  param([string]$Directory,[string]$RunId,[string]$EditionId)
+  $extension=& (Get-Module RIDE.DefaultLockScreen) {param($edition) Get-RideDefaultLockAssetExtension $edition} $EditionId
+  Join-Path $Directory ($RunId+$extension)
 }
 function Test-RideDefaultLockAcceptanceEqual {
   param($Left,$Right)
@@ -114,7 +120,7 @@ function Invoke-RideDefaultLockAcceptance {
   .PARAMETER ExpectedBuild
     Exact Windows 11 build, checked in both phases.
   .PARAMETER ExpectedEditionId
-    Exact supported Enterprise or Education edition, checked in both phases.
+    Exact Pro, Enterprise or Education candidate edition, checked in both phases.
   .PARAMETER EvidenceRoot
     Existing administrator-controlled local evidence parent. A new RunId child is
     created only by Apply; Restore reads its private records and adds an attempt.
@@ -136,10 +142,11 @@ function Invoke-RideDefaultLockAcceptance {
   param([Parameter(Mandatory)][ValidateSet('Apply','Restore')][string]$Phase,
     [Parameter(Mandatory)][ValidatePattern('^[a-f0-9]{32}$')][string]$RunId,[string]$SourcePath,
     [Parameter(Mandatory)][string]$ExpectedComputerName,[Parameter(Mandatory)][string]$ExpectedBuild,
-    [Parameter(Mandatory)][ValidateSet('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId,
+    [Parameter(Mandatory)][ValidateSet('Professional','Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId,
     [Parameter(Mandatory)][string]$EvidenceRoot,[switch]$DisposableVm)
   $context=Get-RideDefaultLockAcceptanceContext
   if(-not $DisposableVm -or $context.RunMarker -cne $RunId){throw 'Default-image acceptance requires a correlated disposable guest request.'}
+  if($context.Guest -ne $true){throw 'Default-image acceptance requires a marked Hyper-V guest.'}
   & (Get-Module RIDE.DefaultLockScreen) {param($c,$mutation) Assert-RideDefaultLockContext $c $null $mutation} $context (-not $WhatIfPreference)
   if($context.ComputerName -cne $ExpectedComputerName -or $context.Build -cne $ExpectedBuild -or $context.EditionId -cne $ExpectedEditionId){throw 'Default-image acceptance target differs.'}
   if(($Phase -ceq 'Apply' -and -not $SourcePath) -or ($Phase -ceq 'Restore' -and $SourcePath)){throw 'SourcePath is required only for Apply and must be omitted for Restore.'}
@@ -153,7 +160,7 @@ function Invoke-RideDefaultLockAcceptance {
     $before=Get-RideDefaultLockAcceptanceSnapshot
   }else{
     $prepared=Read-RideDefaultLockAcceptanceRecord (Join-Path $directory 'apply.json')
-    if($prepared.SchemaVersion -ne 1 -or $prepared.Kind -cne 'DefaultLockScreenAcceptance' -or $prepared.RunId -cne $RunId -or $prepared.Phase -cne 'Apply' -or $prepared.Status -cne 'AwaitingVisualVerification' -or $prepared.LifecycleRunId -cnotmatch '^[a-f0-9]{32}$' -or ($prepared.Checks -join ';') -cne 'PreviewNoChanges;AppliedPolicyImageAndPrivateState;RepeatNoChanges' -or $prepared.AssetPath -cne (Join-Path $assets ($prepared.LifecycleRunId+'.png'))){throw 'Completed apply-phase evidence is unavailable or mismatched.'}
+    if($prepared.SchemaVersion -ne 1 -or $prepared.Kind -cne 'DefaultLockScreenAcceptance' -or $prepared.RunId -cne $RunId -or $prepared.Phase -cne 'Apply' -or $prepared.Status -cne 'AwaitingVisualVerification' -or $prepared.LifecycleRunId -cnotmatch '^[a-f0-9]{32}$' -or ($prepared.Checks -join ';') -cne 'PreviewNoChanges;AppliedPolicyImageAndPrivateState;RepeatNoChanges' -or $prepared.AssetPath -cne (Get-RideDefaultLockAcceptanceAssetPath $assets $prepared.LifecycleRunId $ExpectedEditionId)){throw 'Completed apply-phase evidence is unavailable or mismatched.'}
     & (Get-Module RIDE.DefaultLockScreen) {param($c,$e) Assert-RideDefaultLockContext $c $e $false} $context $prepared.Context
     $before=Read-RideDefaultLockAcceptanceRecord (Join-Path $directory 'before.json')
     $report.LifecycleRunId=$prepared.LifecycleRunId;$report.AssetPath=$prepared.AssetPath;$report.SourceSha256=$prepared.SourceSha256
@@ -177,10 +184,16 @@ function Invoke-RideDefaultLockAcceptance {
       $result=Set-RideDefaultLockScreenImage @parameters
       Assert-RideDefaultLockAcceptanceResult $result @('Applied') $true
       $report.LifecycleRunId=$result.RunId;$report.AssetPath=$result.AssetPath
-      if($result.AssetPath -cne (Join-Path $assets ($result.RunId+'.png'))){throw 'Unexpected run-owned image path.'}
+      if($result.AssetPath -cne (Get-RideDefaultLockAcceptanceAssetPath $assets $result.RunId $ExpectedEditionId)){throw 'Unexpected run-owned image path.'}
       Assert-RideDefaultLockAcceptanceRecords $state $result.RunId
       $after=Get-RideDefaultLockAcceptanceSnapshot $result.AssetPath
-      if($after.RegistryValue -cne $result.AssetPath -or $null -eq $after.File -or $after.File.Sha256 -cne $source.Sha256 -or $after.File.Bytes -ne $source.Bytes){throw 'Native image/registry readback differs.'}
+      $expectedPolicyPath=$result.AssetPath
+      if($ExpectedEditionId -ceq 'Professional'){
+        $expectedPolicyPath=& (Get-Module RIDE.DefaultLockScreen) { Get-RideDefaultLockPlatformPath 'Professional' }
+        $platform=& (Get-Module RIDE.DefaultLockScreen) {param($p) Get-RideDefaultLockPlatformFile $p} $expectedPolicyPath
+        if($null -eq $platform -or $platform.Sha256 -cne $source.Sha256 -or $platform.Bytes -ne $source.Bytes){throw 'Windows inbox image readback differs.'}
+      }
+      if($after.PolicyValue -cne $expectedPolicyPath -or $null -eq $after.File -or $after.File.Sha256 -cne $source.Sha256 -or $after.File.Bytes -ne $source.Bytes){throw 'Native image/registry readback differs.'}
       Save-RideDefaultLockAcceptanceRecord (Join-Path $directory 'applied-snapshot.json') $after
       $checks.Add('AppliedPolicyImageAndPrivateState');$report.Stage='Repeat';$count=@(Get-ChildItem -LiteralPath $state -File).Count
       $repeat=Set-RideDefaultLockScreenImage @parameters;Assert-RideDefaultLockAcceptanceResult $repeat @('AlreadyDesired') $true

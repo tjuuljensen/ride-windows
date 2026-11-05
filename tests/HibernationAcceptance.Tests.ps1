@@ -50,7 +50,7 @@ Describe 'Request-bound hibernation matrix routing' {
     $guest = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Raw
     $guest | Should -Match "Hibernation \{ \`$names = @\('Hibernation.Tests.ps1','HibernationAcceptance.Tests.ps1','SettingsFixtureData.Tests.ps1','CliShouldProcess.Tests.ps1'\)"
     & (Join-Path $PSScriptRoot 'integration/Invoke-RideSettingsFixture.ps1') -Version | Should -Be '0.13.0'
-    & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version | Should -Be '1.10.0'
+    [version](& (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -Version) | Should -BeGreaterOrEqual ([version]'1.10.0')
   }
 }
 

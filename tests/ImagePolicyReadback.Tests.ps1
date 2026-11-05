@@ -10,8 +10,8 @@
   Native PowerShell 5.1/7 and Pester 5. Version: 0.1.0.
 #>
 BeforeDiscovery {
-  Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultLockScreen.psm1') -Force
-  Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultWallpaper.psm1') -Force
+  Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultLockScreen.psm1')
+  Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultWallpaper.psm1')
 }
 Describe 'Image policy handle readback' -ForEach @(
   @{Module='RIDE.DefaultLockScreen';Family='DefaultLock'},

@@ -865,6 +865,8 @@ Get-Module Pester -ListAvailable | Where-Object Version -eq '5.7.1'
 
 Windows includes Pester 3.4.0 signed by Microsoft; Pester 5.7.1 has a different signing publisher. The Pester project recommends `-SkipPublisherCheck` for this side-by-side installation. Keep the install pinned to version 5.7.1 and review the [Pester Gallery listing](https://www.powershellgallery.com/packages/Pester/5.7.1) before installing. This setup currently supports Windows PowerShell and PowerShell 7; using Windows PowerShell is sufficient for this first pilot.
 
+Registered and direct VM runners check for Pester 5.7.1 before guest validation. If an adopted checkpoint lacks it, the runner installs the pinned version from PowerShell Gallery for the current guest user and records that setup in `guest/summary.json` and `guest/progress.jsonl`. The registered controller then restores the checkpoint, so the dependency setup is transient. Installing it before checkpoint creation remains preferable for offline or repeat runs.
+
 ## 5. Create a clean checkpoint
 
 Shut down the guest after updates and Pester installation. In Hyper-V Manager, select the VM and choose **Checkpoint**. Rename it `RIDE-clean-test-base`.
@@ -948,7 +950,7 @@ From the repository root, run one of these on the host:
 .\tests\integration\Invoke-RideVmTest.ps1 -Transport PowerShellDirect -VMName 'RIDE-Win11-Test'
 ```
 
-Add `-UnitOnly` to copy the current checkout and run validation plus Pester without applying real Windows changes or installing packages. The detailed remote script below shows each test command separately; use it when learning the process or troubleshooting the runner.
+Add `-UnitOnly` to copy the current checkout and run validation plus Pester without applying RIDE settings or installing application packages. The guest runner installs the exact Pester test dependency from PowerShell Gallery only when it is missing. The registered task controller restores the checkpoint afterward; direct invocations require the operator to restore it. The detailed remote script below shows each test command separately; use it when learning the process or troubleshooting the runner.
 
 ```powershell
 $remoteScript = {

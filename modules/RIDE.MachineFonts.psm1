@@ -13,8 +13,10 @@
   Recovery: Conditional captured file/registration recovery; active font users or
   other sessions can prevent unloading/deletion. Incomplete runs retain intent.
   Runtime references, audit ACLs and other applications' cached fonts are not restored.
-  Version: 0.1.0.
-  Changelog: 0.1.0: Add private, ownership-bound machine-font lifecycle candidate.
+  Version: 0.1.2.
+  Changelog: 0.1.2: Preserve an exact inherited security descriptor on recreated fonts.
+  0.1.1: Identify the failing restore step and differing readback fields.
+  0.1.0: Add private, ownership-bound machine-font lifecycle candidate.
 .LINK
   ../docs/machine-fonts.md
 #>
@@ -194,8 +196,13 @@ function Write-RideMachineFontFile {
   $stream=[IO.File]::Open($path,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
   try{$stream.Write($bytes,0,$bytes.Length);$stream.Flush($true)}finally{$stream.Dispose()}
   if($RestoreFile){
-    $security=[Security.AccessControl.FileSecurity]::new();$security.SetSecurityDescriptorSddlForm($RestoreFile.Security,[Security.AccessControl.AccessControlSections]'Owner,Group,Access')
-    Set-Acl -LiteralPath $path -AclObject $security -ErrorAction Stop
+    $sections=[Security.AccessControl.AccessControlSections]'Owner,Group,Access'
+    $inherited=(Get-Acl -LiteralPath $path -ErrorAction Stop).GetSecurityDescriptorSddlForm($sections)
+    if($inherited -cne $RestoreFile.Security){
+      $security=[Security.AccessControl.FileSecurity]::new()
+      $security.SetSecurityDescriptorSddlForm($RestoreFile.Security,$sections)
+      Set-Acl -LiteralPath $path -AclObject $security -ErrorAction Stop
+    }
     [IO.File]::SetCreationTimeUtc($path,[datetime]::new([long]$RestoreFile.CreationUtcTicks,[DateTimeKind]::Utc))
     [IO.File]::SetLastWriteTimeUtc($path,[datetime]::new([long]$RestoreFile.LastWriteUtcTicks,[DateTimeKind]::Utc))
     [IO.File]::SetAttributes($path,[IO.FileAttributes][int]$RestoreFile.Attributes)
@@ -375,9 +382,23 @@ function Restore-RideMachineFontRun {
       Invoke-RideMachineFontNative Notify
       $afterRegistry=Get-RideMachineFontRegistry;Assert-RideMachineFontRegistryUnrelated $registry $afterRegistry @($intent.Entries.RegistryName)
       $after=@(foreach($entry in $intent.Entries){Get-RideMachineFontSnapshot $context $entry $afterRegistry})
-      if(-not (Test-RideMachineFontEqual $after @($intent.Entries.Before))){throw 'Font recovery readback differs.'}
+      if(-not (Test-RideMachineFontEqual $after @($intent.Entries.Before))){
+        $differences=foreach($i in 0..($intent.Entries.Count-1)){
+          $entry=$intent.Entries[$i]
+          foreach($field in $entry.Before.File.PSObject.Properties.Name){
+            if(-not (Test-RideMachineFontEqual $after[$i].File.$field $entry.Before.File.$field)){ "$($entry.FileName) File.$field" }
+          }
+          foreach($field in @('Registration','Aliases')){
+            if(-not (Test-RideMachineFontEqual $after[$i].$field $entry.Before.$field)){ "$($entry.FileName) $field" }
+          }
+        }
+        throw "Font recovery readback differs ($($differences -join ', '))."
+      }
       [pscustomobject]@{SchemaVersion=1;Status='Restored';RunId=$RunId;Scope='Machine';NativeAcceptancePassed=$false}
-    }catch{throw "Machine-font recovery did not complete. Run ID: $RunId. Retain private records; no exact recovery is claimed."}
+    }catch{
+      $cause=$_.Exception.Message
+      throw "Machine-font recovery did not complete. Run ID: $RunId. Retain private records. Cause: $($cause.Substring(0,[Math]::Min(1000,$cause.Length)))"
+    }
   }
 }
 

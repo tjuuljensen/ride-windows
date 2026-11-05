@@ -25,8 +25,12 @@
   Recovery: Follow automatedlab-tasks.md for blocked requests; the fixed worker restores only its
   pinned disposable VM/checkpoint.
   Author: RIDE-Windows maintainers.
-  Version: 1.25.1
+  Version: 1.27.0
   Changelog:
+    1.27.0: Release the progress lock before parsing and add bounded controller regression checks.
+    1.26.0: Add the fixed machine-font unit regression selection.
+    1.25.3: Allow the pinned guest Pester version alongside a different host-loaded Pester.
+    1.25.2: Check pinned host dependencies against installed module versions when they are not loaded.
     1.25.1: Retain required Terminal palette data/license in runtime snapshots.
     1.25.0: Recognize approved MiTeC startup smoke checks in focused results.
     1.24.0: Add fixed WFN file lifecycle; no firewall changes.
@@ -256,6 +260,12 @@ function Assert-RideAutomationSuiteCapability {
     Author: RIDE-Windows maintainers.
   #>
   param([Parameter(Mandatory)][object] $Configuration, [Parameter(Mandatory)][string] $Suite)
+  if ($Suite -eq 'ControllerRegression' -and (-not $Configuration.PSObject.Properties['Capabilities'] -or 'ControllerRegressionV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for ControllerRegressionV1; no request was queued.'
+  }
+  if ($Suite -eq 'MachineFontRegression' -and (-not $Configuration.PSObject.Properties['Capabilities'] -or 'MachineFontRegressionV1' -notin @($Configuration.Capabilities))) {
+    throw 'Refresh the protected controller for MachineFontRegressionV1; no request was queued.'
+  }
   if ($Suite -in @('ApplicationsBatch1Machine','ApplicationsBatch1User') -and
       ($Configuration.PSObject.Properties.Name -notcontains 'Capabilities' -or
        'ApplicationsBatch1SplitV1' -notin @($Configuration.Capabilities))) {
@@ -598,7 +608,14 @@ function Assert-RideAutomationHost {
   if ($Configuration -and $Configuration.PSObject.Properties['DependencyVersions']) {
     foreach ($dependency in $Configuration.DependencyVersions) {
       $loaded = Get-Module -Name $dependency.Name
-      if (-not $loaded -or $loaded.Version.ToString() -ne $dependency.Version) { throw "Dependency drift: $($dependency.Name) must be $($dependency.Version). Revalidate before registering a new baseline." }
+      $installed = @(Get-Module -ListAvailable -Name $dependency.Name | Where-Object { $_.Version.ToString() -eq [string]$dependency.Version })
+      $loadedConflict = $loaded -and $loaded.Version.ToString() -ne [string]$dependency.Version
+      # Pester is pinned for the guest runner. AutomatedLab may load a different
+      # host Pester as an incidental testing companion; the host never runs it.
+      if ($dependency.Name -eq 'Pester') { $loadedConflict = $false }
+      if (-not $installed.Count -or $loadedConflict) {
+        throw "Dependency drift: $($dependency.Name) $($dependency.Version) must be installed, with no conflicting loaded host version (except guest-only Pester). Revalidate before registering a new baseline."
+      }
     }
   }
   # This upstream check starts WinRM if stopped; the service guard above prevents that.
@@ -830,8 +847,9 @@ function Assert-RideAutomationRequest {
     if ($name -notin @('SchemaVersion','RunId','Source','UnitOnly','IntegrationSuite','TimeoutMinutes','SubmittedAtUtc','GuestGitHubAuthentication','GitHubTestScenario')) { throw 'Request contains an unsupported field; credentials and paths are not accepted in the queue.' }
   }
   if ($Request.PSObject.Properties.Name -contains 'IntegrationSuite') {
-    if ($Request.IntegrationSuite -notin @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers','WindowsFirewallNotifier')) { throw 'Invalid request IntegrationSuite.' }
-    if ($Request.UnitOnly -and $Request.IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+    if ($Request.IntegrationSuite -notin @('Full','MachineFontRegression','ControllerRegression', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers','WindowsFirewallNotifier')) { throw 'Invalid request IntegrationSuite.' }
+    if (-not $Request.UnitOnly -and $Request.IntegrationSuite -in @('MachineFontRegression','ControllerRegression')) { throw 'The selected regression requires UnitOnly.' }
+    if ($Request.UnitOnly -and $Request.IntegrationSuite -notin @('Full','MachineFontRegression','ControllerRegression')) { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
     if ($Request.IntegrationSuite -in @('NTCore','NTCoreAdditional','MiTeCMailHistoryViewers','MiTeCAnalysisTools','MiTeCSystemAndTelephony','PSScriptTools','OfflineCaffeine','SQLiteQuery','MiTeCUtilityFiles','SysinternalsSuite','SysinternalsProducts','ImageMagick','RawCopy','WinPmem','RegRipper','Rufus','MiTeCViewers','MiTeCDevelopment','MiTeCNetworkUtilities','MiTeCSystemViewers','WindowsFirewallNotifier') -and $Request.Source -ne 'Local') { throw 'Focused portable acceptance requires the registered Local source.' }
   }
   if ($Request.TimeoutMinutes -lt 1 -or $Request.TimeoutMinutes -gt 180) { throw 'Invalid request timeout.' }
@@ -997,8 +1015,8 @@ function Read-RideAutomationHostProgress {
   .SYNOPSIS
     Read one complete host progress snapshot under the shared coordination lock.
   .DESCRIPTION
-    Holds the sibling progress lock while reading, so a writer cannot change
-    an open snapshot. Uses read-only access with ReadWrite/Delete sharing.
+    Holds the sibling progress lock only while copying snapshot bytes. Parsing
+    and retry delays run after release. Uses read-only access with ReadWrite/Delete sharing.
     Lock acquisition and sharing/lock I/O retries are each limited to one second;
     malformed JSON and other I/O errors remain failures. Always closes handles.
   .PARAMETER Path
@@ -1009,11 +1027,10 @@ function Read-RideAutomationHostProgress {
     Windows PowerShell 5.1. Writes only the sibling coordination lock file.
   #>
   param([string]$Path)
-  $progressLock=Enter-RideAutomationHostProgressLock $Path
-  try{
   $elapsed=[Diagnostics.Stopwatch]::StartNew()
   while($true){
     $stream=$null;$reader=$null
+    $progressLock=Enter-RideAutomationHostProgressLock $Path
     try{
       $stream=[IO.File]::Open($Path,[IO.FileMode]::Open,[IO.FileAccess]::Read,([IO.FileShare]::ReadWrite -bor [IO.FileShare]::Delete))
       $reader=[IO.StreamReader]::new($stream,[Text.Encoding]::UTF8,$true)
@@ -1024,13 +1041,13 @@ function Read-RideAutomationHostProgress {
       while($failure.InnerException){$failure=$failure.InnerException}
       $code=$failure.HResult -band 0xffff
       if($failure -isnot [IO.IOException] -or $code -notin @(32,33) -or $elapsed.ElapsedMilliseconds -ge 1000){throw}
-      Start-Sleep -Milliseconds 25
     }finally{
-      if($reader){$reader.Dispose()}elseif($stream){$stream.Dispose()}
+      try{if($reader){$reader.Dispose()}elseif($stream){$stream.Dispose()}}
+      finally{$progressLock.Dispose()}
     }
+    Start-Sleep -Milliseconds 25
   }
-  $json|ConvertFrom-Json -ErrorAction Stop
-  }finally{$progressLock.Dispose()}
+  ConvertFrom-Json -InputObject $json -ErrorAction Stop
 }
 
 function Write-RideAutomationHostProgress {
@@ -1294,7 +1311,7 @@ function Invoke-RideAutomationRequest {
       Start-VM -VM (Get-VM -Id ([guid]$Configuration.VMId) -ErrorAction Stop) -ErrorAction Stop | Out-Null
       $arguments = "-NoLogo -NoProfile -ExecutionPolicy Bypass -NonInteractive -WindowStyle Hidden -File `"$(Join-Path $Root 'bin\Invoke-RideVmTest.ps1')`" -Transport AutomatedLab -LabName `"$($Configuration.LabName)`" -VMName `"$($Configuration.VMName)`" -RepositoryPath `"$snapshotPath`" -GuestRepositoryPath `"$($Configuration.GuestRepositoryPath)`" -ResultDirectory `"$runDirectory`" -RunId $($Request.RunId)"
       if ($Request.UnitOnly) { $arguments += ' -UnitOnly' }
-      else { $arguments += " -IntegrationSuite $selectedSuite" }
+      if (-not $Request.UnitOnly -or $selectedSuite -ne 'Full') { $arguments += " -IntegrationSuite $selectedSuite" }
     }
     if ($selectedSuite -eq 'GitHubAuthentication') { $arguments += " -GuestGitHubAuthentication $guestAuthentication -GitHubTestScenario $gitHubScenario" }
     if ($guestAuthentication -eq 'PAT') {
@@ -1328,7 +1345,9 @@ function Invoke-RideAutomationRequest {
     } else {
     $guest = Get-Content -LiteralPath (Join-Path $runDirectory 'guest\summary.json') -Raw -ErrorAction Stop | ConvertFrom-Json
     if ($guest.RunId -ne $Request.RunId -or $guest.Status -ne 'Passed' -or $guest.Pester.Total -lt 1 -or $guest.Pester.Failed -ne 0 -or -not $guest.ValidationPassed -or (-not $Request.UnitOnly -and -not $guest.IntegrationPassed)) { throw 'Guest result is missing, mismatched, incomplete or unsuccessful.' }
-    if (-not $Request.UnitOnly -and ($guest.PSObject.Properties.Name -notcontains 'IntegrationSuite' -or $guest.IntegrationSuite -ne $selectedSuite)) { throw 'Guest integration suite does not match the requested suite.' }
+    $suiteReported = $guest.PSObject.Properties.Name -contains 'IntegrationSuite'
+    if (($suiteReported -and $guest.IntegrationSuite -ne $selectedSuite) -or
+        (-not $suiteReported -and (-not $Request.UnitOnly -or $selectedSuite -ne 'Full'))) { throw 'Guest integration suite does not match the requested suite.' }
     if ($selectedSuite -eq 'GitHubAuthentication' -and $guest.GuestGitHubAuthentication -ne $guestAuthentication) { throw 'Guest authentication mode does not match the request.' }
     if ($selectedSuite -eq 'GitHubAuthentication' -and $guest.GitHubTestScenario -ne $gitHubScenario) { throw 'Guest authentication scenario does not match the request.' }
     if ($guestAuthentication -eq 'PAT' -and $guest.CredentialCleanupVerified -ne $true) { throw 'Guest credential cleanup evidence is missing.' }

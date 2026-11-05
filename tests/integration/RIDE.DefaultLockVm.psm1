@@ -263,7 +263,7 @@ function Invoke-RideDefaultLockVmPhase {
   .PARAMETER ExpectedBuild
     Prepare-only exact Windows 11 guest build, at least 22000.
   .PARAMETER ExpectedEditionId
-    Prepare-only exact supported Enterprise or Education guest edition.
+    Prepare-only exact Pro, Enterprise or Education guest edition.
   .EXAMPLE
     Invoke-RideDefaultLockVmPhase -Phase Prepare -ConfigurationPath '<installed-configuration>' -RunId '<request-id>' -SourcePath '<selected-image>' -ExpectedBuild 26300 -ExpectedEditionId EnterpriseEval -WhatIf
   .OUTPUTS
@@ -278,7 +278,7 @@ function Invoke-RideDefaultLockVmPhase {
   param([Parameter(Mandatory)][ValidateSet('Prepare','Apply','Restore','Collect','Reset')][string]$Phase,
     [Parameter(Mandatory)][string]$ConfigurationPath,[Parameter(Mandatory)][ValidatePattern('^[a-f0-9]{32}$')][string]$RunId,
     [string]$SourcePath,[ValidatePattern('^\d{5,8}$')][string]$ExpectedBuild,
-    [ValidateSet('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId)
+    [ValidateSet('Professional','Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId)
   if($RunId -cnotmatch '^[a-f0-9]{32}$'){throw 'RunId must use 32 lowercase hexadecimal characters.'}
   foreach($name in @('Phase','ExpectedEditionId')){
     if($PSBoundParameters.ContainsKey($name)){

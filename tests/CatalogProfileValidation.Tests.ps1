@@ -40,6 +40,10 @@ Describe 'version-1 profile parameter validation' {
     Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.Engine.psm1') -Force
     foreach ($file in Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../profiles') -Filter '*.psd1') {
       $profile = Get-RideProfile -Path $file.FullName
+      # Expansion only needs a pin. Example paths are supplied by each operator.
+      foreach ($selection in $profile.Operations) {
+        if ($selection.ImagePath -and -not $selection.ImageSha256) { $selection.ImageSha256 = 'A' * 64 }
+      }
       $plan = @(Get-RidePlan -Profile $profile)
       $plan.Count | Should -BeGreaterThan 0
       foreach ($item in $plan) {

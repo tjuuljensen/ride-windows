@@ -9,8 +9,9 @@
   No password is persisted or returned. Sign-in and visual evidence are separate.
 .NOTES
   Native Windows PowerShell 5.1/7 x64; candidate Windows 11 Enterprise/Education
-  Hyper-V guest with existing elevation and correlated test markers. Version: 0.1.1.
-  Changelog: 0.1.1: Bind the member SID as a LocalPrincipal-compatible string
+  Hyper-V guest with existing elevation and correlated test markers. Version: 0.1.2.
+  Changelog: 0.1.2: Check the Hyper-V guest marker before fixture operations.
+  0.1.1: Bind the member SID as a LocalPrincipal-compatible string
   and retain the underlying fixture-creation error for diagnosis.
   No UAC, logon, forced logoff, reboot, checkpoint reset or recursive shell deletion.
   Incomplete creation without a saved SID requires inspection. Failed cleanup may
@@ -29,6 +30,7 @@ function Get-RideWallpaperUserContext {
 function Assert-RideWallpaperUserContext {
   param($Context,[string]$RunId,[bool]$DisposableVm,[bool]$Mutation,$Expected)
   if(-not $DisposableVm -or $Context.RunMarker -cne $RunId){throw 'A correlated disposable guest request is required.'}
+  if($Context.Guest -ne $true){throw 'Wallpaper test users require a marked Hyper-V guest.'}
   & (Get-Module RIDE.DefaultWallpaper) {param($c,$e,$m) Assert-RideDefaultWallpaperContext $c $e $m} $Context $Expected $Mutation
 }
 function Get-RideWallpaperUserSelection {

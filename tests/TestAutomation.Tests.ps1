@@ -216,6 +216,16 @@ Describe 'Task configuration and read-only watch selection' {
     {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('FocusedPortableV1','WfnPortableLifecycleV1')}) -Suite WindowsFirewallNotifier}|Should -Not -Throw
     {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{}) -Suite WindowsFirewallNotifier}|Should -Throw '*WfnPortableLifecycleV1*'
   }
+  It 'admits <Suite> only as a registered unit request' -ForEach @(
+    @{Suite='MachineFontRegression';Capability='MachineFontRegressionV1'},@{Suite='ControllerRegression';Capability='ControllerRegressionV1'}
+  ) {
+    {Assert-RideAutomationSuiteCapability ([pscustomobject]@{}) $Suite}|Should -Throw "*$Capability*"
+    {Assert-RideAutomationSuiteCapability ([pscustomobject]@{Capabilities=@($Capability)}) $Suite}|Should -Not -Throw
+    $request=[pscustomobject]@{RunId=('a'*32);Source='Local';UnitOnly=$true;IntegrationSuite=$Suite;TimeoutMinutes=25;SubmittedAtUtc=[datetime]::UtcNow.ToString('o')}
+    {Assert-RideAutomationRequest $request}|Should -Not -Throw
+    $request.UnitOnly=$false
+    {Assert-RideAutomationRequest $request}|Should -Throw '*requires UnitOnly*'
+  }
   It 'requires the Mail Checker capability before queue admission' {
     {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('ApplicationsBatch10ProjectMakerV1')}) -Suite ApplicationsBatch13}|Should -Throw '*ApplicationsBatch13MailCheckerV1*'
     {Assert-RideAutomationSuiteCapability -Configuration ([pscustomobject]@{Capabilities=@('ApplicationsBatch13MailCheckerV1')}) -Suite ApplicationsBatch13}|Should -Not -Throw
@@ -240,7 +250,7 @@ Describe 'Task configuration and read-only watch selection' {
     $client = Get-Command (Join-Path $PSScriptRoot 'integration\Invoke-RideVmTestTask.ps1')
     $setup = Get-Command (Join-Path $PSScriptRoot 'integration\Register-RideVmTestTask.ps1')
     ($client.Parameters.Source.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Local', 'CI')
-    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers', 'WindowsFirewallNotifier')
+    ($client.Parameters.IntegrationSuite.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Full', 'MachineFontRegression', 'ControllerRegression', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication', 'NTCore', 'NTCoreAdditional', 'MiTeCMailHistoryViewers', 'MiTeCAnalysisTools', 'MiTeCSystemAndTelephony', 'PSScriptTools', 'OfflineCaffeine', 'SQLiteQuery', 'MiTeCUtilityFiles', 'SysinternalsSuite', 'SysinternalsProducts', 'ImageMagick', 'RawCopy', 'WinPmem', 'RegRipper', 'Rufus', 'MiTeCViewers', 'MiTeCDevelopment', 'MiTeCNetworkUtilities', 'MiTeCSystemViewers', 'WindowsFirewallNotifier')
     ($client.Parameters.GuestGitHubAuthentication.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Anonymous','PAT')
     ($setup.Parameters.Action.Attributes | Where-Object { $_ -is [Management.Automation.ValidateSetAttribute] }).ValidValues | Should -Be @('Register', 'Remove')
   }
@@ -266,7 +276,7 @@ Describe 'Task configuration and read-only watch selection' {
     $client=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTestTask.ps1') -Raw
     $client | Should -Match 'Assert-RideAutomationSuiteCapability -Configuration \$config -Suite \$IntegrationSuite'
     $register=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'integration/Register-RideVmTestTask.ps1') -Raw
-    $register | Should -Match "Capabilities = @\('HostPreparationWatchdogV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1','RegRipperRufusPortableV1','Gpg4winTmogLifecycleV1','RemainingMiTeCPortableV1','ApplicationsBatch13MailCheckerV1','WfnPortableLifecycleV1'\)"
+    $register | Should -Match "Capabilities = @\('HostPreparationWatchdogV1','MachineFontRegressionV1','ControllerRegressionV1','GitHubPatGuestV1','FocusedPortableV1','ApplicationsBatch1SplitV1','ApplicationsBatch9InfoBarV1','ApplicationsBatch10ProjectMakerV1','ApplicationsBatch11HashCheckV1','ApplicationsBatch11InteractiveV1','ApplicationsBatch12NtcoreExplorerSuiteV1','MiTeCAnalysisToolsV1','MiTeCSystemAndTelephonyV1','RegRipperRufusPortableV1','Gpg4winTmogLifecycleV1','RemainingMiTeCPortableV1','ApplicationsBatch13MailCheckerV1','WfnPortableLifecycleV1'\)"
   }
 
   It 'rejects implicit non-disposable configurations' {
@@ -414,6 +424,8 @@ Describe 'Task configuration and read-only watch selection' {
     $previousMarker = $env:RIDE_TEST_GUEST
     try {
       $env:RIDE_TEST_GUEST = '1'
+      { & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -GuestPath $TestDrive -IntegrationSuite MachineFontRegression -Integration } | Should -Throw '*requires unit-only*'
+      { & (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTestTask.ps1') -IntegrationSuite MachineFontRegression } | Should -Throw '*requires -UnitOnly*'
       { & (Join-Path $PSScriptRoot 'integration/Invoke-RideGuestTests.ps1') -GuestPath $TestDrive -IntegrationSuite SettingsBatch40 } | Should -Throw '*Specify -Integration*'
       { & (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTest.ps1') -Transport AutomatedLab -LabName RIDEPilot -UnitOnly -IntegrationSuite SettingsBatch40 } | Should -Throw '*cannot be selected with UnitOnly*'
       { & (Join-Path $PSScriptRoot 'integration/Invoke-RideVmTestTask.ps1') -UnitOnly -IntegrationSuite SettingsBatch60Recovery } | Should -Throw '*cannot be selected with UnitOnly*'
@@ -578,6 +590,48 @@ Describe 'Controller host preflight' -Skip:($PSVersionTable.PSEdition -ne 'Deskt
       Assert-RideAutomationHost | Should -BeNullOrEmpty
       Should -Invoke Get-ItemProperty -Times 0 -Exactly
       Should -Invoke Test-LabHostRemoting -Times 1 -Exactly
+    }
+
+    It 'accepts pinned guest Pester when a different host version is loaded' {
+      Mock Get-Module {
+        [pscustomobject]@{ Name = 'Pester'; Version = [version]'6.2.0' }
+      } -ParameterFilter { $Name -eq 'Pester' -and -not $ListAvailable }
+      Mock Get-Module {
+        @(
+          [pscustomobject]@{ Name = 'Pester'; Version = [version]'6.2.0' }
+          [pscustomobject]@{ Name = 'Pester'; Version = [version]'5.7.1' }
+          [pscustomobject]@{ Name = 'Pester'; Version = [version]'3.4.0' }
+        )
+      } -ParameterFilter { $Name -eq 'Pester' -and $ListAvailable }
+      $configuration = [pscustomobject]@{ DependencyVersions = @(@{ Name = 'Pester'; Version = '5.7.1' }) }
+
+      { Assert-RideAutomationHost $configuration } | Should -Not -Throw
+      Should -Invoke Get-Module -Times 1 -Exactly -ParameterFilter { $Name -eq 'Pester' -and -not $ListAvailable }
+      Should -Invoke Get-Module -Times 1 -Exactly -ParameterFilter { $Name -eq 'Pester' -and $ListAvailable }
+    }
+
+    It 'rejects a pinned dependency that is not installed at the exact version' {
+      Mock Get-Module { } -ParameterFilter { $Name -eq 'Pester' -and -not $ListAvailable }
+      Mock Get-Module {
+        [pscustomobject]@{ Name = 'Pester'; Version = [version]'6.2.0' }
+      } -ParameterFilter { $Name -eq 'Pester' -and $ListAvailable }
+      $configuration = [pscustomobject]@{ DependencyVersions = @(@{ Name = 'Pester'; Version = '5.7.1' }) }
+
+      { Assert-RideAutomationHost $configuration } | Should -Throw '*must be installed*'
+      Should -Invoke Test-LabHostRemoting -Times 0 -Exactly
+    }
+
+    It 'rejects a conflicting loaded version of a host dependency' {
+      Mock Get-Module {
+        [pscustomobject]@{ Name = 'PSFramework'; Version = [version]'1.15.0' }
+      } -ParameterFilter { $Name -eq 'PSFramework' -and -not $ListAvailable }
+      Mock Get-Module {
+        [pscustomobject]@{ Name = 'PSFramework'; Version = [version]'1.14.457' }
+      } -ParameterFilter { $Name -eq 'PSFramework' -and $ListAvailable }
+      $configuration = [pscustomobject]@{ DependencyVersions = @(@{ Name = 'PSFramework'; Version = '1.14.457' }) }
+
+      { Assert-RideAutomationHost $configuration } | Should -Throw '*conflicting loaded host version*'
+      Should -Invoke Test-LabHostRemoting -Times 0 -Exactly
     }
 
     It 'still refuses a process without administrator elevation' {

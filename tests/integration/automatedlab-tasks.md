@@ -821,6 +821,10 @@ $client = Join-Path (Split-Path -Parent $configuration) 'bin\Invoke-RideVmTestTa
 & $client -ConfigurationPath $configuration
 # Faster diagnosis without real RIDE operations:
 & $client -ConfigurationPath $configuration -UnitOnly
+# Diagnose synthetic font recovery on the guest, including ACL and timestamp readback:
+& $client -ConfigurationPath $configuration -UnitOnly -IntegrationSuite MachineFontRegression -TimeoutMinutes 30
+# Check controller and watchdog behavior using inert processes in the guest:
+& $client -ConfigurationPath $configuration -UnitOnly -IntegrationSuite ControllerRegression -TimeoutMinutes 30
 # Package-free acceptance of the twelve BCD/coordinated settings:
 & $client -ConfigurationPath $configuration -IntegrationSuite SettingsBatch60Recovery
 # Run the two remaining-settings batches separately:
@@ -836,8 +840,14 @@ exports the run ID and exact result directory even when the run later fails.
 
 `-IntegrationSuite` defaults to `Full`; `SettingsBatch40`, `SettingsBatch60`,
 `SettingsBatch60Recovery`, `SettingsRemainingBatch1` and
-`SettingsRemainingBatch2` select package-free setting scenarios. It cannot
-be combined with `-UnitOnly`. Refresh older protected controllers through the
+`SettingsRemainingBatch2` select package-free setting scenarios. Use these
+with integration enabled. `MachineFontRegression` requires `-UnitOnly` and
+the registered `MachineFontRegressionV1` capability. It runs catalog validation
+and the machine-font Pester file using synthetic fonts in temporary storage.
+With the registered `ControllerRegressionV1` capability, `-UnitOnly
+-IntegrationSuite ControllerRegression` runs the watchdog and controller unit
+tests. The result identifies the selected suite. Reserve plain `-UnitOnly` for full
+guest regression. Refresh older protected controllers through the
 registration workflow before using this parameter. Suite names are validated
 before process launch and verified against the correlated guest summary.
 

@@ -1,4 +1,5 @@
 BeforeAll {
+  . (Join-Path $PSScriptRoot 'fixtures/Invoke-RideTestInCleanSession.ps1')
   $Repo=Split-Path -Parent $PSScriptRoot
   Import-Module (Join-Path $Repo 'modules/RIDE.OfflineBundle.psm1') -Force
   function New-BundleTestFile {
@@ -28,12 +29,15 @@ BeforeAll {
 
 Describe 'Selected offline bundle integrity' {
   BeforeEach {
-    Remove-Module RIDE.Engine -Force -ErrorAction SilentlyContinue
     $bundleRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
     $manifest=New-BundleFixture $bundleRoot
   }
   It 'checks local engine/profile/payload/notices and retains all unverified installation gates' {
-    $r=Test-RideOfflineBundle -Manifest $manifest -Root $bundleRoot -ProfileId workstation
+    $r=Invoke-RideTestInCleanSession -RequireEngineAbsent -Arguments $Repo,$manifest,$bundleRoot -Probe {
+      param($repo,$manifest,$root)
+      Import-Module (Join-Path $repo 'modules/RIDE.OfflineBundle.psm1')
+      Test-RideOfflineBundle -Manifest $manifest -Root $root -ProfileId workstation
+    }
     $r.SelectedDeclaredContentComplete|Should -BeTrue
     $r.Files.Count|Should -Be 4
     @($r.Files|Where-Object Status -ne Verified).Count|Should -Be 0
@@ -41,7 +45,6 @@ Describe 'Selected offline bundle integrity' {
     $r.NetworkFallbackAllowed|Should -BeFalse;$r.ReadyForMutation|Should -BeFalse
     $r.ProfileDependencyClosureVerified|Should -BeFalse;$r.EngineSourceCommitVerified|Should -BeFalse
     $r.ManifestCoverageVerified|Should -BeFalse;$r.ActualTargetVerified|Should -BeFalse
-    Get-Module RIDE.Engine|Should -BeNullOrEmpty
   }
   It 'does not block a complete selected profile on an unrelated restricted omission' {
     $other=New-BundleTestArtifact other unused;$other.Status='Omitted';$other.OmissionCode='Restricted';$other.FileIds=@()
@@ -192,7 +195,6 @@ Describe 'Selected offline bundle integrity' {
 
 Describe 'Offline bundle CLI and completion' {
   BeforeEach {
-    Remove-Module RIDE.Engine -Force -ErrorAction SilentlyContinue
     $bundleRoot=Join-Path $TestDrive ([guid]::NewGuid().ToString('N'))
     $manifest=New-BundleFixture $bundleRoot
     $manifestPath=Join-Path $bundleRoot 'manifest.json'
@@ -212,11 +214,17 @@ Describe 'Offline bundle CLI and completion' {
   }
   It 'completes CLI and API profile IDs from supplied metadata only' {
     $line="& '$tool' -ManifestPath '$manifestPath' -ProfileId WORK"
-    $matches=(TabExpansion2 -InputScript $line -CursorColumn $line.Length).CompletionMatches
+    $matches=Invoke-RideTestInCleanSession -RequireEngineAbsent -Arguments $line -Probe {
+      param($line)
+      (TabExpansion2 -InputScript $line -CursorColumn $line.Length).CompletionMatches
+    }
     @($matches|Where-Object ListItemText -eq workstation).Count|Should -Be 1
-    $attribute=(Get-Command Test-RideOfflineBundle).Parameters['ProfileId'].Attributes|Where-Object {$_ -is [Management.Automation.ArgumentCompleterAttribute]}
-    $api=@(& $attribute.ScriptBlock '' '' 'work' $null @{Manifest=$manifest})
+    $api=@(Invoke-RideTestInCleanSession -RequireEngineAbsent -Arguments $Repo,$manifest -Probe {
+      param($repo,$manifest)
+      Import-Module (Join-Path $repo 'modules/RIDE.OfflineBundle.psm1')
+      $attribute=(Get-Command Test-RideOfflineBundle).Parameters['ProfileId'].Attributes|Where-Object {$_ -is [Management.Automation.ArgumentCompleterAttribute]}
+      & $attribute.ScriptBlock '' '' 'work' $null @{Manifest=$manifest}
+    })
     $api.Count|Should -Be 1;$api[0].ListItemText|Should -BeExactly workstation
-    Get-Module RIDE.Engine|Should -BeNullOrEmpty
   }
 }

@@ -9,7 +9,7 @@
 .NOTES
   Pester 5, native Windows PowerShell 5.1/7. Version: 0.1.0.
 #>
-BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultLockScreen.psm1') -Force}
+BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultLockScreen.psm1')}
 Describe 'Machine default lock-screen candidate lifecycle' {
   InModuleScope RIDE.DefaultLockScreen {
     BeforeAll {Add-Type -AssemblyName System.Drawing}
@@ -28,11 +28,14 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       Mock Assert-RideDefaultLockAssetDirectory {'unchanged-directory-security'}
       Mock Assert-RideDefaultLockAssetSecurity {}
       Mock Get-RideDefaultLockRegistry {$script:registry|ConvertTo-Json -Depth 10|ConvertFrom-Json}
+      Mock Get-RideDefaultLockPlatformPath {param($EditionId);if($EditionId -eq 'Professional'){Join-Path $script:root 'platform-img0.jpg'}else{$null}}
       Mock Set-RideDefaultLockRegistry {
         param($Row,$RemoveCreatedKey,$EditionId,$RestoreRows)
         if($RemoveCreatedKey){$script:registry=[pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()};return}
-        $rows=@($script:registry.Rows|Where-Object {$_.Name -ne 'LockScreenImage'})
+        $owned=if($EditionId -eq 'Professional'){@('LockScreenImagePath','LockScreenImageUrl','LockScreenImageStatus')}else{@('LockScreenImage')}
+        $rows=@($script:registry.Rows|Where-Object {$_.Name -notin $owned})
         if($PSBoundParameters.ContainsKey('RestoreRows')){$rows+=@($RestoreRows)}
+        elseif($null -ne $Row -and $EditionId -eq 'Professional'){$rows+=@([pscustomobject]@{Name='LockScreenImagePath';Kind='String';Value=$Row.Value},[pscustomobject]@{Name='LockScreenImageUrl';Kind='String';Value=$Row.Value},[pscustomobject]@{Name='LockScreenImageStatus';Kind='DWord';Value=1})}
         elseif($null -ne $Row){$rows+=@([pscustomobject]@{Name='LockScreenImage';Kind=$Row.Kind;Value=$Row.Value})}
         $script:registry=[pscustomobject]@{Exists=$true;Security='unchanged-key-security';Rows=@($rows|Sort-Object Name);SubKeys=@($script:registry.SubKeys)}
       }
@@ -61,6 +64,14 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       (Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -AllowCandidate -Confirm:$false).Status|Should -Be AlreadyRestored
       Should -Invoke Set-RideDefaultLockRegistry -Times 2 -Exactly
     }
+    It 'recovers an interrupted transaction from intent when the applied receipt was never written' {
+      $applied=Set-RideDefaultLockScreenImage @script:selection
+      Remove-Item -LiteralPath (Get-RideDefaultLockRunPath $script:state $applied.RunId applied)
+      (Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -AllowCandidate -Confirm:$false).Status|Should -Be RecoveredIncomplete
+      Test-RideDefaultLockEqual $script:registry $script:before|Should -BeTrue
+      Test-Path -LiteralPath $applied.AssetPath|Should -BeFalse
+      Test-Path -LiteralPath (Get-RideDefaultLockRunPath $script:state $applied.RunId intent)|Should -BeTrue
+    }
     It 'recovers a pre-existing expandable string without touching its referenced image' {
       $oldImage=Join-Path $script:root 'old.png';[IO.File]::WriteAllText($oldImage,'unrelated original bytes')
       $script:registry.Rows=@([pscustomobject]@{Name='LockScreenImage';Kind='ExpandString';Value='%ProgramData%\Previous\image.png'})+$script:registry.Rows
@@ -70,11 +81,45 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       Test-RideDefaultLockEqual $before $script:registry|Should -BeTrue
       [IO.File]::ReadAllText($oldImage)|Should -BeExactly 'unrelated original bytes'
     }
-    It 'refuses Windows Pro before touching recovery or policy state' {
-      $script:context.EditionId='Professional'
-      {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Windows 11 x64 Enterprise or Education*'
-      Should -Invoke New-RidePrivateFileStream -Times 0 -Exactly
-      Should -Invoke Set-RideDefaultLockRegistry -Times 0 -Exactly
+    It 'uses the Pro CSP tuple and v2-compatible JPG asset name with exact tuple recovery' {
+      $script:context.EditionId='Professional';$script:selection.ExpectedEditionId='Professional'
+      $platform=Join-Path $script:root 'platform-img0.jpg';[IO.File]::WriteAllText($platform,'synthetic inbox image');$platformHash=(Get-FileHash -LiteralPath $platform -Algorithm SHA256).Hash
+      $script:registry.Rows=@(
+        [pscustomobject]@{Name='LockScreenImagePath';Kind='String';Value='C:\Previous\lock.png'},
+        [pscustomobject]@{Name='LockScreenImageUrl';Kind='String';Value='C:\Previous\lock.png'},
+        [pscustomobject]@{Name='LockScreenImageStatus';Kind='DWord';Value=1},
+        [pscustomobject]@{Name='CompanyName';Kind='String';Value='Unrelated branding'})
+      # The native reader returns rows sorted by value name.
+      $script:registry.Rows=@($script:registry.Rows|Sort-Object Name)
+      $before=Get-RideDefaultLockRegistry -EditionId Professional
+      $applied=Set-RideDefaultLockScreenImage @script:selection
+      $applied.AssetPath|Should -Match '\.jpg$'
+      $after=Get-RideDefaultLockRegistry -EditionId Professional
+      (Get-RideDefaultLockRow $after Professional).Value|Should -BeExactly $platform
+      (Get-FileHash -LiteralPath $platform -Algorithm SHA256).Hash|Should -BeExactly $script:hash
+      @($after.Rows|Where-Object Name -EQ 'CompanyName').Value|Should -BeExactly 'Unrelated branding'
+      $null=Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -AllowCandidate -Confirm:$false
+      Test-RideDefaultLockEqual $before (Get-RideDefaultLockRegistry -EditionId Professional)|Should -BeTrue
+      (Get-FileHash -LiteralPath $platform -Algorithm SHA256).Hash|Should -BeExactly $platformHash
+      Should -Invoke Set-RideDefaultLockRegistry -Times 2 -Exactly
+    }
+    It 'creates img0.jpg when absent and removes only the exact RIDE-created file on recovery' {
+      $script:context.EditionId='Professional';$script:selection.ExpectedEditionId='Professional'
+      $platform=Join-Path $script:root 'platform-img0.jpg'
+      $script:registry.Rows=@()
+      $applied=Set-RideDefaultLockScreenImage @script:selection
+      (Get-FileHash -LiteralPath $platform -Algorithm SHA256).Hash|Should -BeExactly $script:hash
+      (Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -AllowCandidate -Confirm:$false).Status|Should -Be Restored
+      Test-Path -LiteralPath $platform|Should -BeFalse
+    }
+    It 'creates the v2-compatible Pro img0 target when the Windows image is absent and removes only that created target on restore' {
+      $script:context.EditionId='Professional';$script:selection.ExpectedEditionId='Professional'
+      $platform=Join-Path $script:root 'platform-img0.jpg'
+      $script:registry.Rows=@()
+      $applied=Set-RideDefaultLockScreenImage @script:selection
+      (Get-FileHash -LiteralPath $platform -Algorithm SHA256).Hash|Should -BeExactly $script:hash
+      (Restore-RideDefaultLockScreenRun -RunId $applied.RunId -StateDirectory $script:state -AllowCandidate -Confirm:$false).Status|Should -Be Restored
+      Test-Path -LiteralPath $platform|Should -BeFalse
     }
     It 'recovers an absent personalization key without claiming visible image recovery' {
       $script:registry=[pscustomobject]@{Exists=$false;Security=$null;Rows=@();SubKeys=@()}
@@ -113,7 +158,7 @@ Describe 'Machine default lock-screen candidate lifecycle' {
     }
     It 'refuses an unsupported target and missing existing elevation or candidate selection' {
       $script:context.EditionId='Core'
-      {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Windows 11 x64 Enterprise or Education*'
+      {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Windows 11 x64 Pro, Enterprise or Education*'
       $script:context.EditionId='EnterpriseEval';$script:context.Guest=$false
       $script:context.Guest=$true;$script:context.Administrator=$false
       {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*Existing elevation*'
@@ -137,13 +182,15 @@ Describe 'Machine default lock-screen candidate lifecycle' {
       Should -Invoke New-RideDefaultLockAssetStream -Times 0 -Exactly
       Should -Invoke Set-RideDefaultLockRegistry -Times 0 -Exactly
     }
-    It 'retains intent and owned image after a policy failure and refuses incomplete automatic recovery' {
+    It 'retains intent after a policy failure and recovers the unchanged owned image' {
       Mock Set-RideDefaultLockRegistry {throw 'Synthetic registry failure.'}
       {Set-RideDefaultLockScreenImage @script:selection}|Should -Throw '*apply incomplete*Run ID*'
       $records=@(Get-ChildItem -LiteralPath $script:state -File);$records.Count|Should -Be 1
       $runId=$records[0].Name.Substring(0,32)
       @(Get-ChildItem -LiteralPath $script:assets -File).Count|Should -Be 1
-      {Restore-RideDefaultLockScreenRun -RunId $runId -StateDirectory $script:state -AllowCandidate -Confirm:$false}|Should -Throw
+      (Restore-RideDefaultLockScreenRun -RunId $runId -StateDirectory $script:state -AllowCandidate -Confirm:$false).Status|Should -Be RecoveredIncomplete
+      @(Get-ChildItem -LiteralPath $script:assets -File).Count|Should -Be 0
+      Test-RideDefaultLockEqual $script:registry $script:before|Should -BeTrue
       $intent=Read-RideDefaultLockRun $script:state $runId intent
       Test-RideDefaultLockEqual $intent.Before $script:before|Should -BeTrue
     }

@@ -16,7 +16,7 @@
 .PARAMETER ExpectedBuild
   Exact guest Windows 11 build.
 .PARAMETER ExpectedEditionId
-  Exact supported Enterprise or Education edition.
+  Exact Pro, Enterprise or Education candidate edition.
 .PARAMETER EvidenceRoot
   Existing administrator-controlled evidence parent; retains private phase records.
 .PARAMETER DisposableVm
@@ -43,7 +43,7 @@ param([ValidateSet('Apply','Restore')][string]$Phase,
     try{if($fakeBoundParameters.Phase -cne 'Restore' -or -not $fakeBoundParameters.ContainsKey('EvidenceRoot')){return};Get-ChildItem -LiteralPath $fakeBoundParameters.EvidenceRoot -Directory -ErrorAction Stop|Select-Object -First 1000|ForEach-Object {if($_.Name -cmatch '^[a-f0-9]{32}$' -and $_.Name.StartsWith($wordToComplete,[StringComparison]::OrdinalIgnoreCase)){[Management.Automation.CompletionResult]::new($_.Name,$_.Name,'ParameterValue','Saved default-image acceptance request')}}}catch{}
   })][string]$RunId,[string]$SourcePath,
   [string]$ExpectedComputerName,[string]$ExpectedBuild,
-  [ValidateSet('Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId,
+  [ValidateSet('Professional','Enterprise','EnterpriseN','EnterpriseEval','Education','EducationN')][string]$ExpectedEditionId,
   [string]$EvidenceRoot,[switch]$DisposableVm,[switch]$Version)
 if($Version){'0.2.0';return}
 $ErrorActionPreference='Stop'

@@ -65,6 +65,7 @@ Describe 'Owned machine-font lifecycle' {
       Mock Read-RideMachineFontStateBytes {param($Path);Read-RidePrivateFileBytes -Path $Path -MaximumBytes 16777216}
     }
     It 'installs, repeats, removes, restores removal and recovers initial absence without touching other fonts' {
+      Mock Set-Acl {throw 'An already exact inherited descriptor must be preserved.'}
       $installed=Install-RideMachineFonts @script:selection
       $installed.Status|Should -Be Applied
       $installed.ChangedFonts|Should -Be 2
@@ -86,6 +87,28 @@ Describe 'Owned machine-font lifecycle' {
       @(Get-ChildItem -LiteralPath $script:fontRoot -File).Count|Should -Be 0
       $script:registry.Count|Should -Be 1
       $script:registry['Unrelated Font (TrueType)'].Value|Should -BeExactly 'Unrelated.ttf'
+    }
+    It 'reports which recovered file property differs after a removal restore' {
+      $installed=Install-RideMachineFonts @script:selection
+      $removed=Remove-RideMachineFonts -OwnerRunId $installed.RunId -StateDirectory $script:stateRoot -AllowCandidate -Confirm:$false
+      Mock Invoke-RideMachineFontNative {
+        [IO.File]::SetLastWriteTimeUtc((Join-Path $script:fontRoot 'SyntheticA.ttf'),[datetime]'2020-01-01')
+      } -ParameterFilter { $Action -eq 'Notify' }
+      {Restore-RideMachineFontRun -RunId $removed.RunId -StateDirectory $script:stateRoot -AllowCandidate -Confirm:$false} |
+        Should -Throw '*Font recovery readback differs (SyntheticA.ttf File.LastWriteUtcTicks)*'
+    }
+    It 'reapplies a captured protected ACL when a recreated file inherits different permissions' {
+      $entry=(Read-RideMachineFontManifest $script:manifest).Entries[0]
+      $path=Join-Path $script:fontRoot $entry.FileName
+      [IO.File]::WriteAllBytes($path,[Convert]::FromBase64String($entry.Payload))
+      $acl=Get-Acl -LiteralPath $path
+      $acl.SetAccessRuleProtection($true,$true)
+      Set-Acl -LiteralPath $path -AclObject $acl
+      $before=(Get-RideMachineFontSnapshot $script:context $entry (Get-RideMachineFontRegistry)).File
+      Remove-Item -LiteralPath $path
+      Write-RideMachineFontFile $script:context $entry $before
+      $after=(Get-RideMachineFontSnapshot $script:context $entry (Get-RideMachineFontRegistry)).File
+      Test-RideMachineFontEqual $before $after|Should -BeTrue
     }
     It 'preflights the whole batch before the first write and never replaces a colliding font' {
       $target=Join-Path $script:fontRoot 'SyntheticB.ttf';[IO.File]::WriteAllText($target,'unrelated existing bytes')

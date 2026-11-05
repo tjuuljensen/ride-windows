@@ -76,9 +76,9 @@ Describe 'NTCore Explorer Suite focused acceptance route' {
     $vmTask = Get-Content (Join-Path $repositoryRoot 'tests/integration/Invoke-RideVmTestTask.ps1') -Raw
     $controllerModule = Get-Content (Join-Path $repositoryRoot 'tests/integration/RIDE.TestAutomation.psm1') -Raw
 
-    $applicationRunner | Should -Match 'ValidateSet\(''package\.ntcore-explorer-suite''\)\]\[string\] \$PackageId'
-    $applicationRunner | Should -Match '\$Batch -eq 12 -and \$PackageId -cne ''package\.ntcore-explorer-suite'''
-    $applicationRunner | Should -Match '\$package\.Id -ceq \$PackageId'
+    # FocusedApplicationSelection exercises the shared batch guard and its rejection cases.
+    $applicationRunner | Should -Match 'Assert-RideApplicationPackageSelection -SelectedBatch \$Batch -SelectedPackageId \$PackageId'
+    $applicationRunner | Should -Match 'Test-RideApplicationBatchSelection .*?-SelectedPackageId \$PackageId'
     $guestRunner | Should -Match 'ApplicationsBatch12.*-Batch 12 -PackageId package\.ntcore-explorer-suite'
     $vmTask | Should -Match 'Assert-RideAutomationSuiteCapability -Configuration \$config -Suite \$IntegrationSuite'
     $vmTask | Should -Match 'ApplicationsBatch12'

@@ -9,7 +9,7 @@
 .NOTES
   Pester 5, native Windows PowerShell 5.1/7. Version: 0.1.0.
 #>
-BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultWallpaper.psm1') -Force}
+BeforeDiscovery {Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultWallpaper.psm1')}
 Describe 'Machine first-logon wallpaper candidate lifecycle' {
   InModuleScope RIDE.DefaultWallpaper {
     BeforeAll {Add-Type -AssemblyName System.Drawing}

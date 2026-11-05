@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.36.0.
-  Changelog: 0.36.0: Accept omitted image hashes while validating explicit pins.
+  Owner: RIDE-Windows maintainers. Version: 0.37.0.
+  Changelog: 0.37.0: Validate current-user desktop wallpaper image metadata.
+    0.36.0: Accept omitted image hashes while validating explicit pins.
     0.35.0: Validate default-image metadata and pinned profile inputs.
     0.34.0: Validate client RSAT identities, dependency graphs and full-observed selection.
     0.33.0: Validate the source-explicit OpenSSH Client capability candidate.
@@ -830,7 +831,9 @@ function Get-RideCatalogValidationErrors {
       if (-not [Uri]::IsWellFormedUriString([string]$operation.DocumentationUri, [UriKind]::Absolute) -or ([Uri]$operation.DocumentationUri).Scheme -ne 'https' -or ([Uri]$operation.DocumentationUri).Host -ne 'learn.microsoft.com') { Add-Error "Automatic proxy detection requires Microsoft HTTPS documentation: $($operation.Id)" }
     }
     elseif ($operation.Kind -eq 'DefaultImage') {
-      if ($operation.Handler -cne 'DefaultImage' -or $operation.Scope -cne 'Machine' -or $operation.RequiresAdmin -ne $true -or $operation.ImageType -cnotin @('Wallpaper','LockScreen')) { Add-Error "Invalid default-image handler/scope/type: $($operation.Id)" }
+      $userImage=$operation.ImageType -cin @('UserLockScreen','UserWallpaper')
+      $scopeValid=if($userImage){$operation.Scope -ceq 'User' -and $operation.RequiresAdmin -eq $false}else{$operation.Scope -ceq 'Machine' -and $operation.RequiresAdmin -eq $true}
+      if ($operation.Handler -cne 'DefaultImage' -or -not $scopeValid -or $operation.ImageType -cnotin @('Wallpaper','LockScreen','UserLockScreen','UserWallpaper')) { Add-Error "Invalid default-image handler/scope/type: $($operation.Id)" }
       if ($operation.States -isnot [hashtable] -or $operation.States.Count -ne 1 -or $operation.States.Configured -cne 'Selected local PNG' -or $operation.ContainsKey('BaselineState') -or $operation.ContainsKey('UnsetState')) { Add-Error "Default images require an explicit Configured state and saved-run recovery: $($operation.Id)" }
       if (@(Compare-Object @('Get','Test','Set','Restore') @($operation.Actions)).Count -or $operation.Rollback -ne 'Exact') { Add-Error "Default-image lifecycle incomplete: $($operation.Id)" }
       if (@($operation.SupportedTargets).Count -ne 1 -or $operation.SupportedTargets[0] -cne 'Windows 11' -or $operation.MinimumBuild -ne 22000) { Add-Error "Default-image target declaration differs: $($operation.Id)" }

@@ -14,7 +14,8 @@
   Native Windows PowerShell 5.1/7; candidate Windows 11 x64 Enterprise/Education.
   Requires existing elevation and correlated Hyper-V guest markers. No UAC,
   sign-out, reboot, checkpoint reset or automatic failed-run cleanup is launched.
-  Version: 0.1.1. Changelog: Preserve bounded native failure detail.
+  Version: 0.1.2. Require the marked Hyper-V guest before any phase.
+  0.1.1: Preserve bounded native failure detail.
 .LINK
   ../../docs/image-personalization.md
 #>
@@ -150,6 +151,7 @@ function Invoke-RideDefaultWallpaperAcceptance {
   $Phase=if($Phase -ieq 'Apply'){'Apply'}else{'Restore'}
   $context=Get-RideDefaultWallpaperAcceptanceContext
   if(-not $DisposableVm -or $context.RunMarker -cne $RunId){throw 'Default-image acceptance requires a correlated disposable guest request.'}
+  if($context.Guest -ne $true){throw 'Default-image acceptance requires a marked Hyper-V guest.'}
   & (Get-Module RIDE.DefaultWallpaper) {param($c,$mutation) Assert-RideDefaultWallpaperContext $c $null $mutation} $context (-not $WhatIfPreference)
   if($context.ComputerName -cne $ExpectedComputerName -or $context.Build -cne $ExpectedBuild -or $context.EditionId -cne $ExpectedEditionId){throw 'Default-image acceptance target differs.'}
   if(($Phase -ceq 'Apply' -and -not $SourcePath) -or ($Phase -ceq 'Restore' -and $SourcePath)){throw 'SourcePath is required only for Apply and must be omitted for Restore.'}

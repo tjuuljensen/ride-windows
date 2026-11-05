@@ -34,9 +34,10 @@ Describe 'Default image catalog integration' {
       {Get-RideSingleOperationPlan windows.default-wallpaper Set Configured -ImagePath 'C:\wall.png' -ImageSha256 bad}|Should -Throw
       {Get-RideSingleOperationPlan windows.default-wallpaper Unset}|Should -Throw '*no generic unset*'
     }
-    It 'previews both images without snapshots, directories or handler dispatch' {
-      Mock Get-RidePngSource -ModuleName RIDE.DefaultImages {[pscustomobject]@{Sha256=('A'*64)}}
-      $plan=@(Get-RidePlan (Get-RideProfile -Path (Join-Path $script:RideRoot 'profiles/default-images.psd1')))
+    It 'previews the example image profile without snapshots, directories or handler dispatch' {
+      $profile=Get-RideProfile -Path (Join-Path $script:RideRoot 'profiles/default-images.psd1')
+      foreach ($selection in $profile.Operations) { $selection.ImageSha256='A'*64 }
+      $plan=@(Get-RidePlan $profile)
       Invoke-RidePlan $plan -WhatIf
       Should -Invoke Set-RideDefaultImageState -Times 0 -Exactly
       Should -Invoke Save-RideOperationSnapshot -Times 0 -Exactly
@@ -89,6 +90,19 @@ Describe 'Default image catalog integration' {
       ($script:imageRecoveryOrder -join ',')|Should -Be 'Wallpaper,LockScreen'
       Should -Invoke Restore-RideDefaultImageState -Times 2 -Exactly -ParameterFilter {$ValidateOnly}
     }
+    It 'reads a machine-only failed-run manifest to enable no-child-intent recovery' {
+      $root=Join-Path $TestDrive 'machine-manifest';$run='d'*32;$dir=Join-Path $root $run
+      $null=New-Item -ItemType Directory -Path $dir -Force
+      Mock Get-RideStateRoot {if($Scope -eq 'Machine'){$root}else{Join-Path $TestDrive 'no-user-manifest'}}
+      $operation=Get-RideOperation windows.default-lock-screen
+      @{SchemaVersion=1;RunId=$run;OperationId=$operation.Id;Kind='DefaultImage';Scope='Machine';CreatedUtc='2026-11-04T00:00:00Z';Snapshot=@{SnapshotVersion=1;OperationId=$operation.Id;ImageType='LockScreen';ImageRunId=$run}}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $dir ($operation.Id+'.json'))
+      @{RunId=$run;Scopes=@('Machine');OperationProgress=@(@{OperationId=$operation.Id;Status='Failed'})}|ConvertTo-Json -Depth 5|Set-Content -LiteralPath (Join-Path $dir '_manifest.json')
+      $script:failedIntentFallback=$false
+      Mock Restore-RideDefaultImageState {$script:failedIntentFallback=$FailedApplyWithoutChildIntent}
+      Restore-RideRun $run -Confirm:$false
+      $script:failedIntentFallback|Should -BeTrue
+      Should -Invoke Restore-RideDefaultImageState -Times 2 -Exactly -ParameterFilter {$FailedApplyWithoutChildIntent}
+    }
   }
   It 'completes Configured from catalog metadata' {
     $line='& "'+(Resolve-Path (Join-Path $PSScriptRoot '../ride.ps1')).Path+'" set windows.default-wallpaper -State Con'
@@ -105,7 +119,7 @@ Describe 'Default image catalog integration' {
 }
 Describe 'Automatic image selection hashes' {
   BeforeAll {
-    Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultImages.psm1') -Force
+    Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.DefaultImages.psm1')
     Import-Module (Join-Path $PSScriptRoot '../modules/RIDE.CatalogValidation.psm1') -Force
     Add-Type -AssemblyName System.Drawing
   }
@@ -199,6 +213,13 @@ Describe 'Default image adapter boundaries' {
     }
     It 'refuses mismatched recovery identity before reading receipts' {
       {Restore-RideDefaultImageState $script:op @{SnapshotVersion=1;OperationId=$script:op.Id;ImageType='Wallpaper';ImageRunId=('b'*32)} ('a'*32) 'C:\SyntheticState' -ValidateOnly}|Should -Throw '*identity*'
+    }
+    It 'treats a failed lock-screen apply without child intent as unchanged and recoverable' {
+      Mock Get-RideDefaultLockContext { [pscustomobject]@{EditionId='Professional'} } -ModuleName RIDE.DefaultLockScreen
+      $operation=Get-RideOperation windows.default-lock-screen
+      $run='c'*32
+      $snapshot=@{SnapshotVersion=1;OperationId=$operation.Id;ImageType='LockScreen';ImageRunId=$run}
+      {Restore-RideDefaultImageState $operation $snapshot $run (Join-Path $TestDrive 'failed-machine') -FailedApplyWithoutChildIntent -ValidateOnly}|Should -Not -Throw
     }
   }
 }

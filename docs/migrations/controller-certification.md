@@ -1,5 +1,287 @@
 # Disposable VM controller acceptance
 
+## Windows 11 Pro controller validation started, 2026-11-04 16:21 UTC
+
+The registered configuration at
+`C:\ProgramData\RIDE\TestAutomation\RIDEWin11ProTest\configuration.json`
+parses and pins `RIDE-W11P-Test` and checkpoint
+`RIDE-clean-test-base` by GUID. `evidence.json` remains `NotValidated`. The
+registration records 11 controller-file hashes; all 11 match both the
+installed protected copies and current checkout files. Read-only checks found
+empty pending/running queues and no recovery block. The controller advertises
+`HostPreparationWatchdogV1` and fixed package/settings suites.
+
+The bounded `Test-RideVmHostPreparation.ps1` probe was attempted, but the
+current process is the registered account without an elevated token. The
+escalated command runner also returned a non-administrator token, and the probe
+stopped at its explicit elevation guard before host preparation, output
+creation, VM inspection or state change. Task state, live VM state and live
+checkpoint identity therefore remain unverified; no request was submitted and
+the controller remains `NotValidated`.
+
+Next, from an elevated Windows PowerShell session for the registered account,
+run the host-only probe from the repository root:
+
+```powershell
+.\tests\integration\Test-RideVmHostPreparation.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11ProTest\configuration.json'
+```
+
+Only after that probe confirms the VM is Off, the registered task is idle, the
+checkpoint and lab pins match, and the current checkout is copied successfully
+should a `UnitOnly` pilot run through the registered task. It runs guest
+generation/validation/Pester without the state-changing integration suite, then
+follows the registered checkpoint recovery. Review its source/result hashes
+and recovery before deciding whether any controller validation status can
+change. Do not bypass the `NotValidated` record manually.
+
+The attended probe attempt `08b397f8aa3b4419a0a405783f82e22e` then failed at
+`Validate host and import dependencies`; its report has `VmChanged=False` and
+the stage receipt has `VmMayHaveChanged=False`. The error said Pester 5.7.1 had
+drifted. Read-only inventory in 64-bit Windows PowerShell 5.1 found the exact
+pinned Pester 5.7.1 installed (alongside 3.4.0 and 6.2.0), and every other
+configured dependency version installed. The probe process had not loaded
+Pester, while `Assert-RideAutomationHost` checked only loaded modules. This was
+a false drift failure; the probe stopped before lab, VM, checkpoint or task
+inspection.
+
+The host check now requires the exact pinned version to be installed and still
+rejects a conflicting version if that module is already loaded. A focused
+Windows PowerShell 5.1 mock harness passed both the installed-but-unloaded
+Pester 5.7.1 case and refusal when the pinned version was absent. The focused
+Pester run was blocked before its test cases because Pester could not create
+its own `HKCU\Software\Pester` test key under the current host token; no
+registry permission was changed. Parser and diff checks passed. These results
+do not complete host preparation.
+
+Next, rerun the host-only probe above under the registered elevated account.
+If it passes, refresh the protected controller once so its installed
+`RIDE.TestAutomation.psm1` includes this correction, verify the refreshed file
+hashes, then run the `UnitOnly` pilot through the registered task. Keep the
+controller `NotValidated` until the pilot and recovery evidence are reviewed.
+
+The retry `363eb25f98f04e43b9ee0d1e55377a42` also stopped at dependency
+validation with `VmChanged=False`; its stage receipt confirms no VM, lab,
+checkpoint or task inspection occurred. The no-profile child diagnostic then
+confirmed Pester 6.2.0 loaded after importing the host modules, while Pester
+5.7.1 is installed alongside it. Pester 5.7.1 is the guest test-runner pin;
+the host does not run it. The prior check incorrectly rejected the unrelated
+host-loaded Pester version. The focused fix now requires exact guest Pester
+5.7.1 to be installed but permits another Pester version loaded by host
+integration modules; conflicting loaded versions for other pinned host
+dependencies remain rejected. Parser and diff checks passed; focused Pester
+execution remained blocked by the local HKCU restriction. The retry result is
+recorded below.
+
+The corrected host-only probe `d346695c26134d02b5a6f457ecfe22f7` passed on
+2026-11-04 at 17:07 UTC. Its child receipt records VM `Off`, task `Ready`,
+2,299 copied files and `VmChanged=False`; host preparation, including the
+pinned VM/checkpoint checks, completed. The protected-controller refresh then
+succeeded from the registered elevated session. All 11 installed controller
+file hashes match both `evidence.json` and current source. The evidence remains
+`NotValidated` pending the UnitOnly pilot and recovery review.
+
+The UnitOnly client could not create its temporary request file under
+`queue/pending` from the Codex execution context (Access denied). No request
+file remained, the pending/running queues stayed empty, and no VM change
+occurred. The installed queue ACL grants Modify to the registered SID, but
+Task Scheduler/CIM and protected queue writes are unavailable to this
+execution context. Submit the approved client request from a normal PowerShell
+session for the registered account, then review its correlated result and
+checkpoint recovery:
+
+```powershell
+.\tests\integration\Invoke-RideVmTestTask.ps1 -ConfigurationPath 'C:\ProgramData\RIDE\TestAutomation\RIDEWin11ProTest\configuration.json' -UnitOnly -TimeoutMinutes 90
+```
+
+UnitOnly request `6e37123cd6b14439800f2b332c981533` was queued and reached the
+Windows 11 Pro guest, but failed before repository validation because the
+pinned checkpoint did not contain Pester 5.7.1 for the test account. The guest
+progress and transcript identify the failed Pester import; Pester XML was not
+produced. The controller collected partial guest evidence and completed its
+checkpoint recovery path with no recorded cleanup, collection or evidence
+export error; the request is terminal and there is no recovery block.
+
+The test runner now installs exact Pester 5.7.1 from PowerShell Gallery for the
+current guest user only when absent, records the setup action in the guest
+summary/progress, and then restores the pinned checkpoint through the
+controller. This preserves the existing checkpoint identity and supports
+adopted Pro VMs whose clean checkpoint predates the test dependency. The new
+guest dependency tests pass 3/3; the controller orchestration suite passes
+182/182 with five platform-skipped cases, and `tools/validate.ps1` passes
+(479 operations, 9 groups, 6 profiles, 411 PowerShell files). These local
+checks used Pester 5.7.1 with its registry plugin disabled for the restricted
+host token. They do not prove guest PowerShell Gallery access or guest tests.
+Refresh the protected controller from elevated PowerShell, verify hashes, and
+submit UnitOnly again to verify actual dependency acquisition and guest recovery.
+
+### UnitOnly reached guest but failed the full Pester suite, 2026-11-05
+
+UnitOnly request `71d37e0d44494852a9132d58660f5c2f` reached the Windows 11 Pro
+guest and completed guest dependency setup, catalog export and repository
+validation. Pester 5.7.1 ran 4,528 tests: 4,319 passed, 169 failed and 40 were
+skipped. The request is Failed, so this is not Pro controller acceptance.
+The host recorded the checkpoint-recovery phase; result fields report no
+cleanup, collection or evidence-export error. Keep the controller
+`NotValidated` and inspect the archived guest report at
+`C:\ProgramData\RIDE\TestAutomation\RIDEWin11ProTest\results\71d37e0d44494852a9132d58660f5c2f`.
+
+The failure report groups 154 failures under invalid call-operator/module-scope
+dispatch, five under same-name automation-module selection, two under missing
+wallpaper-image input, and eight other assertions. These counts are diagnostic
+categories, not confirmed root causes or independent component rejection.
+The full run used the modern Pester configuration because it produced the
+correlated `pester.xml`; an isolated Windows PowerShell 5.1 run of
+`DefaultImagesEngine.Tests.ps1` passed 21 of 22 tests and showed no module-scope
+dispatch errors. Its remaining test attempted a real CIM query and was blocked
+by the restricted Codex host token, not by the VM. This contrast points to
+full-suite test-context/module selection as the next diagnosis; do not attribute
+the 154 failures to Pro behavior yet. The deleted
+`components/wallpaper/img0.png` is a working-tree deletion and was preserved;
+the two image-source failures need an approved fixture or profile update.
+
+Do not spend another full VM run on an unmodified test set. First reproduce the
+module-selection failures with a bounded subset or a short discovery
+diagnostic, then fix the harness or individual regressions and verify them in
+focused Pester runs. Refresh the protected controller only after the source
+change is validated; then use the registered UnitOnly route and confirm
+checkpoint recovery again. Do not mark Pro acceptance complete until a full
+UnitOnly pass.
+
+### Pro controller regression repair, 2026-11-05
+
+Native Windows PowerShell 5.1 and Pester 5.7.1 reproduced the invalid module
+call with three test files. Removing the engine during a test for engine-free
+export removed a dependency from an already-loaded retained guest module's
+lookup scope. Separately, reloading the engine invalidated an existing
+wallpaper caller's module lookup. Checks for an unloaded engine now use fresh
+runspaces, and the engine and image tests reuse their image dependencies.
+The five same-name credential probes also reproduced together. Each now installs
+synthetic commands in its caller's actual module instance, introduces the
+same-name decoy, and disposes its own runspace.
+
+Profile membership and preview checks supply an in-memory pin for operator
+image paths. Automatic hash checks still use generated PNGs in TestDrive.
+The wallpaper asset deletion is preserved. The lock-screen recovery fixture
+now models the native reader's sorted value names and checks recovery from
+intent after a failed policy write. Focused image tests also exposed missing
+Hyper-V guest checks in the acceptance wrappers and wallpaper account fixture.
+These entry points now check the guest attestation before writes. Lock-screen
+acceptance checks the selected edition's policy destination and, on Pro, the
+inbox file bytes. Native Pro image acceptance remains open.
+
+Before retry, all 11 protected controller hashes matched their registration
+record and checkout. The registered task was Ready, VM Off, both queues empty,
+worker lock available and recovery block absent. The live checkpoint GUID
+matched pin `74c1c858-c6bb-40ab-97ed-61c1eea74c9f`. No protected file
+required replacement. The [pilot checklist](../../tests/integration/automatedlab-tasks.md#pilot-acceptance-and-replication-evidence)
+also requires ordinary, locked-session and watcher runs, CI delivery and
+serialization, fault handling and independent replication. Historical records
+for a different configuration cannot certify this Pro registration. Default-
+branch publication and CI activation remain subject to the RC decision.
+
+The combined failure-area selection passed 355 tests under Windows PowerShell
+5.1 and Pester 5.7.1. Local NUnit XML SHA-256 is
+`B0A110FABFC4E6A58DF3062BCC5BAD44F20E09274E6A85EF602196F73FC9EBD3`;
+the engine reload probe passed separately. Repository validation passed for
+479 operations, nine groups, six profiles and 412 PowerShell files. The
+registered Local UnitOnly retry is `314581130b1e4cdfb06b91ea94286ab3`.
+All 2,302 staged source hashes verified against its manifest (SHA-256
+`85C90736F8933536212E69DA84CA768914D831C95880A4CD48518F0AD163CA9A`).
+
+The retry finished Failed at 08:25 UTC on Pro build 26300. Guest validation
+passed. Pester 5.7.1 reported 4,491 passed, one failed and 40 skipped from
+4,532. All prior dispatch, name-selection and image failures cleared.
+The remaining failure occurred at the first saved removal restore in
+`tests/MachineFonts.Tests.ps1`. The synthetic lifecycle failed on the same
+call in both guest runs and passed on the host. The guest summary, XML,
+transcript, progress and source manifest were exported. Collection omissions
+were empty and cleanup, export and state collection reported no errors.
+Live inspection verified VM Off, task Ready, matching checkpoint GUID, free
+worker lock, empty queues and no recovery block. Registration is `NotValidated`.
+
+The repair source records the underlying font restore error and differing
+file/registration fields on failed readback. The fixed `MachineFontRegression`
+unit selection runs that test file through the registered queue; it requires a
+protected registration advertising `MachineFontRegressionV1`. A focused pass
+cannot close the full regression gate. No new legacy outcome was resolved,
+retired or excluded. Native font and other component acceptance remain open.
+
+After protected refresh, configuration SHA-256 is
+`BF5FE7FF029F93DEC6BD59FA154223CA8F9B10549595AD42C9F221C587C7FC57`;
+all 11 installed hashes matched source and the evidence record. Focused request
+`0beb5f0e5f6d45c6b5167477a35e0b87` reproduced the failure in seven minutes.
+Only the security descriptor differed on both recreated fonts. A negative test
+also reported its deliberately changed timestamp. The handler now leaves a
+recreated file's already-exact inherited descriptor intact and applies a saved
+descriptor when it differs. The exact final readback still checks all fields.
+Local font tests passed 20/20. On the same Pro guest, registered focused
+request `41ebc9f976964bcab2a30629fccfa855` passed validation and all 20
+tests with no skips, including differing protected ACL restoration and drift
+refusal. Guest XML SHA-256 is
+`AF2B81A2E56011745E7E60776C5044DCCAC2752908CA67A64581B46636F80FF4`.
+Both focused runs exported their results and completed checkpoint recovery.
+
+Full UnitOnly retry `84d13c059cb24c24a218ade4def24ef2` completed on Pro
+build 26300 at 10:12 UTC. All 2,302 staged files matched the source manifest
+(`6AF9E26F7925F37CD09ED717740F4285BF0C5D58E33A9630EE46F77592A3257D`).
+Guest validation passed. Pester 5.7.1 passed 4,494 tests, failed one and
+skipped 40. Font recovery passed. The concurrent watchdog writer exceeded
+the one-second lock bound, also seen in the original 169-failure run.
+Collection omissions were empty and cleanup and evidence export reported no
+errors. Keep this result Failed. The operator deferred RC/default-branch
+delivery and second-host replication on 2026-11-05.
+
+A deterministic Windows PowerShell test reproduced a reader holding the sibling
+lock while parsing its private copy of the JSON. Parsing and sharing-retry
+delays now run outside the lock. The concurrent fixture runs its reader and
+writer in independent native processes and verifies the first and last updates.
+The retained one-second contention guard still applies. Six focused
+concurrency checks passed locally, including the new lock-lifetime test.
+
+Windows canceled the subsequent elevation request before the protected
+watchdog refresh or either isolated refusal probe started. Final read-only
+inspection verified the prior configuration hash, all 11 installed file
+hashes against registration, the VM Off at the pinned checkpoint, task Ready,
+empty queues, free worker lock and no recovery block. Three protected files
+differ from the repair source: `Invoke-RideVmTest.ps1`,
+`Invoke-RideVmTestTask.ps1` and `RIDE.TestAutomation.psm1`.
+`ControllerRegressionV1` and the protected Pro `acceptance.md` are pending.
+The refreshed capability is required before a focused guest watchdog rerun.
+
+### Pro watchdog and checkpoint recovery verified, 2026-11-05
+
+The operator approved the UAC retry. The refreshed registration advertises
+`ControllerRegressionV1`; all 11 protected files matched the checkout and
+registration evidence. Configuration SHA-256 is
+`E6C20362645D44E62C81AC1EB1748C81CFE40CB07A694B6356ECD3C36B272C15`.
+The isolated missing-checkpoint probe `946387f42e00475e89d6419a6973724e` and
+expired-request probe `1b19d3bb0c6f4a9d8bc76913f0116c30` each refused the
+request for the expected reason before VM use. The protected Pro
+`acceptance.md` records both probes and their configuration and file hashes.
+
+Registered Local UnitOnly request `ebabc98a5d38495e982d2492a805a710` ran
+`ControllerRegression` on Windows 11 Pro build 26300. Guest validation passed.
+Pester 5.7.1 passed all 206 selected tests with zero skips, including all six
+concurrency cases. The reader released the lock before parsing, and the
+independent reader observed complete snapshots during repeated writer updates.
+All 2,303 staged files matched source manifest SHA-256
+`F10054D5F2B314961B9D9CD5192C262E6B9AEBD994F6D6AA4FAE759BDEC01C80`.
+The exported guest XML SHA-256 is
+`58229501B1D5241B709F9E8C0E702FE1260D9177512AF6700AAD65AE2B66EFF2`.
+
+The host recorded checkpoint restoration at 13:17 UTC. The correlated result
+reported Passed with no cleanup, collection or evidence-export errors. Live
+Hyper-V inspection found the VM Off with parent checkpoint
+`RIDE-clean-test-base`, GUID `74c1c858-c6bb-40ab-97ed-61c1eea74c9f`.
+The request was in the finished queue, the task was Ready, both active queues
+were empty, the worker lock was free and no recovery block existed.
+
+This closes the focused Pro watchdog regression. The last full UnitOnly result
+remains the failed run above. Registration stays `NotValidated`; the RC and
+second-host gates remain deferred. This run exercised controller behavior and
+closed no legacy feature, package or component outcome. All five migration
+estimate ranges therefore carry forward.
+
 ## Supervised Project Maker success, 2026-10-30
 
 Corrected request 2ecfe2bb51b447a7ae586a860d7123da passed in approximately

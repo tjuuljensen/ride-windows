@@ -47,6 +47,15 @@ Describe 'Concurrent host progress' {
       {Read-RideAutomationHostProgress $script:progressPath}|Should -Throw
     }
 
+    It 'releases the snapshot lock before parsing the copied JSON' {
+      Mock ConvertFrom-Json {
+        $handle=[IO.File]::Open(($script:progressPath+'.lock'),'Open','Read','None')
+        $handle.Dispose()
+        [pscustomobject]@{RunId='parsed after release'}
+      }
+      (Read-RideAutomationHostProgress $script:progressPath).RunId|Should -BeExactly 'parsed after release'
+    }
+
     It 'bounds coordination-lock contention and reuses the retained lock file' {
       $held=Enter-RideAutomationHostProgressLock $script:progressPath
       $elapsed=[Diagnostics.Stopwatch]::StartNew()
@@ -57,34 +66,30 @@ Describe 'Concurrent host progress' {
     }
 
     It 'reads complete snapshots during repeated real child-process updates' {
-      $fixture=Join-Path $script:progressDirectory 'writer.ps1'
-      @'
-param($ModulePath,$Directory,$RunId)
-$ErrorActionPreference='Stop'
-Import-Module $ModulePath -Force
-for($i=1;$i -le 150;$i++){
-  Write-RideAutomationHostProgress $Directory $RunId Preparation "Stage $i"
-}
-'@|Set-Content -LiteralPath $fixture -Encoding UTF8
       $modulePath=(Get-Module RIDE.TestAutomation).Path
-      $process=Start-Process -FilePath "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$fixture`" -ModulePath `"$modulePath`" -Directory `"$script:progressDirectory`" -RunId $script:progressId" -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $script:progressDirectory 'writer.log') -RedirectStandardError (Join-Path $script:progressDirectory 'writer-errors.log')
-      $null=$process.Handle
-      $elapsed=[Diagnostics.Stopwatch]::StartNew();$reads=0
-      try{
-        while(-not $process.HasExited -and $elapsed.Elapsed.TotalSeconds -lt 30){
-          $snapshot=Read-RideAutomationHostProgress $script:progressPath
-          $snapshot.RunId|Should -Be $script:progressId
-          $snapshot.Phase|Should -Be 'Preparation'
-          $reads++
+      $fixture=Join-Path (Split-Path $modulePath) '../fixtures/Test-RideConcurrentProgress.ps1'
+      $exe="$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
+      $children=[Collections.Generic.List[Diagnostics.Process]]::new()
+      try {
+        foreach($role in @('Reader','Writer')){
+          $arguments="-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$fixture`" -Role $role -ModulePath `"$modulePath`" -Directory `"$script:progressDirectory`" -RunId $script:progressId"
+          $child=Start-Process -FilePath $exe -ArgumentList $arguments -WindowStyle Hidden -PassThru -RedirectStandardError (Join-Path $script:progressDirectory "$role-errors.log")
+          $children.Add($child)
+          $null=$child.Handle
         }
-        $process.HasExited|Should -BeTrue
-        $process.Refresh()
-        $process.ExitCode|Should -Be 0 -Because (Get-Content (Join-Path $script:progressDirectory 'writer-errors.log') -Raw)
-        $reads|Should -BeGreaterThan 1
-        (Read-RideAutomationHostProgress $script:progressPath).Stage|Should -Be 'Stage 150'
-      }finally{
-        if(-not $process.HasExited){$process.Kill();$null=$process.WaitForExit(5000)}
-        $process.Dispose()
+        $timeout=[Diagnostics.Stopwatch]::StartNew()
+        foreach($child in $children){
+          $child.WaitForExit([int][Math]::Max(0,60000-$timeout.ElapsedMilliseconds))|Should -BeTrue
+        }
+        $errors=(Get-ChildItem -LiteralPath $script:progressDirectory -Filter '*-errors.log'|Get-Content) -join ' '
+        foreach($child in $children){$child.ExitCode|Should -Be 0 -Because "both fixture processes must succeed. $errors"}
+        [int](Get-Content -LiteralPath (Join-Path $script:progressDirectory 'reader-count.txt'))|Should -BeGreaterThan 1
+        (Read-RideAutomationHostProgress $script:progressPath).Stage|Should -BeExactly 'Stage 150'
+      } finally {
+        foreach($child in $children){
+          if(-not $child.HasExited){$child.Kill();$null=$child.WaitForExit(5000)}
+          $child.Dispose()
+        }
       }
     }
   }

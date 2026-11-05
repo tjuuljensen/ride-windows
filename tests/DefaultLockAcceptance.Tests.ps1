@@ -65,6 +65,23 @@ Describe 'Retained default lock-screen guest acceptance phases' {
       (Get-Acl -LiteralPath (Join-Path $script:directory 'apply.json')).AreAccessRulesProtected|Should -BeTrue
       Should -Invoke Restore-RideDefaultLockScreenRun -Times 0 -Exactly
     }
+    It 'checks the Pro policy destination and inbox bytes for <Case>' -ForEach @(
+      @{Case='matching';Expected='AwaitingVisualVerification'},@{Case='wrong hash';Expected='Failed'},@{Case='wrong path';Expected='Failed'}
+    ) {
+      $script:context.EditionId='Professional'
+      $script:applyParameters.ExpectedEditionId='Professional'
+      $script:assetPath=[IO.Path]::ChangeExtension($script:assetPath,'.jpg')
+      $script:policyPath=if($Case -eq 'wrong path'){$script:assetPath}else{Join-Path $env:SystemRoot 'Web\Screen\img0.jpg'}
+      Mock Get-RideDefaultLockAcceptanceSnapshot {
+        if($script:active){[pscustomobject]@{PolicyValue=$script:policyPath;File=$script:source}}
+        else{[pscustomobject]@{PolicyValue=$null;File=$null}}
+      }
+      Mock Get-RideDefaultLockPlatformFile -ModuleName RIDE.DefaultLockScreen { [pscustomobject]@{Sha256=('A'*64);Bytes=100} }
+      if($Case -eq 'wrong hash'){
+        Mock Get-RideDefaultLockPlatformFile -ModuleName RIDE.DefaultLockScreen { [pscustomobject]@{Sha256=('B'*64);Bytes=100} }
+      }
+      (Invoke-RideDefaultLockAcceptance @script:applyParameters).Status|Should -Be $Expected
+    }
     It 'restores in a separate phase and leaves visible recovery unverified' {
       $null=Invoke-RideDefaultLockAcceptance @script:applyParameters
       $report=Invoke-RideDefaultLockAcceptance @script:restoreParameters
@@ -96,7 +113,7 @@ Describe 'Retained default lock-screen guest acceptance phases' {
       $script:context.RunMarker=$script:id;$script:context.Guest=$false
       {Invoke-RideDefaultLockAcceptance @script:applyParameters}|Should -Throw '*Hyper-V guest*'
       $script:context.Guest=$true;$script:context.EditionId='Core'
-      {Invoke-RideDefaultLockAcceptance @script:applyParameters}|Should -Throw '*Windows 11 x64 Enterprise or Education*'
+      {Invoke-RideDefaultLockAcceptance @script:applyParameters}|Should -Throw '*Windows 11 x64 Pro, Enterprise or Education*'
       Test-Path -LiteralPath $script:directory|Should -BeFalse
     }
     It 'requires existing elevation for changes but allows a no-write preview without it' {

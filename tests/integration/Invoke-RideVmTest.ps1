@@ -40,6 +40,8 @@
   integration suite.
 
 .PARAMETER IntegrationSuite
+  MachineFontRegression selects MachineFonts.Tests.ps1. ControllerRegression selects
+  the watchdog and controller tests. Both run without guest integration.
   ApplicationsBatch1 selects the complete installed/portable application migration suite. Use ApplicationsBatch1Machine and ApplicationsBatch1User to run its machine and limited-user packages separately;
   ApplicationsBatch2 selects the remaining installed/portable application migration tests;
   ApplicationsBatch3 selects both Docker Desktop installation variants.
@@ -100,7 +102,10 @@
 .NOTES
   Compatibility: Windows PowerShell 5.1 or PowerShell 7 on Windows with Hyper-V management
   support; the guest must be Windows 11 or Windows Server 2025.
-  Prerequisites: - Host access to the selected VM transport; Pester 5.7.1 in the guest.
+  Prerequisites: - Host access to the selected VM transport; guest PowerShellGet and
+  PowerShell Gallery HTTPS if Pester 5.7.1 is missing. The guest runner installs the
+  pinned test dependency for its current user. Registered-task runs restore the
+  checkpoint automatically; direct invocations require operator recovery.
   - AutomatedLab commands for AutomatedLab transport, or a configured
   PowerShell Direct-capable Hyper-V VM.
   File/environment inputs: - Transport, optional lab/VM names and checkout/guest paths, and
@@ -110,8 +115,11 @@
   Recovery: Use the configured clean disposable-VM checkpoint and the linked runbook; no developer
   workstation integration runs.
   Author: RIDE-Windows maintainers.
-  Version: 0.21.0
+  Version: 0.24.0
   Changelog:
+    0.24.0: Release the progress lock before parsing and add bounded controller regression checks.
+    0.23.0: Add the fixed machine-font unit regression selection.
+    0.22.0: Update guest test dependency requirements for on-demand pinned Pester setup.
     0.21.0: Add fixed ApplicationsBatch13 Mail Checker lifecycle selection.
     0.20.0: Accept fixed Gpg4win/TMOG guest lifecycle selections.
     0.19.0: Run HashCheck acceptance in the intended interactive guest session with single dispatch and retained cleanup evidence.
@@ -152,7 +160,7 @@ param(
   [string] $RepositoryPath,
   [string] $GuestRepositoryPath = 'C:\RIDE\ride-windows',
   [switch] $UnitOnly,
-  [ValidateSet('Full', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
+  [ValidateSet('Full', 'MachineFontRegression', 'ControllerRegression', 'SettingsBatch40', 'SettingsBatch60', 'SettingsBatch60Recovery', 'SettingsRemainingBatch1', 'SettingsRemainingBatch2', 'ApplicationsBatch1', 'ApplicationsBatch1Machine', 'ApplicationsBatch1User', 'ApplicationsBatch1Gpg4win', 'ApplicationsBatch1TMOG', 'ApplicationsBatch2', 'ApplicationsBatch3', 'ApplicationsBatch3AllUsers', 'ApplicationsBatch4', 'ApplicationsBatch5', 'ApplicationsBatch6', 'ApplicationsBatch7', 'ApplicationsBatch8', 'ApplicationsBatch9', 'ApplicationsBatch10', 'ApplicationsBatch11', 'ApplicationsBatch12', 'ApplicationsBatch13', 'GitHubAuthentication')][string] $IntegrationSuite = 'Full',
   [string] $ResultDirectory,
   [ValidateSet('Anonymous','PAT')][string] $GuestGitHubAuthentication = 'Anonymous',
   [ValidateSet('Acquire','FailAfterDelivery','WaitForTimeout')][string] $GitHubTestScenario = 'Acquire',
@@ -165,7 +173,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.21.0'
+$script:ScriptVersion = '0.24.0'
 if ($Version) {
   Write-Output $script:ScriptVersion
   return
@@ -176,7 +184,8 @@ if (-not $Transport) {
 }
 
 $ErrorActionPreference = 'Stop'
-if ($UnitOnly -and $IntegrationSuite -ne 'Full') { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
+if (-not $UnitOnly -and $IntegrationSuite -in @('MachineFontRegression','ControllerRegression')) { throw 'The selected regression requires -UnitOnly.' }
+if ($UnitOnly -and $IntegrationSuite -notin @('Full','MachineFontRegression','ControllerRegression')) { throw 'IntegrationSuite cannot be selected with UnitOnly.' }
 if ($IntegrationSuite -eq 'ApplicationsBatch11' -and -not $ResultDirectory) { throw 'HashCheck interactive acceptance requires ResultDirectory for task, worker and suite evidence.' }
 if ($GuestGitHubAuthentication -eq 'PAT' -and ($UnitOnly -or $IntegrationSuite -ne 'GitHubAuthentication' -or -not $ResultDirectory -or -not $AuthenticationConfigurationPath)) { throw 'PAT requires the focused GitHubAuthentication suite, retained results and protected configuration.' }
 if ($GuestGitHubAuthentication -eq 'PAT') {
@@ -266,7 +275,8 @@ try {
       $arguments = @('-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', $guestRunner, '-GuestPath', $GuestPath)
       if ($ResultsPath) { $arguments += @('-ResultsPath', $ResultsPath, '-ResultRunId', $ResultRunId) }
       # File arguments do not reliably accept Boolean strings on Windows PowerShell 5.1.
-      if ($RunIntegration) { $arguments += @('-Integration', '-IntegrationSuite', $SelectedSuite) }
+      if ($RunIntegration) { $arguments += '-Integration' }
+      $arguments += @('-IntegrationSuite', $SelectedSuite)
       if ($SelectedSuite -eq 'GitHubAuthentication') { $arguments += @('-GuestGitHubAuthentication', $AuthenticationMode, '-GitHubTestScenario', $AuthenticationScenario) }
       if ($AuthenticationMode -eq 'PAT') { $arguments += @('-ExpectedCredentialSid', $ExpectedCredentialSid) }
       & (Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe') @arguments

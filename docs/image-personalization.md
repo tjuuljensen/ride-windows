@@ -1,17 +1,37 @@
 # Default wallpaper and lock-screen images
 
-RIDE exposes machine first-logon wallpaper and default lock/sign-in images through
-the catalog, profiles, planning, inspection, set and saved-run restore.
+RIDE exposes machine first-logon wallpaper, machine default lock/sign-in images,
+and the signed-in user's desktop wallpaper and lock-screen image through the
+catalog, profiles, planning, inspection, set and saved-run restore.
 [Windows edition support decisions](migrations/component-edition-support-decisions-2026-11-04.md)
-record the failed Pro lock-screen visual acceptance and current edition boundary.
-The per-user lock-screen handler is not implemented yet. Machine lock-screen
-visual acceptance is limited to EnterpriseEval 26300.9711; source tests and
-registry readback alone do not establish visible behavior on Pro.
+record the failed first Pro lock-screen candidate and current edition boundary.
+Machine wallpaper and lock-screen visual acceptance is limited to EnterpriseEval
+26300.9711. The operator separately confirmed that the v2 lock-screen commands
+work on Pro; the current v3 Pro candidate still needs its own visual and recovery
+acceptance. Source tests and registry readback alone do not establish visible
+behavior on Pro.
+The per-user operation uses the Windows user-profile personalization API and
+requires the current image to be exposed as a readable local file URI. It
+captures and restores the prior image path and bytes. Microsoft documents the
+lock-screen kind separately as Picture, Slideshow, or Spotlight, but the
+supported desktop API does not expose that mode. Therefore the operation does
+not claim to restore a prior slideshow or Spotlight mode; use it when the
+account is in Picture mode. An opaque or non-file current image is refused.
+The current-user desktop wallpaper uses `IDesktopWallpaper` and supports one
+static image shared across displays. It refuses slideshow, different images per
+display, and solid-color/opaque states because it cannot capture one prior image
+path for exact recovery. It does not need elevation and does not affect other
+users or the machine's first-logon default. Microsoft documents that
+[`GetWallpaper`](https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-idesktopwallpaper-getwallpaper)
+can return `S_FALSE` when per-display images differ or a slideshow is active;
+[`SetWallpaper`](https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-idesktopwallpaper-setwallpaper)
+accepts a null monitor ID to apply to all displays.
 
 ## Use through RIDE
 
 Start in the checkout root on Windows. Use an elevated Windows PowerShell 5.1 or
-PowerShell 7 session for changes. Select local PNG files; RIDE calculates and
+PowerShell 7 session for machine changes; the user lock-screen operation runs
+as the signed-in user and does not require elevation. Select local PNG files; RIDE calculates and
 records their SHA-256 hashes automatically. No download, sign-out or restart is triggered.
 
 ```powershell
@@ -19,16 +39,18 @@ records their SHA-256 hashes automatically. No download, sign-out or restart is 
 .\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png' -WhatIf
 .\ride.ps1 set windows.default-wallpaper -State Configured -ImagePath 'C:\Inputs\wallpaper.png'
 .\ride.ps1 set windows.default-lock-screen -State Configured -ImagePath 'C:\Inputs\lock.png'
+.\ride.ps1 set windows.user-lock-screen -State Configured -ImagePath 'C:\Inputs\my-lock.png'
+.\ride.ps1 set windows.user-wallpaper -State Configured -ImagePath 'C:\Inputs\my-wallpaper.png'
 .\ride.ps1 restore -RunId '<saved-run-id>' -WhatIf
 .\ride.ps1 restore -RunId '<saved-run-id>'
 ```
 
-For both images in one run, copy `profiles/default-images.psd1` to your local
-configuration, replace both absolute paths,
-then run `plan -Profile <copy>` and `apply -Profile <copy> -WhatIf` before applying.
+For image settings in one run, copy `profiles/default-images.psd1` to your local
+configuration and replace the absolute paths for the operations you want, then
+run `plan -Profile <copy>` and `apply -Profile <copy> -WhatIf` before applying.
 The supplied paths are placeholders; select existing PNGs before planning or applying.
 The workstation default profile does not silently select personal images.
-Profile selections accept `ImagePath` and optional `ImageSha256` only for these two IDs.
+Profile selections accept `ImagePath` and optional `ImageSha256` for all four image IDs.
 To enforce a known image, supply `-ImageSha256 '<64-digit-sha256>'` or add
 `ImageSha256` to the profile selection. Explicit pins must match and are never
 replaced automatically. Without a pin, planning and profile status read and validate
@@ -40,28 +62,48 @@ selected image hashes with the current owned images.
 
 The accepted wallpaper and lock-screen behavior is scoped to Windows 11 x64
 EnterpriseEval 26300.9711. Other Windows 11 x64 Enterprise/Education
-editions/builds require explicit `-AllowCandidate` on apply and restore. The
-machine lock-screen policy route is not supported on Windows 11 Pro: a focused
-Pro VM run completed policy/file lifecycle and exact restoration, but the
-selected image did not appear at sign-in. Pro requires the documented Shared PC
-or Boot to Cloud policy conditions for the CSP route; RIDE does not configure
-those modes. Wallpaper, Home, Server and non-x64 targets remain refused by their
-current handlers. Candidate opt-in never bypasses edition, architecture or
-recovery checks. Inspection and preview do not require candidate opt-in.
+editions/builds require explicit `-AllowCandidate` on apply and restore. The v3
+machine lock-screen handler uses the Enterprise/Education policy route and
+exposes a Pro CSP candidate under `-AllowCandidate`. The first Pro candidate
+targeted a RIDE-owned `.png`; it completed registry/file lifecycle but did not
+refresh the visible sign-in image. The current Pro candidate uses v2's
+`C:\Windows\Web\Screen\img0.jpg` path and CSP tuple, after capturing a private,
+bounded backup of original bytes and file metadata when the inbox image exists.
+If it is absent, RIDE records that fact, creates `img0.jpg`, and removes that
+created file on restore only while it still matches RIDE's receipt. Restore
+checks file hashes/permissions and restores the captured file state and CSP
+tuple. It intentionally
+omits v2's recursive `SystemData` owner/ACL reset because the broad reset has no
+bounded exact-recovery method. The operator reports full v2 `SetLockScreen`
+works on the Pro VM; this candidate still needs native visual and restore
+acceptance.
+Microsoft's [Personalization CSP documentation](https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp)
+lists Pro support under Shared PC or Boot to Cloud conditions. RIDE does not
+enable those configurations; the Pro route remains an empirical candidate based
+on the reported v2 result, not a claim of unrestricted CSP support on Pro.
+Wallpaper, Home, Server and non-x64 targets remain refused by their current
+handlers. Candidate opt-in never bypasses edition, architecture or recovery
+checks. Inspection and preview do not require candidate opt-in. The user
+lock-screen operation is independent of machine-image edition policy, but is
+limited to interactive Windows 11 x64 user sessions.
 
 Wallpaper applies to newly initialized profiles and allows later user choice;
 it does not force the wallpaper on existing desktops. Its theme selects Aero;
 other theme defaults were not independently compared. Default lock-image evidence
 covers signed-out sign-in rendering, not a separate clock-overlay observation.
-The lock-screen operation adds no restriction against user image changes.
+The machine lock-screen operation adds no restriction against user image
+changes. The separate user lock-screen operation changes only the currently
+signed-in account and preserves the machine default.
 The [catalog integration record](archive/evidence/default-images-catalog-integration-2026-11-03.json)
 separates the earlier native visual results from the new mocked adapter coverage.
 
 RIDE stores private child receipts under the machine state store's `ImageState`
 directory, with the same run ID as the outer saved run. Owned images/themes are
 under `Images`, with Users read access and administrator/SYSTEM write access.
-Original source and Windows inbox files are preserved. Preview creates neither
-directory nor run. Both image inputs are checked before a profile starts mutation.
+Original source files are preserved. The Enterprise/Education path preserves
+Windows inbox files; the Pro path replaces only `Windows\Web\Screen\img0.jpg`
+with a captured backup and conflict-checked restore. Preview creates neither
+directory nor run. All selected image inputs are checked before a profile starts mutation.
 
 Restore uses the captured policy and unchanged owned files, without rereading
 the original input PNG. Image operations in one run recover in reverse capture
@@ -467,15 +509,62 @@ All phases offer `-WhatIf`; phase, purpose, edition and retained run IDs offer
 completion. The real installed Prepare preview and both-shell source checks are
 recorded in [dispatch evidence](archive/evidence/default-wallpaper-vm-source-2026-11-02.json).
 
+## Per-user lock-screen image
+
+`windows.user-lock-screen` uses the Windows
+[`UserProfilePersonalizationSettings.TrySetLockScreenImageAsync`](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.userprofilepersonalizationsettings.trysetlockscreenimageasync?view=winrt-26100)
+API in the signed-in account's context. It changes that user's lock-screen image;
+it does not change the machine default or signed-out sign-in background. Run
+RIDE as the account whose lock screen should change. The API works without
+elevation; a profile combining machine and user images still requires elevation
+for its machine operations.
+
+Before mutation, RIDE reads
+[`LockScreen.OriginalImageFile`](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen.originalimagefile?view=winrt-26100)
+and requires a readable local file URI. It captures the image bytes into the
+current user's protected RIDE state, then writes a new owned PNG and applies it.
+If Windows reports an app URI or another image source that cannot be captured
+as a local file, RIDE refuses before changing anything. The public API does not
+expose whether a local file is currently part of a slideshow or Spotlight mode;
+the operator must use this image operation only in Picture mode. On restore, the original source file
+must still exist with the captured hash; otherwise RIDE leaves the current image
+and recovery files untouched and reports the conflict. The image path itself is
+restored, and unchanged RIDE-owned files are removed after successful readback.
+
+Example:
+
+```powershell
+.\ride.ps1 show windows.user-lock-screen
+.\ride.ps1 set windows.user-lock-screen -State Configured -ImagePath 'C:\Inputs\my-lock.png' -WhatIf
+.\ride.ps1 set windows.user-lock-screen -State Configured -ImagePath 'C:\Inputs\my-lock.png'
+.\ride.ps1 restore -RunId '<saved-run-id>' -WhatIf
+.\ride.ps1 restore -RunId '<saved-run-id>'
+```
+
+This new user-scoped component has source implementation and mocked lifecycle
+coverage, but still needs a disposable Windows 11 visual apply/repeat/restore
+acceptance run before being treated as natively accepted. Apply failures attempt
+automatic rollback only when the current URI, original source and captured files
+all match the transaction record; otherwise private recovery records and image
+files are retained for inspection.
+
 ## Machine default lock-screen candidate
 
-`Set-RideDefaultLockScreenImage` creates a unique PNG in an existing owned asset
-directory. Supported Enterprise/Education targets use the machine
-`LockScreenImage` policy. Pro is refused because a focused Pro test showed no
-visible sign-in change through the attempted CSP registry mapping. Microsoft
-limits Pro use of that CSP to Shared PC or Boot to Cloud policy conditions;
-RIDE does not enable either mode. The handler preserves existing user-change
-restrictions, per-user preferences and Windows inbox images. It adds no
+`Set-RideDefaultLockScreenImage` creates a unique RIDE-owned image in an existing
+owned asset directory. Supported Enterprise/Education targets use the machine
+`LockScreenImage` policy and preserve Windows inbox images. The Pro candidate
+writes the `PersonalizationCSP` tuple to `C:\Windows\Web\Screen\img0.jpg` and
+replaces that file only after recording a private bounded byte/metadata backup
+when present; if absent, it records that prior state and creates the target.
+Recovery refuses changed file bytes or permissions and restores the original
+file state and CSP tuple. A failed outer run whose handler never wrote its
+private child intent recovers as an unchanged no-op; runs with child state still
+require conflict-checked recovery. It does not recursively reset ownership/ACLs under
+`C:\ProgramData\Microsoft\Windows\SystemData`; that v2 cache-refresh step lacks
+a bounded exact-recovery design. The operator has verified the full v2 command
+works on Pro, but the current safe candidate still needs native acceptance to
+determine whether the scoped replacement is sufficient. The handler preserves
+existing user-change restrictions and per-user preferences. It adds no
 restriction preventing users from changing their image; existing restrictions
 can still apply. Source and previously referenced images are untouched.
 
@@ -738,7 +827,7 @@ hold. Stable schema-1 results are `Reserved`, `Released` or `Preview`, always wi
 The [source evidence](archive/evidence/retained-guest-coordination-source-2026-11-02.json)
 records mocked host/VM checks and real temporary user-scope file/lock checks.
 
-## Three separate acceptance workflows
+## Image-component acceptance status
 
 Before first-logon wallpaper acceptance, inspect wallpaper-changing lab startup
 tools. The Nov 3 retained run confirmed AutomatedLab BGInfo replaced a new
@@ -749,24 +838,22 @@ and BGInfo changes; a separate per-fixture undo is unnecessary. This is distinct
 from testing RIDE's captured policy/image restoration before checkpoint reset.
 Do not change the host or infer a RIDE result from BGInfo's wallpaper.
 
-| Requested workflow | Implementation and acceptance required |
+| Component | Current status | Evidence needed to approve the remaining candidate scope |
 | --- | --- |
-| Machine/default wallpaper | On EnterpriseEval 26300.9711, native lifecycle, owned user/profile cleanup, first-desktop image, later wallpaper choice, existing control-background preservation and original-default appearance after restore passed. Final evidence export, checkpoint recovery and hold release verified. Other theme defaults were not independently compared; catalog integration is now available; other targets remain separate. See the [attended evidence](archive/evidence/wallpaper-attended-visual-native-2026-11-03.json). |
-| User lock-screen image | Run in the intended interactive user's context. Capture the original image and selection mode; static-image byte recovery alone does not recover Spotlight or slideshow behavior. Verify the actual lock screen and repeat/restore. |
-| Machine default lock-screen image | Native preview/apply/repeat and exact policy/image/permission restore/repeat restore passed on EnterpriseEval build 26300. The Nov 3 attended run verified signed-out sign-in image application and visible recovery. Clock-overlay lock screen, other users/targets and current-user modes remain unverified. No user-change restriction is added. |
+| Machine first-logon wallpaper (`windows.default-wallpaper`) | Accepted image lifecycle on EnterpriseEval 26300.9711: first desktop, later user choice, existing control-user preservation, restore, evidence export and checkpoint recovery passed. Other theme defaults were not compared. | To promote the broader declared Enterprise/Education candidate scope, run the same bounded apply/repeat/restore scenario on each edition/build RIDE intends to claim. Compare theme colors, sounds, icons and other defaults against baseline. Keep Pro/Home/Server unsupported unless separately implemented and natively accepted. |
+| Machine default lock/sign-in image (`windows.default-lock-screen`) | EnterpriseEval 26300 signed-out visual apply and recovery plus lifecycle checks passed. Pro implementation now uses the bounded `img0.jpg` and CSP transaction, but it remains a candidate. | On RIDE-Win11Pro, preview, apply, repeat, observe the signed-out sign-in image (a restart/sign-out may be needed for Windows to refresh it), restore, and visually confirm the original image. Export evidence and restore the VM checkpoint. Do not include recursive SystemData ACL reset. Clock-overlay appearance is a separate unverified behavior; either test and document it or keep it out of the claim. |
+| Current-user lock-screen image (`windows.user-lock-screen`) | Source implementation is present; native lifecycle/visual acceptance is pending. Only supports a prior Picture-mode image exposed as a readable local file. | In a disposable signed-in Windows 11 user already in Picture mode, verify read-only preview, visible apply, repeat without extra mutations, exact prior-image restore, and repeat restore. Keep Spotlight, slideshow and non-file sources refused. |
+| Current-user desktop wallpaper (`windows.user-wallpaper`) | Added as a separate user-scope catalog operation. Native acceptance is pending. | Run interactively as a standard signed-in user: preview, apply, verify all displays, repeat, restore image and position, repeat restore. Also verify it does not change another user or machine first-logon defaults; reject slideshow/per-display/solid-color starting states. |
 
-For the user lock screen, the documented
-[LockScreen API](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen)
-provides image get/set methods; its image-feed methods are Windows 8.1-only.
-Microsoft also documents lock-screen mode in its
-[settings portability reference](https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#lock-screen),
-read through the
-[Cloud Data Store reader](https://learn.microsoft.com/en-us/windows/apps/develop/settings/readclouddatasettings-exe).
-That is a read interface, not a documented write/restore interface for Spotlight
-and slideshow. Missing reader data is not proof of Picture mode. No such reader
-was run and no user's settings were exported during this review. Mode recovery
-and intended interactive-user execution must be established before implementing
-or accepting the full user lock-screen workflow.
+For the user lock screen, Microsoft's documented
+[`LockScreen.OriginalImageFile`](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen.originalimagefile?view=winrt-26100)
+returns the current image URI and
+[`UserProfilePersonalizationSettings.TrySetLockScreenImageAsync`](https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.userprofilepersonalizationsettings.trysetlockscreenimageasync?view=winrt-26100)
+sets an image for the user. The API does not report the Picture/Slideshow/Spotlight
+kind. Microsoft describes that kind in its [settings portability reference](https://learn.microsoft.com/en-us/windows/apps/develop/settings/settings-common#lock-screen),
+but that backup/read interface is not a supported write/restore contract for this
+operation. Native acceptance must include a user already in Picture mode and
+confirm apply, repeat, and restoration of the captured prior image path.
 
 Microsoft's detailed [default lock-screen policy documentation](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen)
 limits that policy to Enterprise, Education and Server editions. A Windows 11 Pro
@@ -775,13 +862,12 @@ Windows Server support also requires its own native acceptance evidence.
 
 The legacy `SetDefaultLockScreen` removes old overrides; it is a reset action,
 not an existing second-image setter. Keep that mapping separate from the newly
-requested default-image workflow. Legacy wallpaper ownership changes,
-inbox-file overwrites, and a direct Pro lock-screen CSP registry write are not
-approved replacements for documented behavior and captured recovery. The
-machine lock-screen handler refuses Pro; a focused Pro test on build 26300 did
-not display the selected image through the attempted registry route.
+requested default-image workflow. The Pro candidate matches v2's CSP tuple and
+`.jpg` naming, captures the inbox file bytes and metadata, and omits the recursive
+`SystemData` ownership/ACL reset. Visible acceptance remains open for this v3
+candidate.
 
-Each future disposable-guest scenario must preview without changes, apply,
+Each disposable-guest scenario must preview without changes, apply,
 verify the visible effect, repeat without new mutations, restore the captured
 state and verify recovery. Refuse conflicting policy/file changes and retain
 incomplete-run evidence. Do not delete or overwrite Windows inbox images,

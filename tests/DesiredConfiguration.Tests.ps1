@@ -173,22 +173,25 @@ Describe 'Read-only desired configuration reference' {
 }
 
 Describe 'Desired configuration export and completion' {
-  BeforeEach {
-    Remove-Module RIDE.Engine -Force -ErrorAction SilentlyContinue
-  }
   BeforeAll {
+    . (Join-Path $PSScriptRoot 'fixtures/Invoke-RideTestInCleanSession.ps1')
     $script:Tool=Join-Path $Root 'tools/Export-RideDesiredConfiguration.ps1'
     $script:Base=@{Profile=(Join-Path $Root 'profiles/default.psd1');Target='Windows 11';Build=26100;EditionId='Professional';InstallationType='Client';Role='Workstation'}
   }
   It 'WhatIf does not read a nonexistent profile, import the engine or create output' {
     $path=Join-Path $TestDrive 'whatif.json';$p=$Base.Clone();$p.Profile=Join-Path $TestDrive 'missing.psd1'
-    & $Tool @p -OutputPath $path -WhatIf
+    Invoke-RideTestInCleanSession -RequireEngineAbsent -Arguments $Tool,$p,$path -Probe {
+      param($tool,$options,$destination)
+      & $tool @options -OutputPath $destination -WhatIf
+    }
     Test-Path -LiteralPath $path|Should -BeFalse
-    Get-Module RIDE.Engine|Should -BeNullOrEmpty
   }
   It 'exports the actual default profile with exact hashes and refuses replacement' {
     $path=Join-Path $TestDrive 'actual.json'
-    & $Tool @Base -OutputPath $path|Should -Be $path
+    Invoke-RideTestInCleanSession -RequireEngineAbsent -Arguments $Tool,$Base,$path -Probe {
+      param($tool,$options,$destination)
+      & $tool @options -OutputPath $destination
+    } | Should -Be $path
     $r=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json
     $r.Source.ProfileSha256|Should -BeExactly ((Get-FileHash -LiteralPath $Base.Profile).Hash.ToLowerInvariant())
     $r.Source.CatalogSha256|Should -BeExactly ((Get-FileHash -LiteralPath (Join-Path $Root 'catalog/operations.psd1')).Hash.ToLowerInvariant())
@@ -197,7 +200,6 @@ Describe 'Desired configuration export and completion' {
     @($r.Selections|Where-Object Kind -eq 'Package').Count|Should -Be 3
     @($r.Selections|Where-Object CurrentState -ne 'Unknown').Count|Should -Be 0
     {& $Tool @Base -OutputPath $path}|Should -Throw '*already exists*'
-    Get-Module RIDE.Engine|Should -BeNullOrEmpty
   }
   It 'rejects an invalid profile without creating output' {
     $p=$Base.Clone();$p.Profile=Join-Path $TestDrive 'bad.psd1'
@@ -208,12 +210,12 @@ Describe 'Desired configuration export and completion' {
   }
   It 'completes source profiles and catalog targets read-only with prefix filtering' {
     $line="& '$Tool' -Profile def"
-    $r=TabExpansion2 -InputScript $line -CursorColumn $line.Length
+    $complete = { param($line) TabExpansion2 -InputScript $line -CursorColumn $line.Length }
+    $r=Invoke-RideTestInCleanSession $complete -Arguments $line -RequireEngineAbsent
     @($r.CompletionMatches|Where-Object ListItemText -eq 'default.psd1').Count|Should -Be 1
     $line="& '$Tool' -Target 'windows s"
-    $r=TabExpansion2 -InputScript $line -CursorColumn $line.Length
+    $r=Invoke-RideTestInCleanSession $complete -Arguments $line -RequireEngineAbsent
     @($r.CompletionMatches|Where-Object ListItemText -eq 'Windows Server 2025').Count|Should -Be 1
     @($r.CompletionMatches|Where-Object ListItemText -eq 'Windows 11').Count|Should -Be 0
-    Get-Module RIDE.Engine|Should -BeNullOrEmpty
   }
 }

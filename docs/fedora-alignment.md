@@ -604,21 +604,31 @@ Review trigger: guarded native dispatch, actual permissions/visible recovery,
 edition/route changes or release-candidate review. This does not imply Fedora
 feature parity or close the legacy default-lock reset outcome.
 
-## Pro default lock-screen route rejected, 2026-11-04
+## Pro default lock-screen acceptance gap, 2026-11-04
 
 Difference ID: `windows.default-lock-screen`. Classification: Windows-only native
-edition boundary under RB-04/08/09/11. A focused Windows 11 Pro build 26300
-acceptance applied the candidate registry/file lifecycle, but the selected image
-did not appear at the signed-out sign-in screen. Exact native restore passed and
-the guest checkpoint was restored after verified evidence export. Pro is now
-refused by the handler and is not claimed as a supported target. Enterprise and
-Education continue using the `LockScreenImage` policy route. No shared verb,
+backend/recovery gap under RB-04/08/09/11. A focused Windows 11 Pro build 26300
+acceptance applied the candidate CSP registry/file lifecycle, but the selected
+image did not appear at the signed-out sign-in screen. Exact native restore
+passed and the guest checkpoint was restored after verified evidence export.
+That run did not reproduce the full v2 method, which also replaces
+`C:\Windows\Web\Screen\img0.jpg` and recursively resets ownership/ACLs under
+`C:\ProgramData\Microsoft\Windows\SystemData`. The operator reports that the
+full v2 `SetLockScreen` method works on the Pro VM. The v3 source candidate now
+captures and replaces Windows `Web\Screen\img0.jpg`, applies the Pro CSP tuple,
+and can restore the captured bytes/metadata under conflict checks. It omits the
+recursive `SystemData` ownership/ACL reset because exact bounded recovery is
+unavailable. Native visual acceptance has not yet been rerun. The initial test
+does not establish platform-level Pro incompatibility.
+Enterprise and Education continue using the `LockScreenImage` policy route. No shared verb,
 catalog schema, profile meaning, contract version/digest or Fedora behavior
 changes.
 
-Microsoft's Personalization CSP reference limits Pro use to Shared PC or Boot to
-Cloud policy conditions. RIDE does not provision those modes, so writing the
-corresponding registry tuple alone is not an accepted implementation. Reviewed
+Microsoft's Personalization CSP reference lists managed-use conditions for Pro.
+The operator's v2 result establishes that the legacy file replacement,
+direct-registry and recursive cache-refresh procedure works on this test image.
+It does not establish whether the bounded v3 `img0.jpg` replacement works
+without that ACL reset. Reviewed
 pinned behavior contract 1.1.0 SHA-256
 `B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938` and the
 peer catalog execution boundary. Compared current source hashes: peer `ride.sh`
@@ -630,11 +640,12 @@ setting lifecycle stay platform-owned. Git metadata access to the peer checkout
 was denied, so no peer revision is asserted. Automated shared conformance remains
 pending.
 
-Owner: RIDE Windows maintainer. Reason: ordinary Windows Pro did not show the
-image through the tested registry mapping, and the documented CSP preconditions
-are outside this operation. Follow-up: [edition-support decision](migrations/component-edition-support-decisions-2026-11-04.md).
-Review trigger: a separately designed Pro-capable workflow with explicit
-Shared PC/MDM prerequisites and its own native visual and recovery evidence.
+Owner: RIDE Windows maintainer. Reason: the original v3 test omitted v2's
+`img0.jpg` replacement and cache-refresh side effect, so it cannot reject Pro
+support. Follow-up: [edition-support
+decision](migrations/component-edition-support-decisions-2026-11-04.md).
+Review trigger: repeatable Pro visual/lifecycle acceptance or a bounded,
+exactly recoverable implementation of the remaining SystemData ACL reset.
 
 ## Retained default-image guest phases, 2026-11-02
 
@@ -1368,3 +1379,24 @@ or any future change to installer completion/promotion policy. Compared contract
 1.1.0 and Fedora HEAD 1243f36cc27c4b9ef9569cb7f168bd79e1e92c8a;
 exact contract/CLI/provider hashes and tests are retained in
 [source evidence](archive/evidence/infobar-installer-completion-source-2026-11-03.json).
+
+## Per-user lock-screen image provider, 2026-11-04
+
+Windows adds `windows.user-lock-screen` as an additive `DefaultImage` provider
+with `Scope=User`. It uses the signed-in user's Windows personalization API,
+captures a readable local prior image, binds recovery to the user SID and
+conflict-checks the original image path. The public desktop API does not expose
+Picture/Slideshow/Spotlight mode; documentation limits use to Picture mode and
+native Windows 11 user-session acceptance remains pending. This follows RB-08/09
+identity and recovery without changing shared CLI or saved-run meanings.
+
+Compared pinned contract 1.1.0 SHA-256
+`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938` and reused
+the Nov 3 Fedora image-provider comparison at HEAD
+`419f018e5173a865ee4b263dcc6edc24140d92da`; that reviewed source had no
+corresponding wallpaper/lock-screen provider. The Fedora checkout was not
+readable in the current sandbox, so no newer source revision or parity claim is
+asserted. This operation remains Windows-native. Owner: RIDE-Windows maintainers.
+Follow-up: [per-user lock-screen lifecycle and limitations](image-personalization.md#per-user-lock-screen-image).
+Review trigger: native Windows acceptance, user-context/recovery changes or a
+matching Fedora image provider.

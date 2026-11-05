@@ -40,11 +40,11 @@
       Handler = 'DefaultImage'
       ImageType = 'LockScreen'
       SettingPresentation = @{
-        AppliesTo = 'Machine defaults; elevated Windows 11 x64 Enterprise/Education'
+        AppliesTo = 'Machine default lock/sign-in image; elevated Windows 11 x64 Pro/Enterprise/Education'
         Behavior = 'Configuration'
         GuiPath = 'Settings > Personalization'
         GuiEffect = 'Sets the machine default lock/sign-in image. Signed-out sign-in rendering is accepted; clock-overlay rendering is not separately verified. No user-change restriction is added.'
-        Requirements = @('Explicit local PNG; SHA-256 calculated automatically or checked against an optional pin', 'EnterpriseEval 26300.9711 image behavior accepted; other x64 Enterprise/Education builds require AllowCandidate', 'Windows 11 Pro is not supported by this machine policy route')
+        Requirements = @('Explicit local PNG; SHA-256 calculated automatically or checked against an optional pin', 'EnterpriseEval 26300.9711 image behavior accepted; other x64 Enterprise/Education builds require AllowCandidate', 'Pro uses the Personalization CSP tuple and replaces Windows Web Screen img0.jpg after backing up the original or recording that it was absent; restore recovers only the exact captured file state. Recursive SystemData ACL reset is deliberately omitted and Pro visual acceptance remains pending', 'Microsoft documents Pro Personalization CSP use under Shared PC or Boot to Cloud conditions; RIDE does not enable those modes, so Pro remains an empirical candidate based on the operator-reported v2 result')
         OtherSupportedChoices = @('No generic unset or baseline; restore the saved run', 'Recovery refuses selected-backend registry, file and permission conflicts')
         ReferenceUris = @('https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen', 'https://learn.microsoft.com/en-us/windows/client-management/mdm/personalization-csp')
       }
@@ -55,9 +55,63 @@
       Actions = @('Get', 'Test', 'Set', 'Restore')
       States = @{ Configured = 'Selected local PNG' }
       Rollback = 'Exact'
-      Description = 'Apply an explicitly selected local PNG with an automatically calculated hash or optional explicit SHA-256 pin. EnterpriseEval 26300.9711 signed-out sign-in rendering is accepted; other x64 Enterprise/Education builds require AllowCandidate. Windows 11 Pro is not supported by this machine policy route. Restore recovers the exact prior policy values and removes unchanged owned files. The clock-overlay lock screen was not independently observed.'
+      Description = 'Apply an explicitly selected local PNG with an automatically calculated hash or optional explicit SHA-256 pin. EnterpriseEval 26300.9711 signed-out sign-in rendering is accepted; other x64 Enterprise/Education builds require AllowCandidate. Pro uses the Personalization CSP tuple and replaces Windows Web Screen img0.jpg after capturing the original file or recording that it was absent. Restore conflict-checks and restores the prior file state and CSP tuple. The broad recursive SystemData ACL reset from v2 is omitted. Pro visible behavior and clock-overlay rendering are pending native acceptance.'
       DocumentationUri = 'https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-controlpaneldisplay#cpl_personalization_forcedefaultlockscreen'
       TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows or organizational default image; no RIDE override' } }
+    }
+    @{
+      Id = 'windows.user-lock-screen'
+      Name = 'Current user lock-screen image'
+      Category = 'Personalization'
+      Kind = 'DefaultImage'
+      Handler = 'DefaultImage'
+      ImageType = 'UserLockScreen'
+      SettingPresentation = @{
+        AppliesTo = 'Static lock-screen image for the signed-in account; Windows 11 x64'
+        Behavior = 'Configuration'
+        GuiPath = 'Settings > Personalization > Lock screen'
+        GuiEffect = 'Sets the current user lock-screen image through the Windows user-profile personalization API; does not change the machine default or sign-in background.'
+        Requirements = @('Explicit local PNG; SHA-256 calculated automatically or checked against an optional pin', 'Run as the account whose lock screen is being changed and use only while its lock-screen mode is Picture', 'Windows must expose the current image as a readable local file URI so RIDE can capture the prior image; non-file image sources are refused')
+        OtherSupportedChoices = @('No generic unset or baseline; restore the saved run', 'Recovery refuses a changed user, image, or asset file')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.userprofilepersonalizationsettings.trysetlockscreenimageasync?view=winrt-26100', 'https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.lockscreen.originalimagefile?view=winrt-26100')
+      }
+      Scope = 'User'
+      RequiresAdmin = $false
+      SupportedTargets = @('Windows 11')
+      MinimumBuild = 22000
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      States = @{ Configured = 'Selected local PNG' }
+      Rollback = 'Exact'
+      Description = 'Set a lock-screen image for the signed-in user using the Windows personalization API. The machine default and signed-out sign-in image are separate. RIDE captures the previous local image path and restores it only when the user and active image still match. Microsoft does not expose lock-screen Picture/Slideshow/Spotlight mode through this API; use only while Picture mode is selected.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/uwp/api/windows.system.userprofile.userprofilepersonalizationsettings.trysetlockscreenimageasync?view=winrt-26100'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows user personalization or organizational default; no RIDE override' } }
+    }
+    @{
+      Id = 'windows.user-wallpaper'
+      Name = 'Current user desktop wallpaper'
+      Category = 'Personalization'
+      Kind = 'DefaultImage'
+      Handler = 'DefaultImage'
+      ImageType = 'UserWallpaper'
+      SettingPresentation = @{
+        AppliesTo = 'Desktop wallpaper for the signed-in user; Windows 11 x64'
+        Behavior = 'Configuration'
+        GuiPath = 'Settings > Personalization > Background'
+        GuiEffect = 'Sets one static desktop image for the current user across all displays. It does not change the first-logon default or lock-screen image.'
+        Requirements = @('Explicit local PNG; SHA-256 calculated automatically or checked against an optional pin', 'Run in the interactive signed-in user session; no elevation required', 'The current wallpaper must be one static image shared across displays. Slideshow, per-display images and solid-color backgrounds are refused because exact prior state cannot be captured')
+        OtherSupportedChoices = @('No generic unset or baseline; restore the saved run', 'Recovery refuses changes to the current user, active wallpaper, position, or original image file')
+        ReferenceUris = @('https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-idesktopwallpaper-setwallpaper', 'https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-idesktopwallpaper-getwallpaper')
+      }
+      Scope = 'User'
+      RequiresAdmin = $false
+      SupportedTargets = @('Windows 11')
+      MinimumBuild = 22000
+      Actions = @('Get', 'Test', 'Set', 'Restore')
+      States = @{ Configured = 'Selected local PNG' }
+      Rollback = 'Exact'
+      Description = 'Set a static desktop wallpaper for the signed-in user across all displays. RIDE captures the previous local image bytes and position, and restores only while the same user, applied image and original source remain unchanged. Refuses slideshow, per-display images and solid-color backgrounds.'
+      DocumentationUri = 'https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-idesktopwallpaper-setwallpaper'
+      TargetDefaults = @{ 'Windows 11' = @{ DefaultValueExists = $false; DefaultValue = $null; EffectiveDefault = 'Windows user personalization or organizational default; no RIDE override' } }
     }
     @{
       Id = 'windows.bitlocker-wizard-shortcut'
