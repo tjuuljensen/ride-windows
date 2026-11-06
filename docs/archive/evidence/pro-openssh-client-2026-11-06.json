@@ -1,0 +1,222 @@
+{
+  "SchemaVersion": 1,
+  "Registration": "RIDEWin11ProTest",
+  "ValidationStatus": "NotValidated",
+  "Edition": "Professional",
+  "Architecture": "AMD64",
+  "Build": "26300.9711",
+  "VMId": "7690a0b8-8190-4f56-91ad-c744fb081b1c",
+  "CheckpointId": "74c1c858-c6bb-40ab-97ed-61c1eea74c9f",
+  "ConfigurationSha256": "E6C20362645D44E62C81AC1EB1748C81CFE40CB07A694B6356ECD3C36B272C15",
+  "AcceptanceRecordSha256": "F3EF74B330E2E5712202CA16CA6DE6F9C582CAC57B8BAD96C82DE9D93C8369A3",
+  "BaseRevision": "6097db8fd300b4d9e38c982b90b60d3b2e8db625",
+  "RetryGuestScenarioSha256": "2A984BCADD617A18BC05BD8C4DD8EC77C852F61A5E617C5205471E2AF3CC8C12",
+  "Runs": [
+    {
+      "RunId": "8ed2a20202154bc7a514ecbd614604ab",
+      "StartedUtc": "2026-11-05T23:01:48.1563785Z",
+      "CompletedUtc": "2026-11-05T23:04:21.5384098Z",
+      "InitialCapability": [
+        {
+          "Name": "OpenSSH.Client~~~~0.0.1.0",
+          "State": "Installed"
+        }
+      ],
+      "Terminal": {
+        "RunId": "8ed2a20202154bc7a514ecbd614604ab",
+        "Family": "OpenSSHClient",
+        "Status": "Failed",
+        "Stage": "Remove",
+        "Reason": null,
+        "Error": "Engine snapshot selection/source differs.",
+        "Checks": [
+          "PreviewNoChanges",
+          "InstallReadbackPassed",
+          "RepeatReadbackPassed"
+        ],
+        "LifecyclePassed": false,
+        "ServicingSource": "WindowsUpdate",
+        "Selection": [
+          {
+            "Id": null,
+            "CapabilityName": null,
+            "CapabilityDependencies": null
+          }
+        ]
+      },
+      "Phases": [
+        {
+          "Phase": "Prepare",
+          "Status": "Prepared",
+          "Stage": "Retained",
+          "Error": null,
+          "LifecyclePassed": false,
+          "RecoveryRequired": true,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-8ed2a20202154bc7a514ecbd614604ab\\export.2e33de8a17d647688a48f19a0a5d961d",
+            "FileCount": 0,
+            "LifecycleAdmitted": false,
+            "TerminalResultPresent": false,
+            "TerminalStatus": null
+          }
+        },
+        {
+          "Phase": "Lifecycle",
+          "Status": "Failed",
+          "Stage": "Lifecycle",
+          "Error": "Capability lifecycle did not pass; retain its evidence and engine runs.",
+          "LifecyclePassed": false,
+          "RecoveryRequired": true,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-8ed2a20202154bc7a514ecbd614604ab\\export.96ed9017a2bc41fdbc4e8734cd2a891f",
+            "FileCount": 8,
+            "LifecycleAdmitted": true,
+            "TerminalResultPresent": true,
+            "TerminalStatus": "Failed"
+          }
+        },
+        {
+          "Phase": "Collect",
+          "Status": "Collected",
+          "Stage": "Retained",
+          "Error": null,
+          "LifecyclePassed": false,
+          "RecoveryRequired": true,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-8ed2a20202154bc7a514ecbd614604ab\\export.89786cf844ba4b7eb939a169dfc1cc0a",
+            "FileCount": 8,
+            "LifecycleAdmitted": true,
+            "TerminalResultPresent": true,
+            "TerminalStatus": "Failed"
+          }
+        },
+        {
+          "Phase": "Reset",
+          "Status": "ResetAndOff",
+          "Stage": "Released",
+          "Error": null,
+          "LifecyclePassed": false,
+          "RecoveryRequired": false,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-8ed2a20202154bc7a514ecbd614604ab\\export.b4a62d36a5b74dc09fbd15dc96d0d3d2",
+            "FileCount": 8,
+            "LifecycleAdmitted": true,
+            "TerminalResultPresent": true,
+            "TerminalStatus": "Failed"
+          }
+        }
+      ],
+      "ResultSha256": "E8CA88F7A96F1B21ECE760B30FB21420A8C8002A95FD0AF817A03D6E2F8785EA",
+      "ExportReceiptSha256": "997B75EE20D384146215BDBAA3F2E96074FF35F64D8C6AF806EA853D96CCF409"
+    },
+    {
+      "RunId": "ca1015fda07340678278383018940239",
+      "StartedUtc": "2026-11-05T23:06:22.4693758Z",
+      "CompletedUtc": "2026-11-05T23:21:52.2084723Z",
+      "InitialCapability": [
+        {
+          "Name": "OpenSSH.Client~~~~0.0.1.0",
+          "State": "Installed"
+        }
+      ],
+      "Terminal": {
+        "RunId": "ca1015fda07340678278383018940239",
+        "Family": "OpenSSHClient",
+        "Status": "Passed",
+        "Stage": "RepeatRestore",
+        "Reason": null,
+        "Error": null,
+        "Checks": [
+          "PreviewNoChanges",
+          "InstallReadbackPassed",
+          "RepeatReadbackPassed",
+          "RemoveReadbackPassed",
+          "RestoreRemovalReadbackPassed",
+          "RestoreInitialReadbackPassed",
+          "RepeatRestoreReadbackPassed"
+        ],
+        "LifecyclePassed": true,
+        "ServicingSource": "WindowsUpdate",
+        "Selection": [
+          {
+            "Id": "component.openssh-client-capability",
+            "CapabilityName": "OpenSSH.Client~~~~0.0.1.0",
+            "CapabilityDependencies": null
+          }
+        ]
+      },
+      "Phases": [
+        {
+          "Phase": "Prepare",
+          "Status": "Prepared",
+          "Stage": "Retained",
+          "Error": null,
+          "LifecyclePassed": false,
+          "RecoveryRequired": true,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-ca1015fda07340678278383018940239\\export.5a803a6fcc4d4c99857e40a50af9c671",
+            "FileCount": 0,
+            "LifecycleAdmitted": false,
+            "TerminalResultPresent": false,
+            "TerminalStatus": null
+          }
+        },
+        {
+          "Phase": "Lifecycle",
+          "Status": "Passed",
+          "Stage": "Retained",
+          "Error": null,
+          "LifecyclePassed": true,
+          "RecoveryRequired": true,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-ca1015fda07340678278383018940239\\export.1dd01148aad14c4c85ce94071253852f",
+            "FileCount": 16,
+            "LifecycleAdmitted": true,
+            "TerminalResultPresent": true,
+            "TerminalStatus": "Passed"
+          }
+        },
+        {
+          "Phase": "Collect",
+          "Status": "Collected",
+          "Stage": "Retained",
+          "Error": null,
+          "LifecyclePassed": false,
+          "RecoveryRequired": true,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-ca1015fda07340678278383018940239\\export.e31f4b16f83b4685be847c68b7c4ea34",
+            "FileCount": 16,
+            "LifecycleAdmitted": true,
+            "TerminalResultPresent": true,
+            "TerminalStatus": "Passed"
+          }
+        },
+        {
+          "Phase": "Reset",
+          "Status": "ResetAndOff",
+          "Stage": "Released",
+          "Error": null,
+          "LifecyclePassed": false,
+          "RecoveryRequired": false,
+          "EvidenceExport": {
+            "Verified": true,
+            "Path": "C:\\ProgramData\\RIDE\\TestAutomation\\RIDEWin11ProTest\\retained-capability-ca1015fda07340678278383018940239\\export.6b91515a7c594f8c90ff864198044ce0",
+            "FileCount": 16,
+            "LifecycleAdmitted": true,
+            "TerminalResultPresent": true,
+            "TerminalStatus": "Passed"
+          }
+        }
+      ],
+      "ResultSha256": "AD49F2CF7A88E9F3463693330C501724511F1344014F7D7FCCC060900D0F8491",
+      "ExportReceiptSha256": "212349E3088B84FD364644A0A60D43CA065DF9E6E3DB2C0E9F707A67BE906365"
+    }
+  ]
+}

@@ -1,5 +1,53 @@
 # Disposable VM controller acceptance
 
+## Windows 11 Pro local controller closeout, 2026-11-05
+
+**All local pilot checks are complete for the pinned Pro build 26300
+registration, controller 1.27.0. Formal status is `NotValidated`.**
+The [full UnitOnly regression](#pro-full-unitonly-regression-passed-2026-11-05)
+and [three consecutive Full integration runs](#three-consecutive-pro-full-integration-passes)
+passed. The latter exercised ordinary-shell submission, a locked host session
+and the repository watcher. Each passed native integration and 4,497 tests
+with zero failures and 40 skips.
+
+The [refusal checks](#pro-watchdog-and-checkpoint-recovery-verified-2026-11-05),
+[timeout and Local/CI overlap](#pro-timeout-and-overlapping-localci-submissions)
+and [explicit recovery and resumed service](#pro-interrupted-worker-recovery-and-resumed-service-2026-11-05)
+complete the local fault cases. Interrupted-worker detection passed on the
+second task start. The [first-start diagnosis](#first-worker-stopped-during-configuration-loading-2026-11-05)
+and the original failed journal remain part of the evidence. After recovery,
+the registered controller passed 206/206 tests and returned the VM to its
+pinned checkpoint.
+
+The protected `acceptance.md` beside the `RIDEWin11ProTest` registration
+contains the local closeout and run IDs. Its closeout revision had SHA-256
+`8BFDA96E0F623B979646A593643A482958EF4112AAE9BD90AB3C7803B4A398B4`.
+The prior record was backed up and verified, and the file permissions were
+preserved. At save time the VM was Off at its pinned parent, the task Ready,
+both active queues empty, the worker lock available and the recovery block
+absent. The configuration and registration evidence hashes were verified.
+
+**Local-only Pro component testing is authorized on this pinned registration.**
+The [operator decision and scope](component-edition-support-decisions-2026-11-04.md#operator-authorization-for-local-only-pro-component-testing)
+permit focused batches with evidence export and checkpoint recovery. The
+protected record now includes that authorization. Its verified SHA-256 is
+`F3EF74B330E2E5712202CA16CA6DE6F9C582CAC57B8BAD96C82DE9D93C8369A3`.
+The closeout revision was preserved as a verified backup with the original
+record permissions retained on the active file. When the
+[RC and replication gates](#remaining-work-and-sequence) resume, validate
+the reviewed published RC in both PowerShell editions and reconcile source
+changes with the accepted tests. Verify manual dispatch and trusted
+default-branch push delivery, then repeat applicable acceptance on the second
+host. Record the resulting certification decision beside the registration.
+Both gates remain deferred. The local authorization is independent of that
+formal decision.
+The local closeout establishes no additional component support or legacy
+feature closure.
+
+On November 6 the [first authorized local component batch](component-edition-support-decisions-2026-11-04.md#first-local-pro-batch-openssh-client-2026-11-06)
+passed OpenSSH Client on the pinned Pro VM after a guest evidence correction.
+Both attempts exported their terminal results and recovered the checkpoint.
+
 ## Windows 11 Pro controller validation started, 2026-11-04 16:21 UTC
 
 The registered configuration at
@@ -307,6 +355,177 @@ hashes. Broader registration remains `NotValidated`. RC/default-branch
 delivery and second-host replication remain deferred by the operator.
 This regression closed no legacy product or feature outcome, so all five
 migration ranges carry forward.
+
+### Pro controller evidence reuse review, 2026-11-05
+
+The comparison uses the retained Windows 11 trigger and Server overlap
+snapshots, the protected October 13 acceptance records, published host source
+`3107711e3c6dd27bc67a61c50e1cb33866c15880`, and the installed Pro 1.27.0
+controller at migration revision `6097db8fd300b4d9e38c982b90b60d3b2e8db625`.
+The frozen guest CI revision for the October 13 candidate was `a156475`.
+Its guest source and installed host controller were versioned independently.
+
+| Registration | VM and checkpoint boundaries | Controller and image |
+| --- | --- | --- |
+| RIDEWin11Test | VM `6a5c9f91-91f9-44c5-924a-d1b5f863e16f`; October 13 checkpoint `a1d87bdd-4c98-4c4b-a6f7-a4f0c5bf21a9`; subsequently repinned to `91369e82-5ff2-49ef-87c4-c4518a77ae7b` | Enterprise Evaluation, build 26300; ISO SHA-256 `BC3F24086EBADC94489066B5AD78089E2CF5C3491E90E790BB81A2B199C10E38`. October 13 module 0.4.6; installed at review 1.25.1. |
+| RIDESrv2025Test | VM `06c2ae01-bf82-4634-9215-f240f3ea4147`; checkpoint `4a5b49ba-0795-480a-8d01-6f4f670577c8` | Server 2025 Standard Evaluation, build 26100; ISO SHA-256 `7B052573BA7894C9924E3E87BA732CCD354D18CB75A883EFA9B900EA125BFD51`. October 13 module 0.4.6; installed at review 1.1.0. |
+| RIDEWin11ProTest | VM `7690a0b8-8190-4f56-91ad-c744fb081b1c`; checkpoint `74c1c858-c6bb-40ab-97ed-61c1eea74c9f` | Pro, build 26300; ISO SHA-256 `BD4307DF32BC8AF33B39CCECB1174AEB345386630F89A2B86C7A4E36B55EA650`. Installed module 1.27.0, SHA-256 `0C94DD4F57E73969AE25226DCFDAAB232CA2D5181E901F4C5077658116575E7F`. |
+
+All three current registrations use the same host account SID, Local and CI
+checkout paths and guest repository path. The native scheduled tasks use
+interactive logon, highest privilege, Windows PowerShell and IgnoreNew.
+The four dependency versions recorded by the other current registrations
+match Pro (AutomatedLab.Common 2.3.37, AutomatedLabCore 5.61.0, PSFramework
+1.14.457, PSLog 5.61.0). Pro enumerates 16 pins, including guest Pester
+5.7.1. The earlier four-entry lists do not prove the other twelve.
+
+| Case | Reuse decision and remaining test |
+| --- | --- |
+| Ordinary shell, locked session and watcher | Retain the October 9 Enterprise three-pass sequence for host trigger behavior. Its watcher differs only in two help-link capitalizations. Task parameters and watch-path predicate have identical executable tokens. The changed supervisor and Pro guest needed an ordered sequence on this registration. All three passed below with a host lock observation covering the second request. |
+| Serialization | Retain the Server Local/CI pair for exclusive worker locking and source separation. The exclusive lock function is unchanged. Claim now normalizes timestamps; the worker waits on a supervised child. Check overlapping submissions with distinct source manifests and recovery before the next execution. |
+| Unit failure, collection and normal recovery | Reuse the deliberate, pre-repair Pro font reproduction `0beb5f0e5f6d45c6b5167477a35e0b87`: the guest returned failing assertions, client exit 1, correlated XML and clean recovery. Current Pro full-unit request `84d13c059cb24c24a218ade4def24ef2` independently demonstrates failure propagation. The repaired full pass and both Pro refusal probes above remain accepted. No duplicate fault injection or unit-only gate. |
+| Timeout | October 13 expected timeouts and later Enterprise supervised timeouts remain evidence for their original versions. Termination, failure collection and watchdog coordination changed. Exercise one deliberate deadline under the installed Pro worker and check partial export, terminal status and recovery. |
+| Interrupted worker and explicit recovery | Retain Server `dc7cd7ae496d4527a9f0f9dd0c28bfef` for detecting a stale running request; its recovery record was reconstructed. Enterprise `c029135dbae34c30b1e68a820fc8fd09` has a contemporaneous explicit recovery on another pin. Pro unit tests cover a hung child and uncertain termination. Verify the installed Pro registration refuses new work, persists evidence before unblocking, explicitly recovers the exact Pro pin and resumes. One simulated stale record suffices; do not terminate a live worker. |
+| CI publication and portability | Retain published bridge, hosted validation and upload results with their original revisions. A local CI-source submission exercises the registered worker only. RC validation, default-branch delivery, renewed bridge acceptance if applicable, and second-host replication stay deferred. |
+
+For the October 9 trio, the **guest snapshot** controller module SHA-256 was
+`885C072139061853045A37FD77D388F4878C1E871DC69E9433D92236757D95A5`;
+for the Server overlap snapshot it was
+`9735F65A50C59714CAD412564F57272A4A62BA944FBBD16CF028C4B7BA41E454`.
+The separately recorded October 13 **installed** hash was
+`2920E1BCF41EB61564F74315FC1D004872DC0BD2DF1697CC65420A30293F2507`.
+PowerShell token comparison (excluding comments and newlines) found the task
+parameters, exclusive lock, watch-path predicate, lab/VM validation and
+checkpoint reset functions match Pro in all three comparisons. The claim
+function matches October 13. Snapshot copying, request execution, process
+termination and failure collection differ. See the
+[historical scoped record](../archive/evidence/controller-046-scoped-acceptance-2026-10-13.md)
+and the [pilot runbook](../../tests/integration/automatedlab-tasks.md#pilot-acceptance-and-replication-evidence)
+for the original trigger and fault evidence.
+
+#### Pro timeout and overlapping Local/CI submissions
+
+| Source and case | Request | Submitted UTC | Terminal UTC | Evidence |
+| --- | --- | --- | --- | --- |
+| Local, deliberate ten-minute timeout | `659216734e4044c1abd5cec9331ff49a` | 16:22:53 | 16:33:29 | TimedOut as intended, client exit 1. Guest validation completed and Pester had started. The controller terminated its child process tree, exported partial evidence and identified the locked transcript as an omission. Recovery began at 16:32:54; checkpoint restore was recorded at 16:33:27. |
+| CI, ControllerRegression | `35285a6d7a494671bf6516466c13796a` | 16:27:41 | 16:41:26 | Queued during Local execution. The supervisor started at 16:33:29.446 UTC, after the Local terminal record at 16:33:29.063. Guest validation and 206/206 tests passed, followed by recovery. |
+
+Both finished queue entries match their distinct results; cleanup, collection
+and evidence-export errors were empty. All 2,303 Local snapshot hashes and all
+2,298 CI snapshot **and checkout** hashes verified. Source manifest SHA-256s,
+respectively, are `6E2764D772181368940F1D008710909C5344663D396329D3F12B6B2585E01532`
+and `A9283D6F476A2CCB273C71CD4C455094D3A8AA558EF1F05CBB9F920B0A41A592`.
+With operator approval and the runner idle, the CI checkout temporarily used
+published `6097db8f` detached. The original clean migration branch and exact
+`a15647590a1324681bbe4a69cbb55e498a623522` were verified after restoration.
+The live Pro VM was Off at its registered parent checkpoint, task Ready, queues
+empty, worker lock free and recovery block absent. These runs close the Pro
+timeout and serialized Local/CI cases without a new GitHub delivery run.
+
+#### Three consecutive Pro Full integration passes
+
+Three successive finished queue entries were registered Local requests with
+`UnitOnly=false` and `IntegrationSuite=Full`. Each guest passed validation,
+Pester 5.7.1 (4,497 passed, zero failed, 40 skipped) and native Windows
+integration on Pro build 26300. The 2,303 staged files in **each** snapshot
+verified against the same manifest, SHA-256
+`12EEA7F6BC62343FADBF99B7C2FF77D2589AF1776FB0FA7FCB1D3A4294026DFB`.
+
+| Trigger | Run ID | Execution UTC, November 5 | Checkpoint recovery UTC |
+| --- | --- | --- | --- |
+| Ordinary-shell submission | `ca41d5bc8a6843709debc309d737271c` | 16:44:37-18:08:32 | 18:08:31 |
+| Locked host session | `f80db90e804e4dbd94fcc2423ac3397e` | 18:09:12-19:33:07 | 19:33:05 |
+| Repository watcher | `03102f6d77864d26b9a709804ee21af3` | 19:34:30-20:56:53 | 20:56:52 |
+
+The first case measures ordinary-shell submission; the operator was free to
+lock the host after submission. The second request was submitted at 18:09:10
+UTC after the registered host session was observed locked at 18:09:09 UTC.
+Across 2,510 samples through 19:33:08 UTC, session 1 returned zero unlocked
+samples and zero query errors. The copied `host-lock-observation.json` is
+retained alongside that request. For the third request, the watcher observed
+a timestamp-only change to `tests/fixtures/Test-RideConcurrentProgress.ps1`
+after establishing its baseline. It submitted one Full request after its
+normal 30-second debounce. All three requests had a 180-minute budget.
+The watcher was stopped after its terminal result; the fixture timestamp was
+restored and its bytes verified. The request directory retains `host-watcher.log`.
+
+All three correlated results reported clean collection, export and cleanup.
+Live checks after each run confirmed VM Off at parent `RIDE-clean-test-base`
+(`74c1c858-c6bb-40ab-97ed-61c1eea74c9f`), task Ready, empty active queues,
+free worker lock and no recovery block. The frozen CI checkout was rechecked
+clean at its original revision after the sequence.
+
+#### Pro interrupted-worker recovery and resumed service, 2026-11-05
+
+After the watcher finished, the operator approved elevation for simulation
+`548647cbfa834609b44e2f8151b18b2b`. The first task start returned Ready
+with exit code zero, but the 60-second probe observed no interruption block.
+The synthetic running record remained, the VM was Off at the pinned checkpoint
+and the pending queue was empty. The original failed
+`interruption-simulation.json` is retained. Task Scheduler operational history
+was disabled. The later PowerShell event review below identifies where the
+first worker stopped.
+
+A second start of the registered task detected the **same** record and wrote a
+block naming it. The ordinary registered client refused a new request before
+queue admission. With the worker lock held and the controller idle, explicit
+recovery restored checkpoint `74c1c858-c6bb-40ab-97ed-61c1eea74c9f` at
+22:17:15 UTC. The recovery helper verified the live parent checkpoint and
+persisted the recovery journal before archiving the synthetic record and
+clearing its verified block. The separate `explicit-recovery.json` SHA-256 is
+`6E350F1464DE78A7E6E7D8B854A0EF345253CAEA4F71EB097A20E0B7A729F49E`.
+Both journals are in the simulation's registered result directory.
+
+Post-recovery Local request `9f44b5762eeb469684c2b4ec1f27f443` passed guest
+validation and all 206 ControllerRegression tests with zero skips. All 2,303
+staged source hashes verified. The exported XML SHA-256 is
+`7EBBFC81389561085D7584446005368FF1893B6A37295B5B672F2846489FACD1`.
+The controller recorded checkpoint restoration at 22:27:20 UTC and completed
+without collection, export or cleanup errors. Live inspection verified VM Off
+at the pinned parent, task Ready, empty active queues, free worker lock and no
+recovery block.
+
+This closes the local blocking, explicit recovery and resumed-service case
+**on retry**. Registration remains `NotValidated`. RC/default-branch
+delivery and second-host replication remain deferred. No legacy feature or
+product outcome changed; all five migration ranges carry forward.
+
+#### First worker stopped during configuration loading, 2026-11-05
+
+The existing classic `Windows PowerShell` log on the Pro host retained both
+launches of the protected worker. All times below are UTC. The configuration
+input recorded for both processes was identical (4,977 characters) and parsed
+as the expected Pro registration. The scheduled action had no execution time
+limit or battery-stop condition.
+
+| Worker | PowerShell event 800 records | Observation |
+| --- | --- | --- |
+| First start, PID 33496 | 61815211, 61815214, 61815215 | Read the configuration at 22:12:58.761. Both the configuration call and the outer worker pipeline recorded `The pipeline has been stopped.` at 22:12:58.842-844. The engine then exited. Execution ended before worker-lock acquisition or queue inspection. |
+| Retry, PID 51444 | 61816783, 61816807-61816810, 61816814 | Read the same JSON at 22:15:11.328, acquired the lock and scanned the running directory at 22:15:11.485-496, then wrote the block naming the original simulation. |
+
+The first scan never happened. The retained events do not identify what
+initiated the pipeline stop. No competing lock owner, invalid configuration
+or queue-enumeration fault was established.
+
+`tests/WorkerStartup.Tests.ps1` reproduces this sequence in an isolated
+TestDrive queue. It runs the unmodified worker script, redirects the test
+module's storage root, and stops a disposable runspace just after JSON parsing.
+The worker did not create a lock file or a block; the stale record retained
+its hash. A fresh runspace detected that exact record and published the
+expected block. The test passed under Windows PowerShell 5.1.26100.9818 and
+PowerShell 7.6.5 with Pester 5.7.1. This reproduces the interruption point;
+the deliberate stop in the test does not identify the historical sender.
+
+The host-local simulation helper now records each wake and permits one bounded
+retry after verifying the same stale record and an idle controller. Seven
+isolated probe-policy cases covered immediate success, success on retry,
+two misses, no new launch, nonzero result, a busy task and a changed marker.
+The [recovery runbook](../../tests/integration/automatedlab-tasks.md#recovery-and-teardown)
+documents the checks. No production worker change or VM replay was needed.
+Final inspection verified all 11 protected hashes, VM Off at its pinned parent
+checkpoint, task Ready, empty active queues, free lock and no recovery block.
+RC and second-host gates remain deferred; the five migration ranges carry
+forward because this investigation closed no legacy outcome.
 
 ## Supervised Project Maker success, 2026-10-30
 

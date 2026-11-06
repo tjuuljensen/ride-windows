@@ -130,24 +130,14 @@ servicing in [Features on Demand](https://learn.microsoft.com/en-us/windows-hard
   Test OpenSSH Client and Server separately. Test Store registrations per user
   and record absent/protected apps individually.
 
-The registered Pro controller is `RIDEWin11ProTest`, targeting
-`RIDE-W11P-Test` and checkpoint `RIDE-clean-test-base`. Its configuration output
-reported `NotValidated`; no package or settings request may be submitted until
-the host-only preparation probe, pilot checks, evidence and recovery gates pass.
-The first step is `Test-RideVmHostPreparation.ps1`, which requires an elevated
-registered host account, an idle controller and an Off VM. It checks pinned
-host/lab/VM/checkpoint/task state and copies the approved checkout into evidence;
-it does not boot, restore or change the VM. Then run a `UnitOnly` guest pilot,
-which performs generation/validation/Pester without the state-changing
-integration suite and follows the registered checkpoint recovery. Review its
-source/result hashes and recovery evidence before deciding whether any
-validation status can change. The current user's VM remains a disposable target
-and is restored from its pinned checkpoint after native runs.
+The registered Pro controller completed its host preparation, local pilot and
+recovery checks. The [local closeout](controller-certification.md#windows-11-pro-local-controller-closeout-2026-11-05)
+records the tested configuration and the remaining formal certification gates.
 
 ## Windows 11 Pro implementation and focused acceptance track, 2026-11-05
 
 The user approved completing the RIDE v3 Windows 11 Pro implementation using
-the Pro controller once its certification gates pass. Keep the edition-support
+the Pro controller under the local authorization below. Keep the edition-support
 decision above: this is a Pro-first implementation target, not permission to
 add Pro to every migrated operation. Existing Enterprise acceptance, Pro
 acceptance and other Windows target claims remain separate evidence.
@@ -185,16 +175,63 @@ Use a value-focused test path:
    result where required; checkpoint restoration is final VM disposal, not
    proof of the component's own recovery.
 
-The current controller must not be described or used as certified until its
-formal acceptance evidence says `Validated`. Follow the latest guest results,
-checkpoint verification and outstanding registration gates in
-[controller certification](controller-certification.md#pro-controller-regression-repair-2026-11-05)
-before using the controller for Pro
-native batches. Once certification passes, do not rerun controller or full
-repository suites without a source/controller change or a specific release-gate
-reason.
+### Operator authorization for local-only Pro component testing
+
+The operator authorized focused native component batches on the disposable
+`RIDEWin11ProTest` registration using the local checkout. This decision applies
+to the registered account, Windows 11 Professional x64 build 26300, VM
+`7690a0b8-8190-4f56-91ad-c744fb081b1c`, and checkpoint
+`74c1c858-c6bb-40ab-97ed-61c1eea74c9f` (`RIDE-clean-test-base`).
+The approved configuration SHA-256 is
+`E6C20362645D44E62C81AC1EB1748C81CFE40CB07A694B6356ECD3C36B272C15`.
+Check the pins, installed hashes and idle state before dispatch; stop and
+reconcile drift. Use the existing family-specific route and its evidence,
+ownership and checkpoint recovery guards. Windows Update is authorized inside
+the guest for OpenSSH and RSAT. Run one family at a time, starting with OpenSSH
+Client. Record unavailable or failed operations explicitly.
+
+Formal registration remains `NotValidated`. RC delivery, second-host
+replication and cutover remain deferred. A component requires its own
+acceptance on the tested edition and build before any support promotion.
 
 The handoff objective is to finish implementation and record per-operation Pro
 support outcomes in the existing catalog/evidence ledgers, while retaining
 explicit unsupported, unavailable and deferred results. Keep Enterprise-only
 policy checks, Windows Server, Home and ARM64 out of the Pro acceptance claim.
+
+### First local Pro batch: OpenSSH Client, 2026-11-06
+
+The retained guest reported Windows 11 Professional x64 26300.9711 with
+`OpenSSH.Client~~~~0.0.1.0` already installed. The test used the local
+checkout at `6097db8f` and the declared Windows Update servicing route.
+Scope was limited to client capability state, the native client binary and
+conditional saved-state recovery on that image. SSH connectivity, the OpenSSH
+Server service and firewall, and RSAT have separate acceptance criteria.
+
+Request `8ed2a20202154bc7a514ecbd614604ab` passed preview, installed-state
+readback and repeat install. At removal, the evidence writer rejected the
+saved snapshot because the report contained an empty catalog ID and capability
+name. Collection verified eight files, including the terminal failure. Reset
+verified the pinned checkpoint, powered-off VM and released hold.
+
+Windows PowerShell 5.1 reproduced the empty fields when projecting catalog
+hashtables with `Select-Object`. The guest scenario now copies the keys
+explicitly. The real catalog produced the expected OpenSSH identity, and
+all 72 focused tests passed in each of Windows PowerShell 5.1 and PowerShell 7.
+The repository validator passed under PowerShell 7. Under Windows PowerShell
+5.1 its generated-reference check flagged the ordering of default-image rows in
+`docs/OPERATIONS.md`. The comparison found only row-order differences.
+
+Retry `ca1015fda07340678278383018940239` passed all seven checks. The first
+install and its repeat found the client present. Removal verified absence.
+Saved-run restore put the client back, with a valid Microsoft signature and
+file version. Repeat restore preserved the engine journals, and the checks
+confirmed the other capabilities retained their original states. Collection
+and final reset each verified 16 files. The VM was Off at the pinned parent,
+the hold released, the registered task Ready and both active queues empty.
+The protected registration evidence still recorded `NotValidated`.
+See the [run receipts and digests](../archive/evidence/pro-openssh-client-2026-11-06.json).
+
+This accepts the tested lifecycle on this image. Fresh installation from an
+initially absent image and broader catalog support remain separate. RSAT is
+the next independent Pro capability batch.

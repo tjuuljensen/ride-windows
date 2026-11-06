@@ -954,6 +954,27 @@ later work if it finds a request in `queue/running`. Subsequent requests fail
 until explicit recovery. Do not clear the block while any controller or collector
 process remains active.
 
+For an interrupted-worker **simulation**, the synthetic record is already in
+`queue/running`. The ordinary client retries task starts while a request is
+pending; that retry does not apply to this simulation. Release the setup lock
+before starting the task. Allow up to 60 seconds for the registered task to
+publish `runtime/blocked.json` naming the synthetic request and return to Ready.
+Record each start time, task state, last run time, result code and whether the
+block appeared. Task Scheduler can report zero for a worker whose PowerShell
+pipeline stopped before it scanned the queue.
+
+If the first window ends without a block, preserve that observation. A single
+retry of the same record is appropriate only after confirming a new task run
+returned Ready with code zero, the worker lock is available, the controller
+and collector are idle, the pending queue is empty, and the sole running file
+still has the recorded identity and hash. Recheck the configured VM and
+checkpoint and release the lock before retrying. If the worker is active, the
+record changed, the task failed, or the second start also misses detection,
+retain the evidence and investigate before recovery. In the existing
+`Windows PowerShell` log, event 800 can distinguish configuration loading,
+worker-lock acquisition, the running-queue scan and block publication even
+when Task Scheduler operational history is disabled.
+
 Stop the watcher/CI runner. In elevated PowerShell, inspect the registered task,
 its child processes, the matching request directory and logs. After confirming
 the worker and its children have stopped, load the installed helpers and restore

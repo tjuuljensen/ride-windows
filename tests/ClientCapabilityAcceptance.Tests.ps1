@@ -59,6 +59,8 @@ Describe 'Disposable client capability acceptance' {
       $result.Status|Should -Be Passed
       $result.Checks.Count|Should -Be 7
       $result.LifecyclePassed|Should -BeTrue
+      $result.Selection.Id|Should -Be @($script:operations.Id)
+      $result.Selection.CapabilityName|Should -Be @($script:operations.CapabilityName)
       $result.ExactPayloadRecoverySupported|Should -BeFalse
       $result.RestartAcceptancePassed|Should -BeFalse
       $result.LifecycleRuns.Count|Should -Be 2

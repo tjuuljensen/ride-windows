@@ -25,7 +25,9 @@ Client installations through configured servicing sources and Windows Update.
 Its catalog metadata explicitly declares `ServicingSource = WindowsUpdate`.
 Selecting this operation selects that acquisition route; it does not change
 Windows Update/WSUS policy or retry a LocalSource request over the network.
-Build 26300 payload availability remains unverified. The operation is an optional
+On Professional x64 26300.9711, saved-run restore reinstalled the previously
+present client after verified removal. The [Pro batch record](migrations/component-edition-support-decisions-2026-11-04.md#first-local-pro-batch-openssh-client-2026-11-06)
+records the exact source and checks. The operation is an optional
 Windows 11 candidate, excluded from default profiles and without supported targets.
 
 Start at the repository root in an already elevated, native Windows PowerShell

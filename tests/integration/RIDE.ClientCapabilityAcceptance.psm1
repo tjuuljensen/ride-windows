@@ -12,8 +12,8 @@
   selected Windows Update acquisition. Requires a separately reviewed host route.
   Recovery: Conditional literal-state recovery, never exact payload recovery.
   No automatic reboot, retry, checkpoint reset, SSH connection or domain query.
-  Version: 0.1.1. Changelog: Persist preflight readiness rejection as failed
-  terminal evidence without servicing or weakening preview/recovery guards.
+  Version: 0.1.2. Changelog: Preserve catalog IDs and capability names when
+  projecting plan entries into evidence for saved-run verification.
 .LINK
   ../../docs/windows-component-inventory.md
 #>
@@ -213,7 +213,13 @@ function Invoke-RideClientCapabilityAcceptance {
   if($Family -ceq 'OpenSSHClient'){
     if($install.Count -ne 1 -or $install[0].Operation.Id -cne 'component.openssh-client-capability' -or $names[0] -cne 'OpenSSH.Client~~~~0.0.1.0'){throw 'Plan differs from the selected OpenSSH Client family.'}
   } elseif(@($install|Where-Object {$_.Operation.Id -cnotmatch '^component\.rsat-[a-z0-9-]+$' -or $_.Operation.CapabilityName -cnotmatch '^Rsat\.[A-Za-z0-9.-]+\.Tools~~~~0\.0\.1\.0$'}).Count){throw 'Plan differs from the selected RSAT family.'}
-  $report.Selection=@($install.Operation|Select-Object Id,CapabilityName,CapabilityDependencies)
+  $report.Selection=@(foreach($item in $install){
+    [pscustomobject]@{
+      Id=$item.Operation.Id
+      CapabilityName=$item.Operation.CapabilityName
+      CapabilityDependencies=$item.Operation.CapabilityDependencies
+    }
+  })
   $before=@(Get-RideCapabilityAcceptanceInventory)
   foreach($name in $names){$row=@($before|Where-Object Name -CEQ $name);if($row.Count -ne 1 -or $row[0].State -cnotin @('Installed','NotPresent')){throw 'Selected capability is absent from inventory or has a pending/unknown state.'}}
   if(-not $PSCmdlet.ShouldProcess($ExpectedComputerName,"Run $Family capability install/repeat/remove/saved restore using Windows Update")){$report.Status='Preview';return $report}

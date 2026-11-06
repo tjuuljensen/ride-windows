@@ -142,12 +142,12 @@ their separate acceptance boundaries.
 
 ### Windows components
 
-OpenSSH Client and RSAT have source-ready catalog and queue routes, but the
-native run stopped at a pending-servicing-restart preflight. Evidence was
-recovered and the capability task removed. Resolve baseline readiness and prove
-the corrected preflight route before reactivation. **Explicit Windows Update
-acquisition is approved**; matching local media is not their only allowed source.
-RSAT acquisition and lifecycle have not run.
+OpenSSH Client and RSAT use the explicitly approved Windows Update source.
+The earlier EnterpriseEval run stopped at a pending-restart preflight and its
+temporary queue was removed. The [first local Pro batch](component-edition-support-decisions-2026-11-04.md#first-local-pro-batch-openssh-client-2026-11-06)
+used the direct retained route on Professional 26300.9711 and found OpenSSH
+Client already installed. See that record for the per-stage results and
+checkpoint recovery. RSAT acquisition and lifecycle still require a separate run.
 
 OpenSSH Server capability, sshd service and inbound firewall rule need separate
 native acceptance and exact preservation/recovery. Telnet still lacks validated
