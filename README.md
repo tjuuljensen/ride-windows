@@ -113,7 +113,7 @@ Use `-WhatIf:$false` to explicitly disable inherited preview for one invocation;
 | `download <catalog-id>` | Download the latest package or standalone artifact without installing/applying it; retain it by item and version and record its observed SHA-256. |
 | `install <catalog-id>` | Install one supported catalog package or Windows component and save its prior state. |
 | `set <setting-id> -State <state>` | Set one catalog setting to a declared state and save its prior value. |
-| `unset <setting-id>` | Remove a setting value when the catalog declares an unset state, saving its prior value. |
+| `unset <setting-id>` | Apply the operation's explicit `UnsetState`, saving its prior value. Tab completes eligible IDs. The Actions column in the [operation catalog](docs/OPERATIONS.md) shows the removal state. Without a declaration, the command refuses before planning a change. |
 | `status [view]` | Show target-specific defaults and live state; use `-View <view>` for an explicit view or `-OperationId <id>` for one catalog operation. Tab completes operation IDs. |
 | `status [view] -Profile <file>` | Compare selected operations with profile states; combine `-OperationId <id>` only when that profile selects the operation. |
 | `restore -RunId <id>` | Restore settings captured before a prior run. Package restoration may require reinstalling the current upstream version; Windows component removal follows its ownership and recovery rules. |

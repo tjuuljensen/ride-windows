@@ -47,8 +47,9 @@
   generated.
   Recovery: Regenerate from the reviewed catalog. Check mode is read-only.
   Author: RIDE-Windows maintainers.
-  Version: 0.21.0
+  Version: 0.22.0
   Changelog:
+    0.22.0: Show the declared unset state for each eligible operation.
     0.21.0: Make explicit image hashes optional; calculate missing hashes from local PNGs.
     0.20.0: Document hash-pinned default images and their optional profile.
     0.19.0: Describe observed-client RSAT selection and dependency-safe recovery.
@@ -89,7 +90,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.21.0'
+$script:ScriptVersion = '0.22.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -131,6 +132,7 @@ foreach ($operation in ($catalog.Operations | Sort-Object { $_.Category }, { $_.
   $targets = $operation.SupportedTargets -join ', '
   if ($operation.PendingAcceptance) { $targets = 'None (awaiting target acceptance)' }
   $actions = $operation.Actions -join ', '
+  if ($operation.UnsetState) { $actions += "<br>unset: $($operation.UnsetState)" }
   $admin = if ($operation.RequiresAdmin) { 'Yes' } else { 'No' }
   $referenceUri = if ($operation.Kind -in @('Package', 'Artifact')) { $operation.ProductUri } else { $operation.DocumentationUri }
   $referenceLabel = if ($operation.Kind -in @('Package', 'Artifact')) { 'Product info' } else { 'Microsoft docs' }

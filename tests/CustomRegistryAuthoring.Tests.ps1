@@ -66,6 +66,7 @@ Describe 'Scope-explicit registry authoring' {
     $operation.States.Enabled.Menu | Should -BeExactly 'shell32.dll,-152'
     $operation.States.Enabled.Command | Should -BeExactly 'cmd.exe /k certutil -hashfile "%1" SHA256'
     $operation.States.WindowsDefault.Menu | Should -BeNullOrEmpty
+    $operation.UnsetState | Should -BeExactly 'WindowsDefault'
     (Import-PowerShellDataFile -LiteralPath $project.Profile).Operations.Count | Should -Be 1
   }
 

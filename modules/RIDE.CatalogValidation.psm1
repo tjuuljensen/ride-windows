@@ -6,8 +6,9 @@
   Returns diagnostic strings without importing handlers or inspecting Windows.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.37.0.
-  Changelog: 0.37.0: Validate current-user desktop wallpaper image metadata.
+  Owner: RIDE-Windows maintainers. Version: 0.38.0.
+  Changelog: 0.38.0: Reject invalid explicit override-removal declarations.
+    0.37.0: Validate current-user desktop wallpaper image metadata.
     0.36.0: Accept omitted image hashes while validating explicit pins.
     0.35.0: Validate default-image metadata and pinned profile inputs.
     0.34.0: Validate client RSAT identities, dependency graphs and full-observed selection.
@@ -49,7 +50,8 @@
 
 $script:CatalogRepositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 
-$script:ModuleVersion = '0.32.0'
+$script:ModuleVersion = '0.38.0'
+Import-Module (Join-Path $PSScriptRoot 'RIDE.CatalogData.psm1') -ErrorAction Stop
 
 
 function Get-RideCatalogValidationErrors {
@@ -125,6 +127,9 @@ function Get-RideCatalogValidationErrors {
     if ($operation.Id -notmatch '^[a-z][a-z0-9.-]+$') { Add-Error "Invalid operation ID: $($operation.Id)" }
     if ($ids.ContainsKey($operation.Id)) { Add-Error "Duplicate catalog ID: $($operation.Id)" }
     $ids[$operation.Id] = $true
+    if ($operation.ContainsKey('UnsetState') -and -not (Test-RideDeclaredUnsetState $operation)) {
+      Add-Error "UnsetState must select a supported override-removal state: $($operation.Id)"
+    }
     if ($operation.Scope -notin @('Machine', 'User')) { Add-Error "Invalid scope for $($operation.Id): $($operation.Scope)" }
     if ($operation.RequiresAdmin -isnot [bool]) { Add-Error "RequiresAdmin must be Boolean: $($operation.Id)" }
     if ($operation.Kind -notin @('Package', 'Artifact') -and $operation.Scope -eq 'Machine' -and $operation.RequiresAdmin -ne $true) {

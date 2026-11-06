@@ -51,6 +51,18 @@ asks for platform defaults rather than reading the author's machine.
 It accepts HKCR paths and maps them to an explicit user/machine Classes root.
 Enter a blank value name for the unnamed `(Default)` value.
 
+Starting with Windows CLI 0.23.0, a registry operation supports `unset` only
+when its catalog explicitly names an `UnsetState`. For example,
+`UnsetState = 'WindowsDefault'` selects that key from `States`. Its value must
+be `$null` for a scalar, or a map containing every managed member with a
+`$null` value for a coordinated setting. The guided registry template supplies
+this declaration. Other state names are valid when they perform the same deletion.
+
+Existing API 1 libraries can still use explicit `set` states and restore saved
+runs with their original catalog. To enable `unset`, publish a new library
+version with the reviewed declaration and retain the old catalog and manifest
+for hash-bound recovery. A baseline alone does not enable `unset`.
+
 Press Enter to omit documentation/product, license/terms and recovery-information links.
 Type `:cancel` at any prompt to stop. You can add several operations in one
 session. Once detection is supplied, the helper writes a manifest, catalog and

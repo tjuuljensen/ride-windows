@@ -22,6 +22,7 @@
         WindowsDefault = @{ Menu = $null; Command = $null }
       }
       BaselineState = 'WindowsDefault'
+      UnsetState = 'WindowsDefault'
       TargetDefaults = @{
         'Windows 11' = @{ DefaultValue = 'PlatformDefined'; EffectiveDefault = 'Custom context-menu registration; literal image defaults and menu behavior require VM verification.' }
       }

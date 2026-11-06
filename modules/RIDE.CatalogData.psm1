@@ -6,13 +6,14 @@
   whole-catalog AST complexity limit. Never executes a script or imports handlers.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7.
-  Owner: RIDE-Windows maintainers. Version: 0.3.0.
-  Changelog: 0.3.0: Accept bounded in-memory catalog text for byte-bound readers.
+  Owner: RIDE-Windows maintainers. Version: 0.4.0.
+  Changelog: 0.4.0: Verify explicit per-operation override-removal declarations.
+    0.3.0: Accept bounded in-memory catalog text for byte-bound readers.
     0.2.0: Expand bounded declarative password-age day states without handlers.
     0.1.0: Bounded, data-only catalog reader for larger migrations.
 #>
 
-$script:ModuleVersion = '0.3.0'
+$script:ModuleVersion = '0.4.0'
 
 function Import-RideCatalogData {
   <#
@@ -91,4 +92,37 @@ function Import-RideCatalogData {
   $result
 }
 
-Export-ModuleMember -Function Import-RideCatalogData
+function Test-RideDeclaredUnsetState {
+  <#
+  .SYNOPSIS
+    Check whether a catalog entry explicitly selects a supported override removal.
+  .PARAMETER Operation
+    Catalog metadata only. Registry removals must delete every managed value.
+  .OUTPUTS
+    System.Boolean.
+  #>
+  [CmdletBinding()]
+  param([Parameter(Mandatory)][hashtable] $Operation)
+  $state = $Operation.UnsetState
+  if ($state -isnot [string] -or [string]::IsNullOrWhiteSpace($state) -or
+      $state -eq 'Baseline' -or 'Set' -notin $Operation.Actions) { return $false }
+  # Exclusions have fixed Present/Absent actions rather than a States table.
+  if ($Operation.Kind -eq 'DefenderExclusion') { return $state -ceq 'Absent' }
+  if ($Operation.States -isnot [hashtable] -or -not $Operation.States.ContainsKey($state)) { return $false }
+  $value = $Operation.States[$state]
+  switch ($Operation.Kind) {
+    'RegistryValue' { return $null -eq $value }
+    'RegistryValueSet' {
+      if ($value -isnot [hashtable] -or $value.Count -eq 0 -or $value.Count -ne $Operation.RegistryValues.Count) { return $false }
+      foreach ($member in $Operation.RegistryValues) {
+        if ($member.Key -isnot [string] -or -not $value.ContainsKey($member.Key) -or $null -ne $value[$member.Key]) { return $false }
+      }
+      return $true
+    }
+    'ProfileSetting' { return $state -ceq 'Default' -and $null -eq $value }
+    { $_ -in @('ShellFolder','DesktopShortcut') } { return $state -ceq 'Absent' -and $value -ceq 'Absent' }
+    default { return $false }
+  }
+}
+
+Export-ModuleMember -Function Import-RideCatalogData, Test-RideDeclaredUnsetState

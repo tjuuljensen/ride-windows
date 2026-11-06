@@ -177,8 +177,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.22.0
+  Version: 0.23.0
   Changelog:
+    0.23.0: Limit unset and its ID completion to explicit removal-state declarations.
     0.22.0: Require an explicit removal ID or profile and reject a separate removal state.
     0.21.0: Make explicit image hashes optional; calculate missing hashes from local PNGs.
     0.20.0: Select hash-pinned default wallpaper and lock-screen images through set.
@@ -255,7 +256,12 @@ param(
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.CatalogData.psm1') -ErrorAction Stop
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Libraries.psm1') -Force -ErrorAction Stop
       $catalog = (Get-RideCatalogContext -Root (Split-Path -Parent (Split-Path -Parent $catalogPath)) -Library $fakeBoundParameters.Library).Catalog
-      $ids = @($catalog.Operations + $catalog.Groups | ForEach-Object { $_.Id } | Sort-Object -Unique)
+      $entries = @($catalog.Operations) + @($catalog.Groups)
+      if ($fakeBoundParameters.Command -eq 'unset' -or
+          ($commandAst.CommandElements.Count -gt 1 -and $commandAst.CommandElements[1].Value -eq 'unset')) {
+        $entries = @($catalog.Operations | Where-Object { $_.UnsetState -and (Test-RideDeclaredUnsetState $_) })
+      }
+      $ids = @($entries | ForEach-Object { $_.Id } | Sort-Object -Unique)
       Import-Module (Join-Path (Split-Path -Parent $catalogPath) '../modules/RIDE.Discovery.psm1') -ErrorAction Stop
       $listViews = @(Get-RideCatalogViews -Catalog $catalog -IncludeProfiles)
       $isListCommand = $fakeBoundParameters.Command -eq 'list' -or
@@ -424,7 +430,7 @@ param(
   [ArgumentCompleter({
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     try {
-      if ($fakeBoundParameters.Command -in @('search', 'remove')) { return }
+      if ($fakeBoundParameters.Command -in @('search', 'remove', 'unset')) { return }
       if (-not $fakeBoundParameters.ContainsKey('Id')) { return }
       $scriptPath = $commandAst.CommandElements[0].Value
       if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
@@ -554,7 +560,7 @@ if ($showInputExpected) {
     throw 'Use either pipeline input or an explicit -InputObject, not both.'
   }
 }
-$script:ScriptVersion = '0.22.0'
+$script:ScriptVersion = '0.23.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -574,7 +580,8 @@ Commands:
   download <catalog-id> Download a package or standalone artifact without applying it.
   install <catalog-id> Install a package, Windows capability or observed-client RSAT group.
   set <setting-id>     Set one catalog setting to a declared state; use -State <state>.
-  unset <setting-id>   Remove one setting value when its catalog declares an unset state.
+  unset <setting-id>   Apply the operation's declared UnsetState. Tab lists eligible IDs.
+                      An operation without a declaration refuses unset. Use restore for saved prior state.
                       Profile colors: Recommended, AdminBlue, Default or Baseline.
                       Default/unset remove the RIDE block; restore recovers prior content.
                       Pending profile operations await disposable target/visual acceptance.
@@ -718,6 +725,7 @@ Examples:
 }
 
 $ErrorActionPreference = 'Stop'
+if ($Command -eq 'unset' -and $PSBoundParameters.ContainsKey('State')) { throw 'Unset uses the catalog UnsetState and does not accept -State.' }
 if ($Command -eq 'remove') {
   if ($PSBoundParameters.ContainsKey('State')) { throw 'The remove command does not accept -State.' }
   if ($PSBoundParameters.ContainsKey('Id') -and $PSBoundParameters.ContainsKey('Profile')) {

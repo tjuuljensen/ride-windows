@@ -32,7 +32,7 @@ Describe 'Default image catalog integration' {
       {Get-RideSingleOperationPlan windows.default-wallpaper Set Configured}|Should -Throw '*ImagePath*'
       {Get-RideSingleOperationPlan windows.default-wallpaper Set Configured -ImagePath '\\server\wall.png' -ImageSha256 ('A'*64)}|Should -Throw
       {Get-RideSingleOperationPlan windows.default-wallpaper Set Configured -ImagePath 'C:\wall.png' -ImageSha256 bad}|Should -Throw
-      {Get-RideSingleOperationPlan windows.default-wallpaper Unset}|Should -Throw '*no generic unset*'
+      {Get-RideSingleOperationPlan windows.default-wallpaper Unset}|Should -Throw '*no declared override-removal state*'
     }
     It 'previews the example image profile without snapshots, directories or handler dispatch' {
       $profile=Get-RideProfile -Path (Join-Path $script:RideRoot 'profiles/default-images.psd1')

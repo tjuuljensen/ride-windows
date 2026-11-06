@@ -131,6 +131,19 @@ Describe 'Desktop worker preflight and recovery' {
       Should -Invoke Show-RidePlan -Exactly 1;Should -Invoke Invoke-RidePlan -Exactly 0
     }
   }
+  It 'rebuilds desktop unset from the declaration and rejects a substituted state' {
+    InModuleScope RIDE.UserHandoff {
+      $r = New-HandoffTestRequest
+      $r.Command = 'unset'
+      Mock Get-RideSingleOperationPlan { [pscustomobject]@{ Operation = $script:FixtureOp; State = 'Default' } } -ParameterFilter { $Action -eq 'Unset' }
+      $r.Items[0].State = 'Default'
+      Invoke-RideDesktopUserRequest $r | Out-Null
+      $r.Items[0].State = 'Enabled'
+      { Invoke-RideDesktopUserRequest $r } | Should -Throw '*differs from the catalog declaration*'
+      Should -Invoke Get-RideSingleOperationPlan -Exactly 2 -ParameterFilter { $Action -eq 'Unset' }
+      Should -Invoke Invoke-RidePlan -Exactly 1
+    }
+  }
   It 'forwards schema-3 target opt-in and rejects non-Boolean input' {
     InModuleScope RIDE.UserHandoff {
       $r=New-HandoffTestRequest;$r.SchemaVersion=3

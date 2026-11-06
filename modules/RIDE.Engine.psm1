@@ -36,8 +36,9 @@
   Recovery: Restore-RideRun recovers captured settings/presence. Read catalog rollback limits before
   applying packages or grouped changes.
   Author: RIDE-Windows maintainers.
-  Version: 0.35.0
+  Version: 0.36.0
   Changelog:
+    0.36.0: Require a reviewed per-operation UnsetState before planning removal of a setting override.
     0.35.0: Make explicit image hashes optional; calculate missing hashes from local PNGs.
     0.34.0: Integrate hash-pinned default images with saved-run recovery.
     0.33.0: Add exact operation filtering to status while retaining view and profile comparisons.
@@ -96,7 +97,7 @@
 #>
 
 
-$script:ModuleVersion = '0.35.0'
+$script:ModuleVersion = '0.36.0'
 
 $script:RideRoot = Split-Path -Parent $PSScriptRoot
 $script:RideCatalogPath = Join-Path $script:RideRoot 'catalog/operations.psd1'
@@ -1602,22 +1603,10 @@ function Get-RideSingleOperationPlan {
       if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
     }
     'Unset' {
-      if ($operation.Kind -eq 'ProfileSetting') { $State = $operation.UnsetState }
-      elseif ($operation.Kind -eq 'DefaultImage') { throw 'Default images have no generic unset; restore the captured run.' }
-      elseif ($operation.Kind -eq 'UserPath') { throw "'$Id' has no declared unset state. Restore the saved run that added the entry." }
-      elseif ($operation.Kind -in @('UserProxy','WinHttpProxy')) { throw "'$Id' has no unset state. Select Enabled or Disabled, or restore a saved run." }
-      elseif ($operation.Kind -in @('DefenderExclusion', 'ShellFolder', 'DesktopShortcut')) {
-        $State = 'Absent'
+      if (-not (Test-RideDeclaredUnsetState $operation)) {
+        throw "'$Id' has no declared override-removal state usable by unset. Set an explicit state or restore a captured run."
       }
-      elseif ($operation.Kind -eq 'RegistryValueSet') { $State = 'WindowsDefault' }
-      elseif ($operation.Kind -in @('ScheduledTask', 'AdapterBinding', 'DefenderPreference', 'SmbProtocol', 'PowerScheme', 'NetBios', 'RemoteDesktopFirewall', 'SoundScheme', 'FirewallProfile', 'OwnedPowerPlan', 'LocalPasswordMaximumAge', 'Hibernation')) { throw "'$Id' has no declared override-removal state. Set an explicit state or restore a captured run." }
-      elseif ($operation.Kind -ne 'RegistryValue') { throw "'unset' requires a Windows setting ID; '$Id' is a $($operation.Kind) operation." }
-      if ($operation.Kind -eq 'RegistryValue') {
-        $unsetStates = @($operation.States.Keys | Where-Object { $null -eq $operation.States[$_] })
-        if ($unsetStates.Count -eq 0) { throw "'$Id' has no declared unset state." }
-        $State = $unsetStates[0]
-      }
-      if ('Set' -notin $operation.Actions) { throw "'$Id' does not support setting a value." }
+      $State = $operation.UnsetState
     }
     'Install' {
       if ($operation.Kind -notin @('Package', 'WindowsCapability')) { throw "'install' requires a package or Windows capability ID; '$Id' is a $($operation.Kind) operation." }

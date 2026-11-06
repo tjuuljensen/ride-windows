@@ -169,7 +169,7 @@ Describe 'Custom-library authoring' {
     $file = Join-Path $TestDrive 'bad.psd1'
     Set-Content -LiteralPath $file -Value 'Get-Process; @{ Id = "test.author" }'
     { & $script:Helper -Path $script:ProjectPath -Definition $file } | Should -Throw '*single declarative hashtable*'
-    (& $script:Helper -Version) | Should -Be '0.5.0'
+    (& $script:Helper -Version) | Should -Be '0.6.0'
     (Get-Help $script:Helper -Full).Synopsis | Should -Match 'Guide an author'
     Test-Path -LiteralPath $script:ProjectPath | Should -BeFalse
   }

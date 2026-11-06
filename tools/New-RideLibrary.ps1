@@ -58,8 +58,9 @@
   Recovery: New mode refuses existing output. Add mode retains prior metadata in
   a sibling history directory and rolls back failed writes. Validation failure
   removes only this run's staging. Package recovery remains compensating.
-  Owner: RIDE-Windows maintainers. Version: 0.5.0.
-  Changelog: 0.5.0: Save unknown package detection as a draft and resume after VM verification.
+  Owner: RIDE-Windows maintainers. Version: 0.6.0.
+  Changelog: 0.6.0: Declare the guided registry template's WindowsDefault removal state.
+    0.5.0: Save unknown package detection as a draft and resume after VM verification.
     0.4.1: Explain installed-product detection and where to verify its name.
     0.4.0: Add coordinated/default registry values and scope-explicit HKCR paths.
     0.3.0: Add to existing libraries; allow optional HTTP/HTTPS license links.
@@ -82,7 +83,7 @@ param(
   [switch] $Version
 )
 
-$script:ScriptVersion = '0.5.0'
+$script:ScriptVersion = '0.6.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 if ($Help) { Get-Help -Name $PSCommandPath -Full; return }
 $ErrorActionPreference = 'Stop'
@@ -336,6 +337,7 @@ if ($Definition) {
       }
       $operation.States[$stateName] = $desired
       $operation.BaselineState = 'WindowsDefault'
+      $operation.UnsetState = 'WindowsDefault'
       $operation.TargetDefaults = @{}
       foreach ($target in $operation.SupportedTargets) {
         if ($kind -eq 'RegistryValueSet') {

@@ -10,8 +10,9 @@
   Prerequisites: Unelevated Explorer in the caller's current nonzero session.
   File/environment inputs: Current repository modules/catalog and explicit libraries.
   Recovery: Child engine state belongs to the desktop user; mixed scope is refused.
-  Owner: RIDE-Windows maintainers. Version: 0.3.0.
-  Changelog: 0.3.0: Carry target exploration in schema 3; older requests remain opt-out.
+  Owner: RIDE-Windows maintainers. Version: 0.4.0.
+  Changelog: 0.4.0: Recheck the declared unset state in the desktop user session.
+    0.3.0: Carry target exploration in schema 3; older requests remain opt-out.
     0.2.0: Carry explicit candidate opt-in in schema-2 requests; schema 1 remains opt-out.
     0.1.0: Add explicit same-session user-only launch and worker preflight.
   Design reference: https://devblogs.microsoft.com/oldnewthing/20131118-00/?p=2643
@@ -282,7 +283,12 @@ function Invoke-RideDesktopUserRequest {
     if(-not @($Request.Items).Count -or @($Request.Items).Count -gt 100){throw 'Invalid desktop plan size.'}
     $plan=@(foreach($item in $Request.Items){
       if(@($item.PSObject.Properties).Count -ne 3 -or @($item.PSObject.Properties.Name|Where-Object {$_ -notin @('Id','State','ContractHash')}).Count -or $item.Id -isnot [string] -or $item.State -isnot [string] -or $item.ContractHash -notmatch '^[0-9A-F]{64}$'){throw 'Invalid desktop plan item.'}
-      $entry=@(Get-RideSingleOperationPlan -Id $item.Id -Action Set -State $item.State)
+      if ($Request.Command -eq 'unset') {
+        $entry = @(Get-RideSingleOperationPlan -Id $item.Id -Action Unset)
+        if ($entry.Count -ne 1 -or $entry[0].State -cne $item.State) { throw 'Desktop unset state differs from the catalog declaration.' }
+      } else {
+        $entry = @(Get-RideSingleOperationPlan -Id $item.Id -Action Set -State $item.State)
+      }
       if($entry.Count -ne 1 -or (Get-RideHandoffHash $entry[0].Operation) -cne $item.ContractHash){throw 'Desktop operation contract changed; nothing applied.'}
       $entry[0]
     })

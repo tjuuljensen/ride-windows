@@ -8,8 +8,9 @@
   Does not download payloads, import the engine or invoke Windows handlers.
 .NOTES
   Compatibility: Windows PowerShell 5.1 and PowerShell 7 on Windows.
-  Owner: RIDE-Windows maintainers. Version: 0.5.0.
-  Changelog: 0.5.0: Save incomplete package definitions as drafts and derive exact detection patterns from confirmed names.
+  Owner: RIDE-Windows maintainers. Version: 0.6.0.
+  Changelog: 0.6.0: Accept explicit registry override-removal state declarations.
+    0.5.0: Save incomplete package definitions as drafts and derive exact detection patterns from confirmed names.
     0.4.0: Author coordinated registry values and map HKCR to explicit scope roots.
     0.3.0: Add operations to existing libraries with versioned metadata recovery.
     0.2.0: Accept ZIP packaging and distinct installer-member digest fields.
@@ -99,8 +100,8 @@ function ConvertTo-RideLibraryProjectData {
     $specific = if ($inputOperation.Kind -eq 'Package') {
       @('PackageId', 'InstallerType', 'Architecture', 'DownloadProvider', 'DownloadUri', 'PackageVersion', 'AssetName', 'ExpectedSha256',
         'AssetPattern', 'DisplayNamePattern', 'DetectionDisplayName', 'InstallerArguments', 'UninstallerArguments', 'SuccessExitCodes', 'ProductUri', 'License', 'LicenseUri', 'TermsUri', 'TagPrefix', 'PublisherChecksumSource', 'ArchiveType', 'InstallerEntry', 'ExpectedInstallerSha256')
-    } elseif ($inputOperation.Kind -eq 'RegistryValueSet') { @('RegistryValues', 'States', 'BaselineState', 'DocumentationUri') }
-    else { @('RegistryPath', 'ValueName', 'ValueType', 'States', 'BaselineState', 'DocumentationUri') }
+    } elseif ($inputOperation.Kind -eq 'RegistryValueSet') { @('RegistryValues', 'States', 'BaselineState', 'UnsetState', 'DocumentationUri') }
+    else { @('RegistryPath', 'ValueName', 'ValueType', 'States', 'BaselineState', 'UnsetState', 'DocumentationUri') }
     foreach ($field in $inputOperation.Keys) {
       if ($field -notin ($common + $specific)) { throw "Unknown $($inputOperation.Kind) authoring field: $field" }
     }
