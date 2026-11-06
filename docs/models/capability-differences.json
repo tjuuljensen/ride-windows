@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "contractVersion": "1.1.0",
-  "reviewedOn": "2026-11-05",
+  "reviewedOn": "2026-11-06",
   "reviewedSources": {
     "rideWindows": {
-      "commit": "6d7435bc075f61a26c6f6223a0d2d3622de5d60b",
+      "commit": "bcfa38ad0460987c14387f1dc7a819274c820a85",
       "branch": "codex/ride-v3-migration",
       "paths": ["ride.ps1", "modules/RIDE.Engine.psm1", "modules/RIDE.UserHandoff.psm1", "docs/models/behavior-scenarios.json"]
     },
@@ -46,7 +46,7 @@
       "disposition": "temporary-gap",
       "decisionStatus": "open",
       "owner": ["RIDE-Windows maintainers", "RIDE-Fedora maintainers"],
-      "reason": "Both clients reject remove with an ID and explicit profile. Fedora checks command-specific options before mutation. Windows still accepts irrelevant parameters, for example -State on remove, and proceeds to planning.",
+      "reason": "Both clients reject mixed removal selectors and a separate removal state before planning. The wider Windows command/option audit remains open.",
       "ruleIds": ["RB-02", "RB-11"],
       "evidence": [{ "windows": "tests/CliShouldProcess.Tests.ps1", "fedora": "ride.sh and lib/v3/common.sh at reviewed source revision" }],
       "linkedWork": ["ALIGN-03"],
@@ -55,14 +55,14 @@
     {
       "id": "cli.bare-remove-default-profile",
       "capability": "Default selector for remove",
-      "disposition": "temporary-gap",
-      "decisionStatus": "open",
+      "disposition": "aligned",
+      "decisionStatus": "source-reviewed",
       "owner": ["RIDE-Windows maintainers", "RIDE-Fedora maintainers"],
-      "reason": "Fedora requires a package ID or explicit --profile. Windows falls back to profiles/default.psd1 and can remove its eligible entries. Windows needs a compatibility transition for the published form.",
+      "reason": "Windows CLI 0.22.0 and Fedora require an explicit removal selector. Windows callers that used the implicit default profile through 0.21.0 can select profiles/default.psd1 explicitly.",
       "ruleIds": ["RB-02", "RB-07"],
       "evidence": [{ "windows": "ride.ps1 remove dispatch at reviewed source revision", "fedora": "ride.sh remove dispatch at reviewed source revision" }],
       "linkedWork": ["ALIGN-03"],
-      "reviewRemovalTrigger": "Remove after a versioned alias/deprecation transition is documented and tests prove bare remove cannot unexpectedly act on a default profile."
+      "reviewRemovalTrigger": "Review if removal selectors, profile defaults or preflight ordering change."
     },
     {
       "id": "settings.unset-meaning",
@@ -82,11 +82,11 @@
       "disposition": "temporary-gap",
       "decisionStatus": "open",
       "owner": ["RIDE-Windows maintainers", "RIDE-Fedora maintainers"],
-      "reason": "Fedora preflights reversible packages selected for removal and preserves one-way prerequisites and settings. Windows includes packages, Windows capabilities and Defender exclusions. Its profile removal help and empty-plan diagnostic describe only packages.",
+      "reason": "Fedora filters profile removal to reversible packages. Windows also documents removable Windows capabilities and Defender exclusions. The Windows mixed-profile fixture verifies that ordinary settings and an unrelated installed package are preserved. Peer evidence for the combined issue 8 fixture remains pending.",
       "ruleIds": ["RB-02", "RB-07", "RB-09"],
       "evidence": [{ "windows": "modules/RIDE.Engine.psm1 profile removal planning at reviewed source revision", "fedora": "ride.sh and lib/v3/common.sh removal planning at reviewed source revision" }],
       "linkedWork": ["ALIGN-03"],
-      "reviewRemovalTrigger": "Review when Windows documents its removable classes and both clients verify whole-plan preflight and dependency-safe removal of eligible entries."
+      "reviewRemovalTrigger": "Review when Fedora reports both input orders, retained unrelated state and zero mutation for an invalid later entry in issue 8."
     },
     {
       "id": "profiles.remove-dependency-order",
@@ -96,7 +96,7 @@
       "owner": ["RIDE-Fedora maintainers", "RIDE-Windows maintainers"],
       "reason": "Fedora reverses profile order. With both packages installed and the dependent listed first, it removes the prerequisite, then fails the dependent's dependency check. The shared RB07-01 fixture lists the prerequisite first and misses this partial mutation.",
       "ruleIds": ["RB-07", "RB-09", "RB-11"],
-      "evidence": [{ "windows": "tests/PackageDependencyPlanning.Tests.ps1 and docs/fedora-alignment.md#contract-recheck-2026-11-05", "fedora": "ride.sh ride_remove_profile and tests/test_v3_cli.py test_profile_removal_orders_selected_dependent_before_prerequisite" }],
+      "evidence": [{ "windows": "tests/ProfileRemoval.Tests.ps1 and docs/fedora-alignment.md#windows-align-03-explicit-removal-2026-11-06", "fedora": "ride.sh ride_remove_profile and tests/test_v3_cli.py test_profile_removal_orders_selected_dependent_before_prerequisite" }],
       "linkedWork": ["ALIGN-03", "ALIGN-05"],
       "reviewRemovalTrigger": "Before promotion, Fedora must preflight dependency-safe removal and both adapters must exercise both profile orders."
     },

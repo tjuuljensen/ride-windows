@@ -3,6 +3,72 @@
 Machine-readable capability and difference dispositions are maintained in the
 [capability register](models/capability-differences.json).
 
+## Windows ALIGN-03 explicit removal, 2026-11-06
+
+Windows CLI 0.22.0 implements RB-02/07 under the adopted contract 1.1.0.
+The tested implementation is [bcfa38ad](https://github.com/tjuuljensen/ride-windows/commit/bcfa38ad0460987c14387f1dc7a819274c820a85).
+Through CLI 0.21.0 bare `remove` selected the default profile. Starting with
+0.22.0, callers must name the ID or profile explicitly. To retain the earlier
+selection, use `remove -Profile .\profiles\default.psd1`. A missing or blank
+selection, a mixed ID/profile selection, or a supplied state fails before the
+engine loads, including during preview. Existing explicit ID/profile calls and
+saved-run recovery keep their meanings.
+
+| Windows CLI case (mocked handlers) | Result |
+| --- | --- |
+| Profile lists alpha, then beta; beta depends on alpha | Preview showed beta then alpha, with zero uninstalls and zero run records. Execution removed beta then alpha and recorded both completed. |
+| Profile lists beta, then alpha | Same preview, uninstall order and completed journal. In both runs the third installed package remained present and the ordinary setting received zero writes. |
+| Valid package followed by unknown ID | Refused before the first uninstall. Both alpha and beta remained installed and no run was created. |
+
+Windows PowerShell 5.1 and PowerShell 7 each passed all 88 cases in the
+`ProfileRemoval`, `CliShouldProcess`, `PackageDependencyPlanning`,
+`BehaviorContract` and `AlignmentDrift` Pester suites (5.7.1, TestRegistry
+disabled). These are CLI and engine tests with synthetic package state.
+The Windows owner has completed this removal batch. Fedora revision
+`eed301680a9f8d2bf22e107d533b77016ffafa84` already requires an explicit
+selector. The [comparison below](#contract-recheck-2026-11-06) records its
+ordering failure. Fedora owns its fix and matching results in
+[issue #8](https://github.com/tjuuljensen/ride-windows/issues/8). Review again
+on the peer result and when adopting paired RB07-01 fixtures under ALIGN-05.
+Windows per-operation unset review remains under ALIGN-03.
+
+## Contract recheck, 2026-11-06
+
+The published `codex/ride-v3-migration` branches matched the reviewed checkouts:
+Windows `233633af9213f11750fb1ead835f3c5d2e5390bc` and Fedora
+`eed301680a9f8d2bf22e107d533b77016ffafa84`. Since the
+[November 5 review](#contract-recheck-2026-11-05), Windows committed that
+review and Windows 11 Pro component acceptance work. Fedora's revision and
+the Windows CLI, engine and catalog match the previous comparison. Under RB-12
+these are documentation and native evidence changes with shared behavior unchanged.
+
+The Windows drift report returned `Current`. Both clients pin contract 1.1.0
+(`B88967EA5BDE29E0141BCA15134E2DAC63E02FAF7931CB18E83BA08CF5262938`).
+Both scenario files and adapter pins match revision 1.1.0
+(`9353770486CFC7768F8D2DD4BF0DB646FFF894E591974F07409035DF7F2D3632`).
+The eight Windows contract and drift tests passed in PowerShell 7. Fedora's
+validators passed for all 12 scenario mappings and 21 register entries.
+Both consumer references still have a null `publishedCommit`. The canonical
+file at [Windows commit 1871f7bc](https://github.com/tjuuljensen/ride-windows/blob/1871f7bcf0a9374351ffda2f8fc443c4a68cdcf5/docs/models/ride-behavior-contract.md)
+has the same Git blob as the current contract and is reachable from the published
+Windows branch. The maintainers can use that immutable source for ALIGN-09.
+
+**RB-07 removal recheck.** In a disposable Fedora WSL copy, both synthetic
+packages began installed and beta depended on alpha. The same explicit
+`remove --profile` invocation produced these results with mocked providers:
+
+| Profile order | Exit | Journal, in execution order | Still installed |
+| --- | ---: | --- | --- |
+| alpha, beta | 0 | beta changed, alpha changed | Neither |
+| beta, alpha | 1 | alpha changed, beta failed | beta |
+
+Keep Fedora profile-removal promotion gated on dependency-safe planning.
+Both adapter owners should exercise both orders through explicit profile removal
+under ALIGN-03/05. Two Windows `-WhatIf` checks using a copied CLI and a mock
+engine confirmed that bare removal plans against `profiles/default.psd1` and
+that `remove fake.package -State Enabled` reaches package removal planning.
+The explicit-selector transition and irrelevant-option refusal remain open.
+
 ## Contract recheck, 2026-11-05
 
 Compared the local migration branches at Windows
@@ -179,7 +245,8 @@ shared cross-repository CLI conformance suite.
 ## Current command envelope and actions
 
 This matrix describes the November 1 baseline. Use the
-[November 5 recheck](#contract-recheck-2026-11-05) for current findings.
+[November 6 recheck](#contract-recheck-2026-11-06) and the subsequent
+[Windows removal batch](#windows-align-03-explicit-removal-2026-11-06) for current findings.
 
 Sources: Windows [entry point](../ride.ps1), [engine](../modules/RIDE.Engine.psm1)
 and [user handoff](../modules/RIDE.UserHandoff.psm1); Fedora
