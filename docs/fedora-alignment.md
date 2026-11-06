@@ -18,7 +18,10 @@ each passed the 16 tests in UnsetDeclaration, BehaviorContract and AlignmentDrif
 They cover plain and preview refusal, legacy library explicit set, malformed
 declarations, BCD state selection and completion. Repository validation passed
 for 479 operations, nine groups, six profiles and 415 PowerShell files. The
-generated operation reference matched the catalog. These checks used planning
+generated operation reference matched the catalog. The nine-suite unit regression
+passed 305 tests in each PowerShell edition (Pester 5.7.1). The WindowsIntegration
+registry-subtree case was excluded for disposable-VM execution. See the
+[issue #8 handoff](https://github.com/tjuuljensen/ride-windows/issues/8#issuecomment-6687362791). These checks used planning
 and mocked execution boundaries. Native boot and setting acceptance remain
 separate.
 
