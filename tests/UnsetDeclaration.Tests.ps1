@@ -23,14 +23,14 @@ Describe 'Catalog-declared unset' {
     Mock Import-Module {} -ParameterFilter { $Name -like '*RIDE.Engine.psm1' }
     Mock Set-RideLibraryContext {}
     Mock Get-RideOperation -ModuleName RIDE.Engine {
-      # Each fixture had an inferred removal under the previous CLI.
+      # Tempting state names and null values cannot authorize an undeclared removal.
       @{ Id = $Id; Kind = $Id; Actions = @('Set'); BaselineState = 'WindowsDefault'
          States = @{ WindowsDefault = $null; Absent = 'Absent'; Disabled = 0 } }
     }
     Mock Get-RidePlan -ModuleName RIDE.Engine { throw 'Unexpected planning' }
     Mock Get-RideCurrentState -ModuleName RIDE.Engine { throw 'Unexpected observation' }
     Mock Invoke-RidePlan { throw 'Unexpected execution' }
-    foreach ($kind in @('RegistryValue','RegistryValueSet','DefenderExclusion','ShellFolder','DesktopShortcut','ProfileSetting')) {
+    foreach ($kind in @('RegistryValue','RegistryValueSet','DefenderExclusion','ShellFolder','DesktopShortcut','ProfileSetting','BootConfiguration')) {
       { & $script:runner unset $kind -Confirm:$false } | Should -Throw '*no declared override-removal state*'
       { & $script:runner unset $kind -WhatIf } | Should -Throw '*no declared override-removal state*'
     }
@@ -46,6 +46,17 @@ Describe 'Catalog-declared unset' {
     $plan[0].State | Should -BeExactly 'Disabled'
     ($null -eq $plan[0].Operation.States.Disabled) | Should -BeTrue
     { Get-RideSingleOperationPlan windows.show-known-extensions -Action Unset } | Should -Throw '*no declared override-removal state*'
+  }
+
+  It 'selects the declared delete-value state for <Id>' -TestCases @(
+    @{ Id = 'windows.boot-failure-recovery-policy'; Expected = 'WindowsDefault' }
+    @{ Id = 'windows.f8-boot-menu-policy'; Expected = 'Standard' }
+    @{ Id = 'windows.dep-boot-policy'; Expected = 'OptIn' }
+  ) {
+    param($Id, $Expected)
+    $plan = Get-RideSingleOperationPlan $Id -Action Unset
+    $plan.State | Should -BeExactly $Expected
+    ($null -eq $plan.Operation.States[$Expected]) | Should -BeTrue
   }
 
   It 'preserves explicit set for an API 1 library without inferring unset from a null state' {

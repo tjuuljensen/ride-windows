@@ -111,7 +111,7 @@ function Test-RideDeclaredUnsetState {
   if ($Operation.States -isnot [hashtable] -or -not $Operation.States.ContainsKey($state)) { return $false }
   $value = $Operation.States[$state]
   switch ($Operation.Kind) {
-    'RegistryValue' { return $null -eq $value }
+    { $_ -in @('RegistryValue','BootConfiguration') } { return $null -eq $value }
     'RegistryValueSet' {
       if ($value -isnot [hashtable] -or $value.Count -eq 0 -or $value.Count -ne $Operation.RegistryValues.Count) { return $false }
       foreach ($member in $Operation.RegistryValues) {
