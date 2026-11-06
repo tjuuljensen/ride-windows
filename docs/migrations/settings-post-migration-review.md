@@ -1,3 +1,22 @@
+## Per-operation unset review, 2026-11-06
+
+| Operation kind | Reviewed removal meaning |
+| --- | --- |
+| RegistryValue | 190 of 203 declare the state that deletes the value. The published state names are WindowsDefault (129), Enabled (42), Visible (7), UserControlled (4), Disabled (3), Always (2), Automatic (1), Hidden (1) and Shown (1). The other 13 write explicit values in every state and refuse unset, including `windows.show-known-extensions`. |
+| RegistryValueSet | All 17 declare WindowsDefault. Every managed member in that state is explicitly null, so the handler deletes each value. A partial map or value write is ineligible. |
+| DesktopShortcut, ShellFolder, DefenderExclusion | Two shortcuts, one shell folder and two individual exclusions declare Absent for the named object. |
+| ProfileSetting | Four operations declare Default to remove their managed PowerShell profile block. |
+| BootConfiguration | Three operations remove the named BCD element on the current boot entry. The published states are WindowsDefault (bootstatuspolicy), Standard (bootmenupolicy) and OptIn (nx). The handler issues a bounded delete only when the element exists. Normal privilege, preview and saved recovery apply. Reboot acceptance remains separate. |
+| Other reset or deletion actions | Keep explicit set for the per-app background override reset, which scans multiple applications, and for registry namespace visibility, which can delete an entire registration subtree. PATH and owned power-plan recovery require the saved run to establish ownership. Revisit if a handler gains a bounded removal of a single declared override. |
+| Remaining operations and groups | No reviewed override-removal state. Use the documented explicit operation or saved-run recovery as applicable. |
+
+The review covered all 479 operations and the group dispatch. It changed
+selection and validation without changing IDs, named states or handler
+payloads. Existing versioned libraries keep their exact catalog for recovery.
+The [library guide](../custom-libraries.md) describes opting in with a new
+version. No legacy setting was retired or promoted. The settings estimate
+remains 37-57 pending feature and native acceptance.
+
 ## Default wallpaper and lock-screen integration, 2026-11-03
 
 The two machine defaults are independently useful settings: wallpaper initializes

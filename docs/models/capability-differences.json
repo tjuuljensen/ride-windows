@@ -4,12 +4,12 @@
   "reviewedOn": "2026-11-06",
   "reviewedSources": {
     "rideWindows": {
-      "commit": "bcfa38ad0460987c14387f1dc7a819274c820a85",
-      "branch": "codex/ride-v3-migration",
-      "paths": ["ride.ps1", "modules/RIDE.Engine.psm1", "modules/RIDE.UserHandoff.psm1", "docs/models/behavior-scenarios.json"]
+      "commit": "e195f49b727b80e53947c665d53e6782012266cb",
+      "branch": "codex/align-03-windows-unset",
+      "paths": ["catalog/operations.psd1", "modules/RIDE.CatalogData.psm1", "tests/UnsetDeclaration.Tests.ps1", "ride.ps1", "modules/RIDE.Engine.psm1", "modules/RIDE.UserHandoff.psm1", "docs/models/behavior-scenarios.json"]
     },
     "rideFedora": {
-      "commit": "eed301680a9f8d2bf22e107d533b77016ffafa84",
+      "commit": "df006ab9237459c588cda675650eae1a89aba26d",
       "branch": "codex/ride-v3-migration",
       "paths": ["ride.sh", "lib/v3/common.sh", "lib/v3/catalog.sh", "completion/ride.bash"]
     }
@@ -67,14 +67,14 @@
     {
       "id": "settings.unset-meaning",
       "capability": "Unset versus explicit Disabled state",
-      "disposition": "temporary-gap",
-      "decisionStatus": "open",
+      "disposition": "aligned",
+      "decisionStatus": "source-reviewed",
       "owner": ["RIDE-Windows maintainers", "RIDE-Fedora maintainers"],
-      "reason": "Fedora requires an operation's unsetState and refuses undeclared cases. Windows reads UnsetState for ProfileSetting but infers removal for other kinds, including the first null-valued RegistryValue state. Each eligible operation needs an unambiguous override-removal meaning.",
+      "reason": "Both planners require the setting to declare its removal state. Windows validates the removal effect for all 219 declarations and refuses missing or invalid declarations before observation. Fedora completed removal and recovery acceptance for its five reviewed owned-file settings on Fedora 44 Workstation and Server.",
       "ruleIds": ["RB-06"],
-      "evidence": [{ "windows": "modules/RIDE.Engine.psm1 Get-RideSingleOperationPlan", "fedora": "ride.sh unset dispatch and docs/windows-alignment.md ALIGN-03 setting lifecycle decision" }],
+      "evidence": [{ "windows": "tests/UnsetDeclaration.Tests.ps1 and modules/RIDE.CatalogData.psm1 Test-RideDeclaredUnsetState", "fedora": "ride.sh unset dispatch and docs/windows-alignment.md ALIGN-03 setting lifecycle decision" }],
       "linkedWork": ["ALIGN-03"],
-      "reviewRemovalTrigger": "Review Windows per-operation selection and Fedora's remaining owned-file settings. Close after paired refusal, removal and saved-state recovery cases pass."
+      "reviewRemovalTrigger": "Review each new declaration or handler change. Pair RB06-01 refusal, explicit set and saved recovery in ALIGN-05."
     },
     {
       "id": "profiles.remove-eligibility",
@@ -82,11 +82,11 @@
       "disposition": "temporary-gap",
       "decisionStatus": "open",
       "owner": ["RIDE-Windows maintainers", "RIDE-Fedora maintainers"],
-      "reason": "Fedora filters profile removal to reversible packages. Windows also documents removable Windows capabilities and Defender exclusions. The Windows mixed-profile fixture verifies that ordinary settings and an unrelated installed package are preserved. Peer evidence for the combined issue 8 fixture remains pending.",
+      "reason": "Both mixed-profile fixtures preserve the unrelated package and ordinary setting. Windows also documents removable Windows capabilities and Defender exclusions; Fedora selects reversible packages. Fedora reported 40 passing tests at local c658c548 in issue 8.",
       "ruleIds": ["RB-02", "RB-07", "RB-09"],
-      "evidence": [{ "windows": "modules/RIDE.Engine.psm1 profile removal planning at reviewed source revision", "fedora": "ride.sh and lib/v3/common.sh removal planning at reviewed source revision" }],
+      "evidence": [{ "windows": "modules/RIDE.Engine.psm1 profile removal planning at reviewed source revision", "fedora": "https://github.com/tjuuljensen/ride-windows/issues/8#issuecomment-6686606738 and ride.sh and lib/v3/common.sh removal planning at reviewed source revision" }],
       "linkedWork": ["ALIGN-03"],
-      "reviewRemovalTrigger": "Review when Fedora reports both input orders, retained unrelated state and zero mutation for an invalid later entry in issue 8."
+      "reviewRemovalTrigger": "Confirm the published Fedora revision and record the platform-specific removable classes in the paired fixture."
     },
     {
       "id": "profiles.remove-dependency-order",
@@ -94,11 +94,11 @@
       "disposition": "temporary-gap",
       "decisionStatus": "open",
       "owner": ["RIDE-Fedora maintainers", "RIDE-Windows maintainers"],
-      "reason": "Fedora reverses profile order. With both packages installed and the dependent listed first, it removes the prerequisite, then fails the dependent's dependency check. The shared RB07-01 fixture lists the prerequisite first and misses this partial mutation.",
+      "reason": "Both Windows profile orders pass preview and execution. Fedora reports the same dependent-first order and preflight refusal at local c658c548; its tested fix still needs a published migration revision.",
       "ruleIds": ["RB-07", "RB-09", "RB-11"],
-      "evidence": [{ "windows": "tests/ProfileRemoval.Tests.ps1 and docs/fedora-alignment.md#windows-align-03-explicit-removal-2026-11-06", "fedora": "ride.sh ride_remove_profile and tests/test_v3_cli.py test_profile_removal_orders_selected_dependent_before_prerequisite" }],
+      "evidence": [{ "windows": "tests/ProfileRemoval.Tests.ps1 and docs/fedora-alignment.md#windows-align-03-explicit-removal-2026-11-06", "fedora": "https://github.com/tjuuljensen/ride-windows/issues/8#issuecomment-6686606738 and ride.sh ride_remove_profile and tests/test_v3_cli.py test_profile_removal_orders_selected_dependent_before_prerequisite" }],
       "linkedWork": ["ALIGN-03", "ALIGN-05"],
-      "reviewRemovalTrigger": "Before promotion, Fedora must preflight dependency-safe removal and both adapters must exercise both profile orders."
+      "reviewRemovalTrigger": "Verify Fedora publication, then pin both orders and invalid-later-entry refusal in the shared RB07-01 fixture."
     },
     {
       "id": "candidate.preview",

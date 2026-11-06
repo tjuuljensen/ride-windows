@@ -899,14 +899,11 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
 - [x] **ALIGN-02:** Add reciprocal AGENTS review/versioning rules covering CLI,
   settings, planning, acquisition, privilege and recovery, not only package batches.
 - [ ] **ALIGN-03:** Enforce unambiguous arguments and declared unset/removal.
-  Windows CLI 0.22.0 requires an explicit removal selector, rejects a separate
-  state before planning, and documents removable classes. Remaining Windows
-  work: review inferred unset states and the broader command/option matrix.
-  Fedora now requires explicit removal and declared unset. Fix profile removal
-  when a dependent appears first: the prerequisite can be removed before the
-  command fails. Cover both orders in ALIGN-05 and retain saved-run recovery.
-  The [November 6 comparison](docs/fedora-alignment.md#contract-recheck-2026-11-06)
-  reproduced both profile orders against the published Fedora revision.
+  Windows requires an explicit removal selector and rejects a separate state.
+  Windows CLI 0.23.0 and Fedora both require declared unset; Windows reviewed
+  all 479 operations. Audit the remaining command/option combinations for
+  preflight refusal. Fedora completed its five owned-file setting and recovery reviews.
+  See the [November 6 unset and removal results](docs/fedora-alignment.md#windows-align-03-declared-unset-2026-11-06).
 - [ ] **ALIGN-04:** Align candidate preview and acquisition with RB-03/04/05/08.
   Both clients implement flag-free candidate previews. Fedora separates download
   from execution acceptance and checks restore-preview targets and identity.
@@ -922,7 +919,7 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
   search file and all mapped scenarios passed. Paired CI/conformance remains open.
   The [Windows removal batch](docs/fedora-alignment.md#windows-align-03-explicit-removal-2026-11-06)
   passed both profile orders, preview, unrelated-state preservation and invalid-plan
-  refusal. Obtain matching Fedora evidence in [issue #8](https://github.com/tjuuljensen/ride-windows/issues/8),
+  refusal. Fedora reported matching tests in [issue #8](https://github.com/tjuuljensen/ride-windows/issues/8#issuecomment-6686606738). Verify the published Fedora revision,
   then version the expanded RB07-01 data and update both adapter pins together.
   See [Windows evidence](docs/archive/evidence/shared-behavior-and-status-windows-pester-2026-11-03.json).
 - [ ] **ALIGN-06:** Turn existing comparison gaps into a structured capability and
@@ -953,8 +950,9 @@ The [contract](docs/models/ride-behavior-contract.md) owns shared rules; the
   is a verified immutable source for 1.1.0. Both consumer references still
   need the agreed commit recorded before final release.
 
-Next Windows batch: review per-operation unset declarations and refusal under
-ALIGN-03. Fedora owns the removal-order fix and its results in issue #8.
+Next Windows batch: audit irrelevant and conflicting selectors before planning
+under ALIGN-03. Coordinate the RB06-01 refusal and RB07-01 two-order fixtures
+with Fedora under ALIGN-05.
 
 ## Migration closure queue
 

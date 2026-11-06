@@ -3,6 +3,42 @@
 Machine-readable capability and difference dispositions are maintained in the
 [capability register](models/capability-differences.json).
 
+## Windows ALIGN-03 declared unset, 2026-11-06
+
+Windows CLI 0.23.0 requires an operation to name its override-removal state.
+Of 479 operations, 219 qualify. The other 260 refuse `unset`, including on
+preview. Windows rejects a separately supplied `-State`. The planner checks
+the declaration before observing a target or opening a run. The desktop-user
+worker rechecks the declaration before applying its saved plan item. See the
+[Windows implementation](https://github.com/tjuuljensen/ride-windows/commit/e195f49b727b80e53947c665d53e6782012266cb)
+and the [per-kind review](migrations/settings-post-migration-review.md#per-operation-unset-review-2026-11-06).
+
+At the final implementation revision, Windows PowerShell 5.1 and PowerShell 7
+each passed the 16 tests in UnsetDeclaration, BehaviorContract and AlignmentDrift.
+They cover plain and preview refusal, legacy library explicit set, malformed
+declarations, BCD state selection and completion. Repository validation passed
+for 479 operations, nine groups, six profiles and 415 PowerShell files. The
+generated operation reference matched the catalog. These checks used planning
+and mocked execution boundaries. Native boot and setting acceptance remain
+separate.
+
+Fedora's published migration revision `df006ab9237459c588cda675650eae1a89aba26d`
+also requires a declared removal state. Both clients retain contract 1.1.0.
+Fedora completed its five owned-file reviews. Its [setting lifecycle record](https://github.com/tjuuljensen/ride-fedora/blob/df006ab9237459c588cda675650eae1a89aba26d/docs/windows-alignment.md#align-03-setting-lifecycle-decision-2026-11-05) links the Fedora 44 Workstation and Server removal and recovery results. Pair the
+declared and missing-declaration cases under RB06-01, including explicit set
+and saved recovery. Native feature acceptance remains tracked separately.
+
+Fedora reported 40 passing mocked Fedora 44 CLI tests at its local commit
+`c658c5484b84891e082f2de60319484d0f2e0013`. In both profile orders preview
+and execution selected the dependent first. Preview created no journal, the
+unrelated package and setting were preserved, and a bad later ID or selected
+cycle failed before the first uninstall. Windows published the previous
+removal change on its migration branch and reran 88 tests in each
+PowerShell edition. Fedora owns publication of its tested commit, followed
+by the paired RB07-01 fixture update. See the
+[Fedora result](https://github.com/tjuuljensen/ride-windows/issues/8#issuecomment-6686606738)
+and [Windows rerun](https://github.com/tjuuljensen/ride-windows/issues/8#issuecomment-6686749175).
+
 ## Windows ALIGN-03 explicit removal, 2026-11-06
 
 Windows CLI 0.22.0 implements RB-02/07 under the adopted contract 1.1.0.
@@ -30,7 +66,7 @@ selector. The [comparison below](#contract-recheck-2026-11-06) records its
 ordering failure. Fedora owns its fix and matching results in
 [issue #8](https://github.com/tjuuljensen/ride-windows/issues/8). Review again
 on the peer result and when adopting paired RB07-01 fixtures under ALIGN-05.
-Windows per-operation unset review remains under ALIGN-03.
+The subsequent [declared unset review](#windows-align-03-declared-unset-2026-11-06) records the Windows result.
 
 ## Contract recheck, 2026-11-06
 
