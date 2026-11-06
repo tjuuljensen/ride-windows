@@ -199,7 +199,26 @@ Describe 'CLI ShouldProcess forwarding' {
   }
 
   It 'rejects ambiguous direct and profile removal before planning' {
-    { & $script:Runner remove fake.package -Profile fake-profile.psd1 } | Should -Throw '*either a single package ID or -Profile*'
+    { & $script:Runner remove fake.package -Profile fake-profile.psd1 } | Should -Throw '*either a single catalog ID or -Profile*'
+  }
+
+  It 'refuses invalid removal selectors and states before loading the engine' {
+    # The CLI copy has no adjacent engine. Importing it would produce a different error.
+    $runner = Join-Path $TestDrive 'remove-preflight.ps1'
+    Copy-Item -LiteralPath $script:Runner -Destination $runner
+    { & $runner remove } | Should -Throw '*requires a catalog ID or an explicit -Profile*'
+    { & $runner remove -Profile '' -WhatIf } | Should -Throw '*requires a catalog ID*'
+    { & $runner remove -Id ' ' } | Should -Throw '*requires a catalog ID*'
+    { & $runner remove -Id '' -Profile fake.psd1 } | Should -Throw '*not both*'
+    { & $runner remove fake.package -Profile fake.psd1 } | Should -Throw '*not both*'
+    { & $runner remove -Id fake.package -State '' } | Should -Throw '*does not accept -State*'
+    { & $runner remove fake.package Absent } | Should -Throw '*does not accept -State*'
+    { & $runner remove -Profile fake.psd1 -State Absent -WhatIf } | Should -Throw '*does not accept -State*'
+  }
+
+  It 'accepts positional and named package IDs for removal' {
+    (& $script:Runner remove fake.package -WhatIf | Where-Object Stage -eq Engine).WhatIf | Should -BeTrue
+    (& $script:Runner remove -Id fake.package -WhatIf | Where-Object Stage -eq Engine).WhatIf | Should -BeTrue
   }
 
   It 'refuses unsupported prune-state selectors before invoking the cleanup handler' {

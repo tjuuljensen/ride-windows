@@ -41,8 +41,8 @@
   complete operation IDs from the local catalog.
 
 .PARAMETER Profile
-  Profile data-file path. Profile commands default to profiles/default.psd1; status compares a
-  profile only when explicitly supplied.
+  Profile data-file path. Apply and plan default to profiles/default.psd1. Profile removal
+  and profile status comparisons require an explicit path.
 
 .PARAMETER State
   Catalog state for set, also accepted positionally after the ID. Press Tab for declared states.
@@ -177,8 +177,9 @@
   machine/user RIDE state stores. Package observations use catalog/artifact-observations.json.
   Recovery: Use restore -RunId for captured state. Package recovery has the catalog-declared limits.
   Author: RIDE-Windows maintainers.
-  Version: 0.21.0
+  Version: 0.22.0
   Changelog:
+    0.22.0: Require an explicit removal ID or profile and reject a separate removal state.
     0.21.0: Make explicit image hashes optional; calculate missing hashes from local PNGs.
     0.20.0: Select hash-pinned default wallpaper and lock-screen images through set.
     0.19.0: Add explicit status operation and view selectors while preserving positional views.
@@ -423,7 +424,7 @@ param(
   [ArgumentCompleter({
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     try {
-      if ($fakeBoundParameters.Command -eq 'search') { return }
+      if ($fakeBoundParameters.Command -in @('search', 'remove')) { return }
       if (-not $fakeBoundParameters.ContainsKey('Id')) { return }
       $scriptPath = $commandAst.CommandElements[0].Value
       if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
@@ -553,7 +554,7 @@ if ($showInputExpected) {
     throw 'Use either pipeline input or an explicit -InputObject, not both.'
   }
 }
-$script:ScriptVersion = '0.21.0'
+$script:ScriptVersion = '0.22.0'
 if ($Version) { Write-Output $script:ScriptVersion; return }
 
 if ($Help) {
@@ -582,13 +583,15 @@ Commands:
   restore -RunId <id>  Restore values recorded before a prior run.
                       If apply fails, the error lists saved, completed and unfinished operations.
                       Restore that RunId, then reapply the same profile to continue safely.
-  remove [catalog-id]  Remove one package/component or profile-selected packages.
+  remove <catalog-id>  Remove a package, Windows capability or the all-RSAT group.
+  remove -Profile <file>  Remove selected packages, Windows capabilities and Defender exclusions.
+                      To remove the default profile's selections, specify -Profile .\profiles\default.psd1.
   prune-state          Preview or remove old, fully completed run recovery records.
 
 Options:
   -Library <files>     Explicit local library manifests; Tab completes filesystem paths.
-  -Profile <file>      Select a profile (default: profiles/default.psd1).
-  -Id <id|view>        ID for show, or a view after list/status.
+  -Profile <file>      Select a profile. Apply and plan default to profiles/default.psd1.
+  -Id <id|view>        Catalog ID for direct commands such as show or remove, or a list/status view.
   -OperationId <id>    Exact operation selector for status; may pair with -Profile.
   -InputObject <item>  Show only: ID string or object with Id; Tab completes catalog IDs.
                       Also accepts pipeline input; choose one input source.
@@ -715,6 +718,15 @@ Examples:
 }
 
 $ErrorActionPreference = 'Stop'
+if ($Command -eq 'remove') {
+  if ($PSBoundParameters.ContainsKey('State')) { throw 'The remove command does not accept -State.' }
+  if ($PSBoundParameters.ContainsKey('Id') -and $PSBoundParameters.ContainsKey('Profile')) {
+    throw 'Use either a single catalog ID or -Profile for remove, not both.'
+  }
+  if ([string]::IsNullOrWhiteSpace($Id) -and [string]::IsNullOrWhiteSpace($Profile)) {
+    throw 'Remove requires a catalog ID or an explicit -Profile <file>. For the default profile, use remove -Profile .\profiles\default.psd1.'
+  }
+}
 if (($PSBoundParameters.ContainsKey('ImagePath') -or $PSBoundParameters.ContainsKey('ImageSha256')) -and ($Command -ne 'set' -or $UserContext -eq 'Desktop')) { throw 'Image inputs require machine-scope set.' }
 $candidateParameters = @{}
 if ($PSBoundParameters.ContainsKey('AllowUnsupportedTarget')) {
@@ -878,14 +890,13 @@ switch ($Command) {
   }
   'remove' {
     if ($Id) {
-      if ($PSBoundParameters.ContainsKey('Profile')) { throw 'Use either a single package ID or -Profile, not both.' }
       $plan = @(Get-RideSingleOperationPlan -Id $Id -Action Remove -Variant $Variant)
     }
     else {
       $loadedProfile = Get-RideProfile -Path $Profile
       $plan = @(Get-RidePlan -Profile $loadedProfile -Action Remove)
     }
-    if ($plan.Count -eq 0) { throw 'The selected profile contains no removable package operations.' }
+    if ($plan.Count -eq 0) { throw 'The selected profile contains no removable packages, Windows capabilities or Defender exclusions.' }
     if ($shouldProcessParameters.WhatIf) { Show-RidePlan -Plan $plan }
     Invoke-RidePlan -Plan $plan @shouldProcessParameters @candidateParameters
   }

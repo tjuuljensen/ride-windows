@@ -117,9 +117,14 @@ Use `-WhatIf:$false` to explicitly disable inherited preview for one invocation;
 | `status [view]` | Show target-specific defaults and live state; use `-View <view>` for an explicit view or `-OperationId <id>` for one catalog operation. Tab completes operation IDs. |
 | `status [view] -Profile <file>` | Compare selected operations with profile states; combine `-OperationId <id>` only when that profile selects the operation. |
 | `restore -RunId <id>` | Restore settings captured before a prior run. Package restoration may require reinstalling the current upstream version; Windows component removal follows its ownership and recovery rules. |
-| `remove <catalog-id>` | Remove one supported catalog package or Windows component and save its prior state. |
-| `remove -Profile <file>` | Uninstall packages selected by a profile, in reverse group order. |
+| `remove <catalog-id>` | Remove a package, Windows capability or the all-RSAT group and save its prior state. The named form is `remove -Id <catalog-id>`. |
+| `remove -Profile <file>` | Remove selected packages, Windows capabilities and Defender exclusions in dependency-safe order. Ordinary settings retain their values. |
 | `prune-state [-StateScope User|Machine|Both] [-OlderThanDays <n>]` | Preview or remove completed recovery records older than the retention period (default scope User, age 365 days, minimum age 30 days); machine records require elevation. Failed, unfinished, invalid and linked run trees are retained. Use `-WhatIf` to review candidates first. |
+
+Starting with CLI 0.22.0, `remove` requires exactly one selector. For scripts
+that used bare `remove` through 0.21.0, use `.\ride.ps1 remove -Profile .\profiles\default.psd1`
+from the checkout root. Add `-WhatIf` to preview the order. Omit `-State`
+because removal selects the absent state.
 
 ### Explicit profile and setting examples
 
